@@ -38,7 +38,7 @@ func New(c config.Config, dir string) (http.Handler, error) {
 	if err != nil {
 		return nil, err
 	}
-	reader := snapshot.NewReader(c.Readers(), c.Apps, c.Tools)
+	reader := snapshot.NewReader(c.Readers(), c.Apps, c.Tools, c.Chores)
 	own := os.DirFS(filepath.Join(dir, "icons"))
 
 	mux := http.NewServeMux()

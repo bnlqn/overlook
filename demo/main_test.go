@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/bnlqn/overlook/internal/adapters/adaptertest"
 	"github.com/bnlqn/overlook/internal/snapshot"
@@ -37,19 +38,24 @@ func TestSnapshot(t *testing.T) {
 			t.Errorf("%s: needs a name, an https:// url, and a check that is there: %+v", l.Name, l)
 		}
 	}
+	for _, c := range s.Chores {
+		if _, err := time.Parse(time.DateOnly, c.From); c.Name == "" || err != nil {
+			t.Errorf("%s: needs a name and a day: %+v", c.Name, c)
+		}
+	}
 }
 
 // The demo shows what every adapter adds to the page: each one's words, the
 // check engine's checks and GitHub's updates, a problem in a degraded area, a
-// source that didn't answer, and the apps and tools.
+// source that didn't answer, and the apps, the tools and the chores.
 func TestSnapshotShowsEverything(t *testing.T) {
 	t.Parallel()
 	var s snapshot.Snapshot
 	if err := json.Unmarshal(invented, &s); err != nil {
 		t.Fatal(err)
 	}
-	if len(s.Checks) == 0 || len(s.Updates) == 0 || len(s.Apps) == 0 || len(s.Tools) == 0 {
-		t.Error("no checks, updates, apps or tools")
+	if len(s.Checks) == 0 || len(s.Updates) == 0 || len(s.Apps) == 0 || len(s.Tools) == 0 || len(s.Chores) == 0 {
+		t.Error("no checks, updates, apps, tools or chores")
 	}
 	degraded := false
 	for _, c := range s.Checks {
