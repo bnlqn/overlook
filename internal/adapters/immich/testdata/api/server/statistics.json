@@ -1,0 +1,29 @@
+{
+  "photos": 25019,
+  "videos": 1205,
+  "usage": 164360768300,
+  "usagePhotos": 69982863227,
+  "usageVideos": 94377905073,
+  "usageByUser": [
+    {
+      "userId": "6b1e2c0a-4f7d-4c39-9a52-1d8e0f3b7a64",
+      "userName": "Robin",
+      "photos": 6812,
+      "videos": 344,
+      "usage": 87410553912,
+      "usagePhotos": 38102446021,
+      "usageVideos": 49308107891,
+      "quotaSizeInBytes": null
+    },
+    {
+      "userId": "c4a9e7d2-08b5-4e61-b3f0-7a2d5c9e1f08",
+      "userName": "Sam",
+      "photos": 18207,
+      "videos": 861,
+      "usage": 76950214388,
+      "usagePhotos": 31880417206,
+      "usageVideos": 45069797182,
+      "quotaSizeInBytes": null
+    }
+  ]
+}

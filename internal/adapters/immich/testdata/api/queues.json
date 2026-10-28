@@ -1,0 +1,230 @@
+[
+  {
+    "name": "thumbnailGeneration",
+    "isPaused": false,
+    "statistics": {
+      "active": 2,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 41,
+      "paused": 0
+    }
+  },
+  {
+    "name": "metadataExtraction",
+    "isPaused": false,
+    "statistics": {
+      "active": 0,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  },
+  {
+    "name": "videoConversion",
+    "isPaused": false,
+    "statistics": {
+      "active": 0,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  },
+  {
+    "name": "faceDetection",
+    "isPaused": false,
+    "statistics": {
+      "active": 1,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  },
+  {
+    "name": "facialRecognition",
+    "isPaused": false,
+    "statistics": {
+      "active": 0,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  },
+  {
+    "name": "smartSearch",
+    "isPaused": false,
+    "statistics": {
+      "active": 0,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  },
+  {
+    "name": "duplicateDetection",
+    "isPaused": false,
+    "statistics": {
+      "active": 0,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  },
+  {
+    "name": "backgroundTask",
+    "isPaused": false,
+    "statistics": {
+      "active": 0,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  },
+  {
+    "name": "storageTemplateMigration",
+    "isPaused": false,
+    "statistics": {
+      "active": 0,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  },
+  {
+    "name": "migration",
+    "isPaused": false,
+    "statistics": {
+      "active": 0,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  },
+  {
+    "name": "search",
+    "isPaused": false,
+    "statistics": {
+      "active": 0,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  },
+  {
+    "name": "sidecar",
+    "isPaused": false,
+    "statistics": {
+      "active": 0,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  },
+  {
+    "name": "library",
+    "isPaused": false,
+    "statistics": {
+      "active": 0,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  },
+  {
+    "name": "notifications",
+    "isPaused": false,
+    "statistics": {
+      "active": 0,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  },
+  {
+    "name": "backupDatabase",
+    "isPaused": false,
+    "statistics": {
+      "active": 0,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  },
+  {
+    "name": "ocr",
+    "isPaused": false,
+    "statistics": {
+      "active": 0,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  },
+  {
+    "name": "workflow",
+    "isPaused": false,
+    "statistics": {
+      "active": 0,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  },
+  {
+    "name": "integrityCheck",
+    "isPaused": false,
+    "statistics": {
+      "active": 0,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  },
+  {
+    "name": "editor",
+    "isPaused": false,
+    "statistics": {
+      "active": 0,
+      "completed": 0,
+      "failed": 0,
+      "delayed": 0,
+      "waiting": 0,
+      "paused": 0
+    }
+  }
+]
