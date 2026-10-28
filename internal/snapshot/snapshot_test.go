@@ -10,11 +10,17 @@ import (
 func TestReader(t *testing.T) {
 	t.Parallel()
 	var reads atomic.Int32
-	up := Source{Name: "Up", Read: func(context.Context) (Parts, error) {
+	up := Source{Name: "Up", Adapter: "adguard", Read: func(context.Context) (Parts, error) {
 		reads.Add(1)
-		return Parts{Checks: []Check{{Key: "a"}}, Charts: []Chart{{Area: "network"}}}, nil
+		return Parts{
+			Checks:   []Check{{Key: "a"}},
+			Charts:   []Chart{{Area: "network"}},
+			Sections: []Section{{Area: "network"}},
+			Figures:  []Figure{{Area: "network"}},
+			Events:   []Event{{Area: "network"}},
+		}, nil
 	}}
-	down := Source{Name: "Down", Read: func(context.Context) (Parts, error) {
+	down := Source{Name: "Down", Adapter: "adguard", Read: func(context.Context) (Parts, error) {
 		return Parts{Checks: []Check{{Key: "lost"}}}, errors.New("timeout")
 	}}
 	r := NewReader([]Source{up, down}, nil, []Link{{Name: "Gatus"}}, nil)
@@ -29,8 +35,11 @@ func TestReader(t *testing.T) {
 	if snap.Apps == nil || snap.Sections == nil || snap.Chores == nil || len(snap.Tools) != 1 {
 		t.Errorf("lists are empty, never null: %+v", snap)
 	}
-	if len(snap.Charts) != 1 || snap.Charts[0].Source != "Up" {
-		t.Errorf("a chart is named by its source: %+v", snap.Charts)
+	if snap.Charts[0].Source != "Up" || snap.Sections[0].Source != "Up" || snap.Figures[0].Source != "Up" || snap.Events[0].Source != "Up" {
+		t.Errorf("each part is named by its source: %+v", snap.Parts)
+	}
+	if snap.Sources[0].Adapter != "adguard" || snap.Sources[1].Adapter != "adguard" {
+		t.Errorf("each source says its adapter, answered or not: %+v", snap.Sources)
 	}
 	r.Snapshot()
 	if reads.Load() != 1 {

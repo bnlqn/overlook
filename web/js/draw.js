@@ -163,8 +163,11 @@ export function section(s, i) {
     }
     return `<div class="row"><span class="copy">${title}${detail ? `<span class="detail">${detail}</span>` : ""}</span><span class="value">${value}</span></div>`;
   });
-  return `<section style="--i:${i}"><h2 class="section-title">${say(s.title)}</h2><div class="list card">${rows.join("")}</div></section>`;
+  return `<section style="--i:${i}"><h2 class="section-title">${say(s.title)}${from(s)}</h2><div class="list card">${rows.join("")}</div></section>`;
 }
+
+/** The source a part came from, after its title, where the page names it. */
+export const from = (p) => (p.from ? `<span class="from"> · ${esc(p.from)}</span>` : "");
 
 let uid = 0;
 /**
@@ -350,7 +353,7 @@ export function shares(f, tints) {
     const rows = s.rows?.length
       ? s.rows.map((r, k) => [k ? "" : c, say(r.title), r.value ? say(r.value) : ""])
       : [[c, number(s.value), t("percent", { n: Math.round((100 * s.value) / whole) })]];
-    return `<i class="${s.tone ? `tone-${s.tone}` : ""}" style="flex:${s.value};--c:${c}" data-tip="${tip(say(s.label), rows)}"></i>`;
+    return `<i class="${s.tone ? `tone-${s.tone}` : ""}" style="flex:${s.value};--c:${c}" data-tip="${tip(say(s.label) + from(s), rows)}"></i>`;
   });
   return `<span class="shares${f.shares.length > 12 ? " many" : ""}">${parts.join("")}</span>`;
 }

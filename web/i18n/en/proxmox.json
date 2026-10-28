@@ -19,8 +19,7 @@
   "proxmox.up_for": "up {ms:span}",
   "proxmox.stopped": "Stopped",
   "proxmox.of_up": "of {n} up",
-  "proxmox.host_up": "host up {ms:span}",
-  "proxmox.hosts_online": "{online} of {n} hosts online",
+  "proxmox.hosts_online": { "one": "{online} of {n} host online", "other": "{online} of {n} hosts online" },
   "proxmox.cpu_meter": "CPU",
   "proxmox.ram_meter": "RAM",
 

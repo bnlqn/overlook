@@ -1751,6 +1751,12 @@ a.chore:hover {
   margin: 32px 0 12px;
   font: var(--m-type-title);
 }
+/* The source a part came from, after its title, where another of its kind
+   is read. */
+.from {
+  color: var(--m-label-2);
+  font-weight: 400;
+}
 .card {
   min-width: 0;
   background: var(--m-card-fill);

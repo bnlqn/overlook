@@ -72,7 +72,7 @@ func add[C any, P interface {
 		if slices.ContainsFunc(c.readers, func(s snapshot.Source) bool { return s.Name == n }) {
 			return fmt.Errorf("sources.%s[%d]: another source is named %s: give each a name", key, i, n)
 		}
-		c.readers = append(c.readers, snapshot.Source{Name: n, Read: func(ctx context.Context) (snapshot.Parts, error) { return read(ctx, src) }})
+		c.readers = append(c.readers, snapshot.Source{Name: n, Adapter: key, Read: func(ctx context.Context) (snapshot.Parts, error) { return read(ctx, src) }})
 	}
 	return nil
 }

@@ -19,9 +19,10 @@
   "adguard.answers": "{n} · {ms} ms",
   "adguard.version": "AdGuard Home",
 
-  "adguard.top_clients": "Top clients on {name}",
-  "adguard.top_domains": "Top domains on {name}",
-  "adguard.top_blocked": "Top blocked domains on {name}",
+  "adguard.resolver": "Resolver",
+  "adguard.top_clients": "Top clients",
+  "adguard.top_domains": "Top domains",
+  "adguard.top_blocked": "Top blocked domains",
   "adguard.share": "{n} · {share}%",
   "adguard.n": "{n}",
   "adguard.nothing": "Nothing yet"

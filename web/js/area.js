@@ -2,7 +2,7 @@
 // several sources added up, then each section its sources add.
 
 import { areaState, joinCharts, shown, silent } from "./checks.js";
-import { areas, checkRows, hourStart, legend, section, seriesColours, stateIcon, TONE, word } from "./draw.js";
+import { areas, checkRows, from, hourStart, legend, section, seriesColours, stateIcon, TONE, word } from "./draw.js";
 import { HERE, start } from "./shell.js";
 import { clock, day, esc, list, number, say, t } from "./text.js";
 
@@ -44,7 +44,7 @@ function chart(c) {
           .join("")}</div>`
       : "";
   return `<section class="card chart">
-    <div class="chart-head"><div><h2 class="card-title">${say(c.title)}</h2><div class="detail">${sums.join(" · ")}</div></div>${pills}</div>
+    <div class="chart-head"><div><h2 class="card-title">${say(c.title)}${from(c)}</h2><div class="detail">${sums.join(" · ")}</div></div>${pills}</div>
     ${areas(series, c.sources.map(cut))}
     ${legend(series, colours)}</section>`;
 }

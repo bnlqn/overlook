@@ -27,7 +27,7 @@ project uses are in [CONTEXT.md](CONTEXT.md) and its decisions in
 5. [x] The author's homelab runs the release candidate in place of its own
        page.
 6. [ ] A week of running it.
-7. [ ] Two sources of one kind told apart: each part names its source
+7. [x] Two sources of one kind told apart: each part names its source
        where another of the same adapter is read, and figures that add up,
        such as two hosts' guests, are one tile split by source.
 8. [ ] The repository goes public and `v0.1.0` is tagged. The demo goes
@@ -190,7 +190,9 @@ doesn't know, so a typo stops it rather than going unnoticed.
 **Sources.** Under `sources:`, each adapter has a list, so two AdGuard Home
 resolvers are two entries under `adguard:`. Each source has a `name`, which
 the page uses. Each adapter gives one, such as Gatus, and two sources can't
-share one, so two of a kind need names of their own.
+share one, so two of a kind need names of their own. With two of a kind,
+the page names each one's sections, figures and events, and adds up what
+adds up, such as two Proxmox hosts' guests, split by source.
 What each adapter reads, its config and the least key it needs are under
 [Adapters](#adapters) below.
 

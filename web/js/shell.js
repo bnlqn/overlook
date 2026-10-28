@@ -1,7 +1,7 @@
 // The shell every page sits in: the sidebar, the panel's bar, ⌘K and the
 // tooltips, and start(), which reads the snapshot and draws the page from it.
 
-import { areaState, asIfNow, checkState, readChecks, shown } from "./checks.js";
+import { areaState, asIfNow, checkState, named, readChecks, shown } from "./checks.js";
 import { badge, stateIcon, svg, TONE } from "./draw.js";
 import { esc, loadWords, number, t, translate } from "./text.js";
 
@@ -286,7 +286,7 @@ export async function start(draw) {
         (r) => (r.ok ? r.json() : null),
         () => null,
       );
-      const snap = read && DEMO ? asIfNow(read) : read;
+      const snap = read && named(DEMO ? asIfNow(read) : read);
       document.getElementById("refreshed").innerHTML = snap
         ? t("updated", { at: new Date() })
         : t("overlook.no_answer");

@@ -7,6 +7,7 @@ import {
   badge,
   bars,
   figureMeter,
+  from,
   GREEN,
   HOURS,
   hourStart,
@@ -131,7 +132,7 @@ function renderProblems(checks) {
 // ── Today: each figure, opening its area's page ──────────────────────────
 
 // A figure that shares a tile, after the first: its number and unit.
-const also = (f) => `${number(f.value)}${f.unit ? ` ${say(f.unit)}` : ""}`;
+const also = (f) => `${number(f.value)}${f.unit ? ` ${say(f.unit)}` : ""}${from(f)}`;
 
 // A figure's hours as series: its own, then the part within them, if any.
 const seriesOf = (f) => [{ label: f.label, hours: f.hours }, ...(f.within ? [f.within] : [])];
@@ -149,10 +150,17 @@ function renderToday(figures) {
       );
       // Shares without a tone of their own take the area's colour, then the others'.
       const tints = [tint, ...Object.values(TINT).filter((c) => c !== tint)];
+      // A tile's label has no room for its source, so the line under the
+      // number starts with it. A tile several figures share is none of their
+      // sources': each of the others is named after its number, and every one
+      // in the bar.
+      const sub = f.also
+        ? list(f.also.map(also))
+        : [f.from && esc(f.from), f.detail && say(f.detail)].filter(Boolean).join(" · ");
       return `<a class="figure-tile${f.tone ? ` tone-${f.tone}` : ""}" href="${f.area}" style="--i:${i}">
       <span class="label">${svg(f.icon)}${say(f.label)}</span>
       <span class="figure">${num(`${f.area}.${i}`, f.value)}${f.unit ? `<small> ${say(f.unit)}</small>` : ""}</span>
-      <span class="sub">${f.also ? list(f.also.map(also)) : f.detail ? say(f.detail) : ""}</span>
+      <span class="sub">${sub}</span>
       <span class="viz">${sparkline(hours, HOURS, tips)}${f.shares?.length ? shares(f, tints) : ""}${(f.meters || []).map(figureMeter).join("")}</span></a>`;
     })
     .join("");
@@ -170,7 +178,7 @@ function renderHours(figures) {
     .map((f, i) => {
       const series = seriesOf(f);
       return `<div class="card chart" style="--i:${i}">
-      <div class="chart-head"><span class="label">${svg(f.icon)}${say(f.label)}</span>${legend(series, seriesColours(series.length))}</div>
+      <div class="chart-head"><span class="label">${svg(f.icon)}${say(f.label)}${from(f)}</span>${legend(series, seriesColours(series.length))}</div>
       <div class="chart-top"><span class="figure">${num(`hours.${f.area}.${i}`, f.value)}</span><span class="detail">${f.detail ? say(f.detail) : ""}</span></div>
       ${bars(series)}</div>`;
     })
@@ -269,7 +277,12 @@ function renderEvents(checks, events, updates, silence) {
     const at = new Date(e.at);
     if (at >= weekAgo) {
       const mark = `<span class="tone-${e.tone || "blue"}">${svg(e.icon)}</span>`;
-      items.push({ at, mark, text: say(e.text), meta: where(e.area) });
+      items.push({
+        at,
+        mark,
+        text: say(e.text),
+        meta: [where(e.area), e.from && esc(e.from)].filter(Boolean).join(" · "),
+      });
     }
   }
   for (const u of updates) {
@@ -340,7 +353,7 @@ function renderWeek(checks, events, areas) {
     });
     const diamonds = happened.map((e) => {
       const bad = e.tone === "red";
-      return `<span class="tl-ms${bad ? " bad" : ""}" style="left:${x(+new Date(e.at))}" data-tip="${tip(say(e.text), [[bad ? RED : "var(--m-blue)", when(e.at), ""]])}"></span>`;
+      return `<span class="tl-ms${bad ? " bad" : ""}" style="left:${x(+new Date(e.at))}" data-tip="${tip(say(e.text) + from(e), [[bad ? RED : "var(--m-blue)", when(e.at), ""]])}"></span>`;
     });
     return `<div class="tl-row" style="--i:${i};--tint:${TINT[name]}">
       <span class="tl-label">${svg(page(name).icon)}${t(`area.${name}`)}</span>
