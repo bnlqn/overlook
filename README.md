@@ -234,7 +234,8 @@ sources:
 ```
 
 **Key:** none, as Gatus's API is open unless you protect it. If yours asks
-for a login, put it in the URL: `url: http://overlook:${GATUS_PASSWORD}@gatus:8080`.
+for a login, as Gatus's `security.basic` does, give it as `user` and
+`password`: `user: overlook` and `password: ${GATUS_PASSWORD}`.
 
 **Areas:** a group named like an area, such as Servers or network, puts its
 checks there. `areas` says where each other group goes, and a group it
@@ -440,12 +441,16 @@ keep.
 sources:
   adguard:
     - name: Primary DNS
-      url: http://overlook:${ADGUARD_PASSWORD}@dns1.example.com
+      url: http://dns1.example.com
+      user: overlook
+      password: ${ADGUARD_PASSWORD}
     - name: Standby DNS
-      url: http://overlook:${ADGUARD_PASSWORD}@dns2.example.com
+      url: http://dns2.example.com
+      user: overlook
+      password: ${ADGUARD_PASSWORD}
 ```
 
-**Key:** a login, in the URL as `user:pass@`. AdGuard Home has no
+**Key:** a login, as `user` and `password`. AdGuard Home has no
 read-only users, so that login could change anything; what keeps it
 harmless is that Overlook only ever sends GET (ADR 0001). Give Overlook a
 user of its own: add it under `users:` in `AdGuardHome.yaml`, with its

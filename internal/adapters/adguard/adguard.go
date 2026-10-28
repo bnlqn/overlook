@@ -23,9 +23,11 @@ const top = 10
 // Config is one AdGuard Home, under sources.adguard in overlook.yaml.
 type Config struct {
 	Name string `yaml:"name"`
-	// URL is where Overlook reads AdGuard Home, its login in it as
-	// user:pass@.
+	// URL is where Overlook reads AdGuard Home.
 	URL string `yaml:"url"`
+	// User and Password are the login Overlook reads it with.
+	User     string `yaml:"user"`
+	Password string `yaml:"password"`
 }
 
 // Check fills c's defaults and refuses what can't work.
@@ -35,6 +37,9 @@ func (c *Config) Check() error {
 	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
+	}
+	if (c.User == "") != (c.Password == "") {
+		return errors.New("give user and password together, or neither")
 	}
 	if c.Name == "" {
 		c.Name = "AdGuard Home"
@@ -95,6 +100,7 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 // today started.
 func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	base := strings.TrimSuffix(c.URL, "/") + "/control/"
+	login := fetch.Login(c.User, c.Password)
 	var s stats
 	var st status
 	var cl clients
@@ -102,7 +108,7 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		path string
 		v    any
 	}{{"stats", &s}, {"status", &st}, {"clients", &cl}} {
-		if err := fetch.JSON(ctx, base+r.path, nil, r.v); err != nil {
+		if err := fetch.JSON(ctx, base+r.path, login, r.v); err != nil {
 			return snapshot.Parts{}, err
 		}
 	}

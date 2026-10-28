@@ -128,7 +128,7 @@ func TestCheckURL(t *testing.T) {
 		"status.example.com":              false,
 		"ftp://files.example.com":         false,
 		"https://":                        false,
-		"https://user:pass@x.example.com": true,
+		"https://user:pass@x.example.com": false,
 	} {
 		if err := CheckURL(raw); (err == nil) != ok {
 			t.Errorf("%s: %v", raw, err)

@@ -69,7 +69,7 @@ func TestRead(t *testing.T) {
 
 func TestConfigCheck(t *testing.T) {
 	t.Parallel()
-	c := Config{URL: "https://overlook:s3cret@status.example.com"}
+	c := Config{URL: "https://status.example.com", User: "overlook", Password: "s3cret"}
 	if err := c.Check(); err != nil || c.Name != "Gatus" || c.Threshold != 3 || c.Link != "https://status.example.com" {
 		t.Errorf("defaults: %+v, %v", c, err)
 	}
@@ -79,6 +79,9 @@ func TestConfigCheck(t *testing.T) {
 	}{
 		{Config{}, "url is missing"},
 		{Config{URL: "status.example.com"}, "url needs"},
+		{Config{URL: "https://overlook:s3cret@status.example.com"}, "url can't hold a login"},
+		{Config{URL: "http://gatus", Password: "s3cret"}, "user and password together"},
+		{Config{URL: "http://gatus", Link: "https://overlook:s3cret@status.example.com"}, "link can't hold a login"},
 		{Config{URL: "http://gatus", Threshold: -1}, "threshold"},
 		{Config{URL: "http://gatus", Areas: map[string]string{"DNS": "attic"}}, "attic"},
 	} {

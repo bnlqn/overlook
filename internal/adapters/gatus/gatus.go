@@ -24,8 +24,12 @@ const recent = 30
 // Config is one Gatus, under sources.gatus in overlook.yaml.
 type Config struct {
 	Name string `yaml:"name"`
-	// URL is where Overlook reads Gatus. A login goes in it as user:pass@.
+	// URL is where Overlook reads Gatus.
 	URL string `yaml:"url"`
+	// User and Password are the login Overlook reads it with, if Gatus
+	// asks for one.
+	User     string `yaml:"user"`
+	Password string `yaml:"password"`
 	// Link is where the page sends the owner, if not URL.
 	Link string `yaml:"link"`
 	// Threshold is how many failures in a row make a problem: the same
@@ -43,13 +47,14 @@ func (c *Config) Check() error {
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
+	if (c.User == "") != (c.Password == "") {
+		return errors.New("give user and password together, or neither")
+	}
 	if c.Name == "" {
 		c.Name = "Gatus"
 	}
 	if c.Link == "" {
-		u, _ := url.Parse(c.URL)
-		u.User = nil
-		c.Link = u.String()
+		c.Link = c.URL
 	}
 	if err := fetch.CheckURL(c.Link); err != nil {
 		return fmt.Errorf("link %w", err)
@@ -95,8 +100,9 @@ type result struct {
 // Read reads every check of the Gatus at c.
 func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	base := strings.TrimSuffix(c.URL, "/")
+	login := fetch.Login(c.User, c.Password)
 	var endpoints []endpoint
-	if err := fetch.JSON(ctx, fmt.Sprintf("%s/api/v1/endpoints/statuses?page=1&pageSize=%d", base, recent), nil, &endpoints); err != nil {
+	if err := fetch.JSON(ctx, fmt.Sprintf("%s/api/v1/endpoints/statuses?page=1&pageSize=%d", base, recent), login, &endpoints); err != nil {
 		return snapshot.Parts{}, err
 	}
 	// Each check's events, which only its own read has. A check whose read
@@ -105,7 +111,7 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	for i := range endpoints {
 		wg.Go(func() {
 			var one endpoint
-			if fetch.JSON(ctx, base+"/api/v1/endpoints/"+url.PathEscape(endpoints[i].Key)+"/statuses?page=1&pageSize=1", nil, &one) == nil {
+			if fetch.JSON(ctx, base+"/api/v1/endpoints/"+url.PathEscape(endpoints[i].Key)+"/statuses?page=1&pageSize=1", login, &one) == nil {
 				endpoints[i].Events = one.Events
 			}
 		})
