@@ -303,7 +303,9 @@ What each person uploaded needs Immich 3 or later; an older one leaves it out.
 Each guest's newest backup in one datastore, in Storage: when it was made,
 its size, and whether it passed its check, named by its notes, which
 Proxmox VE fills with the guest's name. Today shows how many guests the
-last night backed up, and the week each night's backups.
+last night backed up, and the week each night's backups. The last night is
+the run with the most guests in the day to the newest backup, so a guest
+backed up by hand after it doesn't hide it.
 
 ```yaml
 sources:
