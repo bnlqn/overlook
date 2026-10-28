@@ -43,18 +43,18 @@ func TestRead(t *testing.T) {
 	if lib := rows[0]; lib.Value.Args["n"] != 3 || lib.Detail.Args["n"] != 34 || lib.Detail.Args["size"] != int64(31456789012+12345678901) || lib.Detail.Args["week"] != 2 {
 		t.Errorf("the library: %+v, %+v", lib.Value, lib.Detail)
 	}
-	if q := rows[1]; q.Value.Key != "sonarr.nothing" {
+	if q := rows[1]; q.Value.Key != "servarr.nothing" {
 		t.Errorf("nothing downloading: %+v", q.Value)
 	}
-	if h := rows[2]; h.Title.Name != "Sonarr" || h.Tone != "red" || h.Value.Key != "sonarr.error" || h.Detail.Name != "Missing root folder: /data/media/shows" {
+	if h := rows[2]; h.Title.Name != "Sonarr" || h.Tone != "red" || h.Value.Key != "servarr.error" || h.Detail.Name != "Missing root folder: /data/media/shows" {
 		t.Errorf("an error, as Sonarr words it: %+v", h)
 	}
 
 	// The second has no title yet.
 	want := []struct{ title, value, what string }{
-		{"Harbour Street 1×10", "sonarr.have", "The Tide Turns"},
-		{"Night Ferry 1×01", "sonarr.on", ""},
-		{"The Lighthouse Keepers 3×02", "sonarr.on", "Fog Signal"},
+		{"Harbour Street 1×10", "servarr.have", "The Tide Turns"},
+		{"Night Ferry 1×01", "servarr.on", ""},
+		{"The Lighthouse Keepers 3×02", "servarr.on", "Fog Signal"},
 	}
 	rows = p.Sections[1].Rows
 	if len(rows) != len(want) {
@@ -72,7 +72,7 @@ func TestRead(t *testing.T) {
 
 func TestNothingComing(t *testing.T) {
 	t.Parallel()
-	if rows := coming(nil); len(rows) != 1 || rows[0].Title.Key != "sonarr.coming_none" {
+	if rows := coming(nil); len(rows) != 1 || rows[0].Title.Key != "servarr.coming_none" {
 		t.Errorf("an empty week says so: %+v", rows)
 	}
 }

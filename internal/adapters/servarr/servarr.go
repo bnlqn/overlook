@@ -55,7 +55,8 @@ func (c Config) Get(ctx context.Context, path string, v any) error {
 }
 
 // Status is what the source is downloading and what it warns about, as
-// rows. words is the adapter's, whose table has the rows' keys.
+// rows. words is the adapter's, whose table says what it downloads, as films
+// or episodes.
 func Status(ctx context.Context, c Config, words string) ([]snapshot.Row, error) {
 	var queue struct {
 		TotalCount int `json:"totalCount"`
@@ -70,17 +71,17 @@ func Status(ctx context.Context, c Config, words string) ([]snapshot.Row, error)
 	if err := c.Get(ctx, "/api/v3/health", &health); err != nil {
 		return nil, err
 	}
-	value := snapshot.Text{Key: words + ".nothing"}
+	value := snapshot.Text{Key: "servarr.nothing"}
 	if queue.TotalCount > 0 {
 		value = snapshot.Text{Key: words + ".downloading_n", Args: map[string]any{"n": queue.TotalCount}}
 	}
-	rows := []snapshot.Row{{Title: snapshot.Text{Key: words + ".downloading"}, Value: &value}}
+	rows := []snapshot.Row{{Title: snapshot.Text{Key: "servarr.downloading"}, Value: &value}}
 	// Every warning, as the source words it: its health lists only what's
 	// wrong.
 	for _, h := range health {
-		level, tone := snapshot.Text{Key: words + ".warning"}, "orange"
+		level, tone := snapshot.Text{Key: "servarr.warning"}, "orange"
 		if h.Type == "error" {
-			level, tone = snapshot.Text{Key: words + ".error"}, "red"
+			level, tone = snapshot.Text{Key: "servarr.error"}, "red"
 		}
 		rows = append(rows, snapshot.Row{Title: snapshot.Text{Name: c.Name}, Value: &level, Tone: tone, Detail: &snapshot.Text{Name: h.Message}})
 	}

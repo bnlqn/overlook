@@ -98,7 +98,7 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		size += s.Statistics.SizeOnDisk
 	}
 	library := snapshot.Row{
-		Title:  snapshot.Text{Key: "sonarr.library"},
+		Title:  snapshot.Text{Key: "servarr.in_library"},
 		Value:  &snapshot.Text{Key: "sonarr.shows_n", Args: map[string]any{"n": len(shows)}},
 		Detail: &snapshot.Text{Key: "sonarr.library_detail", Args: map[string]any{"n": episodes, "size": size, "week": len(imported)}},
 	}
@@ -111,10 +111,10 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		Detail: &snapshot.Text{Key: "sonarr.this_week", Args: map[string]any{"n": len(imported)}},
 		Join:   &join,
 		Part: &snapshot.Share{Label: snapshot.Text{Key: "sonarr.shows"}, Value: float64(size), Tone: "blue", Rows: []snapshot.Row{
-			{Title: snapshot.Text{Key: "sonarr.on_disk"}, Value: &snapshot.Text{Key: "sonarr.bytes", Args: map[string]any{"n": size}}},
-			{Title: snapshot.Text{Key: "sonarr.library"}, Value: &snapshot.Text{Key: "sonarr.shows_n", Args: map[string]any{"n": len(shows)}}},
+			{Title: snapshot.Text{Key: "servarr.on_disk"}, Value: &snapshot.Text{Key: "servarr.bytes", Args: map[string]any{"n": size}}},
+			{Title: snapshot.Text{Key: "servarr.in_library"}, Value: &snapshot.Text{Key: "sonarr.shows_n", Args: map[string]any{"n": len(shows)}}},
 			{Title: snapshot.Text{Key: "sonarr.episodes"}, Value: &snapshot.Text{Key: "sonarr.n", Args: map[string]any{"n": episodes}}},
-			{Title: snapshot.Text{Key: "sonarr.week"}, Value: &snapshot.Text{Key: "sonarr.plus", Args: map[string]any{"n": len(imported)}}},
+			{Title: snapshot.Text{Key: "servarr.week"}, Value: &snapshot.Text{Key: "servarr.plus", Args: map[string]any{"n": len(imported)}}},
 		}},
 	}
 	return snapshot.Parts{
@@ -131,9 +131,9 @@ func coming(calendar []episode) []snapshot.Row {
 	slices.SortStableFunc(calendar, func(a, b episode) int { return a.AirDateUTC.Compare(b.AirDateUTC) })
 	rows := make([]snapshot.Row, 0, len(calendar))
 	for _, e := range calendar {
-		value := snapshot.Text{Key: "sonarr.on", Args: map[string]any{"at": e.AirDateUTC}}
+		value := snapshot.Text{Key: "servarr.on", Args: map[string]any{"at": e.AirDateUTC}}
 		if e.HasFile {
-			value = snapshot.Text{Key: "sonarr.have"}
+			value = snapshot.Text{Key: "servarr.have"}
 		}
 		detail := snapshot.Text{Name: e.Title}
 		if e.Title == "" {
@@ -147,7 +147,7 @@ func coming(calendar []episode) []snapshot.Row {
 		})
 	}
 	if len(rows) == 0 {
-		rows = []snapshot.Row{{Title: snapshot.Text{Key: "sonarr.coming_none"}}}
+		rows = []snapshot.Row{{Title: snapshot.Text{Key: "servarr.coming_none"}}}
 	}
 	return rows
 }

@@ -21,6 +21,10 @@ type Text struct {
 	Name string         `json:"name,omitempty"`
 }
 
+// Msg is the message at key with its values, as a row's value and detail and
+// a figure's unit and detail take it.
+func Msg(key string, args map[string]any) *Text { return &Text{Key: key, Args: args} }
+
 // Check is one check of a check engine and its recent results.
 type Check struct {
 	// Key is the check engine's own key for the check.

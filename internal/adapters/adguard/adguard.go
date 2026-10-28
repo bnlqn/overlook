@@ -129,8 +129,8 @@ func today(s stats, now time.Time) []snapshot.Figure {
 	return []snapshot.Figure{{
 		Area: "network", Icon: "shield", Label: snapshot.Text{Key: "adguard.today"}, Adds: true,
 		Value: float64(sum(s.ByUnit, since)), Hours: floats(s.ByUnit[len(s.ByUnit)-24:]),
-		Within: &snapshot.Series{Label: *msg("adguard.blocked", nil), Hours: floats(s.BlockedBy[len(s.BlockedBy)-24:])},
-		Detail: msg("adguard.today_blocked", args{"blocked": sum(s.BlockedBy, since)}),
+		Within: &snapshot.Series{Label: snapshot.Text{Key: "adguard.blocked"}, Hours: floats(s.BlockedBy[len(s.BlockedBy)-24:])},
+		Detail: snapshot.Msg("adguard.today_blocked", map[string]any{"blocked": sum(s.BlockedBy, since)}),
 	}}
 }
 
@@ -160,10 +160,10 @@ func hourly(s stats) []snapshot.Chart {
 		return nil
 	}
 	return []snapshot.Chart{{
-		Area: "network", Title: *msg("adguard.per_hour", nil), Adds: true,
+		Area: "network", Title: snapshot.Text{Key: "adguard.per_hour"}, Adds: true,
 		Series: []snapshot.Series{
-			{Label: *msg("adguard.lookups", nil), Hours: floats(s.ByUnit)},
-			{Label: *msg("adguard.blocked", nil), Hours: floats(s.BlockedBy)},
+			{Label: snapshot.Text{Key: "adguard.lookups"}, Hours: floats(s.ByUnit)},
+			{Label: snapshot.Text{Key: "adguard.blocked"}, Hours: floats(s.BlockedBy)},
 		},
 	}}
 }
@@ -177,26 +177,26 @@ func sections(c Config, s stats, st status, cl clients) []snapshot.Section {
 	}
 	interval := time.Duration(len(s.ByUnit)) * unit
 
-	protection := snapshot.Row{Title: *msg("adguard.protection", nil), Value: msg("adguard.filtering", nil), Tone: "green"}
+	protection := snapshot.Row{Title: snapshot.Text{Key: "adguard.protection"}, Value: snapshot.Msg("adguard.filtering", nil), Tone: "green"}
 	switch {
 	case st.Filtering:
 	case st.PausedFor > 0:
-		protection.Value, protection.Tone = msg("adguard.paused", nil), "orange"
-		protection.Detail = msg("adguard.back_in", args{"ms": st.PausedFor})
+		protection.Value, protection.Tone = snapshot.Msg("adguard.paused", nil), "orange"
+		protection.Detail = snapshot.Msg("adguard.back_in", map[string]any{"ms": st.PausedFor})
 	default:
-		protection.Value, protection.Tone = msg("adguard.off", nil), "red"
+		protection.Value, protection.Tone = snapshot.Msg("adguard.off", nil), "red"
 	}
 	resolver := []snapshot.Row{
 		protection,
 		{
-			Title: *msg("adguard.lookups", nil), Value: msg("adguard.n", args{"n": s.Lookups}),
-			Detail: msg("adguard.over", args{"ms": interval.Milliseconds()}),
+			Title: snapshot.Text{Key: "adguard.lookups"}, Value: snapshot.Msg("adguard.n", map[string]any{"n": s.Lookups}),
+			Detail: snapshot.Msg("adguard.over", map[string]any{"ms": interval.Milliseconds()}),
 		},
 		{
-			Title: *msg("adguard.blocked", nil), Value: msg("adguard.percent", args{"n": percent(s.Blocked, s.Lookups)}),
-			Detail: msg("adguard.count", args{"n": s.Blocked}),
+			Title: snapshot.Text{Key: "adguard.blocked"}, Value: snapshot.Msg("adguard.percent", map[string]any{"n": percent(s.Blocked, s.Lookups)}),
+			Detail: snapshot.Msg("adguard.count", map[string]any{"n": s.Blocked}),
 		},
-		{Title: *msg("adguard.processing", nil), Value: msg("adguard.ms", args{"n": ms(s.Processing)})},
+		{Title: snapshot.Text{Key: "adguard.processing"}, Value: snapshot.Msg("adguard.ms", map[string]any{"n": ms(s.Processing)})},
 	}
 	// The upstreams say how the resolver resolves, so they sit with it.
 	times := map[string]float64{}
@@ -205,11 +205,11 @@ func sections(c Config, s stats, st status, cl clients) []snapshot.Section {
 	}
 	for _, e := range entries(s.Upstreams) {
 		resolver = append(resolver, snapshot.Row{
-			Title: snapshot.Text{Name: e.name}, Detail: msg("adguard.upstream", nil),
-			Value: msg("adguard.answers", args{"n": e.n, "ms": ms(times[e.name])}),
+			Title: snapshot.Text{Name: e.name}, Detail: snapshot.Msg("adguard.upstream", nil),
+			Value: snapshot.Msg("adguard.answers", map[string]any{"n": e.n, "ms": ms(times[e.name])}),
 		})
 	}
-	resolver = append(resolver, snapshot.Row{Title: *msg("adguard.version", nil), Value: &snapshot.Text{Name: st.Version}})
+	resolver = append(resolver, snapshot.Row{Title: snapshot.Text{Key: "adguard.version"}, Value: &snapshot.Text{Name: st.Version}})
 
 	names := clientNames(cl)
 	var who, what, blocked []snapshot.Row
@@ -224,15 +224,15 @@ func sections(c Config, s stats, st status, cl clients) []snapshot.Section {
 		what = append(what, snapshot.Row{Title: snapshot.Text{Name: e.name}, Value: share(e.n, s.Lookups)})
 	}
 	for _, e := range entries(s.BlockedTop) {
-		blocked = append(blocked, snapshot.Row{Title: snapshot.Text{Name: e.name}, Value: msg("adguard.n", args{"n": e.n})})
+		blocked = append(blocked, snapshot.Row{Title: snapshot.Text{Name: e.name}, Value: snapshot.Msg("adguard.n", map[string]any{"n": e.n})})
 	}
 
-	on := args{"name": c.Name}
+	on := map[string]any{"name": c.Name}
 	return []snapshot.Section{
 		{Area: "network", Title: snapshot.Text{Name: c.Name}, Rows: resolver},
-		{Area: "network", Title: *msg("adguard.top_clients", on), Rows: orNothing(who)},
-		{Area: "network", Title: *msg("adguard.top_domains", on), Rows: orNothing(what)},
-		{Area: "network", Title: *msg("adguard.top_blocked", on), Rows: orNothing(blocked)},
+		{Area: "network", Title: snapshot.Text{Key: "adguard.top_clients", Args: on}, Rows: orNothing(who)},
+		{Area: "network", Title: snapshot.Text{Key: "adguard.top_domains", Args: on}, Rows: orNothing(what)},
+		{Area: "network", Title: snapshot.Text{Key: "adguard.top_blocked", Args: on}, Rows: orNothing(blocked)},
 	}
 }
 
@@ -274,18 +274,14 @@ func clientNames(cl clients) map[string]string {
 // orNothing is rows, or one that says there are none yet.
 func orNothing(rows []snapshot.Row) []snapshot.Row {
 	if len(rows) == 0 {
-		return []snapshot.Row{{Title: *msg("adguard.nothing", nil)}}
+		return []snapshot.Row{{Title: snapshot.Text{Key: "adguard.nothing"}}}
 	}
 	return rows
 }
 
-type args = map[string]any
-
-func msg(key string, a args) *snapshot.Text { return &snapshot.Text{Key: key, Args: a} }
-
 // share is a count and its share of every lookup.
 func share(n, lookups int) *snapshot.Text {
-	return msg("adguard.share", args{"n": n, "share": percent(n, lookups)})
+	return snapshot.Msg("adguard.share", map[string]any{"n": n, "share": percent(n, lookups)})
 }
 
 // percent is part of whole as a percentage, to a tenth.

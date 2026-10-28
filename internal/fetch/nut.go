@@ -15,67 +15,15 @@ import (
 // nutPort is where upsd listens unless told otherwise.
 const nutPort = "3493"
 
-// nutReads are the only commands Overlook sends upsd, each with the number of
-// arguments it takes. None of them changes anything; every other command,
-// such as SET VAR, INSTCMD or FSD, is refused before it is sent (ADR 0001).
-var nutReads = map[string]int{
-	"VER":      0,
-	"NETVER":   0,
-	"LIST UPS": 0,
-	"LIST VAR": 1,
-	"GET VAR":  2,
-}
-
-// nut is one connection to upsd.
-type nut struct {
-	conn net.Conn
-	r    *bufio.Reader
-}
-
-// ask sends upsd one read command, such as ("LIST VAR", "ups"), and returns
-// its answer's lines: the one line, or for a LIST the lines between BEGIN and
-// END. An argument is a single word, so that it can't add a command of its
-// own.
-func (n nut) ask(command string, args ...string) ([]string, error) {
-	want, ok := nutReads[command]
-	if !ok || len(args) != want {
-		return nil, fmt.Errorf("overlook only reads: %q refused", command)
-	}
-	for _, a := range args {
-		if err := CheckNUTName(a); err != nil {
-			return nil, err
-		}
-	}
-	line := strings.Join(append([]string{command}, args...), " ")
-	if _, err := io.WriteString(n.conn, line+"\n"); err != nil {
+// NUTVars reads every variable of the UPS named ups from upsd at addr
+// (host:port), such as ups.status: "OL". It sends upsd one command, LIST VAR,
+// which changes nothing (ADR 0001), and ups is checked to be a single word
+// first, so that it can't add a command of its own. Its error is short enough
+// for the page.
+func NUTVars(ctx context.Context, addr, ups string) (map[string]string, error) {
+	if err := CheckNUTName(ups); err != nil {
 		return nil, err
 	}
-	var lines []string
-	for {
-		got, err := n.r.ReadString('\n')
-		if err != nil {
-			return nil, err
-		}
-		got = strings.TrimRight(got, "\r\n")
-		if code, ok := strings.CutPrefix(got, "ERR "); ok {
-			return nil, fmt.Errorf("upsd: %s", code)
-		}
-		switch {
-		case !strings.HasPrefix(command, "LIST "):
-			return []string{got}, nil
-		case got == "BEGIN "+line:
-		case got == "END "+line:
-			return lines, nil
-		default:
-			lines = append(lines, got)
-		}
-	}
-}
-
-// NUTVars reads every variable of the UPS named ups from upsd at addr
-// (host:port), such as ups.status: "OL". Its error is short enough for the
-// page.
-func NUTVars(ctx context.Context, addr, ups string) (map[string]string, error) {
 	var d net.Dialer
 	conn, err := d.DialContext(ctx, "tcp", addr)
 	if err != nil {
@@ -85,21 +33,34 @@ func NUTVars(ctx context.Context, addr, ups string) (map[string]string, error) {
 	// The context ends the read too: its end is the connection's deadline.
 	stop := context.AfterFunc(ctx, func() { _ = conn.SetDeadline(time.Unix(1, 0)) })
 	defer stop()
-	n := nut{conn, bufio.NewReader(io.LimitReader(conn, maxAnswer))}
-	lines, err := n.ask("LIST VAR", ups)
-	if err != nil {
+	command := "LIST VAR " + ups
+	if _, err := io.WriteString(conn, command+"\n"); err != nil {
 		return nil, short(ctx, err)
 	}
+	r := bufio.NewReader(io.LimitReader(conn, maxAnswer))
 	vars := map[string]string{}
-	for _, l := range lines {
-		// VAR <ups> <name> "<value>", the value's " and \ escaped by a \.
-		f := strings.SplitN(l, " ", 4)
-		if len(f) != 4 || f[0] != "VAR" || f[1] != ups || len(f[3]) < 2 || f[3][0] != '"' || f[3][len(f[3])-1] != '"' {
-			return nil, fmt.Errorf("an answer that isn't upsd's: %q", l)
+	for {
+		line, err := r.ReadString('\n')
+		if err != nil {
+			return nil, short(ctx, err)
 		}
-		vars[f[2]] = unescape(f[3][1 : len(f[3])-1])
+		line = strings.TrimRight(line, "\r\n")
+		if code, ok := strings.CutPrefix(line, "ERR "); ok {
+			return nil, fmt.Errorf("upsd: %s", code)
+		}
+		switch line {
+		case "BEGIN " + command:
+		case "END " + command:
+			return vars, nil
+		default:
+			// VAR <ups> <name> "<value>", the value's " and \ escaped by a \.
+			f := strings.SplitN(line, " ", 4)
+			if len(f) != 4 || f[0] != "VAR" || f[1] != ups || len(f[3]) < 2 || f[3][0] != '"' || f[3][len(f[3])-1] != '"' {
+				return nil, fmt.Errorf("an answer that isn't upsd's: %q", line)
+			}
+			vars[f[2]] = unescape(f[3][1 : len(f[3])-1])
+		}
 	}
-	return vars, nil
 }
 
 func unescape(s string) string {

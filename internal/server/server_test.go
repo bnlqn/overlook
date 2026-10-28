@@ -9,7 +9,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/bnlqn/overlook/internal/adapters/gatus"
 	"github.com/bnlqn/overlook/internal/config"
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
@@ -62,8 +61,16 @@ func TestSnapshot(t *testing.T) {
 	t.Parallel()
 	gone := httptest.NewServer(nil)
 	gone.Close()
-	c := config.Config{Sources: config.Sources{Gatus: []gatus.Config{{Name: "Gatus", URL: gone.URL, Link: gone.URL, Threshold: 3}}}}
-	h, err := New(c, t.TempDir())
+	dir := t.TempDir()
+	path := filepath.Join(dir, "overlook.yaml")
+	if err := os.WriteFile(path, []byte("sources: { gatus: [ { url: '"+gone.URL+"' } ] }"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	c, err := config.Load(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	h, err := New(c, dir)
 	if err != nil {
 		t.Fatal(err)
 	}

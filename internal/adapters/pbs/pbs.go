@@ -150,16 +150,16 @@ func parts(backups []backup, now time.Time) snapshot.Parts {
 		if b.Comment == "" {
 			title.Name = b.Type + "/" + b.ID
 		}
-		rows[i] = snapshot.Row{Title: title, Value: ptr(key("pbs.when", args)), Detail: ptr(key("pbs.unverified", args))}
+		rows[i] = snapshot.Row{Title: title, Value: snapshot.Msg("pbs.when", args), Detail: snapshot.Msg("pbs.unverified", args)}
 		switch {
 		case b.Verification == nil:
 		case b.Verification.State == "ok":
-			rows[i].Detail = ptr(key("pbs.verified", args))
+			rows[i].Detail = snapshot.Msg("pbs.verified", args)
 		default:
-			rows[i].Value, rows[i].Tone, rows[i].Detail = ptr(key("pbs.failed", nil)), "red", ptr(key("pbs.failed_detail", args))
+			rows[i].Value, rows[i].Tone, rows[i].Detail = snapshot.Msg("pbs.failed", nil), "red", snapshot.Msg("pbs.failed_detail", args)
 		}
 	}
-	p.Sections = []snapshot.Section{{Area: area, Title: key("pbs.backups", nil), Rows: rows}}
+	p.Sections = []snapshot.Section{{Area: area, Title: snapshot.Text{Key: "pbs.backups"}, Rows: rows}}
 
 	// The nights: the backups made one after another, newest first.
 	var runs [][]backup
@@ -176,7 +176,7 @@ func parts(backups []backup, now time.Time) snapshot.Parts {
 		}
 		p.Events = append(p.Events, snapshot.Event{
 			At: start, Area: area, Icon: "archive",
-			Text: key("pbs.backed_up", map[string]any{"n": guests(r)}),
+			Text: snapshot.Text{Key: "pbs.backed_up", Args: map[string]any{"n": guests(r)}},
 		})
 	}
 
@@ -215,15 +215,15 @@ func parts(backups []backup, now time.Time) snapshot.Parts {
 			}
 		}
 		shares[i] = snapshot.Share{Label: rows[i].Title, Value: 1, Tone: tone, Rows: []snapshot.Row{
-			{Title: key(in, nil), Value: ptr(key("pbs.when", map[string]any{"at": at(b)}))},
-			{Title: key("pbs.size", nil), Value: ptr(key("pbs.bytes", map[string]any{"n": b.Size}))},
-			{Title: key("pbs.check", nil), Value: ptr(key(check, nil))},
+			{Title: snapshot.Text{Key: in}, Value: snapshot.Msg("pbs.when", map[string]any{"at": at(b)})},
+			{Title: snapshot.Text{Key: "pbs.size"}, Value: snapshot.Msg("pbs.bytes", map[string]any{"n": b.Size})},
+			{Title: snapshot.Text{Key: "pbs.check"}, Value: snapshot.Msg(check, nil)},
 		}}
 	}
 	p.Figures = []snapshot.Figure{{
-		Area: area, Icon: "archive", Label: key("pbs.backups", nil), Value: float64(guests(last)),
-		Unit:   ptr(key("pbs.of_guests", map[string]any{"n": len(newest)})),
-		Detail: ptr(key("pbs.when", map[string]any{"at": at(last[len(last)-1])})),
+		Area: area, Icon: "archive", Label: snapshot.Text{Key: "pbs.backups"}, Value: float64(guests(last)),
+		Unit:   snapshot.Msg("pbs.of_guests", map[string]any{"n": len(newest)}),
+		Detail: snapshot.Msg("pbs.when", map[string]any{"at": at(last[len(last)-1])}),
 		Shares: shares,
 	}}
 	return p
@@ -239,7 +239,3 @@ func guests(run []backup) int {
 }
 
 func at(b backup) time.Time { return time.Unix(b.Time, 0).UTC() }
-
-func key(k string, args map[string]any) snapshot.Text { return snapshot.Text{Key: k, Args: args} }
-
-func ptr[T any](v T) *T { return &v }

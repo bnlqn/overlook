@@ -64,37 +64,37 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 // out.
 func parts(v map[string]string) snapshot.Parts {
 	power, tone := power(v["ups.status"])
-	rows := []snapshot.Row{{Title: key("nut.power"), Value: power, Tone: tone, Detail: about(v)}}
+	rows := []snapshot.Row{{Title: snapshot.Text{Key: "nut.power"}, Value: power, Tone: tone, Detail: about(v)}}
 	var battery *snapshot.Meter
 	if charge, ok := number(v, "battery.charge"); ok {
 		battery = &snapshot.Meter{Used: charge, Total: 100, Tone: "green"}
 		if charge < 50 {
 			battery.Tone = "red"
 		}
-		rows = append(rows, snapshot.Row{Title: key("nut.battery"), Value: with("nut.percent", "n", charge), Detail: runtime(v), Meter: battery})
+		rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "nut.battery"}, Value: snapshot.Msg("nut.percent", map[string]any{"n": charge}), Detail: runtime(v), Meter: battery})
 	}
 	load, hasLoad := number(v, "ups.load")
 	w, hasWatts := watts(v)
 	switch {
 	case hasWatts:
-		row := snapshot.Row{Title: key("nut.drawing"), Value: with("nut.watts", "n", w)}
+		row := snapshot.Row{Title: snapshot.Text{Key: "nut.drawing"}, Value: snapshot.Msg("nut.watts", map[string]any{"n": w})}
 		if hasLoad {
-			row.Detail = with("nut.load_of", "n", load)
+			row.Detail = snapshot.Msg("nut.load_of", map[string]any{"n": load})
 		}
 		rows = append(rows, row)
 	case hasLoad:
-		rows = append(rows, snapshot.Row{Title: key("nut.load"), Value: with("nut.percent", "n", load)})
+		rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "nut.load"}, Value: snapshot.Msg("nut.percent", map[string]any{"n": load})})
 	}
 
-	p := snapshot.Parts{Sections: []snapshot.Section{{Area: area, Title: key("nut.ups"), Rows: rows}}}
+	p := snapshot.Parts{Sections: []snapshot.Section{{Area: area, Title: snapshot.Text{Key: "nut.ups"}, Rows: rows}}}
 	if hasWatts {
-		f := snapshot.Figure{Area: area, Icon: "plug", Label: key("nut.ups"), Value: w, Unit: ptr(key("nut.watts_unit")), Detail: power}
+		f := snapshot.Figure{Area: area, Icon: "plug", Label: snapshot.Text{Key: "nut.ups"}, Value: w, Unit: snapshot.Msg("nut.watts_unit", nil), Detail: power}
 		if tone == "red" {
 			f.Tone = "red"
 		}
 		if battery != nil {
 			m := *battery
-			m.Label = ptr(key("nut.battery"))
+			m.Label = snapshot.Msg("nut.battery", nil)
 			f.Meters = []snapshot.Meter{m}
 		}
 		p.Figures = []snapshot.Figure{f}
@@ -108,9 +108,9 @@ func power(status string) (*snapshot.Text, string) {
 	flags := strings.Fields(status)
 	switch {
 	case slices.Contains(flags, "OB"):
-		return ptr(key("nut.on_battery")), "red"
+		return snapshot.Msg("nut.on_battery", nil), "red"
 	case slices.Contains(flags, "OL"):
-		return ptr(key("nut.on_mains")), "green"
+		return snapshot.Msg("nut.on_mains", nil), "green"
 	}
 	return &snapshot.Text{Name: status}, "gray"
 }
@@ -123,7 +123,7 @@ func about(v map[string]string) *snapshot.Text {
 	case ok && model != "":
 		return &snapshot.Text{Key: "nut.model_in", Args: map[string]any{"model": model, "v": math.Round(volts)}}
 	case ok:
-		return with("nut.in", "v", math.Round(volts))
+		return snapshot.Msg("nut.in", map[string]any{"v": math.Round(volts)})
 	case model != "":
 		return &snapshot.Text{Name: model}
 	}
@@ -140,7 +140,7 @@ func runtime(v map[string]string) *snapshot.Text {
 	if low, ok := number(v, "battery.charge.low"); ok {
 		return &snapshot.Text{Key: "nut.runtime_low", Args: map[string]any{"ms": secs * 1000, "low": low}}
 	}
-	return with("nut.runtime", "ms", secs*1000)
+	return snapshot.Msg("nut.runtime", map[string]any{"ms": secs * 1000})
 }
 
 // watts is what the UPS's load draws: upsd's reading, or for a UPS that only
@@ -158,11 +158,3 @@ func number(v map[string]string, name string) (float64, bool) {
 	n, err := strconv.ParseFloat(strings.TrimSpace(v[name]), 64)
 	return n, err == nil && !math.IsNaN(n) && !math.IsInf(n, 0)
 }
-
-func key(k string) snapshot.Text { return snapshot.Text{Key: k} }
-
-func with(k, arg string, n float64) *snapshot.Text {
-	return &snapshot.Text{Key: k, Args: map[string]any{arg: n}}
-}
-
-func ptr[T any](x T) *T { return &x }
