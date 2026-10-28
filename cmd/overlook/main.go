@@ -19,6 +19,10 @@ import (
 	"syscall"
 	"time"
 
+	// Today starts at midnight in TZ, which needs the zone database: built
+	// in, so it works in an image that has none.
+	_ "time/tzdata"
+
 	"github.com/bnlqn/overlook/internal/config"
 	"github.com/bnlqn/overlook/internal/server"
 )
