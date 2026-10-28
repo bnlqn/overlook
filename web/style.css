@@ -961,6 +961,25 @@ main {
   min-height: 38px;
   justify-content: flex-end;
 }
+/* A figure's meters, such as a battery's charge: a label, the bar, how full. */
+.figure-meter {
+  display: grid;
+  grid-template-columns: minmax(44px, auto) 1fr minmax(32px, auto);
+  align-items: center;
+  gap: 8px;
+  font: var(--m-type-footnote);
+  color: var(--m-label-3);
+  white-space: nowrap;
+}
+.figure-meter .meter {
+  grid-column: auto;
+  margin-top: 0;
+}
+.figure-meter > :last-child {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--m-label-2);
+}
 .figure-tile.tone-red {
   border-color: color-mix(in srgb, var(--m-red) 35%, transparent);
 }
