@@ -78,6 +78,13 @@ sources:
       user: overlook
       password: ${ADGUARD_PASSWORD}
 
+  # The chores you keep on a to-do list: mark one done there, in any CalDAV
+  # app, and the page follows. A to-do with no due date is due now.
+  ical:
+    - url: https://dav.example.com/owner/chores/ # Radicale's list; Nextcloud's or Baïkal's with ?export
+      user: owner                      # a login, if the server asks for one
+      password: ${DAV_PASSWORD}
+
 # The apps the homelab hosts, and the tools that run it. An icon is a file in
 # icons/ beside this config (or one Overlook ships), or a URL. A check is a
 # Gatus check's name, which lights the app's dot.
@@ -118,11 +125,3 @@ tools:
     icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/home-assistant.svg
     description: The house
     color: "#18BCF2"
-
-# Maintenance due while nothing is broken, each from a day, as YYYY-MM-DD.
-# The page lists those due and those in the coming week beside the updates
-# waiting. A chore is done when you delete its lines.
-chores:
-  - name: Swap the offsite backup disk
-    from: 2026-11-30
-    note: Bring the one at the office home   # optional

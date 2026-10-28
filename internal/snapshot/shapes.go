@@ -206,6 +206,7 @@ type Parts struct {
 	Figures  []Figure  `json:"figures"`
 	Events   []Event   `json:"events"`
 	Updates  []Update  `json:"updates"`
+	Chores   []Chore   `json:"chores"`
 }
 
 // Link is an app or a tool the page links to, from the config.
@@ -221,13 +222,12 @@ type Link struct {
 	Color string `yaml:"color" json:"color,omitempty"`
 }
 
-// Chore is maintenance the owner wrote down in the config, due from a day.
-// It is done when its lines leave the config, since Overlook remembers
-// nothing (ADR 0004).
+// Chore is one the owner keeps on a to-do list, which is done when it's
+// marked done there (ADR 0010).
 type Chore struct {
-	Name string `yaml:"name" json:"name"`
+	Name string `json:"name"`
 	// From is the day it's due from, as YYYY-MM-DD: a day of the viewer's
-	// calendar, not a moment.
-	From string `yaml:"from" json:"from"`
-	Note string `yaml:"note" json:"note,omitempty"`
+	// calendar, not a moment. With none, it's due now.
+	From string `json:"from,omitempty"`
+	Note string `json:"note,omitempty"`
 }

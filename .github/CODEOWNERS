@@ -5,6 +5,7 @@
 /internal/adapters/adguard/ @bnlqn
 /internal/adapters/gatus/   @bnlqn
 /internal/adapters/github/  @bnlqn
+/internal/adapters/ical/    @bnlqn
 /internal/adapters/immich/  @bnlqn
 /internal/adapters/pbs/     @bnlqn
 /internal/adapters/proxmox/ @bnlqn

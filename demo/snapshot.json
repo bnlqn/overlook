@@ -10,7 +10,8 @@
     { "name": "Sonarr", "adapter": "sonarr", "answered": true },
     { "name": "NUT", "adapter": "nut", "answered": true },
     { "name": "Primary DNS", "adapter": "adguard", "answered": true },
-    { "name": "Standby DNS", "adapter": "adguard", "answered": false, "error": "timeout" }
+    { "name": "Standby DNS", "adapter": "adguard", "answered": false, "error": "timeout" },
+    { "name": "Chores", "adapter": "ical", "answered": true }
   ],
   "checks": [
     {
@@ -1471,12 +1472,16 @@
     {
       "name": "Clean the NAS's dust filters",
       "from": "2026-10-26",
-      "note": "Every six months, then move this date on."
+      "note": "Every six months: marking it done moves it on."
     },
     {
       "name": "Swap the offsite backup disk",
       "from": "2026-10-31",
       "note": "The one at the office comes home."
+    },
+    {
+      "name": "Label the cables in the rack",
+      "note": "No day set: due whenever there's an hour."
     }
   ]
 }

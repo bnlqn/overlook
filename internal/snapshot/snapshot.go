@@ -19,15 +19,14 @@ const (
 )
 
 // Snapshot is every source's parts as read at one moment, and the config's
-// links and chores. A source that didn't answer is marked so and gives no
+// links. A source that didn't answer is marked so and gives no
 // parts.
 type Snapshot struct {
 	At      time.Time     `json:"at"`
 	Sources []SourceState `json:"sources"`
 	Parts
-	Apps   []Link  `json:"apps"`
-	Tools  []Link  `json:"tools"`
-	Chores []Chore `json:"chores"`
+	Apps  []Link `json:"apps"`
+	Tools []Link `json:"tools"`
 }
 
 // SourceState says whether a source answered the last read.
@@ -53,16 +52,15 @@ type Source struct {
 type Reader struct {
 	sources     []Source
 	apps, tools []Link
-	chores      []Chore
 
 	mu   sync.Mutex
 	last Snapshot
 }
 
-// NewReader returns a Reader of sources whose snapshots carry apps, tools
-// and chores.
-func NewReader(sources []Source, apps, tools []Link, chores []Chore) *Reader {
-	return &Reader{sources: sources, apps: apps, tools: tools, chores: chores}
+// NewReader returns a Reader of sources whose snapshots carry apps and
+// tools.
+func NewReader(sources []Source, apps, tools []Link) *Reader {
+	return &Reader{sources: sources, apps: apps, tools: tools}
 }
 
 // Snapshot returns the last snapshot, or a new one if it's older than fresh.
@@ -92,10 +90,9 @@ func (r *Reader) Snapshot() Snapshot {
 	snap := Snapshot{
 		At:      time.Now(),
 		Sources: make([]SourceState, 0, len(r.sources)),
-		Parts:   Parts{Checks: []Check{}, Sections: []Section{}, Charts: []Chart{}, Figures: []Figure{}, Events: []Event{}, Updates: []Update{}},
+		Parts:   Parts{Checks: []Check{}, Sections: []Section{}, Charts: []Chart{}, Figures: []Figure{}, Events: []Event{}, Updates: []Update{}, Chores: []Chore{}},
 		Apps:    append([]Link{}, r.apps...),
 		Tools:   append([]Link{}, r.tools...),
-		Chores:  append([]Chore{}, r.chores...),
 	}
 	for i, src := range r.sources {
 		state := SourceState{Name: src.Name, Adapter: src.Adapter, Answered: errs[i] == nil}
@@ -124,6 +121,7 @@ func (r *Reader) Snapshot() Snapshot {
 				snap.Events = append(snap.Events, e)
 			}
 			snap.Updates = append(snap.Updates, p.Updates...)
+			snap.Chores = append(snap.Chores, p.Chores...)
 		}
 		snap.Sources = append(snap.Sources, state)
 	}

@@ -399,9 +399,9 @@ function renderApps(apps, checks) {
     .join("");
 }
 
-// ── The chores: the updates waiting for their merge, then the chores the
-// config writes down that are due, then those this week. A chore is done when
-// its lines leave the config ───────────────────────────────────────────────
+// ── The chores: the updates waiting for their merge, then the chores on the
+// to-do lists that are due, then those this week. A chore is done when it's
+// marked done on its list (ADR 0010) ───────────────────────────────────────
 
 function renderChores(updates, chores) {
   $("chores-block").hidden = !updates.length && !chores.length;

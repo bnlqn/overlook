@@ -18,12 +18,13 @@ func TestReader(t *testing.T) {
 			Sections: []Section{{Area: "network"}},
 			Figures:  []Figure{{Area: "network"}},
 			Events:   []Event{{Area: "network"}},
+			Chores:   []Chore{{Name: "Dust"}},
 		}, nil
 	}}
 	down := Source{Name: "Down", Adapter: "adguard", Read: func(context.Context) (Parts, error) {
 		return Parts{Checks: []Check{{Key: "lost"}}}, errors.New("timeout")
 	}}
-	r := NewReader([]Source{up, down}, nil, []Link{{Name: "Gatus"}}, nil)
+	r := NewReader([]Source{up, down}, nil, []Link{{Name: "Gatus"}})
 
 	snap := r.Snapshot()
 	if len(snap.Sources) != 2 || !snap.Sources[0].Answered || snap.Sources[1].Answered || snap.Sources[1].Error != "timeout" {
@@ -32,8 +33,11 @@ func TestReader(t *testing.T) {
 	if len(snap.Checks) != 1 || snap.Checks[0].Key != "a" {
 		t.Errorf("a source that doesn't answer gives no parts: %+v", snap.Checks)
 	}
-	if snap.Apps == nil || snap.Sections == nil || snap.Chores == nil || len(snap.Tools) != 1 {
+	if snap.Apps == nil || snap.Sections == nil || len(snap.Tools) != 1 {
 		t.Errorf("lists are empty, never null: %+v", snap)
+	}
+	if len(snap.Chores) != 1 || snap.Chores[0].Name != "Dust" {
+		t.Errorf("a source's chores are the snapshot's: %+v", snap.Chores)
 	}
 	if snap.Charts[0].Source != "Up" || snap.Sections[0].Source != "Up" || snap.Figures[0].Source != "Up" || snap.Events[0].Source != "Up" {
 		t.Errorf("each part is named by its source: %+v", snap.Parts)

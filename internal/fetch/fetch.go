@@ -66,14 +66,31 @@ func JSON(ctx context.Context, rawURL string, header http.Header, v any) error {
 
 // JSON reads the answer at rawURL into v as the package's JSON does, with c.
 func (c Client) JSON(ctx context.Context, rawURL string, header http.Header, v any) error {
+	body, err := c.get(ctx, rawURL, "application/json", header)
+	if err != nil {
+		return err
+	}
+	if err := json.Unmarshal(body, v); err != nil {
+		return fmt.Errorf("an answer that isn't the JSON expected: %w", err)
+	}
+	return nil
+}
+
+// Text reads the answer at rawURL as it is, asking for the media type
+// accept, such as text/calendar, as JSON reads one.
+func Text(ctx context.Context, rawURL, accept string, header http.Header) ([]byte, error) {
+	return Client{}.get(ctx, rawURL, accept, header)
+}
+
+func (c Client) get(ctx context.Context, rawURL, accept string, header http.Header) ([]byte, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, rawURL, nil)
 	if err != nil {
-		return errors.New("bad url")
+		return nil, errors.New("bad url")
 	}
 	for k, vs := range header {
 		req.Header[http.CanonicalHeaderKey(k)] = vs
 	}
-	req.Header.Set("Accept", "application/json")
+	req.Header.Set("Accept", accept)
 	req.Header.Set("User-Agent", "Overlook")
 	hc := c.http
 	if hc == nil {
@@ -84,27 +101,24 @@ func (c Client) JSON(ctx context.Context, rawURL string, header http.Header, v a
 		var u *url.Error
 		if errors.As(err, &u) {
 			if u.Timeout() {
-				return errors.New("timeout")
+				return nil, errors.New("timeout")
 			}
-			return u.Err
+			return nil, u.Err
 		}
-		return err
+		return nil, err
 	}
 	defer res.Body.Close()
 	if res.StatusCode != http.StatusOK {
-		return fmt.Errorf("HTTP %d", res.StatusCode)
+		return nil, fmt.Errorf("HTTP %d", res.StatusCode)
 	}
 	body, err := io.ReadAll(io.LimitReader(res.Body, maxAnswer+1))
 	if err != nil {
-		return fmt.Errorf("reading the answer: %w", err)
+		return nil, fmt.Errorf("reading the answer: %w", err)
 	}
 	if len(body) > maxAnswer {
-		return fmt.Errorf("an answer over %d MiB", maxAnswer>>20)
+		return nil, fmt.Errorf("an answer over %d MiB", maxAnswer>>20)
 	}
-	if err := json.Unmarshal(body, v); err != nil {
-		return fmt.Errorf("an answer that isn't the JSON expected: %w", err)
-	}
-	return nil
+	return body, nil
 }
 
 // Login is the header that sends a source its user and password, by HTTP's

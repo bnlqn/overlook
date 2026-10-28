@@ -1,6 +1,5 @@
-// Package config reads overlook.yaml: the sources to read, the apps and
-// tools to link to, and the chores the owner wrote down. A key it doesn't
-// know is an error, so a typo never goes unnoticed, and a ${VAR} comes from
+// Package config reads overlook.yaml: the sources to read, and the apps and
+// tools to link to. A key it doesn't know is an error, so a typo never goes unnoticed, and a ${VAR} comes from
 // the environment.
 package config
 
@@ -13,13 +12,13 @@ import (
 	"os"
 	"regexp"
 	"slices"
-	"time"
 
 	"go.yaml.in/yaml/v3"
 
 	"github.com/bnlqn/overlook/internal/adapters/adguard"
 	"github.com/bnlqn/overlook/internal/adapters/gatus"
 	"github.com/bnlqn/overlook/internal/adapters/github"
+	"github.com/bnlqn/overlook/internal/adapters/ical"
 	"github.com/bnlqn/overlook/internal/adapters/immich"
 	"github.com/bnlqn/overlook/internal/adapters/nut"
 	"github.com/bnlqn/overlook/internal/adapters/pbs"
@@ -32,10 +31,9 @@ import (
 
 // Config is overlook.yaml.
 type Config struct {
-	Sources Sources          `yaml:"sources"`
-	Apps    []snapshot.Link  `yaml:"apps"`
-	Tools   []snapshot.Link  `yaml:"tools"`
-	Chores  []snapshot.Chore `yaml:"chores"`
+	Sources Sources         `yaml:"sources"`
+	Apps    []snapshot.Link `yaml:"apps"`
+	Tools   []snapshot.Link `yaml:"tools"`
 
 	// readers are the sources check let through, each with its read.
 	readers []snapshot.Source
@@ -52,6 +50,7 @@ type Sources struct {
 	Sonarr  []sonarr.Config  `yaml:"sonarr"`
 	NUT     []nut.Config     `yaml:"nut"`
 	AdGuard []adguard.Config `yaml:"adguard"`
+	Ical    []ical.Config    `yaml:"ical"`
 }
 
 // Readers are the sources, each with its adapter's read, as Load checked
@@ -155,6 +154,7 @@ func (c *Config) check() error {
 		add(c, "sonarr", c.Sources.Sonarr, func(s sonarr.Config) string { return s.Name }, sonarr.Read),
 		add(c, "nut", c.Sources.NUT, func(n nut.Config) string { return n.Name }, nut.Read),
 		add(c, "adguard", c.Sources.AdGuard, func(a adguard.Config) string { return a.Name }, adguard.Read),
+		add(c, "ical", c.Sources.Ical, func(i ical.Config) string { return i.Name }, ical.Read),
 	); err != nil {
 		return err
 	}
@@ -175,14 +175,6 @@ func (c *Config) check() error {
 			if l.Check != "" && len(c.Sources.Gatus) == 0 {
 				return fmt.Errorf("%s[%d]: check %q, but no check engine is configured", list.name, i, l.Check)
 			}
-		}
-	}
-	for i, ch := range c.Chores {
-		if ch.Name == "" {
-			return fmt.Errorf("chores[%d]: name is missing", i)
-		}
-		if _, err := time.Parse(time.DateOnly, ch.From); err != nil {
-			return fmt.Errorf("chores[%d]: from %q isn't a day as YYYY-MM-DD", i, ch.From)
 		}
 	}
 	return nil

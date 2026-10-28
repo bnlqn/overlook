@@ -1,6 +1,8 @@
 * text=auto eol=lf
 *.png binary
 *.woff2 binary
+# iCalendar ends its lines in CRLF, and an answer recorded in it keeps them.
+*.ics -text
 
 # Third parties' files, and answers recorded or invented for the tests.
 web/icons/** linguist-vendored
