@@ -19,6 +19,7 @@ func write(t *testing.T, yaml string) string {
 func TestLoad(t *testing.T) {
 	t.Setenv("GATUS_PASSWORD", "s3cret")
 	t.Setenv("IMMICH_KEY", "k3y")
+	t.Setenv("ADGUARD_PASSWORD", "s3cret")
 	t.Setenv("PHOTOS_ABOUT", "photos: # all of them")
 	c, err := Load(write(t, `
 sources:
@@ -68,6 +69,8 @@ func TestLoadRefuses(t *testing.T) {
 		"sources: {immich: [{url: http://a, key: k}, {url: http://b, key: k}]}":  "another source is named Immich",
 		"sources: { radarr: [ { url: 'http://radarr:7878' } ] }":                 "sources.radarr[0]: key is missing",
 		"sources: { sonarr: [ { key: k } ] }":                                    "sources.sonarr[0]: url is missing",
+		"sources: { nut: [ { host: nut.example.com } ] }":                        "sources.nut[0]: ups is missing",
+		"sources: { adguard: [ { url: 'http://a' }, { url: 'http://b' } ] }":     "sources.adguard[1]: another source is named AdGuard Home",
 		"apps: [ { name: Photos } ]":                                             "apps[0]: url",
 		"tools: [ { url: 'https://x.example.com' } ]":                            "tools[0]: name is missing",
 		"apps: [ { name: P, url: 'javascript:alert(1)' } ]":                      "http:// or https://",
@@ -89,6 +92,8 @@ func TestExample(t *testing.T) {
 	t.Setenv("PROXMOX_SECRET", "00000000-0000-0000-0000-000000000000")
 	t.Setenv("RADARR_KEY", "0123abcd")
 	t.Setenv("SONARR_KEY", "4567efab")
+	t.Setenv("NUT_HOST", "nut.example.com")
+	t.Setenv("ADGUARD_PASSWORD", "s3cret")
 	if _, err := Load("../../overlook.example.yaml"); err != nil {
 		t.Fatal(err)
 	}

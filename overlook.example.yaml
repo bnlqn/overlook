@@ -16,7 +16,6 @@ sources:
         DNS: network
         Backups: storage
         Media: apps
-
   # The updates waiting: the open pull requests from Dependabot or Renovate,
   # read at most every 10 minutes.
   github:
@@ -48,6 +47,19 @@ sources:
   sonarr:
     - url: http://sonarr:8989          # where Overlook reads Sonarr
       key: ${SONARR_KEY}               # Settings, General, API Key
+
+  # A UPS, read from NUT's upsd: its power, its battery and what it draws.
+  nut:
+    - host: ${NUT_HOST}                # where upsd listens, such as nut.example.com or nut.example.com:3493
+      ups: ups                         # the UPS's name in upsd, as in its ups.conf
+
+  # Each DNS resolver: whether it filters, today's lookups and blocks, and
+  # its top clients and domains. Give each its own name.
+  adguard:
+    - name: Primary DNS
+      url: http://overlook:${ADGUARD_PASSWORD}@dns1.example.com # its login, as user:pass@
+    - name: Standby DNS
+      url: http://overlook:${ADGUARD_PASSWORD}@dns2.example.com
 
 # The apps the homelab hosts, and the tools that run it. An icon is a file in
 # icons/ beside this config (or one Overlook ships), or a URL. A check is a

@@ -1,5 +1,5 @@
-// What the page asks of the snapshot's checks: each area's state, the
-// problems, and how long the homelab has been quiet.
+// What the page asks of the snapshot: each area's state, the problems, how
+// long the homelab has been quiet, and today's figures.
 
 export const AREAS = ["servers", "network", "storage", "apps"];
 
@@ -22,6 +22,33 @@ export function readChecks(snap) {
 /** The areas with anything in them, which are the ones shown. */
 export const shown = (snap) =>
   AREAS.filter((a) => [snap.checks, snap.sections, snap.figures, snap.events].some((l) => l.some((x) => x.area === a)));
+
+/**
+ * The figures, those that add up and share a label key made one, such as two
+ * resolvers' lookups: their values, their hours hour by hour, and the numbers
+ * in their details. Hours that only some of them have are left out.
+ */
+export function together(figures) {
+  const byKey = new Map();
+  const out = [];
+  for (const f of figures) {
+    const into = f.adds && byKey.get(f.label.key);
+    if (!into) {
+      const copy = { ...f, hours: [...(f.hours || [])] };
+      if (f.detail) copy.detail = { ...f.detail, args: { ...f.detail.args } };
+      if (f.adds) byKey.set(f.label.key, copy);
+      out.push(copy);
+      continue;
+    }
+    const hours = f.hours || [];
+    into.value += f.value;
+    into.hours = into.hours.length === hours.length ? into.hours.map((v, i) => v + hours[i]) : [];
+    for (const [name, v] of Object.entries(f.detail?.args || {})) {
+      if (typeof v === "number" && typeof into.detail?.args[name] === "number") into.detail.args[name] += v;
+    }
+  }
+  return out;
+}
 
 /** The names of the sources that didn't answer. */
 export const silent = (snap) => snap.sources.filter((s) => !s.answered).map((s) => s.name);

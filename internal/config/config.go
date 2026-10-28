@@ -13,9 +13,11 @@ import (
 
 	"go.yaml.in/yaml/v3"
 
+	"github.com/bnlqn/overlook/internal/adapters/adguard"
 	"github.com/bnlqn/overlook/internal/adapters/gatus"
 	"github.com/bnlqn/overlook/internal/adapters/github"
 	"github.com/bnlqn/overlook/internal/adapters/immich"
+	"github.com/bnlqn/overlook/internal/adapters/nut"
 	"github.com/bnlqn/overlook/internal/adapters/proxmox"
 	"github.com/bnlqn/overlook/internal/adapters/radarr"
 	"github.com/bnlqn/overlook/internal/adapters/sonarr"
@@ -38,6 +40,8 @@ type Sources struct {
 	Proxmox []proxmox.Config `yaml:"proxmox"`
 	Radarr  []radarr.Config  `yaml:"radarr"`
 	Sonarr  []sonarr.Config  `yaml:"sonarr"`
+	NUT     []nut.Config     `yaml:"nut"`
+	AdGuard []adguard.Config `yaml:"adguard"`
 }
 
 // Readers are the sources, each with its adapter's read.
@@ -60,6 +64,12 @@ func (c Config) Readers() []snapshot.Source {
 	}
 	for _, s := range c.Sources.Sonarr {
 		all = append(all, snapshot.Source{Name: s.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return sonarr.Read(ctx, s) }})
+	}
+	for _, n := range c.Sources.NUT {
+		all = append(all, snapshot.Source{Name: n.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return nut.Read(ctx, n) }})
+	}
+	for _, a := range c.Sources.AdGuard {
+		all = append(all, snapshot.Source{Name: a.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return adguard.Read(ctx, a) }})
 	}
 	return all
 }
@@ -191,6 +201,26 @@ func (c *Config) check() error {
 			return fmt.Errorf("sources.sonarr[%d]: another source is named %s: give each a name", i, s.Name)
 		}
 		names[s.Name] = true
+	}
+	for i := range c.Sources.NUT {
+		n := &c.Sources.NUT[i]
+		if err := n.Check(); err != nil {
+			return fmt.Errorf("sources.nut[%d]: %w", i, err)
+		}
+		if names[n.Name] {
+			return fmt.Errorf("sources.nut[%d]: another source is named %s: give each a name", i, n.Name)
+		}
+		names[n.Name] = true
+	}
+	for i := range c.Sources.AdGuard {
+		a := &c.Sources.AdGuard[i]
+		if err := a.Check(); err != nil {
+			return fmt.Errorf("sources.adguard[%d]: %w", i, err)
+		}
+		if names[a.Name] {
+			return fmt.Errorf("sources.adguard[%d]: another source is named %s: give each a name", i, a.Name)
+		}
+		names[a.Name] = true
 	}
 	for _, list := range []struct {
 		name  string

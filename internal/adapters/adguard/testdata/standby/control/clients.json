@@ -1,0 +1,312 @@
+{
+ "clients": [
+  {
+   "safe_search": {
+    "enabled": false,
+    "bing": true,
+    "duckduckgo": true,
+    "ecosia": true,
+    "google": true,
+    "pixabay": true,
+    "yandex": true,
+    "youtube": true
+   },
+   "blocked_services_schedule": {
+    "time_zone": "Local"
+   },
+   "name": "IoT network",
+   "blocked_services": [],
+   "ids": [
+    "198.51.100.0/24"
+   ],
+   "tags": [],
+   "upstreams": [],
+   "filtering_enabled": true,
+   "parental_enabled": false,
+   "safebrowsing_enabled": false,
+   "safesearch_enabled": false,
+   "use_global_blocked_services": true,
+   "use_global_settings": true,
+   "ignore_querylog": true,
+   "ignore_statistics": false,
+   "upstreams_cache_size": 0,
+   "upstreams_cache_enabled": false
+  },
+  {
+   "safe_search": {
+    "enabled": false,
+    "bing": true,
+    "duckduckgo": true,
+    "ecosia": true,
+    "google": true,
+    "pixabay": true,
+    "yandex": true,
+    "youtube": true
+   },
+   "blocked_services_schedule": {
+    "time_zone": "Local"
+   },
+   "name": "This resolver",
+   "blocked_services": [],
+   "ids": [
+    "127.0.0.1",
+    "192.0.2.50",
+    "::1"
+   ],
+   "tags": [],
+   "upstreams": [],
+   "filtering_enabled": false,
+   "parental_enabled": false,
+   "safebrowsing_enabled": false,
+   "safesearch_enabled": false,
+   "use_global_blocked_services": false,
+   "use_global_settings": false,
+   "ignore_querylog": false,
+   "ignore_statistics": true,
+   "upstreams_cache_size": 0,
+   "upstreams_cache_enabled": false
+  },
+  {
+   "safe_search": {
+    "enabled": false,
+    "bing": true,
+    "duckduckgo": true,
+    "ecosia": true,
+    "google": true,
+    "pixabay": true,
+    "yandex": true,
+    "youtube": true
+   },
+   "blocked_services_schedule": {
+    "time_zone": "Local"
+   },
+   "name": "Guest Wi-Fi",
+   "blocked_services": [],
+   "ids": [
+    "203.0.113.0/24"
+   ],
+   "tags": [],
+   "upstreams": [],
+   "filtering_enabled": true,
+   "parental_enabled": false,
+   "safebrowsing_enabled": false,
+   "safesearch_enabled": false,
+   "use_global_blocked_services": true,
+   "use_global_settings": true,
+   "ignore_querylog": false,
+   "ignore_statistics": false,
+   "upstreams_cache_size": 0,
+   "upstreams_cache_enabled": false
+  },
+  {
+   "safe_search": {
+    "enabled": false,
+    "bing": true,
+    "duckduckgo": true,
+    "ecosia": true,
+    "google": true,
+    "pixabay": true,
+    "yandex": true,
+    "youtube": true
+   },
+   "blocked_services_schedule": {
+    "time_zone": "Local"
+   },
+   "name": "Tablet",
+   "blocked_services": [],
+   "ids": [
+    "192.0.2.20",
+    "192.0.2.52"
+   ],
+   "tags": [],
+   "upstreams": [],
+   "filtering_enabled": true,
+   "parental_enabled": false,
+   "safebrowsing_enabled": false,
+   "safesearch_enabled": false,
+   "use_global_blocked_services": true,
+   "use_global_settings": true,
+   "ignore_querylog": false,
+   "ignore_statistics": false,
+   "upstreams_cache_size": 0,
+   "upstreams_cache_enabled": false
+  },
+  {
+   "safe_search": {
+    "enabled": false,
+    "bing": true,
+    "duckduckgo": true,
+    "ecosia": true,
+    "google": true,
+    "pixabay": true,
+    "yandex": true,
+    "youtube": true
+   },
+   "blocked_services_schedule": {
+    "time_zone": "Local"
+   },
+   "name": "Games console",
+   "blocked_services": [],
+   "ids": [
+    "192.0.2.53"
+   ],
+   "tags": [],
+   "upstreams": [],
+   "filtering_enabled": false,
+   "parental_enabled": false,
+   "safebrowsing_enabled": false,
+   "safesearch_enabled": false,
+   "use_global_blocked_services": false,
+   "use_global_settings": false,
+   "ignore_querylog": true,
+   "ignore_statistics": false,
+   "upstreams_cache_size": 0,
+   "upstreams_cache_enabled": false
+  }
+ ],
+ "auto_clients": [
+  {
+   "whois_info": {},
+   "ip": "192.0.2.50",
+   "name": "device-50.lan",
+   "source": "ARP"
+  },
+  {
+   "whois_info": {},
+   "ip": "192.0.2.27",
+   "name": "device-27.lan",
+   "source": "ARP"
+  },
+  {
+   "whois_info": {},
+   "ip": "127.0.0.1",
+   "name": "localhost",
+   "source": "etc/hosts"
+  },
+  {
+   "whois_info": {},
+   "ip": "::1",
+   "name": "localhost",
+   "source": "etc/hosts"
+  },
+  {
+   "whois_info": {},
+   "ip": "2001:db8::13",
+   "name": "speaker.lan",
+   "source": "etc/hosts"
+  },
+  {
+   "whois_info": {},
+   "ip": "192.0.2.39",
+   "name": "watch.lan",
+   "source": "rDNS"
+  },
+  {
+   "whois_info": {},
+   "ip": "192.0.2.35",
+   "name": "device-35.lan",
+   "source": "ARP"
+  },
+  {
+   "whois_info": {},
+   "ip": "192.0.2.43",
+   "name": "device-25.lan",
+   "source": "etc/hosts"
+  },
+  {
+   "whois_info": {},
+   "ip": "192.0.2.40",
+   "name": "device-24.lan",
+   "source": "rDNS"
+  },
+  {
+   "whois_info": {},
+   "ip": "192.0.2.42",
+   "name": "camera.lan",
+   "source": "rDNS"
+  },
+  {
+   "whois_info": {},
+   "ip": "192.0.2.38",
+   "name": "media.lan",
+   "source": "rDNS"
+  },
+  {
+   "whois_info": {},
+   "ip": "2001:db8::12",
+   "name": "nas.lan",
+   "source": "etc/hosts"
+  },
+  {
+   "whois_info": {},
+   "ip": "192.0.2.26",
+   "name": "device-26.lan",
+   "source": "ARP"
+  },
+  {
+   "whois_info": {},
+   "ip": "192.0.2.14",
+   "name": "device-21.lan",
+   "source": "rDNS"
+  },
+  {
+   "whois_info": {},
+   "ip": "192.0.2.41",
+   "name": "phone-b.lan",
+   "source": "rDNS"
+  },
+  {
+   "whois_info": {},
+   "ip": "192.0.2.12",
+   "name": "hypervisor.lan",
+   "source": "rDNS"
+  },
+  {
+   "whois_info": {},
+   "ip": "192.0.2.11",
+   "name": "printer.lan",
+   "source": "rDNS"
+  },
+  {
+   "whois_info": {},
+   "ip": "192.0.2.15",
+   "name": "printer.lan",
+   "source": "rDNS"
+  },
+  {
+   "whois_info": {},
+   "ip": "192.0.2.37",
+   "name": "console.lan",
+   "source": "rDNS"
+  },
+  {
+   "whois_info": {},
+   "ip": "192.0.2.10",
+   "name": "living-room-tv.lan",
+   "source": "rDNS"
+  }
+ ],
+ "supported_tags": [
+  "device_audio",
+  "device_camera",
+  "device_gameconsole",
+  "device_laptop",
+  "device_nas",
+  "device_other",
+  "device_pc",
+  "device_phone",
+  "device_printer",
+  "device_securityalarm",
+  "device_tablet",
+  "device_tv",
+  "os_android",
+  "os_ios",
+  "os_linux",
+  "os_macos",
+  "os_other",
+  "os_windows",
+  "user_admin",
+  "user_child",
+  "user_regular"
+ ]
+}
