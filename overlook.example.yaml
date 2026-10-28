@@ -17,6 +17,18 @@ sources:
         Backups: storage
         Media: apps
 
+  # The updates waiting: the open pull requests from Dependabot or Renovate,
+  # read at most every 10 minutes.
+  github:
+    - repos: [example/homelab]         # each as owner/name
+      # A private repository needs a token: token: ${GITHUB_TOKEN}
+
+  # The photos: what each person keeps and uploaded this week, the space,
+  # Immich's version and its jobs.
+  immich:
+    - url: ${IMMICH_URL}               # where Overlook reads Immich, such as http://immich:2283
+      key: ${IMMICH_KEY}               # an API key with the read permissions in the README
+
   # The films: how many, how much room, what came this week and what's coming.
   radarr:
     - url: http://radarr:7878          # where Overlook reads Radarr
