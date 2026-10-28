@@ -52,6 +52,11 @@ failing, such as a Gatus endpoint, an Uptime Kuma monitor or a Grafana alert
 rule.
 _Avoid_: Monitor, probe, endpoint
 
+**To-do list**:
+A source that keeps the chores the owner writes down, such as a list on
+Radicale or Nextcloud. Overlook never marks a chore done itself.
+_Avoid_: Calendar, task list
+
 **Snapshot**:
 Every source's facts as Overlook read them at one moment. The page is drawn
 from it.
@@ -105,11 +110,12 @@ night's backups or films added.
 _Avoid_: Activity, log entry
 
 **Chore**:
-Something the owner does while nothing is broken: a dated chore the owner
-wrote down, an update waiting to be merged or to be installed from inside
-its tool, or a request waiting for approval, such as a film someone asked for
-in Seerr. A chore is never a problem.
-_Avoid_: Todo, task
+Something the owner does while nothing is broken: one they keep on a to-do
+list, an update waiting to be merged or to be installed from inside its tool,
+or a request waiting for approval, such as a film someone asked for in Seerr.
+It is done in the source it waits in, never on the page, and is never a
+problem.
+_Avoid_: Todo, task, clear (for done)
 
 **App**:
 A service the homelab hosts for the people who use it, such as the photos or

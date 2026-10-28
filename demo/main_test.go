@@ -39,8 +39,8 @@ func TestSnapshot(t *testing.T) {
 		}
 	}
 	for _, c := range s.Chores {
-		if _, err := time.Parse(time.DateOnly, c.From); c.Name == "" || err != nil {
-			t.Errorf("%s: needs a name and a day: %+v", c.Name, c)
+		if _, err := time.Parse(time.DateOnly, c.From); c.Name == "" || (c.From != "" && err != nil) {
+			t.Errorf("%s: needs a name, and a day if any: %+v", c.Name, c)
 		}
 	}
 }

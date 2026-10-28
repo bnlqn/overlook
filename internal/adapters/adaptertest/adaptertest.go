@@ -5,11 +5,13 @@ package adaptertest
 
 import (
 	"fmt"
+	"io/fs"
 	"net/http"
 	"net/http/httptest"
-	"path/filepath"
+	"os"
 	"regexp"
 	"slices"
+	"strings"
 	"testing"
 
 	"github.com/bnlqn/overlook/internal/snapshot"
@@ -17,7 +19,8 @@ import (
 )
 
 // Replay starts a source that answers each GET with the answer recorded at
-// dir/<path>.json, the query left out, and fails tb on any other method.
+// dir/<path>.json, or at dir/<path>.ics for a source that answers in
+// iCalendar, the query left out, and fails tb on any other method.
 func Replay(tb testing.TB, dir string) *httptest.Server {
 	tb.Helper()
 	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -26,8 +29,14 @@ func Replay(tb testing.TB, dir string) *httptest.Server {
 			http.Error(w, "only GET", http.StatusMethodNotAllowed)
 			return
 		}
-		// http.ServeFile refuses a path with "..", so dir is never left.
-		http.ServeFile(w, r, filepath.Join(dir, filepath.FromSlash(r.URL.Path))+".json") //nolint:gosec // see above
+		// An fs.FS refuses a path with "..", so dir is never left.
+		recorded, answer := os.DirFS(dir), strings.Trim(r.URL.Path, "/")
+		if _, err := fs.Stat(recorded, answer+".ics"); err == nil {
+			answer += ".ics"
+		} else {
+			answer += ".json"
+		}
+		http.ServeFileFS(w, r, recorded, answer) //nolint:gosec // see above
 	}))
 	tb.Cleanup(s.Close)
 	return s

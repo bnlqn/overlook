@@ -177,16 +177,19 @@ export function asIfNow(snap, now = Date.now()) {
 
 /**
  * The chores by the viewer's today, each with its day as a date: those due,
- * from today or before; those from the next six days; and the first after
- * them, the next.
+ * from today or before, or with no day; those from the next six days; and
+ * the first after them, the next.
  */
 export function choresBy(chores, now = new Date()) {
   const today = new Date(now);
   today.setHours(0, 0, 0, 0);
   const week = new Date(today);
   week.setDate(week.getDate() + 7);
-  // A day with no time is midnight where the page is viewed.
-  const dated = chores.map((c) => ({ ...c, from: new Date(`${c.from}T00:00`) })).sort((a, b) => a.from - b.from);
+  // A day with no time is midnight where the page is viewed, and a chore
+  // with no day is due today.
+  const dated = chores
+    .map((c) => ({ ...c, from: c.from ? new Date(`${c.from}T00:00`) : today }))
+    .sort((a, b) => a.from - b.from);
   return {
     due: dated.filter((c) => c.from <= today),
     week: dated.filter((c) => c.from > today && c.from < week),

@@ -198,7 +198,7 @@ test("the demo's snapshot moves to now, every time in it, a text's too, and noth
   assert.equal(read.at, "2026-10-28T09:30:00Z", "the snapshot read stays as it was");
 });
 
-test("chores group by the viewer's today: due, this week, and the next after it", () => {
+test("chores group by the viewer's today: due, with no day too, this week, and the next after it", () => {
   const chores = [
     { name: "later", from: "2026-11-20" },
     { name: "tomorrow", from: "2026-10-29" },
@@ -206,11 +206,12 @@ test("chores group by the viewer's today: due, this week, and the next after it"
     { name: "in six days", from: "2026-11-03" },
     { name: "in a week", from: "2026-11-04" },
     { name: "overdue", from: "2026-10-01" },
+    { name: "whenever" },
   ];
   const by = choresBy(chores, new Date(2026, 9, 28, 23, 59));
   assert.deepEqual(
     by.due.map((c) => c.name),
-    ["overdue", "today"],
+    ["overdue", "today", "whenever"],
   );
   assert.deepEqual(
     by.week.map((c) => c.name),

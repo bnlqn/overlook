@@ -26,11 +26,13 @@ project uses are in [CONTEXT.md](CONTEXT.md) and its decisions in
 4. [x] `v0.1.0-rc.1`, with its image public.
 5. [x] The author's homelab runs the release candidate in place of its own
        page.
-6. [ ] A week of running it.
-7. [x] Two sources of one kind told apart: each part names its source
+6. [x] Two sources of one kind told apart: each part names its source
        where another of the same adapter is read, and figures that add up,
        such as two hosts' guests, are one tile split by source.
-8. [ ] The repository goes public and `v0.1.0` is tagged. The demo goes
+7. [ ] The chores from a to-do list (ADR 0010): the iCalendar adapter in
+       place of the config's `chores:`, released as `v0.1.0-rc.3`.
+8. [ ] A week of running rc.3.
+9. [ ] The repository goes public and `v0.1.0` is tagged. The demo goes
        live then: Pages set to build from GitHub Actions, and the Demo
        workflow run once by hand, since going public pushes nothing to
        `main`.
@@ -82,8 +84,9 @@ width, and every adapter has its section here.
   and the list of what happened, as far as your sources remember it.
 - **Your apps and tools**, each a link with a dot that says whether it
   answers.
-- **The chores**: the maintenance you wrote down that is due or comes this
-  week, and the updates waiting for your merge. A chore is never a problem.
+- **The chores**: the ones on your to-do list that are due or come this
+  week, and the updates waiting for your merge. You mark a chore done on the
+  list, never on the page, and a chore is never a problem.
 
 ## What it never does
 
@@ -226,21 +229,12 @@ Overlook ships icons for a few common apps (`web/icons`); a file of the
 same name in `icons/` beside the config wins over one of them.
 
 **Chores** are the maintenance due while nothing is broken: the ones you
-write down in the config, and the updates waiting for your merge, which the
-[GitHub](#github) source reads.
-
-```yaml
-chores:
-  - name: Swap the offsite backup disk # shown as written
-    from: 2026-11-30                   # the day it's due from, as YYYY-MM-DD
-    note: Bring the one at the office home
-```
-
-The page lists the chores due, from that day on, and those in the coming
-week, by the viewer's own calendar; with none, it says which is next. Since
-Overlook remembers nothing, a chore is done when you delete its lines, or
-move its day on if it comes back, and restart Overlook, which reads its
-config when it starts (`docker compose restart overlook`).
+keep on a to-do list, which the [iCalendar](#icalendar-to-do-list) source
+reads, and the updates waiting for your merge, which the [GitHub](#github)
+source reads. The page lists the chores due, from their day on, and those in
+the coming week, by the viewer's own calendar; with none, it says which is
+next. You add, change and mark chores done in your to-do app or from a
+script, never on the page (ADR 0010), and the page follows within 30 seconds.
 
 **Flags.** `-config` names the config (`overlook.yaml` by default), and
 `icons/` and `custom.css` are read beside it; `-listen` is the address to
@@ -302,6 +296,50 @@ Overlook reads GitHub at most every 10 minutes, so an update can take that
 long to show. Without a token GitHub allows 60 requests an hour from your
 address, and each read is one request per repository: ten repositories hold,
 fewer if something else at your address reads GitHub without a token.
+
+### iCalendar to-do list
+
+The chores you keep on a to-do list, read from the iCalendar file a CalDAV
+server gives for a GET, such as Radicale, Nextcloud or Baïkal. Edit the list
+in any app that syncs it, such as Reminders on an iPhone, Tasks.org with
+DAVx⁵ on Android, or Thunderbird, or from a script over CalDAV.
+
+```yaml
+sources:
+  ical:
+    - url: https://dav.example.com/owner/chores/ # the list, as Radicale serves it
+      user: owner                                # a login, if the server asks for one
+      password: ${DAV_PASSWORD}
+      # name: Chores                             # what the page calls it, if you keep more than one list
+```
+
+On Nextcloud or Baïkal the `url` is the list's CalDAV address with `?export`
+at the end, such as
+`https://cloud.example.com/remote.php/dav/calendars/owner/chores/?export`.
+
+A to-do's title is the chore and its description the note. Its due date is
+the day it's due from, a time counting as its day, and one with no due date
+is due now. One marked done or cancelled leaves the page. A to-do that comes
+back is your app's to move on when you mark it done, and Overlook reads only
+the next due date.
+
+**Key:** a login that can read the list, as `user` and `password`, sent by
+HTTP's basic authentication, or none if the list is open. Overlook only ever
+sends it with GET (ADR 0001). The least it needs, on Radicale, is a user of
+its own with only `i` on the list, which lets it GET the list and nothing
+else. With Radicale's rights from a file (`[rights] type = from_file`), beside
+the sections that give each user their own:
+
+```ini
+[overlook]
+user: overlook
+collection: owner/chores
+permissions: i
+```
+
+Baïkal asks for Digest unless its admin page sets Basic, which Overlook needs.
+Recorded from Radicale; Nextcloud and Baïkal give the same iCalendar for
+`?export`, but haven't been recorded.
 
 ### Immich
 
