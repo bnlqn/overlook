@@ -1,0 +1,30 @@
+// Biome lints and formats the page: `biome check web` (ADR 0007).
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.3/schema.json",
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "files": { "includes": ["web/**", "biome.jsonc", "!web/icons", "!web/fonts"] },
+  "formatter": { "enabled": true, "indentStyle": "space", "indentWidth": 2, "lineWidth": 120 },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double",
+      "semicolons": "always",
+      "trailingCommas": "all",
+      "arrowParentheses": "always"
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      // The stylesheet is ordered by the page's parts, not by specificity.
+      "style": { "noDescendingSpecificity": "off" }
+    }
+  },
+  "overrides": [
+    {
+      // Headings get their words from the table at runtime, through data-t.
+      "includes": ["web/*.html"],
+      "linter": { "rules": { "a11y": { "useHeadingContent": "off" } } }
+    }
+  ]
+}

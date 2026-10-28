@@ -1,7 +1,8 @@
 <!doctype html>
 <!--
   An area's page, at /servers, /network, /storage and /apps: the area's
-  state and checks, then each section its sources add, from the snapshot.
+  state and checks, then each section its sources add. Drawn by js/area.js
+  from the snapshot.
 -->
 <html lang="en">
 <head>
@@ -21,24 +22,6 @@
   <div class="card" id="checks" hidden><div class="checks"></div></div>
   <div class="columns"><div id="left"></div><div id="right"></div></div>
 </main>
-<script src="lib.js"></script>
-<script>
-start((snap, checks) => {
-  const area = HERE.area, a = areaState(area, checks), silence = silent(snap);
-  document.title = document.getElementById("title").textContent = t(`area.${area}`);
-  document.getElementById("checks").hidden = !a.checks.length;
-  document.querySelector("#checks .checks").innerHTML = checkRows(a.checks);
-  document.getElementById("summary").innerHTML = [
-    !a.checks.length ? t(shown(snap).includes(area) ? "area.no_checks" : "area.empty")
-      : `<span class="state tone-${TONE[a.state]}">${stateIcon(a.state)}${word(a.state)}</span>`,
-    a.problems.length ? esc(list(a.problems.map(c => c.name))) : a.checks.length ? t("area.checks_up", { n: a.checks.length }) : "",
-    silence.length ? t("source.no_answer", { name: list(silence) }) : "",
-  ].filter(Boolean).join(" · ");
-  // The sections, in two columns, each in the order its sources gave them.
-  const mine = snap.sections.filter(s => s.area === area);
-  document.getElementById("left").innerHTML = mine.filter((_, i) => i % 2 === 0).map(section).join("");
-  document.getElementById("right").innerHTML = mine.filter((_, i) => i % 2 === 1).map(section).join("");
-});
-</script>
+<script type="module" src="js/area.js"></script>
 </body>
 </html>
