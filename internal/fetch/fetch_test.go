@@ -85,12 +85,22 @@ func TestTrusting(t *testing.T) {
 	if err := JSON(context.Background(), s.URL, nil, &v); err == nil || !strings.Contains(err.Error(), "certificate") {
 		t.Errorf("a certificate the system doesn't trust is refused: %v", err)
 	}
-	c, err := Trusting(ca)
+	c, err := Trusting(ca, "")
 	if err != nil {
 		t.Fatal(err)
 	}
 	if err := c.JSON(context.Background(), s.URL, nil, &v); err != nil || v.N != 4 {
 		t.Errorf("read %+v, %v", v, err)
+	}
+	// The test certificate is for example.com, *.example.com and 127.0.0.1.
+	for name, ok := range map[string]bool{"example.com": true, "backup.example.org": false} {
+		named, err := Trusting(ca, name)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := named.JSON(context.Background(), s.URL, nil, &v); (err == nil) != ok {
+			t.Errorf("a certificate checked for %s: %v", name, err)
+		}
 	}
 	req, _ := http.NewRequestWithContext(t.Context(), http.MethodPost, s.URL, nil)
 	if res, err := c.http.Do(req); err == nil {
@@ -103,7 +113,7 @@ func TestTrusting(t *testing.T) {
 		t.Fatal(err)
 	}
 	for file, want := range map[string]string{notPEM: "holds no PEM certificate", filepath.Join(dir, "none.pem"): "no such file"} {
-		if _, err := Trusting(file); err == nil || !strings.Contains(err.Error(), want) {
+		if _, err := Trusting(file, ""); err == nil || !strings.Contains(err.Error(), want) {
 			t.Errorf("%s: want an error with %q, got %v", file, want, err)
 		}
 	}
