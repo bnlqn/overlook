@@ -1,7 +1,7 @@
 // The overview: how everything is, what is wrong, today's figures, each area
 // and its checks, the week, what happened, the apps, and the updates waiting.
 
-import { areaState, checkState, quietSince, shown, silent } from "./checks.js";
+import { areaState, checkState, quietSince, shown, silent, together } from "./checks.js";
 import { badge, GREEN, RECENT, RED, sparkline, stateIcon, strip, svg, TONE, tip, word } from "./draw.js";
 import { PAGES, pageName, start } from "./shell.js";
 import { ago, clock, esc, list, ms, number, say, span, t, when } from "./text.js";
@@ -369,7 +369,7 @@ start((snap, checks) => {
   renderStatus(snap, checks);
   renderActions(snap);
   renderProblems(checks);
-  renderToday(snap.figures);
+  renderToday(together(snap.figures));
   renderAreas(
     checks,
     areas.filter((a) => checks.some((c) => c.area === a)),

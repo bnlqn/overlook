@@ -92,6 +92,10 @@ type Meter struct {
 }
 
 // Figure is a number for today, sometimes with the hours that make it up.
+//
+// The page adds up the figures that share a label key, such as two
+// resolvers' lookups: their values, their hours hour by hour, and the
+// numbers in their details, which must therefore be counts.
 type Figure struct {
 	Area string `json:"area"`
 	// Icon is one of the page's own icons, such as shield or photos.

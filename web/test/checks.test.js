@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { areaState, checkState, quietSince, readChecks, shown, silent } from "../js/checks.js";
+import { areaState, checkState, quietSince, readChecks, shown, silent, together } from "../js/checks.js";
 
 const check = (key, area, run, problem, more = {}) => ({
   key,
@@ -65,4 +65,28 @@ test("an area with nothing in it isn't shown", () => {
   });
   assert.deepEqual(shown(s), ["servers", "storage"]);
   assert.deepEqual(silent(s), ["Proxmox"]);
+});
+
+test("figures that share a label key are added up, hour by hour, their details' numbers too", () => {
+  const hours = (n) => Array(24).fill(n);
+  const dns = (value, blocked, more = {}) => ({
+    area: "network",
+    icon: "shield",
+    label: { key: "adguard.today" },
+    value,
+    hours: hours(value / 24),
+    detail: { key: "adguard.today_of", args: { blocked, n: 1 } },
+    ...more,
+  });
+  const photos = { area: "apps", icon: "photos", label: { key: "immich.photos" }, value: 9 };
+  const figures = [dns(240, 12), photos, dns(48, 2)];
+  const [both, alone] = together(figures);
+  assert.equal(both.value, 288);
+  assert.deepEqual(both.hours, hours(12));
+  assert.deepEqual(both.detail.args, { blocked: 14, n: 2 });
+  assert.deepEqual(alone, { ...photos, hours: [] });
+  assert.equal(figures[0].value, 240, "the snapshot's own figures are left as they were");
+  assert.deepEqual(figures[0].detail.args, { blocked: 12, n: 1 });
+  const [lone] = together([dns(240, 12), dns(48, 2, { hours: undefined })]);
+  assert.deepEqual(lone.hours, [], "hours only one resolver has would mislead");
 });
