@@ -66,6 +66,8 @@ func TestLoadRefuses(t *testing.T) {
 		"sources: { github: [ { repos: [homelab] } ] }":                          "sources.github[0]: repos",
 		"sources: { immich: [ { url: 'http://immich:2283' } ] }":                 "sources.immich[0]: key is missing",
 		"sources: {immich: [{url: http://a, key: k}, {url: http://b, key: k}]}":  "another source is named Immich",
+		"sources: { radarr: [ { url: 'http://radarr:7878' } ] }":                 "sources.radarr[0]: key is missing",
+		"sources: { sonarr: [ { key: k } ] }":                                    "sources.sonarr[0]: url is missing",
 		"apps: [ { name: Photos } ]":                                             "apps[0]: url",
 		"tools: [ { url: 'https://x.example.com' } ]":                            "tools[0]: name is missing",
 		"apps: [ { name: P, url: 'javascript:alert(1)' } ]":                      "http:// or https://",
@@ -84,6 +86,8 @@ func TestExample(t *testing.T) {
 	t.Setenv("GATUS_URL", "http://gatus:8080")
 	t.Setenv("IMMICH_URL", "http://immich:2283")
 	t.Setenv("IMMICH_KEY", "k3y")
+	t.Setenv("RADARR_KEY", "0123abcd")
+	t.Setenv("SONARR_KEY", "4567efab")
 	if _, err := Load("../../overlook.example.yaml"); err != nil {
 		t.Fatal(err)
 	}

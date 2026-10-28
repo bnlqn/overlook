@@ -1,0 +1,396 @@
+[
+  {
+    "title": "The Phantom Carriage",
+    "originalTitle": "The Phantom Carriage",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "the phantom carriage",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "A legend of the last soul to die on New Year's Eve.",
+    "inCinemas": "1921-01-01T00:00:00Z",
+    "digitalRelease": "2026-10-30T00:00:00Z",
+    "releaseDate": "2026-10-30T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCover/6/poster.jpg?h=0a1b2c3d4e5f6a7b8c9d",
+        "remoteUrl": "https://images.example.com/thephantomcarriage.jpg"
+      }
+    ],
+    "website": "",
+    "year": 1921,
+    "youTubeTrailerId": "",
+    "studio": "Example Pictures",
+    "path": "/data/media/films/The Phantom Carriage (1921)",
+    "qualityProfileId": 1,
+    "hasFile": false,
+    "movieFileId": 0,
+    "monitored": true,
+    "minimumAvailability": "released",
+    "isAvailable": true,
+    "folderName": "/data/media/films/The Phantom Carriage (1921)",
+    "runtime": 102,
+    "cleanTitle": "thephantomcarriage",
+    "imdbId": "tt0000006",
+    "tmdbId": 1006,
+    "titleSlug": "1006",
+    "rootFolderPath": "/data/media/films",
+    "certification": "",
+    "genres": [
+      "Drama"
+    ],
+    "keywords": [],
+    "tags": [],
+    "added": "2026-09-14T19:02:11Z",
+    "ratings": {
+      "imdb": {
+        "votes": 62086,
+        "value": 7.9,
+        "type": "user"
+      },
+      "tmdb": {
+        "votes": 574,
+        "value": 7.6,
+        "type": "user"
+      },
+      "metacritic": {
+        "votes": 0,
+        "value": 0,
+        "type": "user"
+      },
+      "rottenTomatoes": {
+        "votes": 0,
+        "value": 97,
+        "type": "user"
+      },
+      "trakt": {
+        "votes": 287,
+        "value": 7.71,
+        "type": "user"
+      }
+    },
+    "popularity": 9.5,
+    "id": 6,
+    "statistics": {
+      "movieFileCount": 0,
+      "sizeOnDisk": 0,
+      "releaseGroups": [],
+      "movieFileQualities": []
+    }
+  },
+  {
+    "title": "Safety Last!",
+    "originalTitle": "Safety Last!",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "safety last!",
+    "sizeOnDisk": 2876543210,
+    "status": "released",
+    "overview": "A clerk climbs a department store, floor by floor.",
+    "inCinemas": "1923-04-01T00:00:00Z",
+    "physicalRelease": "2026-11-03T00:00:00Z",
+    "digitalRelease": "2026-06-30T00:00:00Z",
+    "releaseDate": "2026-11-03T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCover/7/poster.jpg?h=0a1b2c3d4e5f6a7b8c9d",
+        "remoteUrl": "https://images.example.com/safetylast.jpg"
+      }
+    ],
+    "website": "",
+    "year": 1923,
+    "youTubeTrailerId": "",
+    "studio": "Example Pictures",
+    "path": "/data/media/films/Safety Last! (1923)",
+    "qualityProfileId": 1,
+    "hasFile": true,
+    "movieFileId": 7,
+    "monitored": true,
+    "minimumAvailability": "released",
+    "isAvailable": true,
+    "folderName": "/data/media/films/Safety Last! (1923)",
+    "runtime": 109,
+    "cleanTitle": "safetylast",
+    "imdbId": "tt0000007",
+    "tmdbId": 1007,
+    "titleSlug": "1007",
+    "rootFolderPath": "/data/media/films",
+    "certification": "",
+    "genres": [
+      "Comedy"
+    ],
+    "keywords": [],
+    "tags": [],
+    "added": "2026-09-30T08:12:44Z",
+    "ratings": {
+      "imdb": {
+        "votes": 66267,
+        "value": 7.9,
+        "type": "user"
+      },
+      "tmdb": {
+        "votes": 603,
+        "value": 7.6,
+        "type": "user"
+      },
+      "metacritic": {
+        "votes": 0,
+        "value": 0,
+        "type": "user"
+      },
+      "rottenTomatoes": {
+        "votes": 0,
+        "value": 97,
+        "type": "user"
+      },
+      "trakt": {
+        "votes": 301,
+        "value": 7.71,
+        "type": "user"
+      }
+    },
+    "movieFile": {
+      "movieId": 7,
+      "relativePath": "Safety Last! (1923) Bluray-1080p.mkv",
+      "path": "/data/media/films/Safety Last! (1923)/Safety Last! (1923) Bluray-1080p.mkv",
+      "size": 2876543210,
+      "dateAdded": "2026-09-30T08:12:44Z",
+      "edition": "",
+      "languages": [
+        {
+          "id": 1,
+          "name": "English"
+        }
+      ],
+      "quality": {
+        "quality": {
+          "id": 7,
+          "name": "Bluray-1080p",
+          "source": "bluray",
+          "resolution": 1080,
+          "modifier": "none"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "indexerFlags": 0,
+      "mediaInfo": {
+        "audioBitrate": 0,
+        "audioChannels": 2,
+        "audioCodec": "AAC",
+        "audioLanguages": "eng",
+        "audioStreamCount": 1,
+        "videoBitDepth": 8,
+        "videoBitrate": 0,
+        "videoCodec": "x264",
+        "videoFps": 24,
+        "videoDynamicRange": "",
+        "videoDynamicRangeType": "",
+        "resolution": "1440x1080",
+        "runTime": "1:17:00",
+        "scanType": "Progressive",
+        "subtitles": "eng"
+      },
+      "qualityCutoffNotMet": false,
+      "id": 7
+    },
+    "popularity": 10.5,
+    "id": 7,
+    "statistics": {
+      "movieFileCount": 1,
+      "sizeOnDisk": 2876543210,
+      "releaseGroups": [],
+      "movieFileQualities": [
+        {
+          "id": 7,
+          "name": "Bluray-1080p",
+          "source": "bluray",
+          "resolution": 1080,
+          "modifier": "none"
+        }
+      ]
+    }
+  },
+  {
+    "title": "The Cabinet of Dr. Caligari",
+    "originalTitle": "The Cabinet of Dr. Caligari",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "the cabinet of dr. caligari",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "A showman and his sleepwalker come to a fair.",
+    "inCinemas": "2026-11-01T00:00:00Z",
+    "digitalRelease": "2027-01-15T00:00:00Z",
+    "releaseDate": "2027-01-15T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCover/8/poster.jpg?h=0a1b2c3d4e5f6a7b8c9d",
+        "remoteUrl": "https://images.example.com/thecabinetofdrcaligari.jpg"
+      }
+    ],
+    "website": "",
+    "year": 1920,
+    "youTubeTrailerId": "",
+    "studio": "Example Pictures",
+    "path": "/data/media/films/The Cabinet of Dr. Caligari (1920)",
+    "qualityProfileId": 1,
+    "hasFile": false,
+    "movieFileId": 0,
+    "monitored": true,
+    "minimumAvailability": "released",
+    "isAvailable": true,
+    "folderName": "/data/media/films/The Cabinet of Dr. Caligari (1920)",
+    "runtime": 116,
+    "cleanTitle": "thecabinetofdrcaligari",
+    "imdbId": "tt0000008",
+    "tmdbId": 1008,
+    "titleSlug": "1008",
+    "rootFolderPath": "/data/media/films",
+    "certification": "",
+    "genres": [
+      "Horror"
+    ],
+    "keywords": [],
+    "tags": [],
+    "added": "2026-09-14T19:02:11Z",
+    "ratings": {
+      "imdb": {
+        "votes": 70448,
+        "value": 7.9,
+        "type": "user"
+      },
+      "tmdb": {
+        "votes": 632,
+        "value": 7.6,
+        "type": "user"
+      },
+      "metacritic": {
+        "votes": 0,
+        "value": 0,
+        "type": "user"
+      },
+      "rottenTomatoes": {
+        "votes": 0,
+        "value": 97,
+        "type": "user"
+      },
+      "trakt": {
+        "votes": 316,
+        "value": 7.71,
+        "type": "user"
+      }
+    },
+    "popularity": 11.5,
+    "id": 8,
+    "statistics": {
+      "movieFileCount": 0,
+      "sizeOnDisk": 0,
+      "releaseGroups": [],
+      "movieFileQualities": []
+    }
+  },
+  {
+    "title": "Häxan",
+    "originalTitle": "Häxan",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "häxan",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "Witchcraft through the ages, in seven chapters.",
+    "inCinemas": "1922-09-18T00:00:00Z",
+    "digitalRelease": "2026-11-02T00:00:00Z",
+    "physicalRelease": "2026-11-04T00:00:00Z",
+    "releaseDate": "2026-11-04T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCover/9/poster.jpg?h=0a1b2c3d4e5f6a7b8c9d",
+        "remoteUrl": "https://images.example.com/häxan.jpg"
+      }
+    ],
+    "website": "",
+    "year": 1922,
+    "youTubeTrailerId": "",
+    "studio": "Example Pictures",
+    "path": "/data/media/films/Häxan (1922)",
+    "qualityProfileId": 1,
+    "hasFile": false,
+    "movieFileId": 0,
+    "monitored": true,
+    "minimumAvailability": "released",
+    "isAvailable": true,
+    "folderName": "/data/media/films/Häxan (1922)",
+    "runtime": 123,
+    "cleanTitle": "häxan",
+    "imdbId": "tt0000009",
+    "tmdbId": 1009,
+    "titleSlug": "1009",
+    "rootFolderPath": "/data/media/films",
+    "certification": "",
+    "genres": [
+      "Documentary"
+    ],
+    "keywords": [],
+    "tags": [],
+    "added": "2026-09-14T19:02:11Z",
+    "ratings": {
+      "imdb": {
+        "votes": 74629,
+        "value": 7.9,
+        "type": "user"
+      },
+      "tmdb": {
+        "votes": 661,
+        "value": 7.6,
+        "type": "user"
+      },
+      "metacritic": {
+        "votes": 0,
+        "value": 0,
+        "type": "user"
+      },
+      "rottenTomatoes": {
+        "votes": 0,
+        "value": 97,
+        "type": "user"
+      },
+      "trakt": {
+        "votes": 330,
+        "value": 7.71,
+        "type": "user"
+      }
+    },
+    "popularity": 12.5,
+    "id": 9,
+    "statistics": {
+      "movieFileCount": 0,
+      "sizeOnDisk": 0,
+      "releaseGroups": [],
+      "movieFileQualities": []
+    }
+  }
+]
