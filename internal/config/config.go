@@ -14,6 +14,7 @@ import (
 	"go.yaml.in/yaml/v3"
 
 	"github.com/bnlqn/overlook/internal/adapters/gatus"
+	"github.com/bnlqn/overlook/internal/adapters/github"
 	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
@@ -27,7 +28,8 @@ type Config struct {
 
 // Sources are the sources to read, by adapter: each adapter's own config.
 type Sources struct {
-	Gatus []gatus.Config `yaml:"gatus"`
+	Gatus  []gatus.Config  `yaml:"gatus"`
+	GitHub []github.Config `yaml:"github"`
 }
 
 // Readers are the sources, each with its adapter's read.
@@ -35,6 +37,9 @@ func (c Config) Readers() []snapshot.Source {
 	var all []snapshot.Source
 	for _, g := range c.Sources.Gatus {
 		all = append(all, snapshot.Source{Name: g.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return gatus.Read(ctx, g) }})
+	}
+	for _, g := range c.Sources.GitHub {
+		all = append(all, snapshot.Source{Name: g.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return github.Read(ctx, g) }})
 	}
 	return all
 }
@@ -114,6 +119,16 @@ func (c *Config) check() error {
 		}
 		if names[g.Name] {
 			return fmt.Errorf("sources.gatus[%d]: another source is named %s: give each a name", i, g.Name)
+		}
+		names[g.Name] = true
+	}
+	for i := range c.Sources.GitHub {
+		g := &c.Sources.GitHub[i]
+		if err := g.Check(); err != nil {
+			return fmt.Errorf("sources.github[%d]: %w", i, err)
+		}
+		if names[g.Name] {
+			return fmt.Errorf("sources.github[%d]: another source is named %s: give each a name", i, g.Name)
 		}
 		names[g.Name] = true
 	}
