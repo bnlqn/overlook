@@ -82,6 +82,48 @@ an admin. Give it only these six read permissions:
 
 What each person uploaded needs Immich 3 or later; an older one leaves it out.
 
+### Radarr
+
+The films on disk and the room they take, the films added this week, what
+Radarr is downloading and warns about, and the films out to stream or on
+disc in the next seven days. Its home area is Apps.
+
+```yaml
+sources:
+  radarr:
+    - url: http://radarr:7878 # where Overlook reads Radarr
+      key: ${RADARR_KEY}
+      name: Radarr            # if you run more than one, tell them apart
+```
+
+**Key:** Radarr's API key, from Settings, General. It's the only key Radarr
+has, and it can do anything, but Overlook sends it only with GET requests,
+which change nothing (ADR 0001).
+
+Radarr answers with every film at once, so Overlook reads the films at most
+every 10 minutes, and a film can take that long to count. The rest is read
+with every snapshot.
+
+### Sonarr
+
+The shows and episodes on disk and the room they take, the episodes imported
+this week, what Sonarr is downloading and warns about, and the episodes that
+air in the next seven days. Its home area is Apps.
+
+```yaml
+sources:
+  sonarr:
+    - url: http://sonarr:8989 # where Overlook reads Sonarr
+      key: ${SONARR_KEY}
+      name: Sonarr            # if you run more than one, tell them apart
+```
+
+**Key:** Sonarr's API key, from Settings, General. Like Radarr's, it's the
+only key and it can do anything, and Overlook sends it only with GET requests
+(ADR 0001).
+
+The shows are read at most every 10 minutes, as Radarr's films are.
+
 ### NUT
 
 A UPS, read from NUT's upsd over NUT's own protocol. Servers shows whether it

@@ -1,0 +1,263 @@
+[
+  {
+    "title": "The Lighthouse Keepers",
+    "alternateTitles": [],
+    "sortTitle": "the lighthouse keepers",
+    "status": "continuing",
+    "ended": false,
+    "overview": "Three keepers and a light that never goes out.",
+    "network": "Example One",
+    "airTime": "21:00",
+    "images": [
+      {
+        "coverType": "banner",
+        "url": "/MediaCover/1/banner.jpg?lastWrite=638000000000000000",
+        "remoteUrl": "https://images.example.com/the-lighthouse-keepers.jpg"
+      }
+    ],
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "seasons": [
+      {
+        "seasonNumber": 0,
+        "monitored": false,
+        "statistics": {
+          "episodeFileCount": 0,
+          "episodeCount": 0,
+          "totalEpisodeCount": 0,
+          "sizeOnDisk": 0,
+          "releaseGroups": [],
+          "percentOfEpisodes": 0
+        }
+      },
+      {
+        "seasonNumber": 1,
+        "monitored": true,
+        "statistics": {
+          "episodeFileCount": 24,
+          "episodeCount": 24,
+          "totalEpisodeCount": 26,
+          "sizeOnDisk": 31456789012,
+          "releaseGroups": [],
+          "percentOfEpisodes": 92.3076923076923
+        }
+      }
+    ],
+    "year": 2023,
+    "path": "/data/media/shows/The Lighthouse Keepers",
+    "qualityProfileId": 1,
+    "seasonFolder": true,
+    "monitored": true,
+    "monitorNewItems": "all",
+    "useSceneNumbering": false,
+    "runtime": 45,
+    "tvdbId": 70001,
+    "tvRageId": 0,
+    "tvMazeId": 9001,
+    "tmdbId": 50001,
+    "firstAired": "2023-01-01T00:00:00Z",
+    "lastAired": "2026-11-03T00:00:00Z",
+    "seriesType": "standard",
+    "cleanTitle": "thelighthousekeepers",
+    "imdbId": "tt1000001",
+    "titleSlug": "the-lighthouse-keepers",
+    "rootFolderPath": "/data/media/shows",
+    "certification": "TV-14",
+    "genres": [
+      "Drama"
+    ],
+    "tags": [],
+    "added": "2026-09-14T19:02:10Z",
+    "ratings": {
+      "votes": 1200,
+      "value": 7.8
+    },
+    "languageProfileId": 1,
+    "id": 1,
+    "statistics": {
+      "seasonCount": 1,
+      "episodeFileCount": 24,
+      "episodeCount": 24,
+      "totalEpisodeCount": 26,
+      "sizeOnDisk": 31456789012,
+      "releaseGroups": [],
+      "percentOfEpisodes": 92.3076923076923
+    }
+  },
+  {
+    "title": "Harbour Street",
+    "alternateTitles": [],
+    "sortTitle": "harbour street",
+    "status": "continuing",
+    "ended": false,
+    "overview": "The shops and the people of one street by the sea.",
+    "network": "Example Two",
+    "airTime": "21:00",
+    "images": [
+      {
+        "coverType": "banner",
+        "url": "/MediaCover/2/banner.jpg?lastWrite=638000000000000000",
+        "remoteUrl": "https://images.example.com/harbour-street.jpg"
+      }
+    ],
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "seasons": [
+      {
+        "seasonNumber": 0,
+        "monitored": false,
+        "statistics": {
+          "episodeFileCount": 0,
+          "episodeCount": 0,
+          "totalEpisodeCount": 0,
+          "sizeOnDisk": 0,
+          "releaseGroups": [],
+          "percentOfEpisodes": 0
+        }
+      },
+      {
+        "seasonNumber": 1,
+        "monitored": true,
+        "statistics": {
+          "episodeFileCount": 10,
+          "episodeCount": 10,
+          "totalEpisodeCount": 12,
+          "sizeOnDisk": 12345678901,
+          "releaseGroups": [],
+          "percentOfEpisodes": 83.33333333333333
+        }
+      }
+    ],
+    "year": 2026,
+    "path": "/data/media/shows/Harbour Street",
+    "qualityProfileId": 1,
+    "seasonFolder": true,
+    "monitored": true,
+    "monitorNewItems": "all",
+    "useSceneNumbering": false,
+    "runtime": 45,
+    "tvdbId": 70002,
+    "tvRageId": 0,
+    "tvMazeId": 9002,
+    "tmdbId": 50002,
+    "firstAired": "2026-01-02T00:00:00Z",
+    "lastAired": "2026-11-03T00:00:00Z",
+    "seriesType": "standard",
+    "cleanTitle": "harbourstreet",
+    "imdbId": "tt1000002",
+    "titleSlug": "harbour-street",
+    "rootFolderPath": "/data/media/shows",
+    "certification": "TV-14",
+    "genres": [
+      "Drama"
+    ],
+    "tags": [],
+    "added": "2026-09-14T19:02:10Z",
+    "ratings": {
+      "votes": 2400,
+      "value": 7.8
+    },
+    "languageProfileId": 1,
+    "id": 2,
+    "statistics": {
+      "seasonCount": 1,
+      "episodeFileCount": 10,
+      "episodeCount": 10,
+      "totalEpisodeCount": 12,
+      "sizeOnDisk": 12345678901,
+      "releaseGroups": [],
+      "percentOfEpisodes": 83.33333333333333
+    }
+  },
+  {
+    "title": "Night Ferry",
+    "alternateTitles": [],
+    "sortTitle": "night ferry",
+    "status": "continuing",
+    "ended": false,
+    "overview": "A crossing every night, and who takes it.",
+    "network": "Example Two",
+    "airTime": "21:00",
+    "images": [
+      {
+        "coverType": "banner",
+        "url": "/MediaCover/3/banner.jpg?lastWrite=638000000000000000",
+        "remoteUrl": "https://images.example.com/night-ferry.jpg"
+      }
+    ],
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "seasons": [
+      {
+        "seasonNumber": 0,
+        "monitored": false,
+        "statistics": {
+          "episodeFileCount": 0,
+          "episodeCount": 0,
+          "totalEpisodeCount": 0,
+          "sizeOnDisk": 0,
+          "releaseGroups": [],
+          "percentOfEpisodes": 0
+        }
+      },
+      {
+        "seasonNumber": 1,
+        "monitored": true,
+        "statistics": {
+          "episodeFileCount": 0,
+          "episodeCount": 0,
+          "totalEpisodeCount": 8,
+          "sizeOnDisk": 0,
+          "releaseGroups": [],
+          "percentOfEpisodes": 0.0
+        }
+      }
+    ],
+    "year": 2026,
+    "path": "/data/media/shows/Night Ferry",
+    "qualityProfileId": 1,
+    "seasonFolder": true,
+    "monitored": true,
+    "monitorNewItems": "all",
+    "useSceneNumbering": false,
+    "runtime": 45,
+    "tvdbId": 70003,
+    "tvRageId": 0,
+    "tvMazeId": 9003,
+    "tmdbId": 50003,
+    "firstAired": "2026-01-03T00:00:00Z",
+    "lastAired": "2026-11-03T00:00:00Z",
+    "seriesType": "standard",
+    "cleanTitle": "nightferry",
+    "imdbId": "tt1000003",
+    "titleSlug": "night-ferry",
+    "rootFolderPath": "/data/media/shows",
+    "certification": "TV-14",
+    "genres": [
+      "Drama"
+    ],
+    "tags": [],
+    "added": "2026-09-14T19:02:10Z",
+    "ratings": {
+      "votes": 3600,
+      "value": 7.8
+    },
+    "languageProfileId": 1,
+    "id": 3,
+    "statistics": {
+      "seasonCount": 1,
+      "episodeFileCount": 0,
+      "episodeCount": 0,
+      "totalEpisodeCount": 8,
+      "sizeOnDisk": 0,
+      "releaseGroups": [],
+      "percentOfEpisodes": 0.0
+    }
+  }
+]

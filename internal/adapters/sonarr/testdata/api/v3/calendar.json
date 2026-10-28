@@ -1,0 +1,229 @@
+[
+  {
+    "seriesId": 2,
+    "tvdbId": 800010,
+    "episodeFileId": 310,
+    "seasonNumber": 1,
+    "episodeNumber": 10,
+    "title": "The Tide Turns",
+    "airDate": "2026-10-28",
+    "airDateUtc": "2026-10-28T06:00:00Z",
+    "runtime": 45,
+    "overview": "",
+    "hasFile": true,
+    "monitored": true,
+    "unverifiedSceneNumbering": false,
+    "series": {
+      "title": "Harbour Street",
+      "sortTitle": "harbour street",
+      "status": "continuing",
+      "ended": false,
+      "overview": "The shops and the people of one street by the sea.",
+      "network": "Example Two",
+      "airTime": "21:00",
+      "images": [
+        {
+          "coverType": "banner",
+          "url": "/MediaCover/2/banner.jpg?lastWrite=638000000000000000",
+          "remoteUrl": "https://images.example.com/harbour-street.jpg"
+        }
+      ],
+      "originalLanguage": {
+        "id": 1,
+        "name": "English"
+      },
+      "seasons": [
+        {
+          "seasonNumber": 0,
+          "monitored": false
+        },
+        {
+          "seasonNumber": 1,
+          "monitored": true
+        }
+      ],
+      "year": 2026,
+      "path": "/data/media/shows/Harbour Street",
+      "qualityProfileId": 1,
+      "seasonFolder": true,
+      "monitored": true,
+      "monitorNewItems": "all",
+      "useSceneNumbering": false,
+      "runtime": 45,
+      "tvdbId": 70002,
+      "tvRageId": 0,
+      "tvMazeId": 9002,
+      "tmdbId": 50002,
+      "firstAired": "2026-01-02T00:00:00Z",
+      "lastAired": "2026-11-03T00:00:00Z",
+      "seriesType": "standard",
+      "cleanTitle": "harbourstreet",
+      "imdbId": "tt1000002",
+      "titleSlug": "harbour-street",
+      "certification": "TV-14",
+      "genres": [
+        "Drama"
+      ],
+      "tags": [],
+      "added": "2026-09-14T19:02:10Z",
+      "ratings": {
+        "votes": 2400,
+        "value": 7.8
+      },
+      "languageProfileId": 1,
+      "id": 2
+    },
+    "id": 110
+  },
+  {
+    "seriesId": 3,
+    "tvdbId": 800011,
+    "episodeFileId": 0,
+    "seasonNumber": 1,
+    "episodeNumber": 1,
+    "airDate": "2026-10-30",
+    "airDateUtc": "2026-10-30T21:00:00Z",
+    "runtime": 0,
+    "overview": "",
+    "hasFile": false,
+    "monitored": true,
+    "unverifiedSceneNumbering": false,
+    "series": {
+      "title": "Night Ferry",
+      "sortTitle": "night ferry",
+      "status": "continuing",
+      "ended": false,
+      "overview": "A crossing every night, and who takes it.",
+      "network": "Example Two",
+      "airTime": "21:00",
+      "images": [
+        {
+          "coverType": "banner",
+          "url": "/MediaCover/3/banner.jpg?lastWrite=638000000000000000",
+          "remoteUrl": "https://images.example.com/night-ferry.jpg"
+        }
+      ],
+      "originalLanguage": {
+        "id": 1,
+        "name": "English"
+      },
+      "seasons": [
+        {
+          "seasonNumber": 0,
+          "monitored": false
+        },
+        {
+          "seasonNumber": 1,
+          "monitored": true
+        }
+      ],
+      "year": 2026,
+      "path": "/data/media/shows/Night Ferry",
+      "qualityProfileId": 1,
+      "seasonFolder": true,
+      "monitored": true,
+      "monitorNewItems": "all",
+      "useSceneNumbering": false,
+      "runtime": 45,
+      "tvdbId": 70003,
+      "tvRageId": 0,
+      "tvMazeId": 9003,
+      "tmdbId": 50003,
+      "firstAired": "2026-01-03T00:00:00Z",
+      "lastAired": "2026-11-03T00:00:00Z",
+      "seriesType": "standard",
+      "cleanTitle": "nightferry",
+      "imdbId": "tt1000003",
+      "titleSlug": "night-ferry",
+      "certification": "TV-14",
+      "genres": [
+        "Drama"
+      ],
+      "tags": [],
+      "added": "2026-09-14T19:02:10Z",
+      "ratings": {
+        "votes": 3600,
+        "value": 7.8
+      },
+      "languageProfileId": 1,
+      "id": 3
+    },
+    "id": 111
+  },
+  {
+    "seriesId": 1,
+    "tvdbId": 800012,
+    "episodeFileId": 0,
+    "seasonNumber": 3,
+    "episodeNumber": 2,
+    "title": "Fog Signal",
+    "airDate": "2026-11-03",
+    "airDateUtc": "2026-11-03T20:00:00Z",
+    "runtime": 0,
+    "overview": "",
+    "hasFile": false,
+    "monitored": true,
+    "unverifiedSceneNumbering": false,
+    "series": {
+      "title": "The Lighthouse Keepers",
+      "sortTitle": "the lighthouse keepers",
+      "status": "continuing",
+      "ended": false,
+      "overview": "Three keepers and a light that never goes out.",
+      "network": "Example One",
+      "airTime": "21:00",
+      "images": [
+        {
+          "coverType": "banner",
+          "url": "/MediaCover/1/banner.jpg?lastWrite=638000000000000000",
+          "remoteUrl": "https://images.example.com/the-lighthouse-keepers.jpg"
+        }
+      ],
+      "originalLanguage": {
+        "id": 1,
+        "name": "English"
+      },
+      "seasons": [
+        {
+          "seasonNumber": 0,
+          "monitored": false
+        },
+        {
+          "seasonNumber": 1,
+          "monitored": true
+        }
+      ],
+      "year": 2023,
+      "path": "/data/media/shows/The Lighthouse Keepers",
+      "qualityProfileId": 1,
+      "seasonFolder": true,
+      "monitored": true,
+      "monitorNewItems": "all",
+      "useSceneNumbering": false,
+      "runtime": 45,
+      "tvdbId": 70001,
+      "tvRageId": 0,
+      "tvMazeId": 9001,
+      "tmdbId": 50001,
+      "firstAired": "2023-01-01T00:00:00Z",
+      "lastAired": "2026-11-03T00:00:00Z",
+      "seriesType": "standard",
+      "cleanTitle": "thelighthousekeepers",
+      "imdbId": "tt1000001",
+      "titleSlug": "the-lighthouse-keepers",
+      "certification": "TV-14",
+      "genres": [
+        "Drama"
+      ],
+      "tags": [],
+      "added": "2026-09-14T19:02:10Z",
+      "ratings": {
+        "votes": 1200,
+        "value": 7.8
+      },
+      "languageProfileId": 1,
+      "id": 1
+    },
+    "id": 112
+  }
+]
