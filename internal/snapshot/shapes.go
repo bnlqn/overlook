@@ -111,6 +111,11 @@ type Figure struct {
 	// Meters are drawn under the figure, each with its label, such as a
 	// battery's charge.
 	Meters []Meter `json:"meters,omitempty"`
+	// Adds says the page may add it up with the others that add up and share
+	// its label key, such as two resolvers' lookups: their values, their
+	// hours hour by hour, and the numbers in their details, which must
+	// therefore be counts.
+	Adds bool `json:"adds,omitempty"`
 }
 
 // Event is something the homelab did this week, as a source remembers it.

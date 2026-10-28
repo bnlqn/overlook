@@ -1,0 +1,27 @@
+{
+  "adguard.today": "DNS lookups",
+  "adguard.today_blocked": "{blocked} blocked",
+
+  "adguard.protection": "Protection",
+  "adguard.filtering": "Filtering",
+  "adguard.paused": "Paused",
+  "adguard.back_in": "Back on in {ms:span}",
+  "adguard.off": "Off",
+  "adguard.lookups": "Lookups",
+  "adguard.over": "Over the last {ms:span}",
+  "adguard.blocked": "Blocked",
+  "adguard.percent": "{n}%",
+  "adguard.count": { "one": "{n} lookup", "other": "{n} lookups" },
+  "adguard.processing": "Processing",
+  "adguard.ms": "{n} ms",
+  "adguard.upstream": "Upstream",
+  "adguard.answers": "{n} · {ms} ms",
+  "adguard.version": "AdGuard Home",
+
+  "adguard.top_clients": "Top clients on {name}",
+  "adguard.top_domains": "Top domains on {name}",
+  "adguard.top_blocked": "Top blocked domains on {name}",
+  "adguard.share": "{n} · {share}%",
+  "adguard.n": "{n}",
+  "adguard.nothing": "Nothing yet"
+}

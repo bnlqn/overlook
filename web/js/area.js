@@ -25,13 +25,8 @@ start((snap, checks) => {
   const sources = silence.length ? t("source.no_answer", { name: list(silence) }) : "";
   document.getElementById("summary").innerHTML = [state, problems, sources].filter(Boolean).join(" · ");
   // The sections, in two columns, each in the order its sources gave them.
-  const mine = snap.sections.filter((s) => s.area === area);
-  document.getElementById("left").innerHTML = mine
-    .filter((_, i) => i % 2 === 0)
-    .map(section)
-    .join("");
-  document.getElementById("right").innerHTML = mine
-    .filter((_, i) => i % 2 === 1)
-    .map(section)
-    .join("");
+  // Each knows its place in the snapshot, which one column goes back to.
+  const mine = snap.sections.filter((s) => s.area === area).map((s, i) => section(s, i));
+  document.getElementById("left").innerHTML = mine.filter((_, i) => i % 2 === 0).join("");
+  document.getElementById("right").innerHTML = mine.filter((_, i) => i % 2 === 1).join("");
 });
