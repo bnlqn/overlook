@@ -138,13 +138,16 @@ export function fact(title, value, detail = "", bar = "") {
   return `<div class="row"><span class="copy"><span class="title">${title}</span>${detail ? `<span class="detail">${detail}</span>` : ""}</span><span class="value">${value}</span></div>`;
 }
 
-/** A section of the snapshot: its title, then its rows. */
-export function section(s) {
+/**
+ * A section of the snapshot: its title, then its rows. It carries its place
+ * among the page's sections, i, so a page in one column can keep their order.
+ */
+export function section(s, i) {
   const rows = s.rows.map((r) => {
     const value = r.value ? (r.tone ? `<span class="state tone-${r.tone}">${say(r.value)}</span>` : say(r.value)) : "";
     return fact(say(r.title), value, r.detail ? say(r.detail) : "", r.meter ? meter(r.meter.used, r.meter.total) : "");
   });
-  return `<section><h2 class="section-title">${say(s.title)}</h2><div class="list card">${rows.join("")}</div></section>`;
+  return `<section style="--i:${i}"><h2 class="section-title">${say(s.title)}</h2><div class="list card">${rows.join("")}</div></section>`;
 }
 
 let uid = 0;

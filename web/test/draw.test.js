@@ -37,13 +37,16 @@ test("a check's name and failure are escaped", () => {
   assert.doesNotMatch(html, /<script>|<img>|" onclick=/);
 });
 
-test("a section draws each row, its value in its tone and its meter", () => {
-  const html = section({
-    area: "storage",
-    title: { name: "Space" },
-    rows: [{ title: { name: "NAS" }, value: { name: "Full" }, tone: "red", meter: { used: 95, total: 100 } }],
-  });
-  assert.match(html, /<h2 class="section-title">Space<\/h2>/);
+test("a section draws its place, each row, its value in its tone and its meter", () => {
+  const html = section(
+    {
+      area: "storage",
+      title: { name: "Space" },
+      rows: [{ title: { name: "NAS" }, value: { name: "Full" }, tone: "red", meter: { used: 95, total: 100 } }],
+    },
+    3,
+  );
+  assert.match(html, /<section style="--i:3"><h2 class="section-title">Space<\/h2>/);
   assert.match(html, /class="state tone-red">Full/);
   assert.match(html, /class="meter tone-red"/);
 });
