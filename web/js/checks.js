@@ -26,21 +26,49 @@ export const shown = (snap) =>
   );
 
 /**
+ * The snapshot with each part named by its source, as from, where another
+ * source of the same adapter is read, so that two of one kind can be told
+ * apart. One that didn't answer still counts, so the names don't come and go.
+ */
+export function named(snap) {
+  const twins = new Set(
+    snap.sources
+      .filter((s) => s.adapter && snap.sources.some((o) => o !== s && o.adapter === s.adapter))
+      .map((s) => s.name),
+  );
+  const mark = (parts) => parts.map((p) => (twins.has(p.source) ? { ...p, from: p.source } : p));
+  return {
+    ...snap,
+    sections: mark(snap.sections),
+    charts: mark(snap.charts),
+    figures: mark(snap.figures),
+    events: mark(snap.events),
+  };
+}
+
+/**
  * The figures, those that add up and share a label key made one, such as two
  * resolvers' lookups: their values, their hours and the parts within them
- * hour by hour, and the numbers in their details. Hours that only some of
- * them have are left out.
+ * hour by hour, their meters, and the numbers in their units and details.
+ * Hours that only some of them have are left out. The one they make is split
+ * by source, and is no longer any one source's.
  */
 export function together(figures) {
   const byKey = new Map();
+  const bySource = new Map();
   const out = [];
   for (const f of figures) {
     const into = f.adds && byKey.get(f.label.key);
     if (!into) {
       const copy = { ...f, hours: [...(f.hours || [])] };
       if (f.within) copy.within = { ...f.within, hours: [...f.within.hours] };
+      if (f.unit) copy.unit = { ...f.unit, args: { ...f.unit.args } };
       if (f.detail) copy.detail = { ...f.detail, args: { ...f.detail.args } };
-      if (f.adds) byKey.set(f.label.key, copy);
+      if (f.meters) copy.meters = f.meters.map((m) => ({ ...m }));
+      if (f.adds) {
+        byKey.set(f.label.key, copy);
+        bySource.set(copy, [{ label: { name: f.source }, value: f.value }]);
+      }
       out.push(copy);
       continue;
     }
@@ -53,9 +81,21 @@ export function together(figures) {
       into.within && into.hours.length && into.within.hours.length === part.length
         ? { ...into.within, hours: into.within.hours.map((v, i) => v + part[i]) }
         : undefined;
-    for (const [name, v] of Object.entries(f.detail?.args || {})) {
-      if (typeof v === "number" && typeof into.detail?.args[name] === "number") into.detail.args[name] += v;
+    for (const field of ["unit", "detail"]) {
+      for (const [name, v] of Object.entries(f[field]?.args || {})) {
+        if (typeof v === "number" && typeof into[field]?.args[name] === "number") into[field].args[name] += v;
+      }
     }
+    // Meters add up only where both have the same ones, such as two hosts'
+    // processors and memory.
+    into.meters =
+      into.meters && into.meters.length === f.meters?.length
+        ? into.meters.map((m, i) => ({ ...m, used: m.used + f.meters[i].used, total: m.total + f.meters[i].total }))
+        : undefined;
+    into.tone ||= f.tone;
+    into.shares = bySource.get(into);
+    into.shares.push({ label: { name: f.source }, value: f.value });
+    into.from = undefined;
   }
   return out;
 }
@@ -76,7 +116,8 @@ export function joinFigures(figures) {
     if (group.length < 2) return [f];
     if (group[0] !== f) return [];
     const { detail, ...first } = f;
-    return [{ ...first, label: f.join, also: group.slice(1), shares: group.map((g) => g.part).filter(Boolean) }];
+    const shares = group.filter((g) => g.part).map((g) => ({ ...g.part, from: g.from }));
+    return [{ ...first, label: f.join, also: group.slice(1), shares }];
   });
 }
 
@@ -108,6 +149,7 @@ export function joinCharts(charts) {
       ...s,
       hours: last(s.hours),
     }));
+    into.from = undefined;
   }
   return out;
 }

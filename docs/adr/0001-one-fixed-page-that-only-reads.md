@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: accepted, amended by ADR 0009
 ---
 
 # Overlook draws one fixed page and only reads

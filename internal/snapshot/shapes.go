@@ -77,6 +77,10 @@ type Section struct {
 	Area  string `json:"area"`
 	Title Text   `json:"title"`
 	Rows  []Row  `json:"rows"`
+	// Source is the name of the source it came from, which the reader fills
+	// in, as the config gives it. The page shows it beside the title when
+	// another source of the same adapter is read.
+	Source string `json:"source"`
 }
 
 // Chart is what a source counts by the hour, over as many hours as it keeps,
@@ -154,9 +158,13 @@ type Figure struct {
 	Meters []Meter `json:"meters,omitempty"`
 	// Adds says the page may add it up with the others that add up and share
 	// its label key, such as two resolvers' lookups: their values, their
-	// hours and the parts within them hour by hour, and the numbers in their
-	// details, which must therefore be counts.
+	// hours and the parts within them hour by hour, their meters, and the
+	// numbers in their units and details, which must therefore be counts.
+	// The tile it makes is split by source.
 	Adds bool `json:"adds,omitempty"`
+	// Source is the name of the source it came from, which the reader fills
+	// in, as the config gives it.
+	Source string `json:"source"`
 }
 
 // Share is one part of a figure, such as one person's photos. Its width in
@@ -178,6 +186,9 @@ type Event struct {
 	Icon string `json:"icon"`
 	Tone string `json:"tone,omitempty"`
 	Text Text   `json:"text"`
+	// Source is the name of the source it came from, which the reader fills
+	// in, as the config gives it.
+	Source string `json:"source"`
 }
 
 // Update is one waiting for the owner's merge.

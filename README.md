@@ -27,7 +27,10 @@ project uses are in [CONTEXT.md](CONTEXT.md) and its decisions in
 5. [x] The author's homelab runs the release candidate in place of its own
        page.
 6. [ ] A week of running it.
-7. [ ] The repository goes public and `v0.1.0` is tagged. The demo goes
+7. [x] Two sources of one kind told apart: each part names its source
+       where another of the same adapter is read, and figures that add up,
+       such as two hosts' guests, are one tile split by source.
+8. [ ] The repository goes public and `v0.1.0` is tagged. The demo goes
        live then: Pages set to build from GitHub Actions, and the Demo
        workflow run once by hand, since going public pushes nothing to
        `main`.
@@ -35,6 +38,33 @@ project uses are in [CONTEXT.md](CONTEXT.md) and its decisions in
 v0.1 is ready when the author's homelab has run it for a week with nothing
 missing, the demo is live, every adapter has its section here (its config
 and the least key it needs), and CI passes.
+
+## The road to v0.2
+
+1. [ ] Three homelabs to look at, each an invented snapshot the demo
+       serves: the demo's own, a small one (Gatus and two apps) and a
+       large one, at the most the page is made for: 12 hosts, 12 people,
+       30 sources, 100 checks and 30 apps. Every change to the page is
+       looked at with all three.
+2. [ ] The page at that scale: eight colours for people and sources, the
+       rest folded into one share; a section of hosts per source, a row
+       each; a check that keeps no recent results; `check:` naming its
+       check engine; charts of what hosts measure, a line each. Then the
+       large homelab is looked at whole, and what still looks wrong is
+       fixed.
+3. [ ] One login, in `internal/fetch`, for a source that offers no other
+       way in (ADR 0009).
+4. [ ] The adapters for what the author's homelab runs: Beszel, Docker,
+       Prowlarr and qBittorrent.
+5. [ ] The tools most homelabs run, each recorded from a scratch instance
+       (ADR 0008), one pull request each, in this order: Jellyfin, Home
+       Assistant, Uptime Kuma, Pi-hole, Paperless-ngx, Nextcloud, Grafana,
+       Plex through Tautulli, Seerr, and Prometheus with Alertmanager.
+6. [ ] What Overlook can't read, listed under [Can't be read](#cant-be-read),
+       and an issue for each adapter wanted.
+
+v0.2 is ready when the large homelab looks right at desktop and phone
+width, and every adapter has its section here.
 
 ## What it shows
 
@@ -160,7 +190,9 @@ doesn't know, so a typo stops it rather than going unnoticed.
 **Sources.** Under `sources:`, each adapter has a list, so two AdGuard Home
 resolvers are two entries under `adguard:`. Each source has a `name`, which
 the page uses. Each adapter gives one, such as Gatus, and two sources can't
-share one, so two of a kind need names of their own.
+share one, so two of a kind need names of their own. With two of a kind,
+the page names each one's sections, figures and events, and adds up what
+adds up, such as two Proxmox hosts' guests, split by source.
 What each adapter reads, its config and the least key it needs are under
 [Adapters](#adapters) below.
 
@@ -471,6 +503,27 @@ restart AdGuard Home.
 `TZ=Europe/Brussels`, in its container. AdGuard Home keeps statistics by
 the hour for an interval of up to 7 days; over a longer one it keeps them
 by the day, in UTC, and the Overview shows no figure for it.
+
+### Can't be read
+
+These tools can't be read the way Overlook reads (ADR 0001, ADR 0009), or
+are left out on purpose, so none of them gets an adapter until that
+changes:
+
+- **Backrest and restic**: restic has no API, every call to Backrest's is a
+  POST, and Backrest's metrics don't say when the last backup was.
+- **Caddy**: its admin API has no login, so letting Overlook reach it lets
+  anyone there rewrite Caddy's config.
+- **Deluge, OpenMediaVault and Transmission**: every read is a POST.
+- **Dozzle and Authelia**: they have no API worth reading, and a check
+  already says whether they answer.
+- **Readarr**: retired in June 2025.
+- **Synology DSM**: its login puts the password in the address, where logs
+  keep it, and how to read its health isn't documented.
+- **TrueNAS**: TrueNAS 26 removes the REST API, which leaves only a
+  WebSocket.
+- **Vaultwarden**, on purpose: reading more than its version takes the
+  admin token, which can delete every user.
 
 ## No login
 

@@ -337,8 +337,9 @@ func parts(resources []resource, hosts []*host, nodes int, now time.Time) snapsh
 		p.Sections = append(p.Sections, snapshot.Section{Area: area, Title: snapshot.Text{Key: "proxmox.backups"}, Rows: rows})
 	}
 
-	// Today: the guests up, the host's uptime or the hosts online, and how
-	// busy and how full the hosts are.
+	// Today: the guests up, the hosts online, and how busy and how full the
+	// hosts are. It adds up with another Proxmox's, guests on two hosts being
+	// different guests, so its numbers are all counts.
 	var cpu, threads, used, total float64
 	for _, h := range hosts {
 		cpu += h.status.CPU * float64(h.status.CPUInfo.CPUs)
@@ -348,7 +349,9 @@ func parts(resources []resource, hosts []*host, nodes int, now time.Time) snapsh
 	}
 	f := snapshot.Figure{
 		Area: area, Icon: "stack", Label: snapshot.Text{Key: "proxmox.guests"}, Value: float64(running),
-		Unit: snapshot.Msg("proxmox.of_up", map[string]any{"n": len(guests)}),
+		Unit:   snapshot.Msg("proxmox.of_up", map[string]any{"n": len(guests)}),
+		Detail: snapshot.Msg("proxmox.hosts_online", map[string]any{"online": len(hosts), "n": nodes}),
+		Adds:   true,
 	}
 	if threads > 0 && total > 0 {
 		f.Meters = []snapshot.Meter{
@@ -358,11 +361,6 @@ func parts(resources []resource, hosts []*host, nodes int, now time.Time) snapsh
 	}
 	if running < len(guests) {
 		f.Tone = "orange"
-	}
-	if cluster {
-		f.Detail = snapshot.Msg("proxmox.hosts_online", map[string]any{"online": len(hosts), "n": nodes})
-	} else if len(hosts) == 1 {
-		f.Detail = snapshot.Msg("proxmox.host_up", map[string]any{"ms": hosts[0].status.Uptime * 1000})
 	}
 	p.Figures = append(p.Figures, f)
 	return p

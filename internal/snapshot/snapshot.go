@@ -32,7 +32,10 @@ type Snapshot struct {
 
 // SourceState says whether a source answered the last read.
 type SourceState struct {
-	Name     string `json:"name"`
+	Name string `json:"name"`
+	// Adapter is the adapter that reads it, such as adguard: with another
+	// source of the same, the page names each one's parts.
+	Adapter  string `json:"adapter"`
 	Answered bool   `json:"answered"`
 	// Error is short and never holds the source's URL (see fetch.JSON).
 	Error string `json:"error,omitempty"`
@@ -40,8 +43,9 @@ type SourceState struct {
 
 // Source is one source, read by its adapter.
 type Source struct {
-	Name string
-	Read func(context.Context) (Parts, error)
+	Name    string
+	Adapter string
+	Read    func(context.Context) (Parts, error)
 }
 
 // Reader reads every source into a snapshot when asked and the last is
@@ -94,20 +98,31 @@ func (r *Reader) Snapshot() Snapshot {
 		Chores:  append([]Chore{}, r.chores...),
 	}
 	for i, src := range r.sources {
-		state := SourceState{Name: src.Name, Answered: errs[i] == nil}
+		state := SourceState{Name: src.Name, Adapter: src.Adapter, Answered: errs[i] == nil}
 		if errs[i] != nil {
 			state.Error = errs[i].Error()
 			slog.Warn("a source didn't answer", "source", src.Name, "error", errs[i])
 		} else {
+			// Each part is named by its source, so two of one kind can be
+			// told apart.
 			p := parts[i]
 			snap.Checks = append(snap.Checks, p.Checks...)
-			snap.Sections = append(snap.Sections, p.Sections...)
+			for _, s := range p.Sections {
+				s.Source = src.Name
+				snap.Sections = append(snap.Sections, s)
+			}
 			for _, c := range p.Charts {
 				c.Source = src.Name
 				snap.Charts = append(snap.Charts, c)
 			}
-			snap.Figures = append(snap.Figures, p.Figures...)
-			snap.Events = append(snap.Events, p.Events...)
+			for _, f := range p.Figures {
+				f.Source = src.Name
+				snap.Figures = append(snap.Figures, f)
+			}
+			for _, e := range p.Events {
+				e.Source = src.Name
+				snap.Events = append(snap.Events, e)
+			}
 			snap.Updates = append(snap.Updates, p.Updates...)
 		}
 		snap.Sources = append(snap.Sources, state)

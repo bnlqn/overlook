@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: accepted, amended by ADR 0008
 ---
 
 # Adapters are compiled in, and kept by their authors

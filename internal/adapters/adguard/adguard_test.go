@@ -55,7 +55,7 @@ func TestRead(t *testing.T) {
 		t.Errorf("the resolver's week by the hour, its lookups and the blocked ones, adding up with the others': %+v", c)
 	}
 
-	if len(primary.Sections) != 4 || primary.Sections[0].Title.Name != "Primary DNS" {
+	if len(primary.Sections) != 4 || primary.Sections[0].Title.Key != "adguard.resolver" {
 		t.Fatalf("the resolver, then its three top lists: %+v", primary.Sections)
 	}
 	rows := primary.Sections[0].Rows
@@ -79,7 +79,7 @@ func TestRead(t *testing.T) {
 	}
 
 	clients := primary.Sections[1]
-	if clients.Title.Key != "adguard.top_clients" || clients.Title.Args["name"] != "Primary DNS" || len(clients.Rows) != top {
+	if clients.Title.Key != "adguard.top_clients" || len(clients.Rows) != top {
 		t.Fatalf("top clients: %+v", clients)
 	}
 	if c := clients.Rows[0]; c.Title.Name != "living-room-tv.lan" || c.Detail.Name != "192.0.2.10" || c.Value.Args["share"] != 17.8 {
@@ -155,7 +155,7 @@ func TestProtection(t *testing.T) {
 		{status{PausedFor: 25 * 60e3}, "adguard.paused", "orange", int64(25 * 60e3)},
 		{status{}, "adguard.off", "red", nil},
 	} {
-		p := sections(Config{Name: "DNS"}, stats{}, c.st, clients{})[0].Rows[0]
+		p := sections(stats{}, c.st, clients{})[0].Rows[0]
 		var back any
 		if p.Detail != nil {
 			back = p.Detail.Args["ms"]

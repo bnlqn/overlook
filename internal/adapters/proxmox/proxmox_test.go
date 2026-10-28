@@ -84,8 +84,8 @@ func TestRead(t *testing.T) {
 		t.Errorf("the runs, newest first, in their tones: %+v", p.Events)
 	}
 
-	if f := p.Figures[0]; f.Value != 7 || f.Unit.Args["n"] != 8 || f.Tone != "orange" || f.Detail.Key != "proxmox.host_up" {
-		t.Errorf("7 of 8 guests up: %+v", f)
+	if f := p.Figures[0]; f.Value != 7 || f.Unit.Args["n"] != 8 || f.Tone != "orange" || !f.Adds || f.Detail.Args["online"] != 1 || f.Detail.Args["n"] != 1 {
+		t.Errorf("7 of 8 guests up, on 1 of 1 host, adding up with another Proxmox's: %+v", f)
 	}
 	if m := p.Figures[0].Meters; len(m) != 2 || m[0].Total != 16 || m[1].Tone != "blue" {
 		t.Errorf("the host's processor and memory under the guests: %+v", m)

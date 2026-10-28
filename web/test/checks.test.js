@@ -7,6 +7,7 @@ import {
   choresBy,
   joinCharts,
   joinFigures,
+  named,
   quietSince,
   readChecks,
   shown,
@@ -109,6 +110,63 @@ test("figures that add up and share a label key are one, hour by hour, their det
   assert.equal(lone.within, undefined, "and so would the part within them");
   const ups = (value) => ({ area: "servers", icon: "plug", label: { key: "nut.ups" }, value });
   assert.equal(together([ups(80), ups(120)]).length, 2, "two UPSes' draws stay apart unless they say they add up");
+});
+
+test("two sources of one adapter name their parts; one of a kind doesn't", () => {
+  const snap = {
+    sources: [
+      { name: "Primary DNS", adapter: "adguard", answered: true },
+      { name: "Standby DNS", adapter: "adguard", answered: false },
+      { name: "Proxmox", adapter: "proxmox", answered: true },
+      { name: "Old", answered: true },
+      { name: "Older", answered: true },
+    ],
+    sections: [
+      { title: { key: "adguard.resolver" }, source: "Primary DNS" },
+      { title: { key: "proxmox.host" }, source: "Proxmox" },
+    ],
+    charts: [{ title: { key: "adguard.per_hour" }, source: "Primary DNS" }],
+    figures: [{ label: { key: "adguard.today" }, source: "Primary DNS" }],
+    events: [{ text: { key: "proxmox.backup_done" }, source: "Proxmox" }, { source: "Old" }],
+  };
+  const out = named(snap);
+  assert.equal(out.sections[0].from, "Primary DNS", "even with the other one silent");
+  assert.equal(out.sections[1].from, undefined);
+  assert.equal(out.charts[0].from, "Primary DNS");
+  assert.equal(out.figures[0].from, "Primary DNS");
+  assert.equal(out.events[0].from, undefined);
+  assert.equal(out.events[1].from, undefined, "sources that don't say their adapter aren't of one kind");
+  assert.equal(snap.sections[0].from, undefined, "the snapshot's own parts are left as they were");
+});
+
+test("two hosts' guests are one tile: their units, details and meters added, split by source", () => {
+  const guests = (source, up, of, cpu, tone) => ({
+    area: "servers",
+    label: { key: "proxmox.guests" },
+    adds: true,
+    source,
+    from: source,
+    value: up,
+    unit: { key: "proxmox.of_up", args: { n: of } },
+    detail: { key: "proxmox.hosts_online", args: { online: 1, n: 1 } },
+    meters: [{ label: { key: "proxmox.cpu_meter" }, used: cpu, total: 8 }],
+    tone,
+  });
+  const [tile] = together([guests("pve1", 7, 8, 2, "orange"), guests("pve2", 5, 5, 4)]);
+  assert.equal(tile.value, 12);
+  assert.deepEqual(tile.unit.args, { n: 13 });
+  assert.deepEqual(tile.detail.args, { online: 2, n: 2 });
+  assert.deepEqual(tile.meters, [{ label: { key: "proxmox.cpu_meter" }, used: 6, total: 16 }]);
+  assert.equal(tile.tone, "orange", "a guest down on either host shows");
+  assert.deepEqual(tile.shares, [
+    { label: { name: "pve1" }, value: 7 },
+    { label: { name: "pve2" }, value: 5 },
+  ]);
+  assert.equal(tile.from, undefined, "the tile is both sources', so it names neither");
+  const [one] = together([guests("pve1", 7, 8, 2)]);
+  assert.equal(one.shares, undefined, "one source alone isn't split");
+  const [lost] = together([guests("pve1", 7, 8, 2), { ...guests("pve2", 5, 5, 4), meters: undefined }]);
+  assert.equal(lost.meters, undefined, "meters only one host has would mislead");
 });
 
 test("the demo's snapshot moves to now, every time in it, a text's too, and nothing else", () => {
@@ -226,4 +284,13 @@ test("figures that share a join key are one tile, the first's number first; alon
   );
   assert.equal(other, photos);
   assert.deepEqual(joinFigures([films, photos]), [films, photos], "films alone keep their own tile");
+  const [twin] = joinFigures([
+    { ...films, from: "Radarr" },
+    { ...films, from: "Radarr 4K" },
+  ]);
+  assert.deepEqual(
+    twin.shares.map((s) => s.from),
+    ["Radarr", "Radarr 4K"],
+    "two Radarrs' parts say whose they are",
+  );
 });

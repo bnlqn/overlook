@@ -16,6 +16,17 @@ Whoever runs the homelab and reads Overlook. Overlook has no accounts, so
 every viewer is an owner.
 _Avoid_: User (the people an app serves are its users), admin
 
+**Host**:
+One machine the homelab runs on, physical or virtual, that a source reports
+on as a whole, such as a Proxmox host, a NAS or a VM that runs containers.
+The Servers area holds the hosts.
+_Avoid_: Server (the area), node, system, box
+
+**Guest**:
+A virtual machine or container a host runs. A guest can be a host too, when
+a source reports on it as a whole, as Beszel does for a VM.
+_Avoid_: Workload, instance
+
 ### What Overlook reads
 
 **Source**:
@@ -30,13 +41,15 @@ one adapter. Each adapter has a fixed home area.
 _Avoid_: Widget, plugin, integration
 
 **Check engine**:
-The source that runs the homelab's checks and sends its alerts, such as
-Gatus. Overlook never runs a check or sends an alert itself.
+A source that runs the homelab's checks and sends its alerts, such as Gatus,
+Uptime Kuma, Grafana or Beszel. A homelab may have more than one. Overlook
+never runs a check or sends an alert itself.
 _Avoid_: Monitor, uptime tool
 
 **Check**:
-One test the check engine repeats on a schedule, each result passing or
-failing.
+One test a check engine repeats on a schedule, each result passing or
+failing, such as a Gatus endpoint, an Uptime Kuma monitor or a Grafana alert
+rule.
 _Avoid_: Monitor, probe, endpoint
 
 **Snapshot**:
@@ -52,7 +65,7 @@ An area with nothing in it isn't shown.
 _Avoid_: Group, section, category
 
 **Problem**:
-A check that has failed long enough for the check engine to alert on it. It
+A check that has failed long enough for its check engine to alert on it. It
 lasts exactly as long as the check keeps failing and is never dismissed.
 _Avoid_: Alert (the push that announces a problem), incident, issue
 
@@ -71,16 +84,19 @@ guests on a Proxmox host.
 _Avoid_: Card, panel, widget
 
 **Chart**:
-What a source counts by the hour, over as many hours as it keeps, drawn on
-its adapter's home area's page, such as a resolver's lookups and the blocked
-ones. Several sources' charts of the same count are drawn as one.
+What a source counts or measures by the hour, over as many hours as it
+keeps, drawn on its adapter's home area's page, such as a resolver's lookups
+and the blocked ones, or a host's processor. Several sources' charts of the
+same count are added up into one; those of the same measure share one, a
+line each.
 _Avoid_: Graph, plot, time series
 
 **Figure**:
 A number an adapter reports for today, such as lookups blocked or photos
 uploaded, sometimes with the hours that make it up or the shares it splits
-into, such as each person's photos. Figures of one whole from several
-sources, such as films and shows in the library, share a tile.
+into, such as each person's photos. Figures of one count from several
+sources, such as two hosts' guests, are added up into one, split by source;
+figures of one whole, such as films and shows in the library, share a tile.
 _Avoid_: Stat, metric, KPI
 
 **Event**:
@@ -89,8 +105,10 @@ night's backups or films added.
 _Avoid_: Activity, log entry
 
 **Chore**:
-Maintenance due while nothing is broken: a dated chore the owner wrote down,
-or an update waiting to be merged. A chore is never a problem.
+Something the owner does while nothing is broken: a dated chore the owner
+wrote down, an update waiting to be merged or to be installed from inside
+its tool, or a request waiting for approval, such as a film someone asked for
+in Seerr. A chore is never a problem.
 _Avoid_: Todo, task
 
 **App**:

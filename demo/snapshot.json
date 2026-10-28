@@ -1,16 +1,16 @@
 {
   "at": "2026-10-28T09:30:00Z",
   "sources": [
-    { "name": "Gatus", "answered": true },
-    { "name": "GitHub", "answered": true },
-    { "name": "Immich", "answered": true },
-    { "name": "Backup Server", "answered": true },
-    { "name": "Proxmox", "answered": true },
-    { "name": "Radarr", "answered": true },
-    { "name": "Sonarr", "answered": true },
-    { "name": "NUT", "answered": true },
-    { "name": "Primary DNS", "answered": true },
-    { "name": "Standby DNS", "answered": false, "error": "timeout" }
+    { "name": "Gatus", "adapter": "gatus", "answered": true },
+    { "name": "GitHub", "adapter": "github", "answered": true },
+    { "name": "Immich", "adapter": "immich", "answered": true },
+    { "name": "Backup Server", "adapter": "pbs", "answered": true },
+    { "name": "Proxmox", "adapter": "proxmox", "answered": true },
+    { "name": "Radarr", "adapter": "radarr", "answered": true },
+    { "name": "Sonarr", "adapter": "sonarr", "answered": true },
+    { "name": "NUT", "adapter": "nut", "answered": true },
+    { "name": "Primary DNS", "adapter": "adguard", "answered": true },
+    { "name": "Standby DNS", "adapter": "adguard", "answered": false, "error": "timeout" }
   ],
   "checks": [
     {
@@ -582,6 +582,7 @@
   "sections": [
     {
       "area": "apps",
+      "source": "Immich",
       "title": { "key": "immich.photos" },
       "rows": [
         {
@@ -614,6 +615,7 @@
     },
     {
       "area": "storage",
+      "source": "Backup Server",
       "title": { "key": "pbs.backups" },
       "rows": [
         {
@@ -686,6 +688,7 @@
     },
     {
       "area": "servers",
+      "source": "Proxmox",
       "title": { "key": "proxmox.host" },
       "rows": [
         {
@@ -712,6 +715,7 @@
     },
     {
       "area": "servers",
+      "source": "Proxmox",
       "title": { "key": "proxmox.guests" },
       "rows": [
         {
@@ -759,6 +763,7 @@
     },
     {
       "area": "servers",
+      "source": "Proxmox",
       "title": { "key": "proxmox.storage" },
       "rows": [
         {
@@ -785,6 +790,7 @@
     },
     {
       "area": "servers",
+      "source": "Proxmox",
       "title": { "key": "proxmox.pools" },
       "rows": [
         {
@@ -803,6 +809,7 @@
     },
     {
       "area": "servers",
+      "source": "Proxmox",
       "title": { "key": "proxmox.backups" },
       "rows": [
         {
@@ -818,6 +825,7 @@
     },
     {
       "area": "apps",
+      "source": "Radarr",
       "title": { "key": "radarr.films" },
       "rows": [
         {
@@ -830,6 +838,7 @@
     },
     {
       "area": "apps",
+      "source": "Radarr",
       "title": { "key": "radarr.coming" },
       "rows": [
         {
@@ -851,6 +860,7 @@
     },
     {
       "area": "apps",
+      "source": "Sonarr",
       "title": { "key": "sonarr.shows" },
       "rows": [
         {
@@ -863,6 +873,7 @@
     },
     {
       "area": "apps",
+      "source": "Sonarr",
       "title": { "key": "sonarr.coming" },
       "rows": [
         {
@@ -884,6 +895,7 @@
     },
     {
       "area": "servers",
+      "source": "NUT",
       "title": { "key": "nut.ups" },
       "rows": [
         {
@@ -907,7 +919,8 @@
     },
     {
       "area": "network",
-      "title": { "name": "Primary DNS" },
+      "source": "Primary DNS",
+      "title": { "key": "adguard.resolver" },
       "rows": [
         { "title": { "key": "adguard.protection" }, "value": { "key": "adguard.filtering" }, "tone": "green" },
         {
@@ -936,7 +949,8 @@
     },
     {
       "area": "network",
-      "title": { "key": "adguard.top_clients", "args": { "name": "Primary DNS" } },
+      "source": "Primary DNS",
+      "title": { "key": "adguard.top_clients" },
       "rows": [
         {
           "title": { "name": "living-room-tv.lan" },
@@ -971,7 +985,8 @@
     },
     {
       "area": "network",
-      "title": { "key": "adguard.top_domains", "args": { "name": "Primary DNS" } },
+      "source": "Primary DNS",
+      "title": { "key": "adguard.top_domains" },
       "rows": [
         {
           "title": { "name": "time.example.com" },
@@ -1001,7 +1016,8 @@
     },
     {
       "area": "network",
-      "title": { "key": "adguard.top_blocked", "args": { "name": "Primary DNS" } },
+      "source": "Primary DNS",
+      "title": { "key": "adguard.top_blocked" },
       "rows": [
         { "title": { "name": "ads.example.com" }, "value": { "key": "adguard.n", "args": { "n": 58120 } } },
         { "title": { "name": "tracker.example.net" }, "value": { "key": "adguard.n", "args": { "n": 41377 } } },
@@ -1054,6 +1070,7 @@
   "figures": [
     {
       "area": "apps",
+      "source": "Immich",
       "icon": "photos",
       "label": { "key": "immich.photos" },
       "value": 26225,
@@ -1083,6 +1100,7 @@
     },
     {
       "area": "storage",
+      "source": "Backup Server",
       "icon": "archive",
       "label": { "key": "pbs.backups" },
       "value": 6,
@@ -1171,12 +1189,14 @@
     },
     {
       "area": "servers",
+      "source": "Proxmox",
       "icon": "stack",
       "label": { "key": "proxmox.guests" },
       "value": 7,
       "unit": { "key": "proxmox.of_up", "args": { "n": 8 } },
-      "detail": { "key": "proxmox.host_up", "args": { "ms": 1054800000.0 } },
+      "detail": { "key": "proxmox.hosts_online", "args": { "online": 1, "n": 1 } },
       "tone": "orange",
+      "adds": true,
       "meters": [
         { "label": { "key": "proxmox.cpu_meter" }, "used": 0.56, "total": 8 },
         { "label": { "key": "proxmox.ram_meter" }, "used": 22548578304, "total": 33554432000, "tone": "blue" }
@@ -1184,6 +1204,7 @@
     },
     {
       "area": "apps",
+      "source": "Radarr",
       "icon": "film",
       "label": { "key": "radarr.films" },
       "value": 412,
@@ -1206,6 +1227,7 @@
     },
     {
       "area": "apps",
+      "source": "Sonarr",
       "icon": "film",
       "label": { "key": "sonarr.shows" },
       "value": 38,
@@ -1229,6 +1251,7 @@
     },
     {
       "area": "servers",
+      "source": "NUT",
       "icon": "plug",
       "label": { "key": "nut.ups" },
       "value": 74,
@@ -1238,6 +1261,7 @@
     },
     {
       "area": "network",
+      "source": "Primary DNS",
       "icon": "shield",
       "label": { "key": "adguard.today" },
       "value": 41870,
@@ -1260,66 +1284,77 @@
     {
       "at": "2026-10-28T00:30:00Z",
       "area": "storage",
+      "source": "Backup Server",
       "icon": "archive",
       "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
     },
     {
       "at": "2026-10-27T00:30:00Z",
       "area": "storage",
+      "source": "Backup Server",
       "icon": "archive",
       "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
     },
     {
       "at": "2026-10-26T00:30:00Z",
       "area": "storage",
+      "source": "Backup Server",
       "icon": "archive",
       "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
     },
     {
       "at": "2026-10-25T00:30:00Z",
       "area": "storage",
+      "source": "Backup Server",
       "icon": "archive",
       "text": { "key": "pbs.backed_up", "args": { "n": 5 } }
     },
     {
       "at": "2026-10-24T00:30:00Z",
       "area": "storage",
+      "source": "Backup Server",
       "icon": "archive",
       "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
     },
     {
       "at": "2026-10-23T00:30:00Z",
       "area": "storage",
+      "source": "Backup Server",
       "icon": "archive",
       "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
     },
     {
       "at": "2026-10-22T00:30:00Z",
       "area": "storage",
+      "source": "Backup Server",
       "icon": "archive",
       "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
     },
     {
       "at": "2026-10-28T00:30:00Z",
       "area": "servers",
+      "source": "Proxmox",
       "icon": "archive",
       "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-28T00:30:00Z", "ms": 512000, "status": "OK" } }
     },
     {
       "at": "2026-10-27T00:30:00Z",
       "area": "servers",
+      "source": "Proxmox",
       "icon": "archive",
       "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-27T00:30:00Z", "ms": 547000, "status": "OK" } }
     },
     {
       "at": "2026-10-26T00:30:00Z",
       "area": "servers",
+      "source": "Proxmox",
       "icon": "archive",
       "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-26T00:30:00Z", "ms": 498000, "status": "OK" } }
     },
     {
       "at": "2026-10-25T00:30:00Z",
       "area": "servers",
+      "source": "Proxmox",
       "icon": "archive",
       "tone": "orange",
       "text": {
@@ -1330,18 +1365,21 @@
     {
       "at": "2026-10-24T00:30:00Z",
       "area": "servers",
+      "source": "Proxmox",
       "icon": "archive",
       "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-24T00:30:00Z", "ms": 531000, "status": "OK" } }
     },
     {
       "at": "2026-10-23T00:30:00Z",
       "area": "servers",
+      "source": "Proxmox",
       "icon": "archive",
       "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-23T00:30:00Z", "ms": 506000, "status": "OK" } }
     },
     {
       "at": "2026-10-22T00:30:00Z",
       "area": "servers",
+      "source": "Proxmox",
       "icon": "archive",
       "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-22T00:30:00Z", "ms": 523000, "status": "OK" } }
     }
