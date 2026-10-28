@@ -10,7 +10,7 @@ You need:
 
 | Tool | Version | For |
 | --- | --- | --- |
-| [Go](https://go.dev/dl/) | 1.25 or later | the server |
+| [Go](https://go.dev/dl/) | 1.27 or later | the server |
 | [Node.js](https://nodejs.org/) | 22.12 or later | the page's tests, with its own runner (no npm) |
 | [Biome](https://biomejs.dev/guides/manual-installation/) | 2.6.3 | linting and formatting the page |
 | [golangci-lint](https://golangci-lint.run/welcome/install/) | 2.15.0 | linting and formatting the Go code |
@@ -21,7 +21,7 @@ Then:
 make check
 ```
 
-That runs every check a pull request passes, in the order CI will: `go vet`, golangci-lint, Biome, the Go tests with the race detector, the page's tests, and govulncheck. `make fmt` formats everything the way the linters expect.
+That runs every check a pull request passes, in the order CI does: `go vet`, golangci-lint, Biome, the Go tests with the race detector, the page's tests, and govulncheck. `make fmt` formats everything the way the linters expect.
 
 To see the page, point the example config at a Gatus you run:
 

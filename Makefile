@@ -1,4 +1,4 @@
-# The checks every change passes, the same ones CI will run (step 3).
+# The checks every change passes, the same ones CI runs (.github/workflows/ci.yml).
 # The tools, and the versions they are pinned to, are in CONTRIBUTING.md.
 
 GOVULNCHECK := golang.org/x/vuln/cmd/govulncheck@v1.9.0

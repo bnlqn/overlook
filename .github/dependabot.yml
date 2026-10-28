@@ -1,5 +1,5 @@
-# Dependabot keeps the one dependency current (ADR 0003). The GitHub Actions
-# ecosystem joins it with CI, at step 3.
+# Dependabot keeps the one dependency current (ADR 0003), and the actions CI
+# runs, which are pinned by commit, in one pull request a week.
 version: 2
 updates:
   - package-ecosystem: gomod
@@ -8,3 +8,12 @@ updates:
       interval: weekly
     commit-message:
       prefix: Update
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: Update
+    groups:
+      actions:
+        patterns: ["*"]
