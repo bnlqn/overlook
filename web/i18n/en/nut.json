@@ -1,0 +1,17 @@
+{
+  "nut.ups": "UPS",
+  "nut.power": "Power",
+  "nut.on_mains": "On mains",
+  "nut.on_battery": "On battery",
+  "nut.model_in": "{model} · {v} V in",
+  "nut.in": "{v} V in",
+  "nut.battery": "Battery",
+  "nut.percent": "{n}%",
+  "nut.runtime": "{ms:span} at this load",
+  "nut.runtime_low": "{ms:span} at this load; shutdown at {low}%",
+  "nut.drawing": "Drawing",
+  "nut.watts": "{n} W",
+  "nut.watts_unit": "W",
+  "nut.load": "Load",
+  "nut.load_of": "{n}% of what it can carry"
+}

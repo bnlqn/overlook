@@ -124,6 +124,28 @@ only key and it can do anything, and Overlook sends it only with GET requests
 
 The shows are read at most every 10 minutes, as Radarr's films are.
 
+### NUT
+
+A UPS, read from NUT's upsd over NUT's own protocol. Servers shows whether it
+runs on mains or on its battery, its model and the voltage it's fed, the
+battery's charge and how long it would last, and what its load draws; the
+overview shows the draw and the battery.
+
+```yaml
+sources:
+  nut:
+    - host: nut.example.com # upsd, as host or host:port (3493 unless you say)
+      ups: ups              # the UPS's name in upsd, as in its ups.conf
+```
+
+upsd needs no login for this: Overlook sends only `LIST UPS`, `LIST VAR`,
+`GET VAR`, `VER` and `NETVER`, and refuses every other command in its code.
+upsd must listen where Overlook can reach it, which by default it doesn't:
+set `MODE=netserver` in `nut.conf`, add a `LISTEN` line for the address
+Overlook reaches to `upsd.conf` (such as `LISTEN 192.0.2.13 3493`), and let
+Overlook through any firewall to that port. The readings cross the network
+unencrypted, as upsd sends them without TLS.
+
 ### AdGuard Home
 
 Each resolver is its own source. Today's lookups and blocks show on the

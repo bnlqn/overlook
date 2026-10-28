@@ -2,7 +2,7 @@
 // and its checks, the week, what happened, the apps, and the updates waiting.
 
 import { areaState, checkState, quietSince, shown, silent, together } from "./checks.js";
-import { badge, GREEN, RECENT, RED, sparkline, stateIcon, strip, svg, TONE, tip, word } from "./draw.js";
+import { badge, figureMeter, GREEN, RECENT, RED, sparkline, stateIcon, strip, svg, TONE, tip, word } from "./draw.js";
 import { PAGES, pageName, start } from "./shell.js";
 import { ago, clock, esc, list, ms, number, say, span, t, when } from "./text.js";
 
@@ -128,7 +128,7 @@ function renderToday(figures) {
       <span class="label">${svg(f.icon)}${say(f.label)}</span>
       <span class="figure">${num(`${f.area}.${i}`, f.value)}${f.unit ? `<small> ${say(f.unit)}</small>` : ""}</span>
       <span class="sub">${f.detail ? say(f.detail) : ""}</span>
-      <span class="viz">${sparkline(hours, tint, tips)}</span></a>`;
+      <span class="viz">${sparkline(hours, tint, tips)}${(f.meters || []).map(figureMeter).join("")}</span></a>`;
     })
     .join("");
 }

@@ -85,10 +85,15 @@ type Row struct {
 	Meter  *Meter `json:"meter,omitempty"`
 }
 
-// Meter is how full something is.
+// Meter is how full something is. With no tone it's blue, turning orange
+// past 80% and red past 90%, as a disk's does.
 type Meter struct {
+	// Label names a figure's meter, such as Battery; a row's meter has the
+	// row's title.
+	Label *Text   `json:"label,omitempty"`
 	Used  float64 `json:"used"`
 	Total float64 `json:"total"`
+	Tone  string  `json:"tone,omitempty"`
 }
 
 // Figure is a number for today, sometimes with the hours that make it up.
@@ -107,6 +112,9 @@ type Figure struct {
 	Tone   string  `json:"tone,omitempty"`
 	// Hours are the last 24 hours, oldest first, ending with this one.
 	Hours []float64 `json:"hours,omitempty"`
+	// Meters are drawn under the figure, each with its label, such as a
+	// battery's charge.
+	Meters []Meter `json:"meters,omitempty"`
 }
 
 // Event is something the homelab did this week, as a source remembers it.

@@ -43,6 +43,7 @@
   "when.yesterday": "yesterday, {at:clock}",
   "ms": "{n} ms",
   "ms.under": "&lt;1 ms",
+  "percent": "{n}%",
 
   "result.passed": "Passed",
   "result.failed": "Failed",
