@@ -90,10 +90,10 @@ const every = 10 * time.Minute
 // Cache keeps a library's last answer for ten minutes. A read that fails
 // isn't kept, so the next snapshot tries again.
 //
-// ponytail: the one answer Overlook keeps longer than a snapshot (ADR 0004),
-// in memory and one per source, so a film can take ten minutes to count. If
-// Radarr and Sonarr ever serve their library's totals on their own, read
-// those with every snapshot and drop the cache.
+// ponytail: an answer kept longer than a snapshot (ADR 0004), in memory and
+// one per source, so a film can take ten minutes to count. If Radarr and
+// Sonarr ever serve their library's totals on their own, read those with
+// every snapshot and drop the cache.
 type Cache[T any] struct {
 	// Now is the clock, time.Now unless a test sets it.
 	Now func() time.Time
