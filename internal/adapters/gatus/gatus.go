@@ -96,7 +96,7 @@ type result struct {
 func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	base := strings.TrimSuffix(c.URL, "/")
 	var endpoints []endpoint
-	if err := fetch.JSON(ctx, fmt.Sprintf("%s/api/v1/endpoints/statuses?page=1&pageSize=%d", base, recent), &endpoints); err != nil {
+	if err := fetch.JSON(ctx, fmt.Sprintf("%s/api/v1/endpoints/statuses?page=1&pageSize=%d", base, recent), nil, &endpoints); err != nil {
 		return snapshot.Parts{}, err
 	}
 	// Each check's events, which only its own read has. A check whose read
@@ -105,7 +105,7 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	for i := range endpoints {
 		wg.Go(func() {
 			var one endpoint
-			if fetch.JSON(ctx, base+"/api/v1/endpoints/"+url.PathEscape(endpoints[i].Key)+"/statuses?page=1&pageSize=1", &one) == nil {
+			if fetch.JSON(ctx, base+"/api/v1/endpoints/"+url.PathEscape(endpoints[i].Key)+"/statuses?page=1&pageSize=1", nil, &one) == nil {
 				endpoints[i].Events = one.Events
 			}
 		})
