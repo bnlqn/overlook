@@ -23,7 +23,7 @@ project uses are in [CONTEXT.md](CONTEXT.md) and its decisions in
        Server, AdGuard Home, Immich, Radarr and Sonarr, NUT, GitHub.
 3. [x] The demo from an invented snapshot, this README, CI, and releases
        (amd64 and arm64 binaries, a multi-arch image on GHCR).
-4. [ ] `v0.1.0-rc.1`, with its image public.
+4. [x] `v0.1.0-rc.1`, with its image public.
 5. [ ] The author's homelab runs the release candidate in place of its own
        page.
 6. [ ] A week of running it.
