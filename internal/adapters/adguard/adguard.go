@@ -116,8 +116,8 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 }
 
 // today is the lookups since midnight where Overlook runs, with the blocked
-// ones, and the last 24 hours. Statistics kept by the day have no today:
-// AdGuard's days are UTC's.
+// ones, and the last 24 hours of both. Statistics kept by the day have no
+// today: AdGuard's days are UTC's.
 func today(s stats, now time.Time) []snapshot.Figure {
 	if s.TimeUnits != "hours" || len(s.ByUnit) < 24 || len(s.BlockedBy) < 24 {
 		return nil
@@ -126,15 +126,21 @@ func today(s stats, now time.Time) []snapshot.Figure {
 	// clocks change.
 	midnight := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
 	since := int(now.Sub(midnight)/time.Hour) + 1
-	hours := make([]float64, 24)
-	for i, n := range s.ByUnit[len(s.ByUnit)-24:] {
-		hours[i] = float64(n)
-	}
 	return []snapshot.Figure{{
 		Area: "network", Icon: "shield", Label: snapshot.Text{Key: "adguard.today"}, Adds: true,
-		Value: float64(sum(s.ByUnit, since)), Hours: hours,
+		Value: float64(sum(s.ByUnit, since)), Hours: floats(s.ByUnit[len(s.ByUnit)-24:]),
+		Within: &snapshot.Series{Label: *msg("adguard.blocked", nil), Hours: floats(s.BlockedBy[len(s.BlockedBy)-24:])},
 		Detail: msg("adguard.today_blocked", args{"blocked": sum(s.BlockedBy, since)}),
 	}}
+}
+
+// floats are counts as the page's numbers.
+func floats(counts []int) []float64 {
+	out := make([]float64, len(counts))
+	for i, n := range counts {
+		out[i] = float64(n)
+	}
+	return out
 }
 
 // sum adds up the last n counts.
@@ -146,8 +152,9 @@ func sum(counts []int, n int) int {
 	return total
 }
 
-// sections are the resolver itself, then its top clients, domains and
-// blocked domains, over the interval its statistics keep.
+// sections are the resolver itself, with its lookups by the hour when it
+// keeps them so, then its top clients, domains and blocked domains, over the
+// interval its statistics keep.
 func sections(c Config, s stats, st status, cl clients) []snapshot.Section {
 	unit := time.Hour
 	if s.TimeUnits == "days" {
@@ -205,9 +212,14 @@ func sections(c Config, s stats, st status, cl clients) []snapshot.Section {
 		blocked = append(blocked, snapshot.Row{Title: snapshot.Text{Name: e.name}, Value: msg("adguard.n", args{"n": e.n})})
 	}
 
+	self := snapshot.Section{Area: "network", Title: snapshot.Text{Name: c.Name}, Rows: resolver}
+	if s.TimeUnits == "hours" && len(s.ByUnit) > 1 && len(s.BlockedBy) == len(s.ByUnit) {
+		self.Hours = &snapshot.Series{Label: *msg("adguard.lookups", nil), Hours: floats(s.ByUnit)}
+		self.Within = &snapshot.Series{Label: *msg("adguard.blocked", nil), Hours: floats(s.BlockedBy)}
+	}
 	on := args{"name": c.Name}
 	return []snapshot.Section{
-		{Area: "network", Title: snapshot.Text{Name: c.Name}, Rows: resolver},
+		self,
 		{Area: "network", Title: *msg("adguard.top_clients", on), Rows: orNothing(who)},
 		{Area: "network", Title: *msg("adguard.top_domains", on), Rows: orNothing(what)},
 		{Area: "network", Title: *msg("adguard.top_blocked", on), Rows: orNothing(blocked)},

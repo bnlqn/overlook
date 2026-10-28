@@ -28,6 +28,9 @@ func TestRead(t *testing.T) {
 	if f.Area != "apps" || f.Value != 25019+1205 || !said(f.Detail, "immich.this_week", "n", int64(7+27)) {
 		t.Errorf("today's figure is everyone's photos and videos, +34 this week: %+v %+v", f, f.Detail)
 	}
+	if s := f.Shares; len(s) != 2 || s[1].Label.Name != "Sam" || s[0].Value+s[1].Value != f.Value {
+		t.Errorf("each person's share of them: %+v", s)
+	}
 
 	rows := p.Sections[0].Rows
 	want := []string{"Robin", "Sam", "immich.space", "Immich", "immich.jobs_of", "immich.jobs_of"}

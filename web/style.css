@@ -1002,6 +1002,114 @@ main {
 .spark .hit:hover {
   fill: rgba(255, 255, 255, 0.09);
 }
+/* A figure with hours takes a row of its own, for its chart. */
+.figure-tile.wide {
+  grid-column: 1 / -1;
+  --chart-height: 96px;
+}
+/* A figure's shares: one bar, each part as wide as its share, in its colour. */
+.shares {
+  display: flex;
+  gap: 3px;
+  height: 6px;
+}
+.shares i {
+  min-width: 4px;
+  border-radius: 3px;
+  background: var(--c);
+  transition:
+    filter 0.15s,
+    transform 0.15s var(--m-ease);
+}
+.shares i:hover {
+  filter: brightness(1.3);
+  transform: scaleY(1.5);
+}
+/* A chart by the hour: the bars, each hour's part inside it, a dashed line at
+   the top of the scale and at its half, their numbers on the right, and the
+   hours or days underneath. */
+.hour-chart .plot {
+  position: relative;
+  height: var(--chart-height, 120px);
+  margin-right: 44px;
+}
+.hour-chart svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.hour-chart .grid {
+  stroke: var(--m-separator);
+  stroke-dasharray: 2 4;
+  vector-effect: non-scaling-stroke;
+}
+.hour-chart .col rect:not(.hit) {
+  transition: opacity 0.15s;
+}
+.hour-chart svg:hover .col rect:not(.hit) {
+  opacity: 0.55;
+}
+.hour-chart .col:hover rect:not(.hit) {
+  opacity: 1;
+}
+.hour-chart .col:hover .hit {
+  fill: rgba(255, 255, 255, 0.06);
+}
+.hour-chart .scale {
+  position: absolute;
+  left: calc(100% + 8px);
+  transform: translateY(-50%);
+  font: var(--m-type-footnote);
+  color: var(--m-label-3);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.hour-chart .axis {
+  position: relative;
+  height: 16px;
+  margin: 6px 44px 0 0;
+}
+.hour-chart .axis span {
+  position: absolute;
+  transform: translateX(-50%);
+  font: var(--m-type-footnote);
+  color: var(--m-label-3);
+  white-space: nowrap;
+}
+/* Over days, each name starts where its day does. */
+.hour-chart.long .axis span {
+  transform: none;
+}
+/* A section's chart sits in a card of its own over its rows, with the switch
+   between the last day and every hour its source keeps. */
+.card.chart {
+  margin-bottom: 12px;
+  padding: 12px 14px 10px;
+}
+.range {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+.range button {
+  height: 24px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  background: transparent;
+  font: 510 12px / 1 var(--m-font);
+  color: var(--m-label-2);
+}
+.range button:hover {
+  color: var(--m-label-1);
+}
+.range button[aria-pressed="true"] {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--m-label-1);
+}
 /* The areas: rows that unfold into their checks. */
 .table {
   border: 1px solid var(--m-border);

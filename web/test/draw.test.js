@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { badge, checkRows, figureMeter, RECENT, section, strip, tip } from "../js/draw.js";
+import { badge, checkRows, figureMeter, hourChart, RECENT, section, shares, strip, tip } from "../js/draw.js";
 import { setWords } from "../js/text.js";
 
 setWords(
@@ -71,4 +71,53 @@ test("a figure's meter names itself and says how full it is", () => {
     /^<span class="figure-meter"><span>&lt;b&gt;Battery&lt;\/b&gt;<\/span><span class="meter tone-red">/,
   );
   assert.match(html, /<span>97%<\/span><\/span>$/);
+});
+
+test("a chart draws each hour as a bar, its part inside it, every sixth hour under a day", () => {
+  const now = new Date(2026, 9, 28, 14, 30);
+  const day = Array.from({ length: 24 }, (_, i) => i + 1);
+  const html = hourChart(
+    { label: { name: "Lookups" }, hours: day },
+    { label: { name: "<b>Blocked</b>" }, hours: day.map(() => 1) },
+    "#4EA7FC",
+    now,
+  );
+  assert.equal(html.match(/<g class="col">/g).length, 24);
+  assert.equal(html.match(/style="fill:var\(--m-orange\)"/g).length, 24, "each hour's part, inside it");
+  assert.equal(
+    html.match(/class="axis">(.*)<\/div><\/div>$/s)[1].match(/<span/g).length,
+    4,
+    "00:00, 06:00, 12:00 and 18:00",
+  );
+  assert.match(html, /class="scale" style="top:0">25</, "the scale rounds up the busiest hour");
+  assert.doesNotMatch(html, /<b>Blocked/, "a label is escaped in its tooltip");
+  assert.equal(hourChart({ label: { name: "x" }, hours: [1] }, null, "#fff", now), "");
+});
+
+test("a week's chart names its days, not its hours", () => {
+  const now = new Date(2026, 9, 28, 14, 30);
+  const html = hourChart({ label: { name: "Lookups" }, hours: Array(168).fill(5) }, null, "#4EA7FC", now);
+  assert.match(html, /class="hour-chart long"/);
+  assert.equal(html.match(/class="axis">(.*)<\/div><\/div>$/s)[1].match(/<span/g).length, 7, "a midnight a day");
+  assert.doesNotMatch(html, /--m-orange/, "nothing inside the bars without a part");
+});
+
+test("shares are as wide as their values, in their tone or the next colour, their names escaped", () => {
+  const html = shares(
+    {
+      label: { name: "Photos" },
+      shares: [
+        { label: { name: "<i>Kim</i>" }, value: 1 },
+        { label: { name: "Noor" }, value: 3 },
+        { label: { name: "Old" }, value: 1, tone: "gray", detail: { name: "a while ago" } },
+      ],
+    },
+    ["#F06595", "#7170FF"],
+  );
+  assert.match(html, /^<span class="shares"><i style="flex:1;--c:#F06595"/);
+  assert.match(html, /<i style="flex:3;--c:#7170FF"/);
+  assert.match(html, /<i style="flex:1;--c:var\(--m-gray\)"/);
+  assert.match(html, /3 · 60%/, "Noor's share of all five");
+  assert.match(html, /a while ago/, "a detail stands for the value");
+  assert.doesNotMatch(html, /<i>Kim/);
 });

@@ -86,6 +86,7 @@ test("figures that add up and share a label key are one, hour by hour, their det
     adds: true,
     value,
     hours: hours(value / 24),
+    within: { label: { key: "adguard.blocked" }, hours: hours(1) },
     detail: { key: "adguard.today_blocked", args: { blocked } },
     ...more,
   });
@@ -94,12 +95,15 @@ test("figures that add up and share a label key are one, hour by hour, their det
   const [both, alone] = together(figures);
   assert.equal(both.value, 288);
   assert.deepEqual(both.hours, hours(12));
+  assert.deepEqual(both.within, { label: { key: "adguard.blocked" }, hours: hours(2) });
   assert.deepEqual(both.detail.args, { blocked: 14 });
   assert.deepEqual(alone, { ...photos, hours: [] });
   assert.equal(figures[0].value, 240, "the snapshot's own figures are left as they were");
   assert.deepEqual(figures[0].detail.args, { blocked: 12 });
+  assert.deepEqual(figures[0].within.hours, hours(1));
   const [lone] = together([dns(240, 12), dns(48, 2, { hours: undefined })]);
   assert.deepEqual(lone.hours, [], "hours only one resolver has would mislead");
+  assert.equal(lone.within, undefined, "and so would the part within them");
   const ups = (value) => ({ area: "servers", icon: "plug", label: { key: "nut.ups" }, value });
   assert.equal(together([ups(80), ups(120)]).length, 2, "two UPSes' draws stay apart unless they say they add up");
 });

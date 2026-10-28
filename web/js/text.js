@@ -65,6 +65,9 @@ export const list = (items) => new Intl.ListFormat(locale).format(items);
 /** A time of day: "14:05", or "2:05 PM". */
 export const clock = (d) => new Date(d).toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
 
+/** A day of the week, short: "Tue". */
+export const weekday = (d) => new Date(d).toLocaleDateString(locale, { weekday: "short" });
+
 /** A day: "Tue 28 Oct", or "Tue, Oct 28". */
 export const day = (d) => new Date(d).toLocaleDateString(locale, { weekday: "short", day: "numeric", month: "short" });
 

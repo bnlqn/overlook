@@ -70,6 +70,10 @@
 
   "today.title": "Today",
 
+  "chart.so_far": "This hour, so far",
+  "chart.day": "24 hours",
+  "chart.all": "{ms:span}",
+
   "areas.title": "Areas",
   "areas.hint": "the last 30 results",
   "areas.name": "Name",

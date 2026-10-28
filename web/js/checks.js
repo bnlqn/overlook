@@ -25,8 +25,9 @@ export const shown = (snap) =>
 
 /**
  * The figures, those that add up and share a label key made one, such as two
- * resolvers' lookups: their values, their hours hour by hour, and the numbers
- * in their details. Hours that only some of them have are left out.
+ * resolvers' lookups: their values, their hours and the parts within them
+ * hour by hour, and the numbers in their details. Hours that only some of
+ * them have are left out.
  */
 export function together(figures) {
   const byKey = new Map();
@@ -35,6 +36,7 @@ export function together(figures) {
     const into = f.adds && byKey.get(f.label.key);
     if (!into) {
       const copy = { ...f, hours: [...(f.hours || [])] };
+      if (f.within) copy.within = { ...f.within, hours: [...f.within.hours] };
       if (f.detail) copy.detail = { ...f.detail, args: { ...f.detail.args } };
       if (f.adds) byKey.set(f.label.key, copy);
       out.push(copy);
@@ -43,6 +45,12 @@ export function together(figures) {
     const hours = f.hours || [];
     into.value += f.value;
     into.hours = into.hours.length === hours.length ? into.hours.map((v, i) => v + hours[i]) : [];
+    // The part within the hours adds up only where both have it, hour for hour.
+    const part = f.within?.hours || [];
+    into.within =
+      into.within && into.hours.length && into.within.hours.length === part.length
+        ? { ...into.within, hours: into.within.hours.map((v, i) => v + part[i]) }
+        : undefined;
     for (const [name, v] of Object.entries(f.detail?.args || {})) {
       if (typeof v === "number" && typeof into.detail?.args[name] === "number") into.detail.args[name] += v;
     }

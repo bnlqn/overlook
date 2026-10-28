@@ -172,11 +172,17 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	}
 
 	// Today's figure is everyone's photos and videos, with what they
-	// uploaded this week if every person's read answered.
+	// uploaded this week if every person's read answered, and each person's
+	// share of them when there's more than one.
 	figure := snapshot.Figure{Area: "apps", Icon: "photos", Label: snapshot.Text{Key: "immich.photos"}, Value: float64(stats.Photos + stats.Videos)}
 	figure.Detail = msg("immich.this_week", map[string]any{"n": everyone})
 	if slices.Contains(week, nil) {
 		figure.Detail = msg("immich.videos", map[string]any{"n": stats.Videos})
+	}
+	if len(stats.People) > 1 && figure.Value > 0 {
+		for _, p := range stats.People {
+			figure.Shares = append(figure.Shares, snapshot.Share{Label: snapshot.Text{Name: p.Name}, Value: float64(p.Photos + p.Videos)})
+		}
 	}
 	return snapshot.Parts{
 		Sections: []snapshot.Section{{Area: "apps", Title: snapshot.Text{Key: "immich.photos"}, Rows: rows}},

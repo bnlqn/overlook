@@ -195,10 +195,23 @@ func parts(backups []backup, now time.Time) snapshot.Parts {
 			last = r
 		}
 	}
+	// Under it, each guest, green where the night backed it up.
+	tonight := map[string]bool{}
+	for _, b := range last {
+		tonight[b.Type+"/"+b.ID] = true
+	}
+	shares := make([]snapshot.Share, len(newest))
+	for i, b := range newest {
+		shares[i] = snapshot.Share{Label: rows[i].Title, Value: 1, Tone: "gray", Detail: ptr(key("pbs.when", map[string]any{"at": at(b)}))}
+		if tonight[b.Type+"/"+b.ID] {
+			shares[i].Tone = "green"
+		}
+	}
 	p.Figures = []snapshot.Figure{{
 		Area: area, Icon: "archive", Label: key("pbs.backups", nil), Value: float64(guests(last)),
 		Unit:   ptr(key("pbs.of_guests", map[string]any{"n": len(newest)})),
 		Detail: ptr(key("pbs.when", map[string]any{"at": at(last[len(last)-1])})),
+		Shares: shares,
 	}}
 	return p
 }

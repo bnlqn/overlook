@@ -136,6 +136,18 @@ func Problems(p snapshot.Parts, english map[string]any) []string {
 				meter(w, *r.Meter)
 			}
 		}
+		if s.Hours != nil {
+			text(w, &s.Hours.Label)
+			if len(s.Hours.Hours) < 2 {
+				fail("%s: a chart of %d hours", w, len(s.Hours.Hours))
+			}
+		}
+		if s.Within != nil {
+			text(w, &s.Within.Label)
+			if s.Hours == nil || len(s.Within.Hours) != len(s.Hours.Hours) {
+				fail("%s: within hours it doesn't match", w)
+			}
+		}
 	}
 	for _, f := range p.Figures {
 		w := "figure " + f.Label.Key
@@ -149,6 +161,25 @@ func Problems(p snapshot.Parts, english map[string]any) []string {
 		}
 		for _, m := range f.Meters {
 			meter(w, m)
+		}
+		if f.Within != nil {
+			text(w, &f.Within.Label)
+			if len(f.Hours) != 24 || len(f.Within.Hours) != 24 {
+				fail("%s: within hours it doesn't match", w)
+			}
+		}
+		whole := 0.0
+		for _, sh := range f.Shares {
+			text(w, &sh.Label)
+			text(w, sh.Detail)
+			tone(w, sh.Tone)
+			if sh.Value < 0 {
+				fail("%s: a share below nothing", w)
+			}
+			whole += sh.Value
+		}
+		if len(f.Shares) > 0 && whole <= 0 {
+			fail("%s: shares of nothing", w)
 		}
 	}
 	for _, e := range p.Events {

@@ -2,12 +2,26 @@
 // and its checks, the week, what happened, the apps, and the chores.
 
 import { areaState, checkState, choresBy, quietSince, shown, silent, together } from "./checks.js";
-import { badge, figureMeter, GREEN, RECENT, RED, sparkline, stateIcon, strip, svg, TONE, tip, word } from "./draw.js";
+import {
+  badge,
+  figureMeter,
+  GREEN,
+  hourChart,
+  RECENT,
+  RED,
+  shares,
+  sparkline,
+  stateIcon,
+  strip,
+  svg,
+  TINT,
+  TONE,
+  tip,
+  word,
+} from "./draw.js";
 import { PAGES, pageName, start } from "./shell.js";
 import { ago, clock, day, esc, list, ms, number, say, span, t, when } from "./text.js";
 
-// Each area's colour, for its tile, its figures and its row in the week.
-const TINT = { servers: "#7170FF", network: "#4EA7FC", storage: "#F2994A", apps: "#F06595" };
 const DAY = 864e5;
 const page = (area) => PAGES.find((p) => p.area === area);
 const where = (area) => (area ? t(`area.${area}`) : "");
@@ -36,13 +50,6 @@ function countUp(root) {
     requestAnimationFrame(step);
   }
 }
-
-// The start of each of the last n hours, the last one this hour.
-const hourStart = (i, n) => {
-  const d = new Date();
-  d.setMinutes(0, 0, 0);
-  return new Date(+d - (n - 1 - i) * 3600e3);
-};
 
 // ── How everything is, and the quick ways out ────────────────────────────
 
@@ -115,20 +122,22 @@ function renderProblems(checks) {
     .join("");
 }
 
-// ── Today: each figure, opening its area's page ──────────────────────────
+// ── Today: each figure, opening its area's page. One with hours takes a row
+// of its own for them, as a chart ────────────────────────────────────────
 
 function renderToday(figures) {
   $("today-block").hidden = !figures.length;
   $("today").innerHTML = figures
     .map((f, i) => {
       const tint = TINT[f.area];
-      const hours = f.hours || [];
-      const tips = hours.map((v, k) => tip(clock(hourStart(k, hours.length)), [[tint, say(f.label), number(v)]]));
-      return `<a class="figure-tile${f.tone ? ` tone-${f.tone}` : ""}" href="${f.area}" style="--i:${i}">
+      const hours = f.hours?.length ? hourChart({ label: f.label, hours: f.hours }, f.within, tint) : "";
+      // Shares without a tone of their own take the area's colour, then the others'.
+      const tints = [tint, ...Object.values(TINT).filter((c) => c !== tint)];
+      return `<a class="figure-tile${hours ? " wide" : ""}${f.tone ? ` tone-${f.tone}` : ""}" href="${f.area}" style="--i:${i}">
       <span class="label">${svg(f.icon)}${say(f.label)}</span>
       <span class="figure">${num(`${f.area}.${i}`, f.value)}${f.unit ? `<small> ${say(f.unit)}</small>` : ""}</span>
       <span class="sub">${f.detail ? say(f.detail) : ""}</span>
-      <span class="viz">${sparkline(hours, tint, tips)}${(f.meters || []).map(figureMeter).join("")}</span></a>`;
+      <span class="viz">${hours}${f.shares?.length ? shares(f, tints) : ""}${(f.meters || []).map(figureMeter).join("")}</span></a>`;
     })
     .join("");
 }

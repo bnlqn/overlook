@@ -275,7 +275,8 @@ fewer if something else at your address reads GitHub without a token.
 
 The photos, on the Apps page: what each person keeps and uploaded this week,
 the space they take on Immich's disk, Immich's version and whether a newer one
-is out, and the jobs queued. Today's figure is everyone's photos and videos.
+is out, and the jobs queued. Today's figure is everyone's photos and videos,
+with each person's share of them.
 
 ```yaml
 sources:
@@ -303,7 +304,8 @@ What each person uploaded needs Immich 3 or later; an older one leaves it out.
 Each guest's newest backup in one datastore, in Storage: when it was made,
 its size, and whether it passed its check, named by its notes, which
 Proxmox VE fills with the guest's name. Today shows how many guests the
-last night backed up, and the week each night's backups. The last night is
+last night backed up, each guest green where it did, and the week each
+night's backups. The last night is
 the run with the most guests in the day to the newest backup, so a guest
 backed up by hand after it doesn't hide it.
 
@@ -437,10 +439,10 @@ unencrypted, as upsd sends them without TLS.
 ### AdGuard Home
 
 Each resolver is its own source. Today's lookups and blocks show on the
-Overview, every resolver's added up, and the Network page shows each one:
-whether it filters, its lookups, blocks and upstreams, and its top
-clients, domains and blocked domains, over the interval its statistics
-keep.
+Overview, every resolver's added up, hour by hour over the last day, and the
+Network page shows each one: whether it filters, its lookups and blocks by
+the hour, its upstreams, and its top clients, domains and blocked domains,
+over the interval its statistics keep.
 
 ```yaml
 sources:
