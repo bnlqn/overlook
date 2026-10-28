@@ -1,6 +1,10 @@
 package config
 
 import (
+	"context"
+	"fmt"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"strings"
@@ -24,7 +28,9 @@ func TestLoad(t *testing.T) {
 	c, err := Load(write(t, `
 sources:
   gatus:
-    - url: https://overlook:${GATUS_PASSWORD}@status.example.com # not ${READ}
+    - url: https://status.example.com # not ${READ}
+      user: overlook
+      password: ${GATUS_PASSWORD}
       areas: { DNS: network }
   immich:
     - url: http://immich:2283
@@ -46,7 +52,7 @@ chores:
 		t.Fatal(err)
 	}
 	g := c.Sources.Gatus[0]
-	if g.URL != "https://overlook:s3cret@status.example.com" || g.Name != "Gatus" || g.Threshold != 3 {
+	if g.URL != "https://status.example.com" || g.Password != "s3cret" || g.Name != "Gatus" || g.Threshold != 3 {
 		t.Errorf("read %+v", g)
 	}
 	if c.Apps[0].Description != "photos: # all of them" {
@@ -63,6 +69,36 @@ chores:
 	}
 	if ch := c.Chores; len(ch) != 2 || ch[0].From != "2026-11-02" || ch[0].Note != "The spare is in the drawer" || ch[1].From != "2027-01-15" {
 		t.Errorf("a chore's day stays as written, quoted or not: %+v", ch)
+	}
+}
+
+// A password is whatever the source allows, so one with a URL's own
+// characters in it still reaches the source as it is.
+func TestLoadAnyPassword(t *testing.T) {
+	const password = "p@ss/w#rd?%:"
+	src := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if user, pass, ok := r.BasicAuth(); !ok || user != "overlook" || pass != password {
+			http.Error(w, "", http.StatusUnauthorized)
+			return
+		}
+		// An empty answer of each kind: Gatus's lists, AdGuard's objects.
+		if strings.HasPrefix(r.URL.Path, "/api/") {
+			fmt.Fprint(w, "[]")
+		} else {
+			fmt.Fprint(w, "{}")
+		}
+	}))
+	t.Cleanup(src.Close)
+	t.Setenv("PASSWORD", password)
+	for _, adapter := range []string{"adguard", "gatus"} {
+		c, err := Load(write(t, "sources: { "+adapter+": [ { url: '"+src.URL+"', user: overlook, password: '${PASSWORD}' } ] }"))
+		if err != nil {
+			t.Errorf("%s: %v", adapter, err)
+			continue
+		}
+		if _, err := c.Readers()[0].Read(context.Background()); err != nil {
+			t.Errorf("%s: %v", adapter, err)
+		}
 	}
 }
 

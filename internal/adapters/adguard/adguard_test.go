@@ -149,7 +149,7 @@ func TestProtection(t *testing.T) {
 
 func TestConfigCheck(t *testing.T) {
 	t.Parallel()
-	c := Config{URL: "http://overlook:s3cret@dns.example.com"}
+	c := Config{URL: "http://dns.example.com", User: "overlook", Password: "s3cret"}
 	if err := c.Check(); err != nil || c.Name != "AdGuard Home" {
 		t.Errorf("defaults: %+v, %v", c, err)
 	}
@@ -159,6 +159,8 @@ func TestConfigCheck(t *testing.T) {
 	}{
 		{Config{}, "url is missing"},
 		{Config{URL: "dns.example.com"}, "url needs"},
+		{Config{URL: "http://overlook:s3cret@dns.example.com"}, "url can't hold a login"},
+		{Config{URL: "http://dns.example.com", User: "overlook"}, "user and password together"},
 	} {
 		if err := bad.c.Check(); err == nil || !strings.Contains(err.Error(), bad.want) {
 			t.Errorf("%+v: want an error with %q, got %v", bad.c, bad.want, err)

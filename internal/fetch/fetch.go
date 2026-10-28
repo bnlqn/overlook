@@ -7,6 +7,7 @@ import (
 	"context"
 	"crypto/tls"
 	"crypto/x509"
+	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -106,8 +107,19 @@ func (c Client) JSON(ctx context.Context, rawURL string, header http.Header, v a
 	return nil
 }
 
+// Login is the header that sends a source its user and password, by HTTP's
+// basic authentication, or none without a user. Unlike a login in a URL, it
+// takes any password as it is.
+func Login(user, password string) http.Header {
+	if user == "" {
+		return nil
+	}
+	return http.Header{"Authorization": {"Basic " + base64.StdEncoding.EncodeToString([]byte(user+":"+password))}}
+}
+
 // CheckURL refuses a URL Overlook couldn't read or link to: one that isn't
-// http or https, or has no host.
+// http or https, or has no host. It refuses a login in one too, which a
+// password's own characters can break and a link would show on the page.
 func CheckURL(rawURL string) error {
 	u, err := url.Parse(rawURL)
 	if err != nil {
@@ -115,6 +127,9 @@ func CheckURL(rawURL string) error {
 	}
 	if (u.Scheme != "http" && u.Scheme != "https") || u.Host == "" {
 		return errors.New("needs to be an http:// or https:// URL")
+	}
+	if u.User != nil {
+		return errors.New("can't hold a login: a source that needs one takes user and password")
 	}
 	return nil
 }

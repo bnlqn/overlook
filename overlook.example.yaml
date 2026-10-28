@@ -7,7 +7,8 @@ sources:
   gatus:
     - url: ${GATUS_URL}                # where Overlook reads Gatus, such as http://gatus:8080
       link: https://status.example.com # where the page sends you, if not the same
-      # With a login: url: https://overlook:${GATUS_PASSWORD}@status.example.com
+      # user: overlook                 # a login, if your Gatus asks for one
+      # password: ${GATUS_PASSWORD}
       threshold: 3                     # failures in a row that make a problem: as your alerts
       # A group named like an area (Servers, Network, Storage, Apps) goes
       # there. Say where each other group goes; one you don't name goes in
@@ -69,9 +70,13 @@ sources:
   # its top clients and domains. Give each its own name.
   adguard:
     - name: Primary DNS
-      url: http://overlook:${ADGUARD_PASSWORD}@dns1.example.com # its login, as user:pass@
+      url: http://dns1.example.com
+      user: overlook                   # its login
+      password: ${ADGUARD_PASSWORD}
     - name: Standby DNS
-      url: http://overlook:${ADGUARD_PASSWORD}@dns2.example.com
+      url: http://dns2.example.com
+      user: overlook
+      password: ${ADGUARD_PASSWORD}
 
 # The apps the homelab hosts, and the tools that run it. An icon is a file in
 # icons/ beside this config (or one Overlook ships), or a URL. A check is a
