@@ -1,0 +1,2 @@
+# What `go build ./cmd/overlook` makes.
+/overlook

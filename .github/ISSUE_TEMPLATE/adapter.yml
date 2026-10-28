@@ -1,0 +1,35 @@
+name: A source to read
+description: Ask for an adapter for a tool your homelab runs.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        An adapter comes in by pull request from someone who runs its source,
+        who then keeps it (ADR 0005). CONTRIBUTING.md says what one needs.
+  - type: input
+    id: source
+    attributes:
+      label: The source
+      description: Its name, and a link to its API's documentation.
+    validations:
+      required: true
+  - type: textarea
+    id: page
+    attributes:
+      label: What the page would show from it
+      description: Which area it belongs to, and its figures, sections or events.
+    validations:
+      required: true
+  - type: textarea
+    id: reads
+    attributes:
+      label: The reads it would take
+      description: Each GET, and the least key that allows them.
+  - type: checkboxes
+    id: help
+    attributes:
+      label: Your part
+      options:
+        - label: I run this source and can record its answers.
+        - label: I'd write the adapter and keep it.

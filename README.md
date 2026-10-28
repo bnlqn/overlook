@@ -28,6 +28,12 @@ v0.1 is ready when the author's homelab has run it for a week with nothing
 missing, the demo is live, every adapter has its section here (its config
 and the least key it needs), and CI passes.
 
+## Contributing
+
+[CONTRIBUTING.md](CONTRIBUTING.md) says how to set up, what every change
+passes and how to add an adapter. Report a vulnerability privately, as
+[SECURITY.md](SECURITY.md) explains.
+
 ## Licence
 
 MIT.

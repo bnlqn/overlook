@@ -1,0 +1,8 @@
+* text=auto eol=lf
+*.png binary
+*.woff2 binary
+
+# Third parties' files, and answers recorded or invented for the tests.
+web/icons/** linguist-vendored
+web/fonts/** linguist-vendored
+**/testdata/** linguist-generated
