@@ -91,11 +91,3 @@ func TestExample(t *testing.T) {
 		t.Fatal(err)
 	}
 }
-
-func TestAdGuardResolvers(t *testing.T) {
-	t.Parallel()
-	c, err := Load(write(t, "sources: { adguard: [ { name: A, url: 'http://a' }, { name: B, url: 'http://b' } ] }"))
-	if err != nil || c.Sources.AdGuard[1].Resolvers != 2 {
-		t.Errorf("each resolver knows there are two: %+v, %v", c.Sources.AdGuard, err)
-	}
-}

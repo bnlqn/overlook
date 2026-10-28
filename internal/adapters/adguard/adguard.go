@@ -26,9 +26,6 @@ type Config struct {
 	// URL is where Overlook reads AdGuard Home, its login in it as
 	// user:pass@.
 	URL string `yaml:"url"`
-	// Resolvers is how many AdGuard Homes the config names: with more than
-	// one, today's figure says when only one of them answered.
-	Resolvers int `yaml:"-"`
 }
 
 // Check fills c's defaults and refuses what can't work.
@@ -109,13 +106,13 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 			return snapshot.Parts{}, err
 		}
 	}
-	return snapshot.Parts{Figures: today(s, now, c.Resolvers), Sections: sections(c, s, st, cl)}, nil
+	return snapshot.Parts{Figures: today(s, now), Sections: sections(c, s, st, cl)}, nil
 }
 
 // today is the lookups since midnight where Overlook runs, with the blocked
-// ones, and the last 24 hours, from one of resolvers. Statistics kept by the
-// day have no today: AdGuard's days are UTC's.
-func today(s stats, now time.Time, resolvers int) []snapshot.Figure {
+// ones, and the last 24 hours. Statistics kept by the day have no today:
+// AdGuard's days are UTC's.
+func today(s stats, now time.Time) []snapshot.Figure {
 	if s.TimeUnits != "hours" || len(s.ByUnit) < 24 || len(s.BlockedBy) < 24 {
 		return nil
 	}
@@ -127,15 +124,10 @@ func today(s stats, now time.Time, resolvers int) []snapshot.Figure {
 	for i, n := range s.ByUnit[len(s.ByUnit)-24:] {
 		hours[i] = float64(n)
 	}
-	detail := msg("adguard.today_blocked", args{"blocked": sum(s.BlockedBy, since)})
-	if resolvers > 1 {
-		// n counts the resolvers that answered: each says one, and the page
-		// adds them up.
-		detail = msg("adguard.today_of", args{"blocked": sum(s.BlockedBy, since), "n": 1})
-	}
 	return []snapshot.Figure{{
 		Area: "network", Icon: "shield", Label: snapshot.Text{Key: "adguard.today"},
-		Value: float64(sum(s.ByUnit, since)), Hours: hours, Detail: detail,
+		Value: float64(sum(s.ByUnit, since)), Hours: hours,
+		Detail: msg("adguard.today_blocked", args{"blocked": sum(s.BlockedBy, since)}),
 	}}
 }
 

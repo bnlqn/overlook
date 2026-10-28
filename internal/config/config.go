@@ -154,7 +154,6 @@ func (c *Config) check() error {
 	}
 	for i := range c.Sources.AdGuard {
 		a := &c.Sources.AdGuard[i]
-		a.Resolvers = len(c.Sources.AdGuard)
 		if err := a.Check(); err != nil {
 			return fmt.Errorf("sources.adguard[%d]: %w", i, err)
 		}

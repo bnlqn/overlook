@@ -75,7 +75,7 @@ test("figures that share a label key are added up, hour by hour, their details' 
     label: { key: "adguard.today" },
     value,
     hours: hours(value / 24),
-    detail: { key: "adguard.today_of", args: { blocked, n: 1 } },
+    detail: { key: "adguard.today_blocked", args: { blocked } },
     ...more,
   });
   const photos = { area: "apps", icon: "photos", label: { key: "immich.photos" }, value: 9 };
@@ -83,10 +83,10 @@ test("figures that share a label key are added up, hour by hour, their details' 
   const [both, alone] = together(figures);
   assert.equal(both.value, 288);
   assert.deepEqual(both.hours, hours(12));
-  assert.deepEqual(both.detail.args, { blocked: 14, n: 2 });
+  assert.deepEqual(both.detail.args, { blocked: 14 });
   assert.deepEqual(alone, { ...photos, hours: [] });
   assert.equal(figures[0].value, 240, "the snapshot's own figures are left as they were");
-  assert.deepEqual(figures[0].detail.args, { blocked: 12, n: 1 });
+  assert.deepEqual(figures[0].detail.args, { blocked: 12 });
   const [lone] = together([dns(240, 12), dns(48, 2, { hours: undefined })]);
   assert.deepEqual(lone.hours, [], "hours only one resolver has would mislead");
 });

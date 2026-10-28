@@ -20,7 +20,7 @@ func TestRead(t *testing.T) {
 	t.Parallel()
 	src := adaptertest.Replay(t, "testdata")
 	parts := func(name, dir string) snapshot.Parts {
-		c := Config{Name: name, URL: src.URL + "/" + dir, Resolvers: 2}
+		c := Config{Name: name, URL: src.URL + "/" + dir}
 		if err := c.Check(); err != nil {
 			t.Fatal(err)
 		}
@@ -40,7 +40,7 @@ func TestRead(t *testing.T) {
 		blocked, first int
 	}{{primary, 59146, 23650, 4856}, {standby, 1269, 26, 110}} {
 		f := want.p.Figures[0]
-		if f.Value != want.lookups || f.Detail.Args["blocked"] != want.blocked || f.Detail.Args["n"] != 1 {
+		if f.Value != want.lookups || f.Detail.Args["blocked"] != want.blocked {
 			t.Errorf("today: %v lookups, %v; want %v and %d blocked", f.Value, f.Detail.Args, want.lookups, want.blocked)
 		}
 		if len(f.Hours) != 24 || f.Hours[0] != float64(want.first) || f.Label.Key != "adguard.today" || f.Area != "network" {
@@ -116,15 +116,12 @@ func TestToday(t *testing.T) {
 		// The clocks went back at 3:00, so the day had 25 hours.
 		{time.Date(2026, 10, 25, 23, 50, 0, 0, brussels), 25},
 	} {
-		if f := today(ones, c.at, 1); f[0].Value != c.want {
+		if f := today(ones, c.at); f[0].Value != c.want {
 			t.Errorf("at %s: %v hours since midnight, want %v", c.at, f[0].Value, c.want)
 		}
 	}
-	if f := today(stats{TimeUnits: "days", ByUnit: make([]int, 30), BlockedBy: make([]int, 30)}, recorded, 1); f != nil {
+	if f := today(stats{TimeUnits: "days", ByUnit: make([]int, 30), BlockedBy: make([]int, 30)}, recorded); f != nil {
 		t.Errorf("statistics by the day have no today: %+v", f)
-	}
-	if d := today(ones, recorded, 1)[0].Detail; d.Key != "adguard.today_blocked" || d.Args["n"] != nil {
-		t.Errorf("a lone resolver has no others to note: %+v", d)
 	}
 }
 

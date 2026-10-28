@@ -1,7 +1,6 @@
 {
   "adguard.today": "DNS lookups",
   "adguard.today_blocked": "{blocked} blocked",
-  "adguard.today_of": { "one": "{blocked} blocked · one resolver", "other": "{blocked} blocked" },
 
   "adguard.protection": "Protection",
   "adguard.filtering": "Filtering",
