@@ -29,6 +29,16 @@ sources:
     - url: ${IMMICH_URL}               # where Overlook reads Immich, such as http://immich:2283
       key: ${IMMICH_KEY}               # an API key with the read permissions in the README
 
+  # The films: how many, how much room, what came this week and what's coming.
+  radarr:
+    - url: http://radarr:7878          # where Overlook reads Radarr
+      key: ${RADARR_KEY}               # Settings, General, API Key
+
+  # The shows and their episodes, the same way.
+  sonarr:
+    - url: http://sonarr:8989          # where Overlook reads Sonarr
+      key: ${SONARR_KEY}               # Settings, General, API Key
+
 # The apps the homelab hosts, and the tools that run it. An icon is a file in
 # icons/ beside this config (or one Overlook ships), or a URL. A check is a
 # Gatus check's name, which lights the app's dot.
