@@ -53,10 +53,14 @@ and open <http://localhost:8080>.
 
 ## Adding an adapter
 
-An adapter reads one kind of source and gives back its facts in Overlook's shapes. It comes in by pull request from someone who runs that source, who then keeps it (ADR 0005). One adapter per pull request, with:
+An adapter reads one kind of source and gives back its facts in Overlook's shapes. It comes in by pull request from someone who runs that source, who then keeps it (ADR 0005), or from the maintainer, recorded from a scratch instance (ADR 0008).
+
+A source gets an adapter when three things hold: Overlook can read it with GET, and at most one login (ADR 0009), using a key its owner makes once and that lasts a year or more; about one homelab in ten runs it, or its author does; and it shows more than whether it answers, which a check engine already says. A source that can't be read is listed under [Can't be read](README.md#cant-be-read), with why.
+
+One adapter per pull request, with:
 
 1. **Its package**, `internal/adapters/<name>`, with a `Config` (whose `Check` fills its defaults and refuses what can't work) and a `Read(ctx, Config) (snapshot.Parts, error)` that reads only through `internal/fetch`: `fetch.JSON` over HTTP, or `fetch.NUTVars` from NUT's upsd. Wire it into `internal/config`: a field in `Sources`, and one `add` line in `check`.
-2. **Recorded answers**, in its `testdata/`, by the path read, such as `testdata/api/v1/endpoints/statuses.json`. Record them from your own source, then replace every key, host, name and number that is yours.
+2. **Recorded answers**, in its `testdata/`, by the path read, such as `testdata/api/v1/endpoints/statuses.json`. Record them from your own source, then replace every key, host, name and number that is yours. For a source you don't run, record them from a scratch instance filled with invented data, with its compose file and the steps that fill it beside them (ADR 0008).
 3. **Its test**, which replays them with `adaptertest.Replay` (NUT's, which isn't HTTP, replays a transcript of upsd through a fake upsd in its own test), checks the result with `adaptertest.Validate`, and asserts what the adapter makes of them.
 4. **Its words**, in `web/i18n/en/<name>.json`, each key starting with `<name>.`. Every word the adapter adds to the page is a key and its values (ADR 0006); names from the source are shown as written.
 5. **Its config**, in `overlook.example.yaml`, and the least key it needs, in its section of the README.
