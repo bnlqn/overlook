@@ -73,13 +73,13 @@ export const TINT = { servers: "#7170FF", network: "#4EA7FC", storage: "#F2994A"
  * blocked lookups, is orange.
  */
 export const HOURS = "var(--m-accent-2)";
-export const PART = "var(--m-orange)";
+const PART = "var(--m-orange)";
 
 /** How many results a strip shows. */
 export const RECENT = 30;
 
 /** An icon's address: a URL as given, or a file the server has in icons/. */
-export const iconSrc = (icon) => (/^(https?:)?\/\//.test(icon) ? icon : `icons/${icon}`);
+const iconSrc = (icon) => (/^(https?:)?\/\//.test(icon) ? icon : `icons/${icon}`);
 
 /** An app's or a tool's logo on its tile; size is xs, sm, md or lg. */
 export const badge = (s, size = "md") =>
@@ -142,35 +142,26 @@ export function checkRows(checks) {
     .join("");
 }
 
-/**
- * A row of a list: a title (and a line under it), and its value. With a
- * meter, the meter runs the row's whole width under both and the line goes
- * under the meter, so every row's bar has the same edges.
- */
-export function fact(title, value, detail = "", bar = "") {
-  if (bar) {
-    return `<div class="row"><span class="copy"><span class="title">${title}</span></span><span class="value">${value}</span>${bar}${detail ? `<span class="detail under">${detail}</span>` : ""}</div>`;
-  }
-  return `<div class="row"><span class="copy"><span class="title">${title}</span>${detail ? `<span class="detail">${detail}</span>` : ""}</span><span class="value">${value}</span></div>`;
-}
-
 /** A figure's meter: its label, its bar, and how full it is. */
 export const figureMeter = (m) =>
   `<span class="figure-meter"><span>${m.label ? say(m.label) : ""}</span>${meter(m.used, m.total, m.tone)}<span>${t("percent", { n: Math.round((100 * m.used) / m.total) })}</span></span>`;
 
 /**
- * A section of the snapshot: its title, then its rows. It carries its place
- * among the page's sections, i, so a page in one column can keep their order.
+ * A section of the snapshot: its title, then its rows, each a title (and a
+ * line under it) and its value. With a meter, the meter runs the row's whole
+ * width under both and the line goes under the meter, so every row's bar has
+ * the same edges. It carries its place among the page's sections, i, so a
+ * page in one column can keep their order.
  */
 export function section(s, i) {
   const rows = s.rows.map((r) => {
+    const title = `<span class="title">${say(r.title)}</span>`;
     const value = r.value ? (r.tone ? `<span class="state tone-${r.tone}">${say(r.value)}</span>` : say(r.value)) : "";
-    return fact(
-      say(r.title),
-      value,
-      r.detail ? say(r.detail) : "",
-      r.meter ? meter(r.meter.used, r.meter.total, r.meter.tone) : "",
-    );
+    const detail = r.detail ? say(r.detail) : "";
+    if (r.meter) {
+      return `<div class="row"><span class="copy">${title}</span><span class="value">${value}</span>${meter(r.meter.used, r.meter.total, r.meter.tone)}${detail ? `<span class="detail under">${detail}</span>` : ""}</div>`;
+    }
+    return `<div class="row"><span class="copy">${title}${detail ? `<span class="detail">${detail}</span>` : ""}</span><span class="value">${value}</span></div>`;
   });
   return `<section style="--i:${i}"><h2 class="section-title">${say(s.title)}</h2><div class="list card">${rows.join("")}</div></section>`;
 }
@@ -181,7 +172,7 @@ let uid = 0;
  * point's column brings its tooltip, from tips.
  */
 export function sparkline(values, color, tips = []) {
-  const v = values.map((x) => (x === null || !Number.isFinite(x) ? 0 : x));
+  const v = values.map((x) => (Number.isFinite(x) ? x : 0));
   const n = v.length;
   if (n < 2) return "";
   const max = Math.max(...v) || 1;

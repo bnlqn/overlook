@@ -821,11 +821,11 @@
       "title": { "key": "radarr.films" },
       "rows": [
         {
-          "title": { "key": "radarr.library" },
+          "title": { "key": "servarr.in_library" },
           "value": { "key": "radarr.films_n", "args": { "n": 412 } },
           "detail": { "key": "radarr.library_detail", "args": { "n": 3, "size": 3186865348608 } }
         },
-        { "title": { "key": "radarr.downloading" }, "value": { "key": "radarr.downloading_n", "args": { "n": 1 } } }
+        { "title": { "key": "servarr.downloading" }, "value": { "key": "radarr.downloading_n", "args": { "n": 1 } } }
       ]
     },
     {
@@ -834,17 +834,17 @@
       "rows": [
         {
           "title": { "name": "Nosferatu (1922)" },
-          "value": { "key": "radarr.on", "args": { "at": "2026-10-30T00:00:00Z" } },
+          "value": { "key": "servarr.on", "args": { "at": "2026-10-30T00:00:00Z" } },
           "detail": { "key": "radarr.to_stream" }
         },
         {
           "title": { "name": "The General (1926)" },
-          "value": { "key": "radarr.on", "args": { "at": "2026-11-02T00:00:00Z" } },
+          "value": { "key": "servarr.on", "args": { "at": "2026-11-02T00:00:00Z" } },
           "detail": { "key": "radarr.on_disc" }
         },
         {
           "title": { "name": "Metropolis (1927)" },
-          "value": { "key": "radarr.have" },
+          "value": { "key": "servarr.have" },
           "detail": { "key": "radarr.to_stream" }
         }
       ]
@@ -854,11 +854,11 @@
       "title": { "key": "sonarr.shows" },
       "rows": [
         {
-          "title": { "key": "sonarr.library" },
+          "title": { "key": "servarr.in_library" },
           "value": { "key": "sonarr.shows_n", "args": { "n": 38 } },
           "detail": { "key": "sonarr.library_detail", "args": { "n": 1904, "size": 2418925862912, "week": 9 } }
         },
-        { "title": { "key": "sonarr.downloading" }, "value": { "key": "sonarr.downloading_n", "args": { "n": 2 } } }
+        { "title": { "key": "servarr.downloading" }, "value": { "key": "sonarr.downloading_n", "args": { "n": 2 } } }
       ]
     },
     {
@@ -867,17 +867,17 @@
       "rows": [
         {
           "title": { "name": "Northern Lines 1×08" },
-          "value": { "key": "sonarr.have" },
+          "value": { "key": "servarr.have" },
           "detail": { "name": "The Last Train" }
         },
         {
           "title": { "name": "The Quiet Valley 2×05" },
-          "value": { "key": "sonarr.on", "args": { "at": "2026-10-29T20:00:00Z" } },
+          "value": { "key": "servarr.on", "args": { "at": "2026-10-29T20:00:00Z" } },
           "detail": { "name": "Low Water" }
         },
         {
           "title": { "name": "Small Hours 4×01" },
-          "value": { "key": "sonarr.on", "args": { "at": "2026-11-01T21:00:00Z" } },
+          "value": { "key": "servarr.on", "args": { "at": "2026-11-01T21:00:00Z" } },
           "detail": { "key": "sonarr.untitled" }
         }
       ]
@@ -1195,9 +1195,12 @@
         "value": 3186865348608,
         "tone": "orange",
         "rows": [
-          { "title": { "key": "radarr.on_disk" }, "value": { "key": "radarr.bytes", "args": { "n": 3186865348608 } } },
-          { "title": { "key": "radarr.library" }, "value": { "key": "radarr.films_n", "args": { "n": 412 } } },
-          { "title": { "key": "radarr.week" }, "value": { "key": "radarr.plus", "args": { "n": 3 } } }
+          {
+            "title": { "key": "servarr.on_disk" },
+            "value": { "key": "servarr.bytes", "args": { "n": 3186865348608 } }
+          },
+          { "title": { "key": "servarr.in_library" }, "value": { "key": "radarr.films_n", "args": { "n": 412 } } },
+          { "title": { "key": "servarr.week" }, "value": { "key": "servarr.plus", "args": { "n": 3 } } }
         ]
       }
     },
@@ -1214,10 +1217,13 @@
         "value": 2418925862912,
         "tone": "blue",
         "rows": [
-          { "title": { "key": "sonarr.on_disk" }, "value": { "key": "sonarr.bytes", "args": { "n": 2418925862912 } } },
-          { "title": { "key": "sonarr.library" }, "value": { "key": "sonarr.shows_n", "args": { "n": 38 } } },
+          {
+            "title": { "key": "servarr.on_disk" },
+            "value": { "key": "servarr.bytes", "args": { "n": 2418925862912 } }
+          },
+          { "title": { "key": "servarr.in_library" }, "value": { "key": "sonarr.shows_n", "args": { "n": 38 } } },
           { "title": { "key": "sonarr.episodes" }, "value": { "key": "sonarr.n", "args": { "n": 1904 } } },
-          { "title": { "key": "sonarr.week" }, "value": { "key": "sonarr.plus", "args": { "n": 9 } } }
+          { "title": { "key": "servarr.week" }, "value": { "key": "servarr.plus", "args": { "n": 9 } } }
         ]
       }
     },

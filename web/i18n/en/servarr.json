@@ -1,3 +1,16 @@
 {
-  "servarr.library": "Library"
+  "servarr.library": "Library",
+  "servarr.in_library": "In the library",
+  "servarr.on_disk": "On disk",
+  "servarr.bytes": "{n:bytes}",
+  "servarr.week": "This week",
+  "servarr.plus": "+{n}",
+  "servarr.downloading": "Downloading",
+  "servarr.nothing": "Nothing",
+  "servarr.warning": "Warning",
+  "servarr.error": "Error",
+
+  "servarr.coming_none": "Nothing in the next 7 days",
+  "servarr.on": "{at:day}",
+  "servarr.have": "In the library"
 }

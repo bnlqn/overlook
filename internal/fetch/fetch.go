@@ -1,5 +1,5 @@
 // Package fetch is how adapters read their sources: with GET requests, and
-// NUT's read commands, and nothing else, so that no key Overlook holds can
+// NUT's LIST VAR, and nothing else, so that no key Overlook holds can
 // change anything, whatever an adapter asks for (ADR 0001).
 package fetch
 

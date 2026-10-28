@@ -43,7 +43,7 @@ and open <http://localhost:8080>.
 | --- | --- |
 | `cmd/overlook` | the binary: flags, the server's start and its graceful stop |
 | `internal/config` | `overlook.yaml`: strict loading, `${VAR}`s, every adapter's config |
-| `internal/fetch` | the only way to read a source: GET requests, and NUT's read commands, nothing else (ADR 0001) |
+| `internal/fetch` | the only way to read a source: GET requests, and NUT's LIST VAR, nothing else (ADR 0001) |
 | `internal/snapshot` | the shapes every adapter gives back, and the reader that builds a snapshot on demand (ADR 0004) |
 | `internal/adapters/<name>` | one adapter each, with its recorded answers in `testdata/` |
 | `internal/adapters/adaptertest` | the contract test every adapter passes |
@@ -55,13 +55,13 @@ and open <http://localhost:8080>.
 
 An adapter reads one kind of source and gives back its facts in Overlook's shapes. It comes in by pull request from someone who runs that source, who then keeps it (ADR 0005). One adapter per pull request, with:
 
-1. **Its package**, `internal/adapters/<name>`, with a `Config` (whose `Check` fills its defaults and refuses what can't work) and a `Read(ctx, Config) (snapshot.Parts, error)` that reads only through `internal/fetch`: `fetch.JSON` over HTTP, or `fetch.NUTVars` from NUT's upsd. Wire it into `internal/config`: a field in `Sources`, its `Check` in `check`, its `Read` in `Readers`.
+1. **Its package**, `internal/adapters/<name>`, with a `Config` (whose `Check` fills its defaults and refuses what can't work) and a `Read(ctx, Config) (snapshot.Parts, error)` that reads only through `internal/fetch`: `fetch.JSON` over HTTP, or `fetch.NUTVars` from NUT's upsd. Wire it into `internal/config`: a field in `Sources`, and one `add` line in `check`.
 2. **Recorded answers**, in its `testdata/`, by the path read, such as `testdata/api/v1/endpoints/statuses.json`. Record them from your own source, then replace every key, host, name and number that is yours.
 3. **Its test**, which replays them with `adaptertest.Replay` (NUT's, which isn't HTTP, replays a transcript of upsd through a fake upsd in its own test), checks the result with `adaptertest.Validate`, and asserts what the adapter makes of them.
 4. **Its words**, in `web/i18n/en/<name>.json`, each key starting with `<name>.`. Every word the adapter adds to the page is a key and its values (ADR 0006); names from the source are shown as written.
 5. **Its config**, in `overlook.example.yaml`, and the least key it needs, in its section of the README.
 6. **Its author**, in `.github/CODEOWNERS`, beside its folder and its words.
-7. **Its parts in the demo**, `demo/snapshot.json`, after the parts of the adapters before it in `Readers`, with names and numbers made up. The demo's test fails until a word of the adapter's is there.
+7. **Its parts in the demo**, `demo/snapshot.json`, after the parts of the adapters before it in `check`, with names and numbers made up. The demo's test fails until a word of the adapter's is there.
 
 ## Translating
 

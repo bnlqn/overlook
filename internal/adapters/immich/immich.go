@@ -132,9 +132,9 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	rows := []snapshot.Row{}
 	var everyone int64
 	for i, p := range stats.People {
-		r := snapshot.Row{Title: snapshot.Text{Name: p.Name}, Detail: msg("immich.person", map[string]any{"photos": p.Photos, "videos": p.Videos, "usage": p.Usage})}
+		r := snapshot.Row{Title: snapshot.Text{Name: p.Name}, Detail: snapshot.Msg("immich.person", map[string]any{"photos": p.Photos, "videos": p.Videos, "usage": p.Usage})}
 		if week[i] != nil {
-			r.Value = msg("immich.this_week", map[string]any{"n": *week[i]})
+			r.Value = snapshot.Msg("immich.this_week", map[string]any{"n": *week[i]})
 			everyone += *week[i]
 		}
 		rows = append(rows, r)
@@ -142,8 +142,8 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	if hasDisk && disk.Size > 0 {
 		rows = append(rows, snapshot.Row{
 			Title:  snapshot.Text{Key: "immich.space"},
-			Value:  msg("immich.space_used", map[string]any{"used": disk.Used, "size": disk.Size}),
-			Detail: msg("immich.space_photos", map[string]any{"usage": stats.Usage}),
+			Value:  snapshot.Msg("immich.space_used", map[string]any{"used": disk.Used, "size": disk.Size}),
+			Detail: snapshot.Msg("immich.space_photos", map[string]any{"usage": stats.Usage}),
 			Meter:  &snapshot.Meter{Used: float64(disk.Used), Total: float64(disk.Size)},
 		})
 	}
@@ -152,9 +152,9 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 		switch release.ReleaseVersion {
 		case "":
 		case about.Version:
-			r.Detail = msg("immich.current", nil)
+			r.Detail = snapshot.Msg("immich.current", nil)
 		default:
-			r.Detail, r.Tone = msg("immich.newer", map[string]any{"version": release.ReleaseVersion}), "orange"
+			r.Detail, r.Tone = snapshot.Msg("immich.newer", map[string]any{"version": release.ReleaseVersion}), "orange"
 		}
 		rows = append(rows, r)
 	}
@@ -162,12 +162,12 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 		idle := true
 		for _, q := range queues {
 			if n := q.Statistics.Active + q.Statistics.Waiting; n > 0 {
-				rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "immich.jobs_of", Args: map[string]any{"name": q.Name}}, Value: msg("immich.queued", map[string]any{"n": n})})
+				rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "immich.jobs_of", Args: map[string]any{"name": q.Name}}, Value: snapshot.Msg("immich.queued", map[string]any{"n": n})})
 				idle = false
 			}
 		}
 		if idle {
-			rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "immich.jobs"}, Value: msg("immich.idle", nil), Detail: msg("immich.nothing_waiting", nil)})
+			rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "immich.jobs"}, Value: snapshot.Msg("immich.idle", nil), Detail: snapshot.Msg("immich.nothing_waiting", nil)})
 		}
 	}
 
@@ -175,19 +175,19 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	// uploaded this week if every person's read answered, and, when there's
 	// more than one person, each one's share of the room they take.
 	figure := snapshot.Figure{Area: "apps", Icon: "photos", Label: snapshot.Text{Key: "immich.photos"}, Value: float64(stats.Photos + stats.Videos)}
-	figure.Detail = msg("immich.this_week", map[string]any{"n": everyone})
+	figure.Detail = snapshot.Msg("immich.this_week", map[string]any{"n": everyone})
 	if slices.Contains(week, nil) {
-		figure.Detail = msg("immich.videos", map[string]any{"n": stats.Videos})
+		figure.Detail = snapshot.Msg("immich.videos", map[string]any{"n": stats.Videos})
 	}
 	if len(stats.People) > 1 && stats.Usage > 0 {
 		for i, p := range stats.People {
 			rows := []snapshot.Row{
-				{Title: snapshot.Text{Key: "immich.photos"}, Value: msg("immich.n", map[string]any{"n": p.Photos})},
-				{Title: snapshot.Text{Key: "immich.videos_title"}, Value: msg("immich.n", map[string]any{"n": p.Videos})},
-				{Title: snapshot.Text{Key: "immich.space"}, Value: msg("immich.bytes", map[string]any{"n": p.Usage})},
+				{Title: snapshot.Text{Key: "immich.photos"}, Value: snapshot.Msg("immich.n", map[string]any{"n": p.Photos})},
+				{Title: snapshot.Text{Key: "immich.videos_title"}, Value: snapshot.Msg("immich.n", map[string]any{"n": p.Videos})},
+				{Title: snapshot.Text{Key: "immich.space"}, Value: snapshot.Msg("immich.bytes", map[string]any{"n": p.Usage})},
 			}
 			if week[i] != nil {
-				rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "immich.week"}, Value: msg("immich.plus", map[string]any{"n": *week[i]})})
+				rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "immich.week"}, Value: snapshot.Msg("immich.plus", map[string]any{"n": *week[i]})})
 			}
 			figure.Shares = append(figure.Shares, snapshot.Share{Label: snapshot.Text{Name: p.Name}, Value: float64(p.Usage), Rows: rows})
 		}
@@ -196,9 +196,4 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 		Sections: []snapshot.Section{{Area: "apps", Title: snapshot.Text{Key: "immich.photos"}, Rows: rows}},
 		Figures:  []snapshot.Figure{figure},
 	}, nil
-}
-
-// msg is the message at key with its values.
-func msg(key string, args map[string]any) *snapshot.Text {
-	return &snapshot.Text{Key: key, Args: args}
 }

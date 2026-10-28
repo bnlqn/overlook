@@ -58,7 +58,7 @@ and the least key it needs), and CI passes.
 ## What it never does
 
 - **It never changes anything.** Overlook sends a source only GET requests,
-  and NUT only its read commands; the client it reads with refuses every
+  and NUT only LIST VAR, which reads; the client it reads with refuses every
   other method. Some keys it holds could do anything (AdGuard Home has no
   read-only users, and Radarr's and Sonarr's keys are admin keys), and this
   is what keeps them harmless.
@@ -431,8 +431,8 @@ sources:
       ups: ups              # the UPS's name in upsd, as in its ups.conf
 ```
 
-upsd needs no login for this: Overlook sends only `LIST UPS`, `LIST VAR`,
-`GET VAR`, `VER` and `NETVER`, and refuses every other command in its code.
+upsd needs no login for this: Overlook sends only `LIST VAR` for the UPS
+named, and has no code to send any other command.
 upsd must listen where Overlook can reach it, which by default it doesn't:
 set `MODE=netserver` in `nut.conf`, add a `LISTEN` line for the address
 Overlook reaches to `upsd.conf` (such as `LISTEN 192.0.2.13 3493`), and let

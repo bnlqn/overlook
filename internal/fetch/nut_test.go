@@ -10,16 +10,12 @@ import (
 	"time"
 )
 
-// upsd starts a upsd that answers the read commands for one UPS, named ups,
-// and returns its address and every line it was sent.
+// upsd starts a upsd that answers LIST VAR for one UPS, named ups, and
+// returns its address and every line it was sent.
 func upsd(t *testing.T) (string, func() []string) {
 	t.Helper()
 	answers := map[string]string{
-		"VER":                    "Network UPS Tools upsd 2.8.1 - https://www.networkupstools.org/",
-		"NETVER":                 "1.3",
-		"LIST UPS":               "BEGIN LIST UPS\nUPS ups \"The rack's UPS\"\nEND LIST UPS",
-		"LIST VAR ups":           "BEGIN LIST VAR ups\nVAR ups ups.status \"OL CHRG\"\nVAR ups ups.model \"Say \\\"hi\\\" C:\\\\ \"\nEND LIST VAR ups",
-		"GET VAR ups ups.status": "VAR ups ups.status \"OL CHRG\"",
+		"LIST VAR ups": "BEGIN LIST VAR ups\nVAR ups ups.status \"OL CHRG\"\nVAR ups ups.model \"Say \\\"hi\\\" C:\\\\ \"\nEND LIST VAR ups",
 	}
 	ln, err := (&net.ListenConfig{}).Listen(t.Context(), "tcp", "127.0.0.1:0")
 	if err != nil {
@@ -66,50 +62,19 @@ func upsd(t *testing.T) (string, func() []string) {
 func TestNUTOnlyReads(t *testing.T) {
 	t.Parallel()
 	addr, sent := upsd(t)
-	conn, err := (&net.Dialer{}).DialContext(t.Context(), "tcp", addr)
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer conn.Close()
-	n := nut{conn, bufio.NewReader(conn)}
-
-	for _, refused := range [][]string{
-		{"SET VAR", "ups", "ups.delay.shutdown", "1"},
-		{"INSTCMD", "ups", "load.off"},
-		{"FSD", "ups"},
-		{"LOGIN", "ups"},
-		{"USERNAME", "admin"},
-		{"PASSWORD", "s3cret"},
-		{"PRIMARY", "ups"},
-		{"LIST CMD", "ups"},
-		{"LIST RW", "ups"},
-		{"LOGOUT"},
-		{"list var", "ups"},
-		{"LIST VAR"},
-		{"LIST VAR", "ups", "more"},
-		{"GET VAR", "ups"},
-		{"LIST VAR", "ups\nFSD ups"},
-		{"GET VAR", "ups", "ups.status\r\nINSTCMD ups load.off"},
-		{"LIST VAR", "ups FSD"},
-		{"LIST VAR", ""},
-		{"VER\nFSD ups"},
-	} {
-		if _, err := n.ask(refused[0], refused[1:]...); err == nil {
-			t.Errorf("%q went through", refused)
+	for _, ups := range []string{"", "ups FSD", "ups\nFSD ups", "ups\r\nINSTCMD ups load.off", `ups"`, `ups\`} {
+		if _, err := NUTVars(t.Context(), addr, ups); err == nil {
+			t.Errorf("%q went through", ups)
 		}
 	}
 	if got := sent(); len(got) != 0 {
-		t.Fatalf("refused commands reached upsd: %q", got)
+		t.Fatalf("refused names reached upsd: %q", got)
 	}
-
-	for _, read := range [][]string{{"VER"}, {"NETVER"}, {"LIST UPS"}, {"LIST VAR", "ups"}, {"GET VAR", "ups", "ups.status"}} {
-		lines, err := n.ask(read[0], read[1:]...)
-		if err != nil || len(lines) == 0 {
-			t.Errorf("%q: %q, %v", read, lines, err)
-		}
+	if _, err := NUTVars(t.Context(), addr, "ups"); err != nil {
+		t.Fatal(err)
 	}
-	if got := sent(); len(got) != 5 {
-		t.Errorf("want each read sent once, got %q", got)
+	if got := sent(); len(got) != 1 || got[0] != "LIST VAR ups\n" {
+		t.Errorf("want LIST VAR sent once, got %q", got)
 	}
 }
 

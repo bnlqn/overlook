@@ -81,7 +81,7 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		}
 	}
 	library := snapshot.Row{
-		Title:  snapshot.Text{Key: "radarr.library"},
+		Title:  snapshot.Text{Key: "servarr.in_library"},
 		Value:  &snapshot.Text{Key: "radarr.films_n", Args: map[string]any{"n": owned}},
 		Detail: &snapshot.Text{Key: "radarr.library_detail", Args: map[string]any{"size": size, "n": week}},
 	}
@@ -94,9 +94,9 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		Detail: &snapshot.Text{Key: "radarr.this_week", Args: map[string]any{"n": week}},
 		Join:   &join,
 		Part: &snapshot.Share{Label: snapshot.Text{Key: "radarr.films"}, Value: float64(size), Tone: "orange", Rows: []snapshot.Row{
-			{Title: snapshot.Text{Key: "radarr.on_disk"}, Value: &snapshot.Text{Key: "radarr.bytes", Args: map[string]any{"n": size}}},
-			{Title: snapshot.Text{Key: "radarr.library"}, Value: &snapshot.Text{Key: "radarr.films_n", Args: map[string]any{"n": owned}}},
-			{Title: snapshot.Text{Key: "radarr.week"}, Value: &snapshot.Text{Key: "radarr.plus", Args: map[string]any{"n": week}}},
+			{Title: snapshot.Text{Key: "servarr.on_disk"}, Value: &snapshot.Text{Key: "servarr.bytes", Args: map[string]any{"n": size}}},
+			{Title: snapshot.Text{Key: "servarr.in_library"}, Value: &snapshot.Text{Key: "radarr.films_n", Args: map[string]any{"n": owned}}},
+			{Title: snapshot.Text{Key: "servarr.week"}, Value: &snapshot.Text{Key: "servarr.plus", Args: map[string]any{"n": week}}},
 		}},
 	}
 	return snapshot.Parts{
@@ -125,9 +125,9 @@ func coming(calendar []movie, start, end time.Time) []snapshot.Row {
 			if r.at == nil || r.at.Before(start) || !r.at.Before(end) {
 				continue
 			}
-			value := snapshot.Text{Key: "radarr.on", Args: map[string]any{"at": *r.at}}
+			value := snapshot.Text{Key: "servarr.on", Args: map[string]any{"at": *r.at}}
 			if m.HasFile {
-				value = snapshot.Text{Key: "radarr.have"}
+				value = snapshot.Text{Key: "servarr.have"}
 			}
 			all = append(all, release{*r.at, snapshot.Row{
 				Title:  snapshot.Text{Name: fmt.Sprintf("%s (%d)", m.Title, m.Year)},
@@ -143,7 +143,7 @@ func coming(calendar []movie, start, end time.Time) []snapshot.Row {
 		rows[i] = r.row
 	}
 	if len(rows) == 0 {
-		rows = []snapshot.Row{{Title: snapshot.Text{Key: "radarr.coming_none"}}}
+		rows = []snapshot.Row{{Title: snapshot.Text{Key: "servarr.coming_none"}}}
 	}
 	return rows
 }

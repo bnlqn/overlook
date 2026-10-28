@@ -6,11 +6,13 @@ package config
 
 import (
 	"bytes"
+	"cmp"
 	"context"
 	"errors"
 	"fmt"
 	"os"
 	"regexp"
+	"slices"
 	"time"
 
 	"go.yaml.in/yaml/v3"
@@ -34,6 +36,9 @@ type Config struct {
 	Apps    []snapshot.Link  `yaml:"apps"`
 	Tools   []snapshot.Link  `yaml:"tools"`
 	Chores  []snapshot.Chore `yaml:"chores"`
+
+	// readers are the sources check let through, each with its read.
+	readers []snapshot.Source
 }
 
 // Sources are the sources to read, by adapter: each adapter's own config.
@@ -49,37 +54,27 @@ type Sources struct {
 	AdGuard []adguard.Config `yaml:"adguard"`
 }
 
-// Readers are the sources, each with its adapter's read.
-func (c Config) Readers() []snapshot.Source {
-	var all []snapshot.Source
-	for _, g := range c.Sources.Gatus {
-		all = append(all, snapshot.Source{Name: g.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return gatus.Read(ctx, g) }})
+// Readers are the sources, each with its adapter's read, as Load checked
+// them.
+func (c Config) Readers() []snapshot.Source { return c.readers }
+
+// add checks the sources under sources.<key>, which list holds, and keeps
+// each with its adapter's read. Each source's name must be its own.
+func add[C any, P interface {
+	*C
+	Check() error
+}](c *Config, key string, list []C, name func(C) string, read func(context.Context, C) (snapshot.Parts, error)) error {
+	for i := range list {
+		if err := P(&list[i]).Check(); err != nil {
+			return fmt.Errorf("sources.%s[%d]: %w", key, i, err)
+		}
+		src, n := list[i], name(list[i])
+		if slices.ContainsFunc(c.readers, func(s snapshot.Source) bool { return s.Name == n }) {
+			return fmt.Errorf("sources.%s[%d]: another source is named %s: give each a name", key, i, n)
+		}
+		c.readers = append(c.readers, snapshot.Source{Name: n, Read: func(ctx context.Context) (snapshot.Parts, error) { return read(ctx, src) }})
 	}
-	for _, g := range c.Sources.GitHub {
-		all = append(all, snapshot.Source{Name: g.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return github.Read(ctx, g) }})
-	}
-	for _, im := range c.Sources.Immich {
-		all = append(all, snapshot.Source{Name: im.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return immich.Read(ctx, im) }})
-	}
-	for _, b := range c.Sources.PBS {
-		all = append(all, snapshot.Source{Name: b.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return pbs.Read(ctx, b) }})
-	}
-	for _, p := range c.Sources.Proxmox {
-		all = append(all, snapshot.Source{Name: p.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return proxmox.Read(ctx, p) }})
-	}
-	for _, r := range c.Sources.Radarr {
-		all = append(all, snapshot.Source{Name: r.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return radarr.Read(ctx, r) }})
-	}
-	for _, s := range c.Sources.Sonarr {
-		all = append(all, snapshot.Source{Name: s.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return sonarr.Read(ctx, s) }})
-	}
-	for _, n := range c.Sources.NUT {
-		all = append(all, snapshot.Source{Name: n.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return nut.Read(ctx, n) }})
-	}
-	for _, a := range c.Sources.AdGuard {
-		all = append(all, snapshot.Source{Name: a.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return adguard.Read(ctx, a) }})
-	}
-	return all
+	return nil
 }
 
 var (
@@ -149,96 +144,19 @@ func interpolate(n *yaml.Node) error {
 
 // check fills the defaults and refuses what can't work.
 func (c *Config) check() error {
-	names := map[string]bool{}
-	for i := range c.Sources.Gatus {
-		g := &c.Sources.Gatus[i]
-		if err := g.Check(); err != nil {
-			return fmt.Errorf("sources.gatus[%d]: %w", i, err)
-		}
-		if names[g.Name] {
-			return fmt.Errorf("sources.gatus[%d]: another source is named %s: give each a name", i, g.Name)
-		}
-		names[g.Name] = true
-	}
-	for i := range c.Sources.GitHub {
-		g := &c.Sources.GitHub[i]
-		if err := g.Check(); err != nil {
-			return fmt.Errorf("sources.github[%d]: %w", i, err)
-		}
-		if names[g.Name] {
-			return fmt.Errorf("sources.github[%d]: another source is named %s: give each a name", i, g.Name)
-		}
-		names[g.Name] = true
-	}
-	for i := range c.Sources.Immich {
-		im := &c.Sources.Immich[i]
-		if err := im.Check(); err != nil {
-			return fmt.Errorf("sources.immich[%d]: %w", i, err)
-		}
-		if names[im.Name] {
-			return fmt.Errorf("sources.immich[%d]: another source is named %s: give each a name", i, im.Name)
-		}
-		names[im.Name] = true
-	}
-	for i := range c.Sources.PBS {
-		b := &c.Sources.PBS[i]
-		if err := b.Check(); err != nil {
-			return fmt.Errorf("sources.pbs[%d]: %w", i, err)
-		}
-		if names[b.Name] {
-			return fmt.Errorf("sources.pbs[%d]: another source is named %s: give each a name", i, b.Name)
-		}
-		names[b.Name] = true
-	}
-	for i := range c.Sources.Proxmox {
-		p := &c.Sources.Proxmox[i]
-		if err := p.Check(); err != nil {
-			return fmt.Errorf("sources.proxmox[%d]: %w", i, err)
-		}
-		if names[p.Name] {
-			return fmt.Errorf("sources.proxmox[%d]: another source is named %s: give each a name", i, p.Name)
-		}
-		names[p.Name] = true
-	}
-	for i := range c.Sources.Radarr {
-		r := &c.Sources.Radarr[i]
-		if err := r.Check(); err != nil {
-			return fmt.Errorf("sources.radarr[%d]: %w", i, err)
-		}
-		if names[r.Name] {
-			return fmt.Errorf("sources.radarr[%d]: another source is named %s: give each a name", i, r.Name)
-		}
-		names[r.Name] = true
-	}
-	for i := range c.Sources.Sonarr {
-		s := &c.Sources.Sonarr[i]
-		if err := s.Check(); err != nil {
-			return fmt.Errorf("sources.sonarr[%d]: %w", i, err)
-		}
-		if names[s.Name] {
-			return fmt.Errorf("sources.sonarr[%d]: another source is named %s: give each a name", i, s.Name)
-		}
-		names[s.Name] = true
-	}
-	for i := range c.Sources.NUT {
-		n := &c.Sources.NUT[i]
-		if err := n.Check(); err != nil {
-			return fmt.Errorf("sources.nut[%d]: %w", i, err)
-		}
-		if names[n.Name] {
-			return fmt.Errorf("sources.nut[%d]: another source is named %s: give each a name", i, n.Name)
-		}
-		names[n.Name] = true
-	}
-	for i := range c.Sources.AdGuard {
-		a := &c.Sources.AdGuard[i]
-		if err := a.Check(); err != nil {
-			return fmt.Errorf("sources.adguard[%d]: %w", i, err)
-		}
-		if names[a.Name] {
-			return fmt.Errorf("sources.adguard[%d]: another source is named %s: give each a name", i, a.Name)
-		}
-		names[a.Name] = true
+	// The first refusal, in the order of Sources.
+	if err := cmp.Or(
+		add(c, "gatus", c.Sources.Gatus, func(g gatus.Config) string { return g.Name }, gatus.Read),
+		add(c, "github", c.Sources.GitHub, func(g github.Config) string { return g.Name }, github.Read),
+		add(c, "immich", c.Sources.Immich, func(im immich.Config) string { return im.Name }, immich.Read),
+		add(c, "pbs", c.Sources.PBS, func(b pbs.Config) string { return b.Name }, pbs.Read),
+		add(c, "proxmox", c.Sources.Proxmox, func(p proxmox.Config) string { return p.Name }, proxmox.Read),
+		add(c, "radarr", c.Sources.Radarr, func(r radarr.Config) string { return r.Name }, radarr.Read),
+		add(c, "sonarr", c.Sources.Sonarr, func(s sonarr.Config) string { return s.Name }, sonarr.Read),
+		add(c, "nut", c.Sources.NUT, func(n nut.Config) string { return n.Name }, nut.Read),
+		add(c, "adguard", c.Sources.AdGuard, func(a adguard.Config) string { return a.Name }, adguard.Read),
+	); err != nil {
+		return err
 	}
 	for _, list := range []struct {
 		name  string

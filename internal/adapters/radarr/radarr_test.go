@@ -46,16 +46,16 @@ func TestRead(t *testing.T) {
 	if q := rows[1]; q.Value.Key != "radarr.downloading_n" || q.Value.Args["n"] != 1 {
 		t.Errorf("one film downloading: %+v", q.Value)
 	}
-	if h := rows[2]; h.Title.Name != "Radarr" || h.Tone != "orange" || h.Value.Key != "radarr.warning" || h.Detail.Name != "Indexers unavailable due to failures: Example Indexer" {
+	if h := rows[2]; h.Title.Name != "Radarr" || h.Tone != "orange" || h.Value.Key != "servarr.warning" || h.Detail.Name != "Indexers unavailable due to failures: Example Indexer" {
 		t.Errorf("a warning, as Radarr words it: %+v", h)
 	}
 
 	// Caligari is only in cinemas this week, and Häxan's disc comes after
 	// its stream.
 	want := []struct{ title, value, what string }{
-		{"The Phantom Carriage (1921)", "radarr.on", "radarr.to_stream"},
-		{"Häxan (1922)", "radarr.on", "radarr.to_stream"},
-		{"Safety Last! (1923)", "radarr.have", "radarr.on_disc"},
+		{"The Phantom Carriage (1921)", "servarr.on", "radarr.to_stream"},
+		{"Häxan (1922)", "servarr.on", "radarr.to_stream"},
+		{"Safety Last! (1923)", "servarr.have", "radarr.on_disc"},
 	}
 	coming := p.Sections[1].Rows
 	if len(coming) != len(want) {
@@ -74,7 +74,7 @@ func TestRead(t *testing.T) {
 func TestNothingComing(t *testing.T) {
 	t.Parallel()
 	start := time.Date(2026, 10, 28, 0, 0, 0, 0, time.UTC)
-	if rows := coming(nil, start, start.AddDate(0, 0, 8)); len(rows) != 1 || rows[0].Title.Key != "radarr.coming_none" {
+	if rows := coming(nil, start, start.AddDate(0, 0, 8)); len(rows) != 1 || rows[0].Title.Key != "servarr.coming_none" {
 		t.Errorf("an empty week says so: %+v", rows)
 	}
 }

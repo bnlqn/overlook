@@ -26,7 +26,7 @@ import {
   word,
 } from "./draw.js";
 import { PAGES, pageName, start } from "./shell.js";
-import { ago, clock, day, esc, list, ms, number, say, span, t, when } from "./text.js";
+import { ago, clock, day, esc, list, ms, number, say, span, t, weekday, when } from "./text.js";
 
 const DAY = 864e5;
 const page = (area) => PAGES.find((p) => p.area === area);
@@ -311,7 +311,7 @@ function renderWeek(checks, events, areas) {
   const x = (at) => `${((100 * (Math.max(at, start) - start)) / (end - start)).toFixed(2)}%`;
   const head = days.map(
     (d, i) =>
-      `<span style="left:${x(+d)}"${i === 6 ? ' class="today"' : ""}><span class="wd">${d.toLocaleDateString(undefined, { weekday: "short" })} </span><b>${d.toLocaleDateString(undefined, { day: "numeric" })}</b></span>`,
+      `<span style="left:${x(+d)}"${i === 6 ? ' class="today"' : ""}><span class="wd">${weekday(d)} </span><b>${d.toLocaleDateString(undefined, { day: "numeric" })}</b></span>`,
   );
   const rows = areas.map((name, i) => {
     const mine = checks
@@ -340,7 +340,7 @@ function renderWeek(checks, events, areas) {
     });
     const diamonds = happened.map((e) => {
       const bad = e.tone === "red";
-      return `<span class="tl-ms${bad ? " bad" : ""}" style="left:${x(+new Date(e.at))}" data-tip="${tip(say(e.text), [[bad ? RED : "#4EA7FC", when(e.at), ""]])}"></span>`;
+      return `<span class="tl-ms${bad ? " bad" : ""}" style="left:${x(+new Date(e.at))}" data-tip="${tip(say(e.text), [[bad ? RED : "var(--m-blue)", when(e.at), ""]])}"></span>`;
     });
     return `<div class="tl-row" style="--i:${i};--tint:${TINT[name]}">
       <span class="tl-label">${svg(page(name).icon)}${t(`area.${name}`)}</span>

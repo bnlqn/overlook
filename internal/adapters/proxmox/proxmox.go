@@ -200,24 +200,24 @@ func parts(resources []resource, hosts []*host, nodes int, now time.Time) snapsh
 		kernel := strings.Fields(s.KVersion)
 		p.Sections = append(p.Sections, snapshot.Section{Area: area, Title: title, Rows: []snapshot.Row{
 			{
-				Title:  key("proxmox.cpu", nil),
-				Value:  ptr(key("percent", map[string]any{"n": math.Round(100 * s.CPU)})),
-				Detail: ptr(key("proxmox.cpu_detail", map[string]any{"model": model(s.CPUInfo.Model), "n": s.CPUInfo.CPUs, "load": load})),
+				Title:  snapshot.Text{Key: "proxmox.cpu"},
+				Value:  snapshot.Msg("percent", map[string]any{"n": math.Round(100 * s.CPU)}),
+				Detail: snapshot.Msg("proxmox.cpu_detail", map[string]any{"model": model(s.CPUInfo.Model), "n": s.CPUInfo.CPUs, "load": load}),
 			},
 			{
-				Title: key("proxmox.memory", nil),
-				Value: ptr(key("proxmox.gb_of", map[string]any{"used": gb(s.Memory.Used), "total": gb(s.Memory.Total)})),
+				Title: snapshot.Text{Key: "proxmox.memory"},
+				Value: snapshot.Msg("proxmox.gb_of", map[string]any{"used": gb(s.Memory.Used), "total": gb(s.Memory.Total)}),
 				// Mostly the guests', which keep what they're given: full is
 				// normal, so the bar never turns red.
 				Meter: &snapshot.Meter{Used: float64(s.Memory.Used), Total: float64(s.Memory.Total), Tone: "blue"},
 			},
 			{
-				Title:  key("proxmox.up", nil),
-				Value:  ptr(key("proxmox.span", map[string]any{"ms": up.Milliseconds()})),
-				Detail: ptr(key("proxmox.since", map[string]any{"at": now.Add(-up)})),
+				Title:  snapshot.Text{Key: "proxmox.up"},
+				Value:  snapshot.Msg("proxmox.span", map[string]any{"ms": up.Milliseconds()}),
+				Detail: snapshot.Msg("proxmox.since", map[string]any{"at": now.Add(-up)}),
 			},
 			{
-				Title:  key("proxmox.version", nil),
+				Title:  snapshot.Text{Key: "proxmox.version"},
 				Value:  &snapshot.Text{Name: version},
 				Detail: &snapshot.Text{Name: strings.Join(kernel[:min(2, len(kernel))], " ")},
 			},
@@ -240,21 +240,21 @@ func parts(resources []resource, hosts []*host, nodes int, now time.Time) snapsh
 		}
 		row := snapshot.Row{
 			Title:  onNode(g.Name, g.Node),
-			Detail: ptr(key(kind, map[string]any{"id": g.VMID, "n": g.MaxCPU, "gb": gb(g.MaxMem)})),
+			Detail: snapshot.Msg(kind, map[string]any{"id": g.VMID, "n": g.MaxCPU, "gb": gb(g.MaxMem)}),
 		}
 		switch g.Status {
 		case "running":
 			running++
-			row.Value = ptr(key("proxmox.up_for", map[string]any{"ms": g.Uptime * 1000}))
+			row.Value = snapshot.Msg("proxmox.up_for", map[string]any{"ms": g.Uptime * 1000})
 		case "stopped":
-			row.Value, row.Tone = ptr(key("proxmox.stopped", nil)), "gray"
+			row.Value, row.Tone = snapshot.Msg("proxmox.stopped", nil), "gray"
 		default:
 			row.Value, row.Tone = &snapshot.Text{Name: g.Status}, "gray"
 		}
 		rows = append(rows, row)
 	}
 	if len(guests) > 0 {
-		p.Sections = append(p.Sections, snapshot.Section{Area: area, Title: key("proxmox.guests", nil), Rows: rows})
+		p.Sections = append(p.Sections, snapshot.Section{Area: area, Title: snapshot.Text{Key: "proxmox.guests"}, Rows: rows})
 	}
 
 	// The storage, a shared one once.
@@ -270,7 +270,7 @@ func parts(resources []resource, hosts []*host, nodes int, now time.Time) snapsh
 			row.Title = snapshot.Text{Name: r.Storage}
 		}
 		if r.Status == "available" && r.MaxDisk > 0 {
-			row.Value = ptr(key("proxmox.bytes_of", map[string]any{"used": r.Disk, "total": r.MaxDisk}))
+			row.Value = snapshot.Msg("proxmox.bytes_of", map[string]any{"used": r.Disk, "total": r.MaxDisk})
 			row.Meter = &snapshot.Meter{Used: float64(r.Disk), Total: float64(r.MaxDisk)}
 		} else {
 			row.Value, row.Tone = &snapshot.Text{Name: r.Status}, "gray"
@@ -278,15 +278,15 @@ func parts(resources []resource, hosts []*host, nodes int, now time.Time) snapsh
 		rows = append(rows, row)
 	}
 	if len(rows) > 0 {
-		p.Sections = append(p.Sections, snapshot.Section{Area: area, Title: key("proxmox.storage", nil), Rows: rows})
+		p.Sections = append(p.Sections, snapshot.Section{Area: area, Title: snapshot.Text{Key: "proxmox.storage"}, Rows: rows})
 	}
 
 	// The ZFS pools: how full each is, and its health.
 	rows = []snapshot.Row{}
 	for _, h := range hosts {
 		for _, z := range h.pools {
-			space := key("proxmox.bytes_of", map[string]any{"used": z.Alloc, "total": z.Size})
-			row := snapshot.Row{Title: onNode(z.Name, h.name), Value: &space, Detail: ptr(key("proxmox.healthy", nil))}
+			space := snapshot.Text{Key: "proxmox.bytes_of", Args: map[string]any{"used": z.Alloc, "total": z.Size}}
+			row := snapshot.Row{Title: onNode(z.Name, h.name), Value: &space, Detail: snapshot.Msg("proxmox.healthy", nil)}
 			if z.Health != "ONLINE" {
 				row.Value, row.Tone, row.Detail = &snapshot.Text{Name: z.Health}, "red", &space
 			}
@@ -297,7 +297,7 @@ func parts(resources []resource, hosts []*host, nodes int, now time.Time) snapsh
 		}
 	}
 	if len(rows) > 0 {
-		p.Sections = append(p.Sections, snapshot.Section{Area: area, Title: key("proxmox.pools", nil), Rows: rows})
+		p.Sections = append(p.Sections, snapshot.Section{Area: area, Title: snapshot.Text{Key: "proxmox.pools"}, Rows: rows})
 	}
 
 	// The backup runs: each node's newest in Backups, and the week's as
@@ -309,23 +309,23 @@ func parts(resources []resource, hosts []*host, nodes int, now time.Time) snapsh
 			start := time.Unix(t.Start, 0).UTC()
 			took := map[string]any{"at": start, "ms": (t.End - t.Start) * 1000, "status": t.Status}
 			e := snapshot.Event{At: start, Area: area, Icon: "archive"}
-			row := snapshot.Row{Title: key("proxmox.last_run", nil), Detail: ptr(key("proxmox.run_took", took))}
+			row := snapshot.Row{Title: snapshot.Text{Key: "proxmox.last_run"}, Detail: snapshot.Msg("proxmox.run_took", took)}
 			if cluster {
 				row.Title = snapshot.Text{Name: h.name}
 			}
 			switch {
 			case t.End == 0:
-				e.Text = key("proxmox.backup_running", nil)
-				row.Value, row.Tone, row.Detail = ptr(key("proxmox.running", nil)), "blue", ptr(key("proxmox.run_since", took))
+				e.Text = snapshot.Text{Key: "proxmox.backup_running"}
+				row.Value, row.Tone, row.Detail = snapshot.Msg("proxmox.running", nil), "blue", snapshot.Msg("proxmox.run_since", took)
 			case t.Status == "OK":
-				e.Text = key("proxmox.backup_done", took)
-				row.Value, row.Tone = ptr(key("proxmox.done", nil)), "green"
+				e.Text = snapshot.Text{Key: "proxmox.backup_done", Args: took}
+				row.Value, row.Tone = snapshot.Msg("proxmox.done", nil), "green"
 			case strings.HasPrefix(t.Status, "WARNINGS"):
-				e.Text, e.Tone = key("proxmox.backup_warnings", took), "orange"
-				row.Value, row.Tone, row.Detail = ptr(key("proxmox.warnings", nil)), "orange", ptr(key("proxmox.run_why", took))
+				e.Text, e.Tone = snapshot.Text{Key: "proxmox.backup_warnings", Args: took}, "orange"
+				row.Value, row.Tone, row.Detail = snapshot.Msg("proxmox.warnings", nil), "orange", snapshot.Msg("proxmox.run_why", took)
 			default:
-				e.Text, e.Tone = key("proxmox.backup_failed", took), "red"
-				row.Value, row.Tone, row.Detail = ptr(key("proxmox.failed", nil)), "red", ptr(key("proxmox.run_why", took))
+				e.Text, e.Tone = snapshot.Text{Key: "proxmox.backup_failed", Args: took}, "red"
+				row.Value, row.Tone, row.Detail = snapshot.Msg("proxmox.failed", nil), "red", snapshot.Msg("proxmox.run_why", took)
 			}
 			p.Events = append(p.Events, e)
 			if i == 0 {
@@ -334,7 +334,7 @@ func parts(resources []resource, hosts []*host, nodes int, now time.Time) snapsh
 		}
 	}
 	if len(rows) > 0 {
-		p.Sections = append(p.Sections, snapshot.Section{Area: area, Title: key("proxmox.backups", nil), Rows: rows})
+		p.Sections = append(p.Sections, snapshot.Section{Area: area, Title: snapshot.Text{Key: "proxmox.backups"}, Rows: rows})
 	}
 
 	// Today: the guests up, the host's uptime or the hosts online, and how
@@ -347,22 +347,22 @@ func parts(resources []resource, hosts []*host, nodes int, now time.Time) snapsh
 		total += float64(h.status.Memory.Total)
 	}
 	f := snapshot.Figure{
-		Area: area, Icon: "stack", Label: key("proxmox.guests", nil), Value: float64(running),
-		Unit: ptr(key("proxmox.of_up", map[string]any{"n": len(guests)})),
+		Area: area, Icon: "stack", Label: snapshot.Text{Key: "proxmox.guests"}, Value: float64(running),
+		Unit: snapshot.Msg("proxmox.of_up", map[string]any{"n": len(guests)}),
 	}
 	if threads > 0 && total > 0 {
 		f.Meters = []snapshot.Meter{
-			{Label: ptr(key("proxmox.cpu_meter", nil)), Used: cpu, Total: threads},
-			{Label: ptr(key("proxmox.ram_meter", nil)), Used: used, Total: total, Tone: "blue"},
+			{Label: snapshot.Msg("proxmox.cpu_meter", nil), Used: cpu, Total: threads},
+			{Label: snapshot.Msg("proxmox.ram_meter", nil), Used: used, Total: total, Tone: "blue"},
 		}
 	}
 	if running < len(guests) {
 		f.Tone = "orange"
 	}
 	if cluster {
-		f.Detail = ptr(key("proxmox.hosts_online", map[string]any{"online": len(hosts), "n": nodes}))
+		f.Detail = snapshot.Msg("proxmox.hosts_online", map[string]any{"online": len(hosts), "n": nodes})
 	} else if len(hosts) == 1 {
-		f.Detail = ptr(key("proxmox.host_up", map[string]any{"ms": hosts[0].status.Uptime * 1000}))
+		f.Detail = snapshot.Msg("proxmox.host_up", map[string]any{"ms": hosts[0].status.Uptime * 1000})
 	}
 	p.Figures = append(p.Figures, f)
 	return p
@@ -384,7 +384,3 @@ func gb(bytes int64) float64 {
 	}
 	return math.Round(10*g) / 10
 }
-
-func key(k string, args map[string]any) snapshot.Text { return snapshot.Text{Key: k, Args: args} }
-
-func ptr[T any](v T) *T { return &v }
