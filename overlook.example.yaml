@@ -16,6 +16,18 @@ sources:
         DNS: network
         Backups: storage
         Media: apps
+  # The updates waiting: the open pull requests from Dependabot or Renovate,
+  # read at most every 10 minutes.
+  github:
+    - repos: [example/homelab]         # each as owner/name
+      # A private repository needs a token: token: ${GITHUB_TOKEN}
+
+  # The photos: what each person keeps and uploaded this week, the space,
+  # Immich's version and its jobs.
+  immich:
+    - url: ${IMMICH_URL}               # where Overlook reads Immich, such as http://immich:2283
+      key: ${IMMICH_KEY}               # an API key with the read permissions in the README
+
   # A UPS, read from NUT's upsd: its power, its battery and what it draws.
   nut:
     - host: ${NUT_HOST}                # where upsd listens, such as nut.example.com or nut.example.com:3493

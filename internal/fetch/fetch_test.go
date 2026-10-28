@@ -46,11 +46,11 @@ func TestJSON(t *testing.T) {
 	t.Cleanup(s.Close)
 
 	var v struct{ N int }
-	if err := JSON(context.Background(), s.URL+"/ok", &v); err != nil || v.N != 4 {
+	if err := JSON(context.Background(), s.URL+"/ok", nil, &v); err != nil || v.N != 4 {
 		t.Errorf("read %+v, %v", v, err)
 	}
 	for path, want := range map[string]string{"/key": "HTTP 401", "/big": "over 32 MiB", "/html": "isn't the JSON"} {
-		err := JSON(context.Background(), s.URL+path, &v)
+		err := JSON(context.Background(), s.URL+path, nil, &v)
 		if err == nil || !strings.Contains(err.Error(), want) {
 			t.Errorf("%s: want an error with %q, got %v", path, want, err)
 		}
@@ -58,7 +58,7 @@ func TestJSON(t *testing.T) {
 
 	gone := httptest.NewServer(nil)
 	gone.Close()
-	err := JSON(context.Background(), "http://overlook:s3cret@"+strings.TrimPrefix(gone.URL, "http://")+"/x", &v)
+	err := JSON(context.Background(), "http://overlook:s3cret@"+strings.TrimPrefix(gone.URL, "http://")+"/x", nil, &v)
 	if err == nil || strings.Contains(err.Error(), "s3cret") || strings.Contains(err.Error(), "/x") {
 		t.Errorf("an error mustn't hold the URL: %v", err)
 	}
