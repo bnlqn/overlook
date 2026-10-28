@@ -72,6 +72,18 @@ A decision that is hard to reverse, surprising to a newcomer and the result of a
 
 By contributing, you agree that your contribution is licensed under the project's [MIT licence](LICENSE).
 
+## Releasing
+
+The maintainer tags a commit of `main` as `v` and its version, such as `v0.1.0`, and pushes the tag. The release workflow runs `make check`, then [GoReleaser](https://goreleaser.com) builds the Linux binaries for amd64 and arm64, publishes them as the tag's release, and pushes one image for both to `ghcr.io/bnlqn/overlook` (`.goreleaser.yaml`, `Dockerfile`). A tag with a suffix, such as `v0.1.0-rc.1`, is a release candidate, and the image's `latest` stays where it was.
+
+To try a release without publishing anything, with Docker running:
+
+```bash
+go run github.com/goreleaser/goreleaser/v2@v2.19.0 release --snapshot --clean
+```
+
+That leaves the binaries in `dist/` and an image for each platform in Docker.
+
 ## Security
 
 Please report a vulnerability privately, as [SECURITY.md](SECURITY.md) explains, rather than in an issue.

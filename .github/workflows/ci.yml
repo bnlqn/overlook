@@ -1,11 +1,13 @@
 # Every pull request and every push to main passes make check, with the tools
-# at the versions CONTRIBUTING.md lists.
+# at the versions CONTRIBUTING.md lists, and so does every release before it's
+# made (release.yml).
 name: CI
 
 on:
   pull_request:
   push:
     branches: [main]
+  workflow_call:
 
 permissions:
   contents: read

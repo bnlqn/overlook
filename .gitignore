@@ -1,2 +1,3 @@
-# What `go build ./cmd/overlook` makes.
+# What `go build ./cmd/overlook` makes, and what GoReleaser does.
 /overlook
+/dist/

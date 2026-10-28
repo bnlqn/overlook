@@ -1,0 +1,49 @@
+# GoReleaser makes a release from a v* tag (.github/workflows/release.yml):
+# Linux binaries for amd64 and arm64, and one image for both on GHCR.
+# `goreleaser release --snapshot --clean` tries it locally and pushes nothing.
+version: 2
+
+project_name: overlook
+
+builds:
+  - main: ./cmd/overlook
+    # Static, so the binary runs on any Linux and in an image with nothing else.
+    env: [CGO_ENABLED=0]
+    goos: [linux]
+    goarch: [amd64, arm64]
+    flags: [-trimpath]
+    ldflags: [-s -w]
+    # The same commit builds the same binary.
+    mod_timestamp: "{{ .CommitTimestamp }}"
+
+archives:
+  - formats: [tar.gz]
+    files: [LICENSE, README.md, overlook.example.yaml]
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  use: github-native
+
+release:
+  # A tag such as v0.1.0-rc.1 is a release candidate.
+  prerelease: auto
+
+dockers_v2:
+  - images: [ghcr.io/bnlqn/overlook]
+    tags:
+      - "{{ .Version }}"
+      - "{{ if not .Prerelease }}{{ .Major }}.{{ .Minor }}{{ end }}"
+      - "{{ if not .Prerelease }}latest{{ end }}"
+    platforms: [linux/amd64, linux/arm64]
+    labels: &about
+      org.opencontainers.image.title: Overlook
+      org.opencontainers.image.description: One page that tells you whether your homelab is fine.
+      org.opencontainers.image.source: https://github.com/bnlqn/overlook
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.version: "{{ .Version }}"
+      org.opencontainers.image.revision: "{{ .FullCommit }}"
+      org.opencontainers.image.created: "{{ .CommitDate }}"
+    # The same, on the image for both platforms, where GHCR reads them.
+    annotations: *about
