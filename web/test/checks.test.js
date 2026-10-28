@@ -67,12 +67,13 @@ test("an area with nothing in it isn't shown", () => {
   assert.deepEqual(silent(s), ["Proxmox"]);
 });
 
-test("figures that share a label key are added up, hour by hour, their details' numbers too", () => {
+test("figures that add up and share a label key are one, hour by hour, their details' numbers too", () => {
   const hours = (n) => Array(24).fill(n);
   const dns = (value, blocked, more = {}) => ({
     area: "network",
     icon: "shield",
     label: { key: "adguard.today" },
+    adds: true,
     value,
     hours: hours(value / 24),
     detail: { key: "adguard.today_blocked", args: { blocked } },
@@ -89,4 +90,6 @@ test("figures that share a label key are added up, hour by hour, their details' 
   assert.deepEqual(figures[0].detail.args, { blocked: 12 });
   const [lone] = together([dns(240, 12), dns(48, 2, { hours: undefined })]);
   assert.deepEqual(lone.hours, [], "hours only one resolver has would mislead");
+  const ups = (value) => ({ area: "servers", icon: "plug", label: { key: "nut.ups" }, value });
+  assert.equal(together([ups(80), ups(120)]).length, 2, "two UPSes' draws stay apart unless they say they add up");
 });

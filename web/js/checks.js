@@ -24,7 +24,7 @@ export const shown = (snap) =>
   AREAS.filter((a) => [snap.checks, snap.sections, snap.figures, snap.events].some((l) => l.some((x) => x.area === a)));
 
 /**
- * The figures, those that share a label key added up into one, such as two
+ * The figures, those that add up and share a label key made one, such as two
  * resolvers' lookups: their values, their hours hour by hour, and the numbers
  * in their details. Hours that only some of them have are left out.
  */
@@ -32,11 +32,11 @@ export function together(figures) {
   const byKey = new Map();
   const out = [];
   for (const f of figures) {
-    const into = f.label.key && byKey.get(f.label.key);
+    const into = f.adds && byKey.get(f.label.key);
     if (!into) {
       const copy = { ...f, hours: [...(f.hours || [])] };
       if (f.detail) copy.detail = { ...f.detail, args: { ...f.detail.args } };
-      if (f.label.key) byKey.set(f.label.key, copy);
+      if (f.adds) byKey.set(f.label.key, copy);
       out.push(copy);
       continue;
     }

@@ -125,7 +125,7 @@ func today(s stats, now time.Time) []snapshot.Figure {
 		hours[i] = float64(n)
 	}
 	return []snapshot.Figure{{
-		Area: "network", Icon: "shield", Label: snapshot.Text{Key: "adguard.today"},
+		Area: "network", Icon: "shield", Label: snapshot.Text{Key: "adguard.today"}, Adds: true,
 		Value: float64(sum(s.ByUnit, since)), Hours: hours,
 		Detail: msg("adguard.today_blocked", args{"blocked": sum(s.BlockedBy, since)}),
 	}}

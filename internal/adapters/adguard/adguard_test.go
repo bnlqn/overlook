@@ -43,7 +43,7 @@ func TestRead(t *testing.T) {
 		if f.Value != want.lookups || f.Detail.Args["blocked"] != want.blocked {
 			t.Errorf("today: %v lookups, %v; want %v and %d blocked", f.Value, f.Detail.Args, want.lookups, want.blocked)
 		}
-		if len(f.Hours) != 24 || f.Hours[0] != float64(want.first) || f.Label.Key != "adguard.today" || f.Area != "network" {
+		if len(f.Hours) != 24 || f.Hours[0] != float64(want.first) || f.Label.Key != "adguard.today" || f.Area != "network" || !f.Adds {
 			t.Errorf("the last 24 hours, from %d: %+v", want.first, f)
 		}
 	}
