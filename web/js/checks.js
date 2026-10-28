@@ -50,6 +50,21 @@ export function together(figures) {
   return out;
 }
 
+// A time as the snapshot writes it, in RFC 3339.
+const TIME = /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?(Z|[+-]\d\d:\d\d)$/;
+
+/**
+ * A snapshot as if it had just been read: every time in it, those in its
+ * texts' values too, moved on by as long as has passed since it was read. The
+ * demo's invented snapshot is drawn this way, so it never looks old.
+ */
+export function asIfNow(snap, now = Date.now()) {
+  const by = now - Date.parse(snap.at);
+  return JSON.parse(JSON.stringify(snap), (_, v) =>
+    typeof v === "string" && TIME.test(v) ? new Date(Date.parse(v) + by).toISOString() : v,
+  );
+}
+
 /** The names of the sources that didn't answer. */
 export const silent = (snap) => snap.sources.filter((s) => !s.answered).map((s) => s.name);
 

@@ -1,7 +1,7 @@
 // The shell every page sits in: the sidebar, the panel's bar, ⌘K and the
 // tooltips, and start(), which reads the snapshot and draws the page from it.
 
-import { areaState, checkState, readChecks, shown } from "./checks.js";
+import { areaState, asIfNow, checkState, readChecks, shown } from "./checks.js";
 import { badge, stateIcon, svg, TONE } from "./draw.js";
 import { esc, loadWords, number, t, translate } from "./text.js";
 
@@ -16,6 +16,12 @@ export const PAGES = [
 
 /** A page's name. */
 export const pageName = (p) => t(p.area ? `area.${p.area}` : "page.overview");
+
+/**
+ * The demo, which has no server, marks its pages (demo/main.go): it reads an
+ * invented snapshot.json, as if just read, in place of the server's snapshot.
+ */
+const DEMO = document.documentElement.hasAttribute("data-demo");
 
 /** The page showing. */
 export const HERE = PAGES.find((p) => p.area && p.area === location.pathname.split("/").pop()) || PAGES[0];
@@ -276,10 +282,11 @@ export async function start(draw) {
   const run = async () => {
     document.body.classList.add("loading");
     try {
-      const snap = await fetch("snapshot", { cache: "no-store" }).then(
+      const read = await fetch(DEMO ? "snapshot.json" : "snapshot", { cache: "no-store" }).then(
         (r) => (r.ok ? r.json() : null),
         () => null,
       );
+      const snap = read && DEMO ? asIfNow(read) : read;
       document.getElementById("refreshed").innerHTML = snap
         ? t("updated", { at: new Date() })
         : t("overlook.no_answer");

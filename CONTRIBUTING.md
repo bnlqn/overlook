@@ -23,10 +23,16 @@ make check
 
 That runs every check a pull request passes, in the order CI does: `go vet`, golangci-lint, Biome, the Go tests with the race detector, the page's tests, and govulncheck. `make fmt` formats everything the way the linters expect.
 
-To see the page, point the example config at a Gatus you run:
+To see the page with every adapter's parts in it, run the demo, which draws it from an invented snapshot and reads no source:
 
 ```bash
-GATUS_URL=http://gatus:8080 go run ./cmd/overlook -config overlook.example.yaml
+go run ./demo -serve localhost:8000
+```
+
+and open <http://localhost:8000>. To see it read your own sources, give the server a config with only those, starting from `overlook.example.yaml`:
+
+```bash
+go run ./cmd/overlook -config path/to/overlook.yaml
 ```
 
 and open <http://localhost:8080>.
@@ -43,6 +49,7 @@ and open <http://localhost:8080>.
 | `internal/adapters/adaptertest` | the contract test every adapter passes |
 | `internal/server` | the routes, and the headers every answer carries |
 | `web` | the page, embedded in the binary: HTML, `style.css`, the modules in `js/`, their tests in `test/`, the words in `i18n/` |
+| `demo` | the demo: an invented snapshot with every adapter's parts, the contract the server and the page keep (ADR 0003), and what writes the page from it for GitHub Pages |
 
 ## Adding an adapter
 
@@ -54,6 +61,7 @@ An adapter reads one kind of source and gives back its facts in Overlook's shape
 4. **Its words**, in `web/i18n/en/<name>.json`, each key starting with `<name>.`. Every word the adapter adds to the page is a key and its values (ADR 0006); names from the source are shown as written.
 5. **Its config**, in `overlook.example.yaml`, and the least key it needs, in its section of the README.
 6. **Its author**, in `.github/CODEOWNERS`, beside its folder and its words.
+7. **Its parts in the demo**, `demo/snapshot.json`, after the parts of the adapters before it in `Readers`, with names and numbers made up. The demo's test fails until a word of the adapter's is there.
 
 ## Translating
 

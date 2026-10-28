@@ -13,4 +13,5 @@ A new adapter (CONTRIBUTING.md, Adding an adapter):
 - [ ] Its words in web/i18n/en/<name>.json, each key starting with <name>.
 - [ ] Its config in overlook.example.yaml, and the least key it needs in the README.
 - [ ] Its author in .github/CODEOWNERS.
+- [ ] Its parts in the demo, demo/snapshot.json.
 -->

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { areaState, checkState, quietSince, readChecks, shown, silent, together } from "../js/checks.js";
+import { areaState, asIfNow, checkState, quietSince, readChecks, shown, silent, together } from "../js/checks.js";
 
 const check = (key, area, run, problem, more = {}) => ({
   key,
@@ -92,4 +92,28 @@ test("figures that add up and share a label key are one, hour by hour, their det
   assert.deepEqual(lone.hours, [], "hours only one resolver has would mislead");
   const ups = (value) => ({ area: "servers", icon: "plug", label: { key: "nut.ups" }, value });
   assert.equal(together([ups(80), ups(120)]).length, 2, "two UPSes' draws stay apart unless they say they add up");
+});
+
+test("the demo's snapshot moves to now, every time in it, a text's too, and nothing else", () => {
+  const read = {
+    at: "2026-10-28T09:30:00Z",
+    checks: [
+      { name: "2026", since: "2026-10-28T09:04:40.5+01:00", results: [{ at: "2026-10-28T09:29:40Z", ms: 1.2 }] },
+    ],
+    events: [
+      {
+        at: "2026-10-28T00:30:00Z",
+        text: { key: "proxmox.backup_done", args: { at: "2026-10-28T00:30:00Z", ms: 512000 } },
+      },
+    ],
+  };
+  const now = Date.parse("2026-11-02T15:00:00Z");
+  const moved = asIfNow(read, now);
+  assert.equal(moved.at, "2026-11-02T15:00:00.000Z");
+  assert.equal(moved.checks[0].since, "2026-11-02T13:34:40.500Z");
+  assert.equal(moved.checks[0].results[0].at, "2026-11-02T14:59:40.000Z");
+  assert.equal(moved.events[0].text.args.at, "2026-11-02T06:00:00.000Z");
+  assert.equal(moved.events[0].text.args.ms, 512000);
+  assert.equal(moved.checks[0].name, "2026");
+  assert.equal(read.at, "2026-10-28T09:30:00Z", "the snapshot read stays as it was");
 });
