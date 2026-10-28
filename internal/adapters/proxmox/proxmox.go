@@ -63,7 +63,7 @@ func (c *Config) Check() error {
 		c.Name = "Proxmox"
 	}
 	if c.CA != "" {
-		client, err := fetch.Trusting(c.CA)
+		client, err := fetch.Trusting(c.CA, "")
 		if err != nil {
 			return fmt.Errorf("ca: %w", err)
 		}

@@ -1,0 +1,1161 @@
+{
+ "data": [
+  {
+   "backup-type": "vm",
+   "backup-id": "100",
+   "backup-time": 1792542600,
+   "comment": "house",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 475
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 68719476736
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 571
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 68719477782,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000064:00A788:00000000:6AD80788:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "100",
+   "backup-time": 1792629000,
+   "comment": "house",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 475
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 68719476736
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 572
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 68719477783,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000064:00A908:00000000:6AD95908:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "100",
+   "backup-time": 1792715400,
+   "comment": "house",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 475
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 68719476736
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 573
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 68719477784,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000064:00AA88:00000000:6ADAAA88:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "100",
+   "backup-time": 1792801800,
+   "comment": "house",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 475
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 68719476736
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 574
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 68719477785,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000064:00AC08:00000000:6ADBFC08:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "100",
+   "backup-time": 1792888200,
+   "comment": "house",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 475
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 68719476736
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 575
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 68719477786,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000064:00AD88:00000000:6ADD4D88:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "100",
+   "backup-time": 1792974600,
+   "comment": "house",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 475
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 68719476736
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 571
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 68719477782,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000064:00AF08:00000000:6ADE9F08:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "100",
+   "backup-time": 1793061000,
+   "comment": "house",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 475
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 68719476736
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 572
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 68719477783,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000064:00A088:00000000:6ADFF088:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "100",
+   "backup-time": 1793104909,
+   "comment": "house",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 475
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 68719476736
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 573
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 68719477784,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000064:00AC0D:00000000:6AE09C0D:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "100",
+   "backup-time": 1793147400,
+   "comment": "house",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 475
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 68719476736
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 574
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 68719477785,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000064:00A208:00000000:6AE14208:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "110",
+   "backup-time": 1792542634,
+   "comment": "workbench",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 478
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 137438953472
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 571
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 137438954521,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:000006E:00A7AA:00000000:6AD807AA:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "110",
+   "backup-time": 1792629034,
+   "comment": "workbench",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 478
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 137438953472
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 572
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 137438954522,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:000006E:00A92A:00000000:6AD9592A:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "110",
+   "backup-time": 1792715434,
+   "comment": "workbench",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 478
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 137438953472
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 573
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 137438954523,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:000006E:00AAAA:00000000:6ADAAAAA:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "110",
+   "backup-time": 1792801834,
+   "comment": "workbench",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 478
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 137438953472
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 574
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 137438954524,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:000006E:00AC2A:00000000:6ADBFC2A:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "110",
+   "backup-time": 1792888234,
+   "comment": "workbench",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 478
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 137438953472
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 575
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 137438954525,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:000006E:00ADAA:00000000:6ADD4DAA:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "110",
+   "backup-time": 1792974634,
+   "comment": "workbench",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 478
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 137438953472
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 571
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 137438954521,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:000006E:00AF2A:00000000:6ADE9F2A:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "110",
+   "backup-time": 1793061034,
+   "comment": "workbench",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 478
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 137438953472
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 572
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 137438954522,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:000006E:00A0AA:00000000:6ADFF0AA:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "110",
+   "backup-time": 1793105125,
+   "comment": "workbench",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 478
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 137438953472
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 573
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 137438954523,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:000006E:00ACE5:00000000:6AE09CE5:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "110",
+   "backup-time": 1793147434,
+   "comment": "workbench",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 478
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 137438953472
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 574
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 137438954524,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "failed",
+    "upid": "UPID:vault:000006E:00A22A:00000000:6AE1422A:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "130",
+   "backup-time": 1792542797,
+   "comment": "gate",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 477
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 17179869184
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 571
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 17179870232,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000082:00A84D:00000000:6AD8084D:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "130",
+   "backup-time": 1792629197,
+   "comment": "gate",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 477
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 17179869184
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 572
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 17179870233,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000082:00A9CD:00000000:6AD959CD:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "130",
+   "backup-time": 1792715597,
+   "comment": "gate",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 477
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 17179869184
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 573
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 17179870234,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000082:00AB4D:00000000:6ADAAB4D:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "130",
+   "backup-time": 1792888397,
+   "comment": "gate",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 477
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 17179869184
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 574
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 17179870235,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000082:00AE4D:00000000:6ADD4E4D:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "130",
+   "backup-time": 1792974797,
+   "comment": "gate",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 477
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 17179869184
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 575
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 17179870236,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000082:00AFCD:00000000:6ADE9FCD:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "130",
+   "backup-time": 1793061197,
+   "comment": "gate",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 477
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 17179869184
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 571
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 17179870232,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000082:00A14D:00000000:6ADFF14D:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "130",
+   "backup-time": 1793147597,
+   "comment": "gate",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 477
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 17179869184
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 572
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 17179870233,
+   "owner": "backup@pbs!nova",
+   "protected": false
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "150",
+   "backup-time": 1792542927,
+   "comment": "family",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 476
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 34359738368
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 571
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 34359739415,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000096:00A8CF:00000000:6AD808CF:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "150",
+   "backup-time": 1792629327,
+   "comment": "family",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 476
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 34359738368
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 572
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 34359739416,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000096:00AA4F:00000000:6AD95A4F:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "150",
+   "backup-time": 1792715727,
+   "comment": "family",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 476
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 34359738368
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 573
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 34359739417,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000096:00ABCF:00000000:6ADAABCF:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "150",
+   "backup-time": 1792888527,
+   "comment": "family",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 476
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 34359738368
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 574
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 34359739418,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000096:00AECF:00000000:6ADD4ECF:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "150",
+   "backup-time": 1792974927,
+   "comment": "family",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 476
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 34359738368
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 575
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 34359739419,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000096:00A04F:00000000:6ADEA04F:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "150",
+   "backup-time": 1793028012,
+   "comment": "family",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 476
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 34359738368
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 571
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 34359739415,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000096:00AFAC:00000000:6ADF6FAC:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "150",
+   "backup-time": 1793061327,
+   "comment": "family",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 476
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 34359738368
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 572
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 34359739416,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000096:00A1CF:00000000:6ADFF1CF:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "vm",
+   "backup-id": "150",
+   "backup-time": 1793147727,
+   "comment": "family",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "qemu-server.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 476
+    },
+    {
+     "filename": "drive-scsi0.img.fidx",
+     "crypt-mode": "encrypt",
+     "size": 34359738368
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 573
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "size": 34359739417,
+   "owner": "backup@pbs!nova",
+   "protected": false,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:0000096:00A34F:00000000:6AE1434F:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  },
+  {
+   "backup-type": "ct",
+   "backup-id": "140",
+   "backup-time": 1792369872,
+   "comment": "",
+   "fingerprint": "3f:9a:0c:71:5e:d2:48:b6:a1:07:93:2c:e4:58:1d:f0:6b:c9:22:8e:45:7a:d3:10:9f:6e:b4:03:c8:51:2d:77",
+   "files": [
+    {
+     "filename": "pct.conf.blob",
+     "crypt-mode": "encrypt",
+     "size": 402
+    },
+    {
+     "filename": "root.pxar.didx",
+     "crypt-mode": "encrypt",
+     "size": 812345278
+    },
+    {
+     "filename": "catalog.pcat1.didx",
+     "crypt-mode": "encrypt",
+     "size": 1033
+    },
+    {
+     "filename": "index.json.blob",
+     "crypt-mode": "sign-only",
+     "size": 612
+    },
+    {
+     "filename": "client.log.blob"
+    }
+   ],
+   "owner": "backup@pbs!nova",
+   "protected": true,
+   "size": 812347325,
+   "verification": {
+    "state": "ok",
+    "upid": "UPID:vault:00001A2B:00A0C3D4:00000000:6AD5C1F0:verificationjob:archive\\x3av-1a2b3c4d-5e6f:root@pam:"
+   }
+  }
+ ]
+}

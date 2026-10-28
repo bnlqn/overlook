@@ -28,6 +28,18 @@ sources:
     - url: ${IMMICH_URL}               # where Overlook reads Immich, such as http://immich:2283
       key: ${IMMICH_KEY}               # an API key with the read permissions in the README
 
+  # Each guest's newest backup in a datastore, and the nights that made them.
+  pbs:
+    - url: https://pbs.example.com:8007
+      token: overlook@pbs!overlook     # an API token's ID, as user@realm!name
+      secret: ${PBS_SECRET}            # and its secret
+      datastore: backups
+      # PBS signs its own certificate. Copy it from the server's
+      # /etc/proxmox-backup/proxy.pem and say where it is. If the url names
+      # PBS by an address its certificate doesn't, say the name it does.
+      # ca: /etc/overlook/pbs.pem
+      # server_name: pbs.example.com
+
   # The hosts and their guests, storage and ZFS pools, and the backup runs.
   proxmox:
     - url: https://pve.example.com:8006

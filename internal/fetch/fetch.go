@@ -38,9 +38,11 @@ type Client struct{ http *http.Client }
 
 // Trusting returns a client for a source that signs its own certificate,
 // such as a Proxmox host: it trusts only the CAs in the PEM file at caFile.
-// There is no client that skips the check, so a key is never sent to
+// With a serverName, the certificate must be for that name rather than the
+// URL's host, for a source read at an address its certificate doesn't
+// name. There is no client that skips the check, so a key is never sent to
 // whoever answers in the source's place.
-func Trusting(caFile string) (Client, error) {
+func Trusting(caFile, serverName string) (Client, error) {
 	pem, err := os.ReadFile(caFile) //nolint:gosec // the owner names their own CA
 	if err != nil {
 		return Client{}, err
@@ -50,7 +52,7 @@ func Trusting(caFile string) (Client, error) {
 		return Client{}, fmt.Errorf("%s holds no PEM certificate", caFile)
 	}
 	t := http.DefaultTransport.(*http.Transport).Clone()
-	t.TLSClientConfig = &tls.Config{RootCAs: pool, MinVersion: tls.VersionTLS12}
+	t.TLSClientConfig = &tls.Config{RootCAs: pool, ServerName: serverName, MinVersion: tls.VersionTLS12}
 	return Client{&http.Client{Transport: getOnly{t}}}, nil
 }
 
