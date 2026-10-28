@@ -11,7 +11,7 @@ decisions in [docs/adr](docs/adr). This README is rewritten for v0.1.
 
 ## The road to v0.1
 
-1. [ ] The skeleton: the Go server, the strict config, the GET-only client,
+1. [x] The skeleton: the Go server, the strict config, the GET-only client,
        the snapshot, the translation table, the page, the Gatus adapter and
        the contract test.
 2. [ ] The other adapters, one pull request each: Proxmox VE, Proxmox Backup
@@ -27,6 +27,12 @@ decisions in [docs/adr](docs/adr). This README is rewritten for v0.1.
 v0.1 is ready when the author's homelab has run it for a week with nothing
 missing, the demo is live, every adapter has its section here (its config
 and the least key it needs), and CI passes.
+
+## Contributing
+
+[CONTRIBUTING.md](CONTRIBUTING.md) says how to set up, what every change
+passes and how to add an adapter. Report a vulnerability privately, as
+[SECURITY.md](SECURITY.md) explains.
 
 ## Licence
 

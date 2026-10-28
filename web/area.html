@@ -1,0 +1,27 @@
+<!doctype html>
+<!--
+  An area's page, at /servers, /network, /storage and /apps: the area's
+  state and checks, then each section its sources add. Drawn by js/area.js
+  from the snapshot.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title></title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="custom.css">
+</head>
+<body>
+<main>
+  <header class="head">
+    <h1 id="title"></h1>
+    <p id="summary" data-t="loading"></p>
+  </header>
+  <div class="card" id="checks" hidden><div class="checks"></div></div>
+  <div class="columns"><div id="left"></div><div id="right"></div></div>
+</main>
+<script type="module" src="js/area.js"></script>
+</body>
+</html>

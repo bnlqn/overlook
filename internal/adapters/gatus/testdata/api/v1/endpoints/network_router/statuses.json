@@ -1,0 +1,38 @@
+{
+ "name": "Router",
+ "group": "Network",
+ "key": "network_router",
+ "results": [
+  {
+   "status": 200,
+   "hostname": "router.example.com",
+   "duration": 2469149,
+   "conditionResults": [
+    {
+     "condition": "[STATUS] == 200",
+     "success": true
+    },
+    {
+     "condition": "[RESPONSE_TIME] < 1000",
+     "success": true
+    }
+   ],
+   "success": true,
+   "timestamp": "2026-10-28T09:59:00.000Z"
+  }
+ ],
+ "events": [
+  {
+   "type": "START",
+   "timestamp": "2026-10-20T08:00:00.000Z"
+  },
+  {
+   "type": "UNHEALTHY",
+   "timestamp": "2026-10-28T08:00:00.000Z"
+  },
+  {
+   "type": "HEALTHY",
+   "timestamp": "2026-10-28T08:01:00.000Z"
+  }
+ ]
+}

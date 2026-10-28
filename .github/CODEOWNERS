@@ -1,0 +1,5 @@
+# Who reviews what (ADR 0005): the maintainer owns everything, and each
+# adapter's author owns its folder and its English words, listed below.
+*                           @bnlqn
+
+/internal/adapters/gatus/   @bnlqn

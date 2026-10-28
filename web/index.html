@@ -1,0 +1,69 @@
+<!doctype html>
+<!--
+  The overview (CONTEXT.md): how everything is, what is wrong, today's
+  figures, each area and its checks, the week, what happened, the apps, and
+  the updates waiting. Drawn by js/overview.js from the snapshot (ADR 0002),
+  its words from i18n/.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title data-t="title"></title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="custom.css">
+</head>
+<body>
+<main class="overview">
+  <section class="status tone-gray" id="status">
+    <div class="status-row">
+      <span class="status-icon" id="status-icon"></span>
+      <div class="status-copy"><h1 id="headline" data-t="loading"></h1><p id="summary" data-t="status.reading"></p></div>
+    </div>
+    <div class="actions" id="actions"></div>
+  </section>
+
+  <section class="block" id="problems" hidden>
+    <h2 class="block-title"><span data-t="problems.title"></span><span class="n" id="problem-n"></span></h2>
+    <div class="inbox" id="problem-list"></div>
+  </section>
+
+  <section class="block" id="today-block" hidden>
+    <h2 class="block-title" data-t="today.title"></h2>
+    <div class="figures" id="today"></div>
+  </section>
+
+  <section class="block" id="areas-block" hidden>
+    <h2 class="block-title"><span data-t="areas.title"></span><span class="hint" data-t="areas.hint"></span></h2>
+    <div class="table">
+      <div class="trow thead"><span data-t="areas.name"></span><span data-t="areas.health"></span><span data-t="areas.checks"></span><span data-t="areas.response"></span><span data-t="areas.results"></span></div>
+      <div id="areas"></div>
+    </div>
+  </section>
+
+  <div class="split">
+    <section class="block" id="week-block" hidden>
+      <h2 class="block-title"><span data-t="week.title"></span><span class="hint" data-t="week.hint"></span></h2>
+      <div class="card timeline" id="week"></div>
+    </section>
+    <section class="block">
+      <h2 class="block-title" data-t="events.title"></h2>
+      <ol class="card feed" id="events"></ol>
+    </section>
+  </div>
+
+  <div class="split">
+    <section class="block" id="apps-block" hidden>
+      <h2 class="block-title" data-t="side.apps"></h2>
+      <div class="launch" id="apps"></div>
+    </section>
+    <section class="block" id="chores-block" hidden>
+      <h2 class="block-title" data-t="chores.title"></h2>
+      <div class="chores" id="chores"></div>
+    </section>
+  </div>
+</main>
+<script type="module" src="js/overview.js"></script>
+</body>
+</html>

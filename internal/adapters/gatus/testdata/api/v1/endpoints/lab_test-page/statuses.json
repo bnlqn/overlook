@@ -1,0 +1,30 @@
+{
+ "name": "Test page",
+ "group": "Lab",
+ "key": "lab_test-page",
+ "results": [
+  {
+   "status": 200,
+   "hostname": "test.example.com",
+   "duration": 21002609,
+   "conditionResults": [
+    {
+     "condition": "[STATUS] == 200",
+     "success": true
+    },
+    {
+     "condition": "[RESPONSE_TIME] < 1000",
+     "success": true
+    }
+   ],
+   "success": true,
+   "timestamp": "2026-10-28T09:59:00.000Z"
+  }
+ ],
+ "events": [
+  {
+   "type": "START",
+   "timestamp": "2026-10-20T08:00:00.000Z"
+  }
+ ]
+}

@@ -1,0 +1,34 @@
+{
+ "name": "Films",
+ "group": "Media",
+ "key": "media_films",
+ "results": [
+  {
+   "status": 502,
+   "hostname": "films.example.com",
+   "duration": 71825612,
+   "conditionResults": [
+    {
+     "condition": "[STATUS] == 200",
+     "success": false
+    },
+    {
+     "condition": "[RESPONSE_TIME] < 1000",
+     "success": true
+    }
+   ],
+   "success": false,
+   "timestamp": "2026-10-28T09:59:00.000Z"
+  }
+ ],
+ "events": [
+  {
+   "type": "START",
+   "timestamp": "2026-10-20T08:00:00.000Z"
+  },
+  {
+   "type": "UNHEALTHY",
+   "timestamp": "2026-10-28T09:59:00.000Z"
+  }
+ ]
+}

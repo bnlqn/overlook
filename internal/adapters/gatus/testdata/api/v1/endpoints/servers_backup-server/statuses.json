@@ -1,0 +1,30 @@
+{
+ "name": "Backup server",
+ "group": "Servers",
+ "key": "servers_backup-server",
+ "results": [
+  {
+   "status": 200,
+   "hostname": "pbs.example.com",
+   "duration": 7914895,
+   "conditionResults": [
+    {
+     "condition": "[STATUS] == 200",
+     "success": true
+    },
+    {
+     "condition": "[RESPONSE_TIME] < 1000",
+     "success": true
+    }
+   ],
+   "success": true,
+   "timestamp": "2026-10-28T09:59:00.000Z"
+  }
+ ],
+ "events": [
+  {
+   "type": "START",
+   "timestamp": "2026-10-20T08:00:00.000Z"
+  }
+ ]
+}

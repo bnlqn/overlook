@@ -1,0 +1,30 @@
+{
+ "name": "Photos",
+ "group": "Apps",
+ "key": "apps_photos",
+ "results": [
+  {
+   "status": 200,
+   "hostname": "photos.example.com",
+   "duration": 38377482,
+   "conditionResults": [
+    {
+     "condition": "[STATUS] == 200",
+     "success": true
+    },
+    {
+     "condition": "[RESPONSE_TIME] < 1000",
+     "success": true
+    }
+   ],
+   "success": true,
+   "timestamp": "2026-10-28T09:59:00.000Z"
+  }
+ ],
+ "events": [
+  {
+   "type": "START",
+   "timestamp": "2026-10-20T08:00:00.000Z"
+  }
+ ]
+}
