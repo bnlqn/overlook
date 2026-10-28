@@ -56,6 +56,8 @@ func TestLoadRefuses(t *testing.T) {
 		"sources: { gatus: [ { url: '${OVERLOOK_NO_SUCH_VAR}' } ] }":             "OVERLOOK_NO_SUCH_VAR is not set",
 		"sources: { gatus: [ { url: 'http://a' }, { url: 'http://b' } ] }":       "another source is named Gatus",
 		"sources: { gatus: [ { url: 'http://gatus', areas: { DNS: attic } } ] }": "sources.gatus[0]: areas",
+		"sources: { radarr: [ { url: 'http://radarr:7878' } ] }":                 "sources.radarr[0]: key is missing",
+		"sources: { sonarr: [ { key: k } ] }":                                    "sources.sonarr[0]: url is missing",
 		"apps: [ { name: Photos } ]":                                             "apps[0]: url",
 		"tools: [ { url: 'https://x.example.com' } ]":                            "tools[0]: name is missing",
 		"apps: [ { name: P, url: 'javascript:alert(1)' } ]":                      "http:// or https://",
@@ -72,6 +74,8 @@ func TestLoadRefuses(t *testing.T) {
 
 func TestExample(t *testing.T) {
 	t.Setenv("GATUS_URL", "http://gatus:8080")
+	t.Setenv("RADARR_KEY", "0123abcd")
+	t.Setenv("SONARR_KEY", "4567efab")
 	if _, err := Load("../../overlook.example.yaml"); err != nil {
 		t.Fatal(err)
 	}

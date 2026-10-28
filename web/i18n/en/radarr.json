@@ -1,0 +1,19 @@
+{
+  "radarr.films": "Films",
+  "radarr.this_week": "+{n} this week",
+  "radarr.library": "In the library",
+  "radarr.films_n": { "one": "{n} film", "other": "{n} films" },
+  "radarr.library_detail": "{size:bytes} · +{n} this week",
+  "radarr.downloading": "Downloading",
+  "radarr.downloading_n": { "one": "{n} film", "other": "{n} films" },
+  "radarr.nothing": "Nothing",
+  "radarr.warning": "Warning",
+  "radarr.error": "Error",
+
+  "radarr.coming": "Films coming up",
+  "radarr.coming_none": "Nothing in the next 7 days",
+  "radarr.on": "{at:day}",
+  "radarr.have": "In the library",
+  "radarr.to_stream": "To stream",
+  "radarr.on_disc": "On disc"
+}
