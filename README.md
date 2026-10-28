@@ -24,7 +24,7 @@ project uses are in [CONTEXT.md](CONTEXT.md) and its decisions in
 3. [x] The demo from an invented snapshot, this README, CI, and releases
        (amd64 and arm64 binaries, a multi-arch image on GHCR).
 4. [x] `v0.1.0-rc.1`, with its image public.
-5. [ ] The author's homelab runs the release candidate in place of its own
+5. [x] The author's homelab runs the release candidate in place of its own
        page.
 6. [ ] A week of running it.
 7. [ ] The repository goes public and `v0.1.0` is tagged. The demo goes
