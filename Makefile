@@ -17,12 +17,12 @@ test:
 lint:
 	go vet ./...
 	golangci-lint run
-	biome check web biome.jsonc
+	biome check web demo biome.jsonc
 
 ## fmt: format everything as lint expects
 fmt:
 	golangci-lint fmt
-	biome check --write web biome.jsonc
+	biome check --write web demo biome.jsonc
 
 ## vuln: known vulnerabilities in the code Overlook calls
 vuln:

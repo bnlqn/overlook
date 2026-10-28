@@ -1,0 +1,1253 @@
+{
+  "at": "2026-10-28T09:30:00Z",
+  "sources": [
+    { "name": "Gatus", "answered": true },
+    { "name": "GitHub", "answered": true },
+    { "name": "Immich", "answered": true },
+    { "name": "Backup Server", "answered": true },
+    { "name": "Proxmox", "answered": true },
+    { "name": "Radarr", "answered": true },
+    { "name": "Sonarr", "answered": true },
+    { "name": "NUT", "answered": true },
+    { "name": "Primary DNS", "answered": true },
+    { "name": "Standby DNS", "answered": false, "error": "timeout" }
+  ],
+  "checks": [
+    {
+      "key": "servers_hypervisor",
+      "name": "Hypervisor",
+      "area": "servers",
+      "source": "Gatus",
+      "url": "https://status.example.com/endpoints/servers_hypervisor",
+      "threshold": 3,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 4.506 },
+        { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 4.188 },
+        { "ok": true, "at": "2026-10-28T09:02:40Z", "ms": 5.108 },
+        { "ok": true, "at": "2026-10-28T09:03:40Z", "ms": 4.043 },
+        { "ok": true, "at": "2026-10-28T09:04:40Z", "ms": 4.896 },
+        { "ok": true, "at": "2026-10-28T09:05:40Z", "ms": 4.583 },
+        { "ok": true, "at": "2026-10-28T09:06:40Z", "ms": 4.017 },
+        { "ok": true, "at": "2026-10-28T09:07:40Z", "ms": 4.844 },
+        { "ok": true, "at": "2026-10-28T09:08:40Z", "ms": 3.979 },
+        { "ok": true, "at": "2026-10-28T09:09:40Z", "ms": 4.708 },
+        { "ok": true, "at": "2026-10-28T09:10:40Z", "ms": 4.039 },
+        { "ok": true, "at": "2026-10-28T09:11:40Z", "ms": 4.077 },
+        { "ok": true, "at": "2026-10-28T09:12:40Z", "ms": 4.691 },
+        { "ok": true, "at": "2026-10-28T09:13:40Z", "ms": 5.431 },
+        { "ok": true, "at": "2026-10-28T09:14:40Z", "ms": 4.138 },
+        { "ok": true, "at": "2026-10-28T09:15:40Z", "ms": 4.321 },
+        { "ok": true, "at": "2026-10-28T09:16:40Z", "ms": 5.064 },
+        { "ok": true, "at": "2026-10-28T09:17:40Z", "ms": 5.654 },
+        { "ok": true, "at": "2026-10-28T09:18:40Z", "ms": 4.972 },
+        { "ok": true, "at": "2026-10-28T09:19:40Z", "ms": 4.64 },
+        { "ok": true, "at": "2026-10-28T09:20:40Z", "ms": 5.706 },
+        { "ok": true, "at": "2026-10-28T09:21:40Z", "ms": 3.996 },
+        { "ok": true, "at": "2026-10-28T09:22:40Z", "ms": 5.49 },
+        { "ok": true, "at": "2026-10-28T09:23:40Z", "ms": 4.443 },
+        { "ok": true, "at": "2026-10-28T09:24:40Z", "ms": 4.175 },
+        { "ok": true, "at": "2026-10-28T09:25:40Z", "ms": 4.127 },
+        { "ok": true, "at": "2026-10-28T09:26:40Z", "ms": 4.478 },
+        { "ok": true, "at": "2026-10-28T09:27:40Z", "ms": 5.412 },
+        { "ok": true, "at": "2026-10-28T09:28:40Z", "ms": 4.243 },
+        { "ok": true, "at": "2026-10-28T09:29:40Z", "ms": 4.98 }
+      ],
+      "watched": "2026-08-14T18:00:00Z"
+    },
+    {
+      "key": "servers_backup-server",
+      "name": "Backup server",
+      "area": "servers",
+      "source": "Gatus",
+      "url": "https://status.example.com/endpoints/servers_backup-server",
+      "threshold": 3,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 8.181 },
+        { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 7.392 },
+        { "ok": true, "at": "2026-10-28T09:02:40Z", "ms": 7.911 },
+        { "ok": true, "at": "2026-10-28T09:03:40Z", "ms": 6.476 },
+        { "ok": true, "at": "2026-10-28T09:04:40Z", "ms": 6.466 },
+        { "ok": true, "at": "2026-10-28T09:05:40Z", "ms": 6.9 },
+        { "ok": true, "at": "2026-10-28T09:06:40Z", "ms": 8.304 },
+        { "ok": true, "at": "2026-10-28T09:07:40Z", "ms": 7.556 },
+        { "ok": true, "at": "2026-10-28T09:08:40Z", "ms": 7.22 },
+        { "ok": true, "at": "2026-10-28T09:09:40Z", "ms": 8.023 },
+        { "ok": true, "at": "2026-10-28T09:10:40Z", "ms": 7.631 },
+        { "ok": true, "at": "2026-10-28T09:11:40Z", "ms": 7.177 },
+        { "ok": true, "at": "2026-10-28T09:12:40Z", "ms": 8.641 },
+        { "ok": true, "at": "2026-10-28T09:13:40Z", "ms": 8.359 },
+        { "ok": true, "at": "2026-10-28T09:14:40Z", "ms": 7.013 },
+        { "ok": true, "at": "2026-10-28T09:15:40Z", "ms": 7.99 },
+        { "ok": true, "at": "2026-10-28T09:16:40Z", "ms": 7.845 },
+        { "ok": true, "at": "2026-10-28T09:17:40Z", "ms": 8.88 },
+        { "ok": true, "at": "2026-10-28T09:18:40Z", "ms": 8.449 },
+        { "ok": true, "at": "2026-10-28T09:19:40Z", "ms": 7.142 },
+        { "ok": true, "at": "2026-10-28T09:20:40Z", "ms": 9.191 },
+        { "ok": true, "at": "2026-10-28T09:21:40Z", "ms": 6.639 },
+        { "ok": true, "at": "2026-10-28T09:22:40Z", "ms": 7.528 },
+        { "ok": true, "at": "2026-10-28T09:23:40Z", "ms": 8.531 },
+        { "ok": true, "at": "2026-10-28T09:24:40Z", "ms": 6.74 },
+        { "ok": true, "at": "2026-10-28T09:25:40Z", "ms": 7.737 },
+        { "ok": true, "at": "2026-10-28T09:26:40Z", "ms": 6.406 },
+        { "ok": true, "at": "2026-10-28T09:27:40Z", "ms": 8.268 },
+        { "ok": true, "at": "2026-10-28T09:28:40Z", "ms": 8.553 },
+        { "ok": true, "at": "2026-10-28T09:29:40Z", "ms": 7.986 }
+      ],
+      "watched": "2026-08-14T18:00:00Z"
+    },
+    {
+      "key": "network_internet",
+      "name": "Internet",
+      "area": "network",
+      "source": "Gatus",
+      "url": "https://status.example.com/endpoints/network_internet",
+      "threshold": 3,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 16.203 },
+        { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 13.169 },
+        { "ok": true, "at": "2026-10-28T09:02:40Z", "ms": 15.23 },
+        { "ok": true, "at": "2026-10-28T09:03:40Z", "ms": 14.685 },
+        { "ok": true, "at": "2026-10-28T09:04:40Z", "ms": 14.606 },
+        { "ok": true, "at": "2026-10-28T09:05:40Z", "ms": 13.939 },
+        { "ok": true, "at": "2026-10-28T09:06:40Z", "ms": 16.011 },
+        { "ok": true, "at": "2026-10-28T09:07:40Z", "ms": 16.576 },
+        { "ok": true, "at": "2026-10-28T09:08:40Z", "ms": 14.035 },
+        { "ok": true, "at": "2026-10-28T09:09:40Z", "ms": 15.061 },
+        { "ok": true, "at": "2026-10-28T09:10:40Z", "ms": 11.803 },
+        { "ok": true, "at": "2026-10-28T09:11:40Z", "ms": 15.263 },
+        { "ok": true, "at": "2026-10-28T09:12:40Z", "ms": 14.969 },
+        { "ok": true, "at": "2026-10-28T09:13:40Z", "ms": 16.838 },
+        { "ok": true, "at": "2026-10-28T09:14:40Z", "ms": 15.913 },
+        { "ok": true, "at": "2026-10-28T09:15:40Z", "ms": 13.012 },
+        { "ok": true, "at": "2026-10-28T09:16:40Z", "ms": 13.558 },
+        { "ok": true, "at": "2026-10-28T09:17:40Z", "ms": 15.086 },
+        { "ok": true, "at": "2026-10-28T09:18:40Z", "ms": 11.597 },
+        { "ok": true, "at": "2026-10-28T09:19:40Z", "ms": 13.968 },
+        { "ok": true, "at": "2026-10-28T09:20:40Z", "ms": 12.382 },
+        { "ok": true, "at": "2026-10-28T09:21:40Z", "ms": 12.107 },
+        { "ok": true, "at": "2026-10-28T09:22:40Z", "ms": 11.793 },
+        { "ok": true, "at": "2026-10-28T09:23:40Z", "ms": 15.623 },
+        { "ok": true, "at": "2026-10-28T09:24:40Z", "ms": 12.173 },
+        { "ok": true, "at": "2026-10-28T09:25:40Z", "ms": 12.812 },
+        { "ok": true, "at": "2026-10-28T09:26:40Z", "ms": 13.586 },
+        { "ok": true, "at": "2026-10-28T09:27:40Z", "ms": 16.181 },
+        { "ok": true, "at": "2026-10-28T09:28:40Z", "ms": 11.91 },
+        { "ok": true, "at": "2026-10-28T09:29:40Z", "ms": 13.901 }
+      ],
+      "outages": [{ "from": "2026-10-22T07:20:00Z", "to": "2026-10-22T08:30:00Z" }],
+      "watched": "2026-08-14T18:00:00Z"
+    },
+    {
+      "key": "network_router",
+      "name": "Router",
+      "area": "network",
+      "source": "Gatus",
+      "url": "https://status.example.com/endpoints/network_router",
+      "threshold": 3,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 2.46 },
+        { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 2.768 },
+        { "ok": true, "at": "2026-10-28T09:02:40Z", "ms": 2.709 },
+        { "ok": true, "at": "2026-10-28T09:03:40Z", "ms": 2.75 },
+        { "ok": true, "at": "2026-10-28T09:04:40Z", "ms": 2.211 },
+        { "ok": true, "at": "2026-10-28T09:05:40Z", "ms": 2.337 },
+        { "ok": true, "at": "2026-10-28T09:06:40Z", "ms": 2.285 },
+        { "ok": true, "at": "2026-10-28T09:07:40Z", "ms": 2.768 },
+        { "ok": true, "at": "2026-10-28T09:08:40Z", "ms": 2.836 },
+        { "ok": true, "at": "2026-10-28T09:09:40Z", "ms": 2.094 },
+        { "ok": true, "at": "2026-10-28T09:10:40Z", "ms": 2.117 },
+        { "ok": true, "at": "2026-10-28T09:11:40Z", "ms": 2.168 },
+        { "ok": true, "at": "2026-10-28T09:12:40Z", "ms": 2.17 },
+        { "ok": true, "at": "2026-10-28T09:13:40Z", "ms": 2.401 },
+        { "ok": true, "at": "2026-10-28T09:14:40Z", "ms": 2.497 },
+        { "ok": true, "at": "2026-10-28T09:15:40Z", "ms": 2.197 },
+        { "ok": true, "at": "2026-10-28T09:16:40Z", "ms": 1.959 },
+        { "ok": true, "at": "2026-10-28T09:17:40Z", "ms": 2.34 },
+        { "ok": true, "at": "2026-10-28T09:18:40Z", "ms": 2.295 },
+        { "ok": true, "at": "2026-10-28T09:19:40Z", "ms": 2.476 },
+        { "ok": true, "at": "2026-10-28T09:20:40Z", "ms": 2.832 },
+        { "ok": true, "at": "2026-10-28T09:21:40Z", "ms": 2.59 },
+        { "ok": true, "at": "2026-10-28T09:22:40Z", "ms": 2.429 },
+        { "ok": true, "at": "2026-10-28T09:23:40Z", "ms": 2.523 },
+        { "ok": true, "at": "2026-10-28T09:24:40Z", "ms": 2.577 },
+        { "ok": true, "at": "2026-10-28T09:25:40Z", "ms": 2.005 },
+        { "ok": true, "at": "2026-10-28T09:26:40Z", "ms": 2.783 },
+        { "ok": true, "at": "2026-10-28T09:27:40Z", "ms": 2.673 },
+        { "ok": true, "at": "2026-10-28T09:28:40Z", "ms": 2.76 },
+        { "ok": true, "at": "2026-10-28T09:29:40Z", "ms": 2.689 }
+      ],
+      "watched": "2026-08-14T18:00:00Z"
+    },
+    {
+      "key": "network_primary-dns",
+      "name": "Primary DNS",
+      "area": "network",
+      "source": "Gatus",
+      "url": "https://status.example.com/endpoints/network_primary-dns",
+      "threshold": 3,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 1.108 },
+        { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 1.111 },
+        { "ok": true, "at": "2026-10-28T09:02:40Z", "ms": 0.981 },
+        { "ok": true, "at": "2026-10-28T09:03:40Z", "ms": 1.214 },
+        { "ok": true, "at": "2026-10-28T09:04:40Z", "ms": 0.962 },
+        { "ok": true, "at": "2026-10-28T09:05:40Z", "ms": 0.965 },
+        { "ok": true, "at": "2026-10-28T09:06:40Z", "ms": 1.027 },
+        { "ok": true, "at": "2026-10-28T09:07:40Z", "ms": 1.006 },
+        { "ok": true, "at": "2026-10-28T09:08:40Z", "ms": 1.085 },
+        { "ok": true, "at": "2026-10-28T09:09:40Z", "ms": 0.958 },
+        { "ok": true, "at": "2026-10-28T09:10:40Z", "ms": 0.935 },
+        { "ok": true, "at": "2026-10-28T09:11:40Z", "ms": 1.002 },
+        { "ok": true, "at": "2026-10-28T09:12:40Z", "ms": 0.98 },
+        { "ok": true, "at": "2026-10-28T09:13:40Z", "ms": 1.095 },
+        { "ok": true, "at": "2026-10-28T09:14:40Z", "ms": 0.946 },
+        { "ok": true, "at": "2026-10-28T09:15:40Z", "ms": 1.32 },
+        { "ok": true, "at": "2026-10-28T09:16:40Z", "ms": 1.205 },
+        { "ok": true, "at": "2026-10-28T09:17:40Z", "ms": 1.0 },
+        { "ok": true, "at": "2026-10-28T09:18:40Z", "ms": 1.046 },
+        { "ok": true, "at": "2026-10-28T09:19:40Z", "ms": 1.088 },
+        { "ok": true, "at": "2026-10-28T09:20:40Z", "ms": 1.095 },
+        { "ok": true, "at": "2026-10-28T09:21:40Z", "ms": 0.989 },
+        { "ok": true, "at": "2026-10-28T09:22:40Z", "ms": 1.309 },
+        { "ok": true, "at": "2026-10-28T09:23:40Z", "ms": 1.372 },
+        { "ok": true, "at": "2026-10-28T09:24:40Z", "ms": 1.14 },
+        { "ok": true, "at": "2026-10-28T09:25:40Z", "ms": 1.148 },
+        { "ok": true, "at": "2026-10-28T09:26:40Z", "ms": 0.973 },
+        { "ok": true, "at": "2026-10-28T09:27:40Z", "ms": 0.98 },
+        { "ok": true, "at": "2026-10-28T09:28:40Z", "ms": 1.086 },
+        { "ok": true, "at": "2026-10-28T09:29:40Z", "ms": 1.051 }
+      ],
+      "watched": "2026-08-14T18:00:00Z"
+    },
+    {
+      "key": "network_standby-dns",
+      "name": "Standby DNS",
+      "area": "network",
+      "source": "Gatus",
+      "url": "https://status.example.com/endpoints/network_standby-dns",
+      "threshold": 3,
+      "run": 26,
+      "problem": true,
+      "why": "read udp: i/o timeout",
+      "since": "2026-10-28T09:04:40Z",
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 1.418 },
+        { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 1.097 },
+        { "ok": true, "at": "2026-10-28T09:02:40Z", "ms": 1.031 },
+        { "ok": true, "at": "2026-10-28T09:03:40Z", "ms": 1.476 },
+        { "ok": false, "at": "2026-10-28T09:04:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:05:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:06:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:07:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:08:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:09:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:10:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:11:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:12:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:13:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:14:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:15:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:16:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:17:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:18:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:19:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:20:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:21:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:22:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:23:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:24:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:25:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:26:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:27:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:28:40Z", "ms": null, "why": "read udp: i/o timeout" },
+        { "ok": false, "at": "2026-10-28T09:29:40Z", "ms": null, "why": "read udp: i/o timeout" }
+      ],
+      "outages": [{ "from": "2026-10-28T09:04:40Z", "to": null }],
+      "watched": "2026-08-14T18:00:00Z"
+    },
+    {
+      "key": "storage_nas",
+      "name": "NAS",
+      "area": "storage",
+      "source": "Gatus",
+      "url": "https://status.example.com/endpoints/storage_nas",
+      "threshold": 3,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 2.928 },
+        { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 3.27 },
+        { "ok": true, "at": "2026-10-28T09:02:40Z", "ms": 3.242 },
+        { "ok": true, "at": "2026-10-28T09:03:40Z", "ms": 3.832 },
+        { "ok": true, "at": "2026-10-28T09:04:40Z", "ms": 4.191 },
+        { "ok": true, "at": "2026-10-28T09:05:40Z", "ms": 3.498 },
+        { "ok": true, "at": "2026-10-28T09:06:40Z", "ms": 4.164 },
+        { "ok": true, "at": "2026-10-28T09:07:40Z", "ms": 4.234 },
+        { "ok": true, "at": "2026-10-28T09:08:40Z", "ms": 4.189 },
+        { "ok": true, "at": "2026-10-28T09:09:40Z", "ms": 3.386 },
+        { "ok": true, "at": "2026-10-28T09:10:40Z", "ms": 3.19 },
+        { "ok": true, "at": "2026-10-28T09:11:40Z", "ms": 3.199 },
+        { "ok": true, "at": "2026-10-28T09:12:40Z", "ms": 3.158 },
+        { "ok": true, "at": "2026-10-28T09:13:40Z", "ms": 3.168 },
+        { "ok": true, "at": "2026-10-28T09:14:40Z", "ms": 3.739 },
+        { "ok": true, "at": "2026-10-28T09:15:40Z", "ms": 4.114 },
+        { "ok": true, "at": "2026-10-28T09:16:40Z", "ms": 4.033 },
+        { "ok": true, "at": "2026-10-28T09:17:40Z", "ms": 3.542 },
+        { "ok": true, "at": "2026-10-28T09:18:40Z", "ms": 3.778 },
+        { "ok": true, "at": "2026-10-28T09:19:40Z", "ms": 3.978 },
+        { "ok": true, "at": "2026-10-28T09:20:40Z", "ms": 3.005 },
+        { "ok": true, "at": "2026-10-28T09:21:40Z", "ms": 3.788 },
+        { "ok": true, "at": "2026-10-28T09:22:40Z", "ms": 4.127 },
+        { "ok": true, "at": "2026-10-28T09:23:40Z", "ms": 3.954 },
+        { "ok": true, "at": "2026-10-28T09:24:40Z", "ms": 3.91 },
+        { "ok": true, "at": "2026-10-28T09:25:40Z", "ms": 3.54 },
+        { "ok": true, "at": "2026-10-28T09:26:40Z", "ms": 3.133 },
+        { "ok": true, "at": "2026-10-28T09:27:40Z", "ms": 3.963 },
+        { "ok": true, "at": "2026-10-28T09:28:40Z", "ms": 3.342 },
+        { "ok": true, "at": "2026-10-28T09:29:40Z", "ms": 3.979 }
+      ],
+      "outages": [{ "from": "2026-10-23T13:50:00Z", "to": "2026-10-23T14:12:00Z" }],
+      "watched": "2026-08-14T18:00:00Z"
+    },
+    {
+      "key": "storage_offsite-copy",
+      "name": "Offsite copy",
+      "area": "storage",
+      "source": "Gatus",
+      "url": "https://status.example.com/endpoints/storage_offsite-copy",
+      "threshold": 3,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T04:39:40Z", "ms": 307.188 },
+        { "ok": true, "at": "2026-10-28T04:49:40Z", "ms": 250.067 },
+        { "ok": true, "at": "2026-10-28T04:59:40Z", "ms": 250.618 },
+        { "ok": true, "at": "2026-10-28T05:09:40Z", "ms": 304.722 },
+        { "ok": true, "at": "2026-10-28T05:19:40Z", "ms": 282.7 },
+        { "ok": true, "at": "2026-10-28T05:29:40Z", "ms": 227.664 },
+        { "ok": true, "at": "2026-10-28T05:39:40Z", "ms": 223.402 },
+        { "ok": true, "at": "2026-10-28T05:49:40Z", "ms": 225.794 },
+        { "ok": true, "at": "2026-10-28T05:59:40Z", "ms": 300.561 },
+        { "ok": true, "at": "2026-10-28T06:09:40Z", "ms": 290.805 },
+        { "ok": true, "at": "2026-10-28T06:19:40Z", "ms": 225.3 },
+        { "ok": true, "at": "2026-10-28T06:29:40Z", "ms": 292.79 },
+        { "ok": true, "at": "2026-10-28T06:39:40Z", "ms": 308.046 },
+        { "ok": true, "at": "2026-10-28T06:49:40Z", "ms": 276.001 },
+        { "ok": true, "at": "2026-10-28T06:59:40Z", "ms": 245.56 },
+        { "ok": true, "at": "2026-10-28T07:09:40Z", "ms": 265.227 },
+        { "ok": true, "at": "2026-10-28T07:19:40Z", "ms": 223.794 },
+        { "ok": true, "at": "2026-10-28T07:29:40Z", "ms": 212.213 },
+        { "ok": true, "at": "2026-10-28T07:39:40Z", "ms": 307.112 },
+        { "ok": true, "at": "2026-10-28T07:49:40Z", "ms": 275.248 },
+        { "ok": true, "at": "2026-10-28T07:59:40Z", "ms": 263.037 },
+        { "ok": true, "at": "2026-10-28T08:09:40Z", "ms": 303.416 },
+        { "ok": true, "at": "2026-10-28T08:19:40Z", "ms": 253.834 },
+        { "ok": true, "at": "2026-10-28T08:29:40Z", "ms": 297.277 },
+        { "ok": true, "at": "2026-10-28T08:39:40Z", "ms": 292.755 },
+        { "ok": true, "at": "2026-10-28T08:49:40Z", "ms": 231.735 },
+        { "ok": true, "at": "2026-10-28T08:59:40Z", "ms": 235.782 },
+        { "ok": true, "at": "2026-10-28T09:09:40Z", "ms": 239.862 },
+        { "ok": true, "at": "2026-10-28T09:19:40Z", "ms": 234.662 },
+        { "ok": true, "at": "2026-10-28T09:29:40Z", "ms": 268.975 }
+      ],
+      "watched": "2026-08-14T18:00:00Z"
+    },
+    {
+      "key": "apps_photos",
+      "name": "Photos",
+      "area": "apps",
+      "source": "Gatus",
+      "url": "https://status.example.com/endpoints/apps_photos",
+      "threshold": 3,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 43.872 },
+        { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 46.81 },
+        { "ok": true, "at": "2026-10-28T09:02:40Z", "ms": 41.512 },
+        { "ok": true, "at": "2026-10-28T09:03:40Z", "ms": 55.844 },
+        { "ok": true, "at": "2026-10-28T09:04:40Z", "ms": 45.61 },
+        { "ok": true, "at": "2026-10-28T09:05:40Z", "ms": 47.53 },
+        { "ok": true, "at": "2026-10-28T09:06:40Z", "ms": 49.834 },
+        { "ok": true, "at": "2026-10-28T09:07:40Z", "ms": 55.739 },
+        { "ok": true, "at": "2026-10-28T09:08:40Z", "ms": 46.84 },
+        { "ok": true, "at": "2026-10-28T09:09:40Z", "ms": 55.986 },
+        { "ok": true, "at": "2026-10-28T09:10:40Z", "ms": 48.33 },
+        { "ok": true, "at": "2026-10-28T09:11:40Z", "ms": 48.886 },
+        { "ok": true, "at": "2026-10-28T09:12:40Z", "ms": 48.733 },
+        { "ok": true, "at": "2026-10-28T09:13:40Z", "ms": 39.444 },
+        { "ok": true, "at": "2026-10-28T09:14:40Z", "ms": 47.198 },
+        { "ok": true, "at": "2026-10-28T09:15:40Z", "ms": 42.469 },
+        { "ok": true, "at": "2026-10-28T09:16:40Z", "ms": 39.172 },
+        { "ok": true, "at": "2026-10-28T09:17:40Z", "ms": 53.805 },
+        { "ok": true, "at": "2026-10-28T09:18:40Z", "ms": 42.271 },
+        { "ok": true, "at": "2026-10-28T09:19:40Z", "ms": 47.812 },
+        { "ok": true, "at": "2026-10-28T09:20:40Z", "ms": 52.444 },
+        { "ok": true, "at": "2026-10-28T09:21:40Z", "ms": 49.339 },
+        { "ok": true, "at": "2026-10-28T09:22:40Z", "ms": 45.098 },
+        { "ok": true, "at": "2026-10-28T09:23:40Z", "ms": 48.638 },
+        { "ok": true, "at": "2026-10-28T09:24:40Z", "ms": 49.32 },
+        { "ok": true, "at": "2026-10-28T09:25:40Z", "ms": 53.531 },
+        { "ok": true, "at": "2026-10-28T09:26:40Z", "ms": 41.052 },
+        { "ok": true, "at": "2026-10-28T09:27:40Z", "ms": 49.409 },
+        { "ok": true, "at": "2026-10-28T09:28:40Z", "ms": 43.672 },
+        { "ok": true, "at": "2026-10-28T09:29:40Z", "ms": 44.195 }
+      ],
+      "watched": "2026-08-14T18:00:00Z"
+    },
+    {
+      "key": "apps_films",
+      "name": "Films",
+      "area": "apps",
+      "source": "Gatus",
+      "url": "https://status.example.com/endpoints/apps_films",
+      "threshold": 3,
+      "run": 1,
+      "problem": false,
+      "why": "[STATUS] (502) == 200",
+      "since": "2026-10-28T09:29:40Z",
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 70.693 },
+        { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 64.238 },
+        { "ok": true, "at": "2026-10-28T09:02:40Z", "ms": 65.556 },
+        { "ok": true, "at": "2026-10-28T09:03:40Z", "ms": 70.394 },
+        { "ok": true, "at": "2026-10-28T09:04:40Z", "ms": 74.115 },
+        { "ok": true, "at": "2026-10-28T09:05:40Z", "ms": 62.665 },
+        { "ok": true, "at": "2026-10-28T09:06:40Z", "ms": 66.796 },
+        { "ok": true, "at": "2026-10-28T09:07:40Z", "ms": 64.185 },
+        { "ok": true, "at": "2026-10-28T09:08:40Z", "ms": 64.347 },
+        { "ok": true, "at": "2026-10-28T09:09:40Z", "ms": 68.753 },
+        { "ok": true, "at": "2026-10-28T09:10:40Z", "ms": 62.887 },
+        { "ok": true, "at": "2026-10-28T09:11:40Z", "ms": 64.862 },
+        { "ok": true, "at": "2026-10-28T09:12:40Z", "ms": 63.514 },
+        { "ok": true, "at": "2026-10-28T09:13:40Z", "ms": 74.823 },
+        { "ok": true, "at": "2026-10-28T09:14:40Z", "ms": 68.911 },
+        { "ok": true, "at": "2026-10-28T09:15:40Z", "ms": 73.237 },
+        { "ok": true, "at": "2026-10-28T09:16:40Z", "ms": 74.839 },
+        { "ok": true, "at": "2026-10-28T09:17:40Z", "ms": 58.184 },
+        { "ok": true, "at": "2026-10-28T09:18:40Z", "ms": 65.502 },
+        { "ok": true, "at": "2026-10-28T09:19:40Z", "ms": 74.866 },
+        { "ok": true, "at": "2026-10-28T09:20:40Z", "ms": 72.346 },
+        { "ok": true, "at": "2026-10-28T09:21:40Z", "ms": 55.196 },
+        { "ok": true, "at": "2026-10-28T09:22:40Z", "ms": 54.818 },
+        { "ok": true, "at": "2026-10-28T09:23:40Z", "ms": 62.638 },
+        { "ok": true, "at": "2026-10-28T09:24:40Z", "ms": 53.62 },
+        { "ok": true, "at": "2026-10-28T09:25:40Z", "ms": 57.722 },
+        { "ok": true, "at": "2026-10-28T09:26:40Z", "ms": 53.634 },
+        { "ok": true, "at": "2026-10-28T09:27:40Z", "ms": 68.185 },
+        { "ok": true, "at": "2026-10-28T09:28:40Z", "ms": 70.978 },
+        { "ok": false, "at": "2026-10-28T09:29:40Z", "ms": 73.737, "why": "[STATUS] (502) == 200" }
+      ],
+      "watched": "2026-08-14T18:00:00Z"
+    },
+    {
+      "key": "apps_shows",
+      "name": "Shows",
+      "area": "apps",
+      "source": "Gatus",
+      "url": "https://status.example.com/endpoints/apps_shows",
+      "threshold": 3,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 49.236 },
+        { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 61.368 },
+        { "ok": true, "at": "2026-10-28T09:02:40Z", "ms": 60.162 },
+        { "ok": true, "at": "2026-10-28T09:03:40Z", "ms": 48.988 },
+        { "ok": true, "at": "2026-10-28T09:04:40Z", "ms": 64.969 },
+        { "ok": true, "at": "2026-10-28T09:05:40Z", "ms": 66.799 },
+        { "ok": true, "at": "2026-10-28T09:06:40Z", "ms": 50.643 },
+        { "ok": true, "at": "2026-10-28T09:07:40Z", "ms": 66.474 },
+        { "ok": true, "at": "2026-10-28T09:08:40Z", "ms": 54.502 },
+        { "ok": true, "at": "2026-10-28T09:09:40Z", "ms": 56.425 },
+        { "ok": true, "at": "2026-10-28T09:10:40Z", "ms": 67.281 },
+        { "ok": true, "at": "2026-10-28T09:11:40Z", "ms": 63.881 },
+        { "ok": true, "at": "2026-10-28T09:12:40Z", "ms": 49.388 },
+        { "ok": true, "at": "2026-10-28T09:13:40Z", "ms": 55.221 },
+        { "ok": true, "at": "2026-10-28T09:14:40Z", "ms": 57.037 },
+        { "ok": true, "at": "2026-10-28T09:15:40Z", "ms": 53.225 },
+        { "ok": true, "at": "2026-10-28T09:16:40Z", "ms": 50.128 },
+        { "ok": true, "at": "2026-10-28T09:17:40Z", "ms": 52.78 },
+        { "ok": true, "at": "2026-10-28T09:18:40Z", "ms": 61.498 },
+        { "ok": true, "at": "2026-10-28T09:19:40Z", "ms": 46.321 },
+        { "ok": true, "at": "2026-10-28T09:20:40Z", "ms": 57.867 },
+        { "ok": true, "at": "2026-10-28T09:21:40Z", "ms": 55.414 },
+        { "ok": true, "at": "2026-10-28T09:22:40Z", "ms": 46.291 },
+        { "ok": true, "at": "2026-10-28T09:23:40Z", "ms": 53.06 },
+        { "ok": true, "at": "2026-10-28T09:24:40Z", "ms": 59.377 },
+        { "ok": true, "at": "2026-10-28T09:25:40Z", "ms": 56.965 },
+        { "ok": true, "at": "2026-10-28T09:26:40Z", "ms": 47.289 },
+        { "ok": true, "at": "2026-10-28T09:27:40Z", "ms": 67.178 },
+        { "ok": true, "at": "2026-10-28T09:28:40Z", "ms": 62.929 },
+        { "ok": true, "at": "2026-10-28T09:29:40Z", "ms": 66.889 }
+      ],
+      "watched": "2026-08-14T18:00:00Z"
+    },
+    {
+      "key": "apps_calendar",
+      "name": "Calendar",
+      "area": "apps",
+      "source": "Gatus",
+      "url": "https://status.example.com/endpoints/apps_calendar",
+      "threshold": 3,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 19.622 },
+        { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 21.037 },
+        { "ok": true, "at": "2026-10-28T09:02:40Z", "ms": 19.048 },
+        { "ok": true, "at": "2026-10-28T09:03:40Z", "ms": 25.555 },
+        { "ok": true, "at": "2026-10-28T09:04:40Z", "ms": 21.08 },
+        { "ok": true, "at": "2026-10-28T09:05:40Z", "ms": 19.84 },
+        { "ok": true, "at": "2026-10-28T09:06:40Z", "ms": 22.416 },
+        { "ok": true, "at": "2026-10-28T09:07:40Z", "ms": 26.72 },
+        { "ok": true, "at": "2026-10-28T09:08:40Z", "ms": 25.907 },
+        { "ok": true, "at": "2026-10-28T09:09:40Z", "ms": 20.976 },
+        { "ok": true, "at": "2026-10-28T09:10:40Z", "ms": 20.014 },
+        { "ok": true, "at": "2026-10-28T09:11:40Z", "ms": 26.789 },
+        { "ok": true, "at": "2026-10-28T09:12:40Z", "ms": 23.721 },
+        { "ok": true, "at": "2026-10-28T09:13:40Z", "ms": 24.864 },
+        { "ok": true, "at": "2026-10-28T09:14:40Z", "ms": 19.487 },
+        { "ok": true, "at": "2026-10-28T09:15:40Z", "ms": 19.206 },
+        { "ok": true, "at": "2026-10-28T09:16:40Z", "ms": 24.756 },
+        { "ok": true, "at": "2026-10-28T09:17:40Z", "ms": 22.443 },
+        { "ok": true, "at": "2026-10-28T09:18:40Z", "ms": 19.337 },
+        { "ok": true, "at": "2026-10-28T09:19:40Z", "ms": 26.957 },
+        { "ok": true, "at": "2026-10-28T09:20:40Z", "ms": 24.283 },
+        { "ok": true, "at": "2026-10-28T09:21:40Z", "ms": 25.754 },
+        { "ok": true, "at": "2026-10-28T09:22:40Z", "ms": 19.437 },
+        { "ok": true, "at": "2026-10-28T09:23:40Z", "ms": 26.235 },
+        { "ok": true, "at": "2026-10-28T09:24:40Z", "ms": 19.286 },
+        { "ok": true, "at": "2026-10-28T09:25:40Z", "ms": 26.292 },
+        { "ok": true, "at": "2026-10-28T09:26:40Z", "ms": 22.693 },
+        { "ok": true, "at": "2026-10-28T09:27:40Z", "ms": 21.685 },
+        { "ok": true, "at": "2026-10-28T09:28:40Z", "ms": 23.567 },
+        { "ok": true, "at": "2026-10-28T09:29:40Z", "ms": 26.855 }
+      ],
+      "watched": "2026-08-14T18:00:00Z"
+    },
+    {
+      "key": "public_website",
+      "name": "Website",
+      "source": "Gatus",
+      "url": "https://status.example.com/endpoints/public_website",
+      "threshold": 3,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 112.943 },
+        { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 106.399 },
+        { "ok": true, "at": "2026-10-28T09:02:40Z", "ms": 125.17 },
+        { "ok": true, "at": "2026-10-28T09:03:40Z", "ms": 111.554 },
+        { "ok": true, "at": "2026-10-28T09:04:40Z", "ms": 105.466 },
+        { "ok": true, "at": "2026-10-28T09:05:40Z", "ms": 107.92 },
+        { "ok": true, "at": "2026-10-28T09:06:40Z", "ms": 102.678 },
+        { "ok": true, "at": "2026-10-28T09:07:40Z", "ms": 109.823 },
+        { "ok": true, "at": "2026-10-28T09:08:40Z", "ms": 115.026 },
+        { "ok": true, "at": "2026-10-28T09:09:40Z", "ms": 114.696 },
+        { "ok": true, "at": "2026-10-28T09:10:40Z", "ms": 136.148 },
+        { "ok": true, "at": "2026-10-28T09:11:40Z", "ms": 113.986 },
+        { "ok": true, "at": "2026-10-28T09:12:40Z", "ms": 123.904 },
+        { "ok": true, "at": "2026-10-28T09:13:40Z", "ms": 108.697 },
+        { "ok": true, "at": "2026-10-28T09:14:40Z", "ms": 116.678 },
+        { "ok": true, "at": "2026-10-28T09:15:40Z", "ms": 101.157 },
+        { "ok": true, "at": "2026-10-28T09:16:40Z", "ms": 112.121 },
+        { "ok": true, "at": "2026-10-28T09:17:40Z", "ms": 101.024 },
+        { "ok": true, "at": "2026-10-28T09:18:40Z", "ms": 134.901 },
+        { "ok": true, "at": "2026-10-28T09:19:40Z", "ms": 126.31 },
+        { "ok": true, "at": "2026-10-28T09:20:40Z", "ms": 109.242 },
+        { "ok": true, "at": "2026-10-28T09:21:40Z", "ms": 122.709 },
+        { "ok": true, "at": "2026-10-28T09:22:40Z", "ms": 144.415 },
+        { "ok": true, "at": "2026-10-28T09:23:40Z", "ms": 105.316 },
+        { "ok": true, "at": "2026-10-28T09:24:40Z", "ms": 138.953 },
+        { "ok": true, "at": "2026-10-28T09:25:40Z", "ms": 120.699 },
+        { "ok": true, "at": "2026-10-28T09:26:40Z", "ms": 123.664 },
+        { "ok": true, "at": "2026-10-28T09:27:40Z", "ms": 139.694 },
+        { "ok": true, "at": "2026-10-28T09:28:40Z", "ms": 118.854 },
+        { "ok": true, "at": "2026-10-28T09:29:40Z", "ms": 124.216 }
+      ],
+      "watched": "2026-08-14T18:00:00Z"
+    }
+  ],
+  "sections": [
+    {
+      "area": "apps",
+      "title": { "key": "immich.photos" },
+      "rows": [
+        {
+          "title": { "name": "Kim" },
+          "value": { "key": "immich.this_week", "args": { "n": 12 } },
+          "detail": { "key": "immich.person", "args": { "photos": 9214, "videos": 402, "usage": 104183526912 } }
+        },
+        {
+          "title": { "name": "Noor" },
+          "value": { "key": "immich.this_week", "args": { "n": 41 } },
+          "detail": { "key": "immich.person", "args": { "photos": 15873, "videos": 736, "usage": 131459047424 } }
+        },
+        {
+          "title": { "key": "immich.space" },
+          "value": { "key": "immich.space_used", "args": { "used": 5398823092224, "size": 7996287737856 } },
+          "detail": { "key": "immich.space_photos", "args": { "usage": 235642574336 } },
+          "meter": { "used": 5398823092224, "total": 7996287737856 }
+        },
+        {
+          "title": { "name": "Immich" },
+          "value": { "name": "v3.3.5" },
+          "detail": { "key": "immich.newer", "args": { "version": "v3.4.0" } },
+          "tone": "orange"
+        },
+        {
+          "title": { "key": "immich.jobs_of", "args": { "name": "thumbnailGeneration" } },
+          "value": { "key": "immich.queued", "args": { "n": 18 } }
+        }
+      ]
+    },
+    {
+      "area": "storage",
+      "title": { "key": "pbs.backups" },
+      "rows": [
+        {
+          "title": { "name": "home" },
+          "value": {
+            "key": "pbs.when",
+            "args": { "at": "2026-10-28T00:30:00Z", "group": "vm/100", "size": 34359738368 }
+          },
+          "detail": {
+            "key": "pbs.verified",
+            "args": { "at": "2026-10-28T00:30:00Z", "group": "vm/100", "size": 34359738368 }
+          }
+        },
+        {
+          "title": { "name": "media" },
+          "value": {
+            "key": "pbs.when",
+            "args": { "at": "2026-10-28T00:33:21Z", "group": "vm/110", "size": 21474836480 }
+          },
+          "detail": {
+            "key": "pbs.verified",
+            "args": { "at": "2026-10-28T00:33:21Z", "group": "vm/110", "size": 21474836480 }
+          }
+        },
+        {
+          "title": { "name": "photos" },
+          "value": {
+            "key": "pbs.when",
+            "args": { "at": "2026-10-28T00:35:35Z", "group": "vm/120", "size": 42949672960 }
+          },
+          "detail": {
+            "key": "pbs.unverified",
+            "args": { "at": "2026-10-28T00:35:35Z", "group": "vm/120", "size": 42949672960 }
+          }
+        },
+        {
+          "title": { "name": "dns-primary" },
+          "value": {
+            "key": "pbs.when",
+            "args": { "at": "2026-10-28T00:39:03Z", "group": "ct/140", "size": 1073741824 }
+          },
+          "detail": {
+            "key": "pbs.verified",
+            "args": { "at": "2026-10-28T00:39:03Z", "group": "ct/140", "size": 1073741824 }
+          }
+        },
+        {
+          "title": { "name": "dns-standby" },
+          "value": {
+            "key": "pbs.when",
+            "args": { "at": "2026-10-28T00:39:03Z", "group": "ct/141", "size": 1073741824 }
+          },
+          "detail": {
+            "key": "pbs.verified",
+            "args": { "at": "2026-10-28T00:39:03Z", "group": "ct/141", "size": 1073741824 }
+          }
+        },
+        {
+          "title": { "name": "status" },
+          "value": {
+            "key": "pbs.when",
+            "args": { "at": "2026-10-28T00:40:10Z", "group": "ct/150", "size": 2147483648 }
+          },
+          "detail": {
+            "key": "pbs.verified",
+            "args": { "at": "2026-10-28T00:40:10Z", "group": "ct/150", "size": 2147483648 }
+          }
+        }
+      ]
+    },
+    {
+      "area": "servers",
+      "title": { "key": "proxmox.host" },
+      "rows": [
+        {
+          "title": { "key": "proxmox.cpu" },
+          "value": { "key": "percent", "args": { "n": 7 } },
+          "detail": { "key": "proxmox.cpu_detail", "args": { "load": 0.58, "model": "N305", "n": 8 } }
+        },
+        {
+          "title": { "key": "proxmox.memory" },
+          "value": { "key": "proxmox.gb_of", "args": { "used": 21, "total": 31 } },
+          "meter": { "used": 22548578304, "total": 33554432000, "tone": "blue" }
+        },
+        {
+          "title": { "key": "proxmox.up" },
+          "value": { "key": "proxmox.span", "args": { "ms": 1054800000.0 } },
+          "detail": { "key": "proxmox.since", "args": { "at": "2026-10-16T04:30:00Z" } }
+        },
+        {
+          "title": { "key": "proxmox.version" },
+          "value": { "name": "9.2.18" },
+          "detail": { "name": "Linux 7.0.12-3-pve" }
+        }
+      ]
+    },
+    {
+      "area": "servers",
+      "title": { "key": "proxmox.guests" },
+      "rows": [
+        {
+          "title": { "name": "home" },
+          "value": { "key": "proxmox.up_for", "args": { "ms": 1054740000.0 } },
+          "detail": { "key": "proxmox.vm", "args": { "id": 100, "n": 2, "gb": 4 } }
+        },
+        {
+          "title": { "name": "media" },
+          "value": { "key": "proxmox.up_for", "args": { "ms": 266400000.0 } },
+          "detail": { "key": "proxmox.vm", "args": { "id": 110, "n": 4, "gb": 6 } }
+        },
+        {
+          "title": { "name": "photos" },
+          "value": { "key": "proxmox.up_for", "args": { "ms": 1054740000.0 } },
+          "detail": { "key": "proxmox.vm", "args": { "id": 120, "n": 4, "gb": 8 } }
+        },
+        {
+          "title": { "name": "files" },
+          "value": { "key": "proxmox.up_for", "args": { "ms": 1054740000.0 } },
+          "detail": { "key": "proxmox.vm", "args": { "id": 130, "n": 2, "gb": 4 } }
+        },
+        {
+          "title": { "name": "dns-primary" },
+          "value": { "key": "proxmox.up_for", "args": { "ms": 1054680000.0 } },
+          "detail": { "key": "proxmox.container", "args": { "id": 140, "n": 1, "gb": 1 } }
+        },
+        {
+          "title": { "name": "dns-standby" },
+          "value": { "key": "proxmox.stopped" },
+          "detail": { "key": "proxmox.container", "args": { "id": 141, "n": 1, "gb": 1 } },
+          "tone": "gray"
+        },
+        {
+          "title": { "name": "status" },
+          "value": { "key": "proxmox.up_for", "args": { "ms": 1054680000.0 } },
+          "detail": { "key": "proxmox.container", "args": { "id": 150, "n": 1, "gb": 1 } }
+        },
+        {
+          "title": { "name": "backup" },
+          "value": { "key": "proxmox.up_for", "args": { "ms": 1054620000.0 } },
+          "detail": { "key": "proxmox.vm", "args": { "id": 160, "n": 2, "gb": 4 } }
+        }
+      ]
+    },
+    {
+      "area": "servers",
+      "title": { "key": "proxmox.storage" },
+      "rows": [
+        {
+          "title": { "name": "local-zfs" },
+          "value": { "key": "proxmox.bytes_of", "args": { "used": 41875931136, "total": 214748364800 } },
+          "meter": { "used": 41875931136, "total": 214748364800 }
+        },
+        {
+          "title": { "name": "local" },
+          "value": { "key": "proxmox.bytes_of", "args": { "used": 9663676416, "total": 98784247808 } },
+          "meter": { "used": 9663676416, "total": 98784247808 }
+        },
+        {
+          "title": { "name": "tank" },
+          "value": { "key": "proxmox.bytes_of", "args": { "used": 2965818318848, "total": 3848290697216 } },
+          "meter": { "used": 2965818318848, "total": 3848290697216 }
+        },
+        {
+          "title": { "name": "backups" },
+          "value": { "key": "proxmox.bytes_of", "args": { "used": 1236950581248, "total": 3848290697216 } },
+          "meter": { "used": 1236950581248, "total": 3848290697216 }
+        }
+      ]
+    },
+    {
+      "area": "servers",
+      "title": { "key": "proxmox.pools" },
+      "rows": [
+        {
+          "title": { "name": "rpool" },
+          "value": { "key": "proxmox.bytes_of", "args": { "used": 51539607552, "total": 246960619520 } },
+          "detail": { "key": "proxmox.healthy" },
+          "meter": { "used": 51539607552, "total": 246960619520 }
+        },
+        {
+          "title": { "name": "tank" },
+          "value": { "key": "proxmox.bytes_of", "args": { "used": 4202768899072, "total": 7696581394432 } },
+          "detail": { "key": "proxmox.healthy" },
+          "meter": { "used": 4202768899072, "total": 7696581394432 }
+        }
+      ]
+    },
+    {
+      "area": "servers",
+      "title": { "key": "proxmox.backups" },
+      "rows": [
+        {
+          "title": { "key": "proxmox.last_run" },
+          "value": { "key": "proxmox.done" },
+          "detail": {
+            "key": "proxmox.run_took",
+            "args": { "at": "2026-10-28T00:30:00Z", "ms": 512000, "status": "OK" }
+          },
+          "tone": "green"
+        }
+      ]
+    },
+    {
+      "area": "apps",
+      "title": { "key": "radarr.films" },
+      "rows": [
+        {
+          "title": { "key": "radarr.library" },
+          "value": { "key": "radarr.films_n", "args": { "n": 412 } },
+          "detail": { "key": "radarr.library_detail", "args": { "n": 3, "size": 3186865348608 } }
+        },
+        { "title": { "key": "radarr.downloading" }, "value": { "key": "radarr.downloading_n", "args": { "n": 1 } } }
+      ]
+    },
+    {
+      "area": "apps",
+      "title": { "key": "radarr.coming" },
+      "rows": [
+        {
+          "title": { "name": "Nosferatu (1922)" },
+          "value": { "key": "radarr.on", "args": { "at": "2026-10-30T00:00:00Z" } },
+          "detail": { "key": "radarr.to_stream" }
+        },
+        {
+          "title": { "name": "The General (1926)" },
+          "value": { "key": "radarr.on", "args": { "at": "2026-11-02T00:00:00Z" } },
+          "detail": { "key": "radarr.on_disc" }
+        },
+        {
+          "title": { "name": "Metropolis (1927)" },
+          "value": { "key": "radarr.have" },
+          "detail": { "key": "radarr.to_stream" }
+        }
+      ]
+    },
+    {
+      "area": "apps",
+      "title": { "key": "sonarr.shows" },
+      "rows": [
+        {
+          "title": { "key": "sonarr.library" },
+          "value": { "key": "sonarr.shows_n", "args": { "n": 38 } },
+          "detail": { "key": "sonarr.library_detail", "args": { "n": 1904, "size": 2418925862912, "week": 9 } }
+        },
+        { "title": { "key": "sonarr.downloading" }, "value": { "key": "sonarr.downloading_n", "args": { "n": 2 } } }
+      ]
+    },
+    {
+      "area": "apps",
+      "title": { "key": "sonarr.coming" },
+      "rows": [
+        {
+          "title": { "name": "Northern Lines 1×08" },
+          "value": { "key": "sonarr.have" },
+          "detail": { "name": "The Last Train" }
+        },
+        {
+          "title": { "name": "The Quiet Valley 2×05" },
+          "value": { "key": "sonarr.on", "args": { "at": "2026-10-29T20:00:00Z" } },
+          "detail": { "name": "Low Water" }
+        },
+        {
+          "title": { "name": "Small Hours 4×01" },
+          "value": { "key": "sonarr.on", "args": { "at": "2026-11-01T21:00:00Z" } },
+          "detail": { "key": "sonarr.untitled" }
+        }
+      ]
+    },
+    {
+      "area": "servers",
+      "title": { "key": "nut.ups" },
+      "rows": [
+        {
+          "title": { "key": "nut.power" },
+          "value": { "key": "nut.on_mains" },
+          "detail": { "key": "nut.model_in", "args": { "model": "Eco 900", "v": 230 } },
+          "tone": "green"
+        },
+        {
+          "title": { "key": "nut.battery" },
+          "value": { "key": "nut.percent", "args": { "n": 100 } },
+          "detail": { "key": "nut.runtime_low", "args": { "ms": 2280000, "low": 20 } },
+          "meter": { "used": 100, "total": 100, "tone": "green" }
+        },
+        {
+          "title": { "key": "nut.drawing" },
+          "value": { "key": "nut.watts", "args": { "n": 74 } },
+          "detail": { "key": "nut.load_of", "args": { "n": 14 } }
+        }
+      ]
+    },
+    {
+      "area": "network",
+      "title": { "name": "Primary DNS" },
+      "rows": [
+        { "title": { "key": "adguard.protection" }, "value": { "key": "adguard.filtering" }, "tone": "green" },
+        {
+          "title": { "key": "adguard.lookups" },
+          "value": { "key": "adguard.n", "args": { "n": 642318 } },
+          "detail": { "key": "adguard.over", "args": { "ms": 604800000 } }
+        },
+        {
+          "title": { "key": "adguard.blocked" },
+          "value": { "key": "adguard.percent", "args": { "n": 31.4 } },
+          "detail": { "key": "adguard.count", "args": { "n": 201688 } }
+        },
+        { "title": { "key": "adguard.processing" }, "value": { "key": "adguard.ms", "args": { "n": 1.4 } } },
+        {
+          "title": { "name": "tls://dns.example.net:853" },
+          "value": { "key": "adguard.answers", "args": { "n": 14210, "ms": 16.9 } },
+          "detail": { "key": "adguard.upstream" }
+        },
+        {
+          "title": { "name": "tls://resolver.example.org:853" },
+          "value": { "key": "adguard.answers", "args": { "n": 7084, "ms": 18.2 } },
+          "detail": { "key": "adguard.upstream" }
+        },
+        { "title": { "key": "adguard.version" }, "value": { "name": "v0.107.79" } }
+      ]
+    },
+    {
+      "area": "network",
+      "title": { "key": "adguard.top_clients", "args": { "name": "Primary DNS" } },
+      "rows": [
+        {
+          "title": { "name": "living-room-tv.lan" },
+          "value": { "key": "adguard.share", "args": { "n": 112480, "share": 17.5 } },
+          "detail": { "name": "192.0.2.21" }
+        },
+        {
+          "title": { "name": "media.lan" },
+          "value": { "key": "adguard.share", "args": { "n": 96215, "share": 15.0 } },
+          "detail": { "name": "192.0.2.110" }
+        },
+        {
+          "title": { "name": "kims-phone.lan" },
+          "value": { "key": "adguard.share", "args": { "n": 71904, "share": 11.2 } },
+          "detail": { "name": "192.0.2.31" }
+        },
+        {
+          "title": { "name": "noors-laptop.lan" },
+          "value": { "key": "adguard.share", "args": { "n": 58377, "share": 9.1 } },
+          "detail": { "name": "192.0.2.32" }
+        },
+        {
+          "title": { "name": "home.lan" },
+          "value": { "key": "adguard.share", "args": { "n": 45120, "share": 7.0 } },
+          "detail": { "name": "192.0.2.100" }
+        },
+        {
+          "title": { "name": "192.0.2.47" },
+          "value": { "key": "adguard.share", "args": { "n": 21064, "share": 3.3 } }
+        }
+      ]
+    },
+    {
+      "area": "network",
+      "title": { "key": "adguard.top_domains", "args": { "name": "Primary DNS" } },
+      "rows": [
+        {
+          "title": { "name": "time.example.com" },
+          "value": { "key": "adguard.share", "args": { "n": 18342, "share": 2.9 } }
+        },
+        {
+          "title": { "name": "photos.example.com" },
+          "value": { "key": "adguard.share", "args": { "n": 16107, "share": 2.5 } }
+        },
+        {
+          "title": { "name": "updates.example.org" },
+          "value": { "key": "adguard.share", "args": { "n": 12955, "share": 2.0 } }
+        },
+        {
+          "title": { "name": "cdn.example.net" },
+          "value": { "key": "adguard.share", "args": { "n": 10418, "share": 1.6 } }
+        },
+        {
+          "title": { "name": "api.example.com" },
+          "value": { "key": "adguard.share", "args": { "n": 9870, "share": 1.5 } }
+        },
+        {
+          "title": { "name": "weather.example.org" },
+          "value": { "key": "adguard.share", "args": { "n": 5112, "share": 0.8 } }
+        }
+      ]
+    },
+    {
+      "area": "network",
+      "title": { "key": "adguard.top_blocked", "args": { "name": "Primary DNS" } },
+      "rows": [
+        { "title": { "name": "ads.example.com" }, "value": { "key": "adguard.n", "args": { "n": 58120 } } },
+        { "title": { "name": "tracker.example.net" }, "value": { "key": "adguard.n", "args": { "n": 41377 } } },
+        { "title": { "name": "telemetry.example.org" }, "value": { "key": "adguard.n", "args": { "n": 27904 } } },
+        { "title": { "name": "metrics.example.com" }, "value": { "key": "adguard.n", "args": { "n": 19226 } } },
+        { "title": { "name": "pixel.example.net" }, "value": { "key": "adguard.n", "args": { "n": 6013 } } },
+        { "title": { "name": "beacon.example.org" }, "value": { "key": "adguard.n", "args": { "n": 4870 } } }
+      ]
+    }
+  ],
+  "figures": [
+    {
+      "area": "apps",
+      "icon": "photos",
+      "label": { "key": "immich.photos" },
+      "value": 26225,
+      "detail": { "key": "immich.this_week", "args": { "n": 53 } }
+    },
+    {
+      "area": "storage",
+      "icon": "archive",
+      "label": { "key": "pbs.backups" },
+      "value": 6,
+      "unit": { "key": "pbs.of_guests", "args": { "n": 6 } },
+      "detail": { "key": "pbs.when", "args": { "at": "2026-10-28T00:30:00Z" } }
+    },
+    {
+      "area": "servers",
+      "icon": "stack",
+      "label": { "key": "proxmox.guests" },
+      "value": 7,
+      "unit": { "key": "proxmox.of_up", "args": { "n": 8 } },
+      "detail": { "key": "proxmox.host_up", "args": { "ms": 1054800000.0 } },
+      "tone": "orange",
+      "meters": [
+        { "label": { "key": "proxmox.cpu_meter" }, "used": 0.56, "total": 8 },
+        { "label": { "key": "proxmox.ram_meter" }, "used": 22548578304, "total": 33554432000, "tone": "blue" }
+      ]
+    },
+    {
+      "area": "apps",
+      "icon": "film",
+      "label": { "key": "radarr.films" },
+      "value": 412,
+      "detail": { "key": "radarr.this_week", "args": { "n": 3 } }
+    },
+    {
+      "area": "apps",
+      "icon": "film",
+      "label": { "key": "sonarr.shows" },
+      "value": 38,
+      "detail": { "key": "sonarr.this_week", "args": { "n": 9 } }
+    },
+    {
+      "area": "servers",
+      "icon": "plug",
+      "label": { "key": "nut.ups" },
+      "value": 74,
+      "unit": { "key": "nut.watts_unit" },
+      "detail": { "key": "nut.on_mains" },
+      "meters": [{ "label": { "key": "nut.battery" }, "used": 100, "total": 100, "tone": "green" }]
+    },
+    {
+      "area": "network",
+      "icon": "shield",
+      "label": { "key": "adguard.today" },
+      "value": 41870,
+      "detail": { "key": "adguard.today_blocked", "args": { "blocked": 13215 } },
+      "hours": [
+        3120, 2410, 1980, 1760, 1690, 1840, 2650, 4120, 5210, 4870, 4430, 4290, 4610, 4380, 4150, 4420, 5030, 5880,
+        6410, 6820, 6230, 5470, 4390, 2960
+      ],
+      "adds": true
+    }
+  ],
+  "events": [
+    {
+      "at": "2026-10-28T00:30:00Z",
+      "area": "storage",
+      "icon": "archive",
+      "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
+    },
+    {
+      "at": "2026-10-27T00:30:00Z",
+      "area": "storage",
+      "icon": "archive",
+      "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
+    },
+    {
+      "at": "2026-10-26T00:30:00Z",
+      "area": "storage",
+      "icon": "archive",
+      "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
+    },
+    {
+      "at": "2026-10-25T00:30:00Z",
+      "area": "storage",
+      "icon": "archive",
+      "text": { "key": "pbs.backed_up", "args": { "n": 5 } }
+    },
+    {
+      "at": "2026-10-24T00:30:00Z",
+      "area": "storage",
+      "icon": "archive",
+      "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
+    },
+    {
+      "at": "2026-10-23T00:30:00Z",
+      "area": "storage",
+      "icon": "archive",
+      "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
+    },
+    {
+      "at": "2026-10-22T00:30:00Z",
+      "area": "storage",
+      "icon": "archive",
+      "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
+    },
+    {
+      "at": "2026-10-28T00:30:00Z",
+      "area": "servers",
+      "icon": "archive",
+      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-28T00:30:00Z", "ms": 512000, "status": "OK" } }
+    },
+    {
+      "at": "2026-10-27T00:30:00Z",
+      "area": "servers",
+      "icon": "archive",
+      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-27T00:30:00Z", "ms": 547000, "status": "OK" } }
+    },
+    {
+      "at": "2026-10-26T00:30:00Z",
+      "area": "servers",
+      "icon": "archive",
+      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-26T00:30:00Z", "ms": 498000, "status": "OK" } }
+    },
+    {
+      "at": "2026-10-25T00:30:00Z",
+      "area": "servers",
+      "icon": "archive",
+      "tone": "orange",
+      "text": {
+        "key": "proxmox.backup_warnings",
+        "args": { "at": "2026-10-25T00:30:00Z", "ms": 1386000, "status": "WARNINGS: 1" }
+      }
+    },
+    {
+      "at": "2026-10-24T00:30:00Z",
+      "area": "servers",
+      "icon": "archive",
+      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-24T00:30:00Z", "ms": 531000, "status": "OK" } }
+    },
+    {
+      "at": "2026-10-23T00:30:00Z",
+      "area": "servers",
+      "icon": "archive",
+      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-23T00:30:00Z", "ms": 506000, "status": "OK" } }
+    },
+    {
+      "at": "2026-10-22T00:30:00Z",
+      "area": "servers",
+      "icon": "archive",
+      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-22T00:30:00Z", "ms": 523000, "status": "OK" } }
+    }
+  ],
+  "updates": [
+    {
+      "name": "Photos: Bump ghcr.io/immich-app/immich-server from v3.3.5 to v3.4.0 in /stacks/photos",
+      "url": "https://github.com/example/homelab/pull/58",
+      "at": "2026-10-28T06:18:00Z"
+    },
+    {
+      "name": "Status: Bump twinproduction/gatus from 5.30.0 to 5.31.1 in /stacks/status",
+      "url": "https://github.com/example/homelab/pull/57",
+      "at": "2026-10-27T07:30:00Z"
+    },
+    {
+      "name": "Update dependency astro to v7.2.1",
+      "url": "https://github.com/example/website/pull/214",
+      "at": "2026-10-24T03:30:00Z"
+    }
+  ],
+  "apps": [
+    {
+      "name": "Photos",
+      "url": "https://photos.example.com",
+      "icon": "immich.svg",
+      "check": "Photos",
+      "description": "The family's photos",
+      "color": "#ED79B5"
+    },
+    {
+      "name": "Films",
+      "url": "https://films.example.com",
+      "icon": "radarr.svg",
+      "check": "Films",
+      "description": "The films, and what's coming",
+      "color": "#FFC230"
+    },
+    {
+      "name": "Shows",
+      "url": "https://shows.example.com",
+      "icon": "sonarr.svg",
+      "check": "Shows",
+      "description": "The shows, and what airs next",
+      "color": "#35C5F4"
+    },
+    {
+      "name": "Calendar",
+      "url": "https://dav.example.com",
+      "icon": "radicale.svg",
+      "check": "Calendar",
+      "description": "Calendars and contacts",
+      "color": "#E5484D"
+    }
+  ],
+  "tools": [
+    {
+      "name": "Gatus",
+      "url": "https://status.example.com",
+      "icon": "gatus.svg",
+      "description": "Every check and its history",
+      "color": "#3CAD4B"
+    },
+    {
+      "name": "Proxmox",
+      "url": "https://pve.example.com:8006",
+      "icon": "proxmox.svg",
+      "check": "Hypervisor",
+      "description": "The host and its guests",
+      "color": "#E57000"
+    },
+    {
+      "name": "Backup Server",
+      "url": "https://pbs.example.com:8007",
+      "icon": "proxmox-backup-server.svg",
+      "check": "Backup server",
+      "description": "Every guest's backups",
+      "color": "#E57000"
+    },
+    {
+      "name": "Dozzle",
+      "url": "https://logs.example.com",
+      "icon": "dozzle.svg",
+      "description": "Every container's logs",
+      "color": "#FFDD00"
+    }
+  ]
+}
