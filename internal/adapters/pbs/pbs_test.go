@@ -82,6 +82,31 @@ func TestRead(t *testing.T) {
 	}
 }
 
+// A guest backed up by hand after the night is a run of its own. Today shows
+// the night all the same, while it's less than a day older than the newest
+// backup.
+func TestTodayIsTheNight(t *testing.T) {
+	t.Parallel()
+	now := time.Date(2026, 10, 28, 10, 0, 0, 0, time.UTC)
+	start := time.Date(2026, 10, 27, 1, 30, 0, 0, time.UTC)
+	var backups []backup
+	for i, id := range []string{"100", "110", "130", "150"} {
+		backups = append(backups, backup{Type: "vm", ID: id, Time: start.Add(time.Duration(i) * 3 * time.Minute).Unix()})
+	}
+	backups = append(backups, backup{Type: "vm", ID: "130", Time: time.Date(2026, 10, 27, 17, 16, 0, 0, time.UTC).Unix()})
+	if f := parts(backups, now).Figures[0]; f.Value != 4 || f.Unit.Args["n"] != 4 || f.Detail.Args["at"] != start {
+		t.Errorf("the night backed up 4 of 4 guests, before gate by hand: %+v", f)
+	}
+
+	// The next night never came: the day to the newest backup holds only
+	// backups by hand, and Today shows the newest.
+	byHand := time.Date(2026, 10, 28, 9, 0, 0, 0, time.UTC)
+	backups = append(backups, backup{Type: "vm", ID: "100", Time: byHand.Unix()})
+	if f := parts(backups, now).Figures[0]; f.Value != 1 || f.Detail.Args["at"] != byHand {
+		t.Errorf("house by hand, a day after the night: %+v", f)
+	}
+}
+
 // PBS signs its own certificate for its own name: Overlook reads it at
 // another address, trusting that certificate and checking that name, and
 // sends its token as PBS expects.

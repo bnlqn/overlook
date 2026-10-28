@@ -180,8 +180,21 @@ func parts(backups []backup, now time.Time) snapshot.Parts {
 		})
 	}
 
-	// Today: the guests the last night backed up, of all those backed up.
+	// Today: the guests the last night backed up, of all those backed up. The
+	// night is the run with the most guests in the day to the newest backup,
+	// so a guest backed up by hand after it neither hides it nor reads as a
+	// night that missed the rest.
+	// ponytail: a run by hand of more guests than the night's is taken for
+	// it; read the backup jobs' tasks if that's ever seen.
 	last := runs[0]
+	for _, r := range runs[1:] {
+		if at(runs[0][0]).Sub(at(r[0])) > 24*time.Hour {
+			break
+		}
+		if guests(r) > guests(last) {
+			last = r
+		}
+	}
 	p.Figures = []snapshot.Figure{{
 		Area: area, Icon: "archive", Label: key("pbs.backups", nil), Value: float64(guests(last)),
 		Unit:   ptr(key("pbs.of_guests", map[string]any{"n": len(newest)})),
