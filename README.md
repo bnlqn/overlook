@@ -27,7 +27,10 @@ project uses are in [CONTEXT.md](CONTEXT.md) and its decisions in
 5. [ ] The author's homelab runs the release candidate in place of its own
        page.
 6. [ ] A week of running it.
-7. [ ] The repository goes public and `v0.1.0` is tagged.
+7. [ ] The repository goes public and `v0.1.0` is tagged. The demo goes
+       live then: Pages set to build from GitHub Actions, and the Demo
+       workflow run once by hand, since going public pushes nothing to
+       `main`.
 
 v0.1 is ready when the author's homelab has run it for a week with nothing
 missing, the demo is live, every adapter has its section here (its config
