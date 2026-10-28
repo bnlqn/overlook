@@ -1,0 +1,57 @@
+{
+ "data": {
+  "cpu": 0.0247,
+  "wait": 0.0012,
+  "idle": 0,
+  "uptime": 343210,
+  "loadavg": [
+   "0.64",
+   "0.51",
+   "0.47"
+  ],
+  "cpuinfo": {
+   "model": "13th Gen Intel(R) Core(TM) i5-13500H",
+   "cpus": 16,
+   "cores": 12,
+   "sockets": 1,
+   "vendor": "GenuineIntel",
+   "mhz": "512.004",
+   "hvm": "1",
+   "family": "6",
+   "user_hz": 100,
+   "flags": "fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush"
+  },
+  "memory": {
+   "used": 25971458048,
+   "total": 33554432000,
+   "free": 7582973952,
+   "available": 7781203968
+  },
+  "swap": {
+   "used": 0,
+   "total": 0,
+   "free": 0
+  },
+  "ksm": {
+   "shared": 3523215360
+  },
+  "rootfs": {
+   "used": 4127195136,
+   "total": 62277025792,
+   "avail": 58149830656,
+   "free": 58149830656
+  },
+  "pveversion": "pve-manager/9.2.21/0c4f1e2a7b9d3e58",
+  "kversion": "Linux 7.0.14-25-pve #1 SMP PREEMPT_DYNAMIC PMX 7.0.14-25 (2026-10-17T20:42Z)",
+  "current-kernel": {
+   "sysname": "Linux",
+   "release": "7.0.14-25-pve",
+   "version": "#1 SMP PREEMPT_DYNAMIC PMX 7.0.14-25 (2026-10-17T20:42Z)",
+   "machine": "x86_64"
+  },
+  "boot-info": {
+   "mode": "efi",
+   "secureboot": 1
+  }
+ }
+}

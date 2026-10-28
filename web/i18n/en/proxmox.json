@@ -1,0 +1,45 @@
+{
+  "proxmox.host": "Host",
+  "proxmox.on_node": "{name} on {node}",
+  "proxmox.cpu": "Processor",
+  "proxmox.cpu_detail": { "one": "{model} · {n} thread · load {load}", "other": "{model} · {n} threads · load {load}" },
+  "proxmox.memory": "Memory",
+  "proxmox.gb_of": "{used} of {total} GB",
+  "proxmox.up": "Up",
+  "proxmox.span": "{ms:span}",
+  "proxmox.since": "since {at:day}",
+  "proxmox.version": "Proxmox VE",
+
+  "proxmox.guests": "Guests",
+  "proxmox.vm": { "one": "VM {id} · {n} core · {gb} GB", "other": "VM {id} · {n} cores · {gb} GB" },
+  "proxmox.container": {
+    "one": "Container {id} · {n} core · {gb} GB",
+    "other": "Container {id} · {n} cores · {gb} GB"
+  },
+  "proxmox.up_for": "up {ms:span}",
+  "proxmox.stopped": "Stopped",
+  "proxmox.of_up": "of {n} up",
+  "proxmox.host_up": "host up {ms:span}",
+  "proxmox.hosts_online": "{online} of {n} hosts online",
+  "proxmox.cpu_meter": "CPU",
+  "proxmox.ram_meter": "RAM",
+
+  "proxmox.storage": "Storage",
+  "proxmox.bytes_of": "{used:bytes} of {total:bytes}",
+  "proxmox.pools": "ZFS pools",
+  "proxmox.healthy": "Healthy",
+
+  "proxmox.backups": "Backups",
+  "proxmox.last_run": "Last run",
+  "proxmox.done": "Done",
+  "proxmox.warnings": "Warnings",
+  "proxmox.failed": "Failed",
+  "proxmox.running": "Running",
+  "proxmox.run_took": "{at:when}, in {ms:span}",
+  "proxmox.run_why": "{at:when}, in {ms:span} · {status}",
+  "proxmox.run_since": "started {at:when}",
+  "proxmox.backup_done": "<b>The backup</b> ran in {ms:span}",
+  "proxmox.backup_warnings": "<b>The backup</b> ran in {ms:span}, with warnings",
+  "proxmox.backup_failed": "<b>The backup</b> failed: {status}",
+  "proxmox.backup_running": "<b>The backup</b> is running"
+}
