@@ -1542,15 +1542,27 @@ a.chore:hover {
   margin: 0 0 8px;
   font: var(--m-type-headline);
 }
+/* An area page deals its sections out to two columns in turn. In one column
+   the two give way, so the sections stand in the snapshot's order, --i,
+   rather than the whole left column before the right. */
 .columns {
   display: grid;
   gap: 0 24px;
   grid-template-columns: minmax(0, 1fr);
 }
+.columns > * {
+  display: contents;
+}
+.columns section {
+  order: var(--i);
+}
 @media (min-width: 1000px) {
   .columns {
     grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
     align-items: start;
+  }
+  .columns > * {
+    display: block;
   }
 }
 .list {

@@ -146,8 +146,11 @@ export function fact(title, value, detail = "", bar = "") {
 export const figureMeter = (m) =>
   `<span class="figure-meter"><span>${m.label ? say(m.label) : ""}</span>${meter(m.used, m.total, m.tone)}<span>${t("percent", { n: Math.round((100 * m.used) / m.total) })}</span></span>`;
 
-/** A section of the snapshot: its title, then its rows. */
-export function section(s) {
+/**
+ * A section of the snapshot: its title, then its rows. It carries its place
+ * among the page's sections, i, so a page in one column can keep their order.
+ */
+export function section(s, i) {
   const rows = s.rows.map((r) => {
     const value = r.value ? (r.tone ? `<span class="state tone-${r.tone}">${say(r.value)}</span>` : say(r.value)) : "";
     return fact(
@@ -157,7 +160,7 @@ export function section(s) {
       r.meter ? meter(r.meter.used, r.meter.total, r.meter.tone) : "",
     );
   });
-  return `<section><h2 class="section-title">${say(s.title)}</h2><div class="list card">${rows.join("")}</div></section>`;
+  return `<section style="--i:${i}"><h2 class="section-title">${say(s.title)}</h2><div class="list card">${rows.join("")}</div></section>`;
 }
 
 let uid = 0;
