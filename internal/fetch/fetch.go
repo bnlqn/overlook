@@ -29,12 +29,16 @@ func (g getOnly) RoundTrip(r *http.Request) (*http.Response, error) {
 
 var client = &http.Client{Transport: getOnly{http.DefaultTransport}}
 
-// JSON reads the answer at rawURL into v. Its error is short enough for the
-// page and never holds the URL, which may hold a key.
-func JSON(ctx context.Context, rawURL string, v any) error {
+// JSON reads the answer at rawURL into v, sending header with the request,
+// such as a key. Its error is short enough for the page and never holds the
+// URL or the header, which may hold a key.
+func JSON(ctx context.Context, rawURL string, header http.Header, v any) error {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, rawURL, nil)
 	if err != nil {
 		return errors.New("bad url")
+	}
+	for k, vs := range header {
+		req.Header[http.CanonicalHeaderKey(k)] = vs
 	}
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", "Overlook")
