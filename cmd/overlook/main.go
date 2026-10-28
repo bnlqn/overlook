@@ -16,6 +16,7 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"runtime/debug"
 	"syscall"
 	"time"
 
@@ -61,7 +62,9 @@ func run() error {
 	defer stop()
 	served := make(chan error, 1)
 	go func() { served <- srv.ListenAndServe() }()
-	slog.Info("overlook is serving", "address", *listen, "sources", len(c.Readers()))
+	// The version is the tag the binary was built at, which Go records.
+	info, _ := debug.ReadBuildInfo()
+	slog.Info("overlook is serving", "version", info.Main.Version, "address", *listen, "sources", len(c.Readers()))
 	select {
 	case err := <-served:
 		return err
