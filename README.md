@@ -146,6 +146,35 @@ Overlook reaches to `upsd.conf` (such as `LISTEN 192.0.2.13 3493`), and let
 Overlook through any firewall to that port. The readings cross the network
 unencrypted, as upsd sends them without TLS.
 
+### AdGuard Home
+
+Each resolver is its own source. Today's lookups and blocks show on the
+Overview, every resolver's added up, and the Network page shows each one:
+whether it filters, its lookups, blocks and upstreams, and its top
+clients, domains and blocked domains, over the interval its statistics
+keep.
+
+```yaml
+sources:
+  adguard:
+    - name: Primary DNS
+      url: http://overlook:${ADGUARD_PASSWORD}@dns1.example.com
+    - name: Standby DNS
+      url: http://overlook:${ADGUARD_PASSWORD}@dns2.example.com
+```
+
+**Key:** a login, in the URL as `user:pass@`. AdGuard Home has no
+read-only users, so that login could change anything; what keeps it
+harmless is that Overlook only ever sends GET (ADR 0001). Give Overlook a
+user of its own: add it under `users:` in `AdGuardHome.yaml`, with its
+password hashed by `htpasswd -B -C 10 -n -b overlook <password>`, and
+restart AdGuard Home.
+
+**Today** starts at midnight in Overlook's time zone: set `TZ`, such as
+`TZ=Europe/Brussels`, in its container. AdGuard Home keeps statistics by
+the hour for an interval of up to 7 days; over a longer one it keeps them
+by the day, in UTC, and the Overview shows no figure for it.
+
 ## Contributing
 
 [CONTRIBUTING.md](CONTRIBUTING.md) says how to set up, what every change
