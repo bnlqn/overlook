@@ -1,9 +1,13 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { badge, checkRows, RECENT, section, strip, tip } from "../js/draw.js";
+import { badge, checkRows, figureMeter, RECENT, section, strip, tip } from "../js/draw.js";
 import { setWords } from "../js/text.js";
 
-setWords({ "result.passed": "Passed", "result.failed": "Failed", ms: "{n} ms", up: "Up" }, {}, "en-GB");
+setWords(
+  { "result.passed": "Passed", "result.failed": "Failed", ms: "{n} ms", up: "Up", percent: "{n}%" },
+  {},
+  "en-GB",
+);
 
 test("a tooltip is safe inside an attribute", () => {
   const attr = tip("<b>x</b>", [["#fff", "Label", "1"]], "a note");
@@ -46,4 +50,22 @@ test("a section draws each row, its value in its tone and its meter", () => {
   assert.match(html, /<h2 class="section-title">Space<\/h2>/);
   assert.match(html, /class="state tone-red">Full/);
   assert.match(html, /class="meter tone-red"/);
+});
+
+test("a meter in its own tone stays in it, however full", () => {
+  const html = section({
+    area: "servers",
+    title: { name: "UPS" },
+    rows: [{ title: { name: "Battery" }, meter: { used: 100, total: 100, tone: "green" } }],
+  });
+  assert.match(html, /class="meter tone-green"/);
+});
+
+test("a figure's meter names itself and says how full it is", () => {
+  const html = figureMeter({ label: { name: "<b>Battery</b>" }, used: 96.6, total: 100, tone: "red" });
+  assert.match(
+    html,
+    /^<span class="figure-meter"><span>&lt;b&gt;Battery&lt;\/b&gt;<\/span><span class="meter tone-red">/,
+  );
+  assert.match(html, /<span>97%<\/span><\/span>$/);
 });

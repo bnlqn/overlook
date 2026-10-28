@@ -92,6 +92,13 @@ func Problems(p snapshot.Parts, english map[string]any) []string {
 			fail("%s: tone %q isn't one of %q", where, t, snapshot.Tones)
 		}
 	}
+	meter := func(where string, m snapshot.Meter) {
+		text(where, m.Label)
+		tone(where, m.Tone)
+		if m.Total <= 0 {
+			fail("%s: a meter with nothing to fill", where)
+		}
+	}
 
 	for _, c := range p.Checks {
 		w := "check " + c.Key
@@ -125,8 +132,8 @@ func Problems(p snapshot.Parts, english map[string]any) []string {
 			text(w, r.Value)
 			text(w, r.Detail)
 			tone(w, r.Tone)
-			if r.Meter != nil && r.Meter.Total <= 0 {
-				fail("%s: a meter with nothing to fill", w)
+			if r.Meter != nil {
+				meter(w, *r.Meter)
 			}
 		}
 	}
@@ -139,6 +146,9 @@ func Problems(p snapshot.Parts, english map[string]any) []string {
 		tone(w, f.Tone)
 		if len(f.Hours) != 0 && len(f.Hours) != 24 {
 			fail("%s: %d hours, not 24", w, len(f.Hours))
+		}
+		for _, m := range f.Meters {
+			meter(w, m)
 		}
 	}
 	for _, e := range p.Events {
