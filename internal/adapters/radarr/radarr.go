@@ -85,11 +85,22 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		Value:  &snapshot.Text{Key: "radarr.films_n", Args: map[string]any{"n": owned}},
 		Detail: &snapshot.Text{Key: "radarr.library_detail", Args: map[string]any{"size": size, "n": week}},
 	}
-	return snapshot.Parts{
-		Figures: []snapshot.Figure{{
-			Area: "apps", Icon: "film", Label: snapshot.Text{Key: "radarr.films"}, Value: float64(owned),
-			Detail: &snapshot.Text{Key: "radarr.this_week", Args: map[string]any{"n": week}},
+	// Today's figure: the films, sharing the library's tile with the shows
+	// when Sonarr is read too, their part of it the room they take.
+	join := servarr.Library
+	figure := snapshot.Figure{
+		Area: "apps", Icon: "film", Label: snapshot.Text{Key: "radarr.films"}, Value: float64(owned),
+		Unit:   &snapshot.Text{Key: "radarr.unit", Args: map[string]any{"n": owned}},
+		Detail: &snapshot.Text{Key: "radarr.this_week", Args: map[string]any{"n": week}},
+		Join:   &join,
+		Part: &snapshot.Share{Label: snapshot.Text{Key: "radarr.films"}, Value: float64(size), Tone: "orange", Rows: []snapshot.Row{
+			{Title: snapshot.Text{Key: "radarr.on_disk"}, Value: &snapshot.Text{Key: "radarr.bytes", Args: map[string]any{"n": size}}},
+			{Title: snapshot.Text{Key: "radarr.library"}, Value: &snapshot.Text{Key: "radarr.films_n", Args: map[string]any{"n": owned}}},
+			{Title: snapshot.Text{Key: "radarr.week"}, Value: &snapshot.Text{Key: "radarr.plus", Args: map[string]any{"n": week}}},
 		}},
+	}
+	return snapshot.Parts{
+		Figures: []snapshot.Figure{figure},
 		Sections: []snapshot.Section{
 			{Area: "apps", Title: snapshot.Text{Key: "radarr.films"}, Rows: append([]snapshot.Row{library}, status...)},
 			{Area: "apps", Title: snapshot.Text{Key: "radarr.coming"}, Rows: coming(calendar, start, end)},

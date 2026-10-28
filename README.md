@@ -376,7 +376,9 @@ certificate from a public CA, such as Let's Encrypt, needs no `ca`.
 
 The films on disk and the room they take, the films added this week, what
 Radarr is downloading and warns about, and the films out to stream or on
-disc in the next seven days. Its home area is Apps.
+disc in the next seven days. Its home area is Apps. With Sonarr read too, the
+films and shows share one tile in Today, the library, split by the room each
+takes.
 
 ```yaml
 sources:
@@ -398,7 +400,8 @@ with every snapshot.
 
 The shows and episodes on disk and the room they take, the episodes imported
 this week, what Sonarr is downloading and warns about, and the episodes that
-air in the next seven days. Its home area is Apps.
+air in the next seven days. Its home area is Apps. With Radarr read too, its
+shows share the library's tile with the films.
 
 ```yaml
 sources:

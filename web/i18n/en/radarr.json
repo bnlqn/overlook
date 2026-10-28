@@ -1,6 +1,11 @@
 {
   "radarr.films": "Films",
   "radarr.this_week": "+{n} this week",
+  "radarr.unit": { "one": "film", "other": "films" },
+  "radarr.on_disk": "On disk",
+  "radarr.bytes": "{n:bytes}",
+  "radarr.week": "This week",
+  "radarr.plus": "+{n}",
   "radarr.library": "In the library",
   "radarr.films_n": { "one": "{n} film", "other": "{n} films" },
   "radarr.library_detail": "{size:bytes} · +{n} this week",

@@ -67,7 +67,12 @@ export const RED = "#EB5757";
 /** Each area's colour, for its tile, its figures, its charts and its row in the week. */
 export const TINT = { servers: "#7170FF", network: "#4EA7FC", storage: "#F2994A", apps: "#F06595" };
 
-/** The colour of the part within a chart's hours, such as the blocked lookups. */
+/**
+ * The colour of what a figure or a chart counts by the hour: the page's
+ * accent, which custom.css may change. The part within it, such as the
+ * blocked lookups, is orange.
+ */
+export const HOURS = "var(--m-accent-2)";
 export const PART = "var(--m-orange)";
 
 /** How many results a strip shows. */
@@ -214,8 +219,8 @@ function niceMax(v) {
 // A number on a chart's scale, short once it's long: "5,000", "250K".
 const scaleNumber = (v) => (v >= 1e5 ? compact(v) : number(v));
 
-/** The colours of a chart's series: the whole in its area's, each part after it in its own. */
-export const seriesColours = (tint, n) => [tint, PART, "#A78BFA", GREEN].slice(0, n);
+/** The colours of a chart's series: the whole, then each part within it. */
+export const seriesColours = (n) => [HOURS, PART, GREEN, RED].slice(0, n);
 
 /**
  * An hour's tooltip: when it was, each series' count, a part's with its
@@ -245,10 +250,10 @@ const gridOf = (max, steps) => Array.from({ length: steps + 1 }, (_, k) => (max 
  * whole of each, and each part within it from its foot. Each bar brings its
  * tooltip. Every sixth hour under them, and the scale beside.
  */
-export function bars(series, tint, now = new Date()) {
+export function bars(series, now = new Date()) {
   const n = series[0].hours.length;
   if (n < 2) return "";
-  const colours = seriesColours(tint, series.length);
+  const colours = seriesColours(series.length);
   const max = niceMax(Math.max(...series[0].hours));
   const pct = (v) => `${((100 * v) / max).toFixed(2)}%`;
   const cols = series[0].hours.map((v, i) => {
@@ -257,7 +262,7 @@ export function bars(series, tint, now = new Date()) {
       .slice(1)
       .map((s, k) => `<i style="height:${pct(s.hours[i])};--c:${colours[k + 1]}"></i>`)
       .join("");
-    return `<span class="hour" style="--i:${i}" data-tip="${tp}"><i class="whole" style="height:${pct(v)};--c:${tint}"></i>${parts}</span>`;
+    return `<span class="hour" style="--i:${i}" data-tip="${tp}"><i class="whole" style="height:${pct(v)};--c:${HOURS}"></i>${parts}</span>`;
   });
   const marks = series[0].hours
     .map((_, i) => hourStart(i, n, now))
@@ -282,11 +287,11 @@ let charts = 0;
  * alternate in shade and are named under their middle; over fewer, every
  * sixth hour is. The scale is beside.
  */
-export function areas(series, tint, sources = [], now = new Date()) {
+export function areas(series, sources = [], now = new Date()) {
   const n = series[0].hours.length;
   if (n < 2) return "";
   const id = `ch${++charts}`;
-  const colours = seriesColours(tint, series.length);
+  const colours = seriesColours(series.length);
   const long = n > 48;
   const at = (i) => hourStart(i, n, now);
   const max = niceMax(Math.max(...series[0].hours));

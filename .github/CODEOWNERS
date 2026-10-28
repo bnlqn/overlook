@@ -16,6 +16,7 @@
 /web/i18n/en/pbs.json       @bnlqn
 /web/i18n/en/proxmox.json   @bnlqn
 /web/i18n/en/radarr.json    @bnlqn
+/web/i18n/en/servarr.json   @bnlqn
 /web/i18n/en/sonarr.json    @bnlqn
 /internal/adapters/nut/     @bnlqn
 /web/i18n/en/nut.json       @bnlqn

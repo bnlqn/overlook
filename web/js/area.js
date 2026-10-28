@@ -2,7 +2,7 @@
 // several sources added up, then each section its sources add.
 
 import { areaState, joinCharts, shown, silent } from "./checks.js";
-import { areas, checkRows, hourStart, legend, section, seriesColours, stateIcon, TINT, TONE, word } from "./draw.js";
+import { areas, checkRows, hourStart, legend, section, seriesColours, stateIcon, TONE, word } from "./draw.js";
 import { HERE, start } from "./shell.js";
 import { clock, day, esc, list, number, say, t } from "./text.js";
 
@@ -19,7 +19,7 @@ function chart(c) {
   const n = Math.min(range, all);
   const cut = (x) => ({ ...x, hours: x.hours.slice(all - n) });
   const series = c.series.map(cut);
-  const colours = seriesColours(TINT[c.area], series.length);
+  const colours = seriesColours(series.length);
   const sum = (hours) => hours.reduce((a, v) => a + v, 0);
   const whole = sum(series[0].hours);
   const peak = series[0].hours.indexOf(Math.max(...series[0].hours));
@@ -45,7 +45,7 @@ function chart(c) {
       : "";
   return `<section class="card chart">
     <div class="chart-head"><div><h2 class="card-title">${say(c.title)}</h2><div class="detail">${sums.join(" · ")}</div></div>${pills}</div>
-    ${areas(series, TINT[c.area], c.sources.map(cut))}
+    ${areas(series, c.sources.map(cut))}
     ${legend(series, colours)}</section>`;
 }
 

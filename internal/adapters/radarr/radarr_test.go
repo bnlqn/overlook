@@ -29,6 +29,10 @@ func TestRead(t *testing.T) {
 	if len(p.Figures) != 1 || p.Figures[0].Value != 4 || p.Figures[0].Detail.Args["n"] != 2 {
 		t.Errorf("4 films, 2 this week: %+v", p.Figures)
 	}
+	if f := p.Figures[0]; f.Join == nil || f.Join.Key != "servarr.library" || f.Part == nil ||
+		f.Part.Value != float64(4812345678+3204567890+9876543210+2109876543) || f.Part.Tone != "orange" {
+		t.Errorf("the films join the library's tile, their part the room they take: %+v %+v", f.Join, f.Part)
+	}
 	if len(p.Sections) != 2 {
 		t.Fatalf("the films and what's coming: %+v", p.Sections)
 	}

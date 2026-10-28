@@ -102,11 +102,23 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		Value:  &snapshot.Text{Key: "sonarr.shows_n", Args: map[string]any{"n": len(shows)}},
 		Detail: &snapshot.Text{Key: "sonarr.library_detail", Args: map[string]any{"n": episodes, "size": size, "week": len(imported)}},
 	}
-	return snapshot.Parts{
-		Figures: []snapshot.Figure{{
-			Area: "apps", Icon: "film", Label: snapshot.Text{Key: "sonarr.shows"}, Value: float64(len(shows)),
-			Detail: &snapshot.Text{Key: "sonarr.this_week", Args: map[string]any{"n": len(imported)}},
+	// Today's figure: the shows, sharing the library's tile with the films
+	// when Radarr is read too, their part of it the room they take.
+	join := servarr.Library
+	figure := snapshot.Figure{
+		Area: "apps", Icon: "film", Label: snapshot.Text{Key: "sonarr.shows"}, Value: float64(len(shows)),
+		Unit:   &snapshot.Text{Key: "sonarr.unit", Args: map[string]any{"n": len(shows)}},
+		Detail: &snapshot.Text{Key: "sonarr.this_week", Args: map[string]any{"n": len(imported)}},
+		Join:   &join,
+		Part: &snapshot.Share{Label: snapshot.Text{Key: "sonarr.shows"}, Value: float64(size), Tone: "blue", Rows: []snapshot.Row{
+			{Title: snapshot.Text{Key: "sonarr.on_disk"}, Value: &snapshot.Text{Key: "sonarr.bytes", Args: map[string]any{"n": size}}},
+			{Title: snapshot.Text{Key: "sonarr.library"}, Value: &snapshot.Text{Key: "sonarr.shows_n", Args: map[string]any{"n": len(shows)}}},
+			{Title: snapshot.Text{Key: "sonarr.episodes"}, Value: &snapshot.Text{Key: "sonarr.n", Args: map[string]any{"n": episodes}}},
+			{Title: snapshot.Text{Key: "sonarr.week"}, Value: &snapshot.Text{Key: "sonarr.plus", Args: map[string]any{"n": len(imported)}}},
 		}},
+	}
+	return snapshot.Parts{
+		Figures: []snapshot.Figure{figure},
 		Sections: []snapshot.Section{
 			{Area: "apps", Title: snapshot.Text{Key: "sonarr.shows"}, Rows: append([]snapshot.Row{library}, status...)},
 			{Area: "apps", Title: snapshot.Text{Key: "sonarr.coming"}, Rows: coming(calendar)},

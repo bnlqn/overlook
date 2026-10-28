@@ -79,7 +79,7 @@ const now = new Date(2026, 9, 28, 14, 30);
 const axis = (html) => html.match(/class="axis">(.*?)<\/div>/s)[1].match(/<span/g)?.length ?? 0;
 
 test("a day as bars: each hour's whole with its part inside, every sixth hour named", () => {
-  const html = bars([lookups(24, 24), blocked(24)], "#4EA7FC", now);
+  const html = bars([lookups(24, 24), blocked(24)], now);
   assert.equal(html.match(/class="hour"/g).length, 24);
   assert.equal(
     html.match(/<i style="height:[\d.]+%;--c:var\(--m-orange\)">/g).length,
@@ -89,7 +89,8 @@ test("a day as bars: each hour's whole with its part inside, every sixth hour na
   assert.equal(axis(html), 4, "00:00, 06:00, 12:00 and 18:00");
   assert.match(html, /class="scale" style="bottom:100.00%">25</, "the scale rounds up the busiest hour");
   assert.doesNotMatch(html, /<b>Blocked/, "a label is escaped in its tooltip");
-  assert.equal(bars([lookups(1)], "#fff", now), "");
+  assert.match(html, /class="whole" style="height:[\d.]+%;--c:var\(--m-accent-2\)"/, "the whole in the accent");
+  assert.equal(bars([lookups(1)], now), "");
 });
 
 test("a week as areas: the days named and shaded, each source in the tooltip when several add up", () => {
@@ -97,14 +98,14 @@ test("a week as areas: the days named and shaded, each source in the tooltip whe
     { name: "Primary", hours: Array(168).fill(3) },
     { name: "<i>Standby</i>", hours: Array(168).fill(2) },
   ];
-  const html = areas([lookups(168), blocked(168)], "#4EA7FC", sources, now);
+  const html = areas([lookups(168), blocked(168)], sources, now);
   assert.match(html, /class="hour-chart areas long"/);
   assert.equal(axis(html), 7, "a day each, its first part too short to name");
   assert.ok(html.match(/class="band"/g).length >= 3, "every other day shaded");
   assert.equal(html.match(/class="stroke"/g).length, 2, "a line for the whole and one for its part");
   assert.match(html, /Primary/);
   assert.doesNotMatch(html, /<i>Standby/, "a source's name is escaped");
-  const alone = areas([lookups(24)], "#4EA7FC", [sources[0]], now);
+  const alone = areas([lookups(24)], [sources[0]], now);
   assert.doesNotMatch(alone, /Primary/, "one source needs no naming");
   assert.equal(axis(alone), 4, "a day names its hours instead");
 });

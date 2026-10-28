@@ -2,12 +2,13 @@
 // and its checks, today by the hour, what happened, the week, the apps, and
 // the chores.
 
-import { areaState, checkState, choresBy, quietSince, shown, silent, together } from "./checks.js";
+import { areaState, checkState, choresBy, joinFigures, quietSince, shown, silent, together } from "./checks.js";
 import {
   badge,
   bars,
   figureMeter,
   GREEN,
+  HOURS,
   hourStart,
   hourTip,
   legend,
@@ -129,6 +130,9 @@ function renderProblems(checks) {
 
 // ── Today: each figure, opening its area's page ──────────────────────────
 
+// A figure that shares a tile, after the first: its number and unit.
+const also = (f) => `${number(f.value)}${f.unit ? ` ${say(f.unit)}` : ""}`;
+
 // A figure's hours as series: its own, then the part within them, if any.
 const seriesOf = (f) => [{ label: f.label, hours: f.hours }, ...(f.within ? [f.within] : [])];
 
@@ -139,7 +143,7 @@ function renderToday(figures) {
       const tint = TINT[f.area];
       const hours = f.hours || [];
       const series = seriesOf(f);
-      const colours = seriesColours(tint, series.length);
+      const colours = seriesColours(series.length);
       const tips = hours.map((_, k) =>
         hourTip(series, colours, k, hourStart(k, hours.length), { last: k === hours.length - 1 }),
       );
@@ -148,8 +152,8 @@ function renderToday(figures) {
       return `<a class="figure-tile${f.tone ? ` tone-${f.tone}` : ""}" href="${f.area}" style="--i:${i}">
       <span class="label">${svg(f.icon)}${say(f.label)}</span>
       <span class="figure">${num(`${f.area}.${i}`, f.value)}${f.unit ? `<small> ${say(f.unit)}</small>` : ""}</span>
-      <span class="sub">${f.detail ? say(f.detail) : ""}</span>
-      <span class="viz">${sparkline(hours, tint, tips)}${f.shares?.length ? shares(f, tints) : ""}${(f.meters || []).map(figureMeter).join("")}</span></a>`;
+      <span class="sub">${f.also ? list(f.also.map(also)) : f.detail ? say(f.detail) : ""}</span>
+      <span class="viz">${sparkline(hours, HOURS, tips)}${f.shares?.length ? shares(f, tints) : ""}${(f.meters || []).map(figureMeter).join("")}</span></a>`;
     })
     .join("");
 }
@@ -165,11 +169,10 @@ function renderHours(figures) {
   $("hours").innerHTML = mine
     .map((f, i) => {
       const series = seriesOf(f);
-      const tint = TINT[f.area];
       return `<div class="card chart" style="--i:${i}">
-      <div class="chart-head"><span class="label">${svg(f.icon)}${say(f.label)}</span>${legend(series, seriesColours(tint, series.length))}</div>
+      <div class="chart-head"><span class="label">${svg(f.icon)}${say(f.label)}</span>${legend(series, seriesColours(series.length))}</div>
       <div class="chart-top"><span class="figure">${num(`hours.${f.area}.${i}`, f.value)}</span><span class="detail">${f.detail ? say(f.detail) : ""}</span></div>
-      ${bars(series, tint)}</div>`;
+      ${bars(series)}</div>`;
     })
     .join("");
 }
@@ -439,7 +442,7 @@ start((snap, checks) => {
   renderStatus(snap, checks);
   renderActions(snap);
   renderProblems(checks);
-  const figures = together(snap.figures);
+  const figures = joinFigures(together(snap.figures));
   renderToday(figures);
   renderHours(figures);
   renderAreas(
