@@ -59,11 +59,17 @@ export function translate(root) {
 /** A number, the viewer's way. */
 export const number = (n) => numbers.format(n);
 
+/** A number in few characters, the viewer's way: "250K". */
+export const compact = (n) => new Intl.NumberFormat(locale, { notation: "compact" }).format(n);
+
 /** Items as one phrase, the viewer's way: "a, b and c". */
 export const list = (items) => new Intl.ListFormat(locale).format(items);
 
 /** A time of day: "14:05", or "2:05 PM". */
 export const clock = (d) => new Date(d).toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
+
+/** A day of the week, short: "Tue". */
+export const weekday = (d) => new Date(d).toLocaleDateString(locale, { weekday: "short" });
 
 /** A day: "Tue 28 Oct", or "Tue, Oct 28". */
 export const day = (d) => new Date(d).toLocaleDateString(locale, { weekday: "short", day: "numeric", month: "short" });

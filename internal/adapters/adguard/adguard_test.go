@@ -46,6 +46,13 @@ func TestRead(t *testing.T) {
 		if len(f.Hours) != 24 || f.Hours[0] != float64(want.first) || f.Label.Key != "adguard.today" || f.Area != "network" || !f.Adds {
 			t.Errorf("the last 24 hours, from %d: %+v", want.first, f)
 		}
+		if b := f.Within; b == nil || b.Label.Key != "adguard.blocked" || len(b.Hours) != 24 || sumOf(b.Hours[24-17:]) != float64(want.blocked) {
+			t.Errorf("the blocked ones in each of those hours, %d since midnight: %+v", want.blocked, b)
+		}
+	}
+	if c := primary.Charts; len(c) != 1 || c[0].Title.Key != "adguard.per_hour" || !c[0].Adds || len(c[0].Series) != 2 ||
+		len(c[0].Series[0].Hours) != 168 || sumOf(c[0].Series[0].Hours) != 501106 || sumOf(c[0].Series[1].Hours) != 179069 {
+		t.Errorf("the resolver's week by the hour, its lookups and the blocked ones, adding up with the others': %+v", c)
 	}
 
 	if len(primary.Sections) != 4 || primary.Sections[0].Title.Name != "Primary DNS" {
@@ -86,6 +93,14 @@ func TestRead(t *testing.T) {
 	}
 }
 
+func sumOf(hours []float64) float64 {
+	total := 0.0
+	for _, v := range hours {
+		total += v
+	}
+	return total
+}
+
 func TestClientNames(t *testing.T) {
 	t.Parallel()
 	cl := clients{
@@ -120,8 +135,12 @@ func TestToday(t *testing.T) {
 			t.Errorf("at %s: %v hours since midnight, want %v", c.at, f[0].Value, c.want)
 		}
 	}
-	if f := today(stats{TimeUnits: "days", ByUnit: make([]int, 30), BlockedBy: make([]int, 30)}, recorded); f != nil {
+	byDay := stats{TimeUnits: "days", ByUnit: make([]int, 30), BlockedBy: make([]int, 30)}
+	if f := today(byDay, recorded); f != nil {
 		t.Errorf("statistics by the day have no today: %+v", f)
+	}
+	if c := hourly(byDay); c != nil {
+		t.Errorf("nor any hours: %+v", c)
 	}
 }
 

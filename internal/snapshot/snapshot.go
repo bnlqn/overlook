@@ -88,7 +88,7 @@ func (r *Reader) Snapshot() Snapshot {
 	snap := Snapshot{
 		At:      time.Now(),
 		Sources: make([]SourceState, 0, len(r.sources)),
-		Parts:   Parts{Checks: []Check{}, Sections: []Section{}, Figures: []Figure{}, Events: []Event{}, Updates: []Update{}},
+		Parts:   Parts{Checks: []Check{}, Sections: []Section{}, Charts: []Chart{}, Figures: []Figure{}, Events: []Event{}, Updates: []Update{}},
 		Apps:    append([]Link{}, r.apps...),
 		Tools:   append([]Link{}, r.tools...),
 		Chores:  append([]Chore{}, r.chores...),
@@ -102,6 +102,10 @@ func (r *Reader) Snapshot() Snapshot {
 			p := parts[i]
 			snap.Checks = append(snap.Checks, p.Checks...)
 			snap.Sections = append(snap.Sections, p.Sections...)
+			for _, c := range p.Charts {
+				c.Source = src.Name
+				snap.Charts = append(snap.Charts, c)
+			}
 			snap.Figures = append(snap.Figures, p.Figures...)
 			snap.Events = append(snap.Events, p.Events...)
 			snap.Updates = append(snap.Updates, p.Updates...)

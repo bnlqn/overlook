@@ -5,6 +5,14 @@
   "pbs.unverified": "{group} · {size:bytes} · not verified yet",
   "pbs.failed": "Failed its check",
   "pbs.failed_detail": "{group} · {size:bytes} · {at:when}",
+  "pbs.in_night": "In the night's backups",
+  "pbs.not_in_night": "Not in the night's backups",
+  "pbs.size": "Size",
+  "pbs.bytes": "{n:bytes}",
+  "pbs.check": "Checked",
+  "pbs.check_ok": "Verified",
+  "pbs.check_failed": "Failed",
+  "pbs.check_none": "Not yet",
   "pbs.of_guests": { "one": "of {n} guest", "other": "of {n} guests" },
   "pbs.backed_up": { "one": "Backed up <b>{n} guest</b>", "other": "Backed up <b>{n} guests</b>" }
 }

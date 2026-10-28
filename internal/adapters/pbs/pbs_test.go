@@ -60,6 +60,16 @@ func TestRead(t *testing.T) {
 	if f.Value != 4 || f.Unit.Args["n"] != 5 || f.Detail.Args["at"] != time.Date(2026, 10, 28, 0, 30, 0, 0, time.UTC) {
 		t.Errorf("last night backed up 4 of 5 guests: %+v", f)
 	}
+	tones := []string{}
+	for _, s := range f.Shares {
+		tones = append(tones, s.Label.Name+":"+s.Tone)
+	}
+	if got := strings.Join(tones, " "); got != "house:blue workbench:blue gate:blue ct/140:gray family:blue" {
+		t.Errorf("each guest, blue where last night backed it up: %s", got)
+	}
+	if r := f.Shares[1].Rows; len(r) != 3 || r[0].Title.Key != "pbs.in_night" || r[2].Value.Key != "pbs.check_failed" {
+		t.Errorf("workbench's tooltip: in the night's backups, its size, and its failed check: %+v", r)
+	}
 
 	// The week to 10:00 on the 28th: the nights from the 22nd, a run by
 	// hand on the 27th and one guest's on the 26th; the 21st's is older.

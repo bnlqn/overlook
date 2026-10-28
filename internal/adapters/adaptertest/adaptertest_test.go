@@ -31,4 +31,20 @@ func TestProblems(t *testing.T) {
 	if got := Problems(bad, english); len(got) != 10 {
 		t.Errorf("want the area, the key, the hours, the tone, the meter's label, tone and total, the missing {n}, the missing time and the problem refused, got %d: %q", len(got), got)
 	}
+
+	name := snapshot.Text{Name: "x"}
+	charts := snapshot.Parts{
+		Figures: []snapshot.Figure{{
+			Area: "network", Label: name, Hours: make([]float64, 24),
+			Within: &snapshot.Series{Label: name, Hours: make([]float64, 23)},
+			Shares: []snapshot.Share{{Label: name, Value: 0, Tone: "pink"}},
+		}},
+		Charts: []snapshot.Chart{
+			{Area: "network", Title: name, Series: []snapshot.Series{{Label: name, Hours: []float64{1}}}},
+			{Area: "network", Title: name, Series: []snapshot.Series{{Label: name, Hours: []float64{1, 2}}, {Label: name, Hours: []float64{1}}}},
+		},
+	}
+	if got := Problems(charts, english); len(got) != 5 {
+		t.Errorf("want the figure's hours within, its share's tone, its shares of nothing, a chart of one hour and a part shorter than its whole refused, got %d: %q", len(got), got)
+	}
 }

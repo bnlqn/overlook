@@ -1002,6 +1002,238 @@ main {
 .spark .hit:hover {
   fill: rgba(255, 255, 255, 0.09);
 }
+/* A figure's shares: one bar, each part as wide as its share, in its colour.
+   With many, such as a backup's guests, they sit closer. */
+.shares {
+  display: flex;
+  gap: 3px;
+  height: 6px;
+}
+.shares.many {
+  gap: 1px;
+}
+.shares i {
+  min-width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--c), color-mix(in srgb, var(--c) 60%, transparent));
+  transition:
+    filter 0.15s,
+    transform 0.15s var(--m-ease);
+}
+.shares i.tone-gray {
+  background: var(--m-fill-gray);
+}
+.shares i:hover {
+  filter: brightness(1.35);
+  transform: scaleY(1.5);
+}
+/* A chart by the hour, in a card: a head with its title and what its range
+   sums to, or its figure, then the chart, then its legend. */
+.hours {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#charts .chart {
+  margin-top: 16px;
+}
+.card.chart {
+  padding: 16px 16px 12px;
+}
+.chart-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-bottom: 12px;
+}
+.chart-head .card-title {
+  margin: 0;
+}
+.chart-head .label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font: var(--m-type-footnote-strong);
+  color: var(--m-label-2);
+}
+.chart-head .detail {
+  margin-top: 2px;
+  font: var(--m-type-footnote);
+  color: var(--m-label-2);
+}
+.chart-head .detail b {
+  font-weight: 510;
+  color: var(--m-label-1);
+  font-variant-numeric: tabular-nums;
+}
+.chart-top {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: -4px 0 12px;
+}
+.chart-top .figure {
+  font: 510 22px / 28px var(--m-font);
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+.chart-top .detail {
+  font: var(--m-type-footnote);
+  color: var(--m-label-2);
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font: var(--m-type-footnote);
+  color: var(--m-label-2);
+}
+.legend i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 2px;
+  background: var(--c);
+}
+.card.chart > .legend {
+  margin-top: 8px;
+}
+.pills {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 9999px;
+  background: var(--m-fill-hover);
+  box-shadow: inset 0 0 0 0.5px var(--m-border);
+}
+.pills button {
+  height: 24px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 9999px;
+  cursor: pointer;
+  background: none;
+  font: 510 12px / 1 var(--m-font);
+  color: var(--m-label-2);
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+.pills button:hover {
+  color: var(--m-label);
+}
+.pills button[aria-pressed="true"] {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 0 0.5px var(--m-border);
+  color: var(--m-label);
+}
+/* The chart itself: dashed lines at its scale's steps, their numbers on the
+   right, the hours or days underneath, and the bars or areas between. */
+.hour-chart .plot {
+  position: relative;
+  height: 150px;
+  margin-right: 46px;
+}
+.hour-chart.areas .plot {
+  height: 240px;
+}
+@media (max-width: 860px) {
+  .hour-chart.areas .plot {
+    height: 180px;
+  }
+}
+.hour-chart .line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed var(--m-separator);
+}
+.hour-chart .scale {
+  position: absolute;
+  left: calc(100% + 8px);
+  transform: translateY(50%);
+  font: 510 11px / 1 var(--m-font);
+  color: var(--m-label-3);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.hour-chart .axis {
+  position: relative;
+  height: 14px;
+  margin: 6px 46px 0 0;
+}
+.hour-chart .axis span {
+  position: absolute;
+  transform: translateX(-50%);
+  font: 510 11px / 1 var(--m-font);
+  color: var(--m-label-3);
+  white-space: nowrap;
+}
+/* Bars: each hour's whole fading down, each part within it solid from its
+   foot. The one under the pointer stands out. */
+.hour-chart .cols {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  gap: 3px;
+}
+.hour-chart .hour {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  transition: opacity 0.15s;
+}
+.hour-chart .hour i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 2px 2px 0 0;
+  background: var(--c);
+}
+.hour-chart .hour .whole {
+  background: linear-gradient(180deg, var(--c), color-mix(in srgb, var(--c) 45%, transparent));
+}
+.hour-chart .cols:hover .hour {
+  opacity: 0.55;
+}
+.hour-chart .cols .hour:hover {
+  opacity: 1;
+}
+/* Areas: every other day shaded, each series filled and lined, and a line
+   across the hour under the pointer. */
+.hour-chart svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  touch-action: pan-y;
+}
+.hour-chart .band {
+  fill: rgba(255, 255, 255, 0.02);
+}
+.hour-chart .stroke {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.hour-chart .cur {
+  stroke: rgba(255, 255, 255, 0.28);
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+}
+.hour-chart .col:hover .cur {
+  opacity: 1;
+}
+.hour-chart .col:hover .hit {
+  fill: rgba(255, 255, 255, 0.03);
+}
 /* The areas: rows that unfold into their checks. */
 .table {
   border: 1px solid var(--m-border);

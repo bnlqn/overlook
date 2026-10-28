@@ -112,12 +112,12 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 			return snapshot.Parts{}, err
 		}
 	}
-	return snapshot.Parts{Figures: today(s, now), Sections: sections(c, s, st, cl)}, nil
+	return snapshot.Parts{Figures: today(s, now), Sections: sections(c, s, st, cl), Charts: hourly(s)}, nil
 }
 
 // today is the lookups since midnight where Overlook runs, with the blocked
-// ones, and the last 24 hours. Statistics kept by the day have no today:
-// AdGuard's days are UTC's.
+// ones, and the last 24 hours of both. Statistics kept by the day have no
+// today: AdGuard's days are UTC's.
 func today(s stats, now time.Time) []snapshot.Figure {
 	if s.TimeUnits != "hours" || len(s.ByUnit) < 24 || len(s.BlockedBy) < 24 {
 		return nil
@@ -126,15 +126,21 @@ func today(s stats, now time.Time) []snapshot.Figure {
 	// clocks change.
 	midnight := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
 	since := int(now.Sub(midnight)/time.Hour) + 1
-	hours := make([]float64, 24)
-	for i, n := range s.ByUnit[len(s.ByUnit)-24:] {
-		hours[i] = float64(n)
-	}
 	return []snapshot.Figure{{
 		Area: "network", Icon: "shield", Label: snapshot.Text{Key: "adguard.today"}, Adds: true,
-		Value: float64(sum(s.ByUnit, since)), Hours: hours,
+		Value: float64(sum(s.ByUnit, since)), Hours: floats(s.ByUnit[len(s.ByUnit)-24:]),
+		Within: &snapshot.Series{Label: *msg("adguard.blocked", nil), Hours: floats(s.BlockedBy[len(s.BlockedBy)-24:])},
 		Detail: msg("adguard.today_blocked", args{"blocked": sum(s.BlockedBy, since)}),
 	}}
+}
+
+// floats are counts as the page's numbers.
+func floats(counts []int) []float64 {
+	out := make([]float64, len(counts))
+	for i, n := range counts {
+		out[i] = float64(n)
+	}
+	return out
 }
 
 // sum adds up the last n counts.
@@ -144,6 +150,22 @@ func sum(counts []int, n int) int {
 		total += v
 	}
 	return total
+}
+
+// hourly is the lookups and the blocked ones by the hour, over as many hours
+// as the statistics keep, when they keep them by the hour: one chart that
+// adds up every resolver's.
+func hourly(s stats) []snapshot.Chart {
+	if s.TimeUnits != "hours" || len(s.ByUnit) < 2 || len(s.BlockedBy) != len(s.ByUnit) {
+		return nil
+	}
+	return []snapshot.Chart{{
+		Area: "network", Title: *msg("adguard.per_hour", nil), Adds: true,
+		Series: []snapshot.Series{
+			{Label: *msg("adguard.lookups", nil), Hours: floats(s.ByUnit)},
+			{Label: *msg("adguard.blocked", nil), Hours: floats(s.BlockedBy)},
+		},
+	}}
 }
 
 // sections are the resolver itself, then its top clients, domains and

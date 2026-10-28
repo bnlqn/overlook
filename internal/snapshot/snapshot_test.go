@@ -12,7 +12,7 @@ func TestReader(t *testing.T) {
 	var reads atomic.Int32
 	up := Source{Name: "Up", Read: func(context.Context) (Parts, error) {
 		reads.Add(1)
-		return Parts{Checks: []Check{{Key: "a"}}}, nil
+		return Parts{Checks: []Check{{Key: "a"}}, Charts: []Chart{{Area: "network"}}}, nil
 	}}
 	down := Source{Name: "Down", Read: func(context.Context) (Parts, error) {
 		return Parts{Checks: []Check{{Key: "lost"}}}, errors.New("timeout")
@@ -28,6 +28,9 @@ func TestReader(t *testing.T) {
 	}
 	if snap.Apps == nil || snap.Sections == nil || snap.Chores == nil || len(snap.Tools) != 1 {
 		t.Errorf("lists are empty, never null: %+v", snap)
+	}
+	if len(snap.Charts) != 1 || snap.Charts[0].Source != "Up" {
+		t.Errorf("a chart is named by its source: %+v", snap.Charts)
 	}
 	r.Snapshot()
 	if reads.Load() != 1 {

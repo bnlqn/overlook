@@ -5,6 +5,7 @@ import {
   asIfNow,
   checkState,
   choresBy,
+  joinCharts,
   quietSince,
   readChecks,
   shown,
@@ -26,6 +27,7 @@ const check = (key, area, run, problem, more = {}) => ({
 const snap = (checks, more = {}) => ({
   checks,
   sections: [],
+  charts: [],
   figures: [],
   events: [],
   updates: [],
@@ -86,6 +88,7 @@ test("figures that add up and share a label key are one, hour by hour, their det
     adds: true,
     value,
     hours: hours(value / 24),
+    within: { label: { key: "adguard.blocked" }, hours: hours(1) },
     detail: { key: "adguard.today_blocked", args: { blocked } },
     ...more,
   });
@@ -94,12 +97,15 @@ test("figures that add up and share a label key are one, hour by hour, their det
   const [both, alone] = together(figures);
   assert.equal(both.value, 288);
   assert.deepEqual(both.hours, hours(12));
+  assert.deepEqual(both.within, { label: { key: "adguard.blocked" }, hours: hours(2) });
   assert.deepEqual(both.detail.args, { blocked: 14 });
   assert.deepEqual(alone, { ...photos, hours: [] });
   assert.equal(figures[0].value, 240, "the snapshot's own figures are left as they were");
   assert.deepEqual(figures[0].detail.args, { blocked: 12 });
+  assert.deepEqual(figures[0].within.hours, hours(1));
   const [lone] = together([dns(240, 12), dns(48, 2, { hours: undefined })]);
   assert.deepEqual(lone.hours, [], "hours only one resolver has would mislead");
+  assert.equal(lone.within, undefined, "and so would the part within them");
   const ups = (value) => ({ area: "servers", icon: "plug", label: { key: "nut.ups" }, value });
   assert.equal(together([ups(80), ups(120)]).length, 2, "two UPSes' draws stay apart unless they say they add up");
 });
@@ -154,4 +160,38 @@ test("chores group by the viewer's today: due, this week, and the next after it"
   assert.equal(by.next.name, "in a week");
   assert.equal(+by.next.from, +new Date(2026, 10, 4), "a day is midnight where the page is viewed");
   assert.equal(choresBy([], new Date()).next, null);
+});
+
+test("charts that add up and share a title key are one, over the hours they all have", () => {
+  const chart = (source, n, v, more = {}) => ({
+    area: "network",
+    title: { key: "adguard.per_hour" },
+    adds: true,
+    source,
+    series: [
+      { label: { key: "adguard.lookups" }, hours: Array(n).fill(v) },
+      { label: { key: "adguard.blocked" }, hours: Array(n).fill(1) },
+    ],
+    ...more,
+  });
+  const charts = [chart("Primary", 168, 10), chart("Standby", 24, 4), chart("Other", 24, 9, { adds: false })];
+  const [both, apart] = joinCharts(charts);
+  assert.equal(both.series[0].hours.length, 24, "a week and a day make a day");
+  assert.deepEqual(both.series[0].hours, Array(24).fill(14));
+  assert.deepEqual(both.series[1].hours, Array(24).fill(2));
+  assert.deepEqual(
+    both.sources.map((s) => [s.name, s.hours.length, s.hours[0]]),
+    [
+      ["Primary", 24, 10],
+      ["Standby", 24, 4],
+    ],
+  );
+  assert.equal(apart.source, "Other", "one that doesn't add up stays apart");
+  assert.equal(charts[0].series[0].hours.length, 168, "the snapshot's own charts are left as they were");
+  const [alone] = joinCharts([chart("Primary", 168, 10)]);
+  assert.equal(alone.series[0].hours.length, 168);
+  assert.deepEqual(
+    alone.sources.map((s) => s.name),
+    ["Primary"],
+  );
 });

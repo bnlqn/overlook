@@ -75,6 +75,28 @@ type Section struct {
 	Rows  []Row  `json:"rows"`
 }
 
+// Chart is what a source counts by the hour, over as many hours as it keeps,
+// drawn on its area's page, such as a resolver's lookups over a week. Its
+// first series is the whole and each next one a part within it, such as the
+// blocked lookups, all as long. Charts that add up and share a title key are
+// drawn as one, such as two resolvers': hour by hour over the hours they all
+// have, each source's own count in the tooltip.
+type Chart struct {
+	Area   string   `json:"area"`
+	Title  Text     `json:"title"`
+	Series []Series `json:"series"`
+	Adds   bool     `json:"adds,omitempty"`
+	// Source is the name of the source it came from, which the reader fills
+	// in, as the config gives it.
+	Source string `json:"source"`
+}
+
+// Series is a count by the hour, oldest first, ending with this hour.
+type Series struct {
+	Label Text      `json:"label"`
+	Hours []float64 `json:"hours"`
+}
+
 // Row is one line of a section: a title, a value, a line under them, and
 // sometimes a bar for how full something is.
 type Row struct {
@@ -96,7 +118,8 @@ type Meter struct {
 	Tone  string  `json:"tone,omitempty"`
 }
 
-// Figure is a number for today, sometimes with the hours that make it up.
+// Figure is a number for today, sometimes with the hours that make it up or
+// the shares it splits into.
 type Figure struct {
 	Area string `json:"area"`
 	// Icon is one of the page's own icons, such as shield or photos.
@@ -106,16 +129,34 @@ type Figure struct {
 	Unit   *Text   `json:"unit,omitempty"`
 	Detail *Text   `json:"detail,omitempty"`
 	Tone   string  `json:"tone,omitempty"`
-	// Hours are the last 24 hours, oldest first, ending with this one.
+	// Hours are the last 24 hours, oldest first, ending with this one: a
+	// line under the figure, and a chart of their own on the overview.
 	Hours []float64 `json:"hours,omitempty"`
+	// Within is the part of each of the hours its label names, such as the
+	// blocked lookups.
+	Within *Series `json:"within,omitempty"`
+	// Shares split the figure into its parts, such as each person's photos,
+	// drawn as one bar under it.
+	Shares []Share `json:"shares,omitempty"`
 	// Meters are drawn under the figure, each with its label, such as a
 	// battery's charge.
 	Meters []Meter `json:"meters,omitempty"`
 	// Adds says the page may add it up with the others that add up and share
 	// its label key, such as two resolvers' lookups: their values, their
-	// hours hour by hour, and the numbers in their details, which must
-	// therefore be counts.
+	// hours and the parts within them hour by hour, and the numbers in their
+	// details, which must therefore be counts.
 	Adds bool `json:"adds,omitempty"`
+}
+
+// Share is one part of a figure, such as one person's photos. Its width in
+// the bar is its value's share of them all, and its colour its tone or one
+// the page picks. Its tooltip is its label over its rows, such as the
+// person's photos, videos and space, or over its value and share without.
+type Share struct {
+	Label Text    `json:"label"`
+	Value float64 `json:"value"`
+	Tone  string  `json:"tone,omitempty"`
+	Rows  []Row   `json:"rows,omitempty"`
 }
 
 // Event is something the homelab did this week, as a source remembers it.
@@ -139,6 +180,7 @@ type Update struct {
 type Parts struct {
 	Checks   []Check   `json:"checks"`
 	Sections []Section `json:"sections"`
+	Charts   []Chart   `json:"charts"`
 	Figures  []Figure  `json:"figures"`
 	Events   []Event   `json:"events"`
 	Updates  []Update  `json:"updates"`
