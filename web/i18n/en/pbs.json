@@ -1,0 +1,10 @@
+{
+  "pbs.backups": "Backups",
+  "pbs.when": "{at:when}",
+  "pbs.verified": "{group} · {size:bytes} · verified",
+  "pbs.unverified": "{group} · {size:bytes} · not verified yet",
+  "pbs.failed": "Failed its check",
+  "pbs.failed_detail": "{group} · {size:bytes} · {at:when}",
+  "pbs.of_guests": { "one": "of {n} guest", "other": "of {n} guests" },
+  "pbs.backed_up": { "one": "Backed up <b>{n} guest</b>", "other": "Backed up <b>{n} guests</b>" }
+}

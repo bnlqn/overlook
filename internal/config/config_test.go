@@ -86,6 +86,7 @@ func TestExample(t *testing.T) {
 	t.Setenv("GATUS_URL", "http://gatus:8080")
 	t.Setenv("IMMICH_URL", "http://immich:2283")
 	t.Setenv("IMMICH_KEY", "k3y")
+	t.Setenv("PBS_SECRET", "00000000-0000-0000-0000-000000000000")
 	t.Setenv("PROXMOX_SECRET", "00000000-0000-0000-0000-000000000000")
 	t.Setenv("RADARR_KEY", "0123abcd")
 	t.Setenv("SONARR_KEY", "4567efab")

@@ -82,6 +82,43 @@ an admin. Give it only these six read permissions:
 
 What each person uploaded needs Immich 3 or later; an older one leaves it out.
 
+### Proxmox Backup Server
+
+Each guest's newest backup in one datastore, in Storage: when it was made,
+its size, and whether it passed its check, named by its notes, which
+Proxmox VE fills with the guest's name. Today shows how many guests the
+last night backed up, and the week each night's backups.
+
+```yaml
+sources:
+  pbs:
+    - url: https://pbs.example.com:8007
+      token: overlook@pbs!overlook
+      secret: ${PBS_SECRET}
+      datastore: backups
+      ca: /etc/overlook/pbs.pem         # PBS's own certificate, copied from the server
+      # server_name: pbs.example.com    # the name it's for, if the url uses another
+```
+
+**Key:** an API token with the role **DatastoreAudit** on that datastore,
+which lists the backups and can't read them. A token can do no more than
+its user, so both get the role. On the server:
+
+```bash
+proxmox-backup-manager user create overlook@pbs
+proxmox-backup-manager acl update /datastore/backups DatastoreAudit --auth-id overlook@pbs
+proxmox-backup-manager user generate-token overlook@pbs overlook
+proxmox-backup-manager acl update /datastore/backups DatastoreAudit --auth-id 'overlook@pbs!overlook'
+```
+
+The third command prints the token's secret.
+
+**Certificate:** PBS signs its own, for its own name. Copy
+`/etc/proxmox-backup/proxy.pem` from the server beside Overlook and name it
+as `ca`. If the `url` reaches PBS by an address its certificate doesn't
+name, give the name it does as `server_name`. As for Proxmox VE, there is
+no way to skip the check.
+
 ### Proxmox VE
 
 Each host's processor, memory, uptime and version, the guests, the storage,
