@@ -50,19 +50,44 @@ export function together(figures) {
   return out;
 }
 
-// A time as the snapshot writes it, in RFC 3339.
+// A time as the snapshot writes it, in RFC 3339, and a day, as a chore's.
 const TIME = /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?(Z|[+-]\d\d:\d\d)$/;
+const DAY = /^\d{4}-\d\d-\d\d$/;
 
 /**
  * A snapshot as if it had just been read: every time in it, those in its
- * texts' values too, moved on by as long as has passed since it was read. The
- * demo's invented snapshot is drawn this way, so it never looks old.
+ * texts' values too, moved on by as long as has passed since it was read,
+ * and every day by as many whole days. The demo's invented snapshot is drawn
+ * this way, so it never looks old.
  */
 export function asIfNow(snap, now = Date.now()) {
   const by = now - Date.parse(snap.at);
-  return JSON.parse(JSON.stringify(snap), (_, v) =>
-    typeof v === "string" && TIME.test(v) ? new Date(Date.parse(v) + by).toISOString() : v,
-  );
+  const days = Math.round(by / 864e5);
+  return JSON.parse(JSON.stringify(snap), (_, v) => {
+    if (typeof v !== "string") return v;
+    if (TIME.test(v)) return new Date(Date.parse(v) + by).toISOString();
+    if (DAY.test(v)) return new Date(Date.parse(v) + days * 864e5).toISOString().slice(0, 10);
+    return v;
+  });
+}
+
+/**
+ * The chores by the viewer's today, each with its day as a date: those due,
+ * from today or before; those from the next six days; and the first after
+ * them, the next.
+ */
+export function choresBy(chores, now = new Date()) {
+  const today = new Date(now);
+  today.setHours(0, 0, 0, 0);
+  const week = new Date(today);
+  week.setDate(week.getDate() + 7);
+  // A day with no time is midnight where the page is viewed.
+  const dated = chores.map((c) => ({ ...c, from: new Date(`${c.from}T00:00`) })).sort((a, b) => a.from - b.from);
+  return {
+    due: dated.filter((c) => c.from <= today),
+    week: dated.filter((c) => c.from > today && c.from < week),
+    next: dated.find((c) => c.from >= week) || null,
+  };
 }
 
 /** The names of the sources that didn't answer. */

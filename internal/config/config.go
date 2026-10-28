@@ -1,6 +1,7 @@
-// Package config reads overlook.yaml: the sources to read, and the apps and
-// tools to link to. A key it doesn't know is an error, so a typo never goes
-// unnoticed, and a ${VAR} comes from the environment.
+// Package config reads overlook.yaml: the sources to read, the apps and
+// tools to link to, and the chores the owner wrote down. A key it doesn't
+// know is an error, so a typo never goes unnoticed, and a ${VAR} comes from
+// the environment.
 package config
 
 import (
@@ -10,6 +11,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"time"
 
 	"go.yaml.in/yaml/v3"
 
@@ -28,9 +30,10 @@ import (
 
 // Config is overlook.yaml.
 type Config struct {
-	Sources Sources         `yaml:"sources"`
-	Apps    []snapshot.Link `yaml:"apps"`
-	Tools   []snapshot.Link `yaml:"tools"`
+	Sources Sources          `yaml:"sources"`
+	Apps    []snapshot.Link  `yaml:"apps"`
+	Tools   []snapshot.Link  `yaml:"tools"`
+	Chores  []snapshot.Chore `yaml:"chores"`
 }
 
 // Sources are the sources to read, by adapter: each adapter's own config.
@@ -254,6 +257,14 @@ func (c *Config) check() error {
 			if l.Check != "" && len(c.Sources.Gatus) == 0 {
 				return fmt.Errorf("%s[%d]: check %q, but no check engine is configured", list.name, i, l.Check)
 			}
+		}
+	}
+	for i, ch := range c.Chores {
+		if ch.Name == "" {
+			return fmt.Errorf("chores[%d]: name is missing", i)
+		}
+		if _, err := time.Parse(time.DateOnly, ch.From); err != nil {
+			return fmt.Errorf("chores[%d]: from %q isn't a day as YYYY-MM-DD", i, ch.From)
 		}
 	}
 	return nil

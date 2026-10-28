@@ -106,5 +106,8 @@
 
   "chores.title": "Chores",
   "chores.merge": "Waiting for your merge",
-  "chores.update": "An update"
+  "chores.update": "An update",
+  "chores.due": "Due",
+  "chores.week": "This week",
+  "chores.next": "Nothing to do this week. Next: {name}, from {at:day}."
 }

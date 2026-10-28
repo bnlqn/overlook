@@ -35,6 +35,12 @@ apps:
     check: "8080"
     color: "#ED79B5"
     description: ${PHOTOS_ABOUT}
+chores:
+  - name: Rotate the offsite disk
+    from: 2026-11-02
+    note: The spare is in the drawer
+  - name: Clean the NAS's filters
+    from: "2027-01-15"
 `))
 	if err != nil {
 		t.Fatal(err)
@@ -54,6 +60,9 @@ apps:
 	}
 	if r := c.Readers(); len(r) != 2 || r[0].Name != "Gatus" || r[1].Name != "Immich" {
 		t.Errorf("two sources to read: %+v", r)
+	}
+	if ch := c.Chores; len(ch) != 2 || ch[0].From != "2026-11-02" || ch[0].Note != "The spare is in the drawer" || ch[1].From != "2027-01-15" {
+		t.Errorf("a chore's day stays as written, quoted or not: %+v", ch)
 	}
 }
 
@@ -76,6 +85,10 @@ func TestLoadRefuses(t *testing.T) {
 		"apps: [ { name: P, url: 'javascript:alert(1)' } ]":                      "http:// or https://",
 		"apps: [ { name: P, url: 'https://p.example.com', color: 'red;x' } ]":    "color",
 		"apps: [ { name: P, url: 'https://p.example.com', check: P } ]":          "no check engine",
+		"chores: [ { from: 2026-11-02 } ]":                                       "chores[0]: name is missing",
+		"chores: [ { name: Dust } ]":                                             `from "" isn't a day as YYYY-MM-DD`,
+		"chores: [ { name: Dust, from: 2 November } ]":                           "isn't a day",
+		"chores: [ { name: Dust, from: 2026-02-30 } ]":                           "isn't a day",
 		"":           "empty",
 		"sources: [": "did not find expected",
 	} {

@@ -18,14 +18,16 @@ const (
 	timeout = 10 * time.Second
 )
 
-// Snapshot is every source's parts as read at one moment, and the page's
-// links. A source that didn't answer is marked so and gives no parts.
+// Snapshot is every source's parts as read at one moment, and the config's
+// links and chores. A source that didn't answer is marked so and gives no
+// parts.
 type Snapshot struct {
 	At      time.Time     `json:"at"`
 	Sources []SourceState `json:"sources"`
 	Parts
-	Apps  []Link `json:"apps"`
-	Tools []Link `json:"tools"`
+	Apps   []Link  `json:"apps"`
+	Tools  []Link  `json:"tools"`
+	Chores []Chore `json:"chores"`
 }
 
 // SourceState says whether a source answered the last read.
@@ -47,14 +49,16 @@ type Source struct {
 type Reader struct {
 	sources     []Source
 	apps, tools []Link
+	chores      []Chore
 
 	mu   sync.Mutex
 	last Snapshot
 }
 
-// NewReader returns a Reader of sources whose snapshots carry apps and tools.
-func NewReader(sources []Source, apps, tools []Link) *Reader {
-	return &Reader{sources: sources, apps: apps, tools: tools}
+// NewReader returns a Reader of sources whose snapshots carry apps, tools
+// and chores.
+func NewReader(sources []Source, apps, tools []Link, chores []Chore) *Reader {
+	return &Reader{sources: sources, apps: apps, tools: tools, chores: chores}
 }
 
 // Snapshot returns the last snapshot, or a new one if it's older than fresh.
@@ -87,6 +91,7 @@ func (r *Reader) Snapshot() Snapshot {
 		Parts:   Parts{Checks: []Check{}, Sections: []Section{}, Figures: []Figure{}, Events: []Event{}, Updates: []Update{}},
 		Apps:    append([]Link{}, r.apps...),
 		Tools:   append([]Link{}, r.tools...),
+		Chores:  append([]Chore{}, r.chores...),
 	}
 	for i, src := range r.sources {
 		state := SourceState{Name: src.Name, Answered: errs[i] == nil}

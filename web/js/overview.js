@@ -1,10 +1,10 @@
 // The overview: how everything is, what is wrong, today's figures, each area
-// and its checks, the week, what happened, the apps, and the updates waiting.
+// and its checks, the week, what happened, the apps, and the chores.
 
-import { areaState, checkState, quietSince, shown, silent, together } from "./checks.js";
+import { areaState, checkState, choresBy, quietSince, shown, silent, together } from "./checks.js";
 import { badge, figureMeter, GREEN, RECENT, RED, sparkline, stateIcon, strip, svg, TONE, tip, word } from "./draw.js";
 import { PAGES, pageName, start } from "./shell.js";
-import { ago, clock, esc, list, ms, number, say, span, t, when } from "./text.js";
+import { ago, clock, day, esc, list, ms, number, say, span, t, when } from "./text.js";
 
 // Each area's colour, for its tile, its figures and its row in the week.
 const TINT = { servers: "#7170FF", network: "#4EA7FC", storage: "#F2994A", apps: "#F06595" };
@@ -342,17 +342,46 @@ function renderApps(apps, checks) {
     .join("");
 }
 
-// ── The chores: the updates waiting for their merge ──────────────────────
+// ── The chores: the updates waiting for their merge, then the chores the
+// config writes down that are due, then those this week. A chore is done when
+// its lines leave the config ───────────────────────────────────────────────
 
-function renderChores(updates) {
-  $("chores-block").hidden = !updates.length;
-  const mark = `<span class="tone-green">${svg("pr")}</span>`;
-  const rows = updates.map(
-    (u) => `<a href="${esc(u.url)}" target="_blank" rel="noopener" class="chore">${mark}
-      <span class="copy"><span class="title">${esc(u.name)}</span><span class="detail">${t("chores.update")}</span></span><span class="meta">${ago(new Date(u.at))}</span></a>`,
-  );
-  $("chores").innerHTML = `<div class="group">
-    <div class="group-head">${mark}<span>${t("chores.merge")}</span><span class="n">${number(updates.length)}</span></div>${rows.join("")}</div>`;
+function renderChores(updates, chores) {
+  $("chores-block").hidden = !updates.length && !chores.length;
+  const { due, week, next } = choresBy(chores);
+  const merge = `<span class="tone-green">${svg("pr")}</span>`;
+  const row = (mark, title, detail, meta, href) => {
+    const copy = `${mark}<span class="copy"><span class="title">${title}</span>${detail ? `<span class="detail">${detail}</span>` : ""}</span><span class="meta">${meta}</span>`;
+    return href
+      ? `<a href="${esc(href)}" target="_blank" rel="noopener" class="chore">${copy}</a>`
+      : `<div class="chore">${copy}</div>`;
+  };
+  const groups = [
+    [
+      merge,
+      t("chores.merge"),
+      updates.map((u) => row(merge, esc(u.name), t("chores.update"), ago(new Date(u.at)), u.url)),
+    ],
+    [
+      stateIcon("degraded"),
+      t("chores.due"),
+      due.map((c) => row(stateIcon("degraded"), esc(c.name), esc(c.note || ""), t("chores.due"))),
+    ],
+    [
+      stateIcon("unknown"),
+      t("chores.week"),
+      week.map((c) => row(stateIcon("unknown"), esc(c.name), esc(c.note || ""), day(c.from))),
+    ],
+  ].filter(([, , rows]) => rows.length);
+  $("chores").innerHTML =
+    groups
+      .map(
+        ([mark, name, rows]) => `<div class="group">
+    <div class="group-head">${mark}<span>${name}</span><span class="n">${number(rows.length)}</span></div>${rows.join("")}</div>`,
+      )
+      .join("") ||
+    // With nothing waiting, due or this week, the block shows only for a chore after it.
+    `<div class="empty card">${t("chores.next", { name: next.name, at: next.from })}</div>`;
 }
 
 $("areas").addEventListener(
@@ -377,6 +406,6 @@ start((snap, checks) => {
   renderEvents(checks, snap.events, snap.updates, silent(snap));
   renderWeek(checks, snap.events, areas);
   renderApps(snap.apps, checks);
-  renderChores(snap.updates);
+  renderChores(snap.updates, snap.chores);
   countUp(document);
 });

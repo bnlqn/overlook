@@ -1,6 +1,16 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { areaState, asIfNow, checkState, quietSince, readChecks, shown, silent, together } from "../js/checks.js";
+import {
+  areaState,
+  asIfNow,
+  checkState,
+  choresBy,
+  quietSince,
+  readChecks,
+  shown,
+  silent,
+  together,
+} from "../js/checks.js";
 
 const check = (key, area, run, problem, more = {}) => ({
   key,
@@ -115,5 +125,33 @@ test("the demo's snapshot moves to now, every time in it, a text's too, and noth
   assert.equal(moved.events[0].text.args.at, "2026-11-02T06:00:00.000Z");
   assert.equal(moved.events[0].text.args.ms, 512000);
   assert.equal(moved.checks[0].name, "2026");
+  assert.equal(
+    asIfNow({ ...read, chores: [{ from: "2026-10-27" }] }, now).chores[0].from,
+    "2026-11-01",
+    "a day, by whole days",
+  );
   assert.equal(read.at, "2026-10-28T09:30:00Z", "the snapshot read stays as it was");
+});
+
+test("chores group by the viewer's today: due, this week, and the next after it", () => {
+  const chores = [
+    { name: "later", from: "2026-11-20" },
+    { name: "tomorrow", from: "2026-10-29" },
+    { name: "today", from: "2026-10-28" },
+    { name: "in six days", from: "2026-11-03" },
+    { name: "in a week", from: "2026-11-04" },
+    { name: "overdue", from: "2026-10-01" },
+  ];
+  const by = choresBy(chores, new Date(2026, 9, 28, 23, 59));
+  assert.deepEqual(
+    by.due.map((c) => c.name),
+    ["overdue", "today"],
+  );
+  assert.deepEqual(
+    by.week.map((c) => c.name),
+    ["tomorrow", "in six days"],
+  );
+  assert.equal(by.next.name, "in a week");
+  assert.equal(+by.next.from, +new Date(2026, 10, 4), "a day is midnight where the page is viewed");
+  assert.equal(choresBy([], new Date()).next, null);
 });

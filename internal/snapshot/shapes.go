@@ -156,3 +156,14 @@ type Link struct {
 	// Color tints its tile, as #rgb or #rrggbb.
 	Color string `yaml:"color" json:"color,omitempty"`
 }
+
+// Chore is maintenance the owner wrote down in the config, due from a day.
+// It is done when its lines leave the config, since Overlook remembers
+// nothing (ADR 0004).
+type Chore struct {
+	Name string `yaml:"name" json:"name"`
+	// From is the day it's due from, as YYYY-MM-DD: a day of the viewer's
+	// calendar, not a moment.
+	From string `yaml:"from" json:"from"`
+	Note string `yaml:"note" json:"note,omitempty"`
+}

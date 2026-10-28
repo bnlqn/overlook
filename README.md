@@ -49,8 +49,8 @@ and the least key it needs), and CI passes.
   and the list of what happened, as far as your sources remember it.
 - **Your apps and tools**, each a link with a dot that says whether it
   answers.
-- **The chores**: the updates waiting for your merge, which are never
-  problems.
+- **The chores**: the maintenance you wrote down that is due or comes this
+  week, and the updates waiting for your merge. A chore is never a problem.
 
 ## What it never does
 
@@ -190,9 +190,22 @@ tools:
 Overlook ships icons for a few common apps (`web/icons`); a file of the
 same name in `icons/` beside the config wins over one of them.
 
-**Chores** are the maintenance due while nothing is broken. In v0.1 they are
-the updates waiting for your merge, which the [GitHub](#github) source
-reads.
+**Chores** are the maintenance due while nothing is broken: the ones you
+write down in the config, and the updates waiting for your merge, which the
+[GitHub](#github) source reads.
+
+```yaml
+chores:
+  - name: Swap the offsite backup disk # shown as written
+    from: 2026-11-30                   # the day it's due from, as YYYY-MM-DD
+    note: Bring the one at the office home
+```
+
+The page lists the chores due, from that day on, and those in the coming
+week, by the viewer's own calendar; with none, it says which is next. Since
+Overlook remembers nothing, a chore is done when you delete its lines, or
+move its day on if it comes back, and restart Overlook, which reads its
+config when it starts (`docker compose restart overlook`).
 
 **Flags.** `-config` names the config (`overlook.yaml` by default), and
 `icons/` and `custom.css` are read beside it; `-listen` is the address to

@@ -1249,5 +1249,17 @@
       "description": "Every container's logs",
       "color": "#FFDD00"
     }
+  ],
+  "chores": [
+    {
+      "name": "Clean the NAS's dust filters",
+      "from": "2026-10-26",
+      "note": "Every six months, then move this date on."
+    },
+    {
+      "name": "Swap the offsite backup disk",
+      "from": "2026-10-31",
+      "note": "The one at the office comes home."
+    }
   ]
 }
