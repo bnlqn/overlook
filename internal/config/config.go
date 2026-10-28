@@ -13,6 +13,7 @@ import (
 
 	"go.yaml.in/yaml/v3"
 
+	"github.com/bnlqn/overlook/internal/adapters/adguard"
 	"github.com/bnlqn/overlook/internal/adapters/gatus"
 	"github.com/bnlqn/overlook/internal/adapters/github"
 	"github.com/bnlqn/overlook/internal/adapters/immich"
@@ -29,9 +30,10 @@ type Config struct {
 
 // Sources are the sources to read, by adapter: each adapter's own config.
 type Sources struct {
-	Gatus  []gatus.Config  `yaml:"gatus"`
-	GitHub []github.Config `yaml:"github"`
-	Immich []immich.Config `yaml:"immich"`
+	Gatus   []gatus.Config   `yaml:"gatus"`
+	GitHub  []github.Config  `yaml:"github"`
+	Immich  []immich.Config  `yaml:"immich"`
+	AdGuard []adguard.Config `yaml:"adguard"`
 }
 
 // Readers are the sources, each with its adapter's read.
@@ -45,6 +47,9 @@ func (c Config) Readers() []snapshot.Source {
 	}
 	for _, im := range c.Sources.Immich {
 		all = append(all, snapshot.Source{Name: im.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return immich.Read(ctx, im) }})
+	}
+	for _, a := range c.Sources.AdGuard {
+		all = append(all, snapshot.Source{Name: a.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return adguard.Read(ctx, a) }})
 	}
 	return all
 }
@@ -146,6 +151,17 @@ func (c *Config) check() error {
 			return fmt.Errorf("sources.immich[%d]: another source is named %s: give each a name", i, im.Name)
 		}
 		names[im.Name] = true
+	}
+	for i := range c.Sources.AdGuard {
+		a := &c.Sources.AdGuard[i]
+		a.Resolvers = len(c.Sources.AdGuard)
+		if err := a.Check(); err != nil {
+			return fmt.Errorf("sources.adguard[%d]: %w", i, err)
+		}
+		if names[a.Name] {
+			return fmt.Errorf("sources.adguard[%d]: another source is named %s: give each a name", i, a.Name)
+		}
+		names[a.Name] = true
 	}
 	for _, list := range []struct {
 		name  string

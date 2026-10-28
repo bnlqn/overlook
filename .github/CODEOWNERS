@@ -6,3 +6,5 @@
 /internal/adapters/github/  @bnlqn
 /internal/adapters/immich/  @bnlqn
 /web/i18n/en/immich.json    @bnlqn
+/internal/adapters/adguard/ @bnlqn
+/web/i18n/en/adguard.json   @bnlqn
