@@ -1,8 +1,8 @@
 <!doctype html>
 <!--
   The overview (CONTEXT.md): how everything is, what is wrong, today's
-  figures, each area and its checks, the week, what happened, the apps, and
-  the chores. Drawn by js/overview.js from the snapshot (ADR 0002),
+  figures, each area and its checks, today by the hour beside what happened
+  (or the week, with no hours to chart), the week, the apps, and the chores. Drawn by js/overview.js from the snapshot (ADR 0002),
   its words from i18n/.
 -->
 <html lang="en">
@@ -42,12 +42,16 @@
     </div>
   </section>
 
-  <div class="split">
+  <div class="split" id="day">
+    <section class="block" id="hours-block" hidden>
+      <h2 class="block-title"><span data-t="today.title"></span><span class="hint" data-t="chart.by_hour"></span></h2>
+      <div class="hours" id="hours"></div>
+    </section>
     <section class="block" id="week-block" hidden>
       <h2 class="block-title"><span data-t="week.title"></span><span class="hint" data-t="week.hint"></span></h2>
       <div class="card timeline" id="week"></div>
     </section>
-    <section class="block">
+    <section class="block" id="events-block">
       <h2 class="block-title" data-t="events.title"></h2>
       <ol class="card feed" id="events"></ol>
     </section>

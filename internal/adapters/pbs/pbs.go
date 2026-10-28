@@ -195,17 +195,30 @@ func parts(backups []backup, now time.Time) snapshot.Parts {
 			last = r
 		}
 	}
-	// Under it, each guest, green where the night backed it up.
+	// Under it, each guest, blue where the night backed it up, with its
+	// newest backup's time, size and check.
 	tonight := map[string]bool{}
 	for _, b := range last {
 		tonight[b.Type+"/"+b.ID] = true
 	}
 	shares := make([]snapshot.Share, len(newest))
 	for i, b := range newest {
-		shares[i] = snapshot.Share{Label: rows[i].Title, Value: 1, Tone: "gray", Detail: ptr(key("pbs.when", map[string]any{"at": at(b)}))}
+		in, tone := "pbs.not_in_night", "gray"
 		if tonight[b.Type+"/"+b.ID] {
-			shares[i].Tone = "green"
+			in, tone = "pbs.in_night", "blue"
 		}
+		check := "pbs.check_none"
+		if b.Verification != nil {
+			check = "pbs.check_failed"
+			if b.Verification.State == "ok" {
+				check = "pbs.check_ok"
+			}
+		}
+		shares[i] = snapshot.Share{Label: rows[i].Title, Value: 1, Tone: tone, Rows: []snapshot.Row{
+			{Title: key(in, nil), Value: ptr(key("pbs.when", map[string]any{"at": at(b)}))},
+			{Title: key("pbs.size", nil), Value: ptr(key("pbs.bytes", map[string]any{"n": b.Size}))},
+			{Title: key("pbs.check", nil), Value: ptr(key(check, nil))},
+		}}
 	}
 	p.Figures = []snapshot.Figure{{
 		Area: area, Icon: "archive", Label: key("pbs.backups", nil), Value: float64(guests(last)),

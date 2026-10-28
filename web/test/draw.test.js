@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { badge, checkRows, figureMeter, hourChart, RECENT, section, shares, strip, tip } from "../js/draw.js";
+import { areas, badge, bars, checkRows, figureMeter, RECENT, section, shares, strip, tip } from "../js/draw.js";
 import { setWords } from "../js/text.js";
 
 setWords(
@@ -73,33 +73,40 @@ test("a figure's meter names itself and says how full it is", () => {
   assert.match(html, /<span>97%<\/span><\/span>$/);
 });
 
-test("a chart draws each hour as a bar, its part inside it, every sixth hour under a day", () => {
-  const now = new Date(2026, 9, 28, 14, 30);
-  const day = Array.from({ length: 24 }, (_, i) => i + 1);
-  const html = hourChart(
-    { label: { name: "Lookups" }, hours: day },
-    { label: { name: "<b>Blocked</b>" }, hours: day.map(() => 1) },
-    "#4EA7FC",
-    now,
-  );
-  assert.equal(html.match(/<g class="col">/g).length, 24);
-  assert.equal(html.match(/style="fill:var\(--m-orange\)"/g).length, 24, "each hour's part, inside it");
+const lookups = (n, v = 5) => ({ label: { name: "Lookups" }, hours: Array(n).fill(v) });
+const blocked = (n) => ({ label: { name: "<b>Blocked</b>" }, hours: Array(n).fill(1) });
+const now = new Date(2026, 9, 28, 14, 30);
+const axis = (html) => html.match(/class="axis">(.*?)<\/div>/s)[1].match(/<span/g)?.length ?? 0;
+
+test("a day as bars: each hour's whole with its part inside, every sixth hour named", () => {
+  const html = bars([lookups(24, 24), blocked(24)], "#4EA7FC", now);
+  assert.equal(html.match(/class="hour"/g).length, 24);
   assert.equal(
-    html.match(/class="axis">(.*)<\/div><\/div>$/s)[1].match(/<span/g).length,
-    4,
-    "00:00, 06:00, 12:00 and 18:00",
+    html.match(/<i style="height:[\d.]+%;--c:var\(--m-orange\)">/g).length,
+    24,
+    "each hour's part, inside it",
   );
-  assert.match(html, /class="scale" style="top:0">25</, "the scale rounds up the busiest hour");
+  assert.equal(axis(html), 4, "00:00, 06:00, 12:00 and 18:00");
+  assert.match(html, /class="scale" style="bottom:100.00%">25</, "the scale rounds up the busiest hour");
   assert.doesNotMatch(html, /<b>Blocked/, "a label is escaped in its tooltip");
-  assert.equal(hourChart({ label: { name: "x" }, hours: [1] }, null, "#fff", now), "");
+  assert.equal(bars([lookups(1)], "#fff", now), "");
 });
 
-test("a week's chart names its days, not its hours", () => {
-  const now = new Date(2026, 9, 28, 14, 30);
-  const html = hourChart({ label: { name: "Lookups" }, hours: Array(168).fill(5) }, null, "#4EA7FC", now);
-  assert.match(html, /class="hour-chart long"/);
-  assert.equal(html.match(/class="axis">(.*)<\/div><\/div>$/s)[1].match(/<span/g).length, 7, "a midnight a day");
-  assert.doesNotMatch(html, /--m-orange/, "nothing inside the bars without a part");
+test("a week as areas: the days named and shaded, each source in the tooltip when several add up", () => {
+  const sources = [
+    { name: "Primary", hours: Array(168).fill(3) },
+    { name: "<i>Standby</i>", hours: Array(168).fill(2) },
+  ];
+  const html = areas([lookups(168), blocked(168)], "#4EA7FC", sources, now);
+  assert.match(html, /class="hour-chart areas long"/);
+  assert.equal(axis(html), 7, "a day each, its first part too short to name");
+  assert.ok(html.match(/class="band"/g).length >= 3, "every other day shaded");
+  assert.equal(html.match(/class="stroke"/g).length, 2, "a line for the whole and one for its part");
+  assert.match(html, /Primary/);
+  assert.doesNotMatch(html, /<i>Standby/, "a source's name is escaped");
+  const alone = areas([lookups(24)], "#4EA7FC", [sources[0]], now);
+  assert.doesNotMatch(alone, /Primary/, "one source needs no naming");
+  assert.equal(axis(alone), 4, "a day names its hours instead");
 });
 
 test("shares are as wide as their values, in their tone or the next colour, their names escaped", () => {
@@ -109,15 +116,25 @@ test("shares are as wide as their values, in their tone or the next colour, thei
       shares: [
         { label: { name: "<i>Kim</i>" }, value: 1 },
         { label: { name: "Noor" }, value: 3 },
-        { label: { name: "Old" }, value: 1, tone: "gray", detail: { name: "a while ago" } },
+        {
+          label: { name: "Old" },
+          value: 1,
+          tone: "gray",
+          rows: [{ title: { name: "Last" }, value: { name: "a while ago" } }],
+        },
       ],
     },
     ["#F06595", "#7170FF"],
   );
-  assert.match(html, /^<span class="shares"><i style="flex:1;--c:#F06595"/);
-  assert.match(html, /<i style="flex:3;--c:#7170FF"/);
-  assert.match(html, /<i style="flex:1;--c:var\(--m-gray\)"/);
-  assert.match(html, /3 · 60%/, "Noor's share of all five");
-  assert.match(html, /a while ago/, "a detail stands for the value");
+  assert.match(html, /^<span class="shares"><i class="" style="flex:1;--c:#F06595"/);
+  assert.match(html, /<i class="" style="flex:3;--c:#7170FF"/);
+  assert.match(html, /<i class="tone-gray" style="flex:1;--c:var\(--m-gray\)"/);
+  assert.match(html, /60%/, "Noor's share of all five, with no rows of her own");
+  assert.match(html, /a while ago/, "rows stand for the value and share");
   assert.doesNotMatch(html, /<i>Kim/);
+  const many = {
+    label: { name: "Backups" },
+    shares: Array.from({ length: 13 }, (_, i) => ({ label: { name: `${i}` }, value: 1 })),
+  };
+  assert.match(shares(many, ["#fff"]), /class="shares many"/, "many sit closer");
 });

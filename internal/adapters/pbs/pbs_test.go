@@ -64,8 +64,11 @@ func TestRead(t *testing.T) {
 	for _, s := range f.Shares {
 		tones = append(tones, s.Label.Name+":"+s.Tone)
 	}
-	if got := strings.Join(tones, " "); got != "house:green workbench:green gate:green ct/140:gray family:green" {
-		t.Errorf("each guest, green where last night backed it up: %s", got)
+	if got := strings.Join(tones, " "); got != "house:blue workbench:blue gate:blue ct/140:gray family:blue" {
+		t.Errorf("each guest, blue where last night backed it up: %s", got)
+	}
+	if r := f.Shares[1].Rows; len(r) != 3 || r[0].Title.Key != "pbs.in_night" || r[2].Value.Key != "pbs.check_failed" {
+		t.Errorf("workbench's tooltip: in the night's backups, its size, and its failed check: %+v", r)
 	}
 
 	// The week to 10:00 on the 28th: the nights from the 22nd, a run by

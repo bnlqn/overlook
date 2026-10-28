@@ -112,7 +112,7 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 			return snapshot.Parts{}, err
 		}
 	}
-	return snapshot.Parts{Figures: today(s, now), Sections: sections(c, s, st, cl)}, nil
+	return snapshot.Parts{Figures: today(s, now), Sections: sections(c, s, st, cl), Charts: hourly(s)}, nil
 }
 
 // today is the lookups since midnight where Overlook runs, with the blocked
@@ -152,9 +152,24 @@ func sum(counts []int, n int) int {
 	return total
 }
 
-// sections are the resolver itself, with its lookups by the hour when it
-// keeps them so, then its top clients, domains and blocked domains, over the
-// interval its statistics keep.
+// hourly is the lookups and the blocked ones by the hour, over as many hours
+// as the statistics keep, when they keep them by the hour: one chart that
+// adds up every resolver's.
+func hourly(s stats) []snapshot.Chart {
+	if s.TimeUnits != "hours" || len(s.ByUnit) < 2 || len(s.BlockedBy) != len(s.ByUnit) {
+		return nil
+	}
+	return []snapshot.Chart{{
+		Area: "network", Title: *msg("adguard.per_hour", nil), Adds: true,
+		Series: []snapshot.Series{
+			{Label: *msg("adguard.lookups", nil), Hours: floats(s.ByUnit)},
+			{Label: *msg("adguard.blocked", nil), Hours: floats(s.BlockedBy)},
+		},
+	}}
+}
+
+// sections are the resolver itself, then its top clients, domains and
+// blocked domains, over the interval its statistics keep.
 func sections(c Config, s stats, st status, cl clients) []snapshot.Section {
 	unit := time.Hour
 	if s.TimeUnits == "days" {
@@ -212,14 +227,9 @@ func sections(c Config, s stats, st status, cl clients) []snapshot.Section {
 		blocked = append(blocked, snapshot.Row{Title: snapshot.Text{Name: e.name}, Value: msg("adguard.n", args{"n": e.n})})
 	}
 
-	self := snapshot.Section{Area: "network", Title: snapshot.Text{Name: c.Name}, Rows: resolver}
-	if s.TimeUnits == "hours" && len(s.ByUnit) > 1 && len(s.BlockedBy) == len(s.ByUnit) {
-		self.Hours = &snapshot.Series{Label: *msg("adguard.lookups", nil), Hours: floats(s.ByUnit)}
-		self.Within = &snapshot.Series{Label: *msg("adguard.blocked", nil), Hours: floats(s.BlockedBy)}
-	}
 	on := args{"name": c.Name}
 	return []snapshot.Section{
-		self,
+		{Area: "network", Title: snapshot.Text{Name: c.Name}, Rows: resolver},
 		{Area: "network", Title: *msg("adguard.top_clients", on), Rows: orNothing(who)},
 		{Area: "network", Title: *msg("adguard.top_domains", on), Rows: orNothing(what)},
 		{Area: "network", Title: *msg("adguard.top_blocked", on), Rows: orNothing(blocked)},

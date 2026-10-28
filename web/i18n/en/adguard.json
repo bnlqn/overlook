@@ -1,6 +1,7 @@
 {
   "adguard.today": "DNS lookups",
   "adguard.today_blocked": "{blocked} blocked",
+  "adguard.per_hour": "Lookups per hour",
 
   "adguard.protection": "Protection",
   "adguard.filtering": "Filtering",

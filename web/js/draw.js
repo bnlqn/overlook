@@ -1,9 +1,10 @@
 // The pieces every page draws, as HTML strings: icons, state glyphs, logos,
 // tooltips, the strip of results, rows, sections, sparklines, charts by the
-// hour and shares. Every value from the snapshot is escaped here or by t().
+// hour as bars or areas, and shares. Every value from the snapshot is escaped
+// here or by t().
 
 import { checkState } from "./checks.js";
-import { clock, day, esc, ms, number, say, t, weekday } from "./text.js";
+import { clock, compact, day, esc, ms, number, say, t, weekday } from "./text.js";
 
 // 16 px strokes for the pages, figures and events; apps and tools show their
 // own logos.
@@ -153,11 +154,10 @@ export const figureMeter = (m) =>
   `<span class="figure-meter"><span>${m.label ? say(m.label) : ""}</span>${meter(m.used, m.total, m.tone)}<span>${t("percent", { n: Math.round((100 * m.used) / m.total) })}</span></span>`;
 
 /**
- * A section of the snapshot: its title, a chart if it brings one, then its
- * rows. It carries its place among the page's sections, i, so a page in one
- * column can keep their order.
+ * A section of the snapshot: its title, then its rows. It carries its place
+ * among the page's sections, i, so a page in one column can keep their order.
  */
-export function section(s, i, chart = "") {
+export function section(s, i) {
   const rows = s.rows.map((r) => {
     const value = r.value ? (r.tone ? `<span class="state tone-${r.tone}">${say(r.value)}</span>` : say(r.value)) : "";
     return fact(
@@ -167,7 +167,7 @@ export function section(s, i, chart = "") {
       r.meter ? meter(r.meter.used, r.meter.total, r.meter.tone) : "",
     );
   });
-  return `<section style="--i:${i}"><h2 class="section-title">${say(s.title)}</h2>${chart}<div class="list card">${rows.join("")}</div></section>`;
+  return `<section style="--i:${i}"><h2 class="section-title">${say(s.title)}</h2><div class="list card">${rows.join("")}</div></section>`;
 }
 
 let uid = 0;
@@ -211,63 +211,150 @@ function niceMax(v) {
   return [1, 2, 2.5, 5, 10].map((f) => f * step).find((x) => x >= v);
 }
 
+// A number on a chart's scale, short once it's long: "5,000", "250K".
+const scaleNumber = (v) => (v >= 1e5 ? compact(v) : number(v));
+
+/** The colours of a chart's series: the whole in its area's, each part after it in its own. */
+export const seriesColours = (tint, n) => [tint, PART, "#A78BFA", GREEN].slice(0, n);
+
 /**
- * Counts by the hour as bars, oldest first, ending with this hour: series is
- * a snapshot's {label, hours}, within the part of each hour its own label
- * names, drawn inside it. Each hour brings its tooltip. Under the bars, every
- * sixth hour, or each day over more than two; beside them, the scale.
+ * An hour's tooltip: when it was, each series' count, a part's with its
+ * share of the whole, then each source's own whole where several add up.
  */
-export function hourChart(series, within, tint, now = new Date()) {
-  const hours = series.hours;
-  const n = hours.length;
-  if (n < 2) return "";
-  const at = (i) => hourStart(i, n, now);
-  const long = n > 48;
-  const max = niceMax(Math.max(...hours, ...(within ? within.hours : [])));
-  const y = (v) => 100 - (100 * v) / max;
-  const left = (i) => `${((100 * i) / n).toFixed(2)}%`;
-  const bar = (i, v, fill) =>
-    `<rect x="${i + 0.15}" y="${y(v).toFixed(2)}" width="0.7" height="${(100 - y(v)).toFixed(2)}" style="fill:${fill}"/>`;
-  const cols = hours.map((v, i) => {
-    const part = within ? within.hours[i] : 0;
-    const from = at(i);
-    const rows = [[tint, say(series.label), number(v)]];
-    if (within) {
-      const share = t("percent", { n: v ? Math.round((100 * part) / v) : 0 });
-      rows.push([PART, say(within.label), `${number(part)} · ${share}`]);
-    }
-    const title = `${long ? `${day(from)}, ` : ""}${clock(from)} – ${clock(+from + 3600e3)}`;
-    const tp = tip(title, rows, i === n - 1 ? t("chart.so_far") : "");
-    const hit = `<rect class="hit" x="${i}" y="0" width="1" height="100" data-tip="${tp}"/>`;
-    return `<g class="col">${hit}${bar(i, v, tint)}${part ? bar(i, part, PART) : ""}</g>`;
+export function hourTip(series, colours, i, from, { long = false, last = false, sources = [] } = {}) {
+  const whole = series[0].hours[i];
+  const rows = series.map((s, k) => {
+    const v = s.hours[i];
+    const share = k ? ` · ${t("percent", { n: whole ? Math.round((100 * v) / whole) : 0 })}` : "";
+    return [colours[k], say(s.label), `${number(v)}${share}`];
   });
-  const marks = hours
-    .map((_, i) => at(i))
-    .map((d, i) =>
-      long
-        ? d.getHours() === 0 && `<span style="left:${left(i)}">${weekday(d)}</span>`
-        : d.getHours() % 6 === 0 && `<span style="left:${left(i + 0.5)}">${clock(d)}</span>`,
+  for (const s of sources) rows.push(["", esc(s.name), number(s.hours[i])]);
+  const title = `${long ? `${day(from)}, ` : ""}${clock(from)} – ${clock(+from + 3600e3)}`;
+  return tip(title, rows, last ? t("chart.so_far") : "");
+}
+
+/** A chart's series by colour, in a row. */
+export const legend = (series, colours) =>
+  `<span class="legend">${series.map((s, k) => `<span><i style="--c:${colours[k]}"></i>${say(s.label)}</span>`).join("")}</span>`;
+
+// Where a chart's scale lines go: the bottom, its quarters or halves, the top.
+const gridOf = (max, steps) => Array.from({ length: steps + 1 }, (_, k) => (max * k) / steps);
+
+/**
+ * The last day by the hour as bars, oldest first, ending with this hour: the
+ * whole of each, and each part within it from its foot. Each bar brings its
+ * tooltip. Every sixth hour under them, and the scale beside.
+ */
+export function bars(series, tint, now = new Date()) {
+  const n = series[0].hours.length;
+  if (n < 2) return "";
+  const colours = seriesColours(tint, series.length);
+  const max = niceMax(Math.max(...series[0].hours));
+  const pct = (v) => `${((100 * v) / max).toFixed(2)}%`;
+  const cols = series[0].hours.map((v, i) => {
+    const tp = hourTip(series, colours, i, hourStart(i, n, now), { last: i === n - 1 });
+    const parts = series
+      .slice(1)
+      .map((s, k) => `<i style="height:${pct(s.hours[i])};--c:${colours[k + 1]}"></i>`)
+      .join("");
+    return `<span class="hour" style="--i:${i}" data-tip="${tp}"><i class="whole" style="height:${pct(v)};--c:${tint}"></i>${parts}</span>`;
+  });
+  const marks = series[0].hours
+    .map((_, i) => hourStart(i, n, now))
+    .map(
+      (d, i) =>
+        d.getHours() % 6 === 0 && `<span style="left:${(((i + 0.5) * 100) / n).toFixed(2)}%">${clock(d)}</span>`,
     )
     .filter(Boolean);
-  return `<div class="hour-chart${long ? " long" : ""}"><div class="plot">
-    <svg viewBox="0 0 ${n} 100" preserveAspectRatio="none" aria-hidden="true"><line class="grid" x1="0" x2="${n}" y1="0" y2="0"/><line class="grid" x1="0" x2="${n}" y1="50" y2="50"/>${cols.join("")}</svg>
-    <span class="scale" style="top:0">${number(max)}</span><span class="scale" style="top:50%">${number(max / 2)}</span>
+  const grid = gridOf(max, 2).map(
+    (v) =>
+      `<i class="line" style="bottom:${pct(v)}"></i><span class="scale" style="bottom:${pct(v)}">${scaleNumber(v)}</span>`,
+  );
+  return `<div class="hour-chart"><div class="plot">${grid.join("")}<div class="cols">${cols.join("")}</div></div><div class="axis">${marks.join("")}</div></div>`;
+}
+
+let charts = 0;
+/**
+ * Many hours as areas, oldest first, ending with this hour: the whole, and
+ * each part within it from the foot, each with its line. Each hour is a
+ * column that lights up under the pointer and brings its tooltip, with each
+ * source's own whole when several add up. Over more than two days, the days
+ * alternate in shade and are named under their middle; over fewer, every
+ * sixth hour is. The scale is beside.
+ */
+export function areas(series, tint, sources = [], now = new Date()) {
+  const n = series[0].hours.length;
+  if (n < 2) return "";
+  const id = `ch${++charts}`;
+  const colours = seriesColours(tint, series.length);
+  const long = n > 48;
+  const at = (i) => hourStart(i, n, now);
+  const max = niceMax(Math.max(...series[0].hours));
+  const y = (v) => (100 - (100 * v) / max).toFixed(2);
+  const line = (h) => h.map((v, i) => `${i ? "L" : "M"}${i + 0.5},${y(v)}`).join("");
+  const left = (x) => `${((100 * x) / n).toFixed(2)}%`;
+  let bands = "";
+  const marks = [];
+  if (long) {
+    const starts = [0, ...series[0].hours.map((_, i) => i).filter((i) => i && at(i).getHours() === 0)];
+    starts.forEach((from, k) => {
+      const to = starts[k + 1] ?? n;
+      // Every other calendar day is shaded, so a day keeps its shade as the hours go by.
+      if (Math.round(new Date(at(from)).setHours(0, 0, 0, 0) / 864e5) % 2) {
+        bands += `<rect class="band" x="${from}" y="0" width="${to - from}" height="100"/>`;
+      }
+      if ((to - from) / n >= 0.08)
+        marks.push(`<span style="left:${left((from + to) / 2)}">${weekday(at(from))}</span>`);
+    });
+  } else {
+    for (let i = 0; i < n; i++) {
+      if (at(i).getHours() % 6 === 0) marks.push(`<span style="left:${left(i + 0.5)}">${clock(at(i))}</span>`);
+    }
+  }
+  const defs = colours
+    .map(
+      (c, k) =>
+        `<linearGradient id="${id}-${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:${c};stop-opacity:.38"/><stop offset="1" style="stop-color:${c};stop-opacity:.03"/></linearGradient>`,
+    )
+    .join("");
+  const fills = series
+    .map((s, k) => `<path d="${line(s.hours)}L${n - 0.5},100L0.5,100Z" fill="url(#${id}-${k})"/>`)
+    .join("");
+  const lines = series
+    .map((s, k) => `<path class="stroke" d="${line(s.hours)}" style="stroke:${colours[k]}"/>`)
+    .join("");
+  const cols = series[0].hours
+    .map((_, i) => {
+      const tp = hourTip(series, colours, i, at(i), {
+        long,
+        last: i === n - 1,
+        sources: sources.length > 1 ? sources : [],
+      });
+      return `<g class="col"><rect class="hit" x="${i}" y="0" width="1" height="100" data-tip="${tp}"/><line class="cur" x1="${i + 0.5}" x2="${i + 0.5}" y1="0" y2="100"/></g>`;
+    })
+    .join("");
+  const grid = gridOf(max, 4).map(
+    (v) =>
+      `<i class="line" style="bottom:${((100 * v) / max).toFixed(2)}%"></i><span class="scale" style="bottom:${((100 * v) / max).toFixed(2)}%">${scaleNumber(v)}</span>`,
+  );
+  return `<div class="hour-chart areas${long ? " long" : ""}"><div class="plot">${grid.join("")}
+    <svg viewBox="0 0 ${n} 100" preserveAspectRatio="none" aria-hidden="true"><defs>${defs}</defs>${bands}<g class="series">${fills}${lines}</g>${cols}</svg>
   </div><div class="axis">${marks.join("")}</div></div>`;
 }
 
 /**
  * A figure's shares as one bar, each as wide as its share of the whole, in
- * its tone or the next of tints, with its tooltip: its detail, or its value
- * and share.
+ * its tone or the next of tints. Its tooltip is its label over its rows, or
+ * over its value and share.
  */
 export function shares(f, tints) {
   const whole = f.shares.reduce((sum, s) => sum + s.value, 0);
   const parts = f.shares.map((s, i) => {
     const c = s.tone ? `var(--m-${s.tone})` : tints[i % tints.length];
-    const value = s.detail
-      ? say(s.detail)
-      : `${number(s.value)} · ${t("percent", { n: Math.round((100 * s.value) / whole) })}`;
-    return `<i style="flex:${s.value};--c:${c}" data-tip="${tip(say(f.label), [[c, say(s.label), value]])}"></i>`;
+    const rows = s.rows?.length
+      ? s.rows.map((r, k) => [k ? "" : c, say(r.title), r.value ? say(r.value) : ""])
+      : [[c, number(s.value), t("percent", { n: Math.round((100 * s.value) / whole) })]];
+    return `<i class="${s.tone ? `tone-${s.tone}` : ""}" style="flex:${s.value};--c:${c}" data-tip="${tip(say(s.label), rows)}"></i>`;
   });
-  return `<span class="shares">${parts.join("")}</span>`;
+  return `<span class="shares${f.shares.length > 12 ? " many" : ""}">${parts.join("")}</span>`;
 }

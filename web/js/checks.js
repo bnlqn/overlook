@@ -21,7 +21,9 @@ export function readChecks(snap) {
 
 /** The areas with anything in them, which are the ones shown. */
 export const shown = (snap) =>
-  AREAS.filter((a) => [snap.checks, snap.sections, snap.figures, snap.events].some((l) => l.some((x) => x.area === a)));
+  AREAS.filter((a) =>
+    [snap.checks, snap.sections, snap.charts, snap.figures, snap.events].some((l) => l.some((x) => x.area === a)),
+  );
 
 /**
  * The figures, those that add up and share a label key made one, such as two
@@ -54,6 +56,38 @@ export function together(figures) {
     for (const [name, v] of Object.entries(f.detail?.args || {})) {
       if (typeof v === "number" && typeof into.detail?.args[name] === "number") into.detail.args[name] += v;
     }
+  }
+  return out;
+}
+
+/**
+ * The charts, those that add up and share a title key made one, such as two
+ * resolvers' lookups: each series hour by hour, over the hours they all
+ * have, the latest last. Each keeps its sources, each with its own whole, for
+ * the tooltip.
+ */
+export function joinCharts(charts) {
+  const byKey = new Map();
+  const out = [];
+  for (const c of charts) {
+    const into = c.adds && byKey.get(c.title.key);
+    if (!into) {
+      const copy = { ...c, series: c.series.map((s) => ({ ...s, hours: [...s.hours] })) };
+      copy.sources = [{ name: c.source, hours: copy.series[0].hours }];
+      if (c.adds) byKey.set(c.title.key, copy);
+      out.push(copy);
+      continue;
+    }
+    const n = Math.min(into.series[0].hours.length, c.series[0].hours.length);
+    const last = (hours) => hours.slice(hours.length - n);
+    into.series = into.series.map((s, k) => {
+      const more = last(c.series[k]?.hours || []);
+      return { ...s, hours: last(s.hours).map((v, i) => v + (more[i] || 0)) };
+    });
+    into.sources = [...into.sources, { name: c.source, hours: c.series[0].hours }].map((s) => ({
+      ...s,
+      hours: last(s.hours),
+    }));
   }
   return out;
 }

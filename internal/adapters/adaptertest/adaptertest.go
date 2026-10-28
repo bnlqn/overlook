@@ -136,16 +136,18 @@ func Problems(p snapshot.Parts, english map[string]any) []string {
 				meter(w, *r.Meter)
 			}
 		}
-		if s.Hours != nil {
-			text(w, &s.Hours.Label)
-			if len(s.Hours.Hours) < 2 {
-				fail("%s: a chart of %d hours", w, len(s.Hours.Hours))
-			}
+	}
+	for _, c := range p.Charts {
+		w := "chart " + c.Title.Key
+		area(w, c.Area)
+		text(w, &c.Title)
+		if len(c.Series) == 0 || len(c.Series[0].Hours) < 2 {
+			fail("%s: no series of two hours or more", w)
 		}
-		if s.Within != nil {
-			text(w, &s.Within.Label)
-			if s.Hours == nil || len(s.Within.Hours) != len(s.Hours.Hours) {
-				fail("%s: within hours it doesn't match", w)
+		for _, s := range c.Series {
+			text(w, &s.Label)
+			if len(s.Hours) != len(c.Series[0].Hours) {
+				fail("%s: a series of %d hours beside one of %d", w, len(s.Hours), len(c.Series[0].Hours))
 			}
 		}
 	}
@@ -171,8 +173,11 @@ func Problems(p snapshot.Parts, english map[string]any) []string {
 		whole := 0.0
 		for _, sh := range f.Shares {
 			text(w, &sh.Label)
-			text(w, sh.Detail)
 			tone(w, sh.Tone)
+			for _, r := range sh.Rows {
+				text(w, &r.Title)
+				text(w, r.Value)
+			}
 			if sh.Value < 0 {
 				fail("%s: a share below nothing", w)
 			}

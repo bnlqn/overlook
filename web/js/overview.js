@@ -1,14 +1,19 @@
 // The overview: how everything is, what is wrong, today's figures, each area
-// and its checks, the week, what happened, the apps, and the chores.
+// and its checks, today by the hour, what happened, the week, the apps, and
+// the chores.
 
 import { areaState, checkState, choresBy, quietSince, shown, silent, together } from "./checks.js";
 import {
   badge,
+  bars,
   figureMeter,
   GREEN,
-  hourChart,
+  hourStart,
+  hourTip,
+  legend,
   RECENT,
   RED,
+  seriesColours,
   shares,
   sparkline,
   stateIcon,
@@ -122,22 +127,49 @@ function renderProblems(checks) {
     .join("");
 }
 
-// ── Today: each figure, opening its area's page. One with hours takes a row
-// of its own for them, as a chart ────────────────────────────────────────
+// ── Today: each figure, opening its area's page ──────────────────────────
+
+// A figure's hours as series: its own, then the part within them, if any.
+const seriesOf = (f) => [{ label: f.label, hours: f.hours }, ...(f.within ? [f.within] : [])];
 
 function renderToday(figures) {
   $("today-block").hidden = !figures.length;
   $("today").innerHTML = figures
     .map((f, i) => {
       const tint = TINT[f.area];
-      const hours = f.hours?.length ? hourChart({ label: f.label, hours: f.hours }, f.within, tint) : "";
+      const hours = f.hours || [];
+      const series = seriesOf(f);
+      const colours = seriesColours(tint, series.length);
+      const tips = hours.map((_, k) =>
+        hourTip(series, colours, k, hourStart(k, hours.length), { last: k === hours.length - 1 }),
+      );
       // Shares without a tone of their own take the area's colour, then the others'.
       const tints = [tint, ...Object.values(TINT).filter((c) => c !== tint)];
-      return `<a class="figure-tile${hours ? " wide" : ""}${f.tone ? ` tone-${f.tone}` : ""}" href="${f.area}" style="--i:${i}">
+      return `<a class="figure-tile${f.tone ? ` tone-${f.tone}` : ""}" href="${f.area}" style="--i:${i}">
       <span class="label">${svg(f.icon)}${say(f.label)}</span>
       <span class="figure">${num(`${f.area}.${i}`, f.value)}${f.unit ? `<small> ${say(f.unit)}</small>` : ""}</span>
       <span class="sub">${f.detail ? say(f.detail) : ""}</span>
-      <span class="viz">${hours}${f.shares?.length ? shares(f, tints) : ""}${(f.meters || []).map(figureMeter).join("")}</span></a>`;
+      <span class="viz">${sparkline(hours, tint, tips)}${f.shares?.length ? shares(f, tints) : ""}${(f.meters || []).map(figureMeter).join("")}</span></a>`;
+    })
+    .join("");
+}
+
+// ── Today by the hour: each figure with hours, as bars, beside the events.
+// With none, the week takes their place there ───────────────────────────
+
+function renderHours(figures) {
+  const mine = figures.filter((f) => f.hours?.length);
+  $("hours-block").hidden = !mine.length;
+  if (mine.length) $("day").after($("week-block"));
+  else $("events-block").before($("week-block"));
+  $("hours").innerHTML = mine
+    .map((f, i) => {
+      const series = seriesOf(f);
+      const tint = TINT[f.area];
+      return `<div class="card chart" style="--i:${i}">
+      <div class="chart-head"><span class="label">${svg(f.icon)}${say(f.label)}</span>${legend(series, seriesColours(tint, series.length))}</div>
+      <div class="chart-top"><span class="figure">${num(`hours.${f.area}.${i}`, f.value)}</span><span class="detail">${f.detail ? say(f.detail) : ""}</span></div>
+      ${bars(series, tint)}</div>`;
     })
     .join("");
 }
@@ -407,7 +439,9 @@ start((snap, checks) => {
   renderStatus(snap, checks);
   renderActions(snap);
   renderProblems(checks);
-  renderToday(together(snap.figures));
+  const figures = together(snap.figures);
+  renderToday(figures);
+  renderHours(figures);
   renderAreas(
     checks,
     areas.filter((a) => checks.some((c) => c.area === a)),

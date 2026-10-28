@@ -67,9 +67,14 @@ _Avoid_: Uptime, streak
 
 **Section**:
 A titled list of rows an adapter adds to its home area's page, such as the
-guests on a Proxmox host, sometimes under a chart of what its source counts
-by the hour.
+guests on a Proxmox host.
 _Avoid_: Card, panel, widget
+
+**Chart**:
+What a source counts by the hour, over as many hours as it keeps, drawn on
+its adapter's home area's page, such as a resolver's lookups and the blocked
+ones. Several sources' charts of the same count are drawn as one.
+_Avoid_: Graph, plot, time series
 
 **Figure**:
 A number an adapter reports for today, such as lookups blocked or photos

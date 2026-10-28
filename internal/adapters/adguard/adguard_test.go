@@ -50,9 +50,9 @@ func TestRead(t *testing.T) {
 			t.Errorf("the blocked ones in each of those hours, %d since midnight: %+v", want.blocked, b)
 		}
 	}
-	if h, b := primary.Sections[0].Hours, primary.Sections[0].Within; h == nil || b == nil || len(h.Hours) != 168 || len(b.Hours) != 168 ||
-		h.Label.Key != "adguard.lookups" || sumOf(h.Hours) != 501106 || sumOf(b.Hours) != 179069 {
-		t.Errorf("the resolver's week by the hour, its lookups and the blocked ones: %+v %+v", h, b)
+	if c := primary.Charts; len(c) != 1 || c[0].Title.Key != "adguard.per_hour" || !c[0].Adds || len(c[0].Series) != 2 ||
+		len(c[0].Series[0].Hours) != 168 || sumOf(c[0].Series[0].Hours) != 501106 || sumOf(c[0].Series[1].Hours) != 179069 {
+		t.Errorf("the resolver's week by the hour, its lookups and the blocked ones, adding up with the others': %+v", c)
 	}
 
 	if len(primary.Sections) != 4 || primary.Sections[0].Title.Name != "Primary DNS" {
@@ -139,8 +139,8 @@ func TestToday(t *testing.T) {
 	if f := today(byDay, recorded); f != nil {
 		t.Errorf("statistics by the day have no today: %+v", f)
 	}
-	if s := sections(Config{Name: "DNS"}, byDay, status{}, clients{})[0]; s.Hours != nil || s.Within != nil {
-		t.Errorf("nor any hours: %+v", s)
+	if c := hourly(byDay); c != nil {
+		t.Errorf("nor any hours: %+v", c)
 	}
 }
 

@@ -172,16 +172,24 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	}
 
 	// Today's figure is everyone's photos and videos, with what they
-	// uploaded this week if every person's read answered, and each person's
-	// share of them when there's more than one.
+	// uploaded this week if every person's read answered, and, when there's
+	// more than one person, each one's share of the room they take.
 	figure := snapshot.Figure{Area: "apps", Icon: "photos", Label: snapshot.Text{Key: "immich.photos"}, Value: float64(stats.Photos + stats.Videos)}
 	figure.Detail = msg("immich.this_week", map[string]any{"n": everyone})
 	if slices.Contains(week, nil) {
 		figure.Detail = msg("immich.videos", map[string]any{"n": stats.Videos})
 	}
-	if len(stats.People) > 1 && figure.Value > 0 {
-		for _, p := range stats.People {
-			figure.Shares = append(figure.Shares, snapshot.Share{Label: snapshot.Text{Name: p.Name}, Value: float64(p.Photos + p.Videos)})
+	if len(stats.People) > 1 && stats.Usage > 0 {
+		for i, p := range stats.People {
+			rows := []snapshot.Row{
+				{Title: snapshot.Text{Key: "immich.photos"}, Value: msg("immich.n", map[string]any{"n": p.Photos})},
+				{Title: snapshot.Text{Key: "immich.videos_title"}, Value: msg("immich.n", map[string]any{"n": p.Videos})},
+				{Title: snapshot.Text{Key: "immich.space"}, Value: msg("immich.bytes", map[string]any{"n": p.Usage})},
+			}
+			if week[i] != nil {
+				rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "immich.week"}, Value: msg("immich.plus", map[string]any{"n": *week[i]})})
+			}
+			figure.Shares = append(figure.Shares, snapshot.Share{Label: snapshot.Text{Name: p.Name}, Value: float64(p.Usage), Rows: rows})
 		}
 	}
 	return snapshot.Parts{

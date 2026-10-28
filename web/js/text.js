@@ -59,6 +59,9 @@ export function translate(root) {
 /** A number, the viewer's way. */
 export const number = (n) => numbers.format(n);
 
+/** A number in few characters, the viewer's way: "250K". */
+export const compact = (n) => new Intl.NumberFormat(locale, { notation: "compact" }).format(n);
+
 /** Items as one phrase, the viewer's way: "a, b and c". */
 export const list = (items) => new Intl.ListFormat(locale).format(items);
 
