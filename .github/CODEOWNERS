@@ -6,11 +6,13 @@
 /internal/adapters/gatus/   @bnlqn
 /internal/adapters/github/  @bnlqn
 /internal/adapters/immich/  @bnlqn
+/internal/adapters/proxmox/ @bnlqn
 /internal/adapters/radarr/  @bnlqn
 /internal/adapters/servarr/ @bnlqn
 /internal/adapters/sonarr/  @bnlqn
 /web/i18n/en/adguard.json   @bnlqn
 /web/i18n/en/immich.json    @bnlqn
+/web/i18n/en/proxmox.json   @bnlqn
 /web/i18n/en/radarr.json    @bnlqn
 /web/i18n/en/sonarr.json    @bnlqn
 /internal/adapters/nut/     @bnlqn

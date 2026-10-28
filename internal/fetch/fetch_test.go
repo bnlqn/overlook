@@ -2,8 +2,11 @@ package fetch
 
 import (
 	"context"
+	"encoding/pem"
 	"net/http"
 	"net/http/httptest"
+	"os"
+	"path/filepath"
 	"strings"
 	"sync/atomic"
 	"testing"
@@ -61,6 +64,48 @@ func TestJSON(t *testing.T) {
 	err := JSON(context.Background(), "http://overlook:s3cret@"+strings.TrimPrefix(gone.URL, "http://")+"/x", nil, &v)
 	if err == nil || strings.Contains(err.Error(), "s3cret") || strings.Contains(err.Error(), "/x") {
 		t.Errorf("an error mustn't hold the URL: %v", err)
+	}
+}
+
+// A source that signs its own certificate is read with its CA, and with
+// nothing else.
+func TestTrusting(t *testing.T) {
+	t.Parallel()
+	s := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		_, _ = w.Write([]byte(`{"n": 4}`))
+	}))
+	t.Cleanup(s.Close)
+	dir := t.TempDir()
+	ca := filepath.Join(dir, "ca.pem")
+	if err := os.WriteFile(ca, pem.EncodeToMemory(&pem.Block{Type: "CERTIFICATE", Bytes: s.Certificate().Raw}), 0o600); err != nil {
+		t.Fatal(err)
+	}
+
+	var v struct{ N int }
+	if err := JSON(context.Background(), s.URL, nil, &v); err == nil || !strings.Contains(err.Error(), "certificate") {
+		t.Errorf("a certificate the system doesn't trust is refused: %v", err)
+	}
+	c, err := Trusting(ca)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := c.JSON(context.Background(), s.URL, nil, &v); err != nil || v.N != 4 {
+		t.Errorf("read %+v, %v", v, err)
+	}
+	req, _ := http.NewRequestWithContext(t.Context(), http.MethodPost, s.URL, nil)
+	if res, err := c.http.Do(req); err == nil {
+		_ = res.Body.Close()
+		t.Error("a POST went through")
+	}
+
+	notPEM := filepath.Join(dir, "ca.txt")
+	if err := os.WriteFile(notPEM, []byte("not a certificate"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	for file, want := range map[string]string{notPEM: "holds no PEM certificate", filepath.Join(dir, "none.pem"): "no such file"} {
+		if _, err := Trusting(file); err == nil || !strings.Contains(err.Error(), want) {
+			t.Errorf("%s: want an error with %q, got %v", file, want, err)
+		}
 	}
 }
 

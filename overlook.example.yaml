@@ -28,6 +28,16 @@ sources:
     - url: ${IMMICH_URL}               # where Overlook reads Immich, such as http://immich:2283
       key: ${IMMICH_KEY}               # an API key with the read permissions in the README
 
+  # The hosts and their guests, storage and ZFS pools, and the backup runs.
+  proxmox:
+    - url: https://pve.example.com:8006
+      token: overlook@pve!overlook     # an API token's ID, as user@realm!name
+      secret: ${PROXMOX_SECRET}        # and its secret
+      # Proxmox signs its own certificate. Copy its CA from the host's
+      # /etc/pve/pve-root-ca.pem and say where it is; Overlook never reads
+      # a source it can't check.
+      # ca: /etc/overlook/pve-root-ca.pem
+
   # The films: how many, how much room, what came this week and what's coming.
   radarr:
     - url: http://radarr:7878          # where Overlook reads Radarr

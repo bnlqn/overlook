@@ -82,6 +82,39 @@ an admin. Give it only these six read permissions:
 
 What each person uploaded needs Immich 3 or later; an older one leaves it out.
 
+### Proxmox VE
+
+Each host's processor, memory, uptime and version, the guests, the storage,
+the ZFS pools and the last backup run, in Servers. Today shows how many
+guests are up, and the week each backup run.
+
+```yaml
+sources:
+  proxmox:
+    - url: https://pve.example.com:8006 # any host of a cluster reads all of it
+      token: overlook@pve!overlook
+      secret: ${PROXMOX_SECRET}
+      ca: /etc/overlook/pve-root-ca.pem  # Proxmox's own CA, copied from the host
+```
+
+**Key:** an API token of a user with the role **PVEAuditor**, which reads
+everything and changes nothing. On the host:
+
+```bash
+pveum user add overlook@pve
+pveum acl modify / --users overlook@pve --roles PVEAuditor
+pveum user token add overlook@pve overlook --privsep 0
+```
+
+The last command prints the token's secret. The user has no password, so
+the token is the only way in, and it can do no more than the user.
+
+**Certificate:** Proxmox signs its own. Copy `/etc/pve/pve-root-ca.pem` from
+the host beside Overlook and name it as `ca`: Overlook then trusts that CA
+alone for this source. There is no way to skip the check, since a key sent
+to whoever answers in Proxmox's place is given away. A host with a
+certificate from a public CA, such as Let's Encrypt, needs no `ca`.
+
 ### Radarr
 
 The films on disk and the room they take, the films added this week, what

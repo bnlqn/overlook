@@ -1,0 +1,113 @@
+{
+ "total": 9,
+ "data": [
+  {
+   "upid": "UPID:nova:001A2B00:01C00000:6AE14208:vzdump::root@pam:",
+   "node": "nova",
+   "pid": 1714944,
+   "pstart": 29360128,
+   "starttime": 1793147400,
+   "endtime": 1793147899,
+   "type": "vzdump",
+   "id": "",
+   "user": "root@pam",
+   "status": "OK"
+  },
+  {
+   "upid": "UPID:nova:001A2CF3:01BAF000:6AE09C0D:vzdump::root@pam:",
+   "node": "nova",
+   "pid": 1715443,
+   "pstart": 29028352,
+   "starttime": 1793104909,
+   "endtime": 1793107013,
+   "type": "vzdump",
+   "id": "",
+   "user": "root@pam",
+   "status": "OK"
+  },
+  {
+   "upid": "UPID:nova:001A2EE6:01B5E000:6ADFF088:vzdump::root@pam:",
+   "node": "nova",
+   "pid": 1715942,
+   "pstart": 28696576,
+   "starttime": 1793061000,
+   "endtime": 1793061665,
+   "type": "vzdump",
+   "id": "",
+   "user": "root@pam",
+   "status": "OK"
+  },
+  {
+   "upid": "UPID:nova:001A30D9:01B0D000:6ADF6FAC:vzdump:150:root@pam:",
+   "node": "nova",
+   "pid": 1716441,
+   "pstart": 28364800,
+   "starttime": 1793028012,
+   "endtime": 1793028160,
+   "type": "vzdump",
+   "id": "150",
+   "user": "root@pam",
+   "status": "OK"
+  },
+  {
+   "upid": "UPID:nova:001A32CC:01ABC000:6ADE9F08:vzdump::root@pam:",
+   "node": "nova",
+   "pid": 1716940,
+   "pstart": 28033024,
+   "starttime": 1792974600,
+   "endtime": 1792975180,
+   "type": "vzdump",
+   "id": "",
+   "user": "root@pam",
+   "status": "OK"
+  },
+  {
+   "upid": "UPID:nova:001A34BF:01A6B000:6ADD4D88:vzdump::root@pam:",
+   "node": "nova",
+   "pid": 1717439,
+   "pstart": 27701248,
+   "starttime": 1792888200,
+   "endtime": 1792889533,
+   "type": "vzdump",
+   "id": "",
+   "user": "root@pam",
+   "status": "WARNINGS: 1"
+  },
+  {
+   "upid": "UPID:nova:001A36B2:01A1A000:6ADBFC08:vzdump::root@pam:",
+   "node": "nova",
+   "pid": 1717938,
+   "pstart": 27369472,
+   "starttime": 1792801800,
+   "endtime": 1792801862,
+   "type": "vzdump",
+   "id": "",
+   "user": "root@pam",
+   "status": "job errors"
+  },
+  {
+   "upid": "UPID:nova:001A38A5:019C9000:6ADAAA88:vzdump::root@pam:",
+   "node": "nova",
+   "pid": 1718437,
+   "pstart": 27037696,
+   "starttime": 1792715400,
+   "endtime": 1792715864,
+   "type": "vzdump",
+   "id": "",
+   "user": "root@pam",
+   "status": "OK"
+  },
+  {
+   "upid": "UPID:nova:001A3A98:01978000:6AD95908:vzdump::root@pam:",
+   "node": "nova",
+   "pid": 1718936,
+   "pstart": 26705920,
+   "starttime": 1792629000,
+   "endtime": 1792629390,
+   "type": "vzdump",
+   "id": "",
+   "user": "root@pam",
+   "status": "OK"
+  }
+ ]
+}

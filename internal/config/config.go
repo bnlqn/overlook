@@ -18,6 +18,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/github"
 	"github.com/bnlqn/overlook/internal/adapters/immich"
 	"github.com/bnlqn/overlook/internal/adapters/nut"
+	"github.com/bnlqn/overlook/internal/adapters/proxmox"
 	"github.com/bnlqn/overlook/internal/adapters/radarr"
 	"github.com/bnlqn/overlook/internal/adapters/sonarr"
 	"github.com/bnlqn/overlook/internal/fetch"
@@ -36,6 +37,7 @@ type Sources struct {
 	Gatus   []gatus.Config   `yaml:"gatus"`
 	GitHub  []github.Config  `yaml:"github"`
 	Immich  []immich.Config  `yaml:"immich"`
+	Proxmox []proxmox.Config `yaml:"proxmox"`
 	Radarr  []radarr.Config  `yaml:"radarr"`
 	Sonarr  []sonarr.Config  `yaml:"sonarr"`
 	NUT     []nut.Config     `yaml:"nut"`
@@ -53,6 +55,9 @@ func (c Config) Readers() []snapshot.Source {
 	}
 	for _, im := range c.Sources.Immich {
 		all = append(all, snapshot.Source{Name: im.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return immich.Read(ctx, im) }})
+	}
+	for _, p := range c.Sources.Proxmox {
+		all = append(all, snapshot.Source{Name: p.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return proxmox.Read(ctx, p) }})
 	}
 	for _, r := range c.Sources.Radarr {
 		all = append(all, snapshot.Source{Name: r.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return radarr.Read(ctx, r) }})
@@ -166,6 +171,16 @@ func (c *Config) check() error {
 			return fmt.Errorf("sources.immich[%d]: another source is named %s: give each a name", i, im.Name)
 		}
 		names[im.Name] = true
+	}
+	for i := range c.Sources.Proxmox {
+		p := &c.Sources.Proxmox[i]
+		if err := p.Check(); err != nil {
+			return fmt.Errorf("sources.proxmox[%d]: %w", i, err)
+		}
+		if names[p.Name] {
+			return fmt.Errorf("sources.proxmox[%d]: another source is named %s: give each a name", i, p.Name)
+		}
+		names[p.Name] = true
 	}
 	for i := range c.Sources.Radarr {
 		r := &c.Sources.Radarr[i]

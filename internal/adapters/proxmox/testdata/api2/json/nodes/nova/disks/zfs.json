@@ -1,0 +1,22 @@
+{
+ "data": [
+  {
+   "name": "rpool",
+   "size": 64424509440,
+   "alloc": 5234491392,
+   "free": 59190018048,
+   "frag": 14,
+   "dedup": 1,
+   "health": "ONLINE"
+  },
+  {
+   "name": "tank",
+   "size": 896252166144,
+   "alloc": 181193031680,
+   "free": 715059134464,
+   "frag": 8,
+   "dedup": 1,
+   "health": "DEGRADED"
+  }
+ ]
+}
