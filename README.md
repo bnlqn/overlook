@@ -26,11 +26,13 @@ project uses are in [CONTEXT.md](CONTEXT.md) and its decisions in
 4. [x] `v0.1.0-rc.1`, with its image public.
 5. [x] The author's homelab runs the release candidate in place of its own
        page.
-6. [ ] A week of running it.
-7. [x] Two sources of one kind told apart: each part names its source
+6. [x] Two sources of one kind told apart: each part names its source
        where another of the same adapter is read, and figures that add up,
        such as two hosts' guests, are one tile split by source.
-8. [ ] The repository goes public and `v0.1.0` is tagged. The demo goes
+7. [ ] The chores from a to-do list (ADR 0010): the iCalendar adapter in
+       place of the config's `chores:`, released as `v0.1.0-rc.3`.
+8. [ ] A week of running rc.3.
+9. [ ] The repository goes public and `v0.1.0` is tagged. The demo goes
        live then: Pages set to build from GitHub Actions, and the Demo
        workflow run once by hand, since going public pushes nothing to
        `main`.
