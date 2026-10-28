@@ -75,9 +75,13 @@ export const badge = (s, size = "md") =>
     s.icon ? `<img src="${esc(iconSrc(s.icon))}" alt="" decoding="async">` : svg("apps")
   }</span>`;
 
-/** A thin bar for how full something is, in the tone it calls for. */
-export function meter(used, total, tone = used / total > 0.9 ? "red" : used / total > 0.8 ? "orange" : "blue") {
-  return `<span class="meter tone-${tone}"><span style="width:${Math.min(100, (100 * used) / total).toFixed(1)}%"></span></span>`;
+/**
+ * A thin bar for how full something is, in its tone, or with none blue,
+ * turning orange past 80% and red past 90%, as a disk's does.
+ */
+export function meter(used, total, tone) {
+  const tn = tone || (used / total > 0.9 ? "red" : used / total > 0.8 ? "orange" : "blue");
+  return `<span class="meter tone-${tn}"><span style="width:${Math.min(100, (100 * used) / total).toFixed(1)}%"></span></span>`;
 }
 
 /**
@@ -138,11 +142,20 @@ export function fact(title, value, detail = "", bar = "") {
   return `<div class="row"><span class="copy"><span class="title">${title}</span>${detail ? `<span class="detail">${detail}</span>` : ""}</span><span class="value">${value}</span></div>`;
 }
 
+/** A figure's meter: its label, its bar, and how full it is. */
+export const figureMeter = (m) =>
+  `<span class="figure-meter"><span>${m.label ? say(m.label) : ""}</span>${meter(m.used, m.total, m.tone)}<span>${t("percent", { n: Math.round((100 * m.used) / m.total) })}</span></span>`;
+
 /** A section of the snapshot: its title, then its rows. */
 export function section(s) {
   const rows = s.rows.map((r) => {
     const value = r.value ? (r.tone ? `<span class="state tone-${r.tone}">${say(r.value)}</span>` : say(r.value)) : "";
-    return fact(say(r.title), value, r.detail ? say(r.detail) : "", r.meter ? meter(r.meter.used, r.meter.total) : "");
+    return fact(
+      say(r.title),
+      value,
+      r.detail ? say(r.detail) : "",
+      r.meter ? meter(r.meter.used, r.meter.total, r.meter.tone) : "",
+    );
   });
   return `<section><h2 class="section-title">${say(s.title)}</h2><div class="list card">${rows.join("")}</div></section>`;
 }

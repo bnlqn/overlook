@@ -56,6 +56,7 @@ func TestLoadRefuses(t *testing.T) {
 		"sources: { gatus: [ { url: '${OVERLOOK_NO_SUCH_VAR}' } ] }":             "OVERLOOK_NO_SUCH_VAR is not set",
 		"sources: { gatus: [ { url: 'http://a' }, { url: 'http://b' } ] }":       "another source is named Gatus",
 		"sources: { gatus: [ { url: 'http://gatus', areas: { DNS: attic } } ] }": "sources.gatus[0]: areas",
+		"sources: { nut: [ { host: nut.example.com } ] }":                        "sources.nut[0]: ups is missing",
 		"apps: [ { name: Photos } ]":                                             "apps[0]: url",
 		"tools: [ { url: 'https://x.example.com' } ]":                            "tools[0]: name is missing",
 		"apps: [ { name: P, url: 'javascript:alert(1)' } ]":                      "http:// or https://",
@@ -72,6 +73,7 @@ func TestLoadRefuses(t *testing.T) {
 
 func TestExample(t *testing.T) {
 	t.Setenv("GATUS_URL", "http://gatus:8080")
+	t.Setenv("NUT_HOST", "nut.example.com")
 	if _, err := Load("../../overlook.example.yaml"); err != nil {
 		t.Fatal(err)
 	}

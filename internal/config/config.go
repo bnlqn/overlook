@@ -14,6 +14,7 @@ import (
 	"go.yaml.in/yaml/v3"
 
 	"github.com/bnlqn/overlook/internal/adapters/gatus"
+	"github.com/bnlqn/overlook/internal/adapters/nut"
 	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
@@ -28,6 +29,7 @@ type Config struct {
 // Sources are the sources to read, by adapter: each adapter's own config.
 type Sources struct {
 	Gatus []gatus.Config `yaml:"gatus"`
+	NUT   []nut.Config   `yaml:"nut"`
 }
 
 // Readers are the sources, each with its adapter's read.
@@ -35,6 +37,9 @@ func (c Config) Readers() []snapshot.Source {
 	var all []snapshot.Source
 	for _, g := range c.Sources.Gatus {
 		all = append(all, snapshot.Source{Name: g.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return gatus.Read(ctx, g) }})
+	}
+	for _, n := range c.Sources.NUT {
+		all = append(all, snapshot.Source{Name: n.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return nut.Read(ctx, n) }})
 	}
 	return all
 }
@@ -116,6 +121,16 @@ func (c *Config) check() error {
 			return fmt.Errorf("sources.gatus[%d]: another source is named %s: give each a name", i, g.Name)
 		}
 		names[g.Name] = true
+	}
+	for i := range c.Sources.NUT {
+		n := &c.Sources.NUT[i]
+		if err := n.Check(); err != nil {
+			return fmt.Errorf("sources.nut[%d]: %w", i, err)
+		}
+		if names[n.Name] {
+			return fmt.Errorf("sources.nut[%d]: another source is named %s: give each a name", i, n.Name)
+		}
+		names[n.Name] = true
 	}
 	for _, list := range []struct {
 		name  string
