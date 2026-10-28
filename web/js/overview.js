@@ -81,7 +81,7 @@ function renderStatus(snap, checks) {
 
 function renderActions(snap) {
   const u = snap.updates;
-  const target = u.length === 1 ? `href="${esc(u[0].url)}" target="_blank" rel="noopener"` : 'href="#todo-block"';
+  const target = u.length === 1 ? `href="${esc(u[0].url)}" target="_blank" rel="noopener"` : 'href="#chores-block"';
   const merge = u.length
     ? `<a class="action strong" ${target}><span class="tone-green">${svg("pr")}</span>${t("actions.merge", { n: u.length })}</a>`
     : "";
@@ -200,9 +200,9 @@ function renderAreas(checks, areas) {
     .join("");
 }
 
-// ── What happened this week, newest first ────────────────────────────────
+// ── This week's events, newest first ─────────────────────────────────────
 
-function renderActivity(checks, events, updates, silence) {
+function renderEvents(checks, events, updates, silence) {
   const weekAgo = Date.now() - 7 * DAY;
   const items = [];
   for (const c of checks) {
@@ -211,12 +211,12 @@ function renderActivity(checks, events, updates, silence) {
         items.push({
           at: o.from,
           mark: stateIcon("down"),
-          text: t("activity.down", { name: c.name }),
+          text: t("events.down", { name: c.name }),
           meta: where(c.area),
         });
       }
       if (o.to && o.to >= weekAgo) {
-        const text = t("activity.back", { name: c.name, ms: o.to - o.from });
+        const text = t("events.back", { name: c.name, ms: o.to - o.from });
         items.push({ at: o.to, mark: stateIcon("up"), text, meta: where(c.area) });
       }
     }
@@ -233,14 +233,14 @@ function renderActivity(checks, events, updates, silence) {
     items.push({
       at: new Date(u.at),
       mark,
-      text: t("activity.update", { name: u.name }),
-      meta: t("activity.update_meta"),
+      text: t("events.update", { name: u.name }),
+      meta: t("events.update_meta"),
     });
   }
   items.sort((a, b) => b.at - a.at);
   // With nothing to show and a source silent, the week may not have been quiet.
-  const empty = silence.length ? t("source.no_answer", { name: list(silence) }) : t("activity.quiet");
-  $("activity").innerHTML =
+  const empty = silence.length ? t("source.no_answer", { name: list(silence) }) : t("events.quiet");
+  $("events").innerHTML =
     items
       .slice(0, 8)
       .map(
@@ -342,17 +342,17 @@ function renderApps(apps, checks) {
     .join("");
 }
 
-// ── To do: the updates waiting for their merge ───────────────────────────
+// ── The chores: the updates waiting for their merge ──────────────────────
 
-function renderTodo(updates) {
-  $("todo-block").hidden = !updates.length;
+function renderChores(updates) {
+  $("chores-block").hidden = !updates.length;
   const mark = `<span class="tone-green">${svg("pr")}</span>`;
   const rows = updates.map(
-    (u) => `<a href="${esc(u.url)}" target="_blank" rel="noopener" class="todo-row">${mark}
-      <span class="copy"><span class="title">${esc(u.name)}</span><span class="detail">${t("todo.update")}</span></span><span class="meta">${ago(new Date(u.at))}</span></a>`,
+    (u) => `<a href="${esc(u.url)}" target="_blank" rel="noopener" class="chore">${mark}
+      <span class="copy"><span class="title">${esc(u.name)}</span><span class="detail">${t("chores.update")}</span></span><span class="meta">${ago(new Date(u.at))}</span></a>`,
   );
-  $("todo").innerHTML = `<div class="group">
-    <div class="group-head">${mark}<span>${t("todo.merge")}</span><span class="n">${number(updates.length)}</span></div>${rows.join("")}</div>`;
+  $("chores").innerHTML = `<div class="group">
+    <div class="group-head">${mark}<span>${t("chores.merge")}</span><span class="n">${number(updates.length)}</span></div>${rows.join("")}</div>`;
 }
 
 $("areas").addEventListener(
@@ -374,9 +374,9 @@ start((snap, checks) => {
     checks,
     areas.filter((a) => checks.some((c) => c.area === a)),
   );
-  renderActivity(checks, snap.events, snap.updates, silent(snap));
+  renderEvents(checks, snap.events, snap.updates, silent(snap));
   renderWeek(checks, snap.events, areas);
   renderApps(snap.apps, checks);
-  renderTodo(snap.updates);
+  renderChores(snap.updates);
   countUp(document);
 });

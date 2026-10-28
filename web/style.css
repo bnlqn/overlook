@@ -1155,7 +1155,7 @@ main {
   }
 }
 
-/* What happened, newest first. */
+/* This week's events, newest first. */
 .feed {
   margin: 0;
   padding: 8px 16px;
@@ -1396,8 +1396,8 @@ main {
   opacity: 0.8;
 }
 
-/* What's left to do, in groups. */
-.todo {
+/* The chores, in groups. */
+.chores {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -1423,11 +1423,11 @@ main {
   font-weight: 400;
 }
 .group-head .ic,
-.todo-row > span:first-child .ic {
+.chore > span:first-child .ic {
   width: 14px;
   height: 14px;
 }
-.todo-row {
+.chore {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
@@ -1436,21 +1436,21 @@ main {
   border-top: 1px solid var(--m-separator);
   transition: background-color 0.12s;
 }
-a.todo-row:hover {
+a.chore:hover {
   background: var(--m-fill-hover);
 }
-.todo-row .title {
+.chore .title {
   font: var(--m-type-headline);
   color: var(--m-label);
 }
-.todo-row .detail {
+.chore .detail {
   font: var(--m-type-footnote);
   color: var(--m-label-3);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.todo-row .meta {
+.chore .meta {
   font: var(--m-type-footnote);
   color: var(--m-label-2);
   white-space: nowrap;
