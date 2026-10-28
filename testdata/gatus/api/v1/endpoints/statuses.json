@@ -1,0 +1,6214 @@
+[
+ {
+  "name": "Hypervisor",
+  "group": "Servers",
+  "key": "servers_hypervisor",
+  "results": [
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4518132,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:30:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4241358,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:31:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 5041495,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:32:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4115898,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:33:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4857411,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:34:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4585102,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:35:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4092798,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:36:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4811897,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:37:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4059993,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:38:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4693833,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:39:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4111768,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:40:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4145140,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:41:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4679230,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:42:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 5322963,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:43:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4198083,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:44:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4357182,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:45:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 5003893,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:46:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 5516334,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:47:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4923364,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:48:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4634688,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:49:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 5562008,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:50:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4074532,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:51:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 5373549,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:52:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4463374,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:53:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4230808,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:54:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4188467,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:55:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4493570,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:56:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 5305802,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:57:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4289162,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:58:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pve.example.com",
+    "duration": 4930560,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:59:00.000Z"
+   }
+  ],
+  "events": []
+ },
+ {
+  "name": "Backup server",
+  "group": "Servers",
+  "key": "servers_backup-server",
+  "results": [
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 8101146,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:30:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 6752994,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:31:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 7668708,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:32:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 7426487,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:33:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 7391748,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:34:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 7094892,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:35:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 8015922,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:36:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 8267234,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:37:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 7137836,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:38:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 7593965,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:39:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 6145606,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:40:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 7683580,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:41:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 7553109,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:42:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 8383430,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:43:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 7972619,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:44:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 6683029,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:45:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 6925899,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:46:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 7604766,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:47:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 6054151,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:48:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 7108068,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:49:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 6403316,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:50:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 6281029,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:51:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 6141490,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:52:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 7843759,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:53:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 6310416,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:54:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 6594275,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:55:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 6938279,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:56:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 8091412,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:57:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 6193395,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:58:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "pbs.example.com",
+    "duration": 7078049,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:59:00.000Z"
+   }
+  ],
+  "events": []
+ },
+ {
+  "name": "Internet",
+  "group": "Network",
+  "key": "network_internet",
+  "results": [
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 13883418,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:30:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 13915098,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:31:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 12496978,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:32:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 15044589,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:33:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 12298789,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:34:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 12323268,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:35:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 13002063,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:36:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 12779055,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:37:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 13632257,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:38:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 12252362,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:39:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 12001119,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:40:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 12726071,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:41:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 12487028,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:42:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 13745327,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:43:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 12122404,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:44:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 16196795,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:45:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 14947531,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:46:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 12713042,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:47:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 13210837,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:48:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 13667469,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:49:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 13747984,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:50:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 12589642,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:51:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 16074897,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:52:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 16766893,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:53:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 14236749,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:54:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 14322406,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:55:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 12412246,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:56:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 12490500,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:57:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 13644652,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:58:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "one.one.one.one",
+    "duration": 13270833,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:59:00.000Z"
+   }
+  ],
+  "events": []
+ },
+ {
+  "name": "Router",
+  "group": "Network",
+  "key": "network_router",
+  "results": [
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2022349,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:30:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2223534,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:31:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2207339,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:32:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2554017,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:33:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2765212,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:34:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2357782,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:35:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2749616,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:36:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2790430,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:37:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2764000,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:38:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2291708,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:39:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2176369,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:40:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2181476,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:41:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2157364,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:42:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2163498,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:43:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2499253,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:44:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2720246,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:45:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2672348,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:46:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2383578,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:47:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2522382,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:48:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2639714,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:49:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2067822,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:50:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2528468,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:51:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2727821,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:52:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2625842,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:53:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2600112,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:54:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2382426,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:55:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2142817,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:56:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2631308,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:57:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2266013,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:58:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "router.example.com",
+    "duration": 2640658,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:59:00.000Z"
+   }
+  ],
+  "events": []
+ },
+ {
+  "name": "DNS primary",
+  "group": "Network",
+  "key": "network_dns-primary",
+  "results": [
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1103745,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:30:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1167605,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:31:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1052429,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:32:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1364006,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:33:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1141513,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:34:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1183264,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:35:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1233339,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:36:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1361718,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:37:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1168251,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:38:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1367088,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:39:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1200659,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:40:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1212729,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:41:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1209402,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:42:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1007481,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:43:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1176049,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:44:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1073243,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:45:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1001572,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:46:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1319668,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:47:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1068938,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:48:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1189397,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:49:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1290077,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:50:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1222590,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:51:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1130392,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:52:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1207339,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:53:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1222176,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:54:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1313708,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:55:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1042443,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:56:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1224118,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:57:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1099397,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:58:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns1.example.com",
+    "duration": 1110766,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:59:00.000Z"
+   }
+  ],
+  "events": []
+ },
+ {
+  "name": "DNS secondary",
+  "group": "Network",
+  "key": "network_dns-secondary",
+  "results": [
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1061778,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:30:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1286447,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:31:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1264102,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:32:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1057191,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:33:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1353133,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:34:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1387017,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:35:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1087835,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:36:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1381001,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:37:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1159302,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:38:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1194904,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:39:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1395948,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:40:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1332977,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:41:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1064586,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:42:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1172608,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:43:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1206242,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:44:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1135646,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:45:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1078297,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:46:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1127410,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:47:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1288860,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:48:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1007793,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:49:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1221620,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:50:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1176183,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:51:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1007232,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:52:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1132599,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:53:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1249570,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:54:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dns2.example.com",
+    "duration": 1204904,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:55:00.000Z"
+   },
+   {
+    "status": 0,
+    "hostname": "dns2.example.com",
+    "duration": 0,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": false
+     }
+    ],
+    "success": false,
+    "timestamp": "2026-10-28T09:56:00.000Z",
+    "errors": [
+     "read udp: i/o timeout"
+    ]
+   },
+   {
+    "status": 0,
+    "hostname": "dns2.example.com",
+    "duration": 0,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": false
+     }
+    ],
+    "success": false,
+    "timestamp": "2026-10-28T09:57:00.000Z",
+    "errors": [
+     "read udp: i/o timeout"
+    ]
+   },
+   {
+    "status": 0,
+    "hostname": "dns2.example.com",
+    "duration": 0,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": false
+     }
+    ],
+    "success": false,
+    "timestamp": "2026-10-28T09:58:00.000Z",
+    "errors": [
+     "read udp: i/o timeout"
+    ]
+   },
+   {
+    "status": 0,
+    "hostname": "dns2.example.com",
+    "duration": 0,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": false
+     }
+    ],
+    "success": false,
+    "timestamp": "2026-10-28T09:59:00.000Z",
+    "errors": [
+     "read udp: i/o timeout"
+    ]
+   }
+  ],
+  "events": []
+ },
+ {
+  "name": "NAS",
+  "group": "Storage",
+  "key": "storage_nas",
+  "results": [
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3321431,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:30:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3155069,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:31:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3632298,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:32:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3286123,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:33:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3131341,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:34:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3193738,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:35:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3060455,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:36:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3242121,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:37:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3374390,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:38:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3366006,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:39:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3911397,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:40:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3347953,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:41:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3600106,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:42:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3213479,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:43:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3416401,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:44:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3021795,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:45:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3300538,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:46:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3018415,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:47:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3879696,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:48:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3661258,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:49:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3227347,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:50:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3569712,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:51:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 4121571,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:52:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3127537,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:53:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3982704,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:54:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3518613,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:55:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3594001,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:56:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 4001536,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:57:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3471703,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:58:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "nas.example.com",
+    "duration": 3608023,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:59:00.000Z"
+   }
+  ],
+  "events": []
+ },
+ {
+  "name": "Offsite copy",
+  "group": "Storage",
+  "key": "storage_offsite-copy",
+  "results": [
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 236002025,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T05:09:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 239953049,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T05:19:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 210089788,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T05:29:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 242056634,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T05:39:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 249870064,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T05:49:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 252232176,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T05:59:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 226882324,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T06:09:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 252397793,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T06:19:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 210415844,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T06:29:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 232190169,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T06:39:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 217539285,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T06:49:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 243558938,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T06:59:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 213500024,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T07:09:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 211889508,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T07:19:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 235556543,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T07:29:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 229556003,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T07:39:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 259188995,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T07:49:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 254451922,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T07:59:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 273045412,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T08:09:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 265233668,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T08:19:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 270143448,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T08:29:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 283843618,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T08:39:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 242719383,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T08:49:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 237395319,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T08:59:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 292717243,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:09:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 222554904,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:19:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 270829084,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:29:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 264030433,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:39:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 213678197,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:49:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "offsite.example.com",
+    "duration": 280164321,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:59:00.000Z"
+   }
+  ],
+  "events": []
+ },
+ {
+  "name": "Photos",
+  "group": "Apps",
+  "key": "apps_photos",
+  "results": [
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 48021352,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:30:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 39003965,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:31:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 49199182,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:32:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 41833341,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:33:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 39131639,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:34:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 42036484,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:35:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 49085892,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:36:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 41119306,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:37:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 49245394,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:38:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 52831173,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:39:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 45508021,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:40:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 43814919,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:41:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 45280954,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:42:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 48392187,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:43:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 49657945,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:44:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 47378005,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:45:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 47769997,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:46:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 39177571,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:47:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 40240861,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:48:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 41859892,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:49:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 49296902,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:50:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 42627140,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:51:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 46629977,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:52:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 38189532,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:53:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 38922047,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:54:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 42085346,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:55:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 48214423,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:56:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 48521214,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:57:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 48270756,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:58:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "photos.example.com",
+    "duration": 42421018,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:59:00.000Z"
+   }
+  ],
+  "events": []
+ },
+ {
+  "name": "Calendar",
+  "group": "Apps",
+  "key": "apps_calendar",
+  "results": [
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 22031596,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:30:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 26326925,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:31:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 25966690,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:32:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 24657169,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:33:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 23238223,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:34:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 25026849,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:35:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 24781486,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:36:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 29394033,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:37:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 22015324,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:38:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 28606459,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:39:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 29384174,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:40:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 23056363,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:41:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 30152309,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:42:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 28274607,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:43:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 29933785,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:44:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 24550530,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:45:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 25275553,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:46:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 25457514,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:47:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 30789374,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:48:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 27184754,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:49:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 25174242,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:50:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 25766864,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:51:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 24421366,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:52:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 22424759,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:53:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 22895046,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:54:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 29345148,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:55:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 24513484,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:56:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 30233191,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:57:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 24194057,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:58:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "dav.example.com",
+    "duration": 24338406,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:59:00.000Z"
+   }
+  ],
+  "events": []
+ },
+ {
+  "name": "Films",
+  "group": "Media",
+  "key": "media_films",
+  "results": [
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 58681314,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:30:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 58556453,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:31:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 59573195,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:32:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 74931118,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:33:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 65935667,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:34:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 59840555,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:35:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 74937706,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:36:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 76922452,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:37:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 64899129,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:38:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 58071113,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:39:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 59232956,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:40:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 56995719,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:41:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 62523015,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:42:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 57004075,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:43:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 60260784,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:44:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 60683866,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:45:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 67531590,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:46:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 74519532,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:47:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 71492467,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:48:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 64081196,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:49:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 64105438,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:50:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 66531699,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:51:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 63291047,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:52:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 62440468,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:53:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 56365309,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:54:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 61105359,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:55:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 76289075,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:56:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 57769223,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:57:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "films.example.com",
+    "duration": 66074706,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:58:00.000Z"
+   },
+   {
+    "status": 502,
+    "hostname": "films.example.com",
+    "duration": 68851791,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": false
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": false,
+    "timestamp": "2026-10-28T09:59:00.000Z"
+   }
+  ],
+  "events": []
+ },
+ {
+  "name": "Test page",
+  "group": "Lab",
+  "key": "lab_test-page",
+  "results": [
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 21292740,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:30:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 21970806,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:31:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 18284733,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:32:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 23632550,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:33:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 19674553,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:34:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 24623424,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:35:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 22647641,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:36:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 20187232,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:37:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 18921361,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:38:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 19812916,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:39:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 22581295,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:40:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 23029789,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:41:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 18807355,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:42:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 18506533,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:43:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 21775944,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:44:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 22196815,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:45:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 20794190,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:46:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 19609797,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:47:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 22327638,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:48:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 18075323,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:49:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 20170953,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:50:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 21316972,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:51:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 24904367,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:52:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 22640944,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:53:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 24363173,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:54:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 21422190,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:55:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 19690330,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:56:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 19778820,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:57:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 24916422,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:58:00.000Z"
+   },
+   {
+    "status": 200,
+    "hostname": "test.example.com",
+    "duration": 23073506,
+    "conditionResults": [
+     {
+      "condition": "[STATUS] == 200",
+      "success": true
+     },
+     {
+      "condition": "[RESPONSE_TIME] < 1000",
+      "success": true
+     }
+    ],
+    "success": true,
+    "timestamp": "2026-10-28T09:59:00.000Z"
+   }
+  ],
+  "events": []
+ }
+]

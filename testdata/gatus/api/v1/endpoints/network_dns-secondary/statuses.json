@@ -1,0 +1,33 @@
+{
+ "name": "DNS secondary",
+ "group": "Network",
+ "key": "network_dns-secondary",
+ "results": [
+  {
+   "status": 0,
+   "hostname": "dns2.example.com",
+   "duration": 0,
+   "conditionResults": [
+    {
+     "condition": "[STATUS] == 200",
+     "success": false
+    }
+   ],
+   "success": false,
+   "timestamp": "2026-10-28T09:59:00.000Z",
+   "errors": [
+    "read udp: i/o timeout"
+   ]
+  }
+ ],
+ "events": [
+  {
+   "type": "START",
+   "timestamp": "2026-10-20T08:00:00.000Z"
+  },
+  {
+   "type": "UNHEALTHY",
+   "timestamp": "2026-10-28T09:56:00.000Z"
+  }
+ ]
+}

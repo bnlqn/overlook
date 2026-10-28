@@ -1,0 +1,44 @@
+<!doctype html>
+<!--
+  An area's page, at /servers, /network, /storage and /apps: the area's
+  state and checks, then each section its sources add, from the snapshot.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title></title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="custom.css">
+</head>
+<body>
+<main>
+  <header class="head">
+    <h1 id="title"></h1>
+    <p id="summary" data-t="loading"></p>
+  </header>
+  <div class="card" id="checks" hidden><div class="checks"></div></div>
+  <div class="columns"><div id="left"></div><div id="right"></div></div>
+</main>
+<script src="lib.js"></script>
+<script>
+start((snap, checks) => {
+  const area = HERE.area, a = areaState(area, checks), silence = silent(snap);
+  document.title = document.getElementById("title").textContent = t(`area.${area}`);
+  document.getElementById("checks").hidden = !a.checks.length;
+  document.querySelector("#checks .checks").innerHTML = checkRows(a.checks);
+  document.getElementById("summary").innerHTML = [
+    !a.checks.length ? t(shown(snap).includes(area) ? "area.no_checks" : "area.empty")
+      : `<span class="state tone-${TONE[a.state]}">${stateIcon(a.state)}${word(a.state)}</span>`,
+    a.problems.length ? esc(list(a.problems.map(c => c.name))) : a.checks.length ? t("area.checks_up", { n: a.checks.length }) : "",
+    silence.length ? t("source.no_answer", { name: list(silence) }) : "",
+  ].filter(Boolean).join(" · ");
+  // The sections, in two columns, each in the order its sources gave them.
+  const mine = snap.sections.filter(s => s.area === area);
+  document.getElementById("left").innerHTML = mine.filter((_, i) => i % 2 === 0).map(section).join("");
+  document.getElementById("right").innerHTML = mine.filter((_, i) => i % 2 === 1).map(section).join("");
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+# Overlook's config. Every host here is invented: put your own.
+# A key Overlook doesn't know stops it, and so does a ${VAR} that isn't set
+# in its environment: keep keys and passwords there, not here.
+
+sources:
+  # The check engine: its checks, and which of them are problems.
+  gatus:
+    - url: ${GATUS_URL}                # where Overlook reads Gatus, such as http://gatus:8080
+      link: https://status.example.com # where the page sends you, if not the same
+      # With a login: url: https://overlook:${GATUS_PASSWORD}@status.example.com
+      threshold: 3                     # failures in a row that make a problem: as your alerts
+      # A group named like an area (Servers, Network, Storage, Apps) goes
+      # there. Say where each other group goes; one you don't name goes in
+      # no area, though its problems still show.
+      areas:
+        DNS: network
+        Backups: storage
+        Media: apps
+
+# The apps the homelab hosts, and the tools that run it. An icon is a file in
+# icons/ beside this config (or one Overlook ships), or a URL. A check is a
+# Gatus check's name, which lights the app's dot.
+apps:
+  - name: Photos
+    url: https://photos.example.com
+    icon: immich.svg
+    check: Photos
+    description: The household's photos
+    color: "#ED79B5"
+  - name: Calendar
+    url: https://dav.example.com
+    icon: radicale.svg
+    check: Calendar
+    description: Calendars and contacts
+    color: "#E5484D"
+  - name: Films
+    url: https://films.example.com
+    icon: radarr.svg
+    check: Films
+    description: The film library
+    color: "#FFC230"
+
+tools:
+  - name: Gatus
+    url: https://status.example.com
+    icon: gatus.svg
+    description: Every check and its history
+    color: "#3CAD4B"
+  - name: Proxmox
+    url: https://pve.example.com:8006
+    icon: proxmox.svg
+    check: Hypervisor
+    description: The host and its guests
+    color: "#E57000"
+  - name: Home Assistant
+    url: https://ha.example.com
+    icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/home-assistant.svg
+    description: The house
+    color: "#18BCF2"

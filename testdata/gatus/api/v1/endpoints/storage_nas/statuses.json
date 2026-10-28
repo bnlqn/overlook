@@ -1,0 +1,38 @@
+{
+ "name": "NAS",
+ "group": "Storage",
+ "key": "storage_nas",
+ "results": [
+  {
+   "status": 200,
+   "hostname": "nas.example.com",
+   "duration": 4158800,
+   "conditionResults": [
+    {
+     "condition": "[STATUS] == 200",
+     "success": true
+    },
+    {
+     "condition": "[RESPONSE_TIME] < 1000",
+     "success": true
+    }
+   ],
+   "success": true,
+   "timestamp": "2026-10-28T09:59:00.000Z"
+  }
+ ],
+ "events": [
+  {
+   "type": "START",
+   "timestamp": "2026-10-20T08:00:00.000Z"
+  },
+  {
+   "type": "UNHEALTHY",
+   "timestamp": "2026-10-27T14:00:00.000Z"
+  },
+  {
+   "type": "HEALTHY",
+   "timestamp": "2026-10-27T14:20:00.000Z"
+  }
+ ]
+}

@@ -1,0 +1,299 @@
+<!doctype html>
+<!--
+  The overview (CONTEXT.md): how everything is, what is wrong, today's
+  figures, each area and its checks, the week, what happened, the apps, and
+  the updates waiting. Drawn from the snapshot (ADR 0002), words from i18n/.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title data-t="title"></title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="custom.css">
+</head>
+<body>
+<main class="overview">
+  <section class="status tone-gray" id="status">
+    <div class="status-row">
+      <span class="status-icon" id="status-icon"></span>
+      <div class="status-copy"><h1 id="headline" data-t="loading"></h1><p id="summary" data-t="status.reading"></p></div>
+    </div>
+    <div class="actions" id="actions"></div>
+  </section>
+
+  <section class="block" id="problems" hidden>
+    <h2 class="block-title"><span data-t="problems.title"></span><span class="n" id="problem-n"></span></h2>
+    <div class="inbox" id="problem-list"></div>
+  </section>
+
+  <section class="block" id="today-block" hidden>
+    <h2 class="block-title" data-t="today.title"></h2>
+    <div class="stats" id="today"></div>
+  </section>
+
+  <section class="block" id="areas-block" hidden>
+    <h2 class="block-title"><span data-t="areas.title"></span><span class="hint" data-t="areas.hint"></span></h2>
+    <div class="table">
+      <div class="trow thead"><span data-t="areas.name"></span><span data-t="areas.health"></span><span data-t="areas.checks"></span><span data-t="areas.response"></span><span data-t="areas.results"></span></div>
+      <div id="areas"></div>
+    </div>
+  </section>
+
+  <div class="split">
+    <section class="block" id="week-block" hidden>
+      <h2 class="block-title"><span data-t="week.title"></span><span class="hint" data-t="week.hint"></span></h2>
+      <div class="card timeline" id="week"></div>
+    </section>
+    <section class="block">
+      <h2 class="block-title" data-t="activity.title"></h2>
+      <ol class="card feed" id="activity"></ol>
+    </section>
+  </div>
+
+  <div class="split">
+    <section class="block" id="apps-block" hidden>
+      <h2 class="block-title" data-t="side.apps"></h2>
+      <div class="launch" id="apps"></div>
+    </section>
+    <section class="block" id="todo-block" hidden>
+      <h2 class="block-title" data-t="todo.title"></h2>
+      <div class="todo" id="todo"></div>
+    </section>
+  </div>
+</main>
+<script src="lib.js"></script>
+<script>
+// Each area's colour, for its tile, its figures and its row in the week.
+const TINT = { servers: "#7170FF", network: "#4EA7FC", storage: "#F2994A", apps: "#F06595" };
+const DAY = 864e5;
+const page = area => PAGES.find(p => p.area === area);
+const where = area => (area ? t(`area.${area}`) : "");
+
+// Figures count up to their value, from what they showed before.
+const before = new Map();
+const num = (key, n) => `<span class="count-up" data-key="${esc(key)}" data-n="${n}">${fmt.format(before.get(key) ?? 0)}</span>`;
+function countUp(root) {
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  for (const el of root.querySelectorAll("[data-n]")) {
+    const to = +el.dataset.n, from = before.get(el.dataset.key) ?? 0;
+    before.set(el.dataset.key, to);
+    if (still || from === to) { el.textContent = fmt.format(to); continue; }
+    const t0 = performance.now();
+    const step = now => {
+      const k = Math.min(1, Math.max(0, now - t0) / 900);
+      el.textContent = fmt.format(Math.round(from + (to - from) * (1 - (1 - k) ** 3)));
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+}
+
+// A line over its area, fading down: values left to right, from zero. Each
+// point's column brings its tooltip, from `tips`.
+let uid = 0;
+function sparkline(values, color, tips = []) {
+  const v = values.map(x => (x === null || !isFinite(x) ? 0 : x)), n = v.length;
+  if (n < 2) return "";
+  const max = Math.max(...v) || 1, id = `sp${++uid}`, step = 100 / (n - 1);
+  const pts = v.map((y, i) => `${(step * i).toFixed(1)} ${(27 - 24 * y / max).toFixed(1)}`);
+  const hits = tips.map((tp, i) => {
+    const x0 = Math.max(0, (i - 0.5) * step), x1 = Math.min(100, (i + 0.5) * step);
+    return `<rect class="hit" x="${x0.toFixed(2)}" y="0" width="${(x1 - x0).toFixed(2)}" height="28" data-tip="${tp}"/>`;
+  }).join("");
+  return `<svg class="spark" viewBox="0 0 100 28" preserveAspectRatio="none" aria-hidden="true">
+    <defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:${color};stop-opacity:.32"/><stop offset="1" style="stop-color:${color};stop-opacity:0"/></linearGradient></defs>
+    <path d="M${pts.join(" L")} L100 28 L0 28Z" fill="url(#${id})"/>
+    <path class="line" d="M${pts.join(" L")}" pathLength="1" style="stroke:${color}"/>${hits}</svg>`;
+}
+// The start of each of the last n hours, the last one this hour.
+const hourStart = (i, n) => { const d = new Date(); d.setMinutes(0, 0, 0); return new Date(+d - (n - 1 - i) * 3600e3); };
+
+// ── How everything is, and the quick ways out ────────────────────────────
+
+function renderStatus(snap, checks) {
+  const problems = checks.filter(c => c.problem);
+  const areas = shown(snap).filter(a => checks.some(c => c.area === a)).map(a => areaState(a, checks));
+  const silence = silent(snap), blind = !checks.length && silence.length;
+  const state = blind ? "down" : !problems.length ? "up" : areas.some(a => a.state === "down") ? "down" : "degraded";
+  const quiet = quietSince(checks);
+  document.getElementById("status").className = `status tone-${TONE[state]}`;
+  document.getElementById("status-icon").innerHTML = stateIcon(state);
+  document.getElementById("headline").innerHTML = blind ? t("source.no_answer", { name: list(silence) })
+    : problems.length ? t("status.problems", { n: problems.length }) : t("status.up");
+  const parts = problems.length
+    ? [list(areas.filter(a => a.state !== "up").map(a => t(`status.area_${a.state}`, { area: a.area })))]
+    : [quiet.since && (quiet.problemFree ? t("status.quiet_since", { at: quiet.since }) : t("status.quiet_for", { ms: Date.now() - quiet.since })),
+      `${t("status.checks", { n: checks.length })} ${t("status.areas", { n: areas.length })}`];
+  if (silence.length && !blind) parts.push(t("source.no_answer", { name: list(silence) }));
+  document.getElementById("summary").innerHTML = blind
+    ? t("source.no_answer_why", { error: snap.sources.find(s => !s.answered).error }) : parts.filter(Boolean).join(" · ");
+}
+
+function renderActions(snap) {
+  const u = snap.updates;
+  const merge = u.length ? `<a class="action strong" href="${u.length === 1 ? `${esc(u[0].url)}" target="_blank" rel="noopener` : "#todo-block"}">
+    <span class="tone-green">${svg("pr")}</span>${t("actions.merge", { n: u.length })}</a>` : "";
+  document.getElementById("actions").innerHTML = merge +
+    snap.tools.slice(0, 5).map(s => `<a class="action" href="${esc(s.url)}" target="_blank" rel="noopener">${badge(s, "sm")}${esc(s.name)}</a>`).join("") +
+    `<button class="action" type="button" data-palette>${svg("search")}${t("actions.everything")}<kbd>⌘K</kbd></button>`;
+}
+
+function renderProblems(checks) {
+  const problems = checks.filter(c => c.problem);
+  document.getElementById("problems").hidden = !problems.length;
+  document.getElementById("problem-n").textContent = fmt.format(problems.length);
+  document.getElementById("problem-list").innerHTML = problems.map(c => `
+    <a class="inbox-row" href="${esc(c.url)}" target="_blank" rel="noopener">
+      ${stateIcon("down")}
+      <span class="copy"><span class="title strong">${esc(c.name)}</span>
+        <span class="detail">${[where(c.area), c.since && t("problem.since", { at: c.since, ms: Date.now() - c.since })].filter(Boolean).join(" · ")}</span></span>
+      <code class="why">${esc(c.why || "")}</code>
+      <span class="go">${t("problem.open", { source: c.source })} ${svg("out")}</span></a>`).join("");
+}
+
+// ── Today: each figure, opening its area's page ──────────────────────────
+
+function renderToday(figures) {
+  document.getElementById("today-block").hidden = !figures.length;
+  document.getElementById("today").innerHTML = figures.map((f, i) => {
+    const tint = TINT[f.area], hours = f.hours || [];
+    return `<a class="stat${f.tone ? ` tone-${f.tone}` : ""}" href="${f.area}" style="--i:${i}">
+      <span class="label">${svg(f.icon)}${say(f.label)}</span>
+      <span class="figure">${num(`${f.area}.${i}`, f.value)}${f.unit ? `<small> ${say(f.unit)}</small>` : ""}</span>
+      <span class="sub">${f.detail ? say(f.detail) : ""}</span>
+      <span class="viz">${sparkline(hours, tint, hours.map((v, k) => tip(clock(hourStart(k, hours.length)), [[tint, say(f.label), fmt.format(v)]])))}</span></a>`;
+  }).join("");
+}
+
+// ── The areas, as a table that unfolds into their checks ─────────────────
+
+const unfolded = new Set();
+function renderAreas(checks, areas) {
+  document.getElementById("areas-block").hidden = !areas.length;
+  document.getElementById("areas").innerHTML = areas.map((name, i) => {
+    const a = areaState(name, checks), p = page(name);
+    const fine = a.checks.filter(c => !c.problem).length;
+    const times = a.checks.filter(c => !c.failing && c.ms !== null).map(c => c.ms).sort((x, y) => x - y);
+    // Each moment's worst: red when any of the area's checks failed then.
+    const worst = Array.from({ length: RECENT }, (_, k) => {
+      const at = a.checks.map(c => [c, c.recent[c.recent.length - RECENT + k]]).filter(([, r]) => r);
+      if (!at.length) return null;
+      const failed = at.filter(([, r]) => !r.ok);
+      return { ok: !failed.length, at: at[0][1].at, tip: tip(clock(at[0][1].at), failed.length
+        ? failed.map(([c]) => [RED, esc(c.name), t("areas.failed")]) : [[GREEN, t("areas.all_passed", { n: at.length }), ""]], failed.length === 1 ? esc(failed[0][1].why || "") : "") };
+    });
+    const ring = `<svg class="pie" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.5"/><circle cx="7" cy="7" r="5.5" pathLength="1" style="stroke-dasharray:${(fine / a.checks.length).toFixed(3)} 1"/></svg>`;
+    const count = tip(t("areas.checks_of", { area: name }), [[GREEN, word("up"), fmt.format(fine)], ...(a.problems.length ? [[RED, t("problems.title"), fmt.format(a.problems.length)]] : [])],
+      a.problems.length ? esc(list(a.problems.map(c => c.name))) : "");
+    return `<details class="area" data-area="${name}" style="--i:${i}"${unfolded.has(name) ? " open" : ""}>
+      <summary class="trow">
+        <span class="tname">${svg("chevron", "ic twist")}<span class="badge" style="--tint:${TINT[name]}">${svg(p.icon)}</span><a href="${p.href}">${pageName(p)}</a></span>
+        <span class="health tone-${TONE[a.state]}">${stateIcon(a.state)}${word(a.state)}</span>
+        <span class="tcount" data-tip="${count}">${ring}${fmt.format(fine)} / ${fmt.format(a.checks.length)}</span>
+        <span class="tms">${times.length ? msText(times[times.length >> 1]) : ""}</span>
+        ${strip(worst)}
+      </summary>
+      <div class="tkids">${a.checks.map(c => `<a class="trow kid" href="${esc(c.url)}" target="_blank" rel="noopener">
+        <span class="tname">${stateIcon(checkState(c))}<span>${esc(c.name)}</span></span>
+        <span class="health tone-${TONE[checkState(c)]}">${c.problem ? word("down") : c.failing ? t("check.failed_n", { run: c.run, threshold: c.threshold }) : word("up")}</span>
+        <span class="tcount detail">${c.failing ? esc(c.why || "") : ""}</span>
+        <span class="tms">${c.failing ? "" : msText(c.ms)}</span>${strip(c.recent)}</a>`).join("")}</div>
+    </details>`;
+  }).join("");
+}
+document.getElementById("areas").addEventListener("toggle", e => {
+  e.target.open ? unfolded.add(e.target.dataset.area) : unfolded.delete(e.target.dataset.area);
+}, true);
+
+// ── What happened this week, newest first ────────────────────────────────
+
+// With nothing to show and a source silent, the week may not have been quiet.
+function renderActivity(checks, events, updates, silence) {
+  const weekAgo = Date.now() - 7 * DAY, items = [];
+  for (const c of checks) for (const o of c.outages) {
+    if (o.from >= weekAgo) items.push({ at: o.from, mark: stateIcon("down"), text: t("activity.down", { name: c.name }), meta: where(c.area) });
+    if (o.to && o.to >= weekAgo) items.push({ at: o.to, mark: stateIcon("up"), text: t("activity.back", { name: c.name, ms: o.to - o.from }), meta: where(c.area) });
+  }
+  for (const e of events) {
+    const at = new Date(e.at);
+    if (at >= weekAgo) items.push({ at, mark: `<span class="tone-${e.tone || "blue"}">${svg(e.icon)}</span>`, text: say(e.text), meta: where(e.area) });
+  }
+  for (const u of updates) items.push({ at: new Date(u.at), mark: `<span class="tone-green">${svg("pr")}</span>`, text: t("activity.update", { name: u.name }), meta: t("activity.update_meta") });
+  items.sort((a, b) => b.at - a.at);
+  document.getElementById("activity").innerHTML = items.slice(0, 8).map((it, i) => `<li style="--i:${i}">
+    <span class="mark">${it.mark}</span><span class="feed-text">${it.text} <span class="meta">${[it.meta, ago(it.at)].filter(Boolean).join(" · ")}</span></span></li>`).join("")
+    || `<li class="empty">${silence.length ? t("source.no_answer", { name: list(silence) }) : t("activity.quiet")}</li>`;
+}
+
+// ── This week: each area along the last 7 days, its problems in red, its
+// events as diamonds ──────────────────────────────────────────────────────
+
+function renderWeek(checks, events, areas) {
+  document.getElementById("week-block").hidden = !areas.length;
+  // Midnights by the calendar, not 24 h apart: a day the clocks change lasts 23 or 25.
+  const days = Array.from({ length: 7 }, (_, i) => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - 6 + i); return d; });
+  const start = +days[0], end = Date.now();
+  const x = ms => `${(100 * (Math.max(ms, start) - start) / (end - start)).toFixed(2)}%`;
+  const head = days.map((d, i) => `<span style="left:${x(+d)}"${i === 6 ? ' class="today"' : ""}><span class="wd">${d.toLocaleDateString(undefined, { weekday: "short" })} </span><b>${d.toLocaleDateString(undefined, { day: "numeric" })}</b></span>`).join("");
+  const rows = areas.map((name, i) => {
+    const mine = checks.filter(c => c.area === name).flatMap(c => c.outages).filter(o => !o.to || o.to >= start);
+    const happened = events.filter(e => e.area === name && new Date(e.at) >= start);
+    const down = mine.reduce((sum, o) => sum + ((o.to || end) - Math.max(+o.from, start)), 0);
+    const summary = tip(t("week.area", { area: name }), mine.length
+      ? [[RED, t("week.problems", { n: mine.length }), t("week.in_all", { ms: down })]] : [[GREEN, t("week.no_problems"), ""]]);
+    return `<div class="tl-row" style="--i:${i};--tint:${TINT[name]}">
+      <span class="tl-label">${svg(page(name).icon)}${t(`area.${name}`)}</span>
+      <span class="tl-track"><span class="tl-bar" data-tip="${summary}"></span>
+      ${mine.map(o => `<span class="tl-out${o.to ? "" : " now"}" style="left:${x(+o.from)};width:calc(${x(+(o.to || end))} - ${x(+o.from)})" data-tip="${tip(esc(o.check.name),
+        [[RED, t(o.to ? "week.was_down" : "week.down"), o.to ? span(o.to - o.from) : t("week.for", { ms: end - o.from })], ["", t("week.from"), when(o.from)], ...(o.to ? [["", t("week.back"), when(o.to)]] : [])])}"></span>`).join("")}
+      ${happened.map(e => `<span class="tl-ms${e.tone === "red" ? " bad" : ""}" style="left:${x(+new Date(e.at))}" data-tip="${tip(say(e.text), [[e.tone === "red" ? RED : "#4EA7FC", when(e.at), ""]])}"></span>`).join("")}
+      </span></div>`;
+  }).join("");
+  document.getElementById("week").innerHTML = `<div class="tl-row tl-head"><span></span><span class="tl-track">${head}</span></div>
+    <div class="tl-grid">${days.map(d => `<i style="left:${x(+d)}"></i>`).join("")}</div>${rows}`;
+}
+
+// ── The apps: each one's door, whether it answers, and how fast lately ───
+
+function renderApps(apps, checks) {
+  const byName = Object.fromEntries(checks.map(c => [c.name, c]));
+  document.getElementById("apps-block").hidden = !apps.length;
+  document.getElementById("apps").innerHTML = apps.map((s, i) => {
+    const c = s.check && byName[s.check], state = c ? checkState(c) : "unknown", tint = esc(s.color || "#7170FF");
+    return `<a class="app" href="${esc(s.url)}" target="_blank" rel="noopener" style="--tint:${tint};--i:${i}">
+      <span class="app-top">${badge(s, "lg")}<span class="dot tone-${TONE[state]}"></span></span>
+      <span class="title">${esc(s.name)}</span><span class="detail">${esc(s.description || "")}</span>
+      <span class="app-foot"><span>${!s.check ? t("apps.no_check") : !c ? word(state) : c.failing ? word(state) : msText(c.ms)}</span>${c ? sparkline(c.recent.map(r => r.ms), tint,
+        c.recent.map(r => tip(clock(r.at), [[r.ok ? tint : RED, t(r.ok ? "apps.answered" : "apps.failed_after"), msText(r.ms)]], esc(r.why || "")))) : ""}</span></a>`;
+  }).join("");
+}
+
+// ── To do: the updates waiting for their merge ───────────────────────────
+
+function renderTodo(updates) {
+  document.getElementById("todo-block").hidden = !updates.length;
+  const mark = `<span class="tone-green">${svg("pr")}</span>`;
+  document.getElementById("todo").innerHTML = `<div class="group">
+    <div class="group-head">${mark}<span>${t("todo.merge")}</span><span class="n">${fmt.format(updates.length)}</span></div>
+    ${updates.map(u => `<a href="${esc(u.url)}" target="_blank" rel="noopener" class="todo-row">${mark}
+      <span class="copy"><span class="title">${esc(u.name)}</span><span class="detail">${t("todo.update")}</span></span><span class="meta">${ago(new Date(u.at))}</span></a>`).join("")}</div>`;
+}
+
+start((snap, checks) => {
+  const areas = shown(snap);
+  renderStatus(snap, checks);
+  renderActions(snap);
+  renderProblems(checks);
+  renderToday(snap.figures);
+  renderAreas(checks, areas.filter(a => checks.some(c => c.area === a)));
+  renderActivity(checks, snap.events, snap.updates, silent(snap));
+  renderWeek(checks, snap.events, areas);
+  renderApps(snap.apps, checks);
+  renderTodo(snap.updates);
+  countUp(document);
+});
+</script>
+</body>
+</html>
