@@ -1,0 +1,21 @@
+{
+  "sonarr.shows": "Shows",
+  "sonarr.this_week": { "one": "+{n} episode this week", "other": "+{n} episodes this week" },
+  "sonarr.library": "In the library",
+  "sonarr.shows_n": { "one": "{n} show", "other": "{n} shows" },
+  "sonarr.library_detail": {
+    "one": "{n} episode · {size:bytes} · +{week} this week",
+    "other": "{n} episodes · {size:bytes} · +{week} this week"
+  },
+  "sonarr.downloading": "Downloading",
+  "sonarr.downloading_n": { "one": "{n} episode", "other": "{n} episodes" },
+  "sonarr.nothing": "Nothing",
+  "sonarr.warning": "Warning",
+  "sonarr.error": "Error",
+
+  "sonarr.coming": "Episodes coming up",
+  "sonarr.coming_none": "Nothing in the next 7 days",
+  "sonarr.on": "{at:day}",
+  "sonarr.have": "In the library",
+  "sonarr.untitled": "An episode"
+}

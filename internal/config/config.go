@@ -17,6 +17,8 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/gatus"
 	"github.com/bnlqn/overlook/internal/adapters/github"
 	"github.com/bnlqn/overlook/internal/adapters/immich"
+	"github.com/bnlqn/overlook/internal/adapters/radarr"
+	"github.com/bnlqn/overlook/internal/adapters/sonarr"
 	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
@@ -33,6 +35,8 @@ type Sources struct {
 	Gatus   []gatus.Config   `yaml:"gatus"`
 	GitHub  []github.Config  `yaml:"github"`
 	Immich  []immich.Config  `yaml:"immich"`
+	Radarr  []radarr.Config  `yaml:"radarr"`
+	Sonarr  []sonarr.Config  `yaml:"sonarr"`
 	AdGuard []adguard.Config `yaml:"adguard"`
 }
 
@@ -47,6 +51,12 @@ func (c Config) Readers() []snapshot.Source {
 	}
 	for _, im := range c.Sources.Immich {
 		all = append(all, snapshot.Source{Name: im.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return immich.Read(ctx, im) }})
+	}
+	for _, r := range c.Sources.Radarr {
+		all = append(all, snapshot.Source{Name: r.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return radarr.Read(ctx, r) }})
+	}
+	for _, s := range c.Sources.Sonarr {
+		all = append(all, snapshot.Source{Name: s.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return sonarr.Read(ctx, s) }})
 	}
 	for _, a := range c.Sources.AdGuard {
 		all = append(all, snapshot.Source{Name: a.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return adguard.Read(ctx, a) }})
@@ -151,6 +161,26 @@ func (c *Config) check() error {
 			return fmt.Errorf("sources.immich[%d]: another source is named %s: give each a name", i, im.Name)
 		}
 		names[im.Name] = true
+	}
+	for i := range c.Sources.Radarr {
+		r := &c.Sources.Radarr[i]
+		if err := r.Check(); err != nil {
+			return fmt.Errorf("sources.radarr[%d]: %w", i, err)
+		}
+		if names[r.Name] {
+			return fmt.Errorf("sources.radarr[%d]: another source is named %s: give each a name", i, r.Name)
+		}
+		names[r.Name] = true
+	}
+	for i := range c.Sources.Sonarr {
+		s := &c.Sources.Sonarr[i]
+		if err := s.Check(); err != nil {
+			return fmt.Errorf("sources.sonarr[%d]: %w", i, err)
+		}
+		if names[s.Name] {
+			return fmt.Errorf("sources.sonarr[%d]: another source is named %s: give each a name", i, s.Name)
+		}
+		names[s.Name] = true
 	}
 	for i := range c.Sources.AdGuard {
 		a := &c.Sources.AdGuard[i]

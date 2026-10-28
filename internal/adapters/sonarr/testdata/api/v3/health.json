@@ -1,0 +1,8 @@
+[
+  {
+    "source": "RootFolderCheck",
+    "type": "error",
+    "message": "Missing root folder: /data/media/shows",
+    "wikiUrl": "https://wiki.servarr.com/sonarr/system#missing-root-folder"
+  }
+]

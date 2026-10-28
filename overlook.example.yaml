@@ -29,6 +29,16 @@ sources:
     - url: ${IMMICH_URL}               # where Overlook reads Immich, such as http://immich:2283
       key: ${IMMICH_KEY}               # an API key with the read permissions in the README
 
+  # The films: how many, how much room, what came this week and what's coming.
+  radarr:
+    - url: http://radarr:7878          # where Overlook reads Radarr
+      key: ${RADARR_KEY}               # Settings, General, API Key
+
+  # The shows and their episodes, the same way.
+  sonarr:
+    - url: http://sonarr:8989          # where Overlook reads Sonarr
+      key: ${SONARR_KEY}               # Settings, General, API Key
+
   # Each DNS resolver: whether it filters, today's lookups and blocks, and
   # its top clients and domains. Give each its own name.
   adguard:
