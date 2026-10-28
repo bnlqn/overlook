@@ -2,12 +2,17 @@
 
 One page that tells you whether your homelab is fine.
 
-What's wrong, how each area is, what it did today. It reads the tools you
-already run (Gatus, Proxmox, AdGuard Home, Immich, the arrs) and changes
-nothing.
+[![The overview of a homelab that doesn't exist: one problem, Standby DNS down, so Network is degraded; today's figures; and each area's checks](docs/overview.png)](https://bnlqn.github.io/overlook/)
 
-**Not released yet.** The language is in [CONTEXT.md](CONTEXT.md) and the
-decisions in [docs/adr](docs/adr). This README is rewritten for v0.1.
+What's wrong, how each area of the homelab is, and what it did today and
+this week, on one page that is the same for every homelab. Overlook reads
+the tools you already run, such as Gatus, Proxmox, AdGuard Home, Immich,
+Radarr and Sonarr, and changes nothing. [See the demo](https://bnlqn.github.io/overlook/),
+drawn from a homelab that doesn't exist.
+
+**Not released yet.** The road below says where it is. The words the
+project uses are in [CONTEXT.md](CONTEXT.md) and its decisions in
+[docs/adr](docs/adr).
 
 ## The road to v0.1
 
@@ -16,7 +21,7 @@ decisions in [docs/adr](docs/adr). This README is rewritten for v0.1.
        the contract test.
 2. [x] The other adapters, one pull request each: Proxmox VE, Proxmox Backup
        Server, AdGuard Home, Immich, Radarr and Sonarr, NUT, GitHub.
-3. [ ] The demo from an invented snapshot, this README, CI, and releases
+3. [x] The demo from an invented snapshot, this README, CI, and releases
        (amd64 and arm64 binaries, a multi-arch image on GHCR).
 4. [ ] `v0.1.0-rc.1`, with its image public.
 5. [ ] The author's homelab runs the release candidate in place of its own
@@ -28,7 +33,201 @@ v0.1 is ready when the author's homelab has run it for a week with nothing
 missing, the demo is live, every adapter has its section here (its config
 and the least key it needs), and CI passes.
 
+## What it shows
+
+- **What's wrong**: the problems, which are the checks your check engine
+  alerts on, for as long as they fail. Overlook runs no check and sends no
+  alert, so the page and your alerts always agree.
+- **How each area is**: Servers, Network, Storage and Apps, each up,
+  degraded (a problem, but it still works, such as DNS with one of two
+  resolvers down) or down, with its checks' last 30 results and a page of
+  its own with what its sources add, such as a host's guests or a
+  resolver's top clients.
+- **Today**: a figure from each source, such as guests up, DNS lookups,
+  photos or what the UPS draws.
+- **This week**: each area's problems and events along the last seven days,
+  and the list of what happened, as far as your sources remember it.
+- **Your apps and tools**, each a link with a dot that says whether it
+  answers.
+- **The chores**: the updates waiting for your merge, which are never
+  problems.
+
+## What it never does
+
+- **It never changes anything.** Overlook sends a source only GET requests,
+  and NUT only its read commands; the client it reads with refuses every
+  other method. Some keys it holds could do anything (AdGuard Home has no
+  read-only users, and Radarr's and Sonarr's keys are admin keys), and this
+  is what keeps them harmless.
+- **It never runs a check or sends an alert.** Your check engine does both.
+- **It remembers nothing.** No database and no volume: it reads every
+  source when the page asks, at most every 30 seconds, so an Overlook
+  nobody looks at sends nothing into your homelab. What happened this week
+  is what your sources remember.
+- **It never sends a key to the browser.** The server reads every source
+  and gives the page a snapshot of what it read, never a key or a source's
+  own answer.
+- **It never asks where to put things.** The page is fixed: your config
+  says which sources fill it, never where anything goes. There are no
+  widgets to arrange.
+- **It never calls anywhere you didn't name.** No telemetry and no update
+  check; the page's fonts and icons come from Overlook itself.
+
+## Quick start
+
+Overlook is one container. Put its config in a folder of its own, beside a
+`compose.yaml`:
+
+```
+overlook/
+  overlook.yaml
+compose.yaml
+.env
+```
+
+```yaml
+# compose.yaml
+services:
+  overlook:
+    image: ghcr.io/bnlqn/overlook:0.1
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./overlook:/etc/overlook:ro # the config, read-only: Overlook writes nothing
+    env_file: .env                  # the keys
+    environment:
+      TZ: Europe/Brussels           # when today starts
+```
+
+```yaml
+# overlook/overlook.yaml
+sources:
+  gatus:
+    - url: http://gatus.example.com:8080
+  proxmox:
+    - url: https://pve.example.com:8006
+      token: overlook@pve!overlook
+      secret: ${PROXMOX_SECRET}       # from the environment
+      ca: /etc/overlook/pve-root-ca.pem # copied into overlook/
+
+apps:
+  - name: Photos
+    url: https://photos.example.com
+    icon: immich.svg
+    check: Photos
+```
+
+```sh
+# .env: the keys, for your eyes only (chmod 600 .env)
+PROXMOX_SECRET=00000000-0000-0000-0000-000000000000
+```
+
+Then `docker compose up -d`, and open port 8080 of that host. The log says
+which sources Overlook reads, and the page names any that didn't answer.
+
+- **Keys come from the environment.** A `${VAR}` anywhere in the config is
+  read from Overlook's environment, so the config holds no secret and can
+  be shared or kept in git. A `${VAR}` that isn't set stops Overlook, and
+  says which.
+- **The config is mounted read-only**, at `/etc/overlook`, with a CA file or
+  your own icons beside it. The image runs as uid 65532, so the folder and
+  its files must be readable by others, as they are by default.
+- **`TZ`** says when today starts, for today's figures. Any zone works: the
+  zone database is inside the binary.
+- **The image** is `ghcr.io/bnlqn/overlook`, for amd64 and arm64: `0.1` for
+  the newest 0.1 release, or a version such as `0.1.0`. It holds the
+  binary and the CA certificates it checks HTTPS sources with, and nothing
+  else.
+
+Without Docker, each [release](https://github.com/bnlqn/overlook/releases)
+has the binary for Linux on amd64 and arm64, such as for an LXC container
+or a Raspberry Pi:
+
+```bash
+overlook -config /etc/overlook/overlook.yaml -listen :8080
+```
+
+## Configuring
+
+[`overlook.example.yaml`](overlook.example.yaml) shows every source with
+comments. Overlook reads the config once, at start, and refuses a key it
+doesn't know, so a typo stops it rather than going unnoticed.
+
+**Sources.** Under `sources:`, each adapter has a list, so two AdGuard Home
+resolvers are two entries under `adguard:`. Each source has a `name`, which
+the page uses. Each adapter gives one, such as Gatus, and two sources can't
+share one, so two of a kind need names of their own.
+What each adapter reads, its config and the least key it needs are under
+[Adapters](#adapters) below.
+
+**Areas.** The page has four, always the same: Servers, Network, Storage
+and Apps, and an area with nothing in it isn't shown. Each adapter puts
+its parts in its own area, such as Proxmox VE in Servers and AdGuard Home
+in Network. A check goes in the area its group in the check engine is
+named after, or the one the config gives that group, as in Gatus's
+`areas:`. A check in no area still counts, and its problems still show.
+
+**Apps and tools.** Apps are what the homelab hosts for the people who use
+it; tools are what you run it with. Both are links on the page, in the
+sidebar and in ⌘K:
+
+```yaml
+apps:
+  - name: Photos                     # the only key besides url it needs
+    url: https://photos.example.com
+    icon: immich.svg                 # a file in overlook/icons/, one Overlook ships, or a URL
+    check: Photos                    # the check that lights its dot
+    description: The family's photos
+    color: "#ED79B5"                 # tints its tile
+tools:
+  - name: Proxmox
+    url: https://pve.example.com:8006
+    icon: proxmox.svg
+    check: Hypervisor
+```
+
+Overlook ships icons for a few common apps (`web/icons`); a file of the
+same name in `icons/` beside the config wins over one of them.
+
+**Chores** are the maintenance due while nothing is broken. In v0.1 they are
+the updates waiting for your merge, which the [GitHub](#github) source
+reads.
+
+**Flags.** `-config` names the config (`overlook.yaml` by default), and
+`icons/` and `custom.css` are read beside it; `-listen` is the address to
+serve the page on (`:8080`).
+
 ## Adapters
+
+Each adapter reads one kind of source. More come by pull request from
+people who run them ([CONTRIBUTING.md](CONTRIBUTING.md)).
+
+### Gatus
+
+The check engine: every check, its last results and the problems Gatus
+remembers. A check is a problem once it fails as many times in a row as
+your alerts wait for, and stops being one when it passes.
+
+```yaml
+sources:
+  gatus:
+    - url: http://gatus:8080            # where Overlook reads Gatus
+      link: https://status.example.com  # where the page sends you, if not the same
+      threshold: 3                      # failures in a row that make a problem: as your alerts
+      areas:                            # where a group not named like an area goes
+        DNS: network
+        Backups: storage
+```
+
+**Key:** none, as Gatus's API is open unless you protect it. If yours asks
+for a login, put it in the URL: `url: http://overlook:${GATUS_PASSWORD}@gatus:8080`.
+
+**Areas:** a group named like an area, such as Servers or network, puts its
+checks there. `areas` says where each other group goes, and a group it
+doesn't name is in no area. **Threshold:** set it to your alerts'
+`failure-threshold` (3 unless you changed it), so a problem on the page is
+one your alerts announced.
 
 ### GitHub
 
@@ -245,6 +444,37 @@ restart AdGuard Home.
 the hour for an interval of up to 7 days; over a longer one it keeps them
 by the day, in UTC, and the Overview shows no figure for it.
 
+## No login
+
+Overlook has no accounts and no login: anyone who can open the page sees
+all of it. It never shows a key, but it does show your hosts, names and
+what is wrong. Keep it on your LAN or behind your VPN, or put it behind
+your reverse proxy's own authentication, such as forward auth to your
+identity provider.
+
+## Your own look
+
+A `custom.css` beside the config is loaded after the page's own
+stylesheet, so it can change any colour, size or font:
+
+```css
+/* overlook/custom.css */
+:root {
+  --m-accent-2: #3cad4b;   /* the accent, green */
+  --m-content-max: 1400px; /* a wider page */
+}
+```
+
+The page's colours, sizes and fonts are the `--m-` properties at the top
+of [`web/style.css`](web/style.css). The page stays one page: custom.css
+changes how it looks, not what it shows.
+
+## Translating
+
+The page speaks the language of your browser when someone has translated
+it, and English for any word a translation lacks. A translation is one
+file; [CONTRIBUTING.md](CONTRIBUTING.md#translating) says how.
+
 ## Contributing
 
 [CONTRIBUTING.md](CONTRIBUTING.md) says how to set up, what every change
@@ -253,4 +483,7 @@ passes and how to add an adapter. Report a vulnerability privately, as
 
 ## Licence
 
-MIT.
+Overlook is under the [MIT licence](LICENSE). The page ships the Inter
+font, under the SIL Open Font License ([`web/fonts`](web/fonts)), and logos
+of common apps, under the Apache License 2.0
+([`web/icons`](web/icons)), each logo its owner's trademark.
