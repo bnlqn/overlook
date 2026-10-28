@@ -4,3 +4,5 @@
 
 /internal/adapters/gatus/   @bnlqn
 /internal/adapters/github/  @bnlqn
+/internal/adapters/immich/  @bnlqn
+/web/i18n/en/immich.json    @bnlqn

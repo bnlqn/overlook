@@ -55,6 +55,33 @@ long to show. Without a token GitHub allows 60 requests an hour from your
 address, and each read is one request per repository: ten repositories hold,
 fewer if something else at your address reads GitHub without a token.
 
+### Immich
+
+The photos, on the Apps page: what each person keeps and uploaded this week,
+the space they take on Immich's disk, Immich's version and whether a newer one
+is out, and the jobs queued. Today's figure is everyone's photos and videos.
+
+```yaml
+sources:
+  immich:
+    - url: http://immich:2283
+      key: ${IMMICH_KEY}
+      # name: Photos # what the page calls it, if not Immich
+```
+
+**Key:** an API key made by an admin (Account Settings, API Keys), since
+Immich shows everyone's photos, the queues and each person's uploads only to
+an admin. Give it only these six read permissions:
+
+- `server.statistics`: each person's photos, videos and space
+- `server.storage`: the disk the photos are on
+- `server.about`: Immich's version
+- `server.versionCheck`: the newest version released
+- `queue.read`: the jobs queued
+- `adminUser.read`: what each person uploaded this week
+
+What each person uploaded needs Immich 3 or later; an older one leaves it out.
+
 ## Contributing
 
 [CONTRIBUTING.md](CONTRIBUTING.md) says how to set up, what every change

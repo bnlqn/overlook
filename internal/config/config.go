@@ -15,6 +15,7 @@ import (
 
 	"github.com/bnlqn/overlook/internal/adapters/gatus"
 	"github.com/bnlqn/overlook/internal/adapters/github"
+	"github.com/bnlqn/overlook/internal/adapters/immich"
 	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
@@ -30,6 +31,7 @@ type Config struct {
 type Sources struct {
 	Gatus  []gatus.Config  `yaml:"gatus"`
 	GitHub []github.Config `yaml:"github"`
+	Immich []immich.Config `yaml:"immich"`
 }
 
 // Readers are the sources, each with its adapter's read.
@@ -40,6 +42,9 @@ func (c Config) Readers() []snapshot.Source {
 	}
 	for _, g := range c.Sources.GitHub {
 		all = append(all, snapshot.Source{Name: g.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return github.Read(ctx, g) }})
+	}
+	for _, im := range c.Sources.Immich {
+		all = append(all, snapshot.Source{Name: im.Name, Read: func(ctx context.Context) (snapshot.Parts, error) { return immich.Read(ctx, im) }})
 	}
 	return all
 }
@@ -131,6 +136,16 @@ func (c *Config) check() error {
 			return fmt.Errorf("sources.github[%d]: another source is named %s: give each a name", i, g.Name)
 		}
 		names[g.Name] = true
+	}
+	for i := range c.Sources.Immich {
+		im := &c.Sources.Immich[i]
+		if err := im.Check(); err != nil {
+			return fmt.Errorf("sources.immich[%d]: %w", i, err)
+		}
+		if names[im.Name] {
+			return fmt.Errorf("sources.immich[%d]: another source is named %s: give each a name", i, im.Name)
+		}
+		names[im.Name] = true
 	}
 	for _, list := range []struct {
 		name  string

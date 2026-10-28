@@ -23,6 +23,12 @@ sources:
     - repos: [example/homelab]         # each as owner/name
       # A private repository needs a token: token: ${GITHUB_TOKEN}
 
+  # The photos: what each person keeps and uploaded this week, the space,
+  # Immich's version and its jobs.
+  immich:
+    - url: ${IMMICH_URL}               # where Overlook reads Immich, such as http://immich:2283
+      key: ${IMMICH_KEY}               # an API key with the read permissions in the README
+
 # The apps the homelab hosts, and the tools that run it. An icon is a file in
 # icons/ beside this config (or one Overlook ships), or a URL. A check is a
 # Gatus check's name, which lights the app's dot.
