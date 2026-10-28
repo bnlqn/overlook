@@ -16,6 +16,10 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
+// Library is the tile Radarr's films and Sonarr's shows share on the
+// overview, split by the room each takes, when both are read.
+var Library = snapshot.Text{Key: "servarr.library"}
+
 // Config is one Radarr or Sonarr.
 type Config struct {
 	Name string `yaml:"name"`

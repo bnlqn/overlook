@@ -61,6 +61,26 @@ export function together(figures) {
 }
 
 /**
+ * The figures, those that share a join key made one tile when there's more
+ * than one, such as films and shows in one library: under the join's words,
+ * the first one's number and unit, the others in also, and each one's part
+ * as a share of the bar. One alone stays as it is.
+ */
+export function joinFigures(figures) {
+  const groups = new Map();
+  for (const f of figures) {
+    if (f.join) groups.set(f.join.key, [...(groups.get(f.join.key) || []), f]);
+  }
+  return figures.flatMap((f) => {
+    const group = f.join ? groups.get(f.join.key) : [f];
+    if (group.length < 2) return [f];
+    if (group[0] !== f) return [];
+    const { detail, ...first } = f;
+    return [{ ...first, label: f.join, also: group.slice(1), shares: group.map((g) => g.part).filter(Boolean) }];
+  });
+}
+
+/**
  * The charts, those that add up and share a title key made one, such as two
  * resolvers' lookups: each series hour by hour, over the hours they all
  * have, the latest last. Each keeps its sources, each with its own whole, for

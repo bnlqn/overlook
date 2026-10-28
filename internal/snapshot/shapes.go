@@ -119,7 +119,7 @@ type Meter struct {
 }
 
 // Figure is a number for today, sometimes with the hours that make it up or
-// the shares it splits into.
+// the shares it splits into, and sometimes sharing a tile with others.
 type Figure struct {
 	Area string `json:"area"`
 	// Icon is one of the page's own icons, such as shield or photos.
@@ -138,6 +138,13 @@ type Figure struct {
 	// Shares split the figure into its parts, such as each person's photos,
 	// drawn as one bar under it.
 	Shares []Share `json:"shares,omitempty"`
+	// Join names the tile it shares with the other figures of the same Join
+	// key, such as films and shows in one library, whichever sources give
+	// them. With more than one there, the page draws them as one tile under
+	// Join's words: the first one's number and unit, the others' after it,
+	// and a bar of each one's Part. Alone, it is a tile of its own.
+	Join *Text  `json:"join,omitempty"`
+	Part *Share `json:"part,omitempty"`
 	// Meters are drawn under the figure, each with its label, such as a
 	// battery's charge.
 	Meters []Meter `json:"meters,omitempty"`

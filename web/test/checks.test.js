@@ -6,6 +6,7 @@ import {
   checkState,
   choresBy,
   joinCharts,
+  joinFigures,
   quietSince,
   readChecks,
   shown,
@@ -194,4 +195,35 @@ test("charts that add up and share a title key are one, over the hours they all 
     alone.sources.map((s) => s.name),
     ["Primary"],
   );
+});
+
+test("figures that share a join key are one tile, the first's number first; alone, each stays", () => {
+  const library = { key: "servarr.library" };
+  const films = {
+    area: "apps",
+    label: { key: "radarr.films" },
+    value: 412,
+    unit: { key: "radarr.unit", args: { n: 412 } },
+    detail: { key: "radarr.this_week", args: { n: 3 } },
+    join: library,
+    part: { label: { key: "radarr.films" }, value: 2600, tone: "orange" },
+  };
+  const shows = {
+    ...films,
+    label: { key: "sonarr.shows" },
+    value: 38,
+    part: { label: { key: "sonarr.shows" }, value: 1300 },
+  };
+  const photos = { area: "apps", label: { key: "immich.photos" }, value: 9 };
+  const [tile, other] = joinFigures([films, photos, shows]);
+  assert.equal(tile.label, library);
+  assert.equal(tile.value, 412, "the films' number leads");
+  assert.equal(tile.detail, undefined, "each one's line moves to its part");
+  assert.deepEqual(tile.also, [shows]);
+  assert.deepEqual(
+    tile.shares.map((s) => s.value),
+    [2600, 1300],
+  );
+  assert.equal(other, photos);
+  assert.deepEqual(joinFigures([films, photos]), [films, photos], "films alone keep their own tile");
 });

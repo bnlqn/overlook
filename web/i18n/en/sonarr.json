@@ -1,6 +1,13 @@
 {
   "sonarr.shows": "Shows",
   "sonarr.this_week": { "one": "+{n} episode this week", "other": "+{n} episodes this week" },
+  "sonarr.unit": { "one": "show", "other": "shows" },
+  "sonarr.on_disk": "On disk",
+  "sonarr.bytes": "{n:bytes}",
+  "sonarr.episodes": "Episodes",
+  "sonarr.n": "{n}",
+  "sonarr.week": "This week",
+  "sonarr.plus": "+{n}",
   "sonarr.library": "In the library",
   "sonarr.shows_n": { "one": "{n} show", "other": "{n} shows" },
   "sonarr.library_detail": {

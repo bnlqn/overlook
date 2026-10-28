@@ -79,7 +79,8 @@ _Avoid_: Graph, plot, time series
 **Figure**:
 A number an adapter reports for today, such as lookups blocked or photos
 uploaded, sometimes with the hours that make it up or the shares it splits
-into, such as each person's photos.
+into, such as each person's photos. Figures of one whole from several
+sources, such as films and shows in the library, share a tile.
 _Avoid_: Stat, metric, KPI
 
 **Event**:

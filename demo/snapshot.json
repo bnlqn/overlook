@@ -1187,14 +1187,39 @@
       "icon": "film",
       "label": { "key": "radarr.films" },
       "value": 412,
-      "detail": { "key": "radarr.this_week", "args": { "n": 3 } }
+      "detail": { "key": "radarr.this_week", "args": { "n": 3 } },
+      "unit": { "key": "radarr.unit", "args": { "n": 412 } },
+      "join": { "key": "servarr.library" },
+      "part": {
+        "label": { "key": "radarr.films" },
+        "value": 3186865348608,
+        "tone": "orange",
+        "rows": [
+          { "title": { "key": "radarr.on_disk" }, "value": { "key": "radarr.bytes", "args": { "n": 3186865348608 } } },
+          { "title": { "key": "radarr.library" }, "value": { "key": "radarr.films_n", "args": { "n": 412 } } },
+          { "title": { "key": "radarr.week" }, "value": { "key": "radarr.plus", "args": { "n": 3 } } }
+        ]
+      }
     },
     {
       "area": "apps",
       "icon": "film",
       "label": { "key": "sonarr.shows" },
       "value": 38,
-      "detail": { "key": "sonarr.this_week", "args": { "n": 9 } }
+      "detail": { "key": "sonarr.this_week", "args": { "n": 9 } },
+      "unit": { "key": "sonarr.unit", "args": { "n": 38 } },
+      "join": { "key": "servarr.library" },
+      "part": {
+        "label": { "key": "sonarr.shows" },
+        "value": 2418925862912,
+        "tone": "blue",
+        "rows": [
+          { "title": { "key": "sonarr.on_disk" }, "value": { "key": "sonarr.bytes", "args": { "n": 2418925862912 } } },
+          { "title": { "key": "sonarr.library" }, "value": { "key": "sonarr.shows_n", "args": { "n": 38 } } },
+          { "title": { "key": "sonarr.episodes" }, "value": { "key": "sonarr.n", "args": { "n": 1904 } } },
+          { "title": { "key": "sonarr.week" }, "value": { "key": "sonarr.plus", "args": { "n": 9 } } }
+        ]
+      }
     },
     {
       "area": "servers",

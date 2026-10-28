@@ -186,6 +186,21 @@ func Problems(p snapshot.Parts, english map[string]any) []string {
 		if len(f.Shares) > 0 && whole <= 0 {
 			fail("%s: shares of nothing", w)
 		}
+		text(w, f.Join)
+		if f.Part != nil {
+			if f.Join == nil {
+				fail("%s: a part of no tile", w)
+			}
+			text(w, &f.Part.Label)
+			tone(w, f.Part.Tone)
+			for _, r := range f.Part.Rows {
+				text(w, &r.Title)
+				text(w, r.Value)
+			}
+			if f.Part.Value < 0 {
+				fail("%s: a part below nothing", w)
+			}
+		}
 	}
 	for _, e := range p.Events {
 		w := "event " + e.Text.Key
