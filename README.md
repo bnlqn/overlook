@@ -14,7 +14,7 @@ decisions in [docs/adr](docs/adr). This README is rewritten for v0.1.
 1. [x] The skeleton: the Go server, the strict config, the GET-only client,
        the snapshot, the translation table, the page, the Gatus adapter and
        the contract test.
-2. [ ] The other adapters, one pull request each: Proxmox VE, Proxmox Backup
+2. [x] The other adapters, one pull request each: Proxmox VE, Proxmox Backup
        Server, AdGuard Home, Immich, Radarr and Sonarr, NUT, GitHub.
 3. [ ] The demo from an invented snapshot, this README, CI, and releases
        (amd64 and arm64 binaries, a multi-arch image on GHCR).
