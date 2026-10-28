@@ -30,6 +30,31 @@ and the least key it needs), and CI passes.
 
 ## Adapters
 
+### GitHub
+
+The updates waiting: the open pull requests Dependabot or Renovate opened on
+the repositories you list. They are chores, never problems.
+
+```yaml
+sources:
+  github:
+    - repos: [example/homelab, example/website]
+      token: ${GITHUB_TOKEN} # only for private repositories
+      # bots: ["dependabot[bot]", "renovate[bot]"] # whose pull requests are updates
+      # url: https://github.example.com/api/v3     # a GitHub Enterprise Server's API
+```
+
+**Key:** none for public repositories. For private ones, a
+[fine-grained token](https://github.com/settings/personal-access-tokens/new)
+with read-only access to **Pull requests** on those repositories (GitHub adds
+**Metadata** itself). Without one, GitHub answers 404 for a private
+repository.
+
+Overlook reads GitHub at most every 10 minutes, so an update can take that
+long to show. Without a token GitHub allows 60 requests an hour from your
+address, and each read is one request per repository: ten repositories hold,
+fewer if something else at your address reads GitHub without a token.
+
 ### Immich
 
 The photos, on the Apps page: what each person keeps and uploaded this week,

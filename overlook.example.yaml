@@ -17,6 +17,12 @@ sources:
         Backups: storage
         Media: apps
 
+  # The updates waiting: the open pull requests from Dependabot or Renovate,
+  # read at most every 10 minutes.
+  github:
+    - repos: [example/homelab]         # each as owner/name
+      # A private repository needs a token: token: ${GITHUB_TOKEN}
+
   # The photos: what each person keeps and uploaded this week, the space,
   # Immich's version and its jobs.
   immich:

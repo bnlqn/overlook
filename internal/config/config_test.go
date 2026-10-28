@@ -63,6 +63,7 @@ func TestLoadRefuses(t *testing.T) {
 		"sources: { gatus: [ { url: '${OVERLOOK_NO_SUCH_VAR}' } ] }":             "OVERLOOK_NO_SUCH_VAR is not set",
 		"sources: { gatus: [ { url: 'http://a' }, { url: 'http://b' } ] }":       "another source is named Gatus",
 		"sources: { gatus: [ { url: 'http://gatus', areas: { DNS: attic } } ] }": "sources.gatus[0]: areas",
+		"sources: { github: [ { repos: [homelab] } ] }":                          "sources.github[0]: repos",
 		"sources: { immich: [ { url: 'http://immich:2283' } ] }":                 "sources.immich[0]: key is missing",
 		"sources: {immich: [{url: http://a, key: k}, {url: http://b, key: k}]}":  "another source is named Immich",
 		"apps: [ { name: Photos } ]":                                             "apps[0]: url",
