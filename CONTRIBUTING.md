@@ -29,7 +29,7 @@ To see the page with every adapter's parts in it, run the demo, which draws it f
 go run ./demo -serve localhost:8000
 ```
 
-and open <http://localhost:8000>. To see it read your own sources, give the server a config with only those, starting from `overlook.example.yaml`:
+and open <http://localhost:8000>. The demo serves two more homelabs, each from an invented snapshot of its own: a small one, at <http://localhost:8000/small/>, and a large one, at the most the page is made for, at <http://localhost:8000/large/>. Every change to the page is looked at with all three. To see it read your own sources, give the server a config with only those, starting from `overlook.example.yaml`:
 
 ```bash
 go run ./cmd/overlook -config path/to/overlook.yaml
@@ -49,7 +49,7 @@ and open <http://localhost:8080>.
 | `internal/adapters/adaptertest` | the contract test every adapter passes |
 | `internal/server` | the routes, and the headers every answer carries |
 | `web` | the page, embedded in the binary: HTML, `style.css`, the modules in `js/`, their tests in `test/`, the words in `i18n/` |
-| `demo` | the demo: an invented snapshot with every adapter's parts, the contract the server and the page keep (ADR 0003), and what writes the page from it for GitHub Pages |
+| `demo` | the demo: an invented snapshot with every adapter's parts, a small and a large homelab beside it, the contract the server and the page keep (ADR 0003), and what writes the page from them for GitHub Pages |
 
 ## Adding an adapter
 
@@ -79,7 +79,7 @@ A decision that is hard to reverse, surprising to a newcomer and the result of a
 
 - Keep each to one change, and describe what it changes and why.
 - `make check` passes.
-- A change to the page comes with screenshots at desktop and phone width.
+- A change to the page is looked at with the demo's three homelabs, and comes with screenshots at desktop and phone width.
 - Commit messages are a plain sentence, then a body that says why.
 
 By contributing, you agree that your contribution is licensed under the project's [MIT licence](LICENSE).

@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"cmp"
 	"encoding/json"
 	"io/fs"
 	"os"
@@ -16,32 +17,37 @@ import (
 	"github.com/bnlqn/overlook/web"
 )
 
-// The invented snapshot is the contract between the server and the page (ADR
-// 0003): it is the server's shapes, with no field they lack, and the page can
-// draw every part of it, as it can every adapter's.
+// Each invented snapshot is the contract between the server and the page
+// (ADR 0003): it is the server's shapes, with no field they lack, and the page
+// can draw every part of it, as it can every adapter's.
 func TestSnapshot(t *testing.T) {
 	t.Parallel()
-	dec := json.NewDecoder(bytes.NewReader(invented))
-	dec.DisallowUnknownFields()
-	var s snapshot.Snapshot
-	if err := dec.Decode(&s); err != nil {
-		t.Fatal(err)
-	}
-	adaptertest.Validate(t, s.Parts)
+	for dir, invented := range homelabs {
+		t.Run(cmp.Or(dir, "demo"), func(t *testing.T) {
+			t.Parallel()
+			dec := json.NewDecoder(bytes.NewReader(invented))
+			dec.DisallowUnknownFields()
+			var s snapshot.Snapshot
+			if err := dec.Decode(&s); err != nil {
+				t.Fatal(err)
+			}
+			adaptertest.Validate(t, s.Parts)
 
-	checks := map[string]bool{}
-	for _, c := range s.Checks {
-		checks[c.Name] = true
-	}
-	for _, l := range append(s.Apps, s.Tools...) {
-		if l.Name == "" || !strings.HasPrefix(l.URL, "https://") || (l.Check != "" && !checks[l.Check]) {
-			t.Errorf("%s: needs a name, an https:// url, and a check that is there: %+v", l.Name, l)
-		}
-	}
-	for _, c := range s.Chores {
-		if _, err := time.Parse(time.DateOnly, c.From); c.Name == "" || (c.From != "" && err != nil) {
-			t.Errorf("%s: needs a name, and a day if any: %+v", c.Name, c)
-		}
+			checks := map[string]bool{}
+			for _, c := range s.Checks {
+				checks[c.Name] = true
+			}
+			for _, l := range append(s.Apps, s.Tools...) {
+				if l.Name == "" || !strings.HasPrefix(l.URL, "https://") || (l.Check != "" && !checks[l.Check]) {
+					t.Errorf("%s: needs a name, an https:// url, and a check that is there: %+v", l.Name, l)
+				}
+			}
+			for _, c := range s.Chores {
+				if _, err := time.Parse(time.DateOnly, c.From); c.Name == "" || (c.From != "" && err != nil) {
+					t.Errorf("%s: needs a name, and a day if any: %+v", c.Name, c)
+				}
+			}
+		})
 	}
 }
 
@@ -92,7 +98,10 @@ func TestWrite(t *testing.T) {
 	if err := write(out); err != nil {
 		t.Fatal(err)
 	}
-	for _, page := range []string{"index.html", "servers.html", "network.html", "storage.html", "apps.html"} {
+	for _, page := range []string{
+		"index.html", "servers.html", "network.html", "storage.html", "apps.html",
+		"small/index.html", "large/index.html", "large/servers.html",
+	} {
 		html, err := os.ReadFile(filepath.Join(out, page))
 		if err != nil || !bytes.Contains(html, []byte("<html data-demo ")) {
 			t.Errorf("%s isn't marked as the demo's: %v", page, err)
@@ -103,7 +112,10 @@ func TestWrite(t *testing.T) {
 	if err != nil || json.Unmarshal(raw, &words) != nil || words["title"] != "Homelab" || words["pbs.backups"] != "Backups" {
 		t.Errorf("the English table, the page's words and every adapter's: %v", err)
 	}
-	for _, file := range []string{"snapshot.json", "custom.css", "style.css", "js/shell.js", "icons/gatus.svg"} {
+	for _, file := range []string{
+		"snapshot.json", "custom.css", "style.css", "js/shell.js", "icons/gatus.svg",
+		"small/snapshot.json", "large/snapshot.json", "large/i18n/en.json", "large/icons/gatus.svg",
+	} {
 		if _, err := os.Stat(filepath.Join(out, file)); err != nil {
 			t.Error(err)
 		}
