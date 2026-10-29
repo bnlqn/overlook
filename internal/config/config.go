@@ -56,6 +56,9 @@ type Config struct {
 }
 
 // Sources are the sources to read, by adapter: each adapter's own config.
+// An adapter's key is written twice, in its tag and in its add line, on
+// purpose: the strict decoder needs a field for it, and reading the key
+// from the tag would take reflection, which no compiler checks.
 type Sources struct {
 	Gatus         []gatus.Config         `yaml:"gatus"`
 	UptimeKuma    []uptimekuma.Config    `yaml:"uptimekuma"`
