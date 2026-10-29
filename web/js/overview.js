@@ -353,8 +353,9 @@ function renderChores({ updates, due, week, next }, now) {
     <div class="group-head">${mark}<span>${name}</span><span class="n">${number(rows.length)}</span></div>${more(rows, 5)}</div>`,
       )
       .join("") ||
-    // With nothing waiting, due or this week, the block shows only for a chore after it.
-    `<div class="empty card">${t("chores.next", { name: next.name, at: next.from })}</div>`;
+    // With nothing waiting, due or this week, the block shows only for a chore
+    // after it, and with none, it's hidden.
+    (next ? `<div class="empty card">${t("chores.next", { name: next.name, at: next.from })}</div>` : "");
 }
 
 $("areas").addEventListener(
