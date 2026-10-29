@@ -104,23 +104,23 @@ function named(snap) {
 
 /**
  * The homelab's state, headline and summary (CONTEXT.md, Degraded): down when
- * an area is down or no check engine answered, degraded with any other
- * problem, one in a check in no area too, unknown with no checks, and up
- * otherwise. The summary is parts, each texts said one after the other.
+ * an area is down or it has check engines and none answered, degraded with
+ * any other problem, one in a check in no area too, unknown with no checks,
+ * and up otherwise. The summary is parts, each texts said one after the other.
  */
 function homelab(snap, checks, areas, silence, now) {
   const problems = checks.filter((c) => c.problem);
   const judged = areas.filter((a) => a.shown && a.checks.length);
   const silentText = { key: "source.no_answer", args: { names: silence } };
   const silentPart = silence.length ? [[silentText]] : [];
-  // ponytail: blind is no check at all with any source silent, so a homelab
-  // with no check engine and a silent resolver is down. Once a source says
-  // its kind (ADR 0012), blind is no check engine answering.
-  if (!checks.length && silence.length) {
-    const { error } = snap.sources.find((s) => !s.answered);
+  // With no check engine answering, nothing says what works, and the first
+  // one's error says why.
+  const engines = snap.sources.filter((s) => s.kind === "checkengine");
+  if (engines.length && !engines.some((s) => s.answered)) {
+    const { error } = engines[0];
     return { state: "down", headline: silentText, summary: [[{ key: "source.no_answer_why", args: { error } }]] };
   }
-  if (!checks.length) return { state: "unknown", headline: { key: "status.no_checks" }, summary: [] };
+  if (!checks.length) return { state: "unknown", headline: { key: "status.no_checks" }, summary: silentPart };
   if (!problems.length) {
     const quiet = quietSince(checks);
     return {
@@ -287,15 +287,16 @@ const silent = (snap, area) =>
   snap.sources.filter((s) => !s.answered && (!area || !s.area || s.area === area)).map((s) => s.name);
 
 /**
- * The sources of the same adapter as those a part adds up that answered but
- * gave none of it, such as a resolver that keeps its counts by the day.
+ * The sources of the same kind as those a part adds up that answered but gave
+ * none of it, such as a Pi-hole that keeps its counts by the day beside
+ * AdGuard Homes (ADR 0012). A part of sources with no kind, such as hosts'
+ * guests, lacks none: each of its adapter's sources gives it.
  */
 function missing(snap, names) {
-  // ponytail: asks only the first source's adapter, so a Pi-hole that gave
-  // none beside AdGuard Homes is never named. Once a source says its kind
-  // (ADR 0012), it asks for those of the same kind.
-  const adapter = snap.sources.find((s) => s.name === names[0])?.adapter;
-  return snap.sources.filter((s) => s.answered && s.adapter === adapter && !names.includes(s.name)).map((s) => s.name);
+  const kind = snap.sources.find((s) => s.name === names[0])?.kind;
+  return snap.sources
+    .filter((s) => kind && s.answered && s.kind === kind && !names.includes(s.name))
+    .map((s) => s.name);
 }
 
 // ── Today: the figures, added up and joined into tiles ───────────────────
@@ -303,7 +304,7 @@ function missing(snap, names) {
 /**
  * Today's tiles and how many columns they take. Each tile is a figure, added
  * up and joined, and says whether it's wide, which colour its parts start
- * from, and the sources of its adapter that gave none of it.
+ * from, and the sources of its kind that gave none of it.
  */
 function today(snap) {
   // Each tile whose parts take the colours starts two on from the one

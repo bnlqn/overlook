@@ -35,7 +35,7 @@ const snap = (checks, more = {}) => ({
   apps: [],
   tools: [],
   chores: [],
-  sources: [{ name: "Gatus", adapter: "gatus", answered: true }],
+  sources: [{ name: "Gatus", adapter: "gatus", kind: "checkengine", answered: true }],
   ...more,
 });
 
@@ -251,23 +251,53 @@ test("the homelab names its silent sources, and an area's page those of its area
   const m = page(
     snap([check("a", "servers", 0, false)], {
       sources: [
-        { name: "Gatus", answered: false, error: "timeout" },
+        { name: "Gatus", kind: "checkengine", answered: true },
+        { name: "Uptime Kuma", kind: "checkengine", answered: false, error: "timeout" },
         { name: "Office UPS", area: "servers", answered: false },
-        { name: "IoT DNS", area: "network", answered: true },
+        { name: "IoT DNS", area: "network", kind: "resolver", answered: true },
       ],
     }),
     NOW,
   );
-  assert.deepEqual(m.homelab.summary.at(-1), [{ key: "source.no_answer", args: { names: ["Gatus", "Office UPS"] } }]);
-  assert.deepEqual(area(m, "servers").silent, ["Gatus", "Office UPS"]);
-  assert.deepEqual(area(m, "network").silent, ["Gatus"]);
+  assert.equal(m.homelab.state, "up", "one check engine answering is enough");
+  assert.deepEqual(m.homelab.summary.at(-1), [
+    { key: "source.no_answer", args: { names: ["Uptime Kuma", "Office UPS"] } },
+  ]);
+  assert.deepEqual(area(m, "servers").silent, ["Uptime Kuma", "Office UPS"]);
+  assert.deepEqual(area(m, "network").silent, ["Uptime Kuma"]);
 });
 
-test("with no check and a source silent, the homelab is down and says why", () => {
-  const m = page(snap([], { sources: [{ name: "Gatus", answered: false, error: "connection refused" }] }), NOW);
+test("with no check engine answering, the homelab is down and says why", () => {
+  const m = page(
+    snap([], {
+      sources: [
+        { name: "Primary DNS", area: "network", kind: "resolver", answered: false, error: "timeout" },
+        { name: "Gatus", kind: "checkengine", answered: false, error: "connection refused" },
+      ],
+    }),
+    NOW,
+  );
   assert.equal(m.homelab.state, "down");
-  assert.deepEqual(m.homelab.headline, { key: "source.no_answer", args: { names: ["Gatus"] } });
-  assert.deepEqual(m.homelab.summary, [[{ key: "source.no_answer_why", args: { error: "connection refused" } }]]);
+  assert.deepEqual(m.homelab.headline, { key: "source.no_answer", args: { names: ["Primary DNS", "Gatus"] } });
+  assert.deepEqual(
+    m.homelab.summary,
+    [[{ key: "source.no_answer_why", args: { error: "connection refused" } }]],
+    "the check engine's error, not the first silent source's",
+  );
+});
+
+test("with no check engine, a silent resolver is named but the homelab isn't down", () => {
+  const m = page(
+    snap([], {
+      sources: [{ name: "Primary DNS", area: "network", kind: "resolver", answered: false, error: "timeout" }],
+    }),
+    NOW,
+  );
+  assert.deepEqual(m.homelab, {
+    state: "unknown",
+    headline: { key: "status.no_checks" },
+    summary: [[{ key: "source.no_answer", args: { names: ["Primary DNS"] } }]],
+  });
 });
 
 test("a problem in a check in no area makes the homelab degraded, and the summary names it", () => {
@@ -485,8 +515,8 @@ test("two hosts' guests are one tile: their units, details and meters added, spl
   assert.equal(lost.meters, undefined, "meters only one host has would mislead");
 });
 
-test("a figure added up from some of its adapter's sources names those that answered but gave none", () => {
-  const dns = (name, answered = true) => ({ name, adapter: "adguard", answered });
+test("a figure added up from some sources of its kind names those that answered but gave none", () => {
+  const dns = (name, adapter, answered = true) => ({ name, adapter, kind: "resolver", answered });
   const lookups = (source) => ({
     area: "network",
     label: { key: "resolver.dns_lookups" },
@@ -495,15 +525,24 @@ test("a figure added up from some of its adapter's sources names those that answ
     value: 1,
   });
   const sources = [
-    dns("Primary"),
-    dns("Secondary"),
-    dns("IoT"),
-    dns("Old", false),
-    { name: "Gatus", adapter: "gatus" },
+    { name: "Gatus", adapter: "gatus", kind: "checkengine", answered: true },
+    dns("Primary", "adguard"),
+    dns("Secondary", "adguard"),
+    dns("Kids", "pihole"),
+    dns("Old", "adguard", false),
+    { name: "Proxmox", adapter: "proxmox", answered: true },
+    { name: "Immich", adapter: "immich", answered: true },
   ];
-  const tile = (...from) => page(snap([], { sources, figures: from.map(lookups) }), NOW).today.tiles[0];
-  assert.deepEqual(tile("Primary", "Secondary").lacking, ["IoT"], "one that didn't answer is said elsewhere");
-  assert.deepEqual(tile("Primary", "Secondary", "IoT").lacking, []);
+  const tile = (...figures) => page(snap([], { sources, figures }), NOW).today.tiles[0];
+  assert.deepEqual(
+    tile(lookups("Primary"), lookups("Secondary")).lacking,
+    ["Kids"],
+    "a Pi-hole beside AdGuard Homes; one that didn't answer is said elsewhere",
+  );
+  assert.deepEqual(tile(lookups("Kids"), lookups("Primary")).lacking, ["Secondary"]);
+  assert.deepEqual(tile(lookups("Primary"), lookups("Secondary"), lookups("Kids")).lacking, []);
+  const guests = { area: "servers", label: { key: "proxmox.guests" }, adds: true, source: "Proxmox", value: 3 };
+  assert.deepEqual(tile(guests).lacking, [], "a source with no kind lacks none");
 });
 
 test("figures that share a join key are one tile, the first's number first; alone, each stays", () => {

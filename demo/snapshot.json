@@ -1,10 +1,10 @@
 {
   "at": "2026-10-28T09:30:00Z",
   "sources": [
-    { "name": "Gatus", "adapter": "gatus", "answered": true },
-    { "name": "Uptime Kuma", "adapter": "uptimekuma", "answered": true },
-    { "name": "Grafana", "adapter": "grafana", "answered": true },
-    { "name": "Prometheus", "adapter": "prometheus", "answered": true },
+    { "name": "Gatus", "adapter": "gatus", "kind": "checkengine", "answered": true },
+    { "name": "Uptime Kuma", "adapter": "uptimekuma", "kind": "checkengine", "answered": true },
+    { "name": "Grafana", "adapter": "grafana", "kind": "checkengine", "answered": true },
+    { "name": "Prometheus", "adapter": "prometheus", "kind": "checkengine", "answered": true },
     { "name": "GitHub", "adapter": "github", "answered": true },
     { "name": "Immich", "adapter": "immich", "area": "apps", "answered": true },
     { "name": "Backup Server", "adapter": "pbs", "area": "storage", "answered": true },
@@ -15,17 +15,24 @@
     { "name": "Sonarr", "adapter": "sonarr", "area": "apps", "answered": true },
     { "name": "Prowlarr", "adapter": "prowlarr", "area": "apps", "answered": true },
     { "name": "qBittorrent", "adapter": "qbittorrent", "area": "apps", "answered": true },
-    { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "answered": true },
-    { "name": "Plex", "adapter": "tautulli", "area": "apps", "answered": true },
+    { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "kind": "mediaserver", "answered": true },
+    { "name": "Plex", "adapter": "tautulli", "area": "apps", "kind": "mediaserver", "answered": true },
     { "name": "Seerr", "adapter": "seerr", "area": "apps", "answered": true },
     { "name": "Home Assistant", "adapter": "homeassistant", "area": "apps", "answered": true },
     { "name": "Paperless-ngx", "adapter": "paperless", "area": "apps", "answered": true },
     { "name": "Nextcloud", "adapter": "nextcloud", "area": "apps", "answered": true },
     { "name": "NUT", "adapter": "nut", "area": "servers", "answered": true },
-    { "name": "Primary DNS", "adapter": "adguard", "area": "network", "answered": true },
-    { "name": "Standby DNS", "adapter": "adguard", "area": "network", "answered": false, "error": "timeout" },
-    { "name": "Kids' DNS", "adapter": "pihole", "area": "network", "answered": true },
-    { "name": "Chores", "adapter": "ical", "answered": true }
+    { "name": "Primary DNS", "adapter": "adguard", "area": "network", "kind": "resolver", "answered": true },
+    {
+      "name": "Standby DNS",
+      "adapter": "adguard",
+      "area": "network",
+      "kind": "resolver",
+      "answered": false,
+      "error": "timeout"
+    },
+    { "name": "Kids' DNS", "adapter": "pihole", "area": "network", "kind": "resolver", "answered": true },
+    { "name": "Chores", "adapter": "ical", "kind": "todolist", "answered": true }
   ],
   "checks": [
     {

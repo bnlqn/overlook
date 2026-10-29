@@ -1,6 +1,6 @@
 {
   "at": "2026-10-28T09:30:00Z",
-  "sources": [{ "name": "Gatus", "adapter": "gatus", "answered": true }],
+  "sources": [{ "name": "Gatus", "adapter": "gatus", "kind": "checkengine", "answered": true }],
   "checks": [
     {
       "key": "apps_photos",
