@@ -4,7 +4,7 @@
 
 import { badge, by, stateIcon, svg, TONE } from "./draw.js";
 import { asIfNow, page } from "./page.js";
-import { esc, loadWords, number, t, translate } from "./text.js";
+import { drawnAt, esc, loadWords, number, t, translate } from "./text.js";
 
 /** The pages, in the sidebar's order; key goes after G to jump there. */
 export const PAGES = [
@@ -291,7 +291,10 @@ export async function start(draw) {
         (r) => (r.ok ? r.json() : null),
         () => null,
       );
+      // The one moment the page is drawn for, so that nothing on it reads
+      // the clock again.
       const now = Date.now();
+      drawnAt(now);
       const m = read && page(DEMO ? asIfNow(read, now) : read, now);
       document.getElementById("refreshed").innerHTML = m ? t("updated", { at: now }) : t("overlook.no_answer");
       if (!m) return;

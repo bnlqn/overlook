@@ -239,7 +239,7 @@ export function sparkline(values, color, tips = []) {
 }
 
 /** The start of each of the last n hours, the last one this hour. */
-export function hourStart(i, n, now = new Date()) {
+export function hourStart(i, n, now) {
   const d = new Date(now);
   d.setMinutes(0, 0, 0);
   return new Date(+d - (n - 1 - i) * 3600e3);
@@ -289,7 +289,7 @@ const gridOf = (max, steps) => Array.from({ length: steps + 1 }, (_, k) => (max 
  * whole of each, and each part within it from its foot. Each bar brings its
  * tooltip. Every sixth hour under them, and the scale beside.
  */
-export function bars(series, now = new Date()) {
+export function bars(series, now) {
   const n = series[0].hours.length;
   if (n < 2) return "";
   const colours = seriesColours(series.length);
@@ -320,7 +320,7 @@ let charts = 0;
  * alternate in shade and are named under their middle; over fewer, every
  * sixth hour is. The scale is beside.
  */
-export function areas(series, sources = [], now = new Date()) {
+export function areas(series, sources, now) {
   const n = series[0].hours.length;
   if (n < 2) return "";
   const id = `ch${++charts}`;
@@ -423,7 +423,7 @@ export function lineColours(series) {
  * hour, such as each host's processor. Each hour is a column that lights up
  * under the pointer, its tooltip every line at that hour, highest first.
  */
-export function lines(series, now = new Date()) {
+export function lines(series, now) {
   const n = series[0].hours.length;
   if (n < 2) return "";
   const colours = lineColours(series);

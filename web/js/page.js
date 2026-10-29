@@ -545,7 +545,7 @@ function linkCheck(link, checks) {
  * from today or before, or with no day; those from the next six days; and
  * the first after them, the next.
  */
-function choresBy(chores, now = new Date()) {
+function choresBy(chores, now) {
   const today = new Date(now);
   today.setHours(0, 0, 0, 0);
   const week = new Date(today);
@@ -574,7 +574,7 @@ const DATE = /^\d{4}-\d\d-\d\d$/;
  * and every day by as many whole days. The demo's invented snapshot is drawn
  * this way, so it never looks old.
  */
-export function asIfNow(snap, now = Date.now()) {
+export function asIfNow(snap, now) {
   const by = now - Date.parse(snap.at);
   const days = Math.round(by / DAY);
   return JSON.parse(JSON.stringify(snap), (_, v) => {
