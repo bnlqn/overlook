@@ -19,6 +19,9 @@ func TestGetSendsTheKey(t *testing.T) {
 	}))
 	t.Cleanup(s.Close)
 	c := Config{URL: s.URL + "/", Key: "0123abcd"}
+	if err := c.Check("Radarr"); err != nil {
+		t.Fatal(err)
+	}
 	var v []any
 	if err := c.Get(context.Background(), "/api/v3/health", &v); err != nil {
 		t.Error(err)

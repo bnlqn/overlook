@@ -74,7 +74,7 @@ func unescape(s string) string {
 	return b.String()
 }
 
-// short is err, said as briefly as fetch.JSON says its own.
+// short is err, said as briefly as a Source's reads say their own.
 func short(ctx context.Context, err error) error {
 	var ne net.Error
 	if ctx.Err() != nil || (errors.As(err, &ne) && ne.Timeout()) {

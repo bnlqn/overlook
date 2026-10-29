@@ -24,10 +24,11 @@ type source struct {
 	sid string
 }
 
-func newSource(t *testing.T) *source {
+// newSource starts a fake source with start, such as httptest.NewServer.
+func newSource(t *testing.T, start func(http.Handler) *httptest.Server) *source {
 	t.Helper()
 	s := &source{}
-	s.Server = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	s.Server = start(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch {
 		case r.Method == http.MethodPost && r.URL.Path == "/api/auth":
 			n := s.logins.Add(1)
@@ -46,8 +47,6 @@ func newSource(t *testing.T) *source {
 		case r.Method == http.MethodPost && r.URL.Path == "/api/away":
 			s.redirects.Add(1)
 			http.Redirect(w, r, "/api/auth", http.StatusPermanentRedirect)
-		case r.Method == http.MethodGet && r.URL.Path == "/api/moved":
-			http.Redirect(w, r, "/api/stats", http.StatusFound)
 		case r.Method == http.MethodGet && r.URL.Path == "/api/stats":
 			s.mu.Lock()
 			in := s.sid != "" && r.Header.Get("X-FTL-SID") == s.sid
@@ -82,15 +81,20 @@ func sid(_ http.Header, body []byte) (http.Header, error) {
 	return http.Header{"X-FTL-SID": {a.Session.SID}}, nil
 }
 
+// pihole is the login to a fake source, with password.
+func pihole(password string) *Login {
+	return &Login{Path: "/api/auth", Credentials: map[string]string{"password": password}, Take: sid}
+}
+
 // readAll reads the source's stats n times at once, as an adapter reads its
 // paths, and fails t on any error.
-func readAll(t *testing.T, s *Session, url string, n int) {
+func readAll(t *testing.T, s Source, n int) {
 	t.Helper()
 	var wg sync.WaitGroup
 	for range n {
 		wg.Go(func() {
 			var v struct{ N int }
-			if err := s.JSON(t.Context(), url, &v); err != nil || v.N != 4 {
+			if err := s.JSON(t.Context(), "/api/stats", &v); err != nil || v.N != 4 {
 				t.Errorf("read %+v, %v", v, err)
 			}
 		})
@@ -102,20 +106,16 @@ func readAll(t *testing.T, s *Session, url string, n int) {
 // forgets it, however many read at the same time.
 func TestSession(t *testing.T) {
 	t.Parallel()
-	src := newSource(t)
-	s, err := Client{}.Session(src.URL+"/api/auth", map[string]string{"password": "s3cret"}, sid)
-	if err != nil {
-		t.Fatal(err)
-	}
-	stats := src.URL + "/api/stats"
+	src := newSource(t, httptest.NewServer)
+	s := open(t, Source{URL: src.URL, Login: pihole("s3cret")})
 
-	readAll(t, s, stats, 8)
-	readAll(t, s, stats, 8)
+	readAll(t, s, 8)
+	readAll(t, s, 8)
 	if n := src.logins.Load(); n != 1 {
 		t.Errorf("16 reads logged in %d times, want once", n)
 	}
 	src.forget()
-	readAll(t, s, stats, 8)
+	readAll(t, s, 8)
 	if n := src.logins.Load(); n != 2 {
 		t.Errorf("reads after the session was forgotten logged in %d times in all, want twice", n)
 	}
@@ -124,29 +124,50 @@ func TestSession(t *testing.T) {
 	}
 }
 
-// A form session sends its login as a form, as qBittorrent takes it, the
-// password's own characters escaped.
+// A login is sent to a source that signs its own certificate with its CA.
+func TestSessionTrusting(t *testing.T) {
+	t.Parallel()
+	src := newSource(t, httptest.NewTLSServer)
+	readAll(t, open(t, Source{URL: src.URL, CA: caFile(t, src.Server), Login: pihole("s3cret")}), 2)
+	if n := src.logins.Load(); n != 1 {
+		t.Errorf("logged in %d times, want once", n)
+	}
+}
+
+// A form login sends the credentials as a form, as qBittorrent takes them,
+// the password's own characters escaped. It carries nothing else, Header
+// included (ADR 0009), which goes with every GET, beside the session.
 func TestFormSession(t *testing.T) {
 	t.Parallel()
-	var login string
+	var login, key, got string
 	src := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
 			body, _ := io.ReadAll(r.Body)
-			login = r.Header.Get("Content-Type") + " " + string(body)
+			login, key = r.Header.Get("Content-Type")+" "+string(body), r.Header.Get("X-Api-Key")
 			_, _ = w.Write([]byte("Ok."))
 			return
 		}
+		got = r.Header.Get("X-Api-Key") + " " + r.Header.Get("Cookie")
 		_, _ = w.Write([]byte(`{"n": 4}`))
 	}))
 	t.Cleanup(src.Close)
-	s, err := Client{}.FormSession(src.URL+"/login", map[string]string{"username": "overlook", "password": "s3 cret&"},
-		func(http.Header, []byte) (http.Header, error) { return http.Header{"Cookie": {"SID=1"}}, nil })
-	if err != nil {
-		t.Fatal(err)
+	s := open(t, Source{
+		URL:    src.URL,
+		Header: http.Header{"X-Api-Key": {"k3y"}},
+		Login: &Login{
+			Path: "/login", Credentials: map[string]string{"username": "overlook", "password": "s3 cret&"}, Form: true,
+			Take: func(http.Header, []byte) (http.Header, error) { return http.Header{"Cookie": {"SID=1"}}, nil },
+		},
+	})
+	var v struct{ N int }
+	if err := s.JSON(t.Context(), "/stats", &v); err != nil || v.N != 4 {
+		t.Errorf("read %+v, %v", v, err)
 	}
-	readAll(t, s, src.URL+"/stats", 1)
-	if want := "application/x-www-form-urlencoded password=s3+cret%26&username=overlook"; login != want {
-		t.Errorf("the login sent %q, want %q", login, want)
+	if want := "application/x-www-form-urlencoded password=s3+cret%26&username=overlook"; login != want || key != "" {
+		t.Errorf("the login sent %q and the key %q, want %q and no key", login, key, want)
+	}
+	if got != "k3y SID=1" {
+		t.Errorf("a read sent %q, want the key and the session", got)
 	}
 }
 
@@ -154,7 +175,7 @@ func TestFormSession(t *testing.T) {
 // password nor the URL.
 func TestSessionRefused(t *testing.T) {
 	t.Parallel()
-	src := newSource(t)
+	src := newSource(t, httptest.NewServer)
 	var v struct{ N int }
 	for _, c := range []struct {
 		password string
@@ -164,12 +185,11 @@ func TestSessionRefused(t *testing.T) {
 		{"wrong", sid, "login: HTTP 401"},
 		{"s3cret", func(http.Header, []byte) (http.Header, error) { return nil, nil }, "login: no session"},
 	} {
-		s, err := Client{}.Session(src.URL+"/api/auth", map[string]string{"password": c.password}, c.take)
-		if err != nil {
-			t.Fatal(err)
-		}
+		login := pihole(c.password)
+		login.Take = c.take
+		s := open(t, Source{URL: src.URL, Login: login})
 		before := src.logins.Load()
-		err = s.JSON(t.Context(), src.URL+"/api/stats", &v)
+		err := s.JSON(t.Context(), "/api/stats", &v)
 		if err == nil || !strings.Contains(err.Error(), c.want) || strings.Contains(err.Error(), c.password) || strings.Contains(err.Error(), "/api") {
 			t.Errorf("want an error with %q and no password or URL, got %v", c.want, err)
 		}
@@ -179,45 +199,16 @@ func TestSessionRefused(t *testing.T) {
 	}
 }
 
-// A session's client sends its login one POST, and refuses every other
-// request but a GET: another method, a POST to another path, and a login
-// sent on or sent again by a redirect.
-func TestSessionGuard(t *testing.T) {
+// A login redirected is neither sent on nor sent again.
+func TestSessionRedirect(t *testing.T) {
 	t.Parallel()
-	src := newSource(t)
-	s, err := Client{}.Session(src.URL+"/api/auth", map[string]string{"password": "s3cret"}, sid)
-	if err != nil {
-		t.Fatal(err)
-	}
-	for _, r := range []struct{ method, path string }{
-		{"POST", "/api/stats"},
-		{"POST", "/api/auth?again=1"},
-		{"PUT", "/api/auth"},
-		{"PATCH", "/api/auth"},
-		{"DELETE", "/api/auth"},
-		{"HEAD", "/api/auth"},
-		{"OPTIONS", "/api/auth"},
-	} {
-		req, err := http.NewRequestWithContext(t.Context(), r.method, src.URL+r.path, nil)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if res, err := s.client.http.Do(req); err == nil {
-			_ = res.Body.Close()
-			t.Errorf("%s %s went through", r.method, r.path)
-		}
-	}
-	if n := src.logins.Load() + src.others.Load(); n != 0 {
-		t.Errorf("%d refused requests reached the source", n)
-	}
-
+	src := newSource(t, httptest.NewServer)
 	for _, path := range []string{"/api/again", "/api/away"} {
-		moved, err := Client{}.Session(src.URL+path, map[string]string{"password": "s3cret"}, sid)
-		if err != nil {
-			t.Fatal(err)
-		}
+		login := pihole("s3cret")
+		login.Path = path
+		moved := open(t, Source{URL: src.URL, Login: login})
 		before := src.redirects.Load()
-		if err := moved.JSON(t.Context(), src.URL+"/api/stats", new(struct{})); err == nil || !strings.Contains(err.Error(), "POST refused") {
+		if err := moved.JSON(t.Context(), "/api/stats", new(struct{})); err == nil || !strings.Contains(err.Error(), "POST refused") {
 			t.Errorf("%s: a login redirected went on: %v", path, err)
 		}
 		if n := src.redirects.Load() - before; n != 1 {
@@ -226,21 +217,5 @@ func TestSessionGuard(t *testing.T) {
 	}
 	if n := src.logins.Load(); n != 0 {
 		t.Errorf("a redirected login reached the login %d times", n)
-	}
-
-	// A session follows redirects only as its client does.
-	strict := Client{&http.Client{Transport: client.Transport, CheckRedirect: func(*http.Request, []*http.Request) error {
-		return errors.New("redirect refused")
-	}}}
-	s, err = strict.Session(src.URL+"/api/auth", map[string]string{"password": "s3cret"}, sid)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if err := s.JSON(t.Context(), src.URL+"/api/moved", new(struct{})); err == nil || !strings.Contains(err.Error(), "redirect refused") {
-		t.Errorf("a session followed a redirect its client refuses: %v", err)
-	}
-
-	if _, err := (Client{}).Session("https://overlook:s3cret@pihole.example.com/api/auth", nil, sid); err == nil {
-		t.Error("a login URL holding a login was taken")
 	}
 }

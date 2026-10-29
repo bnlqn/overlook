@@ -14,7 +14,6 @@ import (
 	"net/url"
 	"slices"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/bnlqn/overlook/internal/fetch"
@@ -35,27 +34,23 @@ type Config struct {
 	User     string `yaml:"user"`
 	Password string `yaml:"password"`
 
-	session *fetch.Session
+	source fetch.Source
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL, Login: &fetch.Login{
+		Path: "/api/collections/users/auth-with-password", Credentials: map[string]string{"identity": c.User, "password": c.Password}, Take: token,
+	}}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	if c.User == "" || c.Password == "" {
 		return errors.New("user and password are missing: Beszel lets Overlook in only with a login")
 	}
 	c.Name = cmp.Or(c.Name, "Beszel")
-	s, err := fetch.Client{}.Session(c.api("collections/users/auth-with-password"), map[string]string{"identity": c.User, "password": c.Password}, token)
-	if err != nil {
-		return err
-	}
-	c.session = s
 	return nil
 }
-
-func (c Config) api(path string) string { return strings.TrimSuffix(c.URL, "/") + "/api/" + path }
 
 // token takes the session from a login's answer: the token Beszel gives,
 // sent back as it is.
@@ -106,7 +101,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 	// A lapsed session doesn't fail a list: Beszel answers it as a guest's,
 	// with nothing in it. This read fails one with a 401 instead, so the
 	// session logs in again before the lists.
-	if err := c.session.JSON(ctx, c.api("beszel/getkey"), &struct{}{}); err != nil {
+	if err := c.source.JSON(ctx, "/api/beszel/getkey", &struct{}{}); err != nil {
 		return snapshot.Parts{}, err
 	}
 	systems, err := list[system](ctx, c, "systems", url.Values{"fields": {"id,name,status,info,updated"}})
@@ -138,7 +133,7 @@ func list[T any](ctx context.Context, c Config, collection string, q url.Values)
 		var p struct {
 			Items []T `json:"items"`
 		}
-		if err := c.session.JSON(ctx, c.api("collections/"+collection+"/records?"+q.Encode()), &p); err != nil {
+		if err := c.source.JSON(ctx, "/api/collections/"+collection+"/records?"+q.Encode(), &p); err != nil {
 			return nil, err
 		}
 		all = append(all, p.Items...)

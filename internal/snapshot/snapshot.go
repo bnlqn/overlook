@@ -46,7 +46,7 @@ type SourceState struct {
 	// homelab is down when it has check engines and none answered.
 	Kind     string `json:"kind,omitempty"`
 	Answered bool   `json:"answered"`
-	// Error is short and never holds the source's URL (see fetch.JSON).
+	// Error is short and never holds the source's URL (see fetch.Source).
 	Error string `json:"error,omitempty"`
 }
 

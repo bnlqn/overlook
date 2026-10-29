@@ -35,13 +35,15 @@ type Config struct {
 	// URL.
 	Link string `yaml:"link"`
 
+	source fetch.Source
 	titles *titles
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL, Header: http.Header{"X-Api-Key": {c.Key}}}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	if c.Key == "" {
 		return errors.New("key is missing")
@@ -53,10 +55,6 @@ func (c *Config) Check() error {
 	}
 	c.titles = &titles{by: map[string]string{}}
 	return nil
-}
-
-func (c Config) get(ctx context.Context, path string, v any) error {
-	return fetch.JSON(ctx, strings.TrimSuffix(c.URL, "/")+"/api/v1"+path, http.Header{"X-Api-Key": {c.Key}}, v)
 }
 
 // titles are the films' and shows' titles with their year, by their kind
@@ -88,7 +86,7 @@ func (t *titles) of(ctx context.Context, c Config, kind string, id int) string {
 		ReleaseDate string `json:"releaseDate"`
 		FirstAir    string `json:"firstAirDate"`
 	}
-	if err := c.get(ctx, "/"+key, &m); err != nil {
+	if err := c.source.JSON(ctx, "/api/v1/"+key, &m); err != nil {
 		return key
 	}
 	title = m.Title + m.Name
@@ -136,12 +134,12 @@ func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 		path string
 		v    any
 	}{
-		{"/status", &status},
-		{"/request/count", &counts},
-		{"/issue/count", &issues},
-		{"/request?filter=pending&sort=added&take=" + strconv.Itoa(waiting), &pending},
+		{"/api/v1/status", &status},
+		{"/api/v1/request/count", &counts},
+		{"/api/v1/issue/count", &issues},
+		{"/api/v1/request?filter=pending&sort=added&take=" + strconv.Itoa(waiting), &pending},
 	} {
-		if err := c.get(ctx, r.path, r.v); err != nil {
+		if err := c.source.JSON(ctx, r.path, r.v); err != nil {
 			return snapshot.Parts{}, err
 		}
 	}

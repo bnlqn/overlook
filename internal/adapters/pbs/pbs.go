@@ -7,7 +7,6 @@ import (
 	"cmp"
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
 	"net/url"
 	"regexp"
@@ -48,15 +47,16 @@ type Config struct {
 	// it by another, such as its address.
 	ServerName string `yaml:"server_name"`
 
-	client fetch.Client
+	source fetch.Source
 }
 
 var tokenID = regexp.MustCompile(`^[^@!\s]+@[^@!\s]+![^@!\s]+$`)
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL, CA: c.CA, ServerName: c.ServerName, Header: http.Header{"Authorization": {"PBSAPIToken=" + c.Token + ":" + c.Secret}}}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	if !tokenID.MatchString(c.Token) {
 		return errors.New("token needs to be an API token's ID, such as overlook@pbs!overlook")
@@ -68,16 +68,6 @@ func (c *Config) Check() error {
 		return errors.New("datastore is missing")
 	}
 	c.Name = cmp.Or(c.Name, "Backup Server")
-	if c.ServerName != "" && c.CA == "" {
-		return errors.New("server_name needs the ca that signed the certificate")
-	}
-	if c.CA != "" {
-		client, err := fetch.Trusting(c.CA, c.ServerName)
-		if err != nil {
-			return fmt.Errorf("ca: %w", err)
-		}
-		c.client = client
-	}
 	return nil
 }
 
@@ -101,9 +91,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 	var answer struct {
 		Data []backup `json:"data"`
 	}
-	header := http.Header{"Authorization": {"PBSAPIToken=" + c.Token + ":" + c.Secret}}
-	u := strings.TrimSuffix(c.URL, "/") + "/api2/json/admin/datastore/" + url.PathEscape(c.Datastore) + "/snapshots"
-	if err := c.client.JSON(ctx, u, header, &answer); err != nil {
+	if err := c.source.JSON(ctx, "/api2/json/admin/datastore/"+url.PathEscape(c.Datastore)+"/snapshots", &answer); err != nil {
 		return snapshot.Parts{}, err
 	}
 	return parts(answer.Data, now), nil

@@ -69,8 +69,11 @@ func TestVersion(t *testing.T) {
 		_, _ = w.Write([]byte(`{}`))
 	}))
 	t.Cleanup(src.Close)
-	var v struct{}
-	if err := (Config{URL: src.URL, Token: "0123abcd"}).get(context.Background(), "/status/", &v); err != nil {
+	c := Config{URL: src.URL, Token: "0123abcd"}
+	if err := c.Check(); err != nil {
+		t.Fatal(err)
+	}
+	if err := c.source.JSON(context.Background(), "/api/status/", new(struct{})); err != nil {
 		t.Fatal(err)
 	}
 	if accept != "application/json; version=10" {

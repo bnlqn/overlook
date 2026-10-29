@@ -8,7 +8,8 @@ import (
 	"cmp"
 	"context"
 	"errors"
-	"fmt"
+	"maps"
+	"net/http"
 	"strings"
 	"time"
 
@@ -25,12 +26,17 @@ type Config struct {
 	URL      string `yaml:"url"`
 	User     string `yaml:"user"`
 	Password string `yaml:"password"`
+
+	source fetch.Source
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	header := http.Header{"Accept": {"text/calendar"}}
+	maps.Copy(header, fetch.Basic(c.User, c.Password))
+	c.source = fetch.Source{URL: c.URL, Header: header}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	c.Name = cmp.Or(c.Name, "Chores")
 	return nil
@@ -38,7 +44,7 @@ func (c *Config) Check() error {
 
 // Read gives back the chores on c's list that aren't done.
 func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
-	body, err := fetch.Text(ctx, c.URL, "text/calendar", fetch.Login(c.User, c.Password))
+	body, err := c.source.Text(ctx, "")
 	if err != nil {
 		return snapshot.Parts{}, err
 	}

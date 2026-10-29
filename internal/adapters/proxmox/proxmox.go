@@ -41,15 +41,16 @@ type Config struct {
 	// the host's /etc/pve/pve-root-ca.pem, when the system doesn't trust it.
 	CA string `yaml:"ca"`
 
-	client fetch.Client
+	source fetch.Source
 }
 
 var tokenID = regexp.MustCompile(`^[^@!\s]+@[^@!\s]+![^@!\s]+$`)
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL, CA: c.CA, Header: http.Header{"Authorization": {"PVEAPIToken=" + c.Token + "=" + c.Secret}}}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	if !tokenID.MatchString(c.Token) {
 		return errors.New("token needs to be an API token's ID, such as overlook@pve!overlook")
@@ -58,13 +59,6 @@ func (c *Config) Check() error {
 		return errors.New("secret is missing")
 	}
 	c.Name = cmp.Or(c.Name, "Proxmox")
-	if c.CA != "" {
-		client, err := fetch.Trusting(c.CA, "")
-		if err != nil {
-			return fmt.Errorf("ca: %w", err)
-		}
-		c.client = client
-	}
 	return nil
 }
 
@@ -171,8 +165,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 
 // get reads the answer at path into v: Proxmox wraps each in {"data": …}.
 func get(ctx context.Context, c Config, path string, v any) error {
-	header := http.Header{"Authorization": {"PVEAPIToken=" + c.Token + "=" + c.Secret}}
-	return c.client.JSON(ctx, strings.TrimSuffix(c.URL, "/")+"/api2/json/"+path, header, &struct {
+	return c.source.JSON(ctx, "/api2/json/"+path, &struct {
 		Data any `json:"data"`
 	}{v})
 }

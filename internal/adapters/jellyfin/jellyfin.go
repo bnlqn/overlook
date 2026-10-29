@@ -9,11 +9,9 @@ import (
 	"cmp"
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
 	"net/url"
 	"slices"
-	"strings"
 	"time"
 
 	"github.com/bnlqn/overlook/internal/fetch"
@@ -32,24 +30,21 @@ type Config struct {
 	// an administrator can, and no lesser one exists; Overlook's GET-only
 	// reads keep it harmless (ADR 0001).
 	Key string `yaml:"key"`
+
+	source fetch.Source
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL, Header: http.Header{"Authorization": {`MediaBrowser Token="` + c.Key + `"`}}}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	if c.Key == "" {
 		return errors.New("key is missing")
 	}
 	c.Name = cmp.Or(c.Name, "Jellyfin")
 	return nil
-}
-
-// get reads the answer at Jellyfin's path into v, with the key.
-func (c Config) get(ctx context.Context, path string, v any) error {
-	header := http.Header{"Authorization": {`MediaBrowser Token="` + c.Key + `"`}}
-	return fetch.JSON(ctx, strings.TrimSuffix(c.URL, "/")+path, header, v)
 }
 
 type info struct {
@@ -127,7 +122,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		{"/ScheduledTasks?isHidden=false", &tasks},
 		{"/System/ActivityLog/Entries?" + day.Encode(), &log},
 	} {
-		if err := c.get(ctx, r.path, r.v); err != nil {
+		if err := c.source.JSON(ctx, r.path, r.v); err != nil {
 			return snapshot.Parts{}, err
 		}
 	}

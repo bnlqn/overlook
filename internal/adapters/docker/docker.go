@@ -6,7 +6,6 @@ package docker
 import (
 	"cmp"
 	"context"
-	"fmt"
 	"regexp"
 	"slices"
 	"strconv"
@@ -31,12 +30,15 @@ type Config struct {
 	// through only the containers' reads, such as http://socket-proxy:2375.
 	// Overlook reads over HTTP only, never from the socket itself.
 	URL string `yaml:"url"`
+
+	source fetch.Source
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	c.Name = cmp.Or(c.Name, "Docker")
 	return nil
@@ -58,7 +60,7 @@ type container struct {
 // Read reads the Docker engine at c: every container, the stopped ones too.
 func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 	var all []container
-	if err := fetch.JSON(ctx, strings.TrimSuffix(c.URL, "/")+api+"/containers/json?all=1", nil, &all); err != nil {
+	if err := c.source.JSON(ctx, api+"/containers/json?all=1", &all); err != nil {
 		return snapshot.Parts{}, err
 	}
 	return parts(all), nil

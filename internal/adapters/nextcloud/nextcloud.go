@@ -32,12 +32,15 @@ type Config struct {
 	Token string `yaml:"token"`
 	// Link is where the page sends the owner to update an app, if not URL.
 	Link string `yaml:"link"`
+
+	source fetch.Source
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL, Header: http.Header{"NC-Token": {c.Token}}}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	if c.Token == "" {
 		return errors.New("token is missing: serverinfo's, as the README says")
@@ -93,13 +96,12 @@ type info struct {
 
 // Read reads the Nextcloud at c, which Check has filled.
 func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
-	base := strings.TrimSuffix(c.URL, "/")
 	var status struct {
 		Maintenance bool   `json:"maintenance"`
 		Upgrade     bool   `json:"needsDbUpgrade"`
 		Version     string `json:"versionstring"`
 	}
-	if err := fetch.JSON(ctx, base+"/status.php", nil, &status); err != nil {
+	if err := c.source.JSON(ctx, "/status.php", &status); err != nil {
 		return snapshot.Parts{}, err
 	}
 	version := snapshot.Row{Title: snapshot.Text{Key: "nextcloud.version"}, Value: &snapshot.Text{Name: status.Version}}
@@ -114,8 +116,7 @@ func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 	}
 
 	var in info
-	if err := fetch.JSON(ctx, base+"/ocs/v2.php/apps/serverinfo/api/v1/info?format=json&skipApps=false&skipUpdate=false",
-		http.Header{"NC-Token": {c.Token}}, &in); err != nil {
+	if err := c.source.JSON(ctx, "/ocs/v2.php/apps/serverinfo/api/v1/info?format=json&skipApps=false&skipUpdate=false", &in); err != nil {
 		return snapshot.Parts{}, err
 	}
 	d := in.OCS.Data

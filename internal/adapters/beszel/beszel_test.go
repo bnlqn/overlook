@@ -156,7 +156,7 @@ func TestLapsedSession(t *testing.T) {
 func TestConfigCheck(t *testing.T) {
 	t.Parallel()
 	c := Config{URL: "http://beszel:8090", User: "overlook@example.com", Password: "s3cret"}
-	if err := c.Check(); err != nil || c.Name != "Beszel" || c.session == nil {
+	if err := c.Check(); err != nil || c.Name != "Beszel" || c.source.Login == nil {
 		t.Errorf("defaults: %+v, %v", c, err)
 	}
 	for _, bad := range []struct {

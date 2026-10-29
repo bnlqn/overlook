@@ -7,10 +7,8 @@ import (
 	"cmp"
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
 	"slices"
-	"strings"
 	"time"
 
 	"github.com/bnlqn/overlook/internal/fetch"
@@ -34,14 +32,23 @@ type Config struct {
 	User     string `yaml:"user"`
 	Password string `yaml:"password"`
 
-	session *fetch.Session
-	totals  *fetch.Cache[totals]
+	source fetch.Source
+	totals *fetch.Cache[totals]
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL}
+	switch {
+	case c.Key != "":
+		c.source.Header = http.Header{"Authorization": {"Bearer " + c.Key}}
+	case c.User != "":
+		c.source.Login = &fetch.Login{
+			Path: "/api/v2/auth/login", Credentials: map[string]string{"username": c.User, "password": c.Password}, Form: true, Take: cookie,
+		}
+	}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	if c.Key != "" && c.User != "" {
 		return errors.New("key or user, not both: a key from qBittorrent 5.2 on, a login before")
@@ -50,18 +57,9 @@ func (c *Config) Check() error {
 		return errors.New("password without a user")
 	}
 	c.Name = cmp.Or(c.Name, "qBittorrent")
-	if c.User != "" {
-		s, err := fetch.Client{}.FormSession(c.api("auth/login"), map[string]string{"username": c.User, "password": c.Password}, cookie)
-		if err != nil {
-			return err
-		}
-		c.session = s
-	}
 	c.totals = &fetch.Cache[totals]{}
 	return nil
 }
-
-func (c Config) api(path string) string { return strings.TrimSuffix(c.URL, "/") + "/api/v2/" + path }
 
 // cookie takes the session from a login's answer, which qBittorrent gives
 // as a cookie, SID unless its config names another. A login it refuses
@@ -72,19 +70,6 @@ func cookie(h http.Header, _ []byte) (http.Header, error) {
 		return nil, errors.New("refused")
 	}
 	return http.Header{"Cookie": {cookies[0].Name + "=" + cookies[0].Value}}, nil
-}
-
-// get reads the answer at qBittorrent's API path into v, with its key, its
-// session or neither.
-func (c Config) get(ctx context.Context, path string, v any) error {
-	if c.session != nil {
-		return c.session.JSON(ctx, c.api(path), v)
-	}
-	var header http.Header
-	if c.Key != "" {
-		header = http.Header{"Authorization": {"Bearer " + c.Key}}
-	}
-	return fetch.JSON(ctx, c.api(path), header, v)
 }
 
 // torrent is one of qBittorrent's torrents.
@@ -119,10 +104,10 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		Up     int64  `json:"up_info_speed"`
 	}
 	var errored []torrent
-	if err := c.get(ctx, "transfer/info", &transfer); err != nil {
+	if err := c.source.JSON(ctx, "/api/v2/transfer/info", &transfer); err != nil {
 		return snapshot.Parts{}, err
 	}
-	if err := c.get(ctx, "torrents/info?filter=errored", &errored); err != nil {
+	if err := c.source.JSON(ctx, "/api/v2/torrents/info?filter=errored", &errored); err != nil {
 		return snapshot.Parts{}, err
 	}
 	t, err := c.totals.Get(ctx, now, func(ctx context.Context) (totals, error) {
@@ -132,7 +117,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 			} `json:"server_state"`
 			Torrents map[string]torrent `json:"torrents"`
 		}
-		if err := c.get(ctx, "sync/maindata", &all); err != nil {
+		if err := c.source.JSON(ctx, "/api/v2/sync/maindata", &all); err != nil {
 			return totals{}, err
 		}
 		t := totals{free: all.Server.Free}

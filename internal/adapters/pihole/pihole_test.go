@@ -138,7 +138,7 @@ func TestLogin(t *testing.T) {
 func TestConfigCheck(t *testing.T) {
 	t.Parallel()
 	c := Config{URL: "http://pihole"}
-	if err := c.Check(); err != nil || c.Name != "Pi-hole" || c.session != nil {
+	if err := c.Check(); err != nil || c.Name != "Pi-hole" || c.source.Login != nil {
 		t.Errorf("defaults: %+v, %v", c, err)
 	}
 	for _, bad := range []struct {

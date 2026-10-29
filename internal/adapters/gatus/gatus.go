@@ -33,12 +33,15 @@ type Config struct {
 	Threshold int `yaml:"threshold"`
 	// Areas maps each group not named like an area to the area it goes in.
 	Areas map[string]string `yaml:"areas"`
+
+	source fetch.Source
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL, Header: fetch.Basic(c.User, c.Password)}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	if (c.User == "") != (c.Password == "") {
 		return errors.New("give user and password together, or neither")
@@ -81,10 +84,8 @@ type result struct {
 
 // Read reads every check of the Gatus at c.
 func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
-	base := strings.TrimSuffix(c.URL, "/")
-	login := fetch.Login(c.User, c.Password)
 	var endpoints []endpoint
-	if err := fetch.JSON(ctx, fmt.Sprintf("%s/api/v1/endpoints/statuses?page=1&pageSize=%d", base, snapshot.Recent), login, &endpoints); err != nil {
+	if err := c.source.JSON(ctx, fmt.Sprintf("/api/v1/endpoints/statuses?page=1&pageSize=%d", snapshot.Recent), &endpoints); err != nil {
 		return snapshot.Parts{}, err
 	}
 	// Each check's events, which only its own read has. A check whose read
@@ -93,7 +94,7 @@ func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 	for i := range endpoints {
 		wg.Go(func() {
 			var one endpoint
-			if fetch.JSON(ctx, base+"/api/v1/endpoints/"+url.PathEscape(endpoints[i].Key)+"/statuses?page=1&pageSize=1", login, &one) == nil {
+			if c.source.JSON(ctx, "/api/v1/endpoints/"+url.PathEscape(endpoints[i].Key)+"/statuses?page=1&pageSize=1", &one) == nil {
 				endpoints[i].Events = one.Events
 			}
 		})
