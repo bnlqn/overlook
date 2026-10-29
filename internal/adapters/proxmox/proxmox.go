@@ -130,7 +130,7 @@ type task struct {
 
 // Read reads the Proxmox at c: its nodes, then each online node's status,
 // pools and the week's backup runs.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	var resources []resource
 	if err := get(ctx, c, "cluster/resources", &resources); err != nil {
 		return snapshot.Parts{}, err
@@ -147,7 +147,7 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	}
 	slices.SortFunc(hosts, func(a, b *host) int { return strings.Compare(a.name, b.name) })
 
-	since := time.Now().Add(-week).Unix()
+	since := now.Add(-week).Unix()
 	errs := make([]error, 4*len(hosts))
 	var wg sync.WaitGroup
 	for i, h := range hosts {

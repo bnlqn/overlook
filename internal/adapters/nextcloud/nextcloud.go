@@ -14,6 +14,7 @@ import (
 	"net/http"
 	"slices"
 	"strings"
+	"time"
 
 	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
@@ -91,7 +92,7 @@ type info struct {
 }
 
 // Read reads the Nextcloud at c, which Check has filled.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 	base := strings.TrimSuffix(c.URL, "/")
 	var status struct {
 		Maintenance bool   `json:"maintenance"`

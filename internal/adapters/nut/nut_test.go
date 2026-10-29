@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/bnlqn/overlook/internal/adapters/adaptertest"
 	"github.com/bnlqn/overlook/internal/snapshot"
@@ -72,7 +73,7 @@ func read(t *testing.T, path string) (map[string]snapshot.Row, snapshot.Figure) 
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	p, err := Read(context.Background(), c)
+	p, err := Read(context.Background(), c, time.Time{})
 	if err != nil {
 		t.Fatal(err)
 	}

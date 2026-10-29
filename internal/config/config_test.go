@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 )
 
 func write(t *testing.T, yaml string) string {
@@ -133,7 +134,7 @@ func TestLoadAnyPassword(t *testing.T) {
 			t.Errorf("%s: %v", adapter, err)
 			continue
 		}
-		if _, err := c.Readers()[0].Read(context.Background()); err != nil {
+		if _, err := c.Readers()[0].Read(context.Background(), time.Now()); err != nil {
 			t.Errorf("%s: %v", adapter, err)
 		}
 	}

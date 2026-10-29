@@ -16,6 +16,9 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/adaptertest"
 )
 
+// recorded is the morning after testdata's last night of backups.
+var recorded = time.Date(2026, 10, 28, 10, 0, 0, 0, time.UTC)
+
 // testdata holds an answer recorded from a Proxmox Backup Server 4 with its
 // names and numbers invented: four VMs backed up each night at 00:30 UTC to
 // 28 October 2026, two of them again by hand on the 27th, one on the 26th,
@@ -29,7 +32,7 @@ func TestRead(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	p, err := Read(context.Background(), c)
+	p, err := Read(context.Background(), c, recorded)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -84,7 +87,7 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	var runs []any
-	for _, e := range parts(all.Data, time.Date(2026, 10, 28, 10, 0, 0, 0, time.UTC)).Events {
+	for _, e := range parts(all.Data, recorded).Events {
 		runs = append(runs, e.Text.Args["n"])
 	}
 	if got := fmt.Sprint(runs); got != "[4 2 4 1 4 4 2 4 4]" {
@@ -139,14 +142,14 @@ func TestCertificate(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := Read(context.Background(), c); err == nil || !strings.Contains(err.Error(), "certificate") {
+	if _, err := Read(context.Background(), c, recorded); err == nil || !strings.Contains(err.Error(), "certificate") {
 		t.Errorf("a certificate for another name is refused: %v", err)
 	}
 	c.ServerName = "example.com"
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := Read(context.Background(), c); err != nil {
+	if _, err := Read(context.Background(), c, recorded); err != nil {
 		t.Fatal(err)
 	}
 	if auth != "PBSAPIToken=overlook@pbs!overlook:s3cret" {

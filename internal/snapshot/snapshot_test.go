@@ -5,13 +5,16 @@ import (
 	"errors"
 	"sync/atomic"
 	"testing"
+	"time"
 )
 
 func TestReader(t *testing.T) {
 	t.Parallel()
 	var reads atomic.Int32
-	up := Source{Name: "Up", Adapter: "adguard", Area: "network", Read: func(context.Context) (Parts, error) {
+	var given time.Time
+	up := Source{Name: "Up", Adapter: "adguard", Area: "network", Read: func(_ context.Context, now time.Time) (Parts, error) {
 		reads.Add(1)
+		given = now
 		return Parts{
 			Checks:   []Check{{Key: "a"}},
 			Charts:   []Chart{{Area: "network"}},
@@ -21,12 +24,15 @@ func TestReader(t *testing.T) {
 			Chores:   []Chore{{Name: "Dust"}},
 		}, nil
 	}}
-	down := Source{Name: "Down", Adapter: "adguard", Read: func(context.Context) (Parts, error) {
+	down := Source{Name: "Down", Adapter: "adguard", Read: func(context.Context, time.Time) (Parts, error) {
 		return Parts{Checks: []Check{{Key: "lost"}}}, errors.New("timeout")
 	}}
 	r := NewReader([]Source{up, down}, nil, []Link{{Name: "Gatus"}})
 
 	snap := r.Snapshot()
+	if given.IsZero() || !given.Equal(snap.At) {
+		t.Errorf("a source is read at the snapshot's moment: %v, not %v", given, snap.At)
+	}
 	if len(snap.Sources) != 2 || !snap.Sources[0].Answered || snap.Sources[1].Answered || snap.Sources[1].Error != "timeout" {
 		t.Errorf("a source that doesn't answer is marked so: %+v", snap.Sources)
 	}
@@ -56,7 +62,7 @@ func TestReader(t *testing.T) {
 func TestReaderWarns(t *testing.T) {
 	t.Parallel()
 	engine := func(name string) Source {
-		return Source{Name: name, Adapter: "gatus", Read: func(context.Context) (Parts, error) {
+		return Source{Name: name, Adapter: "gatus", Read: func(context.Context, time.Time) (Parts, error) {
 			return Parts{Checks: []Check{{Key: "photos", Name: "Photos", Source: name}}}, nil
 		}}
 	}

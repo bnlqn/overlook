@@ -12,6 +12,10 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/adaptertest"
 )
 
+// recorded is a moment on the day testdata was recorded: GitHub's adapter
+// uses it only to keep its answer for ten minutes.
+var recorded = time.Date(2026, 10, 28, 12, 0, 0, 0, time.UTC)
+
 // testdata holds answers recorded from GitHub on 28 October 2026 and
 // scrubbed: example/homelab, with two pull requests from Dependabot, and
 // example/website, with one from Renovate and one from a person.
@@ -22,7 +26,7 @@ func TestRead(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	p, err := Read(context.Background(), c)
+	p, err := Read(context.Background(), c, recorded)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -56,20 +60,19 @@ func TestReadEvery(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	if p, err := Read(ctx, c); err != nil || len(p.Updates) != 2 {
+	if p, err := Read(ctx, c, recorded); err != nil || len(p.Updates) != 2 {
 		t.Fatalf("read %+v, %v", p, err)
 	}
 	src.Close()
-	if p, err := Read(ctx, c); err != nil || len(p.Updates) != 2 {
+	if p, err := Read(ctx, c, recorded); err != nil || len(p.Updates) != 2 {
 		t.Errorf("within 10 minutes, the last answer: %+v, %v", p, err)
 	}
-	later := time.Now().Add(10 * time.Minute)
-	c.last.Now = func() time.Time { return later }
-	if _, err := Read(ctx, c); err == nil || !strings.Contains(err.Error(), "example/homelab: ") {
+	later := recorded.Add(10 * time.Minute)
+	if _, err := Read(ctx, c, later); err == nil || !strings.Contains(err.Error(), "example/homelab: ") {
 		t.Errorf("after 10 minutes, GitHub is read again, and an error names its repository: %v", err)
 	}
 	c.URL = adaptertest.Replay(t, "testdata").URL
-	if _, err := Read(ctx, c); err == nil {
+	if _, err := Read(ctx, c, later); err == nil {
 		t.Error("within 10 minutes of a refusal, the refusal")
 	}
 }
@@ -88,7 +91,7 @@ func TestReadToken(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := Read(context.Background(), c); err != nil {
+	if _, err := Read(context.Background(), c, recorded); err != nil {
 		t.Errorf("a private repository is read with the token: %v", err)
 	}
 }

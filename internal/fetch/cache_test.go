@@ -10,7 +10,7 @@ import (
 func TestCache(t *testing.T) {
 	t.Parallel()
 	now := time.Date(2026, 10, 28, 10, 0, 0, 0, time.UTC)
-	c := Cache[int]{Now: func() time.Time { return now }}
+	var c Cache[int]
 	reads := 0
 	fail := false
 	read := func(context.Context) (int, error) {
@@ -20,7 +20,7 @@ func TestCache(t *testing.T) {
 		}
 		return reads, nil
 	}
-	get := func() (int, error) { return c.Get(context.Background(), read) }
+	get := func() (int, error) { return c.Get(context.Background(), now, read) }
 
 	if v, err := get(); v != 1 || err != nil {
 		t.Fatalf("the first read: %d, %v", v, err)
