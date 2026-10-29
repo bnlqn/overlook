@@ -80,7 +80,7 @@ func (m *moment) UnmarshalJSON(b []byte) error {
 }
 
 // Read reads the monitors on the status page of the Uptime Kuma at c.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 	base := strings.TrimSuffix(c.URL, "/") + "/api/status-page/"
 	var page struct {
 		Groups []struct {

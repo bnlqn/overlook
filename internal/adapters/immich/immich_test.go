@@ -9,10 +9,15 @@ import (
 	"reflect"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/bnlqn/overlook/internal/adapters/adaptertest"
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
+
+// recorded is noon on the day testdata was recorded: Immich counts the week
+// to it by UTC's days.
+var recorded = time.Date(2026, 10, 28, 12, 0, 0, 0, time.UTC)
 
 // testdata holds answers recorded from an Immich 3.3.5 on 28 October 2026,
 // with its people, ids and numbers invented: two people, a newer release out,
@@ -87,7 +92,7 @@ func TestReadNoStatistics(t *testing.T) {
 		http.NotFound(w, r)
 	}))
 	t.Cleanup(src.Close)
-	if _, err := Read(context.Background(), Config{URL: src.URL, Key: "k3y"}); err == nil || !strings.Contains(err.Error(), "HTTP 404") {
+	if _, err := Read(context.Background(), Config{URL: src.URL, Key: "k3y"}, recorded); err == nil || !strings.Contains(err.Error(), "HTTP 404") {
 		t.Errorf("want HTTP 404, got %v", err)
 	}
 }
@@ -120,7 +125,7 @@ func read(t *testing.T, dir string) snapshot.Parts {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	p, err := Read(context.Background(), c)
+	p, err := Read(context.Background(), c, recorded)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -102,11 +102,7 @@ type record struct {
 const pbTime = "2006-01-02 15:04:05.999Z07:00"
 
 // Read reads the hub at c, which Check has filled.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
-	return read(ctx, c, time.Now())
-}
-
-func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	// A lapsed session doesn't fail a list: Beszel answers it as a guest's,
 	// with nothing in it. This read fails one with a 401 instead, so the
 	// session logs in again before the lists.

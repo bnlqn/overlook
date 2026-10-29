@@ -48,7 +48,7 @@ func TestRead(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	p, err := read(context.Background(), c, time.Unix(1793288955, 0))
+	p, err := Read(context.Background(), c, time.Unix(1793288955, 0))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -95,7 +95,7 @@ func TestRead(t *testing.T) {
 	// Without Alertmanager, a silence isn't known, and Backup age is a
 	// problem as Prometheus sees it, still going since it fired.
 	c.Alertmanager = ""
-	if p, err = read(context.Background(), c, time.Unix(1793288955, 0)); err != nil {
+	if p, err = Read(context.Background(), c, time.Unix(1793288955, 0)); err != nil {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)

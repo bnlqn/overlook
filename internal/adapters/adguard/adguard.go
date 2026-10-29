@@ -90,14 +90,9 @@ type found struct {
 	IP   string `json:"ip"`
 }
 
-// Read reads the AdGuard Home at c.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
-	return read(ctx, c, time.Now())
-}
-
-// read reads the AdGuard Home at c as at now, whose time zone says when
+// Read reads the AdGuard Home at c as at now, whose time zone says when
 // today started.
-func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	base := strings.TrimSuffix(c.URL, "/") + "/control/"
 	login := fetch.Login(c.User, c.Password)
 	var s stats

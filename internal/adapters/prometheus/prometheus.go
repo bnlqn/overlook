@@ -132,11 +132,7 @@ func (c Config) rangeOf(ctx context.Context, query string, from, to time.Time, s
 }
 
 // Read reads every alerting rule of the Prometheus at c.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
-	return read(ctx, c, time.Now())
-}
-
-func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	var rules struct {
 		Data struct {
 			Groups []struct {

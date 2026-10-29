@@ -45,12 +45,12 @@ type SourceState struct {
 	Error string `json:"error,omitempty"`
 }
 
-// Source is one source, read by its adapter.
+// Source is one source, read by its adapter at the moment it's given.
 type Source struct {
 	Name    string
 	Adapter string
 	Area    string
-	Read    func(context.Context) (Parts, error)
+	Read    func(context.Context, time.Time) (Parts, error)
 }
 
 // Reader reads every source into a snapshot when asked and the last is
@@ -72,12 +72,14 @@ func NewReader(sources []Source, apps, tools []Link) *Reader {
 }
 
 // Snapshot returns the last snapshot, or a new one if it's older than fresh.
-// Every source is read in parallel, each for at most timeout. A request that
+// Every source is read in parallel, each for at most timeout, and given the
+// same moment, the snapshot's, so all agree on what today is. A request that
 // comes while a read is going waits for it rather than read again.
 func (r *Reader) Snapshot() Snapshot {
 	r.mu.Lock()
 	defer r.mu.Unlock()
-	if time.Since(r.last.At) < fresh {
+	now := time.Now()
+	if now.Sub(r.last.At) < fresh {
 		return r.last
 	}
 	parts := make([]Parts, len(r.sources))
@@ -89,14 +91,14 @@ func (r *Reader) Snapshot() Snapshot {
 			// snapshot every other tab is waiting for.
 			ctx, cancel := context.WithTimeout(context.Background(), timeout)
 			defer cancel()
-			parts[i], errs[i] = src.Read(ctx)
+			parts[i], errs[i] = src.Read(ctx, now)
 		})
 	}
 	wg.Wait()
 
 	// Empty lists, never null, so the page needn't tell them apart.
 	snap := Snapshot{
-		At:      time.Now(),
+		At:      now,
 		Sources: make([]SourceState, 0, len(r.sources)),
 		Parts:   Parts{Checks: []Check{}, Sections: []Section{}, Charts: []Chart{}, Figures: []Figure{}, Events: []Event{}, Updates: []Update{}, Chores: []Chore{}},
 		Apps:    append([]Link{}, r.apps...),

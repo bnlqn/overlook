@@ -80,11 +80,7 @@ func (e entity) domain() string { d, _, _ := strings.Cut(e.ID, "."); return d }
 func (e entity) name() string { return cmp.Or(e.Attributes.Name, e.ID) }
 
 // Read reads the Home Assistant at c, which Check has filled.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
-	return read(ctx, c, time.Now())
-}
-
-func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	var config struct {
 		Version      string `json:"version"`
 		SafeMode     bool   `json:"safe_mode"`

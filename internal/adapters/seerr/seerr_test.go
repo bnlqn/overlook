@@ -25,7 +25,7 @@ func TestRead(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	p, err := Read(context.Background(), c)
+	p, err := Read(context.Background(), c, time.Time{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -73,7 +73,7 @@ func TestTitlesOnce(t *testing.T) {
 		t.Fatal(err)
 	}
 	for range 3 {
-		if _, err := Read(context.Background(), c); err != nil {
+		if _, err := Read(context.Background(), c, time.Time{}); err != nil {
 			t.Fatal(err)
 		}
 	}

@@ -97,7 +97,7 @@ type backup struct {
 }
 
 // Read reads the backups in c's datastore.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	var answer struct {
 		Data []backup `json:"data"`
 	}
@@ -106,7 +106,7 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	if err := c.client.JSON(ctx, u, header, &answer); err != nil {
 		return snapshot.Parts{}, err
 	}
-	return parts(answer.Data, time.Now()), nil
+	return parts(answer.Data, now), nil
 }
 
 func parts(backups []backup, now time.Time) snapshot.Parts {

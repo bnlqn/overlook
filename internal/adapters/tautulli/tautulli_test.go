@@ -60,7 +60,7 @@ func TestRead(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	p, err := read(context.Background(), c, time.Date(2026, 10, 29, 12, 37, 33, 0, time.UTC))
+	p, err := Read(context.Background(), c, time.Date(2026, 10, 29, 12, 37, 33, 0, time.UTC))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -114,7 +114,7 @@ func TestPlex(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	p, err := Read(context.Background(), c)
+	p, err := Read(context.Background(), c, time.Date(2026, 10, 29, 12, 37, 33, 0, time.UTC))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -128,7 +128,7 @@ func TestPlex(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	if p, err = Read(context.Background(), c); err != nil {
+	if p, err = Read(context.Background(), c, time.Date(2026, 10, 29, 12, 37, 33, 0, time.UTC)); err != nil {
 		t.Fatal(err)
 	}
 	if r := p.Sections[0].Rows[0]; r.Value.Key != "tautulli.unreachable" || r.Tone != "red" || p.Figures[0].Tone != "orange" {

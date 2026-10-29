@@ -80,7 +80,7 @@ type result struct {
 }
 
 // Read reads every check of the Gatus at c.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 	base := strings.TrimSuffix(c.URL, "/")
 	login := fetch.Login(c.User, c.Password)
 	var endpoints []endpoint

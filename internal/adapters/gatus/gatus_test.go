@@ -19,7 +19,7 @@ func TestRead(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	p, err := Read(context.Background(), c)
+	p, err := Read(context.Background(), c, time.Time{})
 	if err != nil {
 		t.Fatal(err)
 	}
