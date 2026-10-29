@@ -83,6 +83,7 @@
   "chart.day": "24 hours",
   "chart.all": "{ms:span}",
   "chart.busiest": "Busiest",
+  "chart.highest": "Highest",
 
   "areas.title": "Areas",
   "areas.hint": "the last 30 results",

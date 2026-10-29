@@ -8,6 +8,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"maps"
 	"math"
 	"net/http"
 	"net/url"
@@ -115,6 +116,14 @@ type host struct {
 		Health string `json:"health"`
 	}
 	runs []task
+	// history is the host's last week every half hour, oldest first, from
+	// /nodes/{node}/rrddata: a row without a reading is a gap in it.
+	history []struct {
+		Time     int64    `json:"time"`
+		CPU      *float64 `json:"cpu"`
+		MemUsed  *float64 `json:"memused"`
+		MemTotal *float64 `json:"memtotal"`
+	}
 }
 
 // task is one backup run, from /nodes/{node}/tasks. A run still going has
@@ -145,15 +154,16 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	slices.SortFunc(hosts, func(a, b *host) int { return strings.Compare(a.name, b.name) })
 
 	since := time.Now().Add(-week).Unix()
-	errs := make([]error, 3*len(hosts))
+	errs := make([]error, 4*len(hosts))
 	var wg sync.WaitGroup
 	for i, h := range hosts {
 		node := "nodes/" + url.PathEscape(h.name) + "/"
-		wg.Go(func() { errs[3*i] = get(ctx, c, node+"status", &h.status) })
-		wg.Go(func() { errs[3*i+1] = get(ctx, c, node+"disks/zfs", &h.pools) })
+		wg.Go(func() { errs[4*i] = get(ctx, c, node+"status", &h.status) })
+		wg.Go(func() { errs[4*i+1] = get(ctx, c, node+"disks/zfs", &h.pools) })
+		wg.Go(func() { errs[4*i+3] = get(ctx, c, node+"rrddata?timeframe=week&cf=AVERAGE", &h.history) })
 		// source=all lists the run still going too.
 		wg.Go(func() {
-			errs[3*i+2] = get(ctx, c, fmt.Sprintf("%stasks?typefilter=vzdump&source=all&since=%d&limit=100", node, since), &h.runs)
+			errs[4*i+2] = get(ctx, c, fmt.Sprintf("%stasks?typefilter=vzdump&source=all&since=%d&limit=100", node, since), &h.runs)
 		})
 	}
 	wg.Wait()
@@ -368,7 +378,67 @@ func parts(resources []resource, hosts []*host, nodes int) snapshot.Parts {
 		f.Tone = "orange"
 	}
 	p.Figures = append(p.Figures, f)
+	p.Charts = levels(hosts)
 	return p
+}
+
+// levels are the hosts' processor and memory by the hour, a line each, over
+// the hours from when every host has a reading to this one: each hour the
+// mean of its half hours, and an hour with none takes the last one's.
+//
+// ponytail: an hour with no reading draws the last, which a line can't tell
+// from a level that held. If gaps inside a week turn up, draw them as gaps.
+func levels(hosts []*host) []snapshot.Chart {
+	type level struct{ cpu, mem []float64 }
+	by := make([]map[int64]level, len(hosts))
+	var from, to int64
+	for i, h := range hosts {
+		by[i] = map[int64]level{}
+		for _, r := range h.history {
+			if r.CPU == nil || r.MemUsed == nil || r.MemTotal == nil || *r.MemTotal <= 0 {
+				continue
+			}
+			hour := r.Time / 3600
+			l := by[i][hour]
+			l.cpu = append(l.cpu, 100**r.CPU)
+			l.mem = append(l.mem, 100**r.MemUsed / *r.MemTotal)
+			by[i][hour] = l
+		}
+		if len(by[i]) == 0 {
+			return nil
+		}
+		first, last := slices.Min(slices.Collect(maps.Keys(by[i]))), slices.Max(slices.Collect(maps.Keys(by[i])))
+		from, to = max(from, first), max(to, last)
+	}
+	if to-from < 1 {
+		return nil
+	}
+	mean := func(v []float64) float64 {
+		var sum float64
+		for _, x := range v {
+			sum += x
+		}
+		return math.Round(10*sum/float64(len(v))) / 10
+	}
+	cpu := snapshot.Chart{Area: Area, Title: snapshot.Text{Key: "proxmox.cpu_chart"}, Measures: true}
+	mem := snapshot.Chart{Area: Area, Title: snapshot.Text{Key: "proxmox.ram_chart"}, Measures: true}
+	for i, h := range hosts {
+		// From the host's own first reading, so that it has one by from.
+		var c, m []float64
+		var lastCPU, lastMem float64
+		for hour := slices.Min(slices.Collect(maps.Keys(by[i]))); hour <= to; hour++ {
+			if l, ok := by[i][hour]; ok {
+				lastCPU, lastMem = mean(l.cpu), mean(l.mem)
+			}
+			if hour >= from {
+				c, m = append(c, lastCPU), append(m, lastMem)
+			}
+		}
+		label := snapshot.Text{Name: h.name}
+		cpu.Series = append(cpu.Series, snapshot.Series{Label: label, Hours: c})
+		mem.Series = append(mem.Series, snapshot.Series{Label: label, Hours: m})
+	}
+	return []snapshot.Chart{cpu, mem}
 }
 
 // cpuBrand is what goes before a processor's model, such as "12th Gen

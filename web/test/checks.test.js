@@ -3,6 +3,7 @@ import { test } from "node:test";
 import {
   areaState,
   asIfNow,
+  busiest,
   byState,
   checkState,
   choresBy,
@@ -360,6 +361,39 @@ test("past eight shares, the smallest fold into one; toned ones never fold", () 
   assert.equal(fold(nine.slice(0, 8)).length, 8, "eight fit");
   const guests = Array.from({ length: 47 }, (_, i) => ({ ...person(`g${i}`, 1), tone: "blue" }));
   assert.equal(fold(guests).length, 47, "each guest backed up or not means something");
+});
+
+test("past most lines, the highest keep their places and the rest give way", () => {
+  const line = (n) => ({ label: { name: `h${n}` }, hours: [n, n] });
+  assert.deepEqual(busiest([line(1), line(2)], 8), [0, 1]);
+  const ten = [3, 9, 1, 7, 5, 8, 2, 6, 4, 0].map(line);
+  assert.deepEqual(busiest(ten, 8), [0, 1, 3, 4, 5, 7, 8], "the seven highest, in their order");
+});
+
+test("levels from several sources are one chart, their lines side by side over the hours they all have", () => {
+  const cpu = (source, names, n) => ({
+    area: "servers",
+    title: { key: "proxmox.cpu_chart" },
+    measures: true,
+    source,
+    by: source,
+    series: names.map((name, k) => ({ label: { name }, hours: Array.from({ length: n }, () => 10 * (k + 1)) })),
+  });
+  const [one] = joinCharts([cpu("Cluster", ["alder", "birch"], 5), cpu("Vault", ["vault"], 3)]);
+  assert.deepEqual(
+    one.series.map((s) => [s.label.name, s.hours.length]),
+    [
+      ["alder", 3],
+      ["birch", 3],
+      ["vault", 3],
+    ],
+  );
+  assert.equal(one.series[1].hours[0], 20, "never added up");
+  assert.deepEqual(
+    one.sources.map((s) => s.name),
+    ["Cluster", "Vault"],
+  );
+  assert.equal(one.by, undefined);
 });
 
 test("figures that share a join key are one tile, the first's number first; alone, each stays", () => {

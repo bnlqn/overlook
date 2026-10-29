@@ -3,7 +3,7 @@
 // hour as bars or areas, and shares. Every value from the snapshot is escaped
 // here or by t().
 
-import { checkState, fold } from "./checks.js";
+import { busiest, checkState, fold } from "./checks.js";
 import { clock, compact, day, esc, ms, number, say, t, weekday } from "./text.js";
 
 // 16 px strokes for the pages, figures and events; apps and tools show their
@@ -323,30 +323,10 @@ export function areas(series, sources = [], now = new Date()) {
   if (n < 2) return "";
   const id = `ch${++charts}`;
   const colours = seriesColours(series.length);
-  const long = n > 48;
-  const at = (i) => hourStart(i, n, now);
+  const { long, at, bands, marks } = hourAxis(n, now);
   const max = niceMax(Math.max(...series[0].hours));
   const y = (v) => (100 - (100 * v) / max).toFixed(2);
   const line = (h) => h.map((v, i) => `${i ? "L" : "M"}${i + 0.5},${y(v)}`).join("");
-  const left = (x) => `${((100 * x) / n).toFixed(2)}%`;
-  let bands = "";
-  const marks = [];
-  if (long) {
-    const starts = [0, ...series[0].hours.map((_, i) => i).filter((i) => i && at(i).getHours() === 0)];
-    starts.forEach((from, k) => {
-      const to = starts[k + 1] ?? n;
-      // Every other calendar day is shaded, so a day keeps its shade as the hours go by.
-      if (Math.round(new Date(at(from)).setHours(0, 0, 0, 0) / 864e5) % 2) {
-        bands += `<rect class="band" x="${from}" y="0" width="${to - from}" height="100"/>`;
-      }
-      if ((to - from) / n >= 0.08)
-        marks.push(`<span style="left:${left((from + to) / 2)}">${weekday(at(from))}</span>`);
-    });
-  } else {
-    for (let i = 0; i < n; i++) {
-      if (at(i).getHours() % 6 === 0) marks.push(`<span style="left:${left(i + 0.5)}">${clock(at(i))}</span>`);
-    }
-  }
   const defs = colours
     .map(
       (c, k) =>
@@ -375,6 +355,88 @@ export function areas(series, sources = [], now = new Date()) {
   );
   return `<div class="hour-chart areas${long ? " long" : ""}"><div class="plot">${grid.join("")}
     <svg viewBox="0 0 ${n} 100" preserveAspectRatio="none" aria-hidden="true"><defs>${defs}</defs>${bands}<g class="series">${fills}${lines}</g>${cols}</svg>
+  </div><div class="axis">${marks.join("")}</div></div>`;
+}
+
+/**
+ * The axis under n hours ending with this one: over more than two days, the
+ * days alternate in shade and are named under their middle; over fewer,
+ * every sixth hour is.
+ */
+function hourAxis(n, now) {
+  const long = n > 48;
+  const at = (i) => hourStart(i, n, now);
+  const left = (x) => `${((100 * x) / n).toFixed(2)}%`;
+  let bands = "";
+  const marks = [];
+  if (long) {
+    const starts = [0, ...Array.from({ length: n }, (_, i) => i).filter((i) => i && at(i).getHours() === 0)];
+    starts.forEach((from, k) => {
+      const to = starts[k + 1] ?? n;
+      // Every other calendar day is shaded, so a day keeps its shade as the hours go by.
+      if (Math.round(new Date(at(from)).setHours(0, 0, 0, 0) / 864e5) % 2) {
+        bands += `<rect class="band" x="${from}" y="0" width="${to - from}" height="100"/>`;
+      }
+      if ((to - from) / n >= 0.08)
+        marks.push(`<span style="left:${left((from + to) / 2)}">${weekday(at(from))}</span>`);
+    });
+  } else {
+    for (let i = 0; i < n; i++) {
+      if (at(i).getHours() % 6 === 0) marks.push(`<span style="left:${left(i + 0.5)}">${clock(at(i))}</span>`);
+    }
+  }
+  return { long, at, bands, marks };
+}
+
+/** A line among many that isn't one of the highest: thin and grey. */
+const QUIET = "var(--m-label-3)";
+
+/**
+ * Each level's colour: its slot's, or past eight, the seven highest over the
+ * hours theirs and the rest grey, each keeping its place among them.
+ */
+export function lineColours(series) {
+  const kept = new Set(busiest(series, SERIES.length));
+  let slot = 0;
+  return series.map((_, k) => (kept.has(k) ? SERIES[slot++] : QUIET));
+}
+
+/**
+ * Levels by the hour as lines from 0 to 100%, oldest first, ending with this
+ * hour, such as each host's processor. Each hour is a column that lights up
+ * under the pointer, its tooltip every line at that hour, highest first.
+ */
+export function lines(series, now = new Date()) {
+  const n = series[0].hours.length;
+  if (n < 2) return "";
+  const colours = lineColours(series);
+  const { long, at, bands, marks } = hourAxis(n, now);
+  const path = (h) => h.map((v, i) => `${i ? "L" : "M"}${i + 0.5},${(100 - v).toFixed(2)}`).join("");
+  // The grey ones first, so the coloured ones are drawn over them.
+  const order = series
+    .map((_, k) => k)
+    .sort((a, b) => (colours[a] === QUIET) - (colours[b] === QUIET))
+    .reverse();
+  const strokes = order
+    .map(
+      (k) =>
+        `<path class="stroke${colours[k] === QUIET ? " quiet" : ""}" d="${path(series[k].hours)}" style="stroke:${colours[k]}"/>`,
+    )
+    .join("");
+  const cols = Array.from({ length: n }, (_, i) => {
+    const rows = series
+      .map((s, k) => ({ v: s.hours[i], row: [colours[k], say(s.label), t("percent", { n: Math.round(s.hours[i]) })] }))
+      .sort((a, b) => b.v - a.v)
+      .map((r) => r.row);
+    const title = `${long ? `${day(at(i))}, ` : ""}${clock(at(i))} – ${clock(+at(i) + 3600e3)}`;
+    return `<g class="col"><rect class="hit" x="${i}" y="0" width="1" height="100" data-tip="${tip(title, rows, i === n - 1 ? t("chart.so_far") : "")}"/><line class="cur" x1="${i + 0.5}" x2="${i + 0.5}" y1="0" y2="100"/></g>`;
+  }).join("");
+  const grid = [0, 50, 100].map(
+    (v) =>
+      `<i class="line" style="bottom:${v}%"></i><span class="scale" style="bottom:${v}%">${t("percent", { n: v })}</span>`,
+  );
+  return `<div class="hour-chart areas lines${long ? " long" : ""}"><div class="plot">${grid.join("")}
+    <svg viewBox="0 0 ${n} 100" preserveAspectRatio="none" aria-hidden="true">${bands}<g class="series">${strokes}</g>${cols}</svg>
   </div><div class="axis">${marks.join("")}</div></div>`;
 }
 

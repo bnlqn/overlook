@@ -48,7 +48,7 @@ and the least key it needs), and CI passes.
        large one, at the most the page is made for: 12 hosts, 12 people,
        30 sources, 100 checks and 30 apps. Every change to the page is
        looked at with all three.
-2. [ ] The page at that scale: eight colours for people and sources, the
+2. [x] The page at that scale: eight colours for people and sources, the
        rest folded into one share; a section of hosts per source, a row
        each; a check that keeps no recent results; `check:` naming its
        check engine; charts of what hosts measure, a line each. Then the
@@ -416,8 +416,9 @@ no way to skip the check.
 ### Proxmox VE
 
 Each host's processor, memory, uptime and version, the guests, the storage,
-the ZFS pools and the last backup run, in Servers. Today shows how many
-guests are up, and the week each backup run.
+the ZFS pools and the last backup run, in Servers, with each host's
+processor and memory by the hour over the week Proxmox keeps, a line each.
+Today shows how many guests are up, and the week each backup run.
 
 ```yaml
 sources:

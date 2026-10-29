@@ -2,7 +2,21 @@
 // several sources added up, then each section its sources add.
 
 import { areaState, joinCharts, missing, shown, silent } from "./checks.js";
-import { areas, by, checkRows, hourStart, legend, section, seriesColours, stateIcon, TONE, tip, word } from "./draw.js";
+import {
+  areas,
+  by,
+  checkRows,
+  hourStart,
+  legend,
+  lineColours,
+  lines,
+  section,
+  seriesColours,
+  stateIcon,
+  TONE,
+  tip,
+  word,
+} from "./draw.js";
 import { HERE, start } from "./shell.js";
 import { clock, day, esc, list, number, say, t } from "./text.js";
 
@@ -19,21 +33,30 @@ function chart(c, snap) {
   const n = Math.min(range, all);
   const cut = (x) => ({ ...x, hours: x.hours.slice(all - n) });
   const series = c.series.map(cut);
-  const colours = seriesColours(series.length);
+  const colours = c.measures ? lineColours(series) : seriesColours(series.length);
+  const when = (i) => {
+    const at = hourStart(i, n);
+    return `<b>${n > 24 ? `${day(at)}, ` : ""}${clock(at)}</b>`;
+  };
   const sum = (hours) => hours.reduce((a, v) => a + v, 0);
   const whole = sum(series[0].hours);
-  const peak = series[0].hours.indexOf(Math.max(...series[0].hours));
-  const at = hourStart(peak, n);
-  const sums = [
-    `${say(series[0].label)} <b>${number(whole)}</b>`,
-    ...series
-      .slice(1)
-      .map(
-        (s) =>
-          `${say(s.label)} <b>${t("percent", { n: whole ? Math.round((1000 * sum(s.hours)) / whole) / 10 : 0 })}</b>`,
-      ),
-    `${t("chart.busiest")} <b>${n > 24 ? `${day(at)}, ` : ""}${clock(at)}</b>`,
-  ];
+  // Levels say which was highest and when; counts, their sums and the
+  // busiest hour.
+  const [top, topAt, topOf] = series
+    .flatMap((s) => s.hours.map((v, i) => [v, i, s]))
+    .reduce((a, b) => (b[0] > a[0] ? b : a));
+  const sums = c.measures
+    ? [`${t("chart.highest")} <b>${say(topOf.label)} ${t("percent", { n: Math.round(top) })}</b>`, when(topAt)]
+    : [
+        `${say(series[0].label)} <b>${number(whole)}</b>`,
+        ...series
+          .slice(1)
+          .map(
+            (s) =>
+              `${say(s.label)} <b>${t("percent", { n: whole ? Math.round((1000 * sum(s.hours)) / whole) / 10 : 0 })}</b>`,
+          ),
+        `${t("chart.busiest")} ${when(series[0].hours.indexOf(Math.max(...series[0].hours)))}`,
+      ];
   // Added up from some of an adapter's sources, it says so when another
   // answered but gave none.
   const names = c.sources.map((s) => s.name);
@@ -53,7 +76,7 @@ function chart(c, snap) {
       : "";
   return `<section class="card chart">
     <div class="chart-head"><div><h2 class="card-title">${say(c.title)}${by(c)}</h2><div class="detail">${sums.join(" · ")}</div></div>${pills}</div>
-    ${areas(series, c.sources.map(cut))}
+    ${c.measures ? lines(series) : areas(series, c.sources.map(cut))}
     ${legend(series, colours)}</section>`;
 }
 
