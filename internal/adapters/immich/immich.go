@@ -84,7 +84,7 @@ type queue struct {
 
 // Read reads the Immich at c. Its statistics are all it needs: any other read
 // that fails leaves out what it would have shown.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	api := strings.TrimSuffix(c.URL, "/") + "/api"
 	key := http.Header{"X-Api-Key": {c.Key}}
 	get := func(path string, v any) bool { return fetch.JSON(ctx, api+path, key, v) == nil }
@@ -113,7 +113,7 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 
 	// What each person uploaded in the 7 days to today, by Immich's days,
 	// which are UTC's. A person whose read fails goes without it.
-	today := time.Now().UTC()
+	today := now.UTC()
 	days := url.Values{"from": {today.AddDate(0, 0, -6).Format(time.DateOnly)}, "to": {today.Format(time.DateOnly)}, "type": {"Upload"}}.Encode()
 	week := make([]*int64, len(stats.People))
 	for i, p := range stats.People {

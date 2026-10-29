@@ -49,11 +49,7 @@ type stats struct {
 }
 
 // Read reads the Prowlarr at c, which Check has filled.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
-	return read(ctx, c, time.Now())
-}
-
-func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	var indexers []indexer
 	var failed []failing
 	var week struct {

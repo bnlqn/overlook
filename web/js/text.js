@@ -4,12 +4,23 @@
 let words = { en: {}, mine: {} };
 let locale = "en";
 let numbers = new Intl.NumberFormat(locale);
+// The moment the page is drawn for, which a message's {at:when} counts from.
+let moment = Number.NaN;
 
 /** Uses the English table, the viewer's own, and the viewer's locale. */
 export function setWords(en, mine = {}, viewer = "en") {
   words = { en, mine };
   locale = viewer;
   numbers = new Intl.NumberFormat(locale);
+}
+
+/**
+ * Sets the moment the page is drawn for, as start() reads it, which a
+ * message's {at:when} counts from: a message can't be handed it, as ago()
+ * and when() are.
+ */
+export function drawnAt(now) {
+  moment = now;
 }
 
 /** Reads the English table and the one for the viewer's language. */
@@ -71,6 +82,9 @@ export const clock = (d) => new Date(d).toLocaleTimeString(locale, { hour: "2-di
 /** A day of the week, short: "Tue". */
 export const weekday = (d) => new Date(d).toLocaleDateString(locale, { weekday: "short" });
 
+/** A day of the month: "28". */
+export const date = (d) => new Date(d).toLocaleDateString(locale, { day: "numeric" });
+
 /** A day: "Tue 28 Oct", or "Tue, Oct 28". */
 export const day = (d) => new Date(d).toLocaleDateString(locale, { weekday: "short", day: "numeric", month: "short" });
 
@@ -83,11 +97,11 @@ export function span(ms) {
   return t("span.days", { n: Math.round(h / 24) });
 }
 
-/** How long ago a moment was: "just now", "5 h ago". */
-export const ago = (d, now = Date.now()) => (now - d < 60e3 ? t("ago.now") : t("ago", { ms: now - d }));
+/** How long ago a moment was, from now: "just now", "5 h ago". */
+export const ago = (d, now) => (now - d < 60e3 ? t("ago.now") : t("ago", { ms: now - d }));
 
-/** A moment: today's or yesterday's time, or the day when longer ago. */
-export function when(d, now = new Date()) {
+/** A moment, from now: today's or yesterday's time, or the day when longer ago. */
+export function when(d, now) {
   const at = new Date(d);
   const today = new Date(now);
   today.setHours(0, 0, 0, 0);
@@ -113,4 +127,15 @@ export function bytes(n) {
 export const ms = (v) => (v === null || v === undefined ? "" : v < 1 ? t("ms.under") : t("ms", { n: Math.round(v) }));
 
 // The formats a message's {name:format} can ask for.
-const FORMAT = { span, when, day, clock, bytes, ms, area: (a) => t(`area.${a}`) };
+// A list is of names as written, areas of the page's areas.
+const FORMAT = {
+  span,
+  when: (d) => when(d, moment),
+  day,
+  clock,
+  bytes,
+  ms,
+  area: (a) => t(`area.${a}`),
+  areas: (areas) => list(areas.map((a) => t(`area.${a}`))),
+  list: (names) => list(names.map(esc)),
+};

@@ -26,7 +26,7 @@ project uses are in [CONTEXT.md](CONTEXT.md) and its decisions in
 4. [x] `v0.1.0-rc.1`, with its image public.
 5. [x] The author's homelab runs the release candidate in place of its own
        page.
-6. [x] Two sources of one kind told apart: each part names its source
+6. [x] Two sources of one adapter told apart: each part names its source
        where another of the same adapter is read, and figures that add up,
        such as two hosts' guests, are one tile split by source.
 7. [x] The chores from a to-do list (ADR 0010): the iCalendar adapter in
@@ -204,8 +204,8 @@ doesn't know, so a typo stops it rather than going unnoticed.
 **Sources.** Under `sources:`, each adapter has a list, so two AdGuard Home
 resolvers are two entries under `adguard:`. Each source has a `name`, which
 the page uses. Each adapter gives one, such as Gatus, and two sources can't
-share one, so two of a kind need names of their own. With two of a kind,
-the page names each one's sections, figures and events, and adds up what
+share one, so two of one adapter need names of their own. With two of one
+adapter, the page names each one's sections, figures and events, and adds up what
 adds up, such as two Proxmox hosts' guests, split by source.
 What each adapter reads, its config and the least key it needs are under
 [Adapters](#adapters) below.
@@ -263,7 +263,7 @@ serve the page on (`:8080`).
 
 ## Adapters
 
-Each adapter reads one kind of source. More come by pull request from
+Each adapter reads the sources of one program. More come by pull request from
 people who run them ([CONTRIBUTING.md](CONTRIBUTING.md)).
 
 ### Gatus
@@ -320,7 +320,8 @@ speak.
 A status page doesn't say why a monitor failed, so the page doesn't either.
 Nor does it say how many retries a monitor has: the page counts them from
 the last time the monitor went down, in the 100 results a status page keeps,
-and a monitor that hasn't gone down there is one failure from a problem.
+and for a monitor that hasn't gone down there, it says how many times in a
+row it failed, but not how many make a problem.
 Uptime Kuma serves a status page's results a minute at a time.
 
 Recorded from a scratch Uptime Kuma 2.5.8 with invented monitors (ADR 0008),
@@ -642,8 +643,10 @@ unencrypted, as upsd sends them without TLS.
 Each resolver is its own source. Today's lookups and blocks show on the
 Overview, every resolver's added up, hour by hour. The Network page charts
 them by the hour over the hours every resolver keeps, added up too, then shows
-each one: whether it filters, its lookups, blocks and upstreams, and its top
-clients, domains and blocked domains, over the interval its statistics keep.
+each one: whether it blocks, its lookups, blocks and upstreams, how fast it
+answers and its version, and its top clients, domains and blocked domains,
+over the interval its statistics keep. The Overview's lookups turn orange
+while a resolver doesn't block.
 
 ```yaml
 sources:
@@ -676,11 +679,11 @@ A resolver, as AdGuard Home is: each one is its own source, and its lookups
 add up with every other resolver's, AdGuard Home's too, on the Overview and
 in the Network page's chart, hour by hour over the last day, which is all
 Pi-hole keeps in memory, so beside a resolver that keeps a week, the chart
-shows the day they both have. Then each one: whether it blocks, or is paused and
-until when, its lookups and blocks, its blocklists and when they were last
-updated, its upstreams, what it warns about, such as a client it
-rate-limits, its version and whether a newer one is out, and its top
-clients, domains and blocked domains.
+shows the day they both have. Then each one, as any resolver: whether it
+blocks, or is paused and until when, its lookups, blocks and upstreams; then
+its blocklists and when they were last updated, what it warns about, such
+as a client it rate-limits, its version and whether a newer one is out; and
+its top clients, domains and blocked domains.
 
 ```yaml
 sources:

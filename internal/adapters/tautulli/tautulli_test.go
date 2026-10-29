@@ -60,7 +60,7 @@ func TestRead(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	p, err := read(context.Background(), c, time.Date(2026, 10, 29, 12, 37, 33, 0, time.UTC))
+	p, err := Read(context.Background(), c, time.Date(2026, 10, 29, 12, 37, 33, 0, time.UTC))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -83,10 +83,10 @@ func TestRead(t *testing.T) {
 	if len(rows) != 5 {
 		t.Fatalf("two playing, the bandwidth and two libraries: %+v", rows)
 	}
-	if r := rows[0]; r.Title.Name != "Local" || r.Value.Name != "Sintel (2010)" || r.Detail.Key != "tautulli.transcoding" || r.Detail.Args["device"] != "Kim's phone" {
+	if r := rows[0]; r.Title.Name != "Local" || r.Value.Name != "Sintel (2010)" || r.Detail.Key != "mediaserver.transcoding" || r.Detail.Args["device"] != "Kim's phone" {
 		t.Errorf("Kim's phone first by player, transcoded: %+v %+v", r, r.Detail)
 	}
-	if r := rows[1]; r.Value.Name != "Metropolis (1927)" || r.Detail.Key != "tautulli.direct" {
+	if r := rows[1]; r.Value.Name != "Metropolis (1927)" || r.Detail.Key != "mediaserver.direct" {
 		t.Errorf("the TV's, as it is: %+v %+v", r, r.Detail)
 	}
 	if r := rows[2]; r.Title.Key != "tautulli.bandwidth" || r.Value.Args["n"] != 596*1000/8 {
@@ -100,8 +100,8 @@ func TestRead(t *testing.T) {
 	}
 
 	f := p.Figures[0]
-	if f.Label.Key != "figure.plays" || f.Value != 7 || f.Hours[23] != 7 || f.Detail.Args["n"] != 2 || !f.Adds {
-		t.Errorf("7 plays since midnight, the two going too, adding up with any media server's: %+v", f)
+	if f.Value != 7 || f.Hours[23] != 7 || f.Detail.Args["n"] != 2 {
+		t.Errorf("7 plays since midnight, the two going too: %+v", f)
 	}
 }
 
@@ -114,7 +114,7 @@ func TestPlex(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	p, err := Read(context.Background(), c)
+	p, err := Read(context.Background(), c, time.Date(2026, 10, 29, 12, 37, 33, 0, time.UTC))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -128,11 +128,11 @@ func TestPlex(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	if p, err = Read(context.Background(), c); err != nil {
+	if p, err = Read(context.Background(), c, time.Date(2026, 10, 29, 12, 37, 33, 0, time.UTC)); err != nil {
 		t.Fatal(err)
 	}
-	if r := p.Sections[0].Rows[0]; r.Value.Key != "tautulli.unreachable" || r.Tone != "red" || p.Figures[0].Tone != "orange" {
-		t.Errorf("Plex out of reach: %+v", r)
+	if r := p.Sections[0].Rows[2]; r.Value.Key != "tautulli.unreachable" || r.Tone != "red" {
+		t.Errorf("Plex out of reach, after what plays: %+v", r)
 	}
 }
 

@@ -102,7 +102,7 @@ func (t *titles) of(ctx context.Context, c Config, kind string, id int) string {
 }
 
 // Read reads the Seerr at c, which Check has filled.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 	var (
 		status struct {
 			Version         string `json:"version"`

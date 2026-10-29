@@ -37,7 +37,7 @@ func (c *Config) Check() error {
 }
 
 // Read gives back the chores on c's list that aren't done.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 	body, err := fetch.Text(ctx, c.URL, "text/calendar", fetch.Login(c.User, c.Password))
 	if err != nil {
 		return snapshot.Parts{}, err

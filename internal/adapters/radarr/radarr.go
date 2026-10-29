@@ -45,12 +45,8 @@ type movie struct {
 }
 
 // Read reads the Radarr at c, which Check has filled.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
-	return read(ctx, c, time.Now())
-}
-
-func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
-	films, err := c.films.Get(ctx, func(ctx context.Context) ([]movie, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+	films, err := c.films.Get(ctx, now, func(ctx context.Context) ([]movie, error) {
 		var all []movie
 		err := c.Get(ctx, "/api/v3/movie", &all)
 		return all, err

@@ -21,29 +21,23 @@ const every = 10 * time.Minute
 // serves on its own the totals read from it, read those with every snapshot
 // and drop its cache.
 type Cache[T any] struct {
-	// Now is the clock, time.Now unless a test sets it.
-	Now func() time.Time
-
 	mu   sync.Mutex
 	at   time.Time
 	last T
 }
 
-// Get returns the kept answer, or read's if the kept one is ten minutes old.
-func (c *Cache[T]) Get(ctx context.Context, read func(context.Context) (T, error)) (T, error) {
+// Get returns the kept answer, or read's if the kept one is ten minutes old
+// at now, the moment the snapshot is read.
+func (c *Cache[T]) Get(ctx context.Context, now time.Time, read func(context.Context) (T, error)) (T, error) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
-	now := time.Now
-	if c.Now != nil {
-		now = c.Now
-	}
-	if !c.at.IsZero() && now().Sub(c.at) < every {
+	if !c.at.IsZero() && now.Sub(c.at) < every {
 		return c.last, nil
 	}
 	v, err := read(ctx)
 	if err != nil {
 		return v, err
 	}
-	c.at, c.last = now(), v
+	c.at, c.last = now, v
 	return v, nil
 }

@@ -73,7 +73,7 @@ func TestRead(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	p, err := read(context.Background(), c, time.Date(2026, 10, 28, 9, 30, 0, 0, time.UTC))
+	p, err := Read(context.Background(), c, time.Date(2026, 10, 28, 9, 30, 0, 0, time.UTC))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -124,18 +124,19 @@ func TestRead(t *testing.T) {
 // logs in again first, rather than show no hosts.
 func TestLapsedSession(t *testing.T) {
 	t.Parallel()
+	now := time.Date(2026, 10, 28, 9, 30, 0, 0, time.UTC)
 	h := newHub(t)
 	c := Config{URL: h.URL, User: "overlook@example.com", Password: "s3cret"}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := Read(context.Background(), c); err != nil {
+	if _, err := Read(context.Background(), c, now); err != nil {
 		t.Fatal(err)
 	}
 	h.mu.Lock()
 	h.token = "forgotten"
 	h.mu.Unlock()
-	p, err := Read(context.Background(), c)
+	p, err := Read(context.Background(), c, now)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -147,7 +148,7 @@ func TestLapsedSession(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := Read(context.Background(), c); err == nil || !strings.Contains(err.Error(), "login: HTTP 400") {
+	if _, err := Read(context.Background(), c, now); err == nil || !strings.Contains(err.Error(), "login: HTTP 400") {
 		t.Errorf("a login refused: %v", err)
 	}
 }

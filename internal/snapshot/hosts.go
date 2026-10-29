@@ -24,34 +24,38 @@ type Reading struct {
 	CPU, Mem float64
 }
 
-// HostCharts are hosts' processor and memory by the hour in area, a line
-// each named by names, from readings, each host's in names' order. They run
-// over the hours from when every host has a reading to the last hour any
-// has one: each hour the mean of its readings, and an hour with none takes
-// the last one's. With a host without a reading, or under two hours, there
-// are none.
+// HostCharts are hosts' processor and memory by the hour in area, as at
+// now, a line each named by names, from readings, each host's in names'
+// order. They run over Overlook's hours (ADR 0012) from when every host has
+// a reading to this one: each hour the mean of its readings, and an hour
+// with none takes the last one's. With a host without a reading, or under
+// two hours, there are none.
 //
 // ponytail: an hour with no reading draws the last, which a line can't tell
 // from a level that held. If gaps inside a week turn up, draw them as gaps.
-func HostCharts(area string, names []string, readings [][]Reading) []Chart {
+func HostCharts(area string, now time.Time, names []string, readings [][]Reading) []Chart {
 	type level struct{ cpu, mem []float64 }
-	by := make([]map[int64]level, len(names))
-	var from, to int64
+	// Each host's levels by how many hours before this one, and from how
+	// many hours ago every host has one.
+	by := make([]map[int]level, len(names))
+	from := math.MaxInt
 	for i := range names {
-		by[i] = map[int64]level{}
+		by[i] = map[int]level{}
 		for _, r := range readings[i] {
-			hour := r.At.Unix() / 3600
-			l := by[i][hour]
+			ago := hoursAgo(r.At, now)
+			if ago < 0 {
+				continue
+			}
+			l := by[i][ago]
 			l.cpu, l.mem = append(l.cpu, r.CPU), append(l.mem, r.Mem)
-			by[i][hour] = l
+			by[i][ago] = l
 		}
 		if len(by[i]) == 0 {
 			return nil
 		}
-		first, last := slices.Min(slices.Collect(maps.Keys(by[i]))), slices.Max(slices.Collect(maps.Keys(by[i])))
-		from, to = max(from, first), max(to, last)
+		from = min(from, slices.Max(slices.Collect(maps.Keys(by[i]))))
 	}
-	if to-from < 1 {
+	if from < 1 {
 		return nil
 	}
 	mean := func(v []float64) float64 {
@@ -67,11 +71,11 @@ func HostCharts(area string, names []string, readings [][]Reading) []Chart {
 		// From the host's own first reading, so that it has one by from.
 		var c, m []float64
 		var lastCPU, lastMem float64
-		for hour := slices.Min(slices.Collect(maps.Keys(by[i]))); hour <= to; hour++ {
-			if l, ok := by[i][hour]; ok {
+		for ago := slices.Max(slices.Collect(maps.Keys(by[i]))); ago >= 0; ago-- {
+			if l, ok := by[i][ago]; ok {
 				lastCPU, lastMem = mean(l.cpu), mean(l.mem)
 			}
-			if hour >= from {
+			if ago <= from {
 				c, m = append(c, lastCPU), append(m, lastMem)
 			}
 		}

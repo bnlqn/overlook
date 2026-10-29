@@ -102,11 +102,7 @@ type record struct {
 const pbTime = "2006-01-02 15:04:05.999Z07:00"
 
 // Read reads the hub at c, which Check has filled.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
-	return read(ctx, c, time.Now())
-}
-
-func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	// A lapsed session doesn't fail a list: Beszel answers it as a guest's,
 	// with nothing in it. This read fails one with a 401 instead, so the
 	// session logs in again before the lists.
@@ -126,7 +122,7 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 	if err != nil {
 		return snapshot.Parts{}, err
 	}
-	return parts(systems, week), nil
+	return parts(systems, week, now), nil
 }
 
 // perPage is the most records Beszel gives at once.
@@ -152,7 +148,7 @@ func list[T any](ctx context.Context, c Config, collection string, q url.Values)
 	}
 }
 
-func parts(systems []system, week []record) snapshot.Parts {
+func parts(systems []system, week []record, now time.Time) snapshot.Parts {
 	slices.SortFunc(systems, func(a, b system) int { return cmp.Compare(a.Name, b.Name) })
 
 	// The hosts, a row each, by name: how long each has been up and how
@@ -174,6 +170,9 @@ func parts(systems []system, week []record) snapshot.Parts {
 			row.Detail = snapshot.Msg("beszel.host_detail", map[string]any{"n": i.Threads, "load": load})
 			row.Meters = []snapshot.Meter{
 				{Label: snapshot.Msg("beszel.cpu_meter", nil), Used: i.CPU, Total: 100},
+				// Beszel's memory leaves out the page cache, so a full one
+				// is short of memory and warns, where a Proxmox host's
+				// counts what its guests keep and never does.
 				{Label: snapshot.Msg("beszel.ram_meter", nil), Used: i.Mem, Total: 100},
 				{Label: snapshot.Msg("beszel.disk_meter", nil), Used: i.Disk, Total: 100},
 			}
@@ -240,7 +239,7 @@ func parts(systems []system, week []record) snapshot.Parts {
 	}
 	return snapshot.Parts{
 		Sections: []snapshot.Section{{Area: Area, Title: snapshot.HostsSection, Rows: rows}},
-		Charts:   snapshot.HostCharts(Area, names, readings),
+		Charts:   snapshot.HostCharts(Area, now, names, readings),
 		Figures:  []snapshot.Figure{f},
 	}
 }

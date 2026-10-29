@@ -33,7 +33,7 @@ func Number[N int | int64](n N) *Text { return Msg("number", map[string]any{"n":
 func Percent(v float64) *Text { return Msg("percent", map[string]any{"n": v}) }
 
 // Recent is how many results a check engine gives each check, which its
-// strip on the page shows (RECENT in web/js/draw.js): half an hour at
+// strip on the page shows (RECENT in web/js/page.js): half an hour at
 // Gatus's and Uptime Kuma's default minute.
 const Recent = 30
 
@@ -45,14 +45,16 @@ type Check struct {
 	// Area is empty for a check in no area: it still counts, and its
 	// problems still show.
 	Area string `json:"area,omitempty"`
-	// Source is the name of the check engine, as the config gives it.
+	// Source is the name of the check engine, which the reader fills in, as
+	// the config gives it.
 	Source string `json:"source"`
 	// URL is the check's own page in the check engine.
 	URL string `json:"url"`
 	// Threshold is how many failures in a row make a problem: the same
-	// number as the check engine's alerts.
+	// number as the check engine's alerts, or 0 if it doesn't say.
 	Threshold int `json:"threshold"`
-	// Run is the failures in a row, up to the newest result.
+	// Run is the failures in a row, up to the newest result. It, Problem,
+	// Since and Outages are CheckOf's to fill in.
 	Run     int  `json:"run"`
 	Problem bool `json:"problem"`
 	// Why is the newest result's failure, as the check engine words it.
@@ -62,8 +64,8 @@ type Check struct {
 	Since *time.Time `json:"since,omitempty"`
 	// Results are the recent results, oldest first.
 	Results []Result `json:"results"`
-	// Outages are the problems the check engine remembers, the one still
-	// going without an end.
+	// Outages are the problems the check engine remembers, each from its
+	// first failure to its next pass, the one still going without an end.
 	Outages []Outage `json:"outages,omitempty"`
 	// Watched is when the check engine started the check, if it remembers.
 	Watched *time.Time `json:"watched,omitempty"`

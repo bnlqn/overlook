@@ -1,0 +1,24 @@
+{
+  "resolver.dns_lookups": "DNS lookups",
+  "resolver.lookups_blocked": "{blocked} blocked",
+  "resolver.lookups_per_hour": "Lookups per hour",
+  "resolver.lookups": "Lookups",
+  "resolver.blocked": "Blocked",
+
+  "resolver.section": "Resolver",
+  "resolver.blocking": "Blocking",
+  "resolver.on": "On",
+  "resolver.paused": "Paused",
+  "resolver.back_in": "Back on in {ms:span}",
+  "resolver.off": "Off",
+  "resolver.over": "Over the last {ms:span}",
+  "resolver.count": { "one": "{n} lookup", "other": "{n} lookups" },
+  "resolver.upstream": "Upstream",
+  "resolver.answers": "{n} · {ms} ms",
+
+  "resolver.top_clients": "Top clients",
+  "resolver.top_domains": "Top domains",
+  "resolver.top_blocked": "Top blocked domains",
+  "resolver.share": "{n} · {share}%",
+  "resolver.nothing_yet": "Nothing yet"
+}

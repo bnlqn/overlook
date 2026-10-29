@@ -35,15 +35,21 @@ such as a Proxmox host or an AdGuard Home resolver.
 _Avoid_: Service, integration, endpoint
 
 **Adapter**:
-The part of Overlook that reads one kind of source and gives back its facts
-in Overlook's own shapes. Two AdGuard Home resolvers are two sources read by
-one adapter. Each adapter has a fixed home area.
+The part of Overlook that reads the sources of one program, such as AdGuard
+Home, and gives back their facts in Overlook's own shapes. Two AdGuard Home
+resolvers are two sources read by one adapter. Each adapter has a fixed home
+area.
 _Avoid_: Widget, plugin, integration
+
+**Kind**:
+What a source is for, whichever adapter reads it: a check engine, a to-do
+list, a resolver or a media server. A source has at most one.
+_Avoid_: Type, category, role
 
 **Check engine**:
 A source that runs the homelab's checks and sends its alerts, such as Gatus,
-Uptime Kuma, Grafana or Beszel. A homelab may have more than one. Overlook
-never runs a check or sends an alert itself.
+Uptime Kuma, Grafana or Prometheus. A homelab may have more than one.
+Overlook never runs a check or sends an alert itself.
 _Avoid_: Monitor, uptime tool
 
 **Check**:
@@ -56,6 +62,17 @@ _Avoid_: Monitor, probe, endpoint
 A source that keeps the chores the owner writes down, such as a list on
 Radicale or Nextcloud. Overlook never marks a chore done itself.
 _Avoid_: Calendar, task list
+
+**Resolver**:
+A source that answers the homelab's DNS lookups and blocks the ones its
+lists name, such as AdGuard Home or Pi-hole. A homelab may have more than
+one, and their lookups add up.
+_Avoid_: DNS server, ad blocker
+
+**Media server**:
+A source that plays the homelab's films, shows and music, or tells what one
+plays, such as Jellyfin, or Plex through Tautulli. Their plays add up.
+_Avoid_: Streaming server, Plex (for all of them)
 
 **Snapshot**:
 Every source's facts as Overlook read them at one moment. The page is drawn
@@ -71,12 +88,17 @@ _Avoid_: Group, section, category
 
 **Problem**:
 A check that has failed long enough for its check engine to alert on it. It
-lasts exactly as long as the check keeps failing and is never dismissed.
+lasts exactly as long as the check keeps failing, from its first failure to
+its next pass, and is never dismissed.
 _Avoid_: Alert (the push that announces a problem), incident, issue
 
 **Degraded**:
 An area that still works while it has a problem, such as DNS with one of two
-resolvers down. An area that doesn't work is down; one with no problem is up.
+resolvers down. An area that doesn't work is down, one whose checks have no
+problem is up, and one with no checks is unknown, since nothing says whether
+it works. The homelab is down when an area is down or no check engine
+answered, degraded with any other problem, one in a check in no area too,
+unknown with no checks, and up otherwise.
 _Avoid_: Warning, partial outage
 
 **Quiet**:
@@ -92,16 +114,17 @@ _Avoid_: Card, panel, widget
 What a source counts or measures by the hour, over as many hours as it
 keeps, drawn on its adapter's home area's page, such as a resolver's lookups
 and the blocked ones, or a host's processor. Several sources' charts of the
-same count are added up into one; those of the same measure share one, a
-line each.
+same count are added up into one, and those of the same measure share one, a
+line each, both over the hours they all keep.
 _Avoid_: Graph, plot, time series
 
 **Figure**:
 A number an adapter reports for today, such as lookups blocked or photos
 uploaded, sometimes with the hours that make it up or the shares it splits
 into, such as each person's photos. Figures of one count from several
-sources, such as two hosts' guests, are added up into one, split by source;
-figures of one whole, such as films and shows in the library, share a tile.
+sources, such as two hosts' guests, are added up into one, split by source,
+its hours over those they all keep; figures of one whole, such as films and
+shows in the library, share a tile.
 _Avoid_: Stat, metric, KPI
 
 **Event**:

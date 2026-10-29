@@ -13,6 +13,7 @@ import (
 	"regexp"
 	"slices"
 	"strings"
+	"time"
 
 	"go.yaml.in/yaml/v3"
 
@@ -92,7 +93,7 @@ func (c Config) Readers() []snapshot.Source { return c.readers }
 func add[C any, P interface {
 	*C
 	Check() error
-}](c *Config, key, area string, list []C, name func(C) string, read func(context.Context, C) (snapshot.Parts, error)) error {
+}](c *Config, key, area string, list []C, name func(C) string, read func(context.Context, C, time.Time) (snapshot.Parts, error)) error {
 	for i := range list {
 		if err := P(&list[i]).Check(); err != nil {
 			return fmt.Errorf("sources.%s[%d]: %w", key, i, err)
@@ -101,7 +102,7 @@ func add[C any, P interface {
 		if slices.ContainsFunc(c.readers, func(s snapshot.Source) bool { return s.Name == n }) {
 			return fmt.Errorf("sources.%s[%d]: another source is named %s: give each a name", key, i, n)
 		}
-		c.readers = append(c.readers, snapshot.Source{Name: n, Adapter: key, Area: area, Read: func(ctx context.Context) (snapshot.Parts, error) { return read(ctx, src) }})
+		c.readers = append(c.readers, snapshot.Source{Name: n, Adapter: key, Area: area, Read: func(ctx context.Context, now time.Time) (snapshot.Parts, error) { return read(ctx, src, now) }})
 	}
 	return nil
 }
