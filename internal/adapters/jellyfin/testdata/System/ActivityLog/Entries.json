@@ -1,0 +1,188 @@
+{
+  "Items": [
+    {
+      "Id": 20,
+      "Name": "Robin has started playing Sintel (2010)",
+      "Type": "VideoPlayback",
+      "ItemId": "916a939217b42a214d1b3342c5f2e1dd",
+      "Date": "2026-10-29T10:40:20.7491228Z",
+      "UserId": "297f7e1e5cb64b0fbf1fb67d792080fc",
+      "Severity": "Information"
+    },
+    {
+      "Id": 19,
+      "Name": "Robin successfully authenticated",
+      "ShortOverview": "IP address: 172.18.0.1",
+      "Type": "AuthenticationSucceeded",
+      "Date": "2026-10-29T10:40:20.3630718Z",
+      "UserId": "297f7e1e5cb64b0fbf1fb67d792080fc",
+      "Severity": "Information"
+    },
+    {
+      "Id": 18,
+      "Name": "Robin is online from Phone",
+      "ShortOverview": "IP address: 172.18.0.1",
+      "Type": "SessionStarted",
+      "Date": "2026-10-29T10:40:20.3628191Z",
+      "UserId": "297f7e1e5cb64b0fbf1fb67d792080fc",
+      "Severity": "Information"
+    },
+    {
+      "Id": 17,
+      "Name": "Sam has started playing Harbour Lights - Harbour Lights S01E03",
+      "Type": "VideoPlayback",
+      "ItemId": "af82eafe8a3edcdbe4bec9ad6e8d184a",
+      "Date": "2026-10-29T10:40:20.2274051Z",
+      "UserId": "a03ba25a186342c2b19dfd0b7c49a04a",
+      "Severity": "Information"
+    },
+    {
+      "Id": 16,
+      "Name": "Sam successfully authenticated",
+      "ShortOverview": "IP address: 172.18.0.1",
+      "Type": "AuthenticationSucceeded",
+      "Date": "2026-10-29T10:40:20.1454324Z",
+      "UserId": "a03ba25a186342c2b19dfd0b7c49a04a",
+      "Severity": "Information"
+    },
+    {
+      "Id": 15,
+      "Name": "Sam is online from Firefox",
+      "ShortOverview": "IP address: 172.18.0.1",
+      "Type": "SessionStarted",
+      "Date": "2026-10-29T10:40:20.1441262Z",
+      "UserId": "a03ba25a186342c2b19dfd0b7c49a04a",
+      "Severity": "Information"
+    },
+    {
+      "Id": 14,
+      "Name": "Alex has started playing Metropolis (1927)",
+      "Type": "VideoPlayback",
+      "ItemId": "0097bd594cc4462acff227ba622b5dd3",
+      "Date": "2026-10-29T10:40:20.0045034Z",
+      "UserId": "77f54ccee8b048989c007ab019a5612f",
+      "Severity": "Information"
+    },
+    {
+      "Id": 13,
+      "Name": "Alex successfully authenticated",
+      "ShortOverview": "IP address: 172.18.0.1",
+      "Type": "AuthenticationSucceeded",
+      "Date": "2026-10-29T10:40:19.6801978Z",
+      "UserId": "77f54ccee8b048989c007ab019a5612f",
+      "Severity": "Information"
+    },
+    {
+      "Id": 12,
+      "Name": "Alex is online from Living room TV",
+      "ShortOverview": "IP address: 172.18.0.1",
+      "Type": "SessionStarted",
+      "Date": "2026-10-29T10:40:19.6797212Z",
+      "UserId": "77f54ccee8b048989c007ab019a5612f",
+      "Severity": "Information"
+    },
+    {
+      "Id": 11,
+      "Name": "Failed login attempt from Robin",
+      "ShortOverview": "IP address: 172.18.0.1",
+      "Type": "AuthenticationFailed",
+      "Date": "2026-10-29T10:40:19.536746Z",
+      "UserId": "00000000000000000000000000000000",
+      "Severity": "Error"
+    },
+    {
+      "Id": 10,
+      "Name": "Failed login attempt from Robin",
+      "ShortOverview": "IP address: 172.18.0.1",
+      "Type": "AuthenticationFailed",
+      "Date": "2026-10-29T10:40:19.4019082Z",
+      "UserId": "00000000000000000000000000000000",
+      "Severity": "Error"
+    },
+    {
+      "Id": 9,
+      "Name": "Password has been changed for user Robin",
+      "Type": "UserPasswordChanged",
+      "Date": "2026-10-29T10:40:19.21114Z",
+      "UserId": "297f7e1e5cb64b0fbf1fb67d792080fc",
+      "Severity": "Information"
+    },
+    {
+      "Id": 8,
+      "Name": "User Robin has been created",
+      "Type": "UserCreated",
+      "Date": "2026-10-29T10:40:19.1033472Z",
+      "UserId": "297f7e1e5cb64b0fbf1fb67d792080fc",
+      "Severity": "Information"
+    },
+    {
+      "Id": 7,
+      "Name": "Password has been changed for user Sam",
+      "Type": "UserPasswordChanged",
+      "Date": "2026-10-29T10:40:19.0790229Z",
+      "UserId": "a03ba25a186342c2b19dfd0b7c49a04a",
+      "Severity": "Information"
+    },
+    {
+      "Id": 6,
+      "Name": "User Sam has been created",
+      "Type": "UserCreated",
+      "Date": "2026-10-29T10:40:18.969635Z",
+      "UserId": "a03ba25a186342c2b19dfd0b7c49a04a",
+      "Severity": "Information"
+    },
+    {
+      "Id": 5,
+      "Name": "Password has been changed for user Alex",
+      "Type": "UserPasswordChanged",
+      "Date": "2026-10-29T10:40:18.9448377Z",
+      "UserId": "77f54ccee8b048989c007ab019a5612f",
+      "Severity": "Information"
+    },
+    {
+      "Id": 4,
+      "Name": "User Alex has been created",
+      "Type": "UserCreated",
+      "Date": "2026-10-29T10:40:18.8321573Z",
+      "UserId": "77f54ccee8b048989c007ab019a5612f",
+      "Severity": "Information"
+    },
+    {
+      "Id": 3,
+      "Name": "owner successfully authenticated",
+      "ShortOverview": "IP address: 172.18.0.1",
+      "Type": "AuthenticationSucceeded",
+      "Date": "2026-10-29T10:40:14.0724913Z",
+      "UserId": "fc2d544347de4e63970313fcc11a67ad",
+      "Severity": "Information"
+    },
+    {
+      "Id": 2,
+      "Name": "owner is online from fill",
+      "ShortOverview": "IP address: 172.18.0.1",
+      "Type": "SessionStarted",
+      "Date": "2026-10-29T10:40:14.0693111Z",
+      "UserId": "fc2d544347de4e63970313fcc11a67ad",
+      "Severity": "Information"
+    },
+    {
+      "Id": 1,
+      "Name": "Password has been changed for user owner",
+      "Type": "UserPasswordChanged",
+      "Date": "2026-10-29T10:40:13.7869317Z",
+      "UserId": "fc2d544347de4e63970313fcc11a67ad",
+      "Severity": "Information"
+    },
+    {
+      "Id": 1,
+      "Name": "Alex has started playing Nosferatu (1922)",
+      "Type": "VideoPlayback",
+      "ItemId": "5ad2e1c7b0a64ad2a8f2f1f7a3c06b11",
+      "Date": "2026-10-28T21:14:05.2210381Z",
+      "UserId": "77f54ccee8b048989c007ab019a5612f",
+      "Severity": "Information"
+    }
+  ],
+  "TotalRecordCount": 21,
+  "StartIndex": 0
+}

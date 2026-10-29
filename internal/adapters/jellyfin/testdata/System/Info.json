@@ -1,0 +1,37 @@
+{
+  "OperatingSystemDisplayName": "",
+  "HasPendingRestart": false,
+  "IsShuttingDown": false,
+  "SupportsLibraryMonitor": true,
+  "WebSocketPortNumber": 8096,
+  "CompletedInstallations": [],
+  "CanSelfRestart": true,
+  "CanLaunchWebBrowser": false,
+  "ProgramDataPath": "/config",
+  "WebPath": "/jellyfin/jellyfin-web",
+  "ItemsByNamePath": "/config/metadata",
+  "CachePath": "/cache",
+  "LogPath": "/config/log",
+  "InternalMetadataPath": "/config/metadata",
+  "TranscodingTempPath": "/cache/transcodes",
+  "CastReceiverApplications": [
+    {
+      "Id": "F007D354",
+      "Name": "Stable"
+    },
+    {
+      "Id": "6F511C87",
+      "Name": "Unstable"
+    }
+  ],
+  "HasUpdateAvailable": false,
+  "EncoderLocation": "System",
+  "SystemArchitecture": "X64",
+  "LocalAddress": "http://172.18.0.2:8096",
+  "ServerName": "5d4405d55ad5",
+  "Version": "12.4.0",
+  "ProductName": "Jellyfin Server",
+  "OperatingSystem": "",
+  "Id": "f68e9fe902f7410a8aa2f8bcedab75e4",
+  "StartupWizardCompleted": true
+}

@@ -88,6 +88,12 @@ sources:
       # user: overlook                 # before 5.2, its login instead
       # password: ${QBITTORRENT_PASSWORD}
 
+  # The films, shows and music: what each person plays now, the plays of the
+  # last day, the room left on the libraries' disks, failed logins and tasks.
+  jellyfin:
+    - url: http://jellyfin:8096        # where Overlook reads Jellyfin
+      key: ${JELLYFIN_KEY}             # Dashboard, API Keys
+
   # A UPS, read from NUT's upsd: its power, its battery and what it draws.
   nut:
     - host: ${NUT_HOST}                # where upsd listens, such as nut.example.com or nut.example.com:3493

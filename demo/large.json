@@ -21,6 +21,7 @@
     { "name": "Prowlarr", "adapter": "prowlarr", "area": "apps", "answered": true },
     { "name": "qBittorrent", "adapter": "qbittorrent", "area": "apps", "answered": true },
     { "name": "qBittorrent 4K", "adapter": "qbittorrent", "area": "apps", "answered": true },
+    { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "answered": true },
     { "name": "Rack UPS", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Network UPS", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Office UPS", "adapter": "nut", "area": "servers", "answered": false, "error": "timeout" },
@@ -5350,6 +5351,82 @@
       ]
     },
     {
+      "area": "apps",
+      "source": "Jellyfin",
+      "title": { "key": "jellyfin.media" },
+      "rows": [
+        {
+          "title": { "name": "Ari" },
+          "value": { "name": "The General (1926)" },
+          "detail": { "key": "jellyfin.direct", "args": { "device": "Bedroom TV" } }
+        },
+        {
+          "title": { "name": "Lena" },
+          "value": { "key": "jellyfin.episode", "args": { "series": "The Allotment", "name": "First Frost" } },
+          "detail": { "key": "jellyfin.transcoding", "args": { "device": "Phone" } }
+        },
+        {
+          "title": { "name": "Mia" },
+          "value": { "key": "jellyfin.episode", "args": { "series": "Harbour Lights", "name": "The Lamp Room" } },
+          "detail": { "key": "jellyfin.direct", "args": { "device": "Living room TV" } }
+        },
+        {
+          "title": { "name": "Ravi" },
+          "value": { "name": "Metropolis (1927)" },
+          "detail": { "key": "jellyfin.paused", "args": { "device": "Firefox" } },
+          "tone": "gray"
+        },
+        {
+          "title": { "name": "Theo" },
+          "value": { "name": "Big Buck Bunny (2008)" },
+          "detail": { "key": "jellyfin.transcoding", "args": { "device": "Kids' tablet" } }
+        },
+        { "title": { "key": "jellyfin.films" }, "value": { "key": "jellyfin.films_n", "args": { "n": 2318 } } },
+        {
+          "title": { "key": "jellyfin.shows" },
+          "value": { "key": "jellyfin.shows_n", "args": { "n": 164, "episodes": 9472 } }
+        },
+        {
+          "title": { "key": "jellyfin.music" },
+          "value": { "key": "jellyfin.music_n", "args": { "n": 1083, "songs": 14215 } }
+        },
+        { "title": { "key": "jellyfin.books" }, "value": { "key": "jellyfin.books_n", "args": { "n": 386 } } },
+        {
+          "title": { "name": "/mnt/films" },
+          "value": { "key": "jellyfin.free", "args": { "n": 3600000000000 } },
+          "meter": { "used": 32400000000000, "total": 36000000000000 }
+        },
+        {
+          "title": { "name": "/mnt/shows" },
+          "value": { "key": "jellyfin.free", "args": { "n": 1150000000000 } },
+          "meter": { "used": 22850000000000, "total": 24000000000000 }
+        },
+        {
+          "title": { "name": "/mnt/music" },
+          "value": { "key": "jellyfin.free", "args": { "n": 2470000000000 } },
+          "meter": { "used": 1530000000000, "total": 4000000000000 }
+        },
+        {
+          "title": { "key": "jellyfin.failed_logins" },
+          "value": { "key": "jellyfin.failed_logins_n", "args": { "n": 4 } },
+          "detail": { "name": "Failed login attempt from jo" },
+          "tone": "orange"
+        },
+        {
+          "title": { "name": "Extract Chapter Images" },
+          "value": { "key": "jellyfin.task_failed" },
+          "detail": { "name": "ffmpeg exited with code 234" },
+          "tone": "red"
+        },
+        {
+          "title": { "key": "jellyfin.version" },
+          "value": { "key": "jellyfin.restart" },
+          "detail": { "name": "12.4.0" },
+          "tone": "orange"
+        }
+      ]
+    },
+    {
       "area": "servers",
       "source": "Rack UPS",
       "title": { "key": "nut.ups" },
@@ -7250,6 +7327,17 @@
       "value": 2,
       "unit": { "key": "qbittorrent.downloading_unit" },
       "detail": { "key": "qbittorrent.figure_detail", "args": { "n": 311, "down": 22020096 } },
+      "adds": true
+    },
+    {
+      "area": "apps",
+      "source": "Jellyfin",
+      "icon": "play",
+      "label": { "key": "jellyfin.plays" },
+      "value": 6,
+      "detail": { "key": "jellyfin.playing_now", "args": { "n": 5 } },
+      "tone": "orange",
+      "hours": [1, 0, 1, 2, 1, 2, 4, 6, 9, 7, 11, 14, 12, 9, 6, 3, 1, 0, 0, 0, 0, 1, 2, 3],
       "adds": true
     },
     {

@@ -1,0 +1,30 @@
+{
+  "jellyfin.plays": "Plays",
+  "jellyfin.playing_now": "{n} playing now",
+
+  "jellyfin.media": "Media",
+  "jellyfin.episode": "{series}: {name}",
+  "jellyfin.direct": "{device} · as it is",
+  "jellyfin.transcoding": "{device} · transcoded",
+  "jellyfin.paused": "{device} · paused",
+  "jellyfin.playing": "Playing",
+  "jellyfin.nothing": "Nothing",
+
+  "jellyfin.films": "Films",
+  "jellyfin.films_n": { "one": "{n} film", "other": "{n} films" },
+  "jellyfin.shows": "Shows",
+  "jellyfin.shows_n": { "one": "{n} show · {episodes} episodes", "other": "{n} shows · {episodes} episodes" },
+  "jellyfin.music": "Music",
+  "jellyfin.music_n": { "one": "{n} album · {songs} songs", "other": "{n} albums · {songs} songs" },
+  "jellyfin.books": "Books",
+  "jellyfin.books_n": { "one": "{n} book", "other": "{n} books" },
+  "jellyfin.free": "{n:bytes} free",
+
+  "jellyfin.failed_logins": "Failed logins",
+  "jellyfin.failed_logins_n": { "one": "{n} in the last day", "other": "{n} in the last day" },
+  "jellyfin.task_failed": "Failed",
+  "jellyfin.task_failed_at": "Last run {at:when}",
+
+  "jellyfin.version": "Version",
+  "jellyfin.restart": "Restart pending"
+}

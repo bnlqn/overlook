@@ -12,6 +12,7 @@
     { "name": "Sonarr", "adapter": "sonarr", "area": "apps", "answered": true },
     { "name": "Prowlarr", "adapter": "prowlarr", "area": "apps", "answered": true },
     { "name": "qBittorrent", "adapter": "qbittorrent", "area": "apps", "answered": true },
+    { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "answered": true },
     { "name": "NUT", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Primary DNS", "adapter": "adguard", "area": "network", "answered": true },
     { "name": "Standby DNS", "adapter": "adguard", "area": "network", "answered": false, "error": "timeout" },
@@ -1045,6 +1046,39 @@
       ]
     },
     {
+      "area": "apps",
+      "source": "Jellyfin",
+      "title": { "key": "jellyfin.media" },
+      "rows": [
+        {
+          "title": { "name": "Kim" },
+          "value": { "name": "Sherlock Jr. (1924)" },
+          "detail": { "key": "jellyfin.paused", "args": { "device": "Living room TV" } },
+          "tone": "gray"
+        },
+        {
+          "title": { "name": "Noor" },
+          "value": { "key": "jellyfin.episode", "args": { "series": "Harbour Lights", "name": "The Lamp Room" } },
+          "detail": { "key": "jellyfin.transcoding", "args": { "device": "Kitchen tablet" } }
+        },
+        { "title": { "key": "jellyfin.films" }, "value": { "key": "jellyfin.films_n", "args": { "n": 412 } } },
+        {
+          "title": { "key": "jellyfin.shows" },
+          "value": { "key": "jellyfin.shows_n", "args": { "n": 38, "episodes": 1906 } }
+        },
+        {
+          "title": { "key": "jellyfin.music" },
+          "value": { "key": "jellyfin.music_n", "args": { "n": 214, "songs": 2960 } }
+        },
+        {
+          "title": { "name": "/mnt/media" },
+          "value": { "key": "jellyfin.free", "args": { "n": 2140000000000 } },
+          "meter": { "used": 9860000000000, "total": 12000000000000 }
+        },
+        { "title": { "key": "jellyfin.version" }, "value": { "name": "12.4.0" } }
+      ]
+    },
+    {
       "area": "servers",
       "source": "NUT",
       "title": { "key": "nut.ups" },
@@ -1576,6 +1610,16 @@
       "unit": { "key": "qbittorrent.downloading_unit" },
       "detail": { "key": "qbittorrent.figure_detail", "args": { "n": 146, "down": 3407872 } },
       "tone": "orange",
+      "adds": true
+    },
+    {
+      "area": "apps",
+      "source": "Jellyfin",
+      "icon": "play",
+      "label": { "key": "jellyfin.plays" },
+      "value": 3,
+      "detail": { "key": "jellyfin.playing_now", "args": { "n": 2 } },
+      "hours": [0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 3, 5, 4, 6, 3, 1, 0, 0, 0, 0, 0, 1, 1, 1],
       "adds": true
     },
     {

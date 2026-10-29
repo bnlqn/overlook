@@ -28,6 +28,7 @@ const ICON = {
   stack: '<path d="m8 1.75 6 3-6 3-6-3ZM2 8l6 3 6-3M2 11.25l6 3 6-3"/>',
   box: '<path d="m8 1.75 5.75 3v6.5L8 14.25l-5.75-3v-6.5ZM2.25 4.75 8 7.75l5.75-3M8 7.75v6.5"/>',
   download: '<path d="M8 2.25v8M4.75 7 8 10.25 11.25 7M2.75 13.25h10.5"/>',
+  play: '<path d="M4.75 2.75v10.5L13 8Z" stroke-linejoin="round"/>',
   refresh: '<path d="M13.25 8a5.25 5.25 0 1 1-1.54-3.71M13.25 2.5v3h-3"/>',
   menu: '<path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11"/>',
   out: '<path d="M6 3.25h6.75V10M12.5 3.5 3.5 12.5"/>',
