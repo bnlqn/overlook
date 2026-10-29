@@ -57,6 +57,17 @@ A source that keeps the chores the owner writes down, such as a list on
 Radicale or Nextcloud. Overlook never marks a chore done itself.
 _Avoid_: Calendar, task list
 
+**Resolver**:
+A source that answers the homelab's DNS lookups and blocks the ones its
+lists name, such as AdGuard Home or Pi-hole. A homelab may have more than
+one, and their lookups add up.
+_Avoid_: DNS server, ad blocker
+
+**Media server**:
+A source that plays the homelab's films, shows and music, or tells what one
+plays, such as Jellyfin, or Plex through Tautulli. Their plays add up.
+_Avoid_: Streaming server, Plex (for all of them)
+
 **Snapshot**:
 Every source's facts as Overlook read them at one moment. The page is drawn
 from it.
