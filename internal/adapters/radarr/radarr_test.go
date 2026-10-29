@@ -30,7 +30,7 @@ func TestRead(t *testing.T) {
 		t.Errorf("4 films, 2 this week: %+v", p.Figures)
 	}
 	if f := p.Figures[0]; f.Join == nil || f.Join.Key != "servarr.library" || f.Part == nil ||
-		f.Part.Value != float64(4812345678+3204567890+9876543210+2109876543) || f.Part.Tone != "orange" {
+		f.Part.Value != float64(4812345678+3204567890+9876543210+2109876543) || f.Part.Tone != "" {
 		t.Errorf("the films join the library's tile, their part the room they take: %+v %+v", f.Join, f.Part)
 	}
 	if len(p.Sections) != 2 {

@@ -16,6 +16,7 @@ import {
   RECENT,
   RED,
   seriesColours,
+  shareColour,
   shares,
   sparkline,
   stateIcon,
@@ -137,31 +138,43 @@ const also = (f) => `${number(f.value)}${f.unit ? ` ${say(f.unit)}` : ""}${from(
 // A figure's hours as series: its own, then the part within them, if any.
 const seriesOf = (f) => [{ label: f.label, hours: f.hours }, ...(f.within ? [f.within] : [])];
 
+// A tile three or more figures share, such as two Radarrs' films and two
+// Sonarrs' shows, is two columns wide and names each one under its bar, in
+// its part's colour.
+const legendOf = (f, start) =>
+  `<span class="parts">${[f, ...f.also]
+    .map((g, slot) => `<span><i style="--c:${shareColour({ slot }, slot, start)}"></i>${also(g)}</span>`)
+    .join("")}</span>`;
+
 function renderToday(figures) {
   $("today-block").hidden = !figures.length;
+  // Each tile whose parts take the colours starts two on from the one
+  // before, so tiles side by side differ, and the page stays colourful.
+  let coloured = 0;
   $("today").innerHTML = figures
     .map((f, i) => {
-      const tint = TINT[f.area];
+      const start = f.shares?.some((s) => !s.tone) ? 2 * coloured++ : 0;
       const hours = f.hours || [];
       const series = seriesOf(f);
       const colours = seriesColours(series.length);
       const tips = hours.map((_, k) =>
         hourTip(series, colours, k, hourStart(k, hours.length), { last: k === hours.length - 1 }),
       );
-      // Shares without a tone of their own take the area's colour, then the others'.
-      const tints = [tint, ...Object.values(TINT).filter((c) => c !== tint)];
+      const wide = f.also?.length > 1;
       // A tile's label has no room for its source, so the line under the
       // number starts with it. A tile several figures share is none of their
       // sources': each of the others is named after its number, and every one
       // in the bar.
-      const sub = f.also
-        ? list(f.also.map(also))
-        : [f.from && esc(f.from), f.detail && say(f.detail)].filter(Boolean).join(" · ");
-      return `<a class="figure-tile${f.tone ? ` tone-${f.tone}` : ""}" href="${f.area}" style="--i:${i}">
+      const sub = wide
+        ? ""
+        : f.also
+          ? list(f.also.map(also))
+          : [f.from && esc(f.from), f.detail && say(f.detail)].filter(Boolean).join(" · ");
+      return `<a class="figure-tile${wide ? " wide" : ""}${f.tone ? ` tone-${f.tone}` : ""}" href="${f.area}" style="--i:${i}">
       <span class="label">${svg(f.icon)}${say(f.label)}</span>
       <span class="figure">${num(`${f.area}.${i}`, f.value)}${f.unit ? `<small> ${say(f.unit)}</small>` : ""}</span>
       <span class="sub">${sub}</span>
-      <span class="viz">${sparkline(hours, HOURS, tips)}${f.shares?.length ? shares(f, tints) : ""}${(f.meters || []).map(figureMeter).join("")}</span></a>`;
+      <span class="viz">${sparkline(hours, HOURS, tips)}${f.shares?.length ? shares(f, start) : ""}${wide ? legendOf(f, start) : ""}${(f.meters || []).map(figureMeter).join("")}</span></a>`;
     })
     .join("");
 }

@@ -3,7 +3,7 @@
 // hour as bars or areas, and shares. Every value from the snapshot is escaped
 // here or by t().
 
-import { checkState } from "./checks.js";
+import { checkState, fold } from "./checks.js";
 import { clock, compact, day, esc, ms, number, say, t, weekday } from "./text.js";
 
 // 16 px strokes for the pages, figures and events; apps and tools show their
@@ -74,6 +74,17 @@ export const TINT = { servers: "#7170FF", network: "#4EA7FC", storage: "#F2994A"
  */
 export const HOURS = "var(--m-accent-2)";
 const PART = "var(--m-orange)";
+
+/** The eight colours that tell apart the parts of one thing, in order. */
+export const SERIES = Array.from({ length: 8 }, (_, i) => `var(--m-series-${i + 1})`);
+
+/**
+ * A share's colour: its tone, which means something, or else its slot's,
+ * from where its figure starts in the colours. The parts folded into
+ * "others" are gray.
+ */
+export const shareColour = (s, i, start = 0) =>
+  s.tone ? `var(--m-${s.tone})` : s.others ? "var(--m-gray)" : SERIES[((s.slot ?? i) + start) % SERIES.length];
 
 /** How many results a strip shows. */
 export const RECENT = 30;
@@ -343,17 +354,18 @@ export function areas(series, sources = [], now = new Date()) {
 
 /**
  * A figure's shares as one bar, each as wide as its share of the whole, in
- * its tone or the next of tints. Its tooltip is its label over its rows, or
- * over its value and share.
+ * its colour, past eight the smallest folded into one. Its tooltip is its
+ * label over its rows, or over its value and share.
  */
-export function shares(f, tints) {
-  const whole = f.shares.reduce((sum, s) => sum + s.value, 0);
-  const parts = f.shares.map((s, i) => {
-    const c = s.tone ? `var(--m-${s.tone})` : tints[i % tints.length];
+export function shares(f, start = 0) {
+  const all = fold(f.shares);
+  const whole = all.reduce((sum, s) => sum + s.value, 0);
+  const parts = all.map((s, i) => {
+    const c = shareColour(s, i, start);
     const rows = s.rows?.length
       ? s.rows.map((r, k) => [k ? "" : c, say(r.title), r.value ? say(r.value) : ""])
       : [[c, number(s.value), t("percent", { n: Math.round((100 * s.value) / whole) })]];
     return `<i class="${s.tone ? `tone-${s.tone}` : ""}" style="flex:${s.value};--c:${c}" data-tip="${tip(say(s.label) + from(s), rows)}"></i>`;
   });
-  return `<span class="shares${f.shares.length > 12 ? " many" : ""}">${parts.join("")}</span>`;
+  return `<span class="shares${all.length > 12 ? " many" : ""}">${parts.join("")}</span>`;
 }

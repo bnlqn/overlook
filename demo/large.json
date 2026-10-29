@@ -6412,7 +6412,6 @@
       "part": {
         "label": { "key": "radarr.films" },
         "value": 10775213952204,
-        "tone": "orange",
         "rows": [
           {
             "title": { "key": "servarr.on_disk" },
@@ -6435,7 +6434,6 @@
       "part": {
         "label": { "key": "radarr.films" },
         "value": 12314530231091,
-        "tone": "orange",
         "rows": [
           {
             "title": { "key": "servarr.on_disk" },
@@ -6458,7 +6456,6 @@
       "part": {
         "label": { "key": "sonarr.shows" },
         "value": 16052869765529,
-        "tone": "blue",
         "rows": [
           {
             "title": { "key": "servarr.on_disk" },
@@ -6482,7 +6479,6 @@
       "part": {
         "label": { "key": "sonarr.shows" },
         "value": 3188583720550,
-        "tone": "blue",
         "rows": [
           {
             "title": { "key": "servarr.on_disk" },

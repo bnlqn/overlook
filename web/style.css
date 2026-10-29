@@ -55,6 +55,22 @@
   --m-red-text: #f07070;
   --m-gray: #62666d;
   --m-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+
+  /* The colours that tell apart the parts of one thing, such as each
+     person's photos, in this order, which a tile may start anywhere in:
+     none is green, yellow or red, which say how something is. Checked with
+     the dataviz skill's validator against the card: each beside the next,
+     the last beside the first too, told apart with every kind of colour
+     vision, and each at 3:1 or more. Each two in turn are one cool, one
+     warm. */
+  --m-series-1: #3987e5;
+  --m-series-2: #d37812;
+  --m-series-3: #9085e9;
+  --m-series-4: #d55181;
+  --m-series-5: #1b9fbf;
+  --m-series-6: #b07a3a;
+  --m-series-7: #c160c9;
+  --m-series-8: #199e70;
 }
 
 * {
@@ -951,6 +967,29 @@ main {
   min-height: 38px;
   justify-content: flex-end;
 }
+/* A tile three or more figures share is two columns wide, each one named
+   under the bar beside its colour. */
+.figure-tile.wide {
+  grid-column: span 2;
+}
+.figure-tile .parts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 14px;
+  font: var(--m-type-footnote);
+  color: var(--m-label-2);
+}
+.figure-tile .parts span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.figure-tile .parts i {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--c);
+}
 /* A figure's meters, such as a battery's charge: a label, the bar, how full. */
 .figure-meter {
   display: grid;
@@ -998,9 +1037,14 @@ main {
   display: flex;
   gap: 3px;
   height: 6px;
+  /* However many, the bar never runs past its tile. */
+  overflow-x: clip;
 }
 .shares.many {
   gap: 1px;
+}
+.shares.many i {
+  min-width: 1px;
 }
 .shares i {
   min-width: 3px;
@@ -1634,6 +1678,8 @@ main {
 .app-foot .spark {
   height: 16px;
   flex: 1;
+  /* It gives way to a long word such as Degraded, inside its tile. */
+  min-width: 0;
   opacity: 0.8;
 }
 

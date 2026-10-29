@@ -1215,7 +1215,6 @@
       "part": {
         "label": { "key": "radarr.films" },
         "value": 3186865348608,
-        "tone": "orange",
         "rows": [
           {
             "title": { "key": "servarr.on_disk" },
@@ -1238,7 +1237,6 @@
       "part": {
         "label": { "key": "sonarr.shows" },
         "value": 2418925862912,
-        "tone": "blue",
         "rows": [
           {
             "title": { "key": "servarr.on_disk" },
