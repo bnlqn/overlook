@@ -110,6 +110,12 @@ sources:
       token: ${HOMEASSISTANT_TOKEN}    # a long-lived access token of a user of its own
       # link: https://home.example.com # where the page sends you, if not the same
 
+  # The documents: how many, how many wait in the inbox, the room left, the
+  # parts it runs on that aren't well, and the documents it failed to take in.
+  paperless:
+    - url: http://paperless:8000       # where Overlook reads Paperless-ngx
+      token: ${PAPERLESS_TOKEN}        # the API token of a user of its own, as the README says
+
   # A UPS, read from NUT's upsd: its power, its battery and what it draws.
   nut:
     - host: ${NUT_HOST}                # where upsd listens, such as nut.example.com or nut.example.com:3493

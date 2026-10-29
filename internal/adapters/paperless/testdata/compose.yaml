@@ -1,0 +1,26 @@
+# A scratch Paperless-ngx to record from (ADR 0008): fill.sh gives it invented
+# letters and Overlook a user of its own, then record.sh reads what Overlook
+# reads.
+#
+#   docker compose -f compose.yaml up -d && ./fill.sh && ./record.sh
+#   docker compose -f compose.yaml down -v
+services:
+  broker:
+    image: redis:8.10.3
+  paperless:
+    image: ghcr.io/paperless-ngx/paperless-ngx:3.3.4
+    depends_on: [broker]
+    ports: ["127.0.0.1:8000:8000"]
+    environment:
+      PAPERLESS_REDIS: redis://broker:6379
+      PAPERLESS_ADMIN_USER: owner
+      PAPERLESS_ADMIN_PASSWORD: owner-password
+      PAPERLESS_SECRET_KEY: scratch-instance-only-not-a-secret-0123456789abcdef
+      PAPERLESS_TIME_ZONE: Europe/London
+      PAPERLESS_OCR_LANGUAGE: eng
+    volumes:
+      - data:/usr/src/paperless/data
+      - media:/usr/src/paperless/media
+volumes:
+  data:
+  media:

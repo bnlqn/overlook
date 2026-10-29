@@ -1,0 +1,21 @@
+{
+  "paperless.documents": "Documents",
+  "paperless.n": "{n}",
+  "paperless.inbox": "{n} in the inbox",
+  "paperless.space": "Space",
+  "paperless.free": "{n:bytes} free",
+
+  "paperless.health": "Health",
+  "paperless.healthy": "Every part working",
+  "paperless.warning": "Warning",
+  "paperless.error": "Error",
+  "paperless.database": "Database",
+  "paperless.redis": "Redis",
+  "paperless.celery": "Task queue",
+  "paperless.index": "Search index",
+  "paperless.classifier": "Classifier",
+  "paperless.sanity_check": "Sanity check",
+
+  "paperless.failed": "Failed {at:when}",
+  "paperless.version": "Version"
+}
