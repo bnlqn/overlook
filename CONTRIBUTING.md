@@ -55,7 +55,7 @@ and open <http://localhost:8080>.
 
 An adapter reads one kind of source and gives back its facts in Overlook's shapes. It comes in by pull request from someone who runs that source, who then keeps it (ADR 0005), or from the maintainer, recorded from a scratch instance (ADR 0008).
 
-A source gets an adapter when three things hold: Overlook can read it with GET, and at most one login (ADR 0009), using a key its owner makes once and that lasts a year or more; about one homelab in ten runs it, or its author does; and it shows more than whether it answers, which a check engine already says. A source that can't be read is listed under [Can't be read](README.md#cant-be-read), with why.
+A source gets an adapter when three things hold: Overlook can read it with GET, and at most one login (ADR 0009), using a key its owner makes once and that lasts a year or more, and, if its GETs can change things too, as Tautulli's do, through a fixed list of the ones that read, which its test checks (ADR 0011); about one homelab in ten runs it, or its author does; and it shows more than whether it answers, which a check engine already says. A source that can't be read is listed under [Can't be read](README.md#cant-be-read), with why.
 
 One adapter per pull request, with:
 
