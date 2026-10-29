@@ -15,6 +15,7 @@
     { "name": "Prowlarr", "adapter": "prowlarr", "area": "apps", "answered": true },
     { "name": "qBittorrent", "adapter": "qbittorrent", "area": "apps", "answered": true },
     { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "answered": true },
+    { "name": "Plex", "adapter": "tautulli", "area": "apps", "answered": true },
     { "name": "Home Assistant", "adapter": "homeassistant", "area": "apps", "answered": true },
     { "name": "Paperless-ngx", "adapter": "paperless", "area": "apps", "answered": true },
     { "name": "Nextcloud", "adapter": "nextcloud", "area": "apps", "answered": true },
@@ -1222,7 +1223,7 @@
     {
       "area": "apps",
       "source": "Jellyfin",
-      "title": { "key": "jellyfin.media" },
+      "title": { "key": "section.media" },
       "rows": [
         {
           "title": { "name": "Kim" },
@@ -1250,6 +1251,32 @@
           "meter": { "used": 9860000000000, "total": 12000000000000 }
         },
         { "title": { "key": "jellyfin.version" }, "value": { "name": "12.4.0" } }
+      ]
+    },
+    {
+      "area": "apps",
+      "source": "Plex",
+      "title": { "key": "section.media" },
+      "rows": [
+        {
+          "title": { "name": "Noor" },
+          "value": { "name": "Night of the Living Dead (1968)" },
+          "detail": { "key": "tautulli.direct", "args": { "device": "Bedroom TV" } }
+        },
+        {
+          "title": { "key": "tautulli.bandwidth" },
+          "value": { "key": "tautulli.speed", "args": { "n": 1048576 } },
+          "detail": { "key": "tautulli.remote", "args": { "n": 0 } }
+        },
+        {
+          "title": { "name": "Films" },
+          "value": { "key": "tautulli.films_n", "args": { "n": 386, "parents": 0, "children": 0 } }
+        },
+        {
+          "title": { "name": "Shows" },
+          "value": { "key": "tautulli.shows_n", "args": { "n": 31, "parents": 112, "children": 1520 } }
+        },
+        { "title": { "key": "tautulli.plex" }, "value": { "key": "tautulli.current" } }
       ]
     },
     {
@@ -1963,10 +1990,20 @@
       "area": "apps",
       "source": "Jellyfin",
       "icon": "play",
-      "label": { "key": "jellyfin.plays" },
+      "label": { "key": "figure.plays" },
       "value": 3,
-      "detail": { "key": "jellyfin.playing_now", "args": { "n": 2 } },
+      "detail": { "key": "figure.playing_now", "args": { "n": 2 } },
       "hours": [0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 3, 5, 4, 6, 3, 1, 0, 0, 0, 0, 0, 1, 1, 1],
+      "adds": true
+    },
+    {
+      "area": "apps",
+      "source": "Plex",
+      "icon": "play",
+      "label": { "key": "figure.plays" },
+      "value": 2,
+      "detail": { "key": "figure.playing_now", "args": { "n": 1 } },
+      "hours": [0, 0, 0, 0, 0, 1, 1, 2, 1, 2, 3, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1],
       "adds": true
     },
     {

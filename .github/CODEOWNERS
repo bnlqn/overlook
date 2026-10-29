@@ -21,6 +21,7 @@
 /internal/adapters/radarr/  @bnlqn
 /internal/adapters/servarr/ @bnlqn
 /internal/adapters/sonarr/  @bnlqn
+/internal/adapters/tautulli/ @bnlqn
 /internal/adapters/uptimekuma/ @bnlqn
 /web/i18n/en/adguard.json   @bnlqn
 /web/i18n/en/beszel.json    @bnlqn
@@ -37,6 +38,7 @@
 /web/i18n/en/radarr.json    @bnlqn
 /web/i18n/en/servarr.json   @bnlqn
 /web/i18n/en/sonarr.json    @bnlqn
+/web/i18n/en/tautulli.json  @bnlqn
 /internal/adapters/nut/     @bnlqn
 /internal/adapters/paperless/ @bnlqn
 /web/i18n/en/nut.json       @bnlqn

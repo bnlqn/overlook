@@ -185,6 +185,7 @@ func TestExample(t *testing.T) {
 	t.Setenv("PAPERLESS_TOKEN", "0123abcd")
 	t.Setenv("NEXTCLOUD_TOKEN", "0123abcd")
 	t.Setenv("GRAFANA_TOKEN", "glsa_0123abcd")
+	t.Setenv("TAUTULLI_KEY", "0123abcd")
 	t.Setenv("NUT_HOST", "nut.example.com")
 	t.Setenv("ADGUARD_PASSWORD", "s3cret")
 	t.Setenv("PIHOLE_PASSWORD", "s3cret")

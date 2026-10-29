@@ -1,0 +1,35 @@
+# A scratch Plex and Tautulli to record from (ADR 0008): the Plex server is
+# never claimed and lets the compose network in without a login, fill.sh
+# gives it invented films and shows and plays some of them, then record.sh
+# reads what Overlook reads from Tautulli.
+#
+#   docker compose -f compose.yaml up -d && ./fill.sh && ./record.sh
+#   docker compose -f compose.yaml down -v
+services:
+  plex:
+    image: plexinc/pms-docker:1.43.5.11079-b3b13e506
+    ports: ["127.0.0.1:32400:32400"]
+    environment:
+      TZ: Europe/London
+      ALLOWED_NETWORKS: 172.31.32.0/24,192.168.65.0/24
+    networks:
+      default:
+        ipv4_address: 172.31.32.10
+    volumes:
+      - plex:/config
+      - media:/media
+  tautulli:
+    image: tautulli/tautulli:v2.18.2
+    ports: ["127.0.0.1:8181:8181"]
+    environment:
+      TZ: Europe/London
+    volumes:
+      - tautulli:/config
+networks:
+  default:
+    ipam:
+      config: [{ subnet: 172.31.32.0/24 }]
+volumes:
+  plex:
+  media:
+  tautulli:

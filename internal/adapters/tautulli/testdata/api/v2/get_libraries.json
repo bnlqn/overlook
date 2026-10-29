@@ -1,0 +1,30 @@
+{
+  "response": {
+    "result": "success",
+    "message": null,
+    "data": [
+      {
+        "section_id": "2",
+        "section_name": "Shows",
+        "section_type": "show",
+        "agent": "tv.plex.agents.none",
+        "thumb": "",
+        "art": "",
+        "count": "1",
+        "is_active": 1,
+        "parent_count": "1",
+        "child_count": "3"
+      },
+      {
+        "section_id": "1",
+        "section_name": "Films",
+        "section_type": "movie",
+        "agent": "tv.plex.agents.none",
+        "thumb": "",
+        "art": "",
+        "count": "5",
+        "is_active": 1
+      }
+    ]
+  }
+}
