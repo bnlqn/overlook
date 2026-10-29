@@ -60,7 +60,7 @@ candidates stay as pre-releases.
        Plex through Tautulli, Seerr, and Prometheus with Alertmanager.
 6. [x] What Overlook can't read, listed under [Can't be read](#cant-be-read),
        and an issue for each adapter wanted.
-7. [ ] `v0.2.0-rc.1`, and the author's homelab reads everything it runs
+7. [x] `v0.2.0-rc.1`, and the author's homelab reads everything it runs
        with it: step 4's adapters, and Home Assistant, whose adapter is
        then recorded again from the author's own (ADR 0008).
 8. [ ] A week of running it.
@@ -924,11 +924,6 @@ profile's Security tab. A user that isn't an administrator can still use
 every device, such as unlocking a door, with a POST, but Overlook sends only
 GET requests, which change nothing (ADR 0001). It reads `/api/config` and
 `/api/states`, which `default_config` turns on.
-
-Recorded from a scratch Home Assistant 2026.10.4, with its own invented
-devices and a few more (ADR 0008), until someone who runs one records it
-from theirs: its config and the scripts that fill and record it are in the
-adapter's [`testdata`](internal/adapters/homeassistant/testdata).
 
 ### Paperless-ngx
 
