@@ -35,10 +35,16 @@ Proxmox host or an AdGuard Home resolver.
 _Avoid_: Service, integration, endpoint
 
 **Adapter**:
-The part of Overlook that reads one kind of source and gives back its facts
-in Overlook's own shapes. Two AdGuard Home resolvers are two sources read by
-one adapter. Each adapter has a fixed home area.
+The part of Overlook that reads the sources of one program, such as AdGuard
+Home, and gives back their facts in Overlook's own shapes. Two AdGuard Home
+resolvers are two sources read by one adapter. Each adapter has a fixed home
+area.
 _Avoid_: Widget, plugin, integration
+
+**Kind**:
+What a source is for, whichever adapter reads it: a check engine, a to-do
+list, a resolver or a media server. A source has at most one.
+_Avoid_: Type, category, role
 
 **Check engine**:
 A source that runs the homelab's checks and sends its alerts, such as Gatus,
@@ -56,6 +62,17 @@ _Avoid_: Monitor, probe, endpoint
 A source that keeps the chores the owner writes down, such as a list on
 Radicale or Nextcloud. Overlook never marks a chore done itself.
 _Avoid_: Calendar, task list
+
+**Resolver**:
+A source that answers the homelab's DNS lookups and blocks the ones its
+lists name, such as AdGuard Home or Pi-hole. A homelab may have more than
+one, and their lookups add up.
+_Avoid_: DNS server, ad blocker
+
+**Media server**:
+A source that plays the homelab's films, shows and music, or tells what one
+plays, such as Jellyfin, or Plex through Tautulli. Their plays add up.
+_Avoid_: Streaming server, Plex (for all of them)
 
 **Snapshot**:
 Every source's facts as Overlook read them at one moment. The page is drawn

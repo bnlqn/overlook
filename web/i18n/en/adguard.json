@@ -1,16 +1,5 @@
 {
-  "adguard.protection": "Protection",
-  "adguard.filtering": "Filtering",
-  "adguard.paused": "Paused",
-  "adguard.back_in": "Back on in {ms:span}",
-  "adguard.off": "Off",
-  "adguard.lookups": "Lookups",
-  "adguard.over": "Over the last {ms:span}",
-  "adguard.blocked": "Blocked",
-  "adguard.count": { "one": "{n} lookup", "other": "{n} lookups" },
   "adguard.processing": "Processing",
   "adguard.ms": "{n} ms",
-  "adguard.upstream": "Upstream",
-  "adguard.answers": "{n} · {ms} ms",
   "adguard.version": "AdGuard Home"
 }

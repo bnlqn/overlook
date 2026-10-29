@@ -63,9 +63,9 @@ test("the demo: one resolver down makes the network degraded, and it's named as 
     ],
   );
   assert.deepEqual(area(m, "network").silent, ["Standby DNS"]);
-  const lookups = m.today.tiles.find((f) => f.label.key === "figure.lookups");
+  const lookups = m.today.tiles.find((f) => f.label.key === "resolver.dns_lookups");
   assert.deepEqual(lookups.sources, ["Primary DNS", "Kids' DNS"], "an AdGuard Home's and a Pi-hole's add up");
-  const plays = m.today.tiles.find((f) => f.label.key === "figure.plays");
+  const plays = m.today.tiles.find((f) => f.label.key === "mediaserver.plays");
   assert.deepEqual(plays.sources, ["Jellyfin", "Plex"], "so do Jellyfin's and Plex's");
   assert.equal(m.events.items.length, 8, "a busy week shows its eight newest");
   assert.ok(
@@ -123,7 +123,7 @@ test("the large homelab: a problem in every area makes every area degraded", () 
   );
   assert.deepEqual(area(m, "servers").silent, ["Office UPS"], "a UPS is silent on its own area's page");
   assert.deepEqual(area(m, "network").silent, []);
-  const lookups = m.today.tiles.find((f) => f.label.key === "figure.lookups");
+  const lookups = m.today.tiles.find((f) => f.label.key === "resolver.dns_lookups");
   assert.deepEqual(lookups.lacking, ["IoT DNS"], "a resolver that answered but gave no lookups");
   assert.deepEqual(area(m, "network").charts[0].lacking, ["IoT DNS"], "on its chart too");
   assert.equal(m.apps.links.length, 25);
@@ -320,7 +320,7 @@ test("an area with nothing in it isn't shown", () => {
 
 // ── Parts named by their source ──────────────────────────────────────────
 
-test("two sources of one adapter name their parts; one of a kind doesn't", () => {
+test("two sources of one adapter name their parts; one alone doesn't", () => {
   const at = "2026-10-28T08:00:00Z";
   const read = snap(
     [
@@ -371,7 +371,7 @@ test("two sources of one adapter name their parts; one of a kind doesn't", () =>
   assert.deepEqual(
     m.events.items.map((e) => e.about),
     [[{ key: "area.servers" }], [{ key: "area.servers" }]],
-    "sources that don't say their adapter aren't of one kind, and Proxmox is alone",
+    "sources that don't say their adapter aren't of one adapter, and Proxmox is alone",
   );
   assert.equal(read.sections[0].by, undefined, "the snapshot's own parts are left as they were");
   const alone = page({ ...read, chores: [{ name: "Dust", source: "Proxmox" }] }, NOW);
@@ -487,7 +487,13 @@ test("two hosts' guests are one tile: their units, details and meters added, spl
 
 test("a figure added up from some of its adapter's sources names those that answered but gave none", () => {
   const dns = (name, answered = true) => ({ name, adapter: "adguard", answered });
-  const lookups = (source) => ({ area: "network", label: { key: "figure.lookups" }, adds: true, source, value: 1 });
+  const lookups = (source) => ({
+    area: "network",
+    label: { key: "resolver.dns_lookups" },
+    adds: true,
+    source,
+    value: 1,
+  });
   const sources = [
     dns("Primary"),
     dns("Secondary"),

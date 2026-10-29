@@ -56,16 +56,19 @@ func TestRead(t *testing.T) {
 	}
 
 	// The recorded week has its first two days without readings, so the
-	// lines start where the readings do: 116 hours.
+	// lines start where the readings do, and end with this hour, 10:00,
+	// which has none yet and carries 9:00's: 117 hours.
 	if c := p.Charts; len(c) != 2 || !c[0].Measures || c[0].Title.Key != snapshot.ProcessorChart.Key || c[1].Title.Key != snapshot.MemoryChart.Key {
 		t.Fatalf("the processor and memory by the hour, as levels: %+v", c)
 	}
 	cpu, mem := p.Charts[0].Series, p.Charts[1].Series
-	if len(cpu) != 1 || cpu[0].Label.Name != "nova" || len(cpu[0].Hours) != 116 || len(mem[0].Hours) != 116 {
-		t.Fatalf("a line for nova, over the hours with readings: %+v", cpu)
+	if len(cpu) != 1 || cpu[0].Label.Name != "nova" || len(cpu[0].Hours) != 117 || len(mem[0].Hours) != 117 {
+		t.Fatalf("a line for nova, from its readings to this hour: %+v", cpu)
 	}
-	if last := len(cpu[0].Hours) - 1; cpu[0].Hours[last] != 1.7 || mem[0].Hours[last] != 79.1 {
-		t.Errorf("the last hour's mean of its half hours, in percent: %v %v", cpu[0].Hours[last], mem[0].Hours[last])
+	for _, last := range []int{115, 116} {
+		if cpu[0].Hours[last] != 1.7 || mem[0].Hours[last] != 79.1 {
+			t.Errorf("9:00's mean of its half hours, in percent, carried into 10:00: %v %v", cpu[0].Hours[last], mem[0].Hours[last])
+		}
 	}
 
 	guests := sections["proxmox.guests"].Rows
@@ -129,7 +132,7 @@ func TestCluster(t *testing.T) {
 		{Type: "storage", Node: "nova", Storage: "local", Status: "available", MaxDisk: 100},
 		{Type: "storage", Node: "nova", Storage: "backups", Shared: 1, Status: "available", MaxDisk: 100},
 		{Type: "storage", Node: "vega", Storage: "backups", Shared: 1, Status: "unknown"},
-	}, []*host{h}, 2)
+	}, []*host{h}, 2, recorded)
 	adaptertest.Validate(t, p)
 
 	if h := p.Sections[0].Rows; len(h) != 2 || h[0].Title.Name != "nova" || h[1].Title.Name != "vega" || h[1].Value.Key != "proxmox.offline" || h[1].Tone != "red" {

@@ -115,7 +115,7 @@ function homelab(snap, checks, areas, silence, now) {
   const silentPart = silence.length ? [[silentText]] : [];
   // ponytail: blind is no check at all with any source silent, so a homelab
   // with no check engine and a silent resolver is down. Once a source says
-  // its kind (candidate 3), blind is no check engine answering.
+  // its kind (ADR 0012), blind is no check engine answering.
   if (!checks.length && silence.length) {
     const { error } = snap.sources.find((s) => !s.answered);
     return { state: "down", headline: silentText, summary: [[{ key: "source.no_answer_why", args: { error } }]] };
@@ -293,7 +293,7 @@ const silent = (snap, area) =>
 function missing(snap, names) {
   // ponytail: asks only the first source's adapter, so a Pi-hole that gave
   // none beside AdGuard Homes is never named. Once a source says its kind
-  // (candidate 3), it asks for those of the same kind.
+  // (ADR 0012), it asks for those of the same kind.
   const adapter = snap.sources.find((s) => s.name === names[0])?.adapter;
   return snap.sources.filter((s) => s.answered && s.adapter === adapter && !names.includes(s.name)).map((s) => s.name);
 }
