@@ -1,0 +1,14 @@
+{
+  "beszel.hosts": "Hosts",
+  "beszel.of_up": "of {n} up",
+
+  "beszel.up_for": "up {ms:span}",
+  "beszel.host_detail": { "one": "{n} thread · load {load}", "other": "{n} threads · load {load}" },
+  "beszel.cpu_meter": "CPU",
+  "beszel.ram_meter": "RAM",
+  "beszel.disk_meter": "Disk",
+  "beszel.down": "Down",
+  "beszel.down_since": "since {at:when}",
+  "beszel.paused": "Paused",
+  "beszel.pending": "Not connected yet"
+}

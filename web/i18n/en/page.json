@@ -84,6 +84,9 @@
   "chart.all": "{ms:span}",
   "chart.busiest": "Busiest",
   "chart.highest": "Highest",
+  "chart.processor": "Processor",
+  "chart.memory": "Memory",
+  "section.hosts": "Hosts",
 
   "areas.title": "Areas",
   "areas.hint": "the last 30 results",

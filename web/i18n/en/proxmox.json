@@ -1,5 +1,4 @@
 {
-  "proxmox.hosts": "Hosts",
   "proxmox.host_detail": {
     "one": "{model} · {n} thread · load {load} · Proxmox VE {version}",
     "other": "{model} · {n} threads · load {load} · Proxmox VE {version}"
@@ -17,8 +16,6 @@
   "proxmox.stopped": "Stopped",
   "proxmox.of_up": "of {n} up",
   "proxmox.hosts_online": { "one": "{online} of {n} host online", "other": "{online} of {n} hosts online" },
-  "proxmox.cpu_chart": "Processor",
-  "proxmox.ram_chart": "Memory",
   "proxmox.cpu_meter": "CPU",
   "proxmox.ram_meter": "RAM",
 

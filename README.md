@@ -548,6 +548,32 @@ restart AdGuard Home.
 the hour for an interval of up to 7 days; over a longer one it keeps them
 by the day, in UTC, and the Overview shows no figure for it.
 
+### Beszel
+
+Each system Beszel's agents report on, as a host, in Servers: how long it
+has been up, its threads and load, and how busy its processor and how full
+its memory and disk are, or since when it's down. Its processor and memory
+by the hour, over the week Beszel keeps, are a line each on the same charts
+as any other source's hosts, such as Proxmox's. Today shows the hosts up,
+every hub's added up.
+
+```yaml
+sources:
+  beszel:
+    - url: http://beszel:8090         # where Overlook reads the hub
+      user: overlook@example.com      # its user's email
+      password: ${BESZEL_PASSWORD}
+```
+
+**Key:** a login, as `user` and `password`, since Beszel has no API keys.
+Overlook logs in with one POST, keeps the session in memory and sends it
+with each GET, logging in again when Beszel forgets it (ADR 0009). The least
+it needs is a user of its own with the role **readonly**, which can change
+nothing, nor read the agents' keys. As a superuser, in the hub's admin page
+at `/_/`, add the user to the `users` collection with `role` set to
+`readonly`, then add it to the `users` of each system to show, or set
+`SHARE_ALL_SYSTEMS=true` on the hub so that every user sees every system.
+
 ### Can't be read
 
 These tools can't be read the way Overlook reads (ADR 0001, ADR 0009), or

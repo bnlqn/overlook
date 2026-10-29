@@ -51,6 +51,13 @@ sources:
       # a source it can't check.
       # ca: /etc/overlook/pve-root-ca.pem
 
+  # Each system Beszel's agents report on, as a host: whether it's up, how
+  # busy and how full it is, and its week by the hour.
+  beszel:
+    - url: http://beszel:8090          # where Overlook reads the hub
+      user: overlook@example.com       # a user of its own, with the role readonly
+      password: ${BESZEL_PASSWORD}
+
   # The films: how many, how much room, what came this week and what's coming.
   radarr:
     - url: http://radarr:7878          # where Overlook reads Radarr

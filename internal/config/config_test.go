@@ -157,6 +157,7 @@ func TestExample(t *testing.T) {
 	t.Setenv("IMMICH_KEY", "k3y")
 	t.Setenv("PBS_SECRET", "00000000-0000-0000-0000-000000000000")
 	t.Setenv("PROXMOX_SECRET", "00000000-0000-0000-0000-000000000000")
+	t.Setenv("BESZEL_PASSWORD", "s3cret")
 	t.Setenv("RADARR_KEY", "0123abcd")
 	t.Setenv("SONARR_KEY", "4567efab")
 	t.Setenv("NUT_HOST", "nut.example.com")
