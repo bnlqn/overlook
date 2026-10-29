@@ -2,11 +2,7 @@ package seerr
 
 import (
 	"context"
-	"net/http"
-	"net/http/httptest"
-	"path/filepath"
 	"strings"
-	"sync/atomic"
 	"testing"
 	"time"
 
@@ -30,6 +26,11 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
+	for _, r := range src.Sent() {
+		if r.Header.Get("X-Api-Key") != "0123abcd" {
+			t.Errorf("%s: read without the key", r.URL)
+		}
+	}
 
 	rows := p.Sections[0].Rows
 	if len(rows) != 3 {
@@ -60,14 +61,7 @@ func TestRead(t *testing.T) {
 // A film's title is read once, and kept, however often its request is read.
 func TestTitlesOnce(t *testing.T) {
 	t.Parallel()
-	var films atomic.Int32
-	src := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if strings.HasPrefix(r.URL.Path, "/api/v1/movie/") || strings.HasPrefix(r.URL.Path, "/api/v1/tv/") {
-			films.Add(1)
-		}
-		http.ServeFile(w, r, filepath.Join("testdata", r.URL.Path+".json"))
-	}))
-	t.Cleanup(src.Close)
+	src := adaptertest.Replay(t, "testdata")
 	c := Config{URL: src.URL, Key: "0123abcd"}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
@@ -77,8 +71,14 @@ func TestTitlesOnce(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
-	if n := films.Load(); n != 3 {
-		t.Errorf("three reads asked for %d titles, want each of the three once", n)
+	films := 0
+	for _, r := range src.Sent() {
+		if strings.HasPrefix(r.URL.Path, "/api/v1/movie/") || strings.HasPrefix(r.URL.Path, "/api/v1/tv/") {
+			films++
+		}
+	}
+	if films != 3 {
+		t.Errorf("three reads asked for %d titles, want each of the three once", films)
 	}
 }
 

@@ -3,8 +3,6 @@ package prometheus
 import (
 	"context"
 	"net/http"
-	"net/http/httptest"
-	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -13,38 +11,18 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
-// source answers as Prometheus does, and as Alertmanager does under
-// /alertmanager, from testdata: a range query by whether it reads the week
-// or the last evaluations, by its step.
-func source(t *testing.T) *httptest.Server {
-	t.Helper()
-	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodGet {
-			t.Errorf("%s %s: a source is only read", r.Method, r.URL.Path)
-		}
-		name := r.URL.Path
-		if name == "/api/v1/query_range" {
-			name += "/recent"
-			if r.URL.Query().Get("step") == "300" {
-				name = "/api/v1/query_range/week"
-			}
-		}
-		http.ServeFile(w, r, filepath.Join("testdata", name+".json"))
-	}))
-	t.Cleanup(s.Close)
-	return s
-}
-
 // testdata holds answers recorded from a scratch Prometheus 3.15 and
 // Alertmanager 0.34 (ADR 0008): six alert rules, evaluated every 10
 // seconds, in groups named Servers, Network, Storage and Apps. Disk space
 // fires for a minute every other minute, and had just stopped; Packet loss
 // is pending for an hour; Backup age fires, but the owner silenced it in
-// Alertmanager. record.sh read them at 15:49:15.
+// Alertmanager. record.sh read them at 15:49:15. A range query is recorded
+// by its step: the week's, or the last evaluations'. Alertmanager answers
+// under /alertmanager.
 func TestRead(t *testing.T) {
 	t.Parallel()
-	src := source(t)
-	c := Config{URL: src.URL, Alertmanager: src.URL + "/alertmanager", Link: "https://prometheus.example.com/"}
+	src := adaptertest.Replay(t, "testdata")
+	c := Config{URL: src.URL, Alertmanager: src.URL + "/alertmanager", Link: "https://prometheus.example.com/", User: "overlook", Password: "s3cret"}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
@@ -53,6 +31,11 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
+	for _, r := range src.Sent() {
+		if user, password, _ := (&http.Request{Header: r.Header}).BasicAuth(); user != "overlook" || password != "s3cret" {
+			t.Errorf("%s: read without the user and password", r.URL)
+		}
+	}
 
 	by := map[string]snapshot.Check{}
 	for _, ch := range p.Checks {

@@ -2,49 +2,13 @@ package tautulli
 
 import (
 	"context"
-	"net/http"
-	"net/http/httptest"
-	"os"
-	"path/filepath"
 	"slices"
 	"strings"
-	"sync"
 	"testing"
 	"time"
 
 	"github.com/bnlqn/overlook/internal/adapters/adaptertest"
 )
-
-// source answers as Tautulli does, every command at /api/v2 with the key in
-// the address, from testdata/api/v2/<command>.json with each of edits made,
-// as old and new, and keeps the commands it was sent.
-func source(t *testing.T, edits ...string) (*httptest.Server, func() []string) {
-	t.Helper()
-	var mu sync.Mutex
-	var sent []string
-	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		q := r.URL.Query()
-		mu.Lock()
-		sent = append(sent, q.Get("cmd"))
-		mu.Unlock()
-		if r.Method != http.MethodGet || r.URL.Path != "/api/v2" || q.Get("apikey") != "0123abcd" {
-			http.Error(w, `{"response":{"result":"error","message":"Invalid apikey"}}`, http.StatusUnauthorized)
-			return
-		}
-		answer, err := os.ReadFile(filepath.Join("testdata", "api", "v2", filepath.Base(q.Get("cmd"))+".json"))
-		if err != nil {
-			http.NotFound(w, r)
-			return
-		}
-		body := string(answer)
-		for i := 0; i+1 < len(edits); i += 2 {
-			body = strings.ReplaceAll(body, edits[i], edits[i+1])
-		}
-		_, _ = w.Write([]byte(body))
-	}))
-	t.Cleanup(s.Close)
-	return s, func() []string { mu.Lock(); defer mu.Unlock(); return slices.Clone(sent) }
-}
 
 // testdata holds answers recorded from a scratch Tautulli 2.18.2 watching a
 // scratch Plex 1.43.5 (ADR 0008), which testdata/fill.sh fills: five films and
@@ -52,10 +16,11 @@ func source(t *testing.T, edits ...string) (*httptest.Server, func() []string) {
 // episode's twice, and two going, the TV's as it is and Kim's phone's
 // transcoded. The Plex server is unclaimed, so every play is its local
 // user's and Tautulli has no news of its releases. record.sh read them at
-// 12:37:33.
+// 12:37:33, each command's answer at api/v2@cmd=<command>.json, since
+// Tautulli answers every command at /api/v2, with the key in the address.
 func TestRead(t *testing.T) {
 	t.Parallel()
-	src, sent := source(t)
+	src := adaptertest.Replay(t, "testdata")
 	c := Config{URL: src.URL, Key: "0123abcd"}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
@@ -68,9 +33,9 @@ func TestRead(t *testing.T) {
 
 	// Each command it sent reads, and is one of reads, which name only
 	// commands that read.
-	for _, cmd := range sent() {
-		if !slices.Contains(reads, cmd) {
-			t.Errorf("sent %s, which isn't in reads", cmd)
+	for _, r := range src.Sent() {
+		if q := r.URL.Query(); q.Get("apikey") != "0123abcd" || !slices.Contains(reads, q.Get("cmd")) {
+			t.Errorf("sent %s, without the key or not in reads", q.Get("cmd"))
 		}
 	}
 	for _, cmd := range reads {
@@ -109,7 +74,7 @@ func TestRead(t *testing.T) {
 // Tautulli can't reach is said in red.
 func TestPlex(t *testing.T) {
 	t.Parallel()
-	src, _ := source(t, `"data": {}`, `"data": {"update_available": true, "version": "1.43.6.11200-0a1b2c3d4"}`)
+	src := adaptertest.Replay(t, "testdata", `"data": {}`, `"data": {"update_available": true, "version": "1.43.6.11200-0a1b2c3d4"}`)
 	c := Config{URL: src.URL, Key: "0123abcd"}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
@@ -123,7 +88,7 @@ func TestPlex(t *testing.T) {
 		t.Errorf("a newer Plex: %+v", r)
 	}
 
-	src, _ = source(t, `"connected": true`, `"connected": false`)
+	src = adaptertest.Replay(t, "testdata", `"connected": true`, `"connected": false`)
 	c = Config{URL: src.URL, Key: "0123abcd"}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)

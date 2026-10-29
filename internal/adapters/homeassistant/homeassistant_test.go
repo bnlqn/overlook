@@ -32,6 +32,11 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
+	for _, r := range src.Sent() {
+		if r.Header.Get("Authorization") != "Bearer 0123abcd" {
+			t.Errorf("%s: read without the token", r.URL)
+		}
+	}
 
 	if len(p.Sections) != 2 || p.Sections[0].Title.Key != "homeassistant.home" || p.Sections[1].Title.Key != "homeassistant.unavailable" {
 		t.Fatalf("Home, and what's unavailable: %+v", p.Sections)

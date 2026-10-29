@@ -2,6 +2,7 @@ package gatus
 
 import (
 	"context"
+	"net/http"
 	"strings"
 	"testing"
 	"time"
@@ -15,7 +16,7 @@ import (
 func TestRead(t *testing.T) {
 	t.Parallel()
 	src := adaptertest.Replay(t, "testdata")
-	c := Config{URL: src.URL, Link: "https://status.example.com/", Areas: map[string]string{"Media": "apps"}}
+	c := Config{URL: src.URL, Link: "https://status.example.com/", Areas: map[string]string{"Media": "apps"}, User: "overlook", Password: "s3cret"}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
@@ -24,6 +25,11 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
+	for _, r := range src.Sent() {
+		if user, password, _ := (&http.Request{Header: r.Header}).BasicAuth(); user != "overlook" || password != "s3cret" {
+			t.Errorf("%s: read without the user and password", r.URL)
+		}
+	}
 
 	checks := map[string]snapshot.Check{}
 	for _, ch := range p.Checks {

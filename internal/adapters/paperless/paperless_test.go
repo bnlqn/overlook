@@ -2,8 +2,6 @@ package paperless
 
 import (
 	"context"
-	"net/http"
-	"net/http/httptest"
 	"strings"
 	"testing"
 	"time"
@@ -14,7 +12,9 @@ import (
 // testdata holds answers recorded from a scratch Paperless-ngx 3.3.4 (ADR 0008),
 // which testdata/fill.sh fills: ten invented letters, three of them in the
 // inbox, and a PDF cut short, which failed. Its classifier hasn't trained
-// and its sanity check hasn't run, as on any new Paperless-ngx.
+// and its sanity check hasn't run, as on any new Paperless-ngx. Overlook
+// asks for the API's version 10, so that a newer default doesn't change the
+// answers it reads.
 func TestRead(t *testing.T) {
 	t.Parallel()
 	src := adaptertest.Replay(t, "testdata")
@@ -27,6 +27,11 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
+	for _, r := range src.Sent() {
+		if r.Header.Get("Authorization") != "Token 0123abcd" || r.Header.Get("Accept") != "application/json; version=10" {
+			t.Errorf("%s: read without the token, or asking for another version: %q", r.URL, r.Header.Get("Accept"))
+		}
+	}
 
 	if len(p.Sections) != 1 || p.Sections[0].Title.Key != "paperless.documents" {
 		t.Fatalf("one section: %+v", p.Sections)
@@ -56,28 +61,6 @@ func TestRead(t *testing.T) {
 	}
 	if f := p.Figures[0]; f.Value != 10 || f.Detail.Args["n"] != 3 || f.Tone != "orange" {
 		t.Errorf("10 documents, 3 in the inbox, orange for the failure: %+v", f)
-	}
-}
-
-// Overlook asks for the API's version 10, so that a newer default doesn't
-// change the answers it reads.
-func TestVersion(t *testing.T) {
-	t.Parallel()
-	var accept string
-	src := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		accept = r.Header.Get("Accept")
-		_, _ = w.Write([]byte(`{}`))
-	}))
-	t.Cleanup(src.Close)
-	c := Config{URL: src.URL, Token: "0123abcd"}
-	if err := c.Check(); err != nil {
-		t.Fatal(err)
-	}
-	if err := c.source.JSON(context.Background(), "/api/status/", new(struct{})); err != nil {
-		t.Fatal(err)
-	}
-	if accept != "application/json; version=10" {
-		t.Errorf("asked for %q", accept)
 	}
 }
 

@@ -37,6 +37,11 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
+	for _, r := range src.Sent() {
+		if r.Header.Get("Authorization") != "PBSAPIToken=overlook@pbs!overlook:00000000-0000-0000-0000-000000000000" {
+			t.Errorf("%s: read without the token", r.URL)
+		}
+	}
 
 	rows := p.Sections[0].Rows
 	if len(p.Sections) != 1 || len(rows) != 5 {
@@ -121,13 +126,10 @@ func TestTodayIsTheNight(t *testing.T) {
 }
 
 // PBS signs its own certificate for its own name: Overlook reads it at
-// another address, trusting that certificate and checking that name, and
-// sends its token as PBS expects.
+// another address, trusting that certificate and checking that name.
 func TestCertificate(t *testing.T) {
 	t.Parallel()
-	var auth string
-	s := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		auth = r.Header.Get("Authorization")
+	s := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		_, _ = w.Write([]byte(`{"data": []}`))
 	}))
 	t.Cleanup(s.Close)
@@ -151,9 +153,6 @@ func TestCertificate(t *testing.T) {
 	}
 	if _, err := Read(context.Background(), c, recorded); err != nil {
 		t.Fatal(err)
-	}
-	if auth != "PBSAPIToken=overlook@pbs!overlook:s3cret" {
-		t.Errorf("the token's header: %q", auth)
 	}
 }
 

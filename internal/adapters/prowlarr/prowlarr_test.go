@@ -26,6 +26,11 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
+	for _, r := range src.Sent() {
+		if r.Header.Get("X-Api-Key") != "0123abcd" {
+			t.Errorf("%s: read without the key", r.URL)
+		}
+	}
 
 	if len(p.Sections) != 1 || p.Sections[0].Title.Key != "prowlarr.indexers" {
 		t.Fatalf("one section, the indexers: %+v", p.Sections)
