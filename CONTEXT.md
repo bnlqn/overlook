@@ -30,8 +30,8 @@ _Avoid_: Workload, instance
 ### What Overlook reads
 
 **Source**:
-One running tool Overlook reads, at its address and with its key, such as a
-Proxmox host or an AdGuard Home resolver.
+One running tool Overlook reads, at its address and with its key or login,
+such as a Proxmox host or an AdGuard Home resolver.
 _Avoid_: Service, integration, endpoint
 
 **Adapter**:
