@@ -24,6 +24,9 @@ export const pageName = (p) => t(p.area ? `area.${p.area}` : "page.overview");
  */
 const DEMO = document.documentElement.hasAttribute("data-demo");
 
+/** Where Overlook comes from: its repository. */
+const REPO = "https://github.com/bnlqn/overlook";
+
 /** The page showing. */
 export const HERE = PAGES.find((p) => p.area && p.area === location.pathname.split("/").pop()) || PAGES[0];
 
@@ -58,12 +61,19 @@ function shell() {
     </aside>
     <div class="scrim" data-menu></div>`,
   );
+  // The demo is most people's first sight of Overlook, reached from a link
+  // elsewhere, so its bar, which stays in sight, says it's a demo and leads
+  // to the repository. The short words take the long ones' place on a phone.
+  const demo = DEMO
+    ? `<a class="demo-link" href="${REPO}" target="_blank" rel="noopener"><span class="demo-tag">${t("demo")}</span><span class="demo-long">${t("demo.repo")}</span><span class="demo-short">${t("demo.repo.short")}</span>${svg("out")}</a>`
+    : "";
   const panel = document.createElement("div");
   panel.className = "panel";
   panel.innerHTML = `<header class="bar">
       <button class="icon-btn menu" type="button" data-menu aria-label="${t("menu")}">${svg("menu")}</button>
       <span class="crumb">${svg(HERE.icon)}<span>${pageName(HERE)}</span></span>
       <span class="bar-end">
+        ${demo}
         <button class="icon-btn spin" type="button" data-refresh aria-label="${t("refresh")}">${svg("refresh")}</button>
         <button class="kbd-btn" type="button" data-palette>${svg("search")}<span>${t("search")}</span><kbd>⌘K</kbd></button>
       </span></header>`;
@@ -108,7 +118,7 @@ function paintShell(m) {
   const foot = document.getElementById("powered");
   foot.innerHTML = t(m.version ? "powered.version" : "powered", { version: m.version });
   const repo = foot.querySelector("a");
-  if (repo) Object.assign(repo, { href: "https://github.com/bnlqn/overlook", target: "_blank", rel: "noopener" });
+  if (repo) Object.assign(repo, { href: REPO, target: "_blank", rel: "noopener" });
 }
 
 // ⌘K (or /): go to a page, open an app or a tool, or a check in its check
