@@ -208,15 +208,18 @@ test("an area's strip lines its checks up by time, at the pace of the most frequ
     });
   const { strip } = area(page(snap([every("disk", 1), every("copy", 10, [120, 10])]), NOW), "storage");
   assert.equal(strip.length, 30);
-  assert.deepEqual(
-    strip.map((r, k) => (r.n === 2 ? k : -1)).filter((k) => k >= 0),
-    [9, 19, 29],
-    "half an hour, the slow check's results where they fell",
+  assert.ok(
+    strip.every((r) => r.n === 2),
+    "half an hour, the slow check in every tick, by its result then",
   );
   assert.deepEqual(
-    strip.filter((r) => !r.ok).map((r) => [r.at.getTime(), r.bad, r.failed.map((f) => f.check.name)]),
-    [[NOW - 10 * 60e3, 0.5, ["copy"]]],
-    "the failure two hours ago is older than the strip",
+    strip.map((r, k) => (r.ok ? -1 : k)).filter((k) => k >= 0),
+    [19, 20, 21, 22, 23, 24, 25, 26, 27, 28],
+    "failing from ten minutes ago until its next result passed, and not two hours ago",
+  );
+  assert.deepEqual(
+    [strip[19].at.getTime(), strip[19].bad, strip[19].failed.map((f) => f.check.name)],
+    [NOW - 10 * 60e3, 0.5, ["copy"]],
   );
   const fresh = every("new", 1);
   fresh.results = fresh.results.slice(-1);

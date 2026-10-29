@@ -224,30 +224,40 @@ function areaOf(area, snap, checks) {
 /**
  * An area's recent past as RECENT ticks, each as long as its most frequent
  * check takes between results and the last ending with its newest result,
- * so that checks run at different paces line up by time. A tick is the
- * worst result each check had in it: whether all passed, the share of the
- * checks that failed, when the latest was, how many checks there were, and
- * those that failed. A tick no result fell in is empty.
+ * so that checks run at different paces line up by time. In each tick, a
+ * check is the worst result it had in it or, with none, the one in force
+ * from before, as its state is its last result: a check failing at a slower
+ * pace fails all along, not every so often. A tick says whether all passed,
+ * the share of the checks that failed, when it ends, how many checks there
+ * were, and those that failed. A tick before any result is empty.
  */
 function worst(checks) {
-  const results = checks.flatMap((c) => c.recent.map((r) => [c, r]));
   const ticks = Array.from({ length: RECENT }, () => new Map());
-  if (results.length) {
-    const end = Math.max(...results.map(([, r]) => +r.at));
-    // With no check's pace known, every result is in the last tick.
-    const step = Math.min(...checks.map((c) => pace(c.recent)));
-    for (const [c, r] of results) {
-      const k = RECENT - 1 - Math.floor((end - r.at) / step);
-      const had = ticks[k]?.get(c);
-      if (k >= 0 && (!had || (had.ok && !r.ok))) ticks[k].set(c, r);
+  const all = checks.flatMap((c) => c.recent);
+  if (!all.length) return ticks.map(() => null);
+  const end = Math.max(...all.map((r) => +r.at));
+  // With no check's pace known, every result is in the last tick.
+  const step = Math.min(...checks.map((c) => pace(c.recent)));
+  const tickOf = (r) => RECENT - 1 - Math.floor((end - r.at) / step);
+  for (const c of checks) {
+    let held = null;
+    let i = 0;
+    for (let k = 0; k < RECENT; k++) {
+      let worst = null;
+      for (; i < c.recent.length && tickOf(c.recent[i]) <= k; i++) {
+        const r = c.recent[i];
+        if (tickOf(r) === k && (!worst || (worst.ok && !r.ok))) worst = r;
+        held = r;
+      }
+      if (worst || held) ticks[k].set(c, worst || held);
     }
   }
-  return ticks.map((tick) => {
+  return ticks.map((tick, k) => {
     if (!tick.size) return null;
     const at = [...tick];
     const failed = at.filter(([, r]) => !r.ok).map(([check, r]) => ({ check, why: r.why }));
-    const latest = new Date(Math.max(...at.map(([, r]) => +r.at)));
-    return { ok: !failed.length, bad: failed.length / at.length, at: latest, n: at.length, failed };
+    const ends = new Date(k === RECENT - 1 ? end : end - (RECENT - 1 - k) * step);
+    return { ok: !failed.length, bad: failed.length / at.length, at: ends, n: at.length, failed };
   });
 }
 
