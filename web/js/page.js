@@ -71,7 +71,7 @@ function readChecks(snap) {
 
 /**
  * The snapshot with each part named by its source, as by, where another
- * source of the same adapter is read, so that two of one kind can be told
+ * source of the same adapter is read, so that two of one adapter can be told
  * apart. One that didn't answer still counts, so the names don't come and go.
  * A check is named where another check engine has a check of its name, a
  * section where another source gives one of its title, such as the hosts of
@@ -303,7 +303,7 @@ function missing(snap, names) {
 /**
  * Today's tiles and how many columns they take. Each tile is a figure, added
  * up and joined, and says whether it's wide, which colour its parts start
- * from, and the sources of its kind that gave none of it.
+ * from, and the sources of its adapter that gave none of it.
  */
 function today(snap) {
   // Each tile whose parts take the colours starts two on from the one
