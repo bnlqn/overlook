@@ -56,7 +56,7 @@ and the least key it needs), and CI passes.
        fixed.
 3. [x] One login, in `internal/fetch`, for a source that offers no other
        way in (ADR 0009).
-4. [ ] The adapters for what the author's homelab runs: Beszel, Docker,
+4. [x] The adapters for what the author's homelab runs: Beszel, Docker,
        Prowlarr and qBittorrent.
 5. [ ] The tools most homelabs run, each recorded from a scratch instance
        (ADR 0008), one pull request each, in this order: Jellyfin, Home
