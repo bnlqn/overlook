@@ -57,18 +57,20 @@
   --m-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 
   /* The colours that tell apart the parts of one thing, such as each
-     person's photos, in this order: none is green, yellow or red, which say
-     how something is. Checked with the dataviz skill's validator against
-     the card: told apart side by side with every kind of colour vision, and
-     each at 3:1 or more. */
+     person's photos, in this order, which a tile may start anywhere in:
+     none is green, yellow or red, which say how something is. Checked with
+     the dataviz skill's validator against the card: each beside the next,
+     the last beside the first too, told apart with every kind of colour
+     vision, and each at 3:1 or more. Each two in turn are one cool, one
+     warm. */
   --m-series-1: #3987e5;
   --m-series-2: #d95926;
-  --m-series-3: #199e70;
-  --m-series-4: #9085e9;
-  --m-series-5: #d55181;
-  --m-series-6: #1b9fbf;
-  --m-series-7: #b07a3a;
-  --m-series-8: #c160c9;
+  --m-series-3: #9085e9;
+  --m-series-4: #d55181;
+  --m-series-5: #1b9fbf;
+  --m-series-6: #b07a3a;
+  --m-series-7: #c160c9;
+  --m-series-8: #199e70;
 }
 
 * {

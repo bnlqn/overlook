@@ -79,11 +79,12 @@ const PART = "var(--m-orange)";
 export const SERIES = Array.from({ length: 8 }, (_, i) => `var(--m-series-${i + 1})`);
 
 /**
- * A share's colour: its tone, which means something, or else its slot's.
- * The parts folded into "others" are gray.
+ * A share's colour: its tone, which means something, or else its slot's,
+ * from where its figure starts in the colours. The parts folded into
+ * "others" are gray.
  */
-export const shareColour = (s, i) =>
-  s.tone ? `var(--m-${s.tone})` : s.others ? "var(--m-gray)" : SERIES[(s.slot ?? i) % SERIES.length];
+export const shareColour = (s, i, start = 0) =>
+  s.tone ? `var(--m-${s.tone})` : s.others ? "var(--m-gray)" : SERIES[((s.slot ?? i) + start) % SERIES.length];
 
 /** How many results a strip shows. */
 export const RECENT = 30;
@@ -363,11 +364,11 @@ export function areas(series, sources = [], now = new Date()) {
  * its colour, past eight the smallest folded into one. Its tooltip is its
  * label over its rows, or over its value and share.
  */
-export function shares(f) {
+export function shares(f, start = 0) {
   const all = fold(f.shares);
   const whole = all.reduce((sum, s) => sum + s.value, 0);
   const parts = all.map((s, i) => {
-    const c = shareColour(s, i);
+    const c = shareColour(s, i, start);
     const rows = s.rows?.length
       ? s.rows.map((r, k) => [k ? "" : c, say(r.title), r.value ? say(r.value) : ""])
       : [[c, number(s.value), t("percent", { n: Math.round((100 * s.value) / whole) })]];
