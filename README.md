@@ -65,9 +65,17 @@ candidates stay as pre-releases.
        then recorded again from the author's own (ADR 0008).
 8. [ ] A week of running it.
 9. [ ] The repository goes public, `v0.2.0` is tagged and the issues for
-       the adapters wanted are opened. The demo goes live then: Pages set
-       to build from GitHub Actions, and the Demo workflow run once by
-       hand, since going public pushes nothing to `main`.
+       the adapters wanted are opened. Before that, the history, every
+       pull request and the release notes are read for anything of a
+       real homelab, and the stale branches deleted; and the README is
+       written for someone who has never seen Overlook, with a code of
+       conduct and Discussions for questions. Then private vulnerability
+       reporting is turned on, the repository gets its description,
+       topics, homepage and social preview, and `main` a ruleset. The
+       demo goes live then: Pages set to build from GitHub Actions, and
+       the Demo workflow run once by hand, since going public pushes
+       nothing to `main`. The release attests its binaries and its image
+       from then on, since attestations need a public repository.
 
 v0.2 is ready when the large homelab looks right at desktop and phone
 width, the author's homelab has run it for a week with nothing missing,

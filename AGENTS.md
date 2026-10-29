@@ -8,7 +8,7 @@ Overlook is one fixed page that tells a homelab's owner what is wrong, read from
 
 ## Conventions no config enforces
 
-- **Scope is the road.** [README.md](README.md)'s road to v0.1 says which step is open. Work inside it, and name anything beyond it as a follow-up.
+- **Scope is the road.** [README.md](README.md)'s road says which step is open. Work inside it, and name anything beyond it as a follow-up.
 - **Plain words, short sentences, British spelling.** Comments say why, in full sentences, and describe what the page does in its own terms, never by the product it resembles.
 - **Invented data only.** Hosts are `*.example.com`, names and numbers are made up, and an answer recorded from a real source has its keys, hosts and people removed before it lands in `testdata/`.
 - **Overlook only reads.** Adapters reach a source only through a `fetch.Source`, under its own address (ADR 0001, ADR 0013).
