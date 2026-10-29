@@ -58,6 +58,13 @@ sources:
       user: overlook@example.com       # a user of its own, with the role readonly
       password: ${BESZEL_PASSWORD}
 
+  # Each container a Docker engine runs, and those that exited, restart or
+  # fail their health check. Docker's socket is root, so Overlook reads it
+  # only through a socket proxy that lets the containers' reads through.
+  docker:
+    - url: http://socket-proxy:2375    # the proxy, over HTTP
+      # name: Media                    # with more than one engine, tell them apart
+
   # The films: how many, how much room, what came this week and what's coming.
   radarr:
     - url: http://radarr:7878          # where Overlook reads Radarr
