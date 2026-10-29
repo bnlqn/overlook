@@ -8246,6 +8246,7 @@
     {
       "name": "Requests",
       "url": "https://requests.example.com",
+      "icon": "seerr.svg",
       "check": "Requests",
       "description": "Ask for a film or a show",
       "color": "#7B61FF"
@@ -8253,6 +8254,7 @@
     {
       "name": "Watch",
       "url": "https://watch.example.com",
+      "icon": "plex.svg",
       "check": "Watch",
       "description": "Films and shows, to watch",
       "color": "#AA5CC3"
@@ -8260,6 +8262,7 @@
     {
       "name": "Music",
       "url": "https://music.example.com",
+      "icon": "jellyfin.svg",
       "check": "Music",
       "description": "Everyone's music",
       "color": "#1DB954"
@@ -8267,6 +8270,7 @@
     {
       "name": "Books",
       "url": "https://books.example.com",
+      "icon": "jellyfin.svg",
       "check": "Books",
       "description": "The e-books",
       "color": "#C88E4E"
@@ -8295,6 +8299,7 @@
     {
       "name": "Documents",
       "url": "https://documents.example.com",
+      "icon": "paperless-ngx.svg",
       "check": "Documents",
       "description": "Every letter, scanned",
       "color": "#17541F"
@@ -8316,6 +8321,7 @@
     {
       "name": "Files",
       "url": "https://files.example.com",
+      "icon": "nextcloud.svg",
       "check": "Files",
       "description": "Everyone's files",
       "color": "#0082C9"
@@ -8391,12 +8397,14 @@
     {
       "name": "Uptime Kuma",
       "url": "https://uptime.example.com",
+      "icon": "uptime-kuma.svg",
       "description": "What the internet sees",
       "color": "#5CDD8B"
     },
     {
       "name": "Grafana",
       "url": "https://grafana.example.com",
+      "icon": "grafana.svg",
       "description": "Dashboards and alert rules",
       "color": "#F46800"
     },
