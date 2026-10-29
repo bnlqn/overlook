@@ -443,6 +443,24 @@ main {
   margin: 0 auto;
   padding: 28px 32px 56px;
 }
+/* At the panel's foot, however short the page: which Overlook this is, and
+   where it comes from. */
+.foot {
+  margin-top: auto;
+  padding: 0 16px max(20px, env(safe-area-inset-bottom));
+  text-align: center;
+  font: var(--m-type-footnote);
+  color: var(--m-label-3);
+}
+.foot a {
+  font-weight: 510;
+  color: var(--m-label-2);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.foot a:hover {
+  color: var(--m-label-1);
+}
 
 @media (max-width: 860px) {
   body {

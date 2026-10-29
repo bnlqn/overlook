@@ -25,7 +25,8 @@ const DAY = 864e5;
  * - apps: each link with its check and the check's state, whether the tiles
  *   go small, and how many columns they take; tools: each link with its
  *   check and the check's state;
- * - chores: those due, this week's and the next, and the updates.
+ * - chores: those due, this week's and the next, and the updates;
+ * - version: the Overlook that read it, if it says.
  *
  * Texts are the snapshot's own: a message's key and its values, or a name.
  * Moments are dates; where the page draws along a span, as along the week,
@@ -48,6 +49,7 @@ export function page(read, now) {
     apps: launch(snap.apps, checks),
     tools: snap.tools.map((link) => linked(link, checks)),
     chores: { ...choresBy(snap.chores, now), updates: snap.updates },
+    version: snap.version,
   };
 }
 
