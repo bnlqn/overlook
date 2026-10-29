@@ -925,11 +925,6 @@ every device, such as unlocking a door, with a POST, but Overlook sends only
 GET requests, which change nothing (ADR 0001). It reads `/api/config` and
 `/api/states`, which `default_config` turns on.
 
-Recorded from a scratch Home Assistant 2026.10.4, with its own invented
-devices and a few more (ADR 0008), until someone who runs one records it
-from theirs: its config and the scripts that fill and record it are in the
-adapter's [`testdata`](internal/adapters/homeassistant/testdata).
-
 ### Paperless-ngx
 
 The documents, on the Apps page: how many Paperless-ngx keeps and how many

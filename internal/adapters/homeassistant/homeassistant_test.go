@@ -9,12 +9,13 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/adaptertest"
 )
 
-// testdata holds answers recorded from a scratch Home Assistant 2026.10.4
-// (ADR 0008), with Home Assistant's own invented devices and
-// testdata/configuration.yaml's: three batteries, two of them low, a garage
-// door that dropped off, two automations, one of which ran, and one whose
-// config is broken. Its demo updates wait for five installs. The people and
-// where they are, and the cameras' tokens, were left out as it was recorded.
+// testdata holds answers recorded from the author's Home Assistant 2026.10.3,
+// with every name, place and number its own replaced, and every time moved
+// by the same amount: 1,355 entities, 38 automations, one of whose config is
+// broken, 31 entities that dropped off, and four updates waiting. The people
+// and where they are were left out, and the attributes the adapter doesn't
+// read, but for a few that give each kind its shape. Two batteries were
+// nudged below 20%, since the house had none that day.
 func TestRead(t *testing.T) {
 	t.Parallel()
 	src := adaptertest.Replay(t, "testdata")
@@ -26,7 +27,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	p, err := read(context.Background(), c, time.Date(2026, 10, 29, 10, 55, 0, 0, london))
+	p, err := read(context.Background(), c, time.Date(2026, 10, 27, 11, 18, 0, 0, london))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -39,35 +40,36 @@ func TestRead(t *testing.T) {
 	if len(rows) != 3 {
 		t.Fatalf("the version, the automations and the broken one: %+v", rows)
 	}
-	if r := rows[0]; r.Value.Name != "2026.10.4" || r.Tone != "" {
+	if r := rows[0]; r.Value.Name != "2026.10.3" || r.Tone != "" {
 		t.Errorf("the version, neither safe nor in recovery: %+v", r)
 	}
-	if r := rows[1]; r.Value.Args["n"] != 3 || r.Detail.Args["n"] != 1 || r.Detail.Args["off"] != 0 {
-		t.Errorf("3 automations, the porch light's run today: %+v %+v", r.Value, r.Detail)
+	if r := rows[1]; r.Value.Args["n"] != 38 || r.Detail.Args["n"] != 16 || r.Detail.Args["off"] != 0 {
+		t.Errorf("38 automations, 16 of them run today: %+v %+v", r.Value, r.Detail)
 	}
-	if r := rows[2]; r.Title.Name != "Heating boost" || r.Tone != "red" {
-		t.Errorf("the heating boost, broken: %+v", r)
+	if r := rows[2]; r.Title.Name != "Attic bedtime" || r.Tone != "red" {
+		t.Errorf("the attic's bedtime, broken: %+v", r)
 	}
-	if gone := p.Sections[1].Rows; len(gone) != 1 || gone[0].Title.Name != "Garage door" || gone[0].Detail.Name != "binary_sensor.garage_door" {
-		t.Errorf("the garage door dropped off, and the broken automation isn't listed twice: %+v", gone)
+	gone := p.Sections[1].Rows
+	if len(gone) != 31 || gone[0].Title.Name != "Garden last seen 2" || gone[0].Detail.Name != "sensor.garden_last_seen_2" {
+		t.Errorf("31 dropped off, the newest first, and the broken automation isn't listed twice: %+v", gone)
 	}
 
 	var updates, batteries []string
 	for _, ch := range p.Chores {
 		if ch.URL != "" {
 			updates = append(updates, ch.Name)
-			if ch.URL != "https://home.example.com/config/updates" || ch.From != "2026-10-29" || !strings.Contains(ch.Note, "→") {
-				t.Errorf("an update, installed from the page of updates, waiting since today: %+v", ch)
+			if ch.URL != "https://home.example.com/config/updates" || ch.From < "2026-10-25" || !strings.Contains(ch.Note, "→") {
+				t.Errorf("an update, installed from the page of updates, waiting since the day it came: %+v", ch)
 			}
 		} else {
 			batteries = append(batteries, ch.Name+" "+ch.Note)
 		}
 	}
-	if len(updates) != 5 {
-		t.Errorf("five updates waiting, the one up to date left out: %v", updates)
+	if strings.Join(updates, ", ") != "Bin Day Update, Energy Tariff Update, Home Assistant Core Update, Home Assistant Operating System Update" {
+		t.Errorf("four updates waiting, the 34 up to date and the 2 unknown left out: %v", updates)
 	}
-	if strings.Join(batteries, ", ") != "Garden gate battery 6%, Hall motion battery 12%, Outside Temperature Battery 12%" {
-		t.Errorf("the three batteries below 20%%, by name: %v", batteries)
+	if strings.Join(batteries, ", ") != "Bedroom battery 14%, Bedroom battery 2 6%" {
+		t.Errorf("the two batteries below 20%%, by name, of the 30 that give their charge: %v", batteries)
 	}
 }
 
