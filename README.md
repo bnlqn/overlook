@@ -43,7 +43,7 @@ and the least key it needs), and CI passes.
 
 ## The road to v0.2
 
-1. [ ] Three homelabs to look at, each an invented snapshot the demo
+1. [x] Three homelabs to look at, each an invented snapshot the demo
        serves: the demo's own, a small one (Gatus and two apps) and a
        large one, at the most the page is made for: 12 hosts, 12 people,
        30 sources, 100 checks and 30 apps. Every change to the page is

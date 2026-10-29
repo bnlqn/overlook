@@ -1,7 +1,7 @@
 <!-- What this changes, and why. -->
 
 - [ ] `make check` passes.
-- [ ] A change to the page: screenshots at desktop and phone width are below.
+- [ ] A change to the page: looked at with the demo's three homelabs, and screenshots at desktop and phone width are below.
 - [ ] A decision that is hard to reverse, surprising and a real trade-off has its ADR.
 
 <!--

@@ -19,4 +19,4 @@ Overlook is one fixed page that tells a homelab's owner what is wrong, read from
 
 ## Done
 
-A change is done when `make check` passes and, for a change to the page, the page has been looked at in a browser at desktop and phone width, with screenshots in the pull request.
+A change is done when `make check` passes and, for a change to the page, the page has been looked at in a browser with the demo's three homelabs at desktop and phone width, with screenshots in the pull request.

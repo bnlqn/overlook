@@ -1,5 +1,5 @@
 // Demo writes the demo: the page as static files, drawn from the invented
-// snapshot beside this file instead of a server's, for GitHub Pages to serve.
+// snapshots beside this file instead of a server's, for GitHub Pages to serve.
 // With -serve, it then serves them the way GitHub Pages does, to look at.
 //
 // Usage:
@@ -31,6 +31,21 @@ import (
 //go:embed snapshot.json
 var invented []byte
 
+// The two other homelabs every change to the page is looked at with (the
+// README's road to v0.2), in the shapes today's adapters give: a small one,
+// Gatus and two apps, and a large one, at the most the page is made for.
+var (
+	//go:embed small.json
+	small []byte
+	//go:embed large.json
+	large []byte
+)
+
+// homelabs are the demo's snapshots by the folder each is drawn in: its own
+// at the root, the others at /small/ and /large/, with their areas' pages
+// beside them, such as /large/servers.
+var homelabs = map[string][]byte{"": invented, "small": small, "large": large}
+
 func main() {
 	out := flag.String("out", "_site", "the folder to write the demo to")
 	serve := flag.String("serve", "", "an address to serve the demo on once it's written, such as localhost:8000")
@@ -41,25 +56,40 @@ func main() {
 	if *serve == "" {
 		return
 	}
-	files := http.FileServer(http.Dir(*out))
+	site := http.Dir(*out)
+	files := http.FileServer(site)
 	srv := &http.Server{
 		Addr: *serve,
-		// As on GitHub Pages, /servers is servers.html.
+		// As on GitHub Pages, /servers is servers.html, and /large, with no
+		// large.html, is the folder /large/.
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if r.URL.Path != "/" && path.Ext(r.URL.Path) == "" {
-				r.URL.Path += ".html"
+			if page := r.URL.Path + ".html"; path.Ext(r.URL.Path) == "" {
+				if f, err := site.Open(page); err == nil {
+					_ = f.Close()
+					r.URL.Path = page
+				}
 			}
 			files.ServeHTTP(w, r)
 		}),
 		ReadHeaderTimeout: 5 * time.Second,
 	}
-	log.Printf("the demo is at http://%s", *serve)
+	log.Printf("the demo is at http://%s, the small and the large homelab at /small/ and /large/", *serve)
 	log.Fatal(srv.ListenAndServe())
 }
 
-// write puts in out what the server would serve, with the snapshot as a file
-// and every page marked as the demo's.
+// write puts each homelab in its folder of out.
 func write(out string) error {
+	for dir, snap := range homelabs {
+		if err := draw(filepath.Join(out, dir), snap); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// draw puts in out what the server would serve, with snap as a file and every
+// page marked as the demo's.
+func draw(out string, snap []byte) error {
 	put := func(name string, data []byte) error {
 		file := filepath.Join(out, filepath.FromSlash(name))
 		// A site anyone may read.
@@ -113,7 +143,7 @@ func write(out string) error {
 	if err := put("i18n/en.json", words); err != nil {
 		return err
 	}
-	if err := put("snapshot.json", invented); err != nil {
+	if err := put("snapshot.json", snap); err != nil {
 		return err
 	}
 	// The page links an owner's custom.css, and the demo has none.
