@@ -1,0 +1,305 @@
+{
+  "status": "success",
+  "data": {
+    "groups": [
+      {
+        "name": "services",
+        "file": "Apps",
+        "folderUid": "cg2osqport340c",
+        "rules": [
+          {
+            "state": "inactive",
+            "name": "Photos errors",
+            "query": "[{\"refId\":\"A\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":600,\"to\":0},\"datasourceUid\":\"eg2osqpg15vk0c\",\"model\":{\"intervalMs\":1000,\"maxDataPoints\":43200,\"refId\":\"A\",\"scenarioId\":\"csv_metric_values\",\"stringInput\":\"3\"}},{\"refId\":\"B\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":0,\"to\":0},\"datasourceUid\":\"__expr__\",\"model\":{\"expression\":\"A\",\"intervalMs\":1000,\"maxDataPoints\":43200,\"reducer\":\"last\",\"refId\":\"B\",\"type\":\"reduce\"}},{\"refId\":\"C\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":0,\"to\":0},\"datasourceUid\":\"__expr__\",\"model\":{\"conditions\":[{\"evaluator\":{\"params\":[10],\"type\":\"gt\"}}],\"expression\":\"B\",\"intervalMs\":1000,\"maxDataPoints\":43200,\"refId\":\"C\",\"type\":\"threshold\"}}]",
+            "queriedDatasourceUIDs": [
+              "eg2osqpg15vk0c"
+            ],
+            "annotations": {
+              "summary": "Photos errors is over 10"
+            },
+            "alerts": [
+              {
+                "labels": {
+                  "__name__": "A-series",
+                  "alertname": "Photos errors",
+                  "grafana_folder": "Apps"
+                },
+                "annotations": {
+                  "summary": "Photos errors is over 10"
+                },
+                "state": "Normal",
+                "activeAt": "2026-10-29T12:09:50Z",
+                "value": ""
+              }
+            ],
+            "totals": {
+              "normal": 1
+            },
+            "totalsFiltered": {
+              "normal": 1
+            },
+            "uid": "photos-errors",
+            "folderUid": "cg2osqport340c",
+            "health": "ok",
+            "type": "alerting",
+            "lastEvaluation": "2026-10-29T12:14:10Z",
+            "evaluationTime": 0.000800875,
+            "isPaused": false
+          }
+        ],
+        "totals": {
+          "inactive": 1
+        },
+        "interval": 10,
+        "lastEvaluation": "2026-10-29T12:14:10Z",
+        "evaluationTime": 0.000800875
+      },
+      {
+        "name": "links",
+        "file": "Network",
+        "folderUid": "bg2osqpklz6dcc",
+        "rules": [
+          {
+            "state": "pending",
+            "name": "Packet loss",
+            "query": "[{\"refId\":\"A\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":600,\"to\":0},\"datasourceUid\":\"eg2osqpg15vk0c\",\"model\":{\"intervalMs\":1000,\"maxDataPoints\":43200,\"refId\":\"A\",\"scenarioId\":\"csv_metric_values\",\"stringInput\":\"7\"}},{\"refId\":\"B\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":0,\"to\":0},\"datasourceUid\":\"__expr__\",\"model\":{\"expression\":\"A\",\"intervalMs\":1000,\"maxDataPoints\":43200,\"reducer\":\"last\",\"refId\":\"B\",\"type\":\"reduce\"}},{\"refId\":\"C\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":0,\"to\":0},\"datasourceUid\":\"__expr__\",\"model\":{\"conditions\":[{\"evaluator\":{\"params\":[5],\"type\":\"gt\"}}],\"expression\":\"B\",\"intervalMs\":1000,\"maxDataPoints\":43200,\"refId\":\"C\",\"type\":\"threshold\"}}]",
+            "queriedDatasourceUIDs": [
+              "eg2osqpg15vk0c"
+            ],
+            "duration": 3600,
+            "annotations": {
+              "summary": "Packet loss is over 5"
+            },
+            "alerts": [
+              {
+                "labels": {
+                  "__name__": "A-series",
+                  "alertname": "Packet loss",
+                  "grafana_folder": "Network"
+                },
+                "annotations": {
+                  "summary": "Packet loss is over 5"
+                },
+                "state": "Pending",
+                "activeAt": "2026-10-29T12:09:50Z",
+                "value": "1e+00"
+              }
+            ],
+            "totals": {
+              "pending": 1
+            },
+            "totalsFiltered": {
+              "pending": 1
+            },
+            "uid": "packet-loss",
+            "folderUid": "bg2osqpklz6dcc",
+            "health": "ok",
+            "type": "alerting",
+            "lastEvaluation": "2026-10-29T12:14:10Z",
+            "evaluationTime": 0.000722208,
+            "isPaused": false
+          },
+          {
+            "state": "inactive",
+            "name": "Router temperature",
+            "query": "[{\"refId\":\"A\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":600,\"to\":0},\"datasourceUid\":\"eg2osqpg15vk0c\",\"model\":{\"intervalMs\":1000,\"maxDataPoints\":43200,\"refId\":\"A\",\"scenarioId\":\"csv_metric_values\",\"stringInput\":\"12\"}},{\"refId\":\"B\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":0,\"to\":0},\"datasourceUid\":\"__expr__\",\"model\":{\"expression\":\"A\",\"intervalMs\":1000,\"maxDataPoints\":43200,\"reducer\":\"last\",\"refId\":\"B\",\"type\":\"reduce\"}},{\"refId\":\"C\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":0,\"to\":0},\"datasourceUid\":\"__expr__\",\"model\":{\"conditions\":[{\"evaluator\":{\"params\":[70],\"type\":\"gt\"}}],\"expression\":\"B\",\"intervalMs\":1000,\"maxDataPoints\":43200,\"refId\":\"C\",\"type\":\"threshold\"}}]",
+            "queriedDatasourceUIDs": [
+              "eg2osqpg15vk0c"
+            ],
+            "annotations": {
+              "summary": "Router temperature is over 70"
+            },
+            "alerts": [
+              {
+                "labels": {
+                  "__name__": "A-series",
+                  "alertname": "Router temperature",
+                  "grafana_folder": "Network"
+                },
+                "annotations": {
+                  "summary": "Router temperature is over 70"
+                },
+                "state": "Normal",
+                "activeAt": "2026-10-29T12:09:50Z",
+                "value": ""
+              }
+            ],
+            "totals": {
+              "normal": 1
+            },
+            "totalsFiltered": {
+              "normal": 1
+            },
+            "uid": "router-temperature",
+            "folderUid": "bg2osqpklz6dcc",
+            "health": "ok",
+            "type": "alerting",
+            "lastEvaluation": "2026-10-29T12:14:10Z",
+            "evaluationTime": 0.000323417,
+            "isPaused": false
+          }
+        ],
+        "totals": {
+          "inactive": 1,
+          "pending": 1
+        },
+        "interval": 10,
+        "lastEvaluation": "2026-10-29T12:14:10Z",
+        "evaluationTime": 0.000323417
+      },
+      {
+        "name": "hosts",
+        "file": "Servers",
+        "folderUid": "cg2osqpi6kq9sd",
+        "rules": [
+          {
+            "state": "firing",
+            "name": "Disk space",
+            "query": "[{\"refId\":\"A\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":600,\"to\":0},\"datasourceUid\":\"eg2osqpg15vk0c\",\"model\":{\"intervalMs\":1000,\"maxDataPoints\":43200,\"pulseWave\":{\"offCount\":1,\"offValue\":72,\"onCount\":1,\"onValue\":96,\"timeStep\":60},\"refId\":\"A\",\"scenarioId\":\"predictable_pulse\"}},{\"refId\":\"B\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":0,\"to\":0},\"datasourceUid\":\"__expr__\",\"model\":{\"expression\":\"A\",\"intervalMs\":1000,\"maxDataPoints\":43200,\"reducer\":\"last\",\"refId\":\"B\",\"type\":\"reduce\"}},{\"refId\":\"C\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":0,\"to\":0},\"datasourceUid\":\"__expr__\",\"model\":{\"conditions\":[{\"evaluator\":{\"params\":[90],\"type\":\"gt\"}}],\"expression\":\"B\",\"intervalMs\":1000,\"maxDataPoints\":43200,\"refId\":\"C\",\"type\":\"threshold\"}}]",
+            "queriedDatasourceUIDs": [
+              "eg2osqpg15vk0c"
+            ],
+            "annotations": {
+              "summary": "Disk space is over 90"
+            },
+            "activeAt": "2026-10-29T12:14:10Z",
+            "alerts": [
+              {
+                "labels": {
+                  "__name__": "A-series",
+                  "alertname": "Disk space",
+                  "grafana_folder": "Servers"
+                },
+                "annotations": {
+                  "summary": "Disk space is over 90"
+                },
+                "state": "Alerting",
+                "activeAt": "2026-10-29T12:14:10Z",
+                "value": "1e+00"
+              }
+            ],
+            "totals": {
+              "alerting": 1
+            },
+            "totalsFiltered": {
+              "alerting": 1
+            },
+            "uid": "disk-space",
+            "folderUid": "cg2osqpi6kq9sd",
+            "health": "ok",
+            "type": "alerting",
+            "lastEvaluation": "2026-10-29T12:14:20Z",
+            "evaluationTime": 0.000108916,
+            "isPaused": false
+          },
+          {
+            "state": "inactive",
+            "name": "Hypervisor memory",
+            "query": "[{\"refId\":\"A\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":600,\"to\":0},\"datasourceUid\":\"eg2osqpg15vk0c\",\"model\":{\"intervalMs\":1000,\"maxDataPoints\":43200,\"refId\":\"A\",\"scenarioId\":\"csv_metric_values\",\"stringInput\":\"41\"}},{\"refId\":\"B\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":0,\"to\":0},\"datasourceUid\":\"__expr__\",\"model\":{\"expression\":\"A\",\"intervalMs\":1000,\"maxDataPoints\":43200,\"reducer\":\"last\",\"refId\":\"B\",\"type\":\"reduce\"}},{\"refId\":\"C\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":0,\"to\":0},\"datasourceUid\":\"__expr__\",\"model\":{\"conditions\":[{\"evaluator\":{\"params\":[90],\"type\":\"gt\"}}],\"expression\":\"B\",\"intervalMs\":1000,\"maxDataPoints\":43200,\"refId\":\"C\",\"type\":\"threshold\"}}]",
+            "queriedDatasourceUIDs": [
+              "eg2osqpg15vk0c"
+            ],
+            "annotations": {
+              "summary": "Hypervisor memory is over 90"
+            },
+            "alerts": [
+              {
+                "labels": {
+                  "__name__": "A-series",
+                  "alertname": "Hypervisor memory",
+                  "grafana_folder": "Servers"
+                },
+                "annotations": {
+                  "summary": "Hypervisor memory is over 90"
+                },
+                "state": "Normal",
+                "activeAt": "2026-10-29T12:09:50Z",
+                "value": ""
+              }
+            ],
+            "totals": {
+              "normal": 1
+            },
+            "totalsFiltered": {
+              "normal": 1
+            },
+            "uid": "hypervisor-memory",
+            "folderUid": "cg2osqpi6kq9sd",
+            "health": "ok",
+            "type": "alerting",
+            "lastEvaluation": "2026-10-29T12:14:20Z",
+            "evaluationTime": 0.000748917,
+            "isPaused": false
+          }
+        ],
+        "totals": {
+          "firing": 1,
+          "inactive": 1
+        },
+        "interval": 10,
+        "lastEvaluation": "2026-10-29T12:14:20Z",
+        "evaluationTime": 0.000748917
+      },
+      {
+        "name": "backups",
+        "file": "Storage",
+        "folderUid": "dg2osqpmre134a",
+        "rules": [
+          {
+            "state": "inactive",
+            "name": "Offsite sync",
+            "query": "[{\"refId\":\"A\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":600,\"to\":0},\"datasourceUid\":\"eg2osqpg15vk0c\",\"model\":{\"intervalMs\":1000,\"maxDataPoints\":43200,\"refId\":\"A\",\"scenarioId\":\"no_data_points\"}},{\"refId\":\"B\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":0,\"to\":0},\"datasourceUid\":\"__expr__\",\"model\":{\"expression\":\"A\",\"intervalMs\":1000,\"maxDataPoints\":43200,\"reducer\":\"last\",\"refId\":\"B\",\"type\":\"reduce\"}},{\"refId\":\"C\",\"queryType\":\"\",\"relativeTimeRange\":{\"from\":0,\"to\":0},\"datasourceUid\":\"__expr__\",\"model\":{\"conditions\":[{\"evaluator\":{\"params\":[0],\"type\":\"gt\"}}],\"expression\":\"B\",\"intervalMs\":1000,\"maxDataPoints\":43200,\"refId\":\"C\",\"type\":\"threshold\"}}]",
+            "queriedDatasourceUIDs": [
+              "eg2osqpg15vk0c"
+            ],
+            "annotations": {
+              "summary": "Offsite sync is over 0"
+            },
+            "alerts": [
+              {
+                "labels": {
+                  "alertname": "Offsite sync",
+                  "datasource_uid": "eg2osqpg15vk0c",
+                  "grafana_folder": "Storage",
+                  "ref_id": "A"
+                },
+                "annotations": {
+                  "summary": "Offsite sync is over 0"
+                },
+                "state": "NoData",
+                "activeAt": "2026-10-29T12:09:50Z",
+                "value": ""
+              }
+            ],
+            "totals": {
+              "nodata": 1
+            },
+            "totalsFiltered": {
+              "nodata": 1
+            },
+            "uid": "offsite-sync",
+            "folderUid": "dg2osqpmre134a",
+            "health": "nodata",
+            "type": "alerting",
+            "lastEvaluation": "2026-10-29T12:14:10Z",
+            "evaluationTime": 0.000482625,
+            "isPaused": false
+          }
+        ],
+        "totals": {
+          "inactive": 1,
+          "nodata": 1
+        },
+        "interval": 10,
+        "lastEvaluation": "2026-10-29T12:14:10Z",
+        "evaluationTime": 0.000482625
+      }
+    ],
+    "totals": {
+      "firing": 1,
+      "inactive": 4,
+      "nodata": 1,
+      "pending": 1
+    }
+  }
+}

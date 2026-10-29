@@ -316,6 +316,40 @@ until someone who runs one records it from theirs: the compose file and the
 scripts that fill and record it are in the adapter's
 [`testdata`](internal/adapters/uptimekuma/testdata).
 
+### Grafana
+
+A check engine, as Gatus is: each alert rule Grafana manages, in the area
+its folder is named after, or the one `areas` gives, with its last 30
+evaluations and the problems its state history remembers this week. A rule
+is a problem once it fires, or while its query gives no data or an error,
+which Grafana alerts on too; while it's pending, the page shows it failing,
+and how many evaluations its pending period holds.
+
+```yaml
+sources:
+  grafana:
+    - url: http://grafana:3000          # where Overlook reads Grafana
+      token: ${GRAFANA_TOKEN}
+      link: https://grafana.example.com # where the page sends you, if not the same
+      areas:                            # where a folder not named like an area goes
+        Hosts: servers
+```
+
+**Key:** a service account's token, with the role **Viewer**, which reads
+alert rules and their history and changes nothing. In Administration, Users
+and access, Service accounts, add one with that role, then add it a token.
+
+Grafana keeps only when a rule's state changed, not each evaluation, so the
+page draws each of the last 30 from those changes at the rule group's
+interval. Overlook reads each rule's history with a request of its own.
+Alert rules kept in a Prometheus or Loki data source, rather than by Grafana
+itself, are left out.
+
+Recorded from a scratch Grafana 13.3 with invented alert rules over its own
+test data (ADR 0008), until someone who runs one records it from theirs: the
+compose file and the scripts that fill and record it are in the adapter's
+[`testdata`](internal/adapters/grafana/testdata).
+
 ### GitHub
 
 The updates waiting: the open pull requests Dependabot or Renovate opened on
