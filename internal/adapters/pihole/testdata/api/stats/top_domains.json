@@ -1,0 +1,47 @@
+{
+  "domains": [
+    {
+      "domain": "stream.example.net",
+      "count": 12
+    },
+    {
+      "domain": "photos.example.com",
+      "count": 8
+    },
+    {
+      "domain": "mail.example.org",
+      "count": 4
+    },
+    {
+      "domain": "chat.example.org",
+      "count": 4
+    },
+    {
+      "domain": "news.example.net",
+      "count": 2
+    },
+    {
+      "domain": "docs.example.org",
+      "count": 2
+    },
+    {
+      "domain": "time.example.org",
+      "count": 2
+    },
+    {
+      "domain": "11.53.31.172.in-addr.arpa",
+      "count": 1
+    },
+    {
+      "domain": "12.53.31.172.in-addr.arpa",
+      "count": 1
+    },
+    {
+      "domain": "13.53.31.172.in-addr.arpa",
+      "count": 1
+    }
+  ],
+  "total_queries": 57,
+  "blocked_queries": 18,
+  "took": 0.000038862228393554688
+}

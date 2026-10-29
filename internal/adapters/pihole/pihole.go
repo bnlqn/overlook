@@ -1,0 +1,325 @@
+// Package pihole reads Pi-hole, a DNS resolver: today's lookups and blocks,
+// whether it blocks, its top clients, domains and blocked domains, its
+// upstreams, and what it warns about. Its lookups add up with any other
+// resolver's, AdGuard Home's too (snapshot.LookupsFigure).
+package pihole
+
+import (
+	"cmp"
+	"context"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"math"
+	"net/http"
+	"net/url"
+	"strings"
+	"time"
+
+	"github.com/bnlqn/overlook/internal/fetch"
+	"github.com/bnlqn/overlook/internal/snapshot"
+)
+
+// Area is the adapter's home area.
+const Area = "network"
+
+// top is the rows each top list shows.
+const top = 10
+
+// Config is one Pi-hole, under sources.pihole in overlook.yaml.
+type Config struct {
+	Name string `yaml:"name"`
+	// URL is where Overlook reads Pi-hole's web interface, such as
+	// http://pihole.
+	URL string `yaml:"url"`
+	// Password is an app password, which Overlook logs in with once
+	// (ADR 0009). With none, Pi-hole must ask for none.
+	Password string `yaml:"password"`
+
+	session *fetch.Session
+}
+
+// Check fills c's defaults and refuses what can't work.
+func (c *Config) Check() error {
+	if c.URL == "" {
+		return errors.New("url is missing")
+	}
+	if err := fetch.CheckURL(c.URL); err != nil {
+		return fmt.Errorf("url %w", err)
+	}
+	if c.Name == "" {
+		c.Name = "Pi-hole"
+	}
+	if c.Password != "" {
+		s, err := fetch.Client{}.Session(c.api("/auth"), map[string]string{"password": c.Password}, sid)
+		if err != nil {
+			return err
+		}
+		c.session = s
+	}
+	return nil
+}
+
+func (c Config) api(path string) string { return strings.TrimSuffix(c.URL, "/") + "/api" + path }
+
+// sid takes the session from a login's answer, which Pi-hole sends back as
+// X-FTL-SID with each read. A password it refuses answers 401, so a login
+// that gets here was let in.
+func sid(_ http.Header, body []byte) (http.Header, error) {
+	var answer struct {
+		Session struct {
+			Valid bool   `json:"valid"`
+			SID   string `json:"sid"`
+		} `json:"session"`
+	}
+	if err := json.Unmarshal(body, &answer); err != nil {
+		return nil, err
+	}
+	if !answer.Session.Valid || answer.Session.SID == "" {
+		return nil, errors.New("refused")
+	}
+	return http.Header{"X-FTL-SID": {answer.Session.SID}}, nil
+}
+
+// get reads the answer at Pi-hole's API path into v, with the session, if
+// there is one.
+func (c Config) get(ctx context.Context, path string, v any) error {
+	if c.session != nil {
+		return c.session.JSON(ctx, c.api(path), v)
+	}
+	return fetch.JSON(ctx, c.api(path), nil, v)
+}
+
+type summary struct {
+	Queries struct {
+		Total   int `json:"total"`
+		Blocked int `json:"blocked"`
+	} `json:"queries"`
+	Gravity struct {
+		Blocking   int   `json:"domains_being_blocked"`
+		LastUpdate int64 `json:"last_update"`
+	} `json:"gravity"`
+}
+
+// slot is ten minutes of Pi-hole's lookups, from the time it starts.
+type slot struct {
+	Timestamp int64 `json:"timestamp"`
+	Total     int   `json:"total"`
+	Blocked   int   `json:"blocked"`
+}
+
+type named struct {
+	Name   string `json:"name"`
+	IP     string `json:"ip"`
+	Domain string `json:"domain"`
+	Count  int    `json:"count"`
+	Port   int    `json:"port"`
+	Stats  struct {
+		Response float64 `json:"response"` // seconds
+	} `json:"statistics"`
+}
+
+// version is one part of Pi-hole as it runs and as it's released.
+type version struct {
+	Local struct {
+		Version string `json:"version"`
+	} `json:"local"`
+	Remote struct {
+		Version string `json:"version"`
+	} `json:"remote"`
+}
+
+// Read reads the Pi-hole at c, which Check has filled.
+func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
+	return read(ctx, c, time.Now())
+}
+
+// read reads the Pi-hole at c as at now, whose time zone says when today
+// started.
+func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+	var (
+		sum      summary
+		history  struct{ History []slot }
+		blocking struct {
+			Blocking string   `json:"blocking"`
+			Timer    *float64 `json:"timer"` // seconds until it's back on
+		}
+		clients   struct{ Clients []named }
+		domains   struct{ Domains []named }
+		blocked   struct{ Domains []named }
+		upstreams struct{ Upstreams []named }
+		versions  struct {
+			Version struct {
+				Core, Web, FTL version
+				// Docker is the image's, in an image only.
+				Docker struct {
+					Local  string `json:"local"`
+					Remote string `json:"remote"`
+				} `json:"docker"`
+			} `json:"version"`
+		}
+		messages struct {
+			Messages []struct {
+				Plain string `json:"plain"`
+			} `json:"messages"`
+		}
+	)
+	count := url.Values{"count": {fmt.Sprint(top)}}
+	for _, r := range []struct {
+		path string
+		v    any
+	}{
+		{"/stats/summary", &sum},
+		{"/history", &history},
+		{"/dns/blocking", &blocking},
+		{"/stats/top_clients?" + count.Encode(), &clients},
+		{"/stats/top_domains?" + count.Encode(), &domains},
+		{"/stats/top_domains?" + url.Values{"count": count["count"], "blocked": {"true"}}.Encode(), &blocked},
+		{"/stats/upstreams", &upstreams},
+		{"/info/version", &versions},
+		{"/info/messages", &messages},
+	} {
+		if err := c.get(ctx, r.path, r.v); err != nil {
+			return snapshot.Parts{}, err
+		}
+	}
+
+	// Pi-hole keeps its last day in slots of ten minutes, which make the
+	// last 24 hours by the hour of Overlook's time zone.
+	hour := func(t time.Time) time.Time {
+		t = t.In(now.Location())
+		return time.Date(t.Year(), t.Month(), t.Day(), t.Hour(), 0, 0, 0, t.Location())
+	}
+	this := hour(now)
+	midnight := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
+	lookups, blocks := make([]float64, 24), make([]float64, 24)
+	var today, todayBlocked int
+	for _, s := range history.History {
+		at := time.Unix(s.Timestamp, 0)
+		if ago := int(this.Sub(hour(at)) / time.Hour); ago >= 0 && ago < 24 {
+			lookups[23-ago] += float64(s.Total)
+			blocks[23-ago] += float64(s.Blocked)
+		}
+		if !at.Before(midnight) {
+			today, todayBlocked = today+s.Total, todayBlocked+s.Blocked
+		}
+	}
+	out := snapshot.Parts{
+		Figures: []snapshot.Figure{{
+			Area: Area, Icon: "shield", Label: snapshot.LookupsFigure, Adds: true, Value: float64(today), Hours: lookups,
+			Within: &snapshot.Series{Label: snapshot.Blocked, Hours: blocks},
+			Detail: snapshot.Msg(snapshot.LookupsBlocked, map[string]any{"blocked": todayBlocked}),
+		}},
+		Charts: []snapshot.Chart{{
+			Area: Area, Title: snapshot.LookupsChart, Adds: true,
+			Series: []snapshot.Series{{Label: snapshot.Lookups, Hours: lookups}, {Label: snapshot.Blocked, Hours: blocks}},
+		}},
+	}
+
+	block := snapshot.Row{Title: snapshot.Text{Key: "pihole.blocking"}, Value: snapshot.Msg("pihole.blocking_on", nil), Tone: "green"}
+	switch {
+	case blocking.Blocking == "enabled":
+	case blocking.Timer != nil:
+		block.Value, block.Tone = snapshot.Msg("pihole.paused", nil), "orange"
+		block.Detail = snapshot.Msg("pihole.back_in", map[string]any{"ms": math.Round(*blocking.Timer * 1000)})
+	default:
+		block.Value, block.Tone = snapshot.Msg("pihole.off", nil), "red"
+	}
+	resolver := []snapshot.Row{
+		block,
+		{
+			Title: snapshot.Lookups, Value: snapshot.Msg("pihole.n", map[string]any{"n": sum.Queries.Total}),
+			Detail: snapshot.Msg("pihole.over_day", nil),
+		},
+		{
+			Title: snapshot.Blocked, Value: snapshot.Msg("pihole.percent", map[string]any{"n": percent(sum.Queries.Blocked, sum.Queries.Total)}),
+			Detail: snapshot.Msg("pihole.count", map[string]any{"n": sum.Queries.Blocked}),
+		},
+		{
+			Title:  snapshot.Text{Key: "pihole.blocklists"},
+			Value:  snapshot.Msg("pihole.domains", map[string]any{"n": sum.Gravity.Blocking}),
+			Detail: snapshot.Msg("pihole.updated", map[string]any{"at": time.Unix(sum.Gravity.LastUpdate, 0)}),
+		},
+	}
+	// The upstreams say how it resolves, so they sit with it; its own
+	// blocklist and cache answer without one.
+	for _, u := range upstreams.Upstreams {
+		if u.Port < 0 {
+			continue
+		}
+		resolver = append(resolver, snapshot.Row{
+			Title: snapshot.Text{Name: cmp.Or(u.Name, u.IP)}, Detail: snapshot.Msg("pihole.upstream", nil),
+			Value: snapshot.Msg("pihole.answers", map[string]any{"n": u.Count, "ms": math.Round(u.Stats.Response*1e4) / 10}),
+		})
+	}
+	// What Pi-hole warns about, as it words it, such as a client it
+	// rate-limits.
+	for _, m := range messages.Messages {
+		resolver = append(resolver, snapshot.Row{Title: snapshot.Text{Key: "pihole.warning"}, Tone: "orange", Detail: &snapshot.Text{Name: m.Plain}})
+	}
+	// Each part of Pi-hole, and the release that's out if it's newer: the
+	// image's alone in an image, which is updated whole.
+	v := versions.Version
+	type release struct{ key, local, remote string }
+	parts := []release{
+		{"pihole.core", v.Core.Local.Version, v.Core.Remote.Version},
+		{"pihole.ftl", v.FTL.Local.Version, v.FTL.Remote.Version},
+		{"pihole.web", v.Web.Local.Version, v.Web.Remote.Version},
+	}
+	if v.Docker.Local != "" {
+		parts = []release{{"pihole.image", v.Docker.Local, v.Docker.Remote}}
+	}
+	for _, p := range parts {
+		row := snapshot.Row{Title: snapshot.Text{Key: p.key}, Value: &snapshot.Text{Name: p.local}}
+		if p.remote != "" && p.remote != p.local {
+			row.Value, row.Tone = snapshot.Msg("pihole.newer", map[string]any{"version": p.remote}), "orange"
+			row.Detail = &snapshot.Text{Name: p.local}
+		}
+		resolver = append(resolver, row)
+	}
+
+	var who, what, denied []snapshot.Row
+	for _, cl := range clients.Clients {
+		r := snapshot.Row{Title: snapshot.Text{Name: cmp.Or(cl.Name, cl.IP)}, Value: share(cl.Count, sum.Queries.Total)}
+		if cl.Name != "" {
+			r.Detail = &snapshot.Text{Name: cl.IP}
+		}
+		who = append(who, r)
+	}
+	for _, d := range domains.Domains {
+		what = append(what, snapshot.Row{Title: snapshot.Text{Name: d.Domain}, Value: share(d.Count, sum.Queries.Total)})
+	}
+	for _, d := range blocked.Domains {
+		denied = append(denied, snapshot.Row{Title: snapshot.Text{Name: d.Domain}, Value: snapshot.Msg("pihole.n", map[string]any{"n": d.Count})})
+	}
+	// The same titles as any resolver's, so the page names each by its
+	// source beside another's.
+	out.Sections = []snapshot.Section{
+		{Area: Area, Title: snapshot.ResolverSection, Rows: resolver},
+		{Area: Area, Title: snapshot.TopClients, Rows: orNothing(who)},
+		{Area: Area, Title: snapshot.TopDomains, Rows: orNothing(what)},
+		{Area: Area, Title: snapshot.TopBlocked, Rows: orNothing(denied)},
+	}
+	return out, nil
+}
+
+// orNothing is rows, or one that says there are none yet.
+func orNothing(rows []snapshot.Row) []snapshot.Row {
+	if len(rows) == 0 {
+		return []snapshot.Row{{Title: snapshot.Text{Key: "pihole.nothing"}}}
+	}
+	return rows
+}
+
+// share is a count and its share of every lookup.
+func share(n, lookups int) *snapshot.Text {
+	return snapshot.Msg("pihole.share", map[string]any{"n": n, "share": percent(n, lookups)})
+}
+
+// percent is part of whole as a percentage, to a tenth.
+func percent(part, whole int) float64 {
+	if whole == 0 {
+		return 0
+	}
+	return math.Round(1000*float64(part)/float64(whole)) / 10
+}

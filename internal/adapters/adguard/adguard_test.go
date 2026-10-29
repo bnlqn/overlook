@@ -43,19 +43,19 @@ func TestRead(t *testing.T) {
 		if f.Value != want.lookups || f.Detail.Args["blocked"] != want.blocked {
 			t.Errorf("today: %v lookups, %v; want %v and %d blocked", f.Value, f.Detail.Args, want.lookups, want.blocked)
 		}
-		if len(f.Hours) != 24 || f.Hours[0] != float64(want.first) || f.Label.Key != "adguard.today" || f.Area != "network" || !f.Adds {
+		if len(f.Hours) != 24 || f.Hours[0] != float64(want.first) || f.Label.Key != snapshot.LookupsFigure.Key || f.Area != "network" || !f.Adds {
 			t.Errorf("the last 24 hours, from %d: %+v", want.first, f)
 		}
-		if b := f.Within; b == nil || b.Label.Key != "adguard.blocked" || len(b.Hours) != 24 || sumOf(b.Hours[24-17:]) != float64(want.blocked) {
+		if b := f.Within; b == nil || b.Label.Key != snapshot.Blocked.Key || len(b.Hours) != 24 || sumOf(b.Hours[24-17:]) != float64(want.blocked) {
 			t.Errorf("the blocked ones in each of those hours, %d since midnight: %+v", want.blocked, b)
 		}
 	}
-	if c := primary.Charts; len(c) != 1 || c[0].Title.Key != "adguard.per_hour" || !c[0].Adds || len(c[0].Series) != 2 ||
+	if c := primary.Charts; len(c) != 1 || c[0].Title.Key != snapshot.LookupsChart.Key || !c[0].Adds || len(c[0].Series) != 2 ||
 		len(c[0].Series[0].Hours) != 168 || sumOf(c[0].Series[0].Hours) != 501106 || sumOf(c[0].Series[1].Hours) != 179069 {
 		t.Errorf("the resolver's week by the hour, its lookups and the blocked ones, adding up with the others': %+v", c)
 	}
 
-	if len(primary.Sections) != 4 || primary.Sections[0].Title.Key != "adguard.resolver" {
+	if len(primary.Sections) != 4 || primary.Sections[0].Title.Key != snapshot.ResolverSection.Key {
 		t.Fatalf("the resolver, then its three top lists: %+v", primary.Sections)
 	}
 	rows := primary.Sections[0].Rows
@@ -79,7 +79,7 @@ func TestRead(t *testing.T) {
 	}
 
 	clients := primary.Sections[1]
-	if clients.Title.Key != "adguard.top_clients" || len(clients.Rows) != top {
+	if clients.Title.Key != snapshot.TopClients.Key || len(clients.Rows) != top {
 		t.Fatalf("top clients: %+v", clients)
 	}
 	if c := clients.Rows[0]; c.Title.Name != "living-room-tv.lan" || c.Detail.Name != "192.0.2.10" || c.Value.Args["share"] != 17.8 {

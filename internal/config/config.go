@@ -27,6 +27,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/jellyfin"
 	"github.com/bnlqn/overlook/internal/adapters/nut"
 	"github.com/bnlqn/overlook/internal/adapters/pbs"
+	"github.com/bnlqn/overlook/internal/adapters/pihole"
 	"github.com/bnlqn/overlook/internal/adapters/prowlarr"
 	"github.com/bnlqn/overlook/internal/adapters/proxmox"
 	"github.com/bnlqn/overlook/internal/adapters/qbittorrent"
@@ -65,6 +66,7 @@ type Sources struct {
 	HomeAssistant []homeassistant.Config `yaml:"homeassistant"`
 	NUT           []nut.Config           `yaml:"nut"`
 	AdGuard       []adguard.Config       `yaml:"adguard"`
+	PiHole        []pihole.Config        `yaml:"pihole"`
 	Ical          []ical.Config          `yaml:"ical"`
 }
 
@@ -181,6 +183,7 @@ func (c *Config) check() error {
 		add(c, "homeassistant", homeassistant.Area, c.Sources.HomeAssistant, func(h homeassistant.Config) string { return h.Name }, homeassistant.Read),
 		add(c, "nut", nut.Area, c.Sources.NUT, func(n nut.Config) string { return n.Name }, nut.Read),
 		add(c, "adguard", adguard.Area, c.Sources.AdGuard, func(a adguard.Config) string { return a.Name }, adguard.Read),
+		add(c, "pihole", pihole.Area, c.Sources.PiHole, func(p pihole.Config) string { return p.Name }, pihole.Read),
 		add(c, "ical", "", c.Sources.Ical, func(i ical.Config) string { return i.Name }, ical.Read),
 	); err != nil {
 		return err

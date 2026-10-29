@@ -1,0 +1,15 @@
+{
+  "domains": [
+    {
+      "domain": "telemetry.example.net",
+      "count": 12
+    },
+    {
+      "domain": "ads.example.com",
+      "count": 6
+    }
+  ],
+  "total_queries": 57,
+  "blocked_queries": 18,
+  "took": 0.000037908554077148438
+}

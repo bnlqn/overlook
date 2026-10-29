@@ -1,0 +1,25 @@
+# A scratch Pi-hole to record from (ADR 0008): fill.sh sends it invented
+# lookups from invented clients, then record.sh logs in once and reads what
+# Overlook reads.
+#
+#   docker compose -f compose.yaml up -d && ./fill.sh && ./record.sh
+#   docker compose -f compose.yaml down -v
+services:
+  pihole:
+    image: pihole/pihole:2026.10.0
+    ports: ["127.0.0.1:8081:80"]
+    environment:
+      TZ: Europe/London
+      FTLCONF_webserver_api_password: owner-password
+      FTLCONF_dns_listeningMode: ALL # answers the clients fill.sh invents
+    networks:
+      default:
+        ipv4_address: 172.31.53.2
+    volumes:
+      - etc:/etc/pihole
+networks:
+  default: # fill.sh's clients get addresses of their own on it
+    ipam:
+      config: [{ subnet: 172.31.53.0/24 }]
+volumes:
+  etc:

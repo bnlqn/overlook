@@ -18,6 +18,7 @@
     { "name": "NUT", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Primary DNS", "adapter": "adguard", "area": "network", "answered": true },
     { "name": "Standby DNS", "adapter": "adguard", "area": "network", "answered": false, "error": "timeout" },
+    { "name": "Kids' DNS", "adapter": "pihole", "area": "network", "answered": true },
     { "name": "Chores", "adapter": "ical", "answered": true }
   ],
   "checks": [
@@ -1172,7 +1173,7 @@
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "adguard.resolver" },
+      "title": { "key": "section.resolver" },
       "rows": [
         { "title": { "key": "adguard.protection" }, "value": { "key": "adguard.filtering" }, "tone": "green" },
         {
@@ -1202,7 +1203,7 @@
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "adguard.top_clients" },
+      "title": { "key": "section.top_clients" },
       "rows": [
         {
           "title": { "name": "living-room-tv.lan" },
@@ -1238,7 +1239,7 @@
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "adguard.top_domains" },
+      "title": { "key": "section.top_domains" },
       "rows": [
         {
           "title": { "name": "time.example.com" },
@@ -1269,7 +1270,7 @@
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "adguard.top_blocked" },
+      "title": { "key": "section.top_blocked" },
       "rows": [
         { "title": { "name": "ads.example.com" }, "value": { "key": "adguard.n", "args": { "n": 58120 } } },
         { "title": { "name": "tracker.example.net" }, "value": { "key": "adguard.n", "args": { "n": 41377 } } },
@@ -1278,15 +1279,99 @@
         { "title": { "name": "pixel.example.net" }, "value": { "key": "adguard.n", "args": { "n": 6013 } } },
         { "title": { "name": "beacon.example.org" }, "value": { "key": "adguard.n", "args": { "n": 4870 } } }
       ]
+    },
+    {
+      "area": "network",
+      "source": "Kids' DNS",
+      "title": { "key": "section.resolver" },
+      "rows": [
+        { "title": { "key": "pihole.blocking" }, "value": { "key": "pihole.blocking_on" }, "tone": "green" },
+        {
+          "title": { "key": "chart.lookups" },
+          "value": { "key": "pihole.n", "args": { "n": 12420 } },
+          "detail": { "key": "pihole.over_day" }
+        },
+        {
+          "title": { "key": "chart.blocked" },
+          "value": { "key": "pihole.percent", "args": { "n": 23.8 } },
+          "detail": { "key": "pihole.count", "args": { "n": 2954 } }
+        },
+        {
+          "title": { "key": "pihole.blocklists" },
+          "value": { "key": "pihole.domains", "args": { "n": 412880 } },
+          "detail": { "key": "pihole.updated", "args": { "at": "2026-10-25T03:12:40Z" } }
+        },
+        {
+          "title": { "name": "dns.example.net" },
+          "value": { "key": "pihole.answers", "args": { "n": 6610, "ms": 15.2 } },
+          "detail": { "key": "pihole.upstream" }
+        },
+        {
+          "title": { "key": "pihole.warning" },
+          "detail": { "name": "Rate-limiting 192.0.2.61 for at least 47 seconds" },
+          "tone": "orange"
+        },
+        { "title": { "key": "pihole.image" }, "value": { "name": "2026.10.0" } }
+      ]
+    },
+    {
+      "area": "network",
+      "source": "Kids' DNS",
+      "title": { "key": "section.top_clients" },
+      "rows": [
+        {
+          "title": { "name": "kids-tablet" },
+          "value": { "key": "pihole.share", "args": { "n": 5210, "share": 41.9 } },
+          "detail": { "name": "192.0.2.61" }
+        },
+        {
+          "title": { "name": "games-console" },
+          "value": { "key": "pihole.share", "args": { "n": 4380, "share": 35.3 } },
+          "detail": { "name": "192.0.2.62" }
+        },
+        {
+          "title": { "name": "homework-laptop" },
+          "value": { "key": "pihole.share", "args": { "n": 2830, "share": 22.8 } },
+          "detail": { "name": "192.0.2.63" }
+        }
+      ]
+    },
+    {
+      "area": "network",
+      "source": "Kids' DNS",
+      "title": { "key": "section.top_domains" },
+      "rows": [
+        {
+          "title": { "name": "videos.example.com" },
+          "value": { "key": "pihole.share", "args": { "n": 3120, "share": 25.1 } }
+        },
+        {
+          "title": { "name": "games.example.net" },
+          "value": { "key": "pihole.share", "args": { "n": 2410, "share": 19.4 } }
+        },
+        {
+          "title": { "name": "school.example.org" },
+          "value": { "key": "pihole.share", "args": { "n": 1180, "share": 9.5 } }
+        }
+      ]
+    },
+    {
+      "area": "network",
+      "source": "Kids' DNS",
+      "title": { "key": "section.top_blocked" },
+      "rows": [
+        { "title": { "name": "ads.example.com" }, "value": { "key": "pihole.n", "args": { "n": 1420 } } },
+        { "title": { "name": "chat.example.net" }, "value": { "key": "pihole.n", "args": { "n": 860 } } }
+      ]
     }
   ],
   "charts": [
     {
       "area": "network",
-      "title": { "key": "adguard.per_hour" },
+      "title": { "key": "chart.lookups_per_hour" },
       "series": [
         {
-          "label": { "key": "adguard.lookups" },
+          "label": { "key": "chart.lookups" },
           "hours": [
             2556, 2122, 1595, 1389, 1509, 1608, 2181, 3538, 4752, 4021, 3563, 3623, 3736, 3670, 3286, 3943, 4516, 4931,
             5379, 5611, 5720, 4965, 3855, 2402, 2732, 2322, 1739, 1675, 1542, 1573, 2330, 4059, 4677, 4626, 4265, 3900,
@@ -1301,7 +1386,7 @@
           ]
         },
         {
-          "label": { "key": "adguard.blocked" },
+          "label": { "key": "chart.blocked" },
           "hours": [
             768, 690, 466, 417, 424, 491, 645, 1119, 1641, 1356, 1162, 1158, 1286, 1036, 1157, 1111, 1562, 1536, 1776,
             1989, 1547, 1468, 1074, 709, 792, 757, 595, 487, 468, 437, 640, 1144, 1277, 1584, 1252, 1281, 1430, 1236,
@@ -1317,6 +1402,27 @@
       ],
       "adds": true,
       "source": "Primary DNS"
+    },
+    {
+      "area": "network",
+      "source": "Kids' DNS",
+      "title": { "key": "chart.lookups_per_hour" },
+      "adds": true,
+      "series": [
+        {
+          "label": { "key": "chart.lookups" },
+          "hours": [
+            310, 220, 140, 90, 60, 50, 80, 260, 520, 610, 480, 350, 390, 420, 560, 880, 1240, 1460, 1390, 1100, 720,
+            460, 330, 280
+          ]
+        },
+        {
+          "label": { "key": "chart.blocked" },
+          "hours": [
+            60, 41, 25, 14, 9, 8, 13, 52, 118, 140, 104, 72, 81, 90, 131, 214, 302, 355, 330, 256, 160, 98, 70, 61
+          ]
+        }
+      ]
     },
     {
       "area": "servers",
@@ -1703,21 +1809,40 @@
       "area": "network",
       "source": "Primary DNS",
       "icon": "shield",
-      "label": { "key": "adguard.today" },
+      "label": { "key": "figure.lookups" },
       "value": 41870,
-      "detail": { "key": "adguard.today_blocked", "args": { "blocked": 13215 } },
+      "detail": { "key": "figure.lookups_blocked", "args": { "blocked": 13215 } },
       "hours": [
         3120, 2410, 1980, 1760, 1690, 1840, 2650, 4120, 5210, 4870, 4430, 4290, 4610, 4380, 4150, 4420, 5030, 5880,
         6410, 6820, 6230, 5470, 4390, 2960
       ],
       "adds": true,
       "within": {
-        "label": { "key": "adguard.blocked" },
+        "label": { "key": "chart.blocked" },
         "hours": [
           874, 679, 641, 503, 476, 574, 815, 1192, 1590, 1684, 1248, 1231, 1256, 1277, 1156, 1585, 1500, 2111, 1805,
           2396, 1966, 1817, 1447, 871
         ]
       }
+    },
+    {
+      "area": "network",
+      "source": "Kids' DNS",
+      "icon": "shield",
+      "label": { "key": "figure.lookups" },
+      "value": 3410,
+      "detail": { "key": "figure.lookups_blocked", "args": { "blocked": 812 } },
+      "hours": [
+        310, 220, 140, 90, 60, 50, 80, 260, 520, 610, 480, 350, 390, 420, 560, 880, 1240, 1460, 1390, 1100, 720, 460,
+        330, 280
+      ],
+      "within": {
+        "label": { "key": "chart.blocked" },
+        "hours": [
+          60, 41, 25, 14, 9, 8, 13, 52, 118, 140, 104, 72, 81, 90, 131, 214, 302, 355, 330, 256, 160, 98, 70, 61
+        ]
+      },
+      "adds": true
     }
   ],
   "events": [

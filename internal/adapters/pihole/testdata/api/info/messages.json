@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": 1793272286,
+      "type": "RATE_LIMIT",
+      "plain": "Rate-limiting 172.31.53.12 for at least 53 seconds",
+      "html": "Client <code>172.31.53.12</code> has been rate-limited for at least 53 seconds (current limit: 20 queries per 60 seconds)"
+    }
+  ],
+  "took": 0.00031185150146484375
+}

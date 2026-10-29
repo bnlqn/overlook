@@ -1,8 +1,4 @@
 {
-  "adguard.today": "DNS lookups",
-  "adguard.today_blocked": "{blocked} blocked",
-  "adguard.per_hour": "Lookups per hour",
-
   "adguard.protection": "Protection",
   "adguard.filtering": "Filtering",
   "adguard.paused": "Paused",
@@ -19,10 +15,6 @@
   "adguard.answers": "{n} · {ms} ms",
   "adguard.version": "AdGuard Home",
 
-  "adguard.resolver": "Resolver",
-  "adguard.top_clients": "Top clients",
-  "adguard.top_domains": "Top domains",
-  "adguard.top_blocked": "Top blocked domains",
   "adguard.share": "{n} · {share}%",
   "adguard.n": "{n}",
   "adguard.nothing": "Nothing yet"
