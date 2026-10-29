@@ -1,8 +1,8 @@
 // The shell every page sits in: the sidebar, the panel's bar, ⌘K and the
 // tooltips, and start(), which reads the snapshot and draws the page from it.
 
-import { areaState, asIfNow, checkState, named, readChecks, shown } from "./checks.js";
-import { badge, stateIcon, svg, TONE } from "./draw.js";
+import { areaState, asIfNow, checkState, linkCheck, named, readChecks, shown } from "./checks.js";
+import { badge, from, stateIcon, svg, TONE } from "./draw.js";
 import { esc, loadWords, number, t, translate } from "./text.js";
 
 /** The pages, in the sidebar's order; key goes after G to jump there. */
@@ -84,8 +84,10 @@ function paintShell(snap, checks) {
     a.hidden = !areas.includes(a.dataset.area);
     a.querySelector(".dot").className = `dot tone-${TONE[areaState(a.dataset.area, checks).state]}`;
   }
-  const byName = Object.fromEntries(checks.map((c) => [c.name, c]));
-  const dot = (s) => (!s.check ? "" : byName[s.check] ? TONE[checkState(byName[s.check])] : "gray");
+  const dot = (s) => {
+    const c = s.check && linkCheck(s, checks);
+    return !s.check ? "" : c ? TONE[checkState(c)] : "gray";
+  };
   const link = (s) => `<a class="nav" href="${esc(s.url)}" target="_blank" rel="noopener">
     ${badge(s, "xs")}<span>${esc(s.name)}</span><i class="dot tone-${dot(s)}"></i></a>`;
   for (const [id, links] of [
@@ -139,7 +141,7 @@ function palette() {
     ...(last.snap ? last.snap.tools : []).map(link(t("side.tools"))),
     ...last.checks.map((c) => ({
       group: t("palette.checks"),
-      name: esc(c.name),
+      name: esc(c.name) + from(c),
       what: c.area ? t(`area.${c.area}`) : "",
       glyph: stateIcon(checkState(c)),
       href: c.url,

@@ -63,6 +63,34 @@ apps:
 	}
 }
 
+// With two check engines, a link names the one its check is in as
+// Engine/Check; a slash in a check's own name stays in its name.
+func TestLoadEngine(t *testing.T) {
+	c, err := Load(write(t, `
+sources:
+  gatus:
+    - url: http://gatus:8080
+    - url: https://status.example.com
+      name: Gatus Outside
+apps:
+  - name: Photos
+    url: https://photos.example.com
+    check: Gatus Outside/Photos
+  - name: Files
+    url: https://files.example.com
+    check: NAS/SMB
+`))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if a := c.Apps[0]; a.Engine != "Gatus Outside" || a.Check != "Photos" {
+		t.Errorf("the engine named: %+v", a)
+	}
+	if a := c.Apps[1]; a.Engine != "" || a.Check != "NAS/SMB" {
+		t.Errorf("a check's own slash: %+v", a)
+	}
+}
+
 // A password is whatever the source allows, so one with a URL's own
 // characters in it still reaches the source as it is.
 func TestLoadAnyPassword(t *testing.T) {

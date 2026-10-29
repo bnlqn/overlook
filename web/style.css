@@ -1427,6 +1427,15 @@ main {
 .strip i.bad {
   background: var(--m-red);
 }
+/* An area's moment when only some of its checks failed: red as tall as
+   their share, and never so little that it can't be seen. */
+.strip i.part {
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--m-green) 55%, transparent) calc(100% - max(4px, var(--bad) * 100%)),
+    var(--m-red) 0
+  );
+}
 .strip i:last-child.ok {
   background: var(--m-green);
   animation: breathe 2.4s ease-in-out infinite;

@@ -50,3 +50,20 @@ func TestReader(t *testing.T) {
 		t.Errorf("a fresh snapshot was read again: %d reads", reads.Load())
 	}
 }
+
+// A link whose check's name two check engines share, and which doesn't say
+// which, is warned of; one that names its engine isn't.
+func TestReaderWarns(t *testing.T) {
+	t.Parallel()
+	engine := func(name string) Source {
+		return Source{Name: name, Adapter: "gatus", Read: func(context.Context) (Parts, error) {
+			return Parts{Checks: []Check{{Key: "photos", Name: "Photos", Source: name}}}, nil
+		}}
+	}
+	r := NewReader([]Source{engine("Gatus"), engine("Gatus Outside")},
+		[]Link{{Name: "Photos", Check: "Photos"}, {Name: "Albums", Check: "Photos", Engine: "Gatus"}}, nil)
+	r.Snapshot()
+	if !r.warned["Photos"] || r.warned["Albums"] {
+		t.Errorf("warned of %v", r.warned)
+	}
+}

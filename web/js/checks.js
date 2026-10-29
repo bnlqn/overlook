@@ -29,6 +29,7 @@ export const shown = (snap) =>
  * The snapshot with each part named by its source, as from, where another
  * source of the same adapter is read, so that two of one kind can be told
  * apart. One that didn't answer still counts, so the names don't come and go.
+ * A check is named where another check engine has a check of its name.
  */
 export function named(snap) {
   const twins = new Set(
@@ -37,8 +38,11 @@ export function named(snap) {
       .map((s) => s.name),
   );
   const mark = (parts) => parts.map((p) => (twins.has(p.source) ? { ...p, from: p.source } : p));
+  // A check is named only where another engine has one of its name.
+  const shared = (c) => snap.checks.some((o) => o.name === c.name && o.source !== c.source);
   return {
     ...snap,
+    checks: snap.checks.map((c) => (shared(c) ? { ...c, from: c.source } : c)),
     sections: mark(snap.sections),
     charts: mark(snap.charts),
     figures: mark(snap.figures),
@@ -248,5 +252,20 @@ export function areaState(area, checks) {
   return { area, checks: mine, problems, state };
 }
 
-/** A check's state: down when a problem, degraded while failing, else up. */
-export const checkState = (c) => (c.problem ? "down" : c.failing ? "degraded" : "up");
+/**
+ * A check's state: down when a problem, degraded while failing, up when its
+ * last result passed, and unknown with no result yet.
+ */
+export const checkState = (c) => (c.problem ? "down" : c.failing ? "degraded" : c.recent.length ? "up" : "unknown");
+
+/**
+ * The check that says whether a link answers: the one of its name in the
+ * check engine the config names, or, with none named, the worst of those of
+ * its name, so a check in two engines never hides a problem.
+ */
+export function linkCheck(link, checks) {
+  const rank = { down: 3, degraded: 2, unknown: 1, up: 0 };
+  return checks
+    .filter((c) => c.name === link.check && (!link.engine || c.source === link.engine))
+    .sort((a, b) => rank[checkState(b)] - rank[checkState(a)])[0];
+}

@@ -131,7 +131,9 @@ export function strip(recent) {
     if (!r) return "<i></i>";
     const label = t(r.ok ? "result.passed" : "result.failed");
     const tp = r.tip || tip(clock(r.at), [[r.ok ? GREEN : RED, label, ms(r.ms)]], esc(r.why || ""));
-    return `<i class="${r.ok ? "ok" : "bad"}" data-tip="${tp}"></i>`;
+    // An area's moment shows the share of its checks that failed then.
+    const part = !r.ok && r.bad < 1 ? ` part" style="--bad:${r.bad.toFixed(3)}` : "";
+    return `<i class="${r.ok ? "ok" : "bad"}${part}" data-tip="${tp}"></i>`;
   });
   return `<span class="strip">${ticks.join("")}</span>`;
 }
@@ -144,10 +146,12 @@ export function checkRows(checks) {
         ? esc(c.why || "")
         : c.failing
           ? t("check.failed_of", { run: c.run, threshold: c.threshold, why: c.why || "" })
-          : "";
+          : c.recent.length
+            ? ""
+            : t("check.no_results");
       return `<a class="check" href="${esc(c.url)}" target="_blank" rel="noopener">
       ${stateIcon(checkState(c))}
-      <span class="copy"><span class="title">${esc(c.name)}</span>${detail ? `<span class="detail">${detail}</span>` : ""}</span>
+      <span class="copy"><span class="title">${esc(c.name)}${from(c)}</span>${detail ? `<span class="detail">${detail}</span>` : ""}</span>
       ${strip(c.recent)}<span class="value">${c.failing ? "" : ms(c.ms)}</span></a>`;
     })
     .join("");

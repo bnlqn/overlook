@@ -49,6 +49,7 @@
   "result.passed": "Passed",
   "result.failed": "Failed",
   "check.failed_n": "Failed {run} of {threshold}",
+  "check.no_results": "No results yet",
   "check.failed_of": "Failed {run} of {threshold}: {why}",
   "source.no_answer": "{name} didn't answer",
   "source.no_answer_why": "{error}. Its own page may say more.",

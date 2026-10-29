@@ -225,6 +225,10 @@ tools:
     check: Hypervisor
 ```
 
+A `check` is a check's name in your check engine. With two check engines
+that both have a check of that name, say which, as `Gatus Outside/Photos`;
+if you don't, the dot shows the worse of the two, and the log says so once.
+
 Overlook ships icons for a few common apps (`web/icons`); a file of the
 same name in `icons/` beside the config wins over one of them.
 

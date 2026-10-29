@@ -216,7 +216,10 @@ type Link struct {
 	// Icon is a file in icons/, the owner's or one Overlook ships, or a URL.
 	Icon string `yaml:"icon" json:"icon,omitempty"`
 	// Check is the name of the check that says whether it answers.
-	Check       string `yaml:"check" json:"check,omitempty"`
+	Check string `yaml:"check" json:"check,omitempty"`
+	// Engine is the check engine the check is in, when the config names it
+	// as Engine/Check, for a name two check engines share.
+	Engine      string `yaml:"-" json:"engine,omitempty"`
 	Description string `yaml:"description" json:"description,omitempty"`
 	// Color tints its tile, as #rgb or #rrggbb.
 	Color string `yaml:"color" json:"color,omitempty"`
