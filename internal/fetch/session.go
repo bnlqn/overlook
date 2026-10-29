@@ -46,7 +46,10 @@ func (c Client) Session(login string, credentials map[string]string, take func(h
 	}
 	g := hc.Transport.(guard)
 	g.login = u.String()
-	return &Session{client: Client{&http.Client{Transport: g}}, login: g.login, credentials: credentials, take: take}, nil
+	// The session follows redirects as c does, so it goes no further than
+	// c's keys would.
+	sc := &http.Client{Transport: g, CheckRedirect: hc.CheckRedirect}
+	return &Session{client: Client{sc}, login: g.login, credentials: credentials, take: take}, nil
 }
 
 // JSON reads the answer at rawURL into v as the package's JSON does, sending

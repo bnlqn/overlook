@@ -46,6 +46,8 @@ func newSource(t *testing.T) *source {
 		case r.Method == http.MethodPost && r.URL.Path == "/api/away":
 			s.redirects.Add(1)
 			http.Redirect(w, r, "/api/auth", http.StatusPermanentRedirect)
+		case r.Method == http.MethodGet && r.URL.Path == "/api/moved":
+			http.Redirect(w, r, "/api/stats", http.StatusFound)
 		case r.Method == http.MethodGet && r.URL.Path == "/api/stats":
 			s.mu.Lock()
 			in := s.sid != "" && r.Header.Get("X-FTL-SID") == s.sid
@@ -198,6 +200,18 @@ func TestSessionGuard(t *testing.T) {
 	}
 	if n := src.logins.Load(); n != 0 {
 		t.Errorf("a redirected login reached the login %d times", n)
+	}
+
+	// A session follows redirects only as its client does.
+	strict := Client{&http.Client{Transport: client.Transport, CheckRedirect: func(*http.Request, []*http.Request) error {
+		return errors.New("redirect refused")
+	}}}
+	s, err = strict.Session(src.URL+"/api/auth", map[string]string{"password": "s3cret"}, sid)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := s.JSON(t.Context(), src.URL+"/api/moved", new(struct{})); err == nil || !strings.Contains(err.Error(), "redirect refused") {
+		t.Errorf("a session followed a redirect its client refuses: %v", err)
 	}
 
 	if _, err := (Client{}).Session("https://overlook:s3cret@pihole.example.com/api/auth", nil, sid); err == nil {
