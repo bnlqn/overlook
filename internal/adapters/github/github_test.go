@@ -2,8 +2,6 @@ package github
 
 import (
 	"context"
-	"net/http"
-	"net/http/httptest"
 	"slices"
 	"strings"
 	"testing"
@@ -22,7 +20,7 @@ var recorded = time.Date(2026, 10, 28, 12, 0, 0, 0, time.UTC)
 func TestRead(t *testing.T) {
 	t.Parallel()
 	src := adaptertest.Replay(t, "testdata")
-	c := Config{URL: src.URL, Repos: []string{"example/website", "example/homelab"}}
+	c := Config{URL: src.URL, Repos: []string{"example/website", "example/homelab"}, Token: "github_pat_example"}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
@@ -31,6 +29,11 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
+	for _, r := range src.Sent() {
+		if r.Header.Get("Authorization") != "Bearer github_pat_example" {
+			t.Errorf("%s: read without the token", r.URL)
+		}
+	}
 
 	var names []string
 	for _, u := range p.Updates {
@@ -56,43 +59,35 @@ func TestReadEvery(t *testing.T) {
 	t.Parallel()
 	ctx := context.Background()
 	src := adaptertest.Replay(t, "testdata")
-	c := Config{URL: src.URL, Repos: []string{"example/homelab"}}
+	c := Config{URL: src.URL, Repos: []string{"example/website", "example/homelab"}}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	if p, err := Read(ctx, c, recorded); err != nil || len(p.Updates) != 2 {
-		t.Fatalf("read %+v, %v", p, err)
-	}
-	src.Close()
-	if p, err := Read(ctx, c, recorded); err != nil || len(p.Updates) != 2 {
-		t.Errorf("within 10 minutes, the last answer: %+v, %v", p, err)
-	}
-	later := recorded.Add(10 * time.Minute)
-	if _, err := Read(ctx, c, later); err == nil || !strings.Contains(err.Error(), "example/homelab: ") {
-		t.Errorf("after 10 minutes, GitHub is read again, and an error names its repository: %v", err)
-	}
-	c.URL = adaptertest.Replay(t, "testdata").URL
-	if _, err := Read(ctx, c, later); err == nil {
-		t.Error("within 10 minutes of a refusal, the refusal")
-	}
-}
-
-func TestReadToken(t *testing.T) {
-	t.Parallel()
-	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Header.Get("Authorization") != "Bearer github_pat_example" {
-			http.NotFound(w, r)
-			return
+	for _, at := range []time.Time{recorded, recorded.Add(9 * time.Minute)} {
+		if p, err := Read(ctx, c, at); err != nil || len(p.Updates) != 3 {
+			t.Fatalf("read %+v, %v", p, err)
 		}
-		_, _ = w.Write([]byte(`[]`))
-	}))
-	t.Cleanup(s.Close)
-	c := Config{URL: s.URL, Repos: []string{"example/private"}, Token: "github_pat_example"}
+	}
+	if n := len(src.Sent()); n != 2 {
+		t.Errorf("within 10 minutes, the last answer: %d reads of two repositories", n)
+	}
+	if _, err := Read(ctx, c, recorded.Add(10*time.Minute)); err != nil || len(src.Sent()) != 4 {
+		t.Errorf("after 10 minutes, GitHub is read again: %d reads, %v", len(src.Sent()), err)
+	}
+
+	// A GitHub that answers nothing.
+	src = adaptertest.Replay(t, t.TempDir())
+	c.URL = src.URL
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := Read(context.Background(), c, recorded); err != nil {
-		t.Errorf("a private repository is read with the token: %v", err)
+	for _, at := range []time.Time{recorded, recorded.Add(9 * time.Minute)} {
+		if _, err := Read(ctx, c, at); err == nil || !strings.Contains(err.Error(), "example/homelab: HTTP 404") {
+			t.Errorf("a refusal names its repository: %v", err)
+		}
+	}
+	if n := len(src.Sent()); n != 2 {
+		t.Errorf("within 10 minutes of a refusal, the refusal: %d reads of two repositories", n)
 	}
 }
 

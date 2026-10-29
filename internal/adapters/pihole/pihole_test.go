@@ -2,13 +2,10 @@ package pihole
 
 import (
 	"context"
-	"io"
 	"net/http"
-	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"strings"
-	"sync/atomic"
 	"testing"
 	"time"
 
@@ -20,10 +17,12 @@ import (
 // Pi-hole itself, 18 of them of two denied domains, and the living-room TV
 // rate-limited for asking too many. One slot of its history is invented
 // beside them, in the same shape: 120 lookups at 21:15 the evening before.
+// With a password, Overlook logs in once, and sends the session it gets with
+// every read, as X-FTL-SID.
 func TestRead(t *testing.T) {
 	t.Parallel()
 	src := adaptertest.Replay(t, "testdata")
-	c := Config{URL: src.URL}
+	c := Config{URL: src.URL, Password: "app-password"}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
@@ -36,6 +35,18 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
+	if _, err := Read(context.Background(), c, time.Date(2026, 10, 29, 11, 20, 30, 0, london)); err != nil {
+		t.Fatal(err)
+	}
+	sent := src.Sent()
+	if login := sent[0]; login.Method != http.MethodPost || login.URL.Path != "/api/auth" || login.Body != `{"password":"app-password"}` {
+		t.Errorf("first, the login: %+v", login)
+	}
+	for _, r := range sent[1:] {
+		if r.Header.Get("X-FTL-SID") != "0123abcd0123abcd0123ab=" {
+			t.Errorf("%s: read without the session", r.URL)
+		}
+	}
 
 	// Its ten minutes in the hours of Overlook's time zone.
 	f := p.Figures[0]
@@ -83,50 +94,41 @@ func TestRead(t *testing.T) {
 	}
 }
 
-// With a password, Overlook logs in once and sends the session it gets with
-// every read, as X-FTL-SID; Pi-hole refuses a read without it with a 401.
+// Without a password, for a Pi-hole that has none, Overlook never logs in,
+// and a password Pi-hole refuses is an error that says so.
 func TestLogin(t *testing.T) {
 	t.Parallel()
-	answer, err := os.ReadFile(filepath.Join("testdata", "api", "auth.json"))
-	if err != nil {
+	dir := t.TempDir()
+	if err := os.CopyFS(dir, os.DirFS("testdata")); err != nil {
 		t.Fatal(err)
 	}
-	logins := &atomic.Int32{}
-	src := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		switch {
-		case r.Method == http.MethodPost && r.URL.Path == "/api/auth":
-			logins.Add(1)
-			if body, _ := io.ReadAll(r.Body); !strings.Contains(string(body), `"password":"app-password"`) {
-				http.Error(w, `{"session":{"valid":false}}`, http.StatusUnauthorized)
-				return
-			}
-			_, _ = w.Write(answer)
-		case r.Method == http.MethodGet && r.Header.Get("X-FTL-SID") == "0123abcd0123abcd0123ab=":
-			name := strings.TrimPrefix(r.URL.Path, "/")
-			if r.URL.Query().Get("blocked") != "" {
-				name += "@" + r.URL.RawQuery
-			}
-			http.ServeFile(w, r, filepath.Join("testdata", name+".json"))
-		default:
-			http.Error(w, "unauthorized", http.StatusUnauthorized)
-		}
-	}))
-	t.Cleanup(src.Close)
-
-	c := Config{URL: src.URL, Password: "app-password"}
+	if err := os.Remove(filepath.Join(dir, "api", "auth.json")); err != nil {
+		t.Fatal(err)
+	}
+	src := adaptertest.Replay(t, dir)
+	c := Config{URL: src.URL}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	for range 2 {
-		if _, err := Read(context.Background(), c, time.Date(2026, 10, 29, 11, 20, 0, 0, time.UTC)); err != nil {
-			t.Fatal(err)
+	if _, err := Read(context.Background(), c, time.Date(2026, 10, 29, 11, 20, 0, 0, time.UTC)); err != nil {
+		t.Fatal(err)
+	}
+	for _, r := range src.Sent() {
+		if r.Method != http.MethodGet || r.Header.Get("X-FTL-SID") != "" {
+			t.Errorf("%s %s: without a password, a login or a session", r.Method, r.URL)
 		}
 	}
-	if n := logins.Load(); n != 1 {
-		t.Errorf("two reads logged in %d times, want once", n)
-	}
 
-	c = Config{URL: src.URL, Password: "wrong"}
+	refused := t.TempDir()
+	if err := os.Mkdir(filepath.Join(refused, "api"), 0o750); err != nil {
+		t.Fatal(err)
+	}
+	answer := "HTTP/1.1 401 Unauthorized\r\nContent-Type: application/json; charset=utf-8\r\n\r\n" +
+		`{"session":{"valid":false,"totp":false,"sid":null,"validity":-1,"message":"password incorrect"},"took":0.00012}`
+	if err := os.WriteFile(filepath.Join(refused, "api", "auth.http"), []byte(answer), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	c = Config{URL: adaptertest.Replay(t, refused).URL, Password: "wrong"}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}

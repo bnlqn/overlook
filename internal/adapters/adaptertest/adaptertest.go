@@ -5,13 +5,8 @@ package adaptertest
 
 import (
 	"fmt"
-	"io/fs"
-	"net/http"
-	"net/http/httptest"
-	"os"
 	"regexp"
 	"slices"
-	"strings"
 	"testing"
 	"time"
 
@@ -19,34 +14,6 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 	"github.com/bnlqn/overlook/web"
 )
-
-// Replay starts a source that answers each GET with the answer recorded at
-// dir/<path>.json, or at dir/<path>.ics for a source that answers in
-// iCalendar, the query left out, and fails tb on any other method. An
-// answer whose query sets it apart from another of the same path, such as
-// Pi-hole's blocked top domains, is at dir/<path>@<query>.json.
-func Replay(tb testing.TB, dir string) *httptest.Server {
-	tb.Helper()
-	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodGet {
-			tb.Errorf("%s %s: a source is only read", r.Method, r.URL.Path)
-			http.Error(w, "only GET", http.StatusMethodNotAllowed)
-			return
-		}
-		// An fs.FS refuses a path with "..", so dir is never left.
-		recorded, answer := os.DirFS(dir), strings.Trim(r.URL.Path, "/")
-		if _, err := fs.Stat(recorded, answer+"@"+r.URL.RawQuery+".json"); err == nil && r.URL.RawQuery != "" {
-			answer += "@" + r.URL.RawQuery + ".json"
-		} else if _, err := fs.Stat(recorded, answer+".ics"); err == nil {
-			answer += ".ics"
-		} else {
-			answer += ".json"
-		}
-		http.ServeFileFS(w, r, recorded, answer) //nolint:gosec // see above
-	}))
-	tb.Cleanup(s.Close)
-	return s
-}
 
 // Validate fails tb with every way the page couldn't draw p.
 func Validate(tb testing.TB, p snapshot.Parts) {
