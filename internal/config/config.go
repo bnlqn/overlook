@@ -23,6 +23,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/github"
 	"github.com/bnlqn/overlook/internal/adapters/ical"
 	"github.com/bnlqn/overlook/internal/adapters/immich"
+	"github.com/bnlqn/overlook/internal/adapters/jellyfin"
 	"github.com/bnlqn/overlook/internal/adapters/nut"
 	"github.com/bnlqn/overlook/internal/adapters/pbs"
 	"github.com/bnlqn/overlook/internal/adapters/prowlarr"
@@ -57,6 +58,7 @@ type Sources struct {
 	Sonarr      []sonarr.Config      `yaml:"sonarr"`
 	Prowlarr    []prowlarr.Config    `yaml:"prowlarr"`
 	QBittorrent []qbittorrent.Config `yaml:"qbittorrent"`
+	Jellyfin    []jellyfin.Config    `yaml:"jellyfin"`
 	NUT         []nut.Config         `yaml:"nut"`
 	AdGuard     []adguard.Config     `yaml:"adguard"`
 	Ical        []ical.Config        `yaml:"ical"`
@@ -166,6 +168,7 @@ func (c *Config) check() error {
 		add(c, "sonarr", sonarr.Area, c.Sources.Sonarr, func(s sonarr.Config) string { return s.Name }, sonarr.Read),
 		add(c, "prowlarr", prowlarr.Area, c.Sources.Prowlarr, func(p prowlarr.Config) string { return p.Name }, prowlarr.Read),
 		add(c, "qbittorrent", qbittorrent.Area, c.Sources.QBittorrent, func(q qbittorrent.Config) string { return q.Name }, qbittorrent.Read),
+		add(c, "jellyfin", jellyfin.Area, c.Sources.Jellyfin, func(j jellyfin.Config) string { return j.Name }, jellyfin.Read),
 		add(c, "nut", nut.Area, c.Sources.NUT, func(n nut.Config) string { return n.Name }, nut.Read),
 		add(c, "adguard", adguard.Area, c.Sources.AdGuard, func(a adguard.Config) string { return a.Name }, adguard.Read),
 		add(c, "ical", "", c.Sources.Ical, func(i ical.Config) string { return i.Name }, ical.Read),

@@ -657,6 +657,31 @@ megabytes for a thousand torrents, so Overlook reads it at most every 10
 minutes. The speeds, the connection and the torrents in error are read with
 every snapshot.
 
+### Jellyfin
+
+The films, shows and music, on the Apps page: what each person plays now
+and how, as it is, transcoded or paused; how many films, shows, albums and
+books there are; the room left on each disk the libraries are on; the failed
+logins of the last day; and each task whose last run failed, such as a
+library's scan, in red with why. Today shows the plays since midnight, hour
+by hour, every Jellyfin's added up.
+
+```yaml
+sources:
+  jellyfin:
+    - url: http://jellyfin:8096 # where Overlook reads Jellyfin
+      key: ${JELLYFIN_KEY}
+```
+
+**Key:** an API key, from the dashboard's API Keys. It's the only kind
+Jellyfin makes, and it can do anything an administrator can, but Overlook
+sends it only with GET requests, which change nothing (ADR 0001).
+
+Recorded from a scratch Jellyfin 12.4 filled with invented films and people
+(ADR 0008), until someone who runs one records it from theirs: the compose
+file and the scripts that fill and record it are in the adapter's
+[`testdata`](internal/adapters/jellyfin/testdata).
+
 ### Can't be read
 
 These tools can't be read the way Overlook reads (ADR 0001, ADR 0009), or
