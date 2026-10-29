@@ -1805,6 +1805,11 @@ a.chore:hover {
     grid-column: 1 / -1;
     margin: -8px 0 10px;
   }
+  /* An area's row leaves as much above its name as under its strip; a
+     check's row has the strip of the one before it for that. */
+  .area > summary {
+    padding-top: 12px;
+  }
   .kid .strip {
     margin-left: 28px;
   }
