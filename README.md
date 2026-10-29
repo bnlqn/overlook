@@ -85,9 +85,10 @@ width, and every adapter has its section here.
 - **Your apps and tools**, each a link with a dot that says whether it
   answers.
 - **The chores**: the ones on your to-do list that are due or come this
-  week, the updates waiting for your merge or to be installed, and the
-  batteries to change. You do a chore where it waits, such as marking it
-  done on the list, never on the page, and a chore is never a problem.
+  week, the updates waiting for your merge or to be installed, the
+  batteries to change and the requests waiting for your approval. You do a
+  chore where it waits, such as marking it done on the list, never on the
+  page, and a chore is never a problem.
 
 ## What it never does
 
@@ -236,13 +237,16 @@ if you don't, the dot shows the worse of the two, and the log says so once.
 Overlook ships icons for a few common apps (`web/icons`); a file of the
 same name in `icons/` beside the config wins over one of them.
 
-**Chores** are the maintenance due while nothing is broken: the ones you
-keep on a to-do list, which the [iCalendar](#icalendar-to-do-list) source
-reads, the updates waiting for your merge, which the [GitHub](#github)
-source reads, and the updates waiting to be installed and the batteries to
-change, which the [Home Assistant](#home-assistant) source reads. The page
-lists the chores due, from their day on, and those in the coming week, by
-the viewer's own calendar; with none, it says which is next. You add, change
+**Chores** are what you do while nothing is broken: the ones you keep on a
+to-do list, which the [iCalendar](#icalendar-to-do-list) source reads; the
+updates waiting for your merge, which the [GitHub](#github) source reads;
+the updates waiting to be installed, which the
+[Home Assistant](#home-assistant) and [Nextcloud](#nextcloud) sources read,
+and the batteries to change, from Home Assistant; and the requests waiting
+for your approval, which the [Seerr](#seerr) source reads. The page lists
+the chores due, from their day on, and those in the coming week, by the
+viewer's own calendar; with none, it says which is next. With chores from
+more than one source, each is named by the one it waits in. You add, change
 and mark chores done in your to-do app or from a script, and do the others
 where they wait, never on the page (ADR 0010), and the page follows within
 30 seconds.

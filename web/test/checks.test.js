@@ -222,6 +222,20 @@ test("two sources of one adapter name their parts; one of a kind doesn't", () =>
   assert.equal(out.figures[0].by, "Primary DNS");
   assert.equal(out.chores[0].by, "Primary DNS");
   assert.equal(out.chores[0].from, "2026-11-01", "a chore keeps the day it's due from");
+  const [alone] = named({ ...snap, chores: [{ name: "Dust", source: "Proxmox" }] }).chores;
+  assert.equal(alone.by, undefined, "a chore no other source's shares the list with");
+  const mixed = named({
+    ...snap,
+    chores: [
+      { name: "Dust", source: "Chores" },
+      { name: "Nosferatu", source: "Seerr" },
+    ],
+  });
+  assert.deepEqual(
+    mixed.chores.map((c) => c.by),
+    ["Chores", "Seerr"],
+    "chores from two sources each say where they wait",
+  );
   assert.equal(out.events[0].by, undefined);
   assert.equal(out.events[1].by, undefined, "sources that don't say their adapter aren't of one kind");
   assert.equal(snap.sections[0].by, undefined, "the snapshot's own parts are left as they were");

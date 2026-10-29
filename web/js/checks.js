@@ -29,9 +29,10 @@ export const shown = (snap) =>
  * The snapshot with each part named by its source, as by, where another
  * source of the same adapter is read, so that two of one kind can be told
  * apart. One that didn't answer still counts, so the names don't come and go.
- * A check is named where another check engine has a check of its name, and a
+ * A check is named where another check engine has a check of its name, a
  * section where another source gives one of its title, such as the hosts of
- * Proxmox and of Beszel.
+ * Proxmox and of Beszel, and a chore where another source gives chores, such
+ * as Seerr's requests beside a to-do list's, so that each says where it waits.
  */
 export function named(snap) {
   const twins = new Set(
@@ -43,6 +44,7 @@ export function named(snap) {
   // A check is named only where another engine has one of its name.
   const shared = (c) => snap.checks.some((o) => o.name === c.name && o.source !== c.source);
   const titled = (s) => snap.sections.some((o) => o.title.key === s.title.key && o.source !== s.source);
+  const listed = (c) => snap.chores.some((o) => o.source !== c.source);
   return {
     ...snap,
     checks: snap.checks.map((c) => (shared(c) ? { ...c, by: c.source } : c)),
@@ -50,7 +52,7 @@ export function named(snap) {
     charts: mark(snap.charts),
     figures: mark(snap.figures),
     events: mark(snap.events),
-    chores: mark(snap.chores),
+    chores: mark(snap.chores).map((c) => (listed(c) ? { ...c, by: c.source } : c)),
   };
 }
 
