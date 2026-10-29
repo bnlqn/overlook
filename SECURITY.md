@@ -9,6 +9,17 @@ Overlook holds a key for every source it reads, and some of those keys can do an
 
 A way to break any of these is a vulnerability.
 
+## Checking a release
+
+From v0.2.0 on, GitHub attests every release: a signed record that the binaries and the image were built from this repository by its release workflow, and from which commit. Before you give Overlook your keys, check what you run:
+
+```bash
+gh attestation verify overlook_0.2.0_linux_amd64.tar.gz --repo bnlqn/overlook
+gh attestation verify oci://ghcr.io/bnlqn/overlook:0.2.0 --repo bnlqn/overlook
+```
+
+Each archive also comes with an SBOM, its name followed by `.sbom.json`, which lists everything built into the binary.
+
 ## Supported versions
 
 Until 1.0, only the latest release gets fixes.
