@@ -19,6 +19,8 @@
     { "name": "Sonarr", "adapter": "sonarr", "area": "apps", "answered": true },
     { "name": "Sonarr Anime", "adapter": "sonarr", "area": "apps", "answered": true },
     { "name": "Prowlarr", "adapter": "prowlarr", "area": "apps", "answered": true },
+    { "name": "qBittorrent", "adapter": "qbittorrent", "area": "apps", "answered": true },
+    { "name": "qBittorrent 4K", "adapter": "qbittorrent", "area": "apps", "answered": true },
     { "name": "Rack UPS", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Network UPS", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Office UPS", "adapter": "nut", "area": "servers", "answered": false, "error": "timeout" },
@@ -5287,6 +5289,67 @@
       ]
     },
     {
+      "area": "apps",
+      "source": "qBittorrent",
+      "title": { "key": "qbittorrent.torrents" },
+      "rows": [
+        {
+          "title": { "key": "qbittorrent.downloading" },
+          "value": { "key": "qbittorrent.torrents_n", "args": { "n": 7 } },
+          "detail": { "key": "qbittorrent.speed", "args": { "n": 9437184 } }
+        },
+        {
+          "title": { "key": "qbittorrent.seeding" },
+          "value": { "key": "qbittorrent.torrents_n", "args": { "n": 1204 } },
+          "detail": { "key": "qbittorrent.speed", "args": { "n": 2621440 } }
+        },
+        {
+          "title": { "key": "qbittorrent.free" },
+          "value": { "key": "qbittorrent.bytes", "args": { "n": 3221225472000 } }
+        },
+        {
+          "title": { "key": "qbittorrent.connection" },
+          "value": { "key": "qbittorrent.firewalled" },
+          "detail": { "key": "qbittorrent.firewalled_detail" },
+          "tone": "orange"
+        },
+        {
+          "title": { "name": "Big Buck Bunny (2008) 2160p" },
+          "value": { "key": "qbittorrent.missing_files" },
+          "detail": { "name": "/downloads/films" },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "Elephants Dream (2006) 1080p" },
+          "value": { "key": "qbittorrent.error" },
+          "detail": { "name": "/downloads/films" },
+          "tone": "red"
+        }
+      ]
+    },
+    {
+      "area": "apps",
+      "source": "qBittorrent 4K",
+      "title": { "key": "qbittorrent.torrents" },
+      "rows": [
+        {
+          "title": { "key": "qbittorrent.downloading" },
+          "value": { "key": "qbittorrent.torrents_n", "args": { "n": 2 } },
+          "detail": { "key": "qbittorrent.speed", "args": { "n": 22020096 } }
+        },
+        {
+          "title": { "key": "qbittorrent.seeding" },
+          "value": { "key": "qbittorrent.torrents_n", "args": { "n": 311 } },
+          "detail": { "key": "qbittorrent.speed", "args": { "n": 1048576 } }
+        },
+        {
+          "title": { "key": "qbittorrent.free" },
+          "value": { "key": "qbittorrent.bytes", "args": { "n": 6704668672000 } }
+        },
+        { "title": { "key": "qbittorrent.connection" }, "value": { "key": "qbittorrent.connected" } }
+      ]
+    },
+    {
       "area": "servers",
       "source": "Rack UPS",
       "title": { "key": "nut.ups" },
@@ -7167,6 +7230,27 @@
           { "title": { "key": "servarr.week" }, "value": { "key": "servarr.plus", "args": { "n": 12 } } }
         ]
       }
+    },
+    {
+      "area": "apps",
+      "source": "qBittorrent",
+      "icon": "download",
+      "label": { "key": "qbittorrent.torrents" },
+      "value": 7,
+      "unit": { "key": "qbittorrent.downloading_unit" },
+      "detail": { "key": "qbittorrent.figure_detail", "args": { "n": 1204, "down": 9437184 } },
+      "tone": "orange",
+      "adds": true
+    },
+    {
+      "area": "apps",
+      "source": "qBittorrent 4K",
+      "icon": "download",
+      "label": { "key": "qbittorrent.torrents" },
+      "value": 2,
+      "unit": { "key": "qbittorrent.downloading_unit" },
+      "detail": { "key": "qbittorrent.figure_detail", "args": { "n": 311, "down": 22020096 } },
+      "adds": true
     },
     {
       "area": "servers",

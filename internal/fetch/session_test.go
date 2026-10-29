@@ -124,6 +124,32 @@ func TestSession(t *testing.T) {
 	}
 }
 
+// A form session sends its login as a form, as qBittorrent takes it, the
+// password's own characters escaped.
+func TestFormSession(t *testing.T) {
+	t.Parallel()
+	var login string
+	src := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPost {
+			body, _ := io.ReadAll(r.Body)
+			login = r.Header.Get("Content-Type") + " " + string(body)
+			_, _ = w.Write([]byte("Ok."))
+			return
+		}
+		_, _ = w.Write([]byte(`{"n": 4}`))
+	}))
+	t.Cleanup(src.Close)
+	s, err := Client{}.FormSession(src.URL+"/login", map[string]string{"username": "overlook", "password": "s3 cret&"},
+		func(http.Header, []byte) (http.Header, error) { return http.Header{"Cookie": {"SID=1"}}, nil })
+	if err != nil {
+		t.Fatal(err)
+	}
+	readAll(t, s, src.URL+"/stats", 1)
+	if want := "application/x-www-form-urlencoded password=s3+cret%26&username=overlook"; login != want {
+		t.Errorf("the login sent %q, want %q", login, want)
+	}
+}
+
 // A refused login is tried once per read, and its error holds neither the
 // password nor the URL.
 func TestSessionRefused(t *testing.T) {

@@ -56,7 +56,7 @@ and the least key it needs), and CI passes.
        fixed.
 3. [x] One login, in `internal/fetch`, for a source that offers no other
        way in (ADR 0009).
-4. [ ] The adapters for what the author's homelab runs: Beszel, Docker,
+4. [x] The adapters for what the author's homelab runs: Beszel, Docker,
        Prowlarr and qBittorrent.
 5. [ ] The tools most homelabs run, each recorded from a scratch instance
        (ADR 0008), one pull request each, in this order: Jellyfin, Home
@@ -627,6 +627,35 @@ sources:
 **Key:** Prowlarr's API key, from Settings, General. Like Radarr's, it's the
 only key and it can do anything, even read each indexer's own key, and
 Overlook sends it only with GET requests (ADR 0001).
+
+### qBittorrent
+
+The torrents, on the Apps page: how many download and seed and how fast,
+the room left on qBittorrent's disk, whether peers can reach it, and each
+torrent in error, with where it's saved. Today shows the torrents
+downloading, every qBittorrent's added up.
+
+```yaml
+sources:
+  qbittorrent:
+    - url: http://qbittorrent:8080 # where Overlook reads its web UI
+      key: ${QBITTORRENT_KEY}
+```
+
+**Key:** from qBittorrent 5.2, an API key, from Options, WebUI. It can do
+anything the web UI can, and Overlook sends it only with GET requests
+(ADR 0001). Before 5.2 there are no keys: give the web UI's login as `user`
+and `password` instead, and Overlook logs in with one POST, keeps the
+session in memory and sends it with each GET, logging in again only when
+qBittorrent forgets it (ADR 0009). A wrong password is tried once a read,
+so qBittorrent bans Overlook's address after five, for an hour unless you
+changed it. With neither, qBittorrent must let Overlook in without a login,
+as its bypass for whitelisted subnets does for Overlook's address.
+
+The list of every torrent, which gives the counts and the room left, is
+megabytes for a thousand torrents, so Overlook reads it at most every 10
+minutes. The speeds, the connection and the torrents in error are read with
+every snapshot.
 
 ### Can't be read
 

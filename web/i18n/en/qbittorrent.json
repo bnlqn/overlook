@@ -1,0 +1,21 @@
+{
+  "qbittorrent.torrents": "Torrents",
+  "qbittorrent.downloading_unit": "downloading",
+  "qbittorrent.figure_detail": "{n} seeding · {down:bytes}/s down",
+
+  "qbittorrent.downloading": "Downloading",
+  "qbittorrent.seeding": "Seeding",
+  "qbittorrent.torrents_n": { "one": "{n} torrent", "other": "{n} torrents" },
+  "qbittorrent.speed": "{n:bytes}/s",
+  "qbittorrent.free": "Free space",
+  "qbittorrent.bytes": "{n:bytes}",
+
+  "qbittorrent.connection": "Connection",
+  "qbittorrent.connected": "Connected",
+  "qbittorrent.firewalled": "Firewalled",
+  "qbittorrent.firewalled_detail": "Peers can't connect to it, only it to them",
+  "qbittorrent.disconnected": "Disconnected",
+
+  "qbittorrent.error": "Error",
+  "qbittorrent.missing_files": "Missing files"
+}

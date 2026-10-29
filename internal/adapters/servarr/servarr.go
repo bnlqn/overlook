@@ -1,6 +1,6 @@
 // Package servarr is what the Radarr, Sonarr and Prowlarr adapters share,
-// because the three are built on the same code: their config and key, their
-// queue and health, and the cache their libraries are read through.
+// because the three are built on the same code: their config and key, and
+// their queue and health.
 package servarr
 
 import (
@@ -9,8 +9,6 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"sync"
-	"time"
 
 	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
@@ -95,43 +93,4 @@ func Health(ctx context.Context, c Config, api string) ([]snapshot.Row, error) {
 		rows = append(rows, snapshot.Row{Title: snapshot.Text{Name: c.Name}, Value: &level, Tone: tone, Detail: &snapshot.Text{Name: h.Message}})
 	}
 	return rows, nil
-}
-
-// every is how long a library is kept: Radarr's film list is about a
-// megabyte, too much to read every time the snapshot is.
-const every = 10 * time.Minute
-
-// Cache keeps a library's last answer for ten minutes. A read that fails
-// isn't kept, so the next snapshot tries again.
-//
-// ponytail: an answer kept longer than a snapshot (ADR 0004), in memory and
-// one per source, so a film can take ten minutes to count. If Radarr and
-// Sonarr ever serve their library's totals on their own, read those with
-// every snapshot and drop the cache.
-type Cache[T any] struct {
-	// Now is the clock, time.Now unless a test sets it.
-	Now func() time.Time
-
-	mu   sync.Mutex
-	at   time.Time
-	last T
-}
-
-// Get returns the kept answer, or read's if the kept one is ten minutes old.
-func (c *Cache[T]) Get(ctx context.Context, read func(context.Context) (T, error)) (T, error) {
-	c.mu.Lock()
-	defer c.mu.Unlock()
-	now := time.Now
-	if c.Now != nil {
-		now = c.Now
-	}
-	if !c.at.IsZero() && now().Sub(c.at) < every {
-		return c.last, nil
-	}
-	v, err := read(ctx)
-	if err != nil {
-		return v, err
-	}
-	c.at, c.last = now(), v
-	return v, nil
 }
