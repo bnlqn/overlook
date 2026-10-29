@@ -15,6 +15,7 @@
 /internal/adapters/nextcloud/ @bnlqn
 /internal/adapters/pbs/     @bnlqn
 /internal/adapters/pihole/  @bnlqn
+/internal/adapters/prometheus/ @bnlqn
 /internal/adapters/prowlarr/ @bnlqn
 /internal/adapters/proxmox/ @bnlqn
 /internal/adapters/qbittorrent/ @bnlqn

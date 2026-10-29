@@ -34,6 +34,16 @@ sources:
       # areas:                         # as Gatus's, for the rules' folders
       #   Hosts: servers
 
+  # Another check engine: Prometheus's alerting rules, by their groups, and
+  # which of them Alertmanager silences.
+  prometheus:
+    - url: http://prometheus:9090      # where Overlook reads Prometheus
+      alertmanager: http://alertmanager:9093 # its Alertmanager, if it sends alerts to one
+      # user: overlook                 # a login, if they ask for one
+      # password: ${PROMETHEUS_PASSWORD}
+      # areas:                         # as Gatus's, for the rule groups
+      #   node: servers
+
   # The updates waiting: the open pull requests from Dependabot or Renovate,
   # read at most every 10 minutes.
   github:

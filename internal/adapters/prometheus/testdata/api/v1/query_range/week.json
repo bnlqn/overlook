@@ -1,0 +1,38 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "matrix",
+    "result": [
+      {
+        "metric": {
+          "alertname": "Backup age"
+        },
+        "values": [
+          [
+            1793278457,
+            "1"
+          ],
+          [
+            1793278757,
+            "1"
+          ]
+        ]
+      },
+      {
+        "metric": {
+          "alertname": "Disk space"
+        },
+        "values": [
+          [
+            1793278457,
+            "1"
+          ],
+          [
+            1793278757,
+            "1"
+          ]
+        ]
+      }
+    ]
+  }
+}

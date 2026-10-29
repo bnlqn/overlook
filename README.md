@@ -58,7 +58,7 @@ and the least key it needs), and CI passes.
        way in (ADR 0009).
 4. [x] The adapters for what the author's homelab runs: Beszel, Docker,
        Prowlarr and qBittorrent.
-5. [ ] The tools most homelabs run, each recorded from a scratch instance
+5. [x] The tools most homelabs run, each recorded from a scratch instance
        (ADR 0008), one pull request each, in this order: Jellyfin, Home
        Assistant, Uptime Kuma, Pi-hole, Paperless-ngx, Nextcloud, Grafana,
        Plex through Tautulli, Seerr, and Prometheus with Alertmanager.
@@ -345,12 +345,49 @@ Grafana keeps only when a rule's state changed, not each evaluation, so the
 page draws each of the last 30 from those changes at the rule group's
 interval. Overlook reads each rule's history with a request of its own.
 Alert rules kept in a Prometheus or Loki data source, rather than by Grafana
-itself, are left out.
+itself, are left out: the [Prometheus](#prometheus-and-alertmanager) adapter
+reads Prometheus's own.
 
 Recorded from a scratch Grafana 13.3 with invented alert rules over its own
 test data (ADR 0008), until someone who runs one records it from theirs: the
 compose file and the scripts that fill and record it are in the adapter's
 [`testdata`](internal/adapters/grafana/testdata).
+
+### Prometheus and Alertmanager
+
+A check engine, as Gatus is: each of Prometheus's alerting rules, in the
+area its group is named after, or the one `areas` gives, with its last 30
+evaluations, from the history Prometheus keeps of its alerts, and its
+problems this week. A rule is a problem while it fires; while it's pending,
+the page shows it failing, and how many evaluations its `for` holds. With
+Alertmanager read too, a rule all of whose alerts Alertmanager silences or
+inhibits isn't a problem, since Alertmanager sends no alert for it: the page
+shows it failing, with the silence's comment.
+
+```yaml
+sources:
+  prometheus:
+    - url: http://prometheus:9090              # where Overlook reads Prometheus
+      alertmanager: http://alertmanager:9093   # its Alertmanager, if any
+      link: https://prometheus.example.com     # where the page sends you, if not the same
+      areas:                                   # where a rule group not named like an area goes
+        node: servers
+```
+
+**Key:** none, as Prometheus's and Alertmanager's APIs are open unless you
+protect them. If yours ask for a login, as `basic_auth_users` in Prometheus's
+web config does, give it as `user` and `password`, the same for both.
+Overlook reads the rules, two range queries of the `ALERTS` series and
+Alertmanager's alerts and silences, all with GET, which change nothing.
+
+This week's problems are read to five minutes, which a week of firing
+alerts holds in a few thousand samples.
+
+Recorded from a scratch Prometheus 3.15 and Alertmanager 0.34 with invented
+alert rules over numbers of their own (ADR 0008), until someone who runs
+them records it from theirs: the compose file, the rules and the scripts
+that fill and record it are in the adapter's
+[`testdata`](internal/adapters/prometheus/testdata).
 
 ### GitHub
 
