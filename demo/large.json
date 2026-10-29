@@ -18,9 +18,9 @@
     { "name": "Sonarr Anime", "adapter": "sonarr", "area": "apps", "answered": true },
     { "name": "Prowlarr", "adapter": "prowlarr", "area": "apps", "answered": true },
     { "name": "qBittorrent", "adapter": "qbittorrent", "area": "apps", "answered": true },
-    { "name": "qBittorrent 4K", "adapter": "qbittorrent", "area": "apps", "answered": true },
     { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "answered": true },
     { "name": "Plex", "adapter": "tautulli", "area": "apps", "answered": true },
+    { "name": "Seerr", "adapter": "seerr", "area": "apps", "answered": true },
     { "name": "Home Assistant", "adapter": "homeassistant", "area": "apps", "answered": true },
     { "name": "Paperless-ngx", "adapter": "paperless", "area": "apps", "answered": true },
     { "name": "Nextcloud", "adapter": "nextcloud", "area": "apps", "answered": true },
@@ -5501,28 +5501,6 @@
     },
     {
       "area": "apps",
-      "source": "qBittorrent 4K",
-      "title": { "key": "qbittorrent.torrents" },
-      "rows": [
-        {
-          "title": { "key": "qbittorrent.downloading" },
-          "value": { "key": "qbittorrent.torrents_n", "args": { "n": 2 } },
-          "detail": { "key": "qbittorrent.speed", "args": { "n": 22020096 } }
-        },
-        {
-          "title": { "key": "qbittorrent.seeding" },
-          "value": { "key": "qbittorrent.torrents_n", "args": { "n": 311 } },
-          "detail": { "key": "qbittorrent.speed", "args": { "n": 1048576 } }
-        },
-        {
-          "title": { "key": "qbittorrent.free" },
-          "value": { "key": "qbittorrent.bytes", "args": { "n": 6704668672000 } }
-        },
-        { "title": { "key": "qbittorrent.connection" }, "value": { "key": "qbittorrent.connected" } }
-      ]
-    },
-    {
-      "area": "apps",
       "source": "Jellyfin",
       "title": { "key": "section.media" },
       "rows": [
@@ -5647,6 +5625,25 @@
         {
           "title": { "key": "tautulli.plex" },
           "value": { "key": "tautulli.newer", "args": { "version": "1.43.6.11200-0a1b2c3d4" } },
+          "tone": "orange"
+        }
+      ]
+    },
+    {
+      "area": "apps",
+      "source": "Seerr",
+      "title": { "key": "seerr.requests" },
+      "rows": [
+        {
+          "title": { "key": "seerr.requests" },
+          "value": { "key": "seerr.waiting", "args": { "n": 4 } },
+          "detail": { "key": "seerr.requests_detail", "args": { "n": 6, "available": 318 } }
+        },
+        { "title": { "key": "seerr.issues" }, "value": { "key": "seerr.open", "args": { "n": 2 } }, "tone": "orange" },
+        {
+          "title": { "key": "seerr.version" },
+          "value": { "key": "seerr.newer" },
+          "detail": { "name": "3.5.0" },
           "tone": "orange"
         }
       ]
@@ -7542,16 +7539,6 @@
     },
     {
       "area": "apps",
-      "source": "qBittorrent 4K",
-      "icon": "download",
-      "label": { "key": "qbittorrent.torrents" },
-      "value": 2,
-      "unit": { "key": "qbittorrent.downloading_unit" },
-      "detail": { "key": "qbittorrent.figure_detail", "args": { "n": 311, "down": 22020096 } },
-      "adds": true
-    },
-    {
-      "area": "apps",
       "source": "Jellyfin",
       "icon": "play",
       "label": { "key": "figure.plays" },
@@ -8307,6 +8294,34 @@
       "note": "→ 4.13.0",
       "url": "https://files.example.com/settings/apps/updates",
       "source": "Nextcloud"
+    },
+    {
+      "name": "Sherlock Jr. (1924)",
+      "from": "2026-10-25",
+      "note": "Theo",
+      "url": "https://requests.example.com/movie/992",
+      "source": "Seerr"
+    },
+    {
+      "name": "The General (1926)",
+      "from": "2026-10-26",
+      "note": "Mia",
+      "url": "https://requests.example.com/movie/961",
+      "source": "Seerr"
+    },
+    {
+      "name": "Metropolis (1927)",
+      "from": "2026-10-27",
+      "note": "Ravi · 4K",
+      "url": "https://requests.example.com/movie/19",
+      "source": "Seerr"
+    },
+    {
+      "name": "The Twilight Zone (1959)",
+      "from": "2026-10-28",
+      "note": "Lena",
+      "url": "https://requests.example.com/tv/6357",
+      "source": "Seerr"
     },
     {
       "name": "Replace the faulted disk in tank",

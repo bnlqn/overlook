@@ -35,6 +35,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/proxmox"
 	"github.com/bnlqn/overlook/internal/adapters/qbittorrent"
 	"github.com/bnlqn/overlook/internal/adapters/radarr"
+	"github.com/bnlqn/overlook/internal/adapters/seerr"
 	"github.com/bnlqn/overlook/internal/adapters/sonarr"
 	"github.com/bnlqn/overlook/internal/adapters/tautulli"
 	"github.com/bnlqn/overlook/internal/adapters/uptimekuma"
@@ -69,6 +70,7 @@ type Sources struct {
 	QBittorrent   []qbittorrent.Config   `yaml:"qbittorrent"`
 	Jellyfin      []jellyfin.Config      `yaml:"jellyfin"`
 	Tautulli      []tautulli.Config      `yaml:"tautulli"`
+	Seerr         []seerr.Config         `yaml:"seerr"`
 	HomeAssistant []homeassistant.Config `yaml:"homeassistant"`
 	Paperless     []paperless.Config     `yaml:"paperless"`
 	Nextcloud     []nextcloud.Config     `yaml:"nextcloud"`
@@ -190,6 +192,7 @@ func (c *Config) check() error {
 		add(c, "qbittorrent", qbittorrent.Area, c.Sources.QBittorrent, func(q qbittorrent.Config) string { return q.Name }, qbittorrent.Read),
 		add(c, "jellyfin", jellyfin.Area, c.Sources.Jellyfin, func(j jellyfin.Config) string { return j.Name }, jellyfin.Read),
 		add(c, "tautulli", tautulli.Area, c.Sources.Tautulli, func(t tautulli.Config) string { return t.Name }, tautulli.Read),
+		add(c, "seerr", seerr.Area, c.Sources.Seerr, func(s seerr.Config) string { return s.Name }, seerr.Read),
 		add(c, "homeassistant", homeassistant.Area, c.Sources.HomeAssistant, func(h homeassistant.Config) string { return h.Name }, homeassistant.Read),
 		add(c, "paperless", paperless.Area, c.Sources.Paperless, func(p paperless.Config) string { return p.Name }, paperless.Read),
 		add(c, "nextcloud", nextcloud.Area, c.Sources.Nextcloud, func(n nextcloud.Config) string { return n.Name }, nextcloud.Read),

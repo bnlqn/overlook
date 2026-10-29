@@ -117,6 +117,13 @@ sources:
     - url: http://tautulli:8181        # where Overlook reads Tautulli, directly, not through a proxy
       key: ${TAUTULLI_KEY}             # Settings, Web Interface, API key
 
+  # The requests for films and shows: those waiting for your approval are
+  # chores, and the problems people reported show.
+  seerr:
+    - url: http://seerr:5055           # where Overlook reads Seerr
+      key: ${SEERR_KEY}                # Settings, General, API Key
+      # link: https://requests.example.com # where the page sends you, if not the same
+
   # The home: broken automations and devices that dropped off, and, as
   # chores, the updates waiting to be installed and the batteries to change.
   homeassistant:

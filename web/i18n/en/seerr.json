@@ -1,0 +1,10 @@
+{
+  "seerr.requests": "Requests",
+  "seerr.waiting": { "one": "{n} waiting for you", "other": "{n} waiting for you" },
+  "seerr.requests_detail": "{n} on their way · {available} available",
+  "seerr.issues": "Problems reported",
+  "seerr.open": { "one": "{n} open", "other": "{n} open" },
+  "seerr.version": "Version",
+  "seerr.newer": "A newer one is out",
+  "seerr.restart": "Restart pending"
+}
