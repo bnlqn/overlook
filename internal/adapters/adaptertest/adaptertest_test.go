@@ -26,7 +26,7 @@ func TestProblems(t *testing.T) {
 			Meters: []snapshot.Meter{{Label: &snapshot.Text{}, Total: 0, Tone: "teal"}},
 		}},
 		Events: []snapshot.Event{{Area: "storage", Text: snapshot.Text{Key: "pbs.backed_up"}}},
-		Checks: []snapshot.Check{{Key: "k", Name: "n", Source: "s", URL: "u", Threshold: 3, Run: 0, Problem: true}},
+		Checks: []snapshot.Check{{Key: "k", Name: "n", URL: "u", Threshold: 3, Run: 0, Problem: true}},
 	}
 	if got := Problems(bad, english); len(got) != 10 {
 		t.Errorf("want the area, the key, the hours, the tone, the meter's label, tone and total, the missing {n}, the missing time and the problem refused, got %d: %q", len(got), got)

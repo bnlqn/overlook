@@ -48,8 +48,8 @@ _Avoid_: Type, category, role
 
 **Check engine**:
 A source that runs the homelab's checks and sends its alerts, such as Gatus,
-Uptime Kuma, Grafana or Beszel. A homelab may have more than one. Overlook
-never runs a check or sends an alert itself.
+Uptime Kuma, Grafana or Prometheus. A homelab may have more than one.
+Overlook never runs a check or sends an alert itself.
 _Avoid_: Monitor, uptime tool
 
 **Check**:
@@ -88,7 +88,8 @@ _Avoid_: Group, section, category
 
 **Problem**:
 A check that has failed long enough for its check engine to alert on it. It
-lasts exactly as long as the check keeps failing and is never dismissed.
+lasts exactly as long as the check keeps failing, from its first failure to
+its next pass, and is never dismissed.
 _Avoid_: Alert (the push that announces a problem), incident, issue
 
 **Degraded**:

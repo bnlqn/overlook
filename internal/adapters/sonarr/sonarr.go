@@ -52,12 +52,8 @@ type episode struct {
 }
 
 // Read reads the Sonarr at c, which Check has filled.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
-	return read(ctx, c, time.Now())
-}
-
-func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
-	shows, err := c.shows.Get(ctx, func(ctx context.Context) ([]series, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+	shows, err := c.shows.Get(ctx, now, func(ctx context.Context) ([]series, error) {
 		var all []series
 		err := c.Get(ctx, "/api/v3/series", &all)
 		return all, err

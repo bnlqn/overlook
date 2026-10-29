@@ -9,7 +9,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"math"
 	"net/url"
 	"slices"
 	"strconv"
@@ -21,10 +20,11 @@ import (
 )
 
 // weekStep is how finely the week's problems are read: every five minutes,
-// which a week of firing alerts holds in a few thousand samples.
+// which a week of pending and firing alerts holds in a few thousand samples.
 //
-// ponytail: a problem's start and end are known to five minutes. If that
-// shows on the week, read the firing stretches at the rules' interval.
+// ponytail: a problem's start and end are known to five minutes, but for
+// the one still going, which starts when its alert went pending. If that
+// shows on the week, read the week at the rules' interval.
 const weekStep = 5 * time.Minute
 
 // Config is one Prometheus, under sources.prometheus in overlook.yaml.
@@ -99,10 +99,14 @@ type series struct {
 	} `json:"data"`
 }
 
-// times are the moments of each alert name's samples, in seconds.
-func (s series) times() map[string][]float64 {
+// times are the moments of each alert name's samples, in seconds, or only
+// of those in state, if it's given.
+func (s series) times(state string) map[string][]float64 {
 	out := map[string][]float64{}
 	for _, r := range s.Data.Result {
+		if state != "" && r.Metric["alertstate"] != state {
+			continue
+		}
 		for _, v := range r.Values {
 			if t, ok := v[0].(float64); ok {
 				out[r.Metric["alertname"]] = append(out[r.Metric["alertname"]], t)
@@ -111,6 +115,7 @@ func (s series) times() map[string][]float64 {
 	}
 	for name := range out {
 		slices.Sort(out[name])
+		out[name] = slices.Compact(out[name])
 	}
 	return out
 }
@@ -127,11 +132,7 @@ func (c Config) rangeOf(ctx context.Context, query string, from, to time.Time, s
 }
 
 // Read reads every alerting rule of the Prometheus at c.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
-	return read(ctx, c, time.Now())
-}
-
-func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	var rules struct {
 		Data struct {
 			Groups []struct {
@@ -144,13 +145,13 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 	if err := c.get(ctx, c.URL, "/api/v1/rules?type=alert", &rules); err != nil {
 		return snapshot.Parts{}, err
 	}
-	// The week's firing, by alert name, for this week's problems: each five
-	// minutes, whether it fired in them.
-	week, err := c.rangeOf(ctx, `max by (alertname) (max_over_time(ALERTS{alertstate="firing"}[5m]))`, now.Add(-7*24*time.Hour), now, weekStep)
+	// The week, by alert name, for this week's problems: each five minutes,
+	// whether it was pending or fired in them.
+	week, err := c.rangeOf(ctx, `max by (alertname, alertstate) (max_over_time(ALERTS[5m]))`, now.Add(-7*24*time.Hour), now, weekStep)
 	if err != nil {
 		return snapshot.Parts{}, err
 	}
-	firing := week.times()
+	failingWeek, firing := week.times(""), week.times("firing")
 	silenced, err := c.silenced(ctx)
 	if err != nil {
 		return snapshot.Parts{}, err
@@ -180,18 +181,17 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 			if err != nil {
 				return snapshot.Parts{}, err
 			}
-			failing[interval] = s.times()
+			failing[interval] = s.times("")
 		}
 		for _, r := range g.Rules {
 			if r.Type != "" && r.Type != "alerting" {
 				continue
 			}
 			why, quiet := silenced[r.Name]
-			ch := check(r, last, interval, failing[interval][r.Name], firing[r.Name], quiet, why)
-			ch.Key, ch.Name, ch.Source = g.Name+"/"+r.Name, r.Name, c.Name
-			ch.Area = snapshot.AreaOf(g.Name, c.Areas)
-			ch.URL = strings.TrimSuffix(c.Link, "/") + "/alerts?" + url.Values{"search": {r.Name}}.Encode()
-			checks = append(checks, ch)
+			checks = append(checks, check(snapshot.Check{
+				Key: g.Name + "/" + r.Name, Name: r.Name, Area: snapshot.AreaOf(g.Name, c.Areas),
+				URL: strings.TrimSuffix(c.Link, "/") + "/alerts?" + url.Values{"search": {r.Name}}.Encode(),
+			}, r, last, interval, failing[interval][r.Name], stretchesOf(failingWeek[r.Name], firing[r.Name]), quiet, why))
 		}
 	}
 	return snapshot.Parts{Checks: checks}, nil
@@ -247,23 +247,49 @@ func (c Config) silenced(ctx context.Context) (map[string]string, error) {
 	return out, nil
 }
 
-// check is what a rule's state, its recent alerts and its week of firing
-// say: its last results, its failures in a row, and its problems this week.
-// A rule Alertmanager keeps quiet still fails, with why it's quiet, but
-// isn't a problem: Alertmanager sends no alert for it.
-func check(r rule, last time.Time, interval time.Duration, failing, firing []float64, quiet bool, why string) snapshot.Check {
-	ch := snapshot.Check{Results: []snapshot.Result{}, Threshold: 1}
-	if last.Year() < 2000 {
-		return ch // never evaluated yet
+// stretchesOf are the week's stretches from its samples, each of which says
+// a rule was pending or fired in the five minutes up to it: a stretch runs
+// from five minutes before its first sample to its last, and alerted if it
+// fired in one of them.
+func stretchesOf(failing, firing []float64) []snapshot.Stretch {
+	var out []snapshot.Stretch
+	for i, t := range failing {
+		at := time.Unix(int64(t), 0)
+		if i == 0 || t-failing[i-1] > 1.5*weekStep.Seconds() {
+			out = append(out, snapshot.Stretch{From: at.Add(-weekStep)})
+		}
+		s := &out[len(out)-1]
+		_, fired := slices.BinarySearch(firing, t)
+		s.To, s.Alerted = &at, s.Alerted || fired
 	}
-	near := func(at time.Time, samples []float64, within time.Duration) bool {
-		t := float64(at.Unix())
-		i, _ := slices.BinarySearch(samples, t-within.Seconds()/2)
-		return i < len(samples) && samples[i] <= t+within.Seconds()/2
+	return out
+}
+
+// check is ch as a rule's state, its recent alerts and its week make it: its
+// last results, failing where an alert of it was pending or firing then, and
+// the stretches it failed this week, the one still going from when its
+// first alert went pending. A rule Alertmanager keeps quiet still fails,
+// with why it's quiet, but its stretch now hasn't alerted: Alertmanager
+// sends no alert for it, and it has no threshold to reach.
+//
+// ponytail: a stretch Alertmanager kept quiet before now has alerted, as
+// Overlook reads only the silences now. If that shows on the week, read the
+// silences that ended too.
+func check(ch snapshot.Check, r rule, last time.Time, interval time.Duration, recent []float64, week []snapshot.Stretch, quiet bool, why string) snapshot.Check {
+	ch.Threshold = snapshot.ThresholdOf(time.Duration(r.Duration*float64(time.Second)), interval)
+	if quiet {
+		ch.Threshold = 0
 	}
-	for k := snapshot.Recent - 1; k >= 0; k-- {
-		at := last.Add(-time.Duration(k) * interval)
-		ch.Results = append(ch.Results, snapshot.Result{OK: !near(at, failing, interval), At: at})
+	// Each sample of the last evaluations is the evaluation nearest it.
+	var evaluations []snapshot.Stretch
+	for _, t := range recent {
+		from := time.Unix(int64(t), 0).Add(-interval / 2)
+		to := from.Add(interval)
+		evaluations = append(evaluations, snapshot.Stretch{From: from, To: &to})
+	}
+	ch.Results = snapshot.Grid(last, interval, evaluations)
+	if len(ch.Results) == 0 {
+		return snapshot.CheckOf(ch, nil)
 	}
 	// Its last result is its state now, whatever the series has caught.
 	now := &ch.Results[len(ch.Results)-1]
@@ -271,60 +297,30 @@ func check(r rule, last time.Time, interval time.Duration, failing, firing []flo
 	if ms := r.EvaluationTime * 1000; ms > 0 {
 		now.MS = &ms
 	}
-	for i := len(ch.Results) - 1; i >= 0 && !ch.Results[i].OK; i-- {
-		ch.Run++
-	}
-	if ch.Run > 0 {
-		for _, a := range r.Alerts {
-			if a.State == "pending" || a.State == "firing" {
-				at := a.ActiveAt
-				if ch.Since == nil || at.Before(*ch.Since) {
-					ch.Since = &at
-					ch.Why = cmp.Or(a.Annotations["summary"], r.Annotations["summary"], r.LastError)
-				}
-			}
-		}
-		if quiet && why != "" {
-			ch.Why = why
-		}
-		now.Why = ch.Why
-	}
-	ch.Problem = r.State == "firing" && !quiet
-
-	// How many evaluations in a row make a problem: as many as its pending
-	// period holds, and the first.
-	need := int(math.Round(r.Duration*float64(time.Second)/float64(interval))) + 1
-	if ch.Problem {
-		ch.Threshold = max(1, min(need, ch.Run))
-	} else {
-		ch.Threshold = max(need, ch.Run+1)
+	if now.OK {
+		return snapshot.CheckOf(ch, week)
 	}
 
-	// The week's stretches of firing, each from the five minutes its first
-	// sample ends to its last; the last still going if the rule fires now.
-	var from, to float64
-	flush := func(open bool) {
-		f := time.Unix(int64(from), 0).Add(-weekStep)
-		if open {
-			ch.Outages = append(ch.Outages, snapshot.Outage{From: f})
-			return
-		}
-		t := time.Unix(int64(to), 0)
-		ch.Outages = append(ch.Outages, snapshot.Outage{From: f, To: &t})
-	}
-	for i, t := range firing {
-		switch {
-		case i == 0:
-			from, to = t, t
-		case t-to > 1.5*weekStep.Seconds():
-			flush(false)
-			from, to = t, t
-		default:
-			to = t
+	var since *time.Time
+	for _, a := range r.Alerts {
+		if (a.State == "pending" || a.State == "firing") && (since == nil || a.ActiveAt.Before(*since)) {
+			since = &a.ActiveAt
+			ch.Why = cmp.Or(a.Annotations["summary"], r.Annotations["summary"], r.LastError)
 		}
 	}
-	if len(firing) > 0 {
-		flush(ch.Problem && float64(last.Unix())-to <= 1.5*weekStep.Seconds())
+	if quiet && why != "" {
+		ch.Why = why
 	}
-	return ch
+	now.Why = ch.Why
+	// The week's stretch that started within five minutes of this one is
+	// this one, as the week can tell; one that started before ends where
+	// this one starts.
+	from := *cmp.Or(since, &last)
+	if n := len(week) - 1; n >= 0 && !week[n].From.Before(from.Add(-weekStep)) {
+		week = week[:n]
+	}
+	if n := len(week) - 1; n >= 0 && week[n].To.After(from) {
+		week[n].To = &from
+	}
+	return snapshot.CheckOf(ch, append(week, snapshot.Stretch{From: from, Alerted: r.State == "firing" && !quiet}))
 }

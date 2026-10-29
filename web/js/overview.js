@@ -274,7 +274,9 @@ function renderAreas(checks, areas) {
         const health = c.problem
           ? word("down")
           : c.failing
-            ? t("check.failed_n", { run: c.run, threshold: c.threshold })
+            ? c.threshold
+              ? t("check.failed_n", { run: c.run, threshold: c.threshold })
+              : t("check.failed_run", { n: c.run })
             : c.recent.length
               ? word("up")
               : t("check.no_results");

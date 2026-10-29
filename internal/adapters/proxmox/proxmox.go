@@ -130,13 +130,7 @@ type task struct {
 
 // Read reads the Proxmox at c: its nodes, then each online node's status,
 // pools and the week's backup runs.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
-	return read(ctx, c, time.Now())
-}
-
-// read reads the Proxmox at c as at now, whose time zone says what its hours
-// are.
-func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	var resources []resource
 	if err := get(ctx, c, "cluster/resources", &resources); err != nil {
 		return snapshot.Parts{}, err

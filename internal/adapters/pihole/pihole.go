@@ -120,14 +120,9 @@ type version struct {
 	} `json:"remote"`
 }
 
-// Read reads the Pi-hole at c, which Check has filled.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
-	return read(ctx, c, time.Now())
-}
-
-// read reads the Pi-hole at c as at now, whose time zone says when today
-// started.
-func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+// Read reads the Pi-hole at c, which Check has filled, as at now, whose
+// time zone says when today started.
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	var (
 		sum      summary
 		history  struct{ History []slot }

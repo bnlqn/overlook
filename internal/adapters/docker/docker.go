@@ -11,6 +11,7 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
@@ -55,7 +56,7 @@ type container struct {
 }
 
 // Read reads the Docker engine at c: every container, the stopped ones too.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 	var all []container
 	if err := fetch.JSON(ctx, strings.TrimSuffix(c.URL, "/")+api+"/containers/json?all=1", nil, &all); err != nil {
 		return snapshot.Parts{}, err

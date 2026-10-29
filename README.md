@@ -320,7 +320,8 @@ speak.
 A status page doesn't say why a monitor failed, so the page doesn't either.
 Nor does it say how many retries a monitor has: the page counts them from
 the last time the monitor went down, in the 100 results a status page keeps,
-and a monitor that hasn't gone down there is one failure from a problem.
+and for a monitor that hasn't gone down there, it says how many times in a
+row it failed, but not how many make a problem.
 Uptime Kuma serves a status page's results a minute at a time.
 
 Recorded from a scratch Uptime Kuma 2.5.8 with invented monitors (ADR 0008),
