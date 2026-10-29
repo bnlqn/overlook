@@ -16,6 +16,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 )
 
 // maxAnswer is the largest answer read from a source. The largest known,
@@ -41,7 +42,22 @@ func (g guard) RoundTrip(r *http.Request) (*http.Response, error) {
 	return g.next.RoundTrip(r)
 }
 
-var client = &http.Client{Transport: guard{next: http.DefaultTransport}}
+// sameOrigin follows a redirect only to the scheme, host and port the read
+// began at, such as /api to /api/. Go sends a redirect on with every header
+// but Authorization and cookies, so a key in another header, such as
+// X-Api-Key, would otherwise go wherever a source sends Overlook, such as an
+// identity provider's host in front of it. It keeps Go's limit of 10.
+func sameOrigin(req *http.Request, via []*http.Request) error {
+	if len(via) >= 10 {
+		return errors.New("stopped after 10 redirects")
+	}
+	if from := via[0].URL; req.URL.Scheme != from.Scheme || !strings.EqualFold(req.URL.Host, from.Host) {
+		return errors.New("a redirect to another scheme, host or port refused")
+	}
+	return nil
+}
+
+var client = &http.Client{Transport: guard{next: http.DefaultTransport}, CheckRedirect: sameOrigin}
 
 // Client reads a source. Its zero value trusts the CAs the system trusts;
 // Trusting makes one that trusts the source's own.
@@ -64,7 +80,7 @@ func Trusting(caFile, serverName string) (Client, error) {
 	}
 	t := http.DefaultTransport.(*http.Transport).Clone()
 	t.TLSClientConfig = &tls.Config{RootCAs: pool, ServerName: serverName, MinVersion: tls.VersionTLS12}
-	return Client{&http.Client{Transport: guard{next: t}}}, nil
+	return Client{&http.Client{Transport: guard{next: t}, CheckRedirect: sameOrigin}}, nil
 }
 
 // JSON reads the answer at rawURL into v, sending header with the request,
