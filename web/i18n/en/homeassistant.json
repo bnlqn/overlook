@@ -1,0 +1,14 @@
+{
+  "homeassistant.home": "Home",
+  "homeassistant.version": "Version",
+  "homeassistant.safe_mode": "Safe mode",
+  "homeassistant.recovery_mode": "Recovery mode",
+  "homeassistant.automations": "Automations",
+  "homeassistant.automations_n": { "one": "{n} automation", "other": "{n} automations" },
+  "homeassistant.automations_detail": "{n} ran today · {off} off",
+  "homeassistant.broken": "Broken",
+  "homeassistant.broken_detail": "An automation Home Assistant couldn't load, which never runs",
+
+  "homeassistant.unavailable": "Unavailable devices",
+  "homeassistant.since": "Since {at:when}"
+}

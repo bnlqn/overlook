@@ -13,6 +13,7 @@
     { "name": "Prowlarr", "adapter": "prowlarr", "area": "apps", "answered": true },
     { "name": "qBittorrent", "adapter": "qbittorrent", "area": "apps", "answered": true },
     { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "answered": true },
+    { "name": "Home Assistant", "adapter": "homeassistant", "area": "apps", "answered": true },
     { "name": "NUT", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Primary DNS", "adapter": "adguard", "area": "network", "answered": true },
     { "name": "Standby DNS", "adapter": "adguard", "area": "network", "answered": false, "error": "timeout" },
@@ -1079,6 +1080,31 @@
       ]
     },
     {
+      "area": "apps",
+      "source": "Home Assistant",
+      "title": { "key": "homeassistant.home" },
+      "rows": [
+        { "title": { "key": "homeassistant.version" }, "value": { "name": "2026.10.4" } },
+        {
+          "title": { "key": "homeassistant.automations" },
+          "value": { "key": "homeassistant.automations_n", "args": { "n": 24 } },
+          "detail": { "key": "homeassistant.automations_detail", "args": { "n": 9, "off": 2 } }
+        }
+      ]
+    },
+    {
+      "area": "apps",
+      "source": "Home Assistant",
+      "title": { "key": "homeassistant.unavailable" },
+      "rows": [
+        {
+          "title": { "name": "Shed temperature" },
+          "value": { "key": "homeassistant.since", "args": { "at": "2026-10-27T18:02:11Z" } },
+          "detail": { "name": "sensor.shed_temperature" }
+        }
+      ]
+    },
+    {
       "area": "servers",
       "source": "NUT",
       "title": { "key": "nut.ups" },
@@ -1841,6 +1867,14 @@
     }
   ],
   "chores": [
+    {
+      "name": "Zigbee2MQTT update",
+      "from": "2026-10-27",
+      "note": "2.6.1 → 2.6.2",
+      "url": "https://home.example.com/config/updates",
+      "source": "Home Assistant"
+    },
+    { "name": "Hall motion battery", "note": "12%", "source": "Home Assistant" },
     {
       "name": "Clean the NAS's dust filters",
       "source": "Chores",

@@ -14,6 +14,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
 	"github.com/bnlqn/overlook/web"
 )
@@ -221,6 +222,11 @@ func Problems(p snapshot.Parts, english map[string]any) []string {
 		tone(w, e.Tone)
 		if e.At.IsZero() {
 			fail("%s: no time", w)
+		}
+	}
+	for _, c := range p.Chores {
+		if c.Name == "" || (c.URL != "" && fetch.CheckURL(c.URL) != nil) {
+			fail("chore %q: needs a name, and an http:// or https:// url if any", c.Name)
 		}
 	}
 	for _, u := range p.Updates {

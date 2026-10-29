@@ -163,6 +163,7 @@ func TestExample(t *testing.T) {
 	t.Setenv("PROWLARR_KEY", "89abcdef")
 	t.Setenv("QBITTORRENT_KEY", "qbt_0123abcd")
 	t.Setenv("JELLYFIN_KEY", "0123abcd")
+	t.Setenv("HOMEASSISTANT_TOKEN", "0123abcd")
 	t.Setenv("NUT_HOST", "nut.example.com")
 	t.Setenv("ADGUARD_PASSWORD", "s3cret")
 	t.Setenv("DAV_PASSWORD", "s3cret")

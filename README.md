@@ -85,8 +85,9 @@ width, and every adapter has its section here.
 - **Your apps and tools**, each a link with a dot that says whether it
   answers.
 - **The chores**: the ones on your to-do list that are due or come this
-  week, and the updates waiting for your merge. You mark a chore done on the
-  list, never on the page, and a chore is never a problem.
+  week, the updates waiting for your merge or to be installed, and the
+  batteries to change. You do a chore where it waits, such as marking it
+  done on the list, never on the page, and a chore is never a problem.
 
 ## What it never does
 
@@ -235,11 +236,14 @@ same name in `icons/` beside the config wins over one of them.
 
 **Chores** are the maintenance due while nothing is broken: the ones you
 keep on a to-do list, which the [iCalendar](#icalendar-to-do-list) source
-reads, and the updates waiting for your merge, which the [GitHub](#github)
-source reads. The page lists the chores due, from their day on, and those in
-the coming week, by the viewer's own calendar; with none, it says which is
-next. You add, change and mark chores done in your to-do app or from a
-script, never on the page (ADR 0010), and the page follows within 30 seconds.
+reads, the updates waiting for your merge, which the [GitHub](#github)
+source reads, and the updates waiting to be installed and the batteries to
+change, which the [Home Assistant](#home-assistant) source reads. The page
+lists the chores due, from their day on, and those in the coming week, by
+the viewer's own calendar; with none, it says which is next. You add, change
+and mark chores done in your to-do app or from a script, and do the others
+where they wait, never on the page (ADR 0010), and the page follows within
+30 seconds.
 
 **Flags.** `-config` names the config (`overlook.yaml` by default), and
 `icons/` and `custom.css` are read beside it; `-listen` is the address to
@@ -681,6 +685,35 @@ Recorded from a scratch Jellyfin 12.4 filled with invented films and people
 (ADR 0008), until someone who runs one records it from theirs: the compose
 file and the scripts that fill and record it are in the adapter's
 [`testdata`](internal/adapters/jellyfin/testdata).
+
+### Home Assistant
+
+The home, on the Apps page: Home Assistant's version, or whether it started
+in safe or recovery mode; its automations, those that ran today and those
+whose config it couldn't load, which never run, in red; and each device that
+dropped off, the newest first. The updates it waits to install are chores,
+each a link to its page of updates, as are the batteries below 20%.
+
+```yaml
+sources:
+  homeassistant:
+    - url: http://homeassistant:8123   # where Overlook reads Home Assistant
+      token: ${HOMEASSISTANT_TOKEN}
+      link: https://home.example.com   # where the page sends you, if not the same
+```
+
+**Key:** a long-lived access token of a user of Overlook's own that isn't an
+administrator. As an administrator, add the user in Settings, People, Users,
+with **Administrator** off; then log in as it, and make the token in its
+profile's Security tab. A user that isn't an administrator can still use
+every device, such as unlocking a door, with a POST, but Overlook sends only
+GET requests, which change nothing (ADR 0001). It reads `/api/config` and
+`/api/states`, which `default_config` turns on.
+
+Recorded from a scratch Home Assistant 2026.10.4, with its own invented
+devices and a few more (ADR 0008), until someone who runs one records it
+from theirs: its config and the scripts that fill and record it are in the
+adapter's [`testdata`](internal/adapters/homeassistant/testdata).
 
 ### Can't be read
 

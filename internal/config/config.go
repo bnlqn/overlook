@@ -21,6 +21,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/docker"
 	"github.com/bnlqn/overlook/internal/adapters/gatus"
 	"github.com/bnlqn/overlook/internal/adapters/github"
+	"github.com/bnlqn/overlook/internal/adapters/homeassistant"
 	"github.com/bnlqn/overlook/internal/adapters/ical"
 	"github.com/bnlqn/overlook/internal/adapters/immich"
 	"github.com/bnlqn/overlook/internal/adapters/jellyfin"
@@ -47,21 +48,22 @@ type Config struct {
 
 // Sources are the sources to read, by adapter: each adapter's own config.
 type Sources struct {
-	Gatus       []gatus.Config       `yaml:"gatus"`
-	GitHub      []github.Config      `yaml:"github"`
-	Immich      []immich.Config      `yaml:"immich"`
-	PBS         []pbs.Config         `yaml:"pbs"`
-	Proxmox     []proxmox.Config     `yaml:"proxmox"`
-	Beszel      []beszel.Config      `yaml:"beszel"`
-	Docker      []docker.Config      `yaml:"docker"`
-	Radarr      []radarr.Config      `yaml:"radarr"`
-	Sonarr      []sonarr.Config      `yaml:"sonarr"`
-	Prowlarr    []prowlarr.Config    `yaml:"prowlarr"`
-	QBittorrent []qbittorrent.Config `yaml:"qbittorrent"`
-	Jellyfin    []jellyfin.Config    `yaml:"jellyfin"`
-	NUT         []nut.Config         `yaml:"nut"`
-	AdGuard     []adguard.Config     `yaml:"adguard"`
-	Ical        []ical.Config        `yaml:"ical"`
+	Gatus         []gatus.Config         `yaml:"gatus"`
+	GitHub        []github.Config        `yaml:"github"`
+	Immich        []immich.Config        `yaml:"immich"`
+	PBS           []pbs.Config           `yaml:"pbs"`
+	Proxmox       []proxmox.Config       `yaml:"proxmox"`
+	Beszel        []beszel.Config        `yaml:"beszel"`
+	Docker        []docker.Config        `yaml:"docker"`
+	Radarr        []radarr.Config        `yaml:"radarr"`
+	Sonarr        []sonarr.Config        `yaml:"sonarr"`
+	Prowlarr      []prowlarr.Config      `yaml:"prowlarr"`
+	QBittorrent   []qbittorrent.Config   `yaml:"qbittorrent"`
+	Jellyfin      []jellyfin.Config      `yaml:"jellyfin"`
+	HomeAssistant []homeassistant.Config `yaml:"homeassistant"`
+	NUT           []nut.Config           `yaml:"nut"`
+	AdGuard       []adguard.Config       `yaml:"adguard"`
+	Ical          []ical.Config          `yaml:"ical"`
 }
 
 // Readers are the sources, each with its adapter's read, as Load checked
@@ -169,6 +171,7 @@ func (c *Config) check() error {
 		add(c, "prowlarr", prowlarr.Area, c.Sources.Prowlarr, func(p prowlarr.Config) string { return p.Name }, prowlarr.Read),
 		add(c, "qbittorrent", qbittorrent.Area, c.Sources.QBittorrent, func(q qbittorrent.Config) string { return q.Name }, qbittorrent.Read),
 		add(c, "jellyfin", jellyfin.Area, c.Sources.Jellyfin, func(j jellyfin.Config) string { return j.Name }, jellyfin.Read),
+		add(c, "homeassistant", homeassistant.Area, c.Sources.HomeAssistant, func(h homeassistant.Config) string { return h.Name }, homeassistant.Read),
 		add(c, "nut", nut.Area, c.Sources.NUT, func(n nut.Config) string { return n.Name }, nut.Read),
 		add(c, "adguard", adguard.Area, c.Sources.AdGuard, func(a adguard.Config) string { return a.Name }, adguard.Read),
 		add(c, "ical", "", c.Sources.Ical, func(i ical.Config) string { return i.Name }, ical.Read),
