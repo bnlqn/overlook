@@ -13,7 +13,6 @@
     { "name": "Beszel", "adapter": "beszel", "area": "servers", "answered": true },
     { "name": "Docker", "adapter": "docker", "area": "servers", "answered": true },
     { "name": "Media", "adapter": "docker", "area": "servers", "answered": true },
-    { "name": "Downloads", "adapter": "docker", "area": "servers", "answered": true },
     { "name": "Radarr", "adapter": "radarr", "area": "apps", "answered": true },
     { "name": "Radarr 4K", "adapter": "radarr", "area": "apps", "answered": true },
     { "name": "Sonarr", "adapter": "sonarr", "area": "apps", "answered": true },
@@ -23,6 +22,7 @@
     { "name": "qBittorrent 4K", "adapter": "qbittorrent", "area": "apps", "answered": true },
     { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "answered": true },
     { "name": "Home Assistant", "adapter": "homeassistant", "area": "apps", "answered": true },
+    { "name": "Paperless-ngx", "adapter": "paperless", "area": "apps", "answered": true },
     { "name": "Rack UPS", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Network UPS", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Office UPS", "adapter": "nut", "area": "servers", "answered": false, "error": "timeout" },
@@ -4935,53 +4935,6 @@
       ]
     },
     {
-      "area": "servers",
-      "source": "Downloads",
-      "title": { "key": "docker.containers" },
-      "rows": [
-        {
-          "title": { "name": "autobrr" },
-          "value": { "key": "docker.running" },
-          "detail": { "name": "ghcr.io/autobrr/autobrr:v1.68.0" }
-        },
-        {
-          "title": { "name": "beszel-agent" },
-          "value": { "key": "docker.running" },
-          "detail": { "name": "henrygd/beszel-agent:0.21.1" }
-        },
-        {
-          "title": { "name": "cross-seed" },
-          "value": { "key": "docker.running" },
-          "detail": { "name": "ghcr.io/cross-seed/cross-seed:6.13.5" }
-        },
-        {
-          "title": { "name": "gluetun" },
-          "value": { "key": "docker.healthy" },
-          "detail": { "name": "qmcgaw/gluetun:v3.41.3" }
-        },
-        {
-          "title": { "name": "qbittorrent" },
-          "value": { "key": "docker.running" },
-          "detail": { "name": "lscr.io/linuxserver/qbittorrent:5.2.4" }
-        },
-        {
-          "title": { "name": "qbittorrent-4k" },
-          "value": { "key": "docker.running" },
-          "detail": { "name": "lscr.io/linuxserver/qbittorrent:5.2.4" }
-        },
-        {
-          "title": { "name": "sabnzbd" },
-          "value": { "key": "docker.running" },
-          "detail": { "name": "lscr.io/linuxserver/sabnzbd:4.5.3" }
-        },
-        {
-          "title": { "name": "socket-proxy" },
-          "value": { "key": "docker.running" },
-          "detail": { "name": "lscr.io/linuxserver/socket-proxy:3.4.7" }
-        }
-      ]
-    },
-    {
       "area": "apps",
       "source": "Radarr",
       "title": { "key": "radarr.films" },
@@ -5469,6 +5422,44 @@
           "value": { "key": "homeassistant.since", "args": { "at": "2026-10-23T08:30:00Z" } },
           "detail": { "name": "switch.old_kettle_plug" }
         }
+      ]
+    },
+    {
+      "area": "apps",
+      "source": "Paperless-ngx",
+      "title": { "key": "paperless.documents" },
+      "rows": [
+        {
+          "title": { "key": "paperless.documents" },
+          "value": { "key": "paperless.n", "args": { "n": 8917 } },
+          "detail": { "key": "paperless.inbox", "args": { "n": 23 } }
+        },
+        {
+          "title": { "key": "paperless.space" },
+          "value": { "key": "paperless.free", "args": { "n": 1260000000000 } },
+          "meter": { "used": 740000000000, "total": 2000000000000 }
+        },
+        {
+          "title": { "key": "paperless.sanity_check" },
+          "value": { "key": "paperless.warning" },
+          "detail": { "name": "Sanity check found 2 warnings" },
+          "tone": "orange"
+        },
+        {
+          "title": { "name": "IMG_2041.HEIC" },
+          "value": { "key": "paperless.failed", "args": { "at": "2026-10-28T07:12:44Z" } },
+          "detail": { "name": "IMG_2041.HEIC: Unsupported mime type image/heic" },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "scan_0098.pdf" },
+          "value": { "key": "paperless.failed", "args": { "at": "2026-10-27T18:40:02Z" } },
+          "detail": {
+            "name": "scan_0098.pdf: Error occurred while consuming document scan_0098.pdf: InputFileError: "
+          },
+          "tone": "red"
+        },
+        { "title": { "key": "paperless.version" }, "value": { "name": "3.3.2" } }
       ]
     },
     {
@@ -7247,16 +7238,6 @@
       "adds": true
     },
     {
-      "area": "servers",
-      "source": "Downloads",
-      "icon": "box",
-      "label": { "key": "docker.containers" },
-      "value": 8,
-      "unit": { "key": "docker.of_running", "args": { "n": 8 } },
-      "detail": { "key": "docker.unhealthy_n", "args": { "n": 0 } },
-      "adds": true
-    },
-    {
       "area": "apps",
       "source": "Radarr",
       "icon": "film",
@@ -7377,6 +7358,15 @@
       "tone": "orange",
       "hours": [1, 0, 1, 2, 1, 2, 4, 6, 9, 7, 11, 14, 12, 9, 6, 3, 1, 0, 0, 0, 0, 1, 2, 3],
       "adds": true
+    },
+    {
+      "area": "apps",
+      "source": "Paperless-ngx",
+      "icon": "document",
+      "label": { "key": "paperless.documents" },
+      "value": 8917,
+      "detail": { "key": "paperless.inbox", "args": { "n": 23 } },
+      "tone": "orange"
     },
     {
       "area": "servers",

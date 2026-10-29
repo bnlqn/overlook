@@ -785,6 +785,39 @@ devices and a few more (ADR 0008), until someone who runs one records it
 from theirs: its config and the scripts that fill and record it are in the
 adapter's [`testdata`](internal/adapters/homeassistant/testdata).
 
+### Paperless-ngx
+
+The documents, on the Apps page: how many Paperless-ngx keeps and how many
+wait in its inbox, the room left on its disk, each part it runs on that
+isn't well, such as its search index or its task queue, as it words why,
+and each document it failed to take in, in red with why, until it's
+dismissed in Paperless-ngx. Today shows the documents and the inbox.
+
+```yaml
+sources:
+  paperless:
+    - url: http://paperless:8000 # where Overlook reads Paperless-ngx
+      token: ${PAPERLESS_TOKEN}
+```
+
+**Key:** the API token of a user of Overlook's own, which sees no document.
+Paperless-ngx shows the parts' health and everyone's failed tasks only to
+staff, so as a superuser, in Settings, Users & Groups, add a user with
+**Admin** on and **Superuser** off, and give it only two permissions: View
+on tasks and View on global statistics (`view_paperlesstask` and
+`view_global_statistics`). Then make its token, as the user, from its
+profile, or with
+`curl -X POST -d username=overlook -d password=… https://paperless.example.com/api/token/`.
+It can see no document and change nothing, and Overlook sends it only with
+GET requests.
+Overlook asks for the API's version 10, so that a newer Paperless-ngx answers
+it the same way.
+
+Recorded from a scratch Paperless-ngx 3.3.4 filled with invented letters
+(ADR 0008), until someone who runs one records it from theirs: the compose
+file and the scripts that fill and record it are in the adapter's
+[`testdata`](internal/adapters/paperless/testdata).
+
 ### Can't be read
 
 These tools can't be read the way Overlook reads (ADR 0001, ADR 0009), or

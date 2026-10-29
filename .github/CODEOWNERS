@@ -35,4 +35,6 @@
 /web/i18n/en/servarr.json   @bnlqn
 /web/i18n/en/sonarr.json    @bnlqn
 /internal/adapters/nut/     @bnlqn
+/internal/adapters/paperless/ @bnlqn
 /web/i18n/en/nut.json       @bnlqn
+/web/i18n/en/paperless.json @bnlqn
