@@ -1,0 +1,1205 @@
+{
+  "page": 1,
+  "perPage": 1000,
+  "totalItems": -1,
+  "totalPages": -1,
+  "items": [
+    {
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-21 11:14:41.307Z",
+      "stats": {
+        "cpu": 0.89,
+        "mp": 71.04,
+        "m": 31.07
+      }
+    },
+    {
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-21 13:14:41.306Z",
+      "stats": {
+        "cpu": 0.87,
+        "m": 31.07,
+        "mp": 68.26
+      }
+    },
+    {
+      "created": "2026-10-21 15:14:41.305Z",
+      "stats": {
+        "m": 31.07,
+        "mp": 72.67,
+        "cpu": 0.83
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-21 17:14:41.306Z",
+      "stats": {
+        "cpu": 0.82,
+        "mp": 74.11,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-21 19:14:41.306Z",
+      "stats": {
+        "cpu": 0.87,
+        "m": 31.07,
+        "mp": 67.81
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "stats": {
+        "cpu": 0.79,
+        "m": 31.07,
+        "mp": 68.07
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-21 21:14:41.305Z"
+    },
+    {
+      "stats": {
+        "mp": 69.86,
+        "m": 31.07,
+        "cpu": 1.06
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-21 23:14:41.306Z"
+    },
+    {
+      "stats": {
+        "cpu": 5.63,
+        "mp": 72.49,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-22 01:14:41.306Z"
+    },
+    {
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-22 03:14:41.314Z",
+      "stats": {
+        "m": 31.07,
+        "cpu": 4.02,
+        "mp": 72.58
+      }
+    },
+    {
+      "created": "2026-10-22 05:14:41.308Z",
+      "stats": {
+        "mp": 67.94,
+        "m": 31.07,
+        "cpu": 3.0
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "stats": {
+        "mp": 67.43,
+        "cpu": 1.99,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-22 07:14:41.308Z"
+    },
+    {
+      "created": "2026-10-22 09:14:41.308Z",
+      "stats": {
+        "cpu": 0.73,
+        "mp": 66.38,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "stats": {
+        "mp": 67.9,
+        "cpu": 0.98,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-22 11:14:41.307Z"
+    },
+    {
+      "created": "2026-10-22 13:14:41.306Z",
+      "stats": {
+        "m": 31.07,
+        "mp": 67.18,
+        "cpu": 0.89
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "stats": {
+        "cpu": 0.82,
+        "mp": 71.41,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-22 15:14:41.309Z"
+    },
+    {
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-22 17:14:41.308Z",
+      "stats": {
+        "m": 31.07,
+        "cpu": 1.12,
+        "mp": 67.35
+      }
+    },
+    {
+      "created": "2026-10-22 19:14:41.310Z",
+      "stats": {
+        "m": 31.07,
+        "mp": 74.56,
+        "cpu": 1.26
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-22 21:14:41.306Z",
+      "stats": {
+        "mp": 72.56,
+        "cpu": 1.38,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-22 23:14:41.309Z",
+      "stats": {
+        "mp": 73.05,
+        "cpu": 1.04,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-23 01:14:41.309Z",
+      "stats": {
+        "m": 31.07,
+        "cpu": 1.94,
+        "mp": 71.81
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "stats": {
+        "m": 31.07,
+        "mp": 69.72,
+        "cpu": 1.8
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-23 03:14:41.306Z"
+    },
+    {
+      "created": "2026-10-23 05:14:41.305Z",
+      "stats": {
+        "mp": 71.05,
+        "cpu": 1.37,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-23 07:14:41.308Z",
+      "stats": {
+        "cpu": 3.43,
+        "m": 31.07,
+        "mp": 68.3
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-23 14:04:41.305Z",
+      "stats": {
+        "mp": 38.25,
+        "cpu": 0.94,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-23 16:04:41.306Z",
+      "stats": {
+        "cpu": 0.72,
+        "m": 31.07,
+        "mp": 42.43
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-23 18:04:41.306Z",
+      "stats": {
+        "cpu": 0.66,
+        "mp": 42.35,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-23 20:04:41.307Z",
+      "stats": {
+        "mp": 44.29,
+        "m": 31.07,
+        "cpu": 0.68
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-23 22:04:41.308Z",
+      "stats": {
+        "cpu": 4.52,
+        "mp": 56.91,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "stats": {
+        "mp": 68.8,
+        "cpu": 5.13,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-24 00:04:41.308Z"
+    },
+    {
+      "created": "2026-10-24 02:04:41.305Z",
+      "stats": {
+        "cpu": 7.61,
+        "mp": 74.65,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-24 04:04:41.316Z",
+      "stats": {
+        "mp": 70.92,
+        "cpu": 1.76,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-24 06:04:41.307Z",
+      "stats": {
+        "cpu": 7.2,
+        "mp": 70.88,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-24 08:04:41.307Z",
+      "stats": {
+        "mp": 70.58,
+        "cpu": 10.99,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-24 10:04:41.308Z",
+      "stats": {
+        "mp": 67.61,
+        "m": 31.07,
+        "cpu": 7.23
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "stats": {
+        "m": 31.07,
+        "mp": 72.85,
+        "cpu": 13.29
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-24 12:04:41.307Z"
+    },
+    {
+      "created": "2026-10-24 14:04:41.309Z",
+      "stats": {
+        "mp": 72.39,
+        "cpu": 14.79,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-24 16:04:41.306Z",
+      "stats": {
+        "cpu": 9.43,
+        "mp": 68.33,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-24 18:04:41.307Z",
+      "stats": {
+        "cpu": 1.28,
+        "m": 31.07,
+        "mp": 69.77
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-24 20:04:41.306Z",
+      "stats": {
+        "cpu": 1.22,
+        "mp": 74.39,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-24 22:04:41.309Z",
+      "stats": {
+        "m": 31.07,
+        "mp": 69.17,
+        "cpu": 1.34
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-25 00:04:41.307Z",
+      "stats": {
+        "mp": 67.69,
+        "cpu": 1.25,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-25 02:04:41.308Z",
+      "stats": {
+        "m": 31.07,
+        "mp": 70.57,
+        "cpu": 9.19
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-25 04:04:41.316Z",
+      "stats": {
+        "mp": 69.63,
+        "m": 31.07,
+        "cpu": 11.01
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "stats": {
+        "mp": 71.46,
+        "cpu": 4.11,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-25 06:04:41.304Z"
+    },
+    {
+      "created": "2026-10-25 08:04:41.307Z",
+      "stats": {
+        "m": 31.07,
+        "cpu": 1.67,
+        "mp": 72.28
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "stats": {
+        "mp": 72.74,
+        "cpu": 1.93,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-25 10:04:41.305Z"
+    },
+    {
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-25 12:04:41.305Z",
+      "stats": {
+        "mp": 68.21,
+        "m": 31.07,
+        "cpu": 2.18
+      }
+    },
+    {
+      "stats": {
+        "m": 31.07,
+        "mp": 70.1,
+        "cpu": 2.9
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-25 14:04:41.308Z"
+    },
+    {
+      "created": "2026-10-25 16:04:41.305Z",
+      "stats": {
+        "cpu": 4.71,
+        "mp": 68.25,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-25 18:04:41.305Z",
+      "stats": {
+        "m": 31.07,
+        "mp": 72.65,
+        "cpu": 1.7
+      }
+    },
+    {
+      "created": "2026-10-25 20:04:41.305Z",
+      "stats": {
+        "mp": 72.64,
+        "m": 31.07,
+        "cpu": 1.79
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "stats": {
+        "mp": 68.31,
+        "cpu": 1.67,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-25 22:04:41.308Z"
+    },
+    {
+      "created": "2026-10-26 00:04:41.304Z",
+      "stats": {
+        "cpu": 1.51,
+        "m": 31.07,
+        "mp": 69.33
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "stats": {
+        "mp": 72.02,
+        "m": 31.07,
+        "cpu": 9.49
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-26 02:04:41.313Z"
+    },
+    {
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-26 04:04:41.307Z",
+      "stats": {
+        "m": 31.07,
+        "mp": 74.33,
+        "cpu": 6.93
+      }
+    },
+    {
+      "stats": {
+        "mp": 67.57,
+        "cpu": 1.32,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-26 06:04:41.305Z"
+    },
+    {
+      "stats": {
+        "m": 31.07,
+        "mp": 68.76,
+        "cpu": 1.64
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-26 08:04:41.305Z"
+    },
+    {
+      "created": "2026-10-26 10:04:41.306Z",
+      "stats": {
+        "cpu": 1.45,
+        "m": 31.07,
+        "mp": 74.66
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-26 12:04:41.305Z",
+      "stats": {
+        "cpu": 1.8,
+        "mp": 66.31,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "stats": {
+        "cpu": 3.8,
+        "m": 31.07,
+        "mp": 73.59
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-26 14:04:41.310Z"
+    },
+    {
+      "stats": {
+        "cpu": 2.67,
+        "m": 1.93,
+        "mp": 37.37
+      },
+      "system": "s0j8ht9lgmxg9ed",
+      "created": "2026-10-26 15:44:41.305Z"
+    },
+    {
+      "created": "2026-10-26 16:04:41.305Z",
+      "stats": {
+        "cpu": 3.02,
+        "m": 31.07,
+        "mp": 78.5
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-26 17:44:41.306Z",
+      "stats": {
+        "m": 1.93,
+        "cpu": 1.99,
+        "mp": 35.12
+      },
+      "system": "s0j8ht9lgmxg9ed"
+    },
+    {
+      "stats": {
+        "cpu": 2.81,
+        "m": 31.07,
+        "mp": 79.28
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-26 18:04:41.307Z"
+    },
+    {
+      "stats": {
+        "cpu": 2.26,
+        "m": 1.93,
+        "mp": 34.9
+      },
+      "system": "s0j8ht9lgmxg9ed",
+      "created": "2026-10-26 19:44:41.309Z"
+    },
+    {
+      "created": "2026-10-26 20:04:41.309Z",
+      "stats": {
+        "cpu": 4.33,
+        "mp": 78.74,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "system": "s0j8ht9lgmxg9ed",
+      "created": "2026-10-26 21:44:41.308Z",
+      "stats": {
+        "cpu": 3.78,
+        "m": 1.93,
+        "mp": 38.39
+      }
+    },
+    {
+      "stats": {
+        "cpu": 5.4,
+        "m": 31.07,
+        "mp": 66.55
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-26 22:04:41.305Z"
+    },
+    {
+      "stats": {
+        "cpu": 5.2,
+        "m": 7.76,
+        "mp": 22.5
+      },
+      "system": "ujzde8gxd6ncf10",
+      "created": "2026-10-26 22:24:41.307Z"
+    },
+    {
+      "created": "2026-10-26 23:44:41.307Z",
+      "stats": {
+        "m": 1.93,
+        "mp": 38.26,
+        "cpu": 3.61
+      },
+      "system": "s0j8ht9lgmxg9ed"
+    },
+    {
+      "created": "2026-10-27 00:04:41.305Z",
+      "stats": {
+        "cpu": 2.99,
+        "m": 31.07,
+        "mp": 72.64
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-27 00:24:41.307Z",
+      "stats": {
+        "cpu": 2.48,
+        "mp": 29.84,
+        "m": 7.76
+      },
+      "system": "ujzde8gxd6ncf10"
+    },
+    {
+      "created": "2026-10-27 01:44:41.307Z",
+      "stats": {
+        "m": 1.93,
+        "mp": 37.51,
+        "cpu": 2.67
+      },
+      "system": "s0j8ht9lgmxg9ed"
+    },
+    {
+      "stats": {
+        "m": 31.07,
+        "mp": 72.06,
+        "cpu": 11.21
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-27 02:04:41.306Z"
+    },
+    {
+      "stats": {
+        "cpu": 6.27,
+        "m": 7.76,
+        "mp": 33.64
+      },
+      "system": "ujzde8gxd6ncf10",
+      "created": "2026-10-27 02:24:41.308Z"
+    },
+    {
+      "stats": {
+        "mp": 40.51,
+        "m": 1.93,
+        "cpu": 2.39
+      },
+      "system": "s0j8ht9lgmxg9ed",
+      "created": "2026-10-27 03:44:41.310Z"
+    },
+    {
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-27 04:04:41.305Z",
+      "stats": {
+        "mp": 83.35,
+        "cpu": 7.88,
+        "m": 31.07
+      }
+    },
+    {
+      "stats": {
+        "mp": 35.35,
+        "cpu": 3.0,
+        "m": 7.76
+      },
+      "system": "ujzde8gxd6ncf10",
+      "created": "2026-10-27 04:24:41.307Z"
+    },
+    {
+      "created": "2026-10-27 05:44:41.306Z",
+      "stats": {
+        "cpu": 1.91,
+        "m": 1.93,
+        "mp": 37.94
+      },
+      "system": "s0j8ht9lgmxg9ed"
+    },
+    {
+      "stats": {
+        "cpu": 2.43,
+        "m": 31.07,
+        "mp": 80.4
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-27 06:04:41.305Z"
+    },
+    {
+      "created": "2026-10-27 06:24:41.311Z",
+      "stats": {
+        "mp": 33.16,
+        "m": 7.76,
+        "cpu": 1.47
+      },
+      "system": "ujzde8gxd6ncf10"
+    },
+    {
+      "system": "s0j8ht9lgmxg9ed",
+      "created": "2026-10-27 07:44:41.306Z",
+      "stats": {
+        "cpu": 1.99,
+        "m": 1.93,
+        "mp": 37.01
+      }
+    },
+    {
+      "created": "2026-10-27 08:04:41.307Z",
+      "stats": {
+        "m": 31.07,
+        "mp": 79.33,
+        "cpu": 2.69
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-27 08:24:41.308Z",
+      "stats": {
+        "m": 7.76,
+        "mp": 34.65,
+        "cpu": 1.67
+      },
+      "system": "ujzde8gxd6ncf10"
+    },
+    {
+      "created": "2026-10-27 09:24:41.311Z",
+      "stats": {
+        "mp": 42.21,
+        "m": 3.83,
+        "cpu": 4.43
+      },
+      "system": "epf91dhodzdoc9i"
+    },
+    {
+      "created": "2026-10-27 09:44:41.305Z",
+      "stats": {
+        "cpu": 2.52,
+        "m": 1.93,
+        "mp": 36.65
+      },
+      "system": "s0j8ht9lgmxg9ed"
+    },
+    {
+      "created": "2026-10-27 10:04:41.307Z",
+      "stats": {
+        "m": 31.07,
+        "cpu": 2.34,
+        "mp": 72.06
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-27 10:24:41.307Z",
+      "stats": {
+        "cpu": 1.64,
+        "m": 7.76,
+        "mp": 34.63
+      },
+      "system": "ujzde8gxd6ncf10"
+    },
+    {
+      "stats": {
+        "mp": 44.54,
+        "cpu": 4.0,
+        "m": 3.83
+      },
+      "system": "epf91dhodzdoc9i",
+      "created": "2026-10-27 11:24:41.312Z"
+    },
+    {
+      "created": "2026-10-27 11:44:41.308Z",
+      "stats": {
+        "cpu": 2.02,
+        "m": 1.93,
+        "mp": 37.27
+      },
+      "system": "s0j8ht9lgmxg9ed"
+    },
+    {
+      "stats": {
+        "cpu": 2.39,
+        "m": 31.07,
+        "mp": 68.5
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-27 12:04:41.305Z"
+    },
+    {
+      "stats": {
+        "cpu": 1.31,
+        "m": 7.76,
+        "mp": 34.5
+      },
+      "system": "ujzde8gxd6ncf10",
+      "created": "2026-10-27 12:24:41.311Z"
+    },
+    {
+      "created": "2026-10-27 13:24:41.307Z",
+      "stats": {
+        "cpu": 4.26,
+        "m": 3.83,
+        "mp": 43.81
+      },
+      "system": "epf91dhodzdoc9i"
+    },
+    {
+      "created": "2026-10-27 13:44:41.307Z",
+      "stats": {
+        "m": 1.93,
+        "cpu": 2.61,
+        "mp": 42.01
+      },
+      "system": "s0j8ht9lgmxg9ed"
+    },
+    {
+      "stats": {
+        "m": 31.07,
+        "mp": 69.28,
+        "cpu": 2.36
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-27 14:04:41.305Z"
+    },
+    {
+      "created": "2026-10-27 14:24:41.307Z",
+      "stats": {
+        "m": 7.76,
+        "cpu": 1.57,
+        "mp": 32.52
+      },
+      "system": "ujzde8gxd6ncf10"
+    },
+    {
+      "stats": {
+        "mp": 42.47,
+        "cpu": 4.6,
+        "m": 3.83
+      },
+      "system": "epf91dhodzdoc9i",
+      "created": "2026-10-27 15:24:41.311Z"
+    },
+    {
+      "created": "2026-10-27 15:44:41.305Z",
+      "stats": {
+        "cpu": 2.84,
+        "mp": 38.24,
+        "m": 1.93
+      },
+      "system": "s0j8ht9lgmxg9ed"
+    },
+    {
+      "stats": {
+        "cpu": 2.82,
+        "mp": 75.91,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-27 16:04:41.309Z"
+    },
+    {
+      "created": "2026-10-27 16:24:41.310Z",
+      "stats": {
+        "cpu": 2.17,
+        "mp": 33.38,
+        "m": 7.76
+      },
+      "system": "ujzde8gxd6ncf10"
+    },
+    {
+      "system": "epf91dhodzdoc9i",
+      "created": "2026-10-27 17:24:41.307Z",
+      "stats": {
+        "m": 3.83,
+        "cpu": 4.85,
+        "mp": 44.82
+      }
+    },
+    {
+      "stats": {
+        "mp": 40.18,
+        "cpu": 3.2,
+        "m": 1.93
+      },
+      "system": "s0j8ht9lgmxg9ed",
+      "created": "2026-10-27 17:44:41.305Z"
+    },
+    {
+      "created": "2026-10-27 18:04:41.305Z",
+      "stats": {
+        "m": 31.07,
+        "cpu": 2.67,
+        "mp": 67.47
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-27 18:24:41.306Z",
+      "stats": {
+        "m": 7.76,
+        "mp": 35.5,
+        "cpu": 1.89
+      },
+      "system": "ujzde8gxd6ncf10"
+    },
+    {
+      "created": "2026-10-27 19:24:41.307Z",
+      "stats": {
+        "cpu": 5.62,
+        "m": 3.83,
+        "mp": 46.84
+      },
+      "system": "epf91dhodzdoc9i"
+    },
+    {
+      "stats": {
+        "m": 1.93,
+        "mp": 39.76,
+        "cpu": 2.3
+      },
+      "system": "s0j8ht9lgmxg9ed",
+      "created": "2026-10-27 19:44:41.304Z"
+    },
+    {
+      "stats": {
+        "mp": 67.46,
+        "cpu": 2.37,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-27 20:04:41.304Z"
+    },
+    {
+      "stats": {
+        "m": 7.76,
+        "cpu": 1.4,
+        "mp": 34.54
+      },
+      "system": "ujzde8gxd6ncf10",
+      "created": "2026-10-27 20:24:41.306Z"
+    },
+    {
+      "created": "2026-10-27 21:24:41.306Z",
+      "stats": {
+        "mp": 43.46,
+        "m": 3.83,
+        "cpu": 4.68
+      },
+      "system": "epf91dhodzdoc9i"
+    },
+    {
+      "created": "2026-10-27 21:44:41.304Z",
+      "stats": {
+        "mp": 38.61,
+        "m": 1.93,
+        "cpu": 1.77
+      },
+      "system": "s0j8ht9lgmxg9ed"
+    },
+    {
+      "stats": {
+        "cpu": 2.1,
+        "m": 31.07,
+        "mp": 73.09
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-27 22:04:41.303Z"
+    },
+    {
+      "created": "2026-10-27 22:24:41.308Z",
+      "stats": {
+        "m": 7.76,
+        "cpu": 1.29,
+        "mp": 33.32
+      },
+      "system": "ujzde8gxd6ncf10"
+    },
+    {
+      "stats": {
+        "m": 3.83,
+        "cpu": 4.11,
+        "mp": 42.74
+      },
+      "system": "epf91dhodzdoc9i",
+      "created": "2026-10-27 23:24:41.306Z"
+    },
+    {
+      "system": "s0j8ht9lgmxg9ed",
+      "created": "2026-10-27 23:44:41.304Z",
+      "stats": {
+        "m": 1.93,
+        "cpu": 1.64,
+        "mp": 41.88
+      }
+    },
+    {
+      "stats": {
+        "m": 31.07,
+        "cpu": 1.79,
+        "mp": 73.02
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-28 00:04:41.304Z"
+    },
+    {
+      "created": "2026-10-28 00:24:41.307Z",
+      "stats": {
+        "mp": 38.66,
+        "cpu": 1.44,
+        "m": 7.76
+      },
+      "system": "ujzde8gxd6ncf10"
+    },
+    {
+      "created": "2026-10-28 01:24:41.311Z",
+      "stats": {
+        "m": 3.83,
+        "mp": 46.41,
+        "cpu": 19.06
+      },
+      "system": "epf91dhodzdoc9i"
+    },
+    {
+      "created": "2026-10-28 01:44:41.305Z",
+      "stats": {
+        "cpu": 1.98,
+        "m": 1.93,
+        "mp": 40.18
+      },
+      "system": "s0j8ht9lgmxg9ed"
+    },
+    {
+      "created": "2026-10-28 02:04:41.304Z",
+      "stats": {
+        "cpu": 8.34,
+        "mp": 68.64,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-28 02:24:41.305Z",
+      "stats": {
+        "m": 7.76,
+        "mp": 35.68,
+        "cpu": 5.05
+      },
+      "system": "ujzde8gxd6ncf10"
+    },
+    {
+      "created": "2026-10-28 03:24:41.307Z",
+      "stats": {
+        "cpu": 18.06,
+        "mp": 45.07,
+        "m": 3.83
+      },
+      "system": "epf91dhodzdoc9i"
+    },
+    {
+      "system": "s0j8ht9lgmxg9ed",
+      "created": "2026-10-28 03:44:41.305Z",
+      "stats": {
+        "cpu": 1.75,
+        "m": 1.93,
+        "mp": 40.05
+      }
+    },
+    {
+      "stats": {
+        "m": 31.07,
+        "cpu": 4.04,
+        "mp": 68.8
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-28 04:04:41.304Z"
+    },
+    {
+      "created": "2026-10-28 04:24:41.307Z",
+      "stats": {
+        "m": 7.76,
+        "cpu": 2.89,
+        "mp": 33.85
+      },
+      "system": "ujzde8gxd6ncf10"
+    },
+    {
+      "created": "2026-10-28 05:24:41.307Z",
+      "stats": {
+        "cpu": 3.8,
+        "m": 3.83,
+        "mp": 43.69
+      },
+      "system": "epf91dhodzdoc9i"
+    },
+    {
+      "stats": {
+        "cpu": 1.55,
+        "m": 1.93,
+        "mp": 38.66
+      },
+      "system": "s0j8ht9lgmxg9ed",
+      "created": "2026-10-28 05:44:41.305Z"
+    },
+    {
+      "created": "2026-10-28 06:04:41.305Z",
+      "stats": {
+        "cpu": 1.68,
+        "m": 31.07,
+        "mp": 74.02
+      },
+      "system": "n581u33xtplpft7"
+    },
+    {
+      "created": "2026-10-28 06:24:41.306Z",
+      "stats": {
+        "m": 7.76,
+        "mp": 36.3,
+        "cpu": 1.26
+      },
+      "system": "ujzde8gxd6ncf10"
+    },
+    {
+      "created": "2026-10-28 07:24:41.312Z",
+      "stats": {
+        "mp": 47.54,
+        "cpu": 3.74,
+        "m": 3.83
+      },
+      "system": "epf91dhodzdoc9i"
+    },
+    {
+      "created": "2026-10-28 07:44:41.306Z",
+      "stats": {
+        "cpu": 1.71,
+        "mp": 42.76,
+        "m": 1.93
+      },
+      "system": "s0j8ht9lgmxg9ed"
+    },
+    {
+      "stats": {
+        "mp": 70.82,
+        "cpu": 1.74,
+        "m": 31.07
+      },
+      "system": "n581u33xtplpft7",
+      "created": "2026-10-28 08:04:41.303Z"
+    },
+    {
+      "created": "2026-10-28 08:24:41.305Z",
+      "stats": {
+        "cpu": 1.29,
+        "mp": 35.22,
+        "m": 7.76
+      },
+      "system": "ujzde8gxd6ncf10"
+    },
+    {
+      "stats": {
+        "m": 3.83,
+        "cpu": 4.14,
+        "mp": 45.0
+      },
+      "system": "epf91dhodzdoc9i",
+      "created": "2026-10-28 09:24:41.308Z"
+    }
+  ]
+}

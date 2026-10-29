@@ -202,7 +202,9 @@ test("two sources of one adapter name their parts; one of a kind doesn't", () =>
     ],
     sections: [
       { title: { key: "adguard.resolver" }, source: "Primary DNS" },
-      { title: { key: "proxmox.host" }, source: "Proxmox" },
+      { title: { key: "section.hosts" }, source: "Proxmox" },
+      { title: { key: "section.hosts" }, source: "Beszel" },
+      { title: { key: "proxmox.guests" }, source: "Proxmox" },
     ],
     charts: [{ title: { key: "adguard.per_hour" }, source: "Primary DNS" }],
     figures: [{ label: { key: "adguard.today" }, source: "Primary DNS" }],
@@ -213,7 +215,9 @@ test("two sources of one adapter name their parts; one of a kind doesn't", () =>
   assert.equal(out.sections[0].by, "Primary DNS", "even with the other one silent");
   assert.equal(out.checks[1].by, "Gatus Outside", "a check whose name another engine shares");
   assert.equal(out.checks[2].by, undefined, "a check no other engine has");
-  assert.equal(out.sections[1].by, undefined);
+  assert.equal(out.sections[1].by, "Proxmox", "a section whose title another source's shares");
+  assert.equal(out.sections[2].by, "Beszel");
+  assert.equal(out.sections[3].by, undefined, "a section no other source titles so");
   assert.equal(out.charts[0].by, "Primary DNS");
   assert.equal(out.figures[0].by, "Primary DNS");
   assert.equal(out.chores[0].by, "Primary DNS");
@@ -373,7 +377,7 @@ test("past most lines, the highest keep their places and the rest give way", () 
 test("levels from several sources are one chart, their lines side by side over the hours they all have", () => {
   const cpu = (source, names, n) => ({
     area: "servers",
-    title: { key: "proxmox.cpu_chart" },
+    title: { key: "chart.processor" },
     measures: true,
     source,
     by: source,

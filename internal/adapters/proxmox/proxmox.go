@@ -8,7 +8,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"maps"
 	"math"
 	"net/http"
 	"net/url"
@@ -237,7 +236,7 @@ func parts(resources []resource, hosts []*host, nodes int) snapshot.Parts {
 		}
 		hostRows = append(hostRows, row)
 	}
-	p.Sections = append(p.Sections, snapshot.Section{Area: Area, Title: snapshot.Text{Key: "proxmox.hosts"}, Rows: hostRows})
+	p.Sections = append(p.Sections, snapshot.Section{Area: Area, Title: snapshot.HostsSection, Rows: hostRows})
 
 	// The guests, by their IDs, leaving out templates, which never run.
 	var guests []resource
@@ -382,63 +381,21 @@ func parts(resources []resource, hosts []*host, nodes int) snapshot.Parts {
 	return p
 }
 
-// levels are the hosts' processor and memory by the hour, a line each, over
-// the hours from when every host has a reading to this one: each hour the
-// mean of its half hours, and an hour with none takes the last one's.
-//
-// ponytail: an hour with no reading draws the last, which a line can't tell
-// from a level that held. If gaps inside a week turn up, draw them as gaps.
+// levels are the hosts' processor and memory by the hour, from each one's
+// readings every half hour.
 func levels(hosts []*host) []snapshot.Chart {
-	type level struct{ cpu, mem []float64 }
-	by := make([]map[int64]level, len(hosts))
-	var from, to int64
+	names := make([]string, len(hosts))
+	readings := make([][]snapshot.Reading, len(hosts))
 	for i, h := range hosts {
-		by[i] = map[int64]level{}
+		names[i] = h.name
 		for _, r := range h.history {
 			if r.CPU == nil || r.MemUsed == nil || r.MemTotal == nil || *r.MemTotal <= 0 {
 				continue
 			}
-			hour := r.Time / 3600
-			l := by[i][hour]
-			l.cpu = append(l.cpu, 100**r.CPU)
-			l.mem = append(l.mem, 100**r.MemUsed / *r.MemTotal)
-			by[i][hour] = l
+			readings[i] = append(readings[i], snapshot.Reading{At: time.Unix(r.Time, 0), CPU: 100 * *r.CPU, Mem: 100 * *r.MemUsed / *r.MemTotal})
 		}
-		if len(by[i]) == 0 {
-			return nil
-		}
-		first, last := slices.Min(slices.Collect(maps.Keys(by[i]))), slices.Max(slices.Collect(maps.Keys(by[i])))
-		from, to = max(from, first), max(to, last)
 	}
-	if to-from < 1 {
-		return nil
-	}
-	mean := func(v []float64) float64 {
-		var sum float64
-		for _, x := range v {
-			sum += x
-		}
-		return math.Round(10*sum/float64(len(v))) / 10
-	}
-	cpu := snapshot.Chart{Area: Area, Title: snapshot.Text{Key: "proxmox.cpu_chart"}, Measures: true}
-	mem := snapshot.Chart{Area: Area, Title: snapshot.Text{Key: "proxmox.ram_chart"}, Measures: true}
-	for i, h := range hosts {
-		// From the host's own first reading, so that it has one by from.
-		var c, m []float64
-		var lastCPU, lastMem float64
-		for hour := slices.Min(slices.Collect(maps.Keys(by[i]))); hour <= to; hour++ {
-			if l, ok := by[i][hour]; ok {
-				lastCPU, lastMem = mean(l.cpu), mean(l.mem)
-			}
-			if hour >= from {
-				c, m = append(c, lastCPU), append(m, lastMem)
-			}
-		}
-		label := snapshot.Text{Name: h.name}
-		cpu.Series = append(cpu.Series, snapshot.Series{Label: label, Hours: c})
-		mem.Series = append(mem.Series, snapshot.Series{Label: label, Hours: m})
-	}
-	return []snapshot.Chart{cpu, mem}
+	return snapshot.HostCharts(Area, names, readings)
 }
 
 // cpuBrand is what goes before a processor's model, such as "12th Gen
