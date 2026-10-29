@@ -2,7 +2,17 @@
 // and its checks, today by the hour, what happened, the week, the apps, and
 // the chores.
 
-import { areaState, checkState, choresBy, joinFigures, quietSince, shown, silent, together } from "./checks.js";
+import {
+  areaState,
+  checkState,
+  choresBy,
+  joinFigures,
+  linkCheck,
+  quietSince,
+  shown,
+  silent,
+  together,
+} from "./checks.js";
 import {
   badge,
   bars,
@@ -205,10 +215,11 @@ function worst(a) {
     if (!at.length) return null;
     const failed = at.filter(([, r]) => !r.ok);
     const rows = failed.length
-      ? failed.map(([c]) => [RED, esc(c.name), t("areas.failed")])
+      ? failed.map(([c]) => [RED, esc(c.name) + from(c), t("areas.failed")])
       : [[GREEN, t("areas.all_passed", { n: at.length }), ""]];
     return {
       ok: !failed.length,
+      bad: failed.length / at.length,
       at: at[0][1].at,
       tip: tip(clock(at[0][1].at), rows, failed.length === 1 ? esc(failed[0][1].why || "") : ""),
     };
@@ -240,9 +251,11 @@ function renderAreas(checks, areas) {
           ? word("down")
           : c.failing
             ? t("check.failed_n", { run: c.run, threshold: c.threshold })
-            : word("up");
+            : c.recent.length
+              ? word("up")
+              : t("check.no_results");
         return `<a class="trow kid" href="${esc(c.url)}" target="_blank" rel="noopener">
-        <span class="tname">${stateIcon(checkState(c))}<span>${esc(c.name)}</span></span>
+        <span class="tname">${stateIcon(checkState(c))}<span>${esc(c.name)}${from(c)}</span></span>
         <span class="health tone-${TONE[checkState(c)]}">${health}</span>
         <span class="tcount detail">${c.failing ? esc(c.why || "") : ""}</span>
         <span class="tms">${c.failing ? "" : ms(c.ms)}</span>${strip(c.recent)}</a>`;
@@ -375,11 +388,10 @@ function renderWeek(checks, events, areas) {
 // ── The apps: each one's door, whether it answers, and how fast lately ───
 
 function renderApps(apps, checks) {
-  const byName = Object.fromEntries(checks.map((c) => [c.name, c]));
   $("apps-block").hidden = !apps.length;
   $("apps").innerHTML = apps
     .map((s, i) => {
-      const c = s.check && byName[s.check];
+      const c = s.check && linkCheck(s, checks);
       const state = c ? checkState(c) : "unknown";
       const tint = esc(s.color || "#7170FF");
       const foot = !s.check ? t("apps.no_check") : !c || c.failing ? word(state) : ms(c.ms);

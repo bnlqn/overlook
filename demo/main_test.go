@@ -33,12 +33,19 @@ func TestSnapshot(t *testing.T) {
 			}
 			adaptertest.Validate(t, s.Parts)
 
+			// A check is there by its name, and in its engine when a link
+			// names one.
 			checks := map[string]bool{}
 			for _, c := range s.Checks {
 				checks[c.Name] = true
+				checks[c.Source+"/"+c.Name] = true
 			}
 			for _, l := range append(s.Apps, s.Tools...) {
-				if l.Name == "" || !strings.HasPrefix(l.URL, "https://") || (l.Check != "" && !checks[l.Check]) {
+				check := l.Check
+				if l.Engine != "" {
+					check = l.Engine + "/" + l.Check
+				}
+				if l.Name == "" || !strings.HasPrefix(l.URL, "https://") || (l.Check != "" && !checks[check]) {
 					t.Errorf("%s: needs a name, an https:// url, and a check that is there: %+v", l.Name, l)
 				}
 			}

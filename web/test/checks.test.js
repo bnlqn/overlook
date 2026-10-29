@@ -8,6 +8,7 @@ import {
   fold,
   joinCharts,
   joinFigures,
+  linkCheck,
   named,
   quietSince,
   readChecks,
@@ -57,6 +58,26 @@ test("a check failing below its threshold is degraded, not a problem", () => {
   assert.ok(films.failing);
   assert.deepEqual(films.since, new Date("2026-10-28T09:59:00Z"));
   assert.equal(films.ms, 12);
+});
+
+test("a check with no result yet is unknown, not up", () => {
+  assert.equal(checkState({ problem: false, failing: false, recent: [] }), "unknown");
+  assert.equal(checkState({ problem: false, failing: false, recent: [{ ok: true }] }), "up");
+  assert.equal(checkState({ problem: true, failing: true, recent: [] }), "down", "a problem is a problem");
+});
+
+test("a link's check is in the engine it names, or the worst of its name", () => {
+  const photos = (source, problem) => ({
+    name: "Photos",
+    source,
+    problem,
+    failing: problem,
+    recent: [{ ok: !problem }],
+  });
+  const checks = [photos("Gatus", false), photos("Gatus Outside", true)];
+  assert.equal(linkCheck({ check: "Photos" }, checks).source, "Gatus Outside", "a problem in either shows");
+  assert.equal(linkCheck({ check: "Photos", engine: "Gatus" }, checks).source, "Gatus");
+  assert.equal(linkCheck({ check: "Films" }, checks), undefined);
 });
 
 test("the quiet runs from the last problem's end, or from when the engine started watching", () => {
@@ -122,6 +143,11 @@ test("two sources of one adapter name their parts; one of a kind doesn't", () =>
       { name: "Old", answered: true },
       { name: "Older", answered: true },
     ],
+    checks: [
+      { name: "Photos", source: "Gatus" },
+      { name: "Photos", source: "Gatus Outside" },
+      { name: "Films", source: "Gatus" },
+    ],
     sections: [
       { title: { key: "adguard.resolver" }, source: "Primary DNS" },
       { title: { key: "proxmox.host" }, source: "Proxmox" },
@@ -132,6 +158,8 @@ test("two sources of one adapter name their parts; one of a kind doesn't", () =>
   };
   const out = named(snap);
   assert.equal(out.sections[0].from, "Primary DNS", "even with the other one silent");
+  assert.equal(out.checks[1].from, "Gatus Outside", "a check whose name another engine shares");
+  assert.equal(out.checks[2].from, undefined, "a check no other engine has");
   assert.equal(out.sections[1].from, undefined);
   assert.equal(out.charts[0].from, "Primary DNS");
   assert.equal(out.figures[0].from, "Primary DNS");

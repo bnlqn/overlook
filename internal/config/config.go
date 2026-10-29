@@ -12,6 +12,7 @@ import (
 	"os"
 	"regexp"
 	"slices"
+	"strings"
 
 	"go.yaml.in/yaml/v3"
 
@@ -174,6 +175,12 @@ func (c *Config) check() error {
 			}
 			if l.Check != "" && len(c.Sources.Gatus) == 0 {
 				return fmt.Errorf("%s[%d]: check %q, but no check engine is configured", list.name, i, l.Check)
+			}
+			// Engine/Check names the check engine, when Engine is one: a
+			// check's own name may hold a slash.
+			engine, name, ok := strings.Cut(l.Check, "/")
+			if ok && slices.ContainsFunc(c.Sources.Gatus, func(g gatus.Config) bool { return g.Name == engine }) {
+				list.links[i].Engine, list.links[i].Check = engine, name
 			}
 		}
 	}

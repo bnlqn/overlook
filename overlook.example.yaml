@@ -87,7 +87,8 @@ sources:
 
 # The apps the homelab hosts, and the tools that run it. An icon is a file in
 # icons/ beside this config (or one Overlook ships), or a URL. A check is a
-# Gatus check's name, which lights the app's dot.
+# Gatus check's name, which lights the app's dot: with two Gatus that both
+# have it, say which, as Gatus Outside/Photos.
 apps:
   - name: Photos
     url: https://photos.example.com

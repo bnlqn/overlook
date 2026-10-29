@@ -6972,6 +6972,7 @@
       "url": "https://photos.example.com",
       "icon": "immich.svg",
       "check": "Photos",
+      "engine": "Gatus",
       "description": "The family's photos",
       "color": "#ED79B5"
     },

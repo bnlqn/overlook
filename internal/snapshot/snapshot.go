@@ -6,6 +6,7 @@ package snapshot
 import (
 	"context"
 	"log/slog"
+	"slices"
 	"sync"
 	"time"
 )
@@ -55,6 +56,8 @@ type Reader struct {
 
 	mu   sync.Mutex
 	last Snapshot
+	// warned are the links already warned of, so the log says it once.
+	warned map[string]bool
 }
 
 // NewReader returns a Reader of sources whose snapshots carry apps and
@@ -125,6 +128,31 @@ func (r *Reader) Snapshot() Snapshot {
 		}
 		snap.Sources = append(snap.Sources, state)
 	}
+	r.warn(snap.Checks)
 	r.last = snap
 	return snap
+}
+
+// warn logs, once each, a link whose check's name two check engines share
+// and which doesn't say which: the page shows the worse of them.
+func (r *Reader) warn(checks []Check) {
+	for _, l := range append(r.apps, r.tools...) {
+		if l.Check == "" || l.Engine != "" || r.warned[l.Name] {
+			continue
+		}
+		var engines []string
+		for _, c := range checks {
+			if c.Name == l.Check && !slices.Contains(engines, c.Source) {
+				engines = append(engines, c.Source)
+			}
+		}
+		if len(engines) > 1 {
+			if r.warned == nil {
+				r.warned = map[string]bool{}
+			}
+			r.warned[l.Name] = true
+			slog.Warn("a check of this name is in more than one check engine, so the page shows the worse: name one, as engine/check",
+				"link", l.Name, "check", l.Check, "engines", engines)
+		}
+	}
 }
