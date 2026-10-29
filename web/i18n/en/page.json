@@ -96,6 +96,9 @@
   "section.top_clients": "Top clients",
   "section.top_domains": "Top domains",
   "section.top_blocked": "Top blocked domains",
+  "figure.plays": "Plays",
+  "figure.playing_now": "{n} playing now",
+  "section.media": "Media",
 
   "areas.title": "Areas",
   "areas.hint": "the last 30 results",

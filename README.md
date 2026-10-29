@@ -96,7 +96,9 @@ width, and every adapter has its section here.
   but a session; it sends NUT only LIST VAR, which reads. The client it
   reads with refuses every other request. Some keys it holds could do
   anything (AdGuard Home has no read-only users, and Radarr's and Sonarr's
-  keys are admin keys), and this is what keeps them harmless.
+  keys are admin keys), and this is what keeps them harmless. Tautulli
+  changes things on GET too, so its adapter sends only the commands that
+  read, from a list its test checks (ADR 0011).
 - **It never runs a check or sends an alert.** Your check engine does both.
 - **It remembers nothing.** No database and no volume: it reads every
   source when the page asks, at most every 30 seconds, so an Overlook
@@ -789,6 +791,37 @@ Recorded from a scratch Jellyfin 12.4 filled with invented films and people
 (ADR 0008), until someone who runs one records it from theirs: the compose
 file and the scripts that fill and record it are in the adapter's
 [`testdata`](internal/adapters/jellyfin/testdata).
+
+### Plex, through Tautulli
+
+Plex, on the Apps page, as Tautulli watches it: what each person plays now
+and how, as it is, transcoded or paused, and the bandwidth it takes, of it
+to remote players; each library, by what it holds; whether a newer Plex is
+out, when Tautulli knows; and, in red, a Plex server Tautulli can't reach.
+Today shows the plays since midnight, hour by hour, every media server's
+added up, Jellyfin's too.
+
+```yaml
+sources:
+  tautulli:
+    - url: http://tautulli:8181 # where Overlook reads Tautulli, directly
+      key: ${TAUTULLI_KEY}
+      # name: Plex              # what the page calls it, if not Plex
+```
+
+**Key:** Tautulli's API key, from Settings, Web Interface, with the API on.
+It's the only key Tautulli has, and it can change Tautulli **even through a
+GET**: every command of Tautulli's API is one, such as
+`delete_all_history`, so the GET-only client can't keep this key harmless.
+What does is that the adapter sends only five commands, each of which
+reads, from one list in its code that its test checks (ADR 0011). Tautulli
+takes the key only in the address, so a proxy in front of it may log the
+key: let Overlook reach Tautulli directly, as above.
+
+Recorded from a scratch Tautulli 2.18 watching a scratch Plex 1.43, with
+invented films and plays (ADR 0008), until someone who runs one records it
+from theirs: the compose file and the scripts that fill and record it are
+in the adapter's [`testdata`](internal/adapters/tautulli/testdata).
 
 ### Home Assistant
 

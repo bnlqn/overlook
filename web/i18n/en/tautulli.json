@@ -1,0 +1,21 @@
+{
+  "tautulli.direct": "{device} · as it is",
+  "tautulli.transcoding": "{device} · transcoded",
+  "tautulli.paused": "{device} · paused",
+  "tautulli.playing": "Playing",
+  "tautulli.nothing": "Nothing",
+  "tautulli.bandwidth": "Streaming",
+  "tautulli.speed": "{n:bytes}/s",
+  "tautulli.remote": "{n:bytes}/s of it to remote players",
+
+  "tautulli.films_n": { "one": "{n} film", "other": "{n} films" },
+  "tautulli.shows_n": { "one": "{n} show · {children} episodes", "other": "{n} shows · {children} episodes" },
+  "tautulli.music_n": { "one": "{n} artist · {children} tracks", "other": "{n} artists · {children} tracks" },
+  "tautulli.photos_n": { "one": "{n} photo", "other": "{n} photos" },
+  "tautulli.items_n": { "one": "{n} item", "other": "{n} items" },
+
+  "tautulli.plex": "Plex",
+  "tautulli.current": "Up to date",
+  "tautulli.newer": "{version} is out",
+  "tautulli.unreachable": "Tautulli can't reach it"
+}

@@ -1,8 +1,4 @@
 {
-  "jellyfin.plays": "Plays",
-  "jellyfin.playing_now": "{n} playing now",
-
-  "jellyfin.media": "Media",
   "jellyfin.episode": "{series}: {name}",
   "jellyfin.direct": "{device} · as it is",
   "jellyfin.transcoding": "{device} · transcoded",

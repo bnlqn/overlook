@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/bnlqn/overlook/internal/adapters/adaptertest"
+	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
 // testdata holds answers recorded from a scratch Jellyfin 12.4 (ADR 0008),
@@ -28,7 +29,7 @@ func TestRead(t *testing.T) {
 	}
 	adaptertest.Validate(t, p)
 
-	if len(p.Sections) != 1 || p.Sections[0].Title.Key != "jellyfin.media" {
+	if len(p.Sections) != 1 || p.Sections[0].Title.Key != snapshot.MediaSection.Key {
 		t.Fatalf("one section: %+v", p.Sections)
 	}
 	rows := p.Sections[0].Rows

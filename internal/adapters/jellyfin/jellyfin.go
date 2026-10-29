@@ -260,17 +260,17 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 	}
 	rows = append(rows, version)
 
-	// Today: the plays since midnight, which add up with another
-	// Jellyfin's, and what plays now.
+	// Today: the plays since midnight, which add up with any other media
+	// server's, and what plays now.
 	f := snapshot.Figure{
-		Area: Area, Icon: "play", Label: snapshot.Text{Key: "jellyfin.plays"}, Value: float64(today), Hours: hours, Adds: true,
-		Detail: snapshot.Msg("jellyfin.playing_now", map[string]any{"n": playing}),
+		Area: Area, Icon: "play", Label: snapshot.PlaysFigure, Value: float64(today), Hours: hours, Adds: true,
+		Detail: snapshot.Msg(snapshot.PlayingNow, map[string]any{"n": playing}),
 	}
 	if broken {
 		f.Tone = "orange"
 	}
 	return snapshot.Parts{
-		Sections: []snapshot.Section{{Area: Area, Title: snapshot.Text{Key: "jellyfin.media"}, Rows: rows}},
+		Sections: []snapshot.Section{{Area: Area, Title: snapshot.MediaSection, Rows: rows}},
 		Figures:  []snapshot.Figure{f},
 	}, nil
 }

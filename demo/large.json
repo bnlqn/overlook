@@ -14,13 +14,13 @@
     { "name": "Docker", "adapter": "docker", "area": "servers", "answered": true },
     { "name": "Media", "adapter": "docker", "area": "servers", "answered": true },
     { "name": "Radarr", "adapter": "radarr", "area": "apps", "answered": true },
-    { "name": "Radarr 4K", "adapter": "radarr", "area": "apps", "answered": true },
     { "name": "Sonarr", "adapter": "sonarr", "area": "apps", "answered": true },
     { "name": "Sonarr Anime", "adapter": "sonarr", "area": "apps", "answered": true },
     { "name": "Prowlarr", "adapter": "prowlarr", "area": "apps", "answered": true },
     { "name": "qBittorrent", "adapter": "qbittorrent", "area": "apps", "answered": true },
     { "name": "qBittorrent 4K", "adapter": "qbittorrent", "area": "apps", "answered": true },
     { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "answered": true },
+    { "name": "Plex", "adapter": "tautulli", "area": "apps", "answered": true },
     { "name": "Home Assistant", "adapter": "homeassistant", "area": "apps", "answered": true },
     { "name": "Paperless-ngx", "adapter": "paperless", "area": "apps", "answered": true },
     { "name": "Nextcloud", "adapter": "nextcloud", "area": "apps", "answered": true },
@@ -5235,31 +5235,6 @@
     },
     {
       "area": "apps",
-      "source": "Radarr 4K",
-      "title": { "key": "radarr.films" },
-      "rows": [
-        {
-          "title": { "key": "servarr.in_library" },
-          "value": { "key": "radarr.films_n", "args": { "n": 186 } },
-          "detail": { "key": "radarr.library_detail", "args": { "n": 1, "size": 12314530231091 } }
-        },
-        { "title": { "key": "servarr.downloading" }, "value": { "key": "servarr.nothing" } },
-        {
-          "title": { "name": "Radarr 4K" },
-          "value": { "key": "servarr.warning" },
-          "detail": { "name": "Download client 4K downloads is unavailable due to failures" },
-          "tone": "orange"
-        }
-      ]
-    },
-    {
-      "area": "apps",
-      "source": "Radarr 4K",
-      "title": { "key": "radarr.coming" },
-      "rows": [{ "title": { "key": "servarr.coming_none" } }]
-    },
-    {
-      "area": "apps",
       "source": "Sonarr",
       "title": { "key": "sonarr.shows" },
       "rows": [
@@ -5549,7 +5524,7 @@
     {
       "area": "apps",
       "source": "Jellyfin",
-      "title": { "key": "jellyfin.media" },
+      "title": { "key": "section.media" },
       "rows": [
         {
           "title": { "name": "Ari" },
@@ -5618,6 +5593,60 @@
           "title": { "key": "jellyfin.version" },
           "value": { "key": "jellyfin.restart" },
           "detail": { "name": "12.4.0" },
+          "tone": "orange"
+        }
+      ]
+    },
+    {
+      "area": "apps",
+      "source": "Plex",
+      "title": { "key": "section.media" },
+      "rows": [
+        {
+          "title": { "name": "Jo" },
+          "value": { "name": "Sherlock Jr. (1924)" },
+          "detail": { "key": "tautulli.transcoding", "args": { "device": "Chrome" } }
+        },
+        {
+          "title": { "name": "Kim" },
+          "value": { "name": "Harbour Lights - The Lamp Room" },
+          "detail": { "key": "tautulli.direct", "args": { "device": "Kitchen tablet" } }
+        },
+        {
+          "title": { "name": "Noor" },
+          "value": { "name": "Metropolis (1927)" },
+          "detail": { "key": "tautulli.paused", "args": { "device": "Bedroom TV" } },
+          "tone": "gray"
+        },
+        {
+          "title": { "name": "Sam" },
+          "value": { "name": "Nosferatu (1922)" },
+          "detail": { "key": "tautulli.transcoding", "args": { "device": "Phone" } }
+        },
+        {
+          "title": { "key": "tautulli.bandwidth" },
+          "value": { "key": "tautulli.speed", "args": { "n": 3801088 } },
+          "detail": { "key": "tautulli.remote", "args": { "n": 1310720 } }
+        },
+        {
+          "title": { "name": "Audiobooks" },
+          "value": { "key": "tautulli.music_n", "args": { "n": 92, "parents": 140, "children": 3880 } }
+        },
+        {
+          "title": { "name": "Films" },
+          "value": { "key": "tautulli.films_n", "args": { "n": 1840, "parents": 0, "children": 0 } }
+        },
+        {
+          "title": { "name": "Films 4K" },
+          "value": { "key": "tautulli.films_n", "args": { "n": 186, "parents": 0, "children": 0 } }
+        },
+        {
+          "title": { "name": "Shows" },
+          "value": { "key": "tautulli.shows_n", "args": { "n": 214, "parents": 803, "children": 9872 } }
+        },
+        {
+          "title": { "key": "tautulli.plex" },
+          "value": { "key": "tautulli.newer", "args": { "version": "1.43.6.11200-0a1b2c3d4" } },
           "tone": "orange"
         }
       ]
@@ -7456,28 +7485,6 @@
     },
     {
       "area": "apps",
-      "source": "Radarr 4K",
-      "icon": "film",
-      "label": { "key": "radarr.films" },
-      "value": 186,
-      "detail": { "key": "radarr.this_week", "args": { "n": 1 } },
-      "unit": { "key": "radarr.unit", "args": { "n": 186 } },
-      "join": { "key": "servarr.library" },
-      "part": {
-        "label": { "key": "radarr.films" },
-        "value": 12314530231091,
-        "rows": [
-          {
-            "title": { "key": "servarr.on_disk" },
-            "value": { "key": "servarr.bytes", "args": { "n": 12314530231091 } }
-          },
-          { "title": { "key": "servarr.in_library" }, "value": { "key": "radarr.films_n", "args": { "n": 186 } } },
-          { "title": { "key": "servarr.week" }, "value": { "key": "servarr.plus", "args": { "n": 1 } } }
-        ]
-      }
-    },
-    {
-      "area": "apps",
       "source": "Sonarr",
       "icon": "film",
       "label": { "key": "sonarr.shows" },
@@ -7547,11 +7554,21 @@
       "area": "apps",
       "source": "Jellyfin",
       "icon": "play",
-      "label": { "key": "jellyfin.plays" },
+      "label": { "key": "figure.plays" },
       "value": 6,
-      "detail": { "key": "jellyfin.playing_now", "args": { "n": 5 } },
+      "detail": { "key": "figure.playing_now", "args": { "n": 5 } },
       "tone": "orange",
       "hours": [1, 0, 1, 2, 1, 2, 4, 6, 9, 7, 11, 14, 12, 9, 6, 3, 1, 0, 0, 0, 0, 1, 2, 3],
+      "adds": true
+    },
+    {
+      "area": "apps",
+      "source": "Plex",
+      "icon": "play",
+      "label": { "key": "figure.plays" },
+      "value": 5,
+      "detail": { "key": "figure.playing_now", "args": { "n": 4 } },
+      "hours": [2, 1, 0, 0, 1, 3, 5, 7, 10, 8, 9, 12, 11, 8, 4, 2, 1, 0, 0, 0, 1, 1, 2, 3],
       "adds": true
     },
     {

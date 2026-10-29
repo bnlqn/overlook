@@ -111,6 +111,12 @@ sources:
     - url: http://jellyfin:8096        # where Overlook reads Jellyfin
       key: ${JELLYFIN_KEY}             # Dashboard, API Keys
 
+  # Plex, through Tautulli: what plays now, the libraries and the plays of
+  # the last day, added up with Jellyfin's.
+  tautulli:
+    - url: http://tautulli:8181        # where Overlook reads Tautulli, directly, not through a proxy
+      key: ${TAUTULLI_KEY}             # Settings, Web Interface, API key
+
   # The home: broken automations and devices that dropped off, and, as
   # chores, the updates waiting to be installed and the batteries to change.
   homeassistant:
