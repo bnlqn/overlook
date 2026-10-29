@@ -34,7 +34,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, Area, p)
 	for _, r := range src.Sent() {
 		if r.Header.Get("Authorization") != "PVEAPIToken=overlook@pve!overlook=00000000-0000-0000-0000-000000000000" {
 			t.Errorf("%s: read without the token", r.URL)
@@ -138,7 +138,7 @@ func TestCluster(t *testing.T) {
 		{Type: "storage", Node: "nova", Storage: "backups", Shared: 1, Status: "available", MaxDisk: 100},
 		{Type: "storage", Node: "vega", Storage: "backups", Shared: 1, Status: "unknown"},
 	}, []*host{h}, 2, recorded)
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, Area, p)
 
 	if h := p.Sections[0].Rows; len(h) != 2 || h[0].Title.Name != "nova" || h[1].Title.Name != "vega" || h[1].Value.Key != "proxmox.offline" || h[1].Tone != "red" {
 		t.Errorf("each host by its name, the one offline in red: %+v", h)

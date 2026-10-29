@@ -74,7 +74,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, Area, p)
 	sent := src.Sent()
 	if login := sent[0]; login.Method != http.MethodPost || login.Body != `{"identity":"overlook@example.com","password":"s3cret"}` {
 		t.Errorf("first, the login: %+v", login)

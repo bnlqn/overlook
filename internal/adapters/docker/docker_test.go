@@ -25,7 +25,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, Area, p)
 
 	if len(p.Sections) != 1 || p.Sections[0].Title.Key != "docker.containers" {
 		t.Fatalf("one section, the containers: %+v", p.Sections)
@@ -67,7 +67,7 @@ func TestTones(t *testing.T) {
 		{Names: []string{"/web"}, Image: "nginx", State: "running", Status: "Up 2 hours (healthy)"},
 		{Names: []string{"/job"}, Image: "busybox", State: "exited", Status: "Exited (0) 3 hours ago"},
 	})
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, Area, p)
 	if f := p.Figures[0]; f.Tone != "" || f.Value != 1 {
 		t.Errorf("a job done and a healthy container: %+v", f)
 	}
@@ -75,7 +75,7 @@ func TestTones(t *testing.T) {
 		{Names: []string{"/loop"}, Image: "busybox", State: "restarting", Status: "Restarting (1) 5 seconds ago"},
 		{Names: []string{"/gone"}, Image: "busybox", State: "dead"},
 	})
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, Area, p)
 	if r := p.Sections[0].Rows; r[0].Tone != "red" || r[1].Tone != "orange" || p.Figures[0].Tone != "orange" {
 		t.Errorf("dead in red, restarting in orange: %+v", r)
 	}

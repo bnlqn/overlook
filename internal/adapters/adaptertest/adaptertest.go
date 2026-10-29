@@ -4,6 +4,7 @@
 package adaptertest
 
 import (
+	"encoding/json"
 	"fmt"
 	"regexp"
 	"slices"
@@ -15,19 +16,87 @@ import (
 	"github.com/bnlqn/overlook/web"
 )
 
-// Validate fails tb with every way the page couldn't draw p.
-func Validate(tb testing.TB, p snapshot.Parts) {
+// Validate fails tb with every way the page couldn't draw p, and with every
+// part of p outside area, the home area of the adapter that made p, which is
+// empty for one that has none, such as a check engine.
+func Validate(tb testing.TB, area string, p snapshot.Parts) {
 	tb.Helper()
 	english, err := web.English()
 	if err != nil {
 		tb.Fatal(err)
 	}
-	for _, problem := range Problems(p, english) {
+	for _, problem := range append(Problems(p, english), strays(area, p)...) {
 		tb.Error(problem)
 	}
 }
 
-var placeholder = regexp.MustCompile(`\{(\w+)(?::\w+)?\}`)
+// strays lists every part of p outside area, its adapter's home area. A
+// check isn't one: it goes in its own area, or in none.
+func strays(area string, p snapshot.Parts) []string {
+	var bad []string
+	home := func(where, a string) {
+		if a != area {
+			bad = append(bad, fmt.Sprintf("%s: in %q, but its adapter's home area is %q", where, a, area))
+		}
+	}
+	for _, s := range p.Sections {
+		home("section "+s.Title.Key, s.Area)
+	}
+	for _, c := range p.Charts {
+		home("chart "+c.Title.Key, c.Area)
+	}
+	for _, f := range p.Figures {
+		home("figure "+f.Label.Key, f.Area)
+	}
+	for _, e := range p.Events {
+		home("event "+e.Text.Key, e.Area)
+	}
+	return bad
+}
+
+var placeholder = regexp.MustCompile(`\{(\w+)(?::(\w+))?\}`)
+
+// formats are the ways the page can write a message's {name:format}
+// (FORMAT in web/js/text.js), each with whether it can write a value, as
+// the page gets it, in JSON.
+var formats = map[string]func(any) bool{
+	"span":  isNumber,
+	"bytes": isNumber,
+	"ms":    func(v any) bool { return v == nil || isNumber(v) },
+	"when":  isMoment,
+	"day":   isMoment,
+	"clock": isMoment,
+	"area":  isArea,
+	"areas": func(v any) bool { return isList(v, isArea) },
+	"list":  func(v any) bool { return isList(v, func(x any) bool { _, ok := x.(string); return ok }) },
+}
+
+func isNumber(v any) bool { _, ok := v.(float64); return ok }
+
+func isMoment(v any) bool {
+	s, ok := v.(string)
+	_, err := time.Parse(time.RFC3339, s)
+	return ok && err == nil
+}
+
+func isArea(v any) bool {
+	s, ok := v.(string)
+	return ok && slices.Contains(snapshot.Areas, s)
+}
+
+func isList(v any, each func(any) bool) bool {
+	list, ok := v.([]any)
+	return ok && !slices.ContainsFunc(list, func(x any) bool { return !each(x) })
+}
+
+// inJSON is v as the page gets it: a number of any type a float64, a time
+// a string, a list a []any.
+func inJSON(v any) any {
+	b, _ := json.Marshal(v)
+	var j any
+	_ = json.Unmarshal(b, &j)
+	return j
+}
 
 // Problems lists every way the page couldn't draw p with the English table.
 func Problems(p snapshot.Parts, english map[string]any) []string {
@@ -54,12 +123,24 @@ func Problems(p snapshot.Parts, english map[string]any) []string {
 		default:
 			fail("%s: %s isn't in the English table", where, x.Key)
 		}
-		missing := map[string]bool{}
+		seen := map[string]bool{}
 		for _, form := range forms {
 			for _, m := range placeholder.FindAllStringSubmatch(form, -1) {
-				if _, ok := x.Args[m[1]]; !ok && !missing[m[1]] {
-					missing[m[1]] = true
+				if seen[m[0]] {
+					continue
+				}
+				seen[m[0]] = true
+				v, ok := x.Args[m[1]]
+				suits, known := formats[m[2]]
+				switch {
+				case !ok && !seen[m[1]]:
+					seen[m[1]] = true
 					fail("%s: %s needs {%s}", where, x.Key, m[1])
+				case !ok, m[2] == "":
+				case !known:
+					fail("%s: %s writes {%s:%s}, a format the page doesn't know", where, x.Key, m[1], m[2])
+				case !suits(inJSON(v)):
+					fail("%s: %s writes {%s:%s}, which can't be %#v", where, x.Key, m[1], m[2], v)
 				}
 			}
 		}

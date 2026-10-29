@@ -26,7 +26,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, Area, p)
 	for _, r := range src.Sent() {
 		if r.Header.Get("Authorization") != "Token 0123abcd" || r.Header.Get("Accept") != "application/json; version=10" {
 			t.Errorf("%s: read without the token, or asking for another version: %q", r.URL, r.Header.Get("Accept"))

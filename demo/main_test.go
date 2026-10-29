@@ -22,6 +22,10 @@ import (
 // can draw every part of it, as it can every adapter's.
 func TestSnapshot(t *testing.T) {
 	t.Parallel()
+	english, err := web.English()
+	if err != nil {
+		t.Fatal(err)
+	}
 	for dir, invented := range homelabs {
 		t.Run(cmp.Or(dir, "demo"), func(t *testing.T) {
 			t.Parallel()
@@ -31,7 +35,10 @@ func TestSnapshot(t *testing.T) {
 			if err := dec.Decode(&s); err != nil {
 				t.Fatal(err)
 			}
-			adaptertest.Validate(t, s.Parts)
+			// Its parts are every adapter's, so each in its own home area.
+			for _, problem := range adaptertest.Problems(s.Parts, english) {
+				t.Error(problem)
+			}
 
 			// A check is there by its name, and in its engine when a link
 			// names one.

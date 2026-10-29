@@ -28,7 +28,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, "", p)
 	for _, r := range src.Sent() {
 		if user, password, _ := (&http.Request{Header: r.Header}).BasicAuth(); user != "overlook" || password != "s3cret" || r.Header.Get("Accept") != "text/calendar" {
 			t.Errorf("%s: read without the user and password, or asking for another answer than iCalendar's", r.URL)

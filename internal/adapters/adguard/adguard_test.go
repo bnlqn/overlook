@@ -28,7 +28,7 @@ func TestRead(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		adaptertest.Validate(t, p)
+		adaptertest.Validate(t, Area, p)
 		return p
 	}
 	primary, standby := parts("Primary DNS", "primary"), parts("Standby DNS", "standby")
