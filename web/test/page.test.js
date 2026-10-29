@@ -432,6 +432,23 @@ test("figures that add up and share a label key are one tile, hour by hour, thei
   ).today.tiles;
   assert.deepEqual(lone.hours, [], "hours only one resolver has would mislead");
   assert.equal(lone.within, undefined, "and so would the part within them");
+  const day = (n) => Array.from({ length: n }, (_, i) => i);
+  const [short] = page(
+    snap([], {
+      figures: [
+        dns("Primary", 240, 12, { hours: day(24), within: { hours: day(24) } }),
+        dns("Secondary", 48, 2, { hours: day(6), within: { hours: day(6) } }),
+      ],
+      sources,
+    }),
+    NOW,
+  ).today.tiles;
+  assert.deepEqual(
+    short.hours,
+    [18, 20, 22, 24, 26, 28],
+    "over the six hours both keep, the latest last, as charts are",
+  );
+  assert.deepEqual(short.within.hours, short.hours);
   const ups = (value) => ({ area: "servers", icon: "plug", label: { key: "nut.ups" }, value });
   assert.equal(
     page(snap([], { figures: [ups(80), ups(120)] }), NOW).today.tiles.length,

@@ -315,9 +315,9 @@ function today(snap) {
 /**
  * The figures, those that add up and share a label key made one, such as two
  * resolvers' lookups: their values, their hours and the parts within them
- * hour by hour, their meters, and the numbers in their units and details.
- * Hours that only some of them have are left out. The one they make is split
- * by source, and is no longer any one source's.
+ * hour by hour, over the hours they all keep, their meters, and the numbers
+ * in their units and details. The one they make is split by source, and is
+ * no longer any one source's.
  */
 function together(figures) {
   const byKey = new Map();
@@ -339,15 +339,12 @@ function together(figures) {
       out.push(copy);
       continue;
     }
-    const hours = f.hours || [];
     into.value += f.value;
-    into.hours = into.hours.length === hours.length ? into.hours.map((v, i) => v + hours[i]) : [];
-    // The part within the hours adds up only where both have it, hour for hour.
-    const part = f.within?.hours || [];
-    into.within =
-      into.within && into.hours.length && into.within.hours.length === part.length
-        ? { ...into.within, hours: into.within.hours.map((v, i) => v + part[i]) }
-        : undefined;
+    into.hours = addHours(into.hours, f.hours || []);
+    // The part within the hours adds up only where both have it, over the
+    // same hours.
+    const within = into.within && f.within && addHours(into.within.hours, f.within.hours);
+    into.within = within?.length && within.length === into.hours.length ? { ...into.within, hours: within } : undefined;
     for (const field of ["unit", "detail"]) {
       for (const [name, v] of Object.entries(f[field]?.args || {})) {
         if (typeof v === "number" && typeof into[field]?.args[name] === "number") into[field].args[name] += v;
@@ -391,6 +388,15 @@ function joinFigures(figures) {
 }
 
 /**
+ * Two sources' hours added up hour by hour over the hours both keep, the
+ * latest last: a week and a day make a day (CONTEXT.md, Chart and Figure).
+ */
+function addHours(a, b) {
+  const n = Math.min(a.length, b.length);
+  return a.slice(a.length - n).map((v, i) => v + b[b.length - n + i]);
+}
+
+/**
  * How many columns n tiles take so their rows come out even, at most most
  * to a row: 8 tiles in rows of 4, not 6 and 2.
  */
@@ -428,10 +434,10 @@ function joinCharts(charts) {
     }
     const n = Math.min(into.series[0].hours.length, c.series[0].hours.length);
     const last = (hours) => hours.slice(hours.length - n);
-    into.series = into.series.map((s, k) => {
-      const more = last(c.series[k]?.hours || []);
-      return { ...s, hours: last(s.hours).map((v, i) => v + (more[i] || 0)) };
-    });
+    into.series = into.series.map((s, k) => ({
+      ...s,
+      hours: addHours(last(s.hours), c.series[k]?.hours ?? Array(n).fill(0)),
+    }));
     into.sources = [...into.sources, { name: c.source, hours: c.series[0].hours }].map((s) => ({
       ...s,
       hours: last(s.hours),
