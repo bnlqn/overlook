@@ -108,8 +108,8 @@ func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 
 func check(e endpoint, c Config) snapshot.Check {
 	ch := snapshot.Check{
-		Key: e.Key, Name: e.Name, Area: snapshot.AreaOf(e.Group, c.Areas), Source: c.Name, Threshold: c.Threshold,
-		URL: strings.TrimSuffix(c.Link, "/") + "/endpoints/" + url.PathEscape(e.Key), Results: []snapshot.Result{},
+		Key: e.Key, Name: e.Name, Area: snapshot.AreaOf(e.Group, c.Areas), Threshold: c.Threshold,
+		URL: strings.TrimSuffix(c.Link, "/") + "/endpoints/" + url.PathEscape(e.Key),
 	}
 	for _, r := range e.Results {
 		res := snapshot.Result{OK: r.Success, At: r.Timestamp}
@@ -122,41 +122,42 @@ func check(e endpoint, c Config) snapshot.Check {
 		}
 		ch.Results = append(ch.Results, res)
 	}
-	// Gatus lists results oldest first: the failures in a row are the newest.
+	// Gatus lists results oldest first: the failures in a row are the newest,
+	// and Gatus alerts once they reach the threshold.
+	run := 0
 	for i := len(ch.Results) - 1; i >= 0 && !ch.Results[i].OK; i-- {
-		ch.Run++
+		run++
 	}
-	ch.Problem = ch.Run >= c.Threshold
-	if ch.Run > 0 {
+	if run > 0 {
 		ch.Why = ch.Results[len(ch.Results)-1].Why
 	}
 
 	// Gatus records an event when a check's health turns: UNHEALTHY at its
 	// first failure, HEALTHY at its first pass after. The stretch between
-	// them was a problem if it lasted Threshold results.
-	stretch := time.Duration(c.Threshold) * interval(ch.Results)
-	var down *time.Time
+	// them alerted if it lasted Threshold results, and the one still going
+	// if its failures in a row reach it. A check whose events Gatus didn't
+	// give has a stretch from its first failure in a row.
+	need := time.Duration(c.Threshold) * interval(ch.Results)
+	var stretches []snapshot.Stretch
 	for _, ev := range e.Events {
 		at := ev.Timestamp
-		switch ev.Type {
-		case "START":
+		n := len(stretches) - 1
+		switch {
+		case ev.Type == "START":
 			ch.Watched = &at
-		case "UNHEALTHY":
-			down = &at
-		case "HEALTHY":
-			if down != nil && at.Sub(*down) >= stretch {
-				ch.Outages = append(ch.Outages, snapshot.Outage{From: *down, To: &at})
-			}
-			down = nil
+		case ev.Type == "UNHEALTHY":
+			stretches = append(stretches, snapshot.Stretch{From: at})
+		case ev.Type == "HEALTHY" && n >= 0 && stretches[n].To == nil:
+			stretches[n].To, stretches[n].Alerted = &at, at.Sub(stretches[n].From) >= need
 		}
 	}
-	if down != nil && ch.Run > 0 {
-		ch.Since = down
-		if ch.Problem {
-			ch.Outages = append(ch.Outages, snapshot.Outage{From: *down})
-		}
+	if n := len(stretches) - 1; run > 0 && (n < 0 || stretches[n].To != nil) {
+		stretches = append(stretches, snapshot.Stretch{From: ch.Results[len(ch.Results)-run].At})
 	}
-	return ch
+	if n := len(stretches) - 1; n >= 0 && stretches[n].To == nil {
+		stretches[n].Alerted = run >= c.Threshold
+	}
+	return snapshot.CheckOf(ch, stretches)
 }
 
 // why is a failed result's reason: its first error, or its first failed

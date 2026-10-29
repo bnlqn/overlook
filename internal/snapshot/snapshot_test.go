@@ -45,7 +45,7 @@ func TestReader(t *testing.T) {
 	if len(snap.Chores) != 1 || snap.Chores[0].Name != "Dust" || snap.Chores[0].Source != "Up" {
 		t.Errorf("a source's chores are the snapshot's: %+v", snap.Chores)
 	}
-	if snap.Charts[0].Source != "Up" || snap.Sections[0].Source != "Up" || snap.Figures[0].Source != "Up" || snap.Events[0].Source != "Up" {
+	if snap.Checks[0].Source != "Up" || snap.Charts[0].Source != "Up" || snap.Sections[0].Source != "Up" || snap.Figures[0].Source != "Up" || snap.Events[0].Source != "Up" {
 		t.Errorf("each part is named by its source: %+v", snap.Parts)
 	}
 	if snap.Sources[0].Adapter != "adguard" || snap.Sources[1].Adapter != "adguard" || snap.Sources[0].Area != "network" {
@@ -63,7 +63,7 @@ func TestReaderWarns(t *testing.T) {
 	t.Parallel()
 	engine := func(name string) Source {
 		return Source{Name: name, Adapter: "gatus", Read: func(context.Context, time.Time) (Parts, error) {
-			return Parts{Checks: []Check{{Key: "photos", Name: "Photos", Source: name}}}, nil
+			return Parts{Checks: []Check{{Key: "photos", Name: "Photos"}}}, nil
 		}}
 	}
 	r := NewReader([]Source{engine("Gatus"), engine("Gatus Outside")},

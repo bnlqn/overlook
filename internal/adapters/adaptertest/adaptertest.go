@@ -13,6 +13,7 @@ import (
 	"slices"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
@@ -114,27 +115,35 @@ func Problems(p snapshot.Parts, english map[string]any) []string {
 		}
 	}
 
+	// A check engine's checks are built by snapshot.CheckOf, which makes
+	// these true; the demo's and a check built by hand are held to them too.
 	for _, c := range p.Checks {
 		w := "check " + c.Key
-		if c.Key == "" || c.Name == "" || c.Source == "" || c.URL == "" {
-			fail("%s: needs a key, a name, a source and a url", w)
+		if c.Key == "" || c.Name == "" || c.URL == "" {
+			fail("%s: needs a key, a name and a url", w)
 		}
 		if c.Area != "" {
 			area(w, c.Area)
 		}
-		if c.Threshold < 1 || c.Run > len(c.Results) || c.Problem != (c.Run >= c.Threshold) {
+		if len(c.Results) > snapshot.Recent || c.Run > len(c.Results) || c.Threshold < 0 || c.Threshold > 0 && !c.Problem && c.Run >= c.Threshold {
 			fail("%s: run %d of %d results, threshold %d, problem %v", w, c.Run, len(c.Results), c.Threshold, c.Problem)
 		}
 		if !slices.IsSortedFunc(c.Results, func(a, b snapshot.Result) int { return a.At.Compare(b.At) }) {
 			fail("%s: results aren't oldest first", w)
 		}
-		if c.Since != nil && c.Run == 0 {
-			fail("%s: failing since, but passing", w)
+		if (c.Since != nil) != (c.Run > 0) {
+			fail("%s: failing since %v, with %d failures in a row", w, c.Since, c.Run)
 		}
+		var going []time.Time
 		for _, o := range c.Outages {
-			if o.To != nil && !o.To.After(o.From) {
+			if o.To == nil {
+				going = append(going, o.From)
+			} else if !o.To.After(o.From) {
 				fail("%s: an outage that ends before it starts", w)
 			}
+		}
+		if c.Problem != (len(going) > 0) || len(going) > 1 || c.Problem && (c.Since == nil || !going[0].Equal(*c.Since)) {
+			fail("%s: a problem has one outage still going, from its since, and only a problem has one", w)
 		}
 	}
 	for _, s := range p.Sections {

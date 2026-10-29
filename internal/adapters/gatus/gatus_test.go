@@ -44,7 +44,7 @@ func TestRead(t *testing.T) {
 	if len(dns.Outages) != 1 || dns.Outages[0].To != nil {
 		t.Errorf("DNS secondary's problem is still going: %+v", dns.Outages)
 	}
-	if dns.URL != "https://status.example.com/endpoints/network_dns-secondary" || dns.Source != "Gatus" {
+	if dns.URL != "https://status.example.com/endpoints/network_dns-secondary" {
 		t.Errorf("a check links to its page in Gatus: %s", dns.URL)
 	}
 	if films := checks["media_films"]; films.Problem || films.Run != 1 || films.Area != "apps" || films.Why != "[STATUS] == 200" {

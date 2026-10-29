@@ -41,20 +41,20 @@ func TestRead(t *testing.T) {
 		t.Errorf("each monitor in its group's area, Outside in none: %s", got)
 	}
 
-	if h := by["Hypervisor"]; len(h.Results) != snapshot.Recent || h.Run != 0 || h.Problem || h.Threshold != 1 || h.Results[0].MS == nil ||
-		h.URL != "https://uptime.example.com/dashboard/1" || h.Source != "Uptime Kuma" || h.Key != "1" {
-		t.Errorf("Hypervisor, passing, its last 30 results: %+v", h)
+	if h := by["Hypervisor"]; len(h.Results) != snapshot.Recent || h.Run != 0 || h.Problem || h.Threshold != 0 || h.Results[0].MS == nil ||
+		h.URL != "https://uptime.example.com/dashboard/1" || h.Key != "1" {
+		t.Errorf("Hypervisor, passing, its last 30 results, never down, so with no threshold Uptime Kuma says: %+v", h)
 	}
 	at := func(s string) time.Time {
 		v, _ := time.Parse(time.DateTime, s)
 		return v
 	}
 	if r := by["Requests"]; !r.Problem || r.Run != snapshot.Recent || r.Threshold != 4 || !r.Since.Equal(at("2026-10-29 11:03:08.793")) ||
-		len(r.Outages) != 1 || r.Outages[0].To != nil || !r.Outages[0].From.Equal(at("2026-10-29 11:04:08.795")) {
-		t.Errorf("Requests, down after three tries again, since its first: %+v", r)
+		len(r.Outages) != 1 || r.Outages[0].To != nil || !r.Outages[0].From.Equal(*r.Since) {
+		t.Errorf("Requests, down after three tries again, a problem since its first: %+v", r)
 	}
-	if b := by["Books"]; b.Problem || b.Run != snapshot.Recent || b.Threshold != snapshot.Recent+1 || len(b.Outages) != 0 {
-		t.Errorf("Books, still trying again, not yet a problem: %+v", b)
+	if b := by["Books"]; b.Problem || b.Run != snapshot.Recent || b.Threshold != 0 || len(b.Outages) != 0 {
+		t.Errorf("Books, still trying again, not yet a problem, with no threshold Uptime Kuma says: %+v", b)
 	}
 	if v := by["VPN"]; !v.Problem || v.Run != 25 || v.Threshold != 1 || len(v.Outages) != 1 || v.Outages[0].To != nil {
 		t.Errorf("VPN, down since its pushes failed: %+v", v)

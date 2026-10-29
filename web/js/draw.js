@@ -153,7 +153,9 @@ export function checkRows(checks) {
       const detail = c.problem
         ? esc(c.why || "")
         : c.failing
-          ? t("check.failed_of", { run: c.run, threshold: c.threshold, why: c.why || "" })
+          ? c.threshold
+            ? t("check.failed_of", { run: c.run, threshold: c.threshold, why: c.why || "" })
+            : t("check.failed_run_why", { n: c.run, why: c.why || "" })
           : c.recent.length
             ? ""
             : t("check.no_results");
