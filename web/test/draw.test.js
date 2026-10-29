@@ -21,7 +21,15 @@ import { RECENT } from "../js/page.js";
 import { setWords } from "../js/text.js";
 
 setWords(
-  { "result.passed": "Passed", "result.failed": "Failed", ms: "{n} ms", up: "Up", percent: "{n}%" },
+  {
+    "result.passed": "Passed",
+    "result.failed": "Failed",
+    ms: "{n} ms",
+    up: "Up",
+    percent: "{n}%",
+    "check.failed_of": "Failed {run} of {threshold}: {why}",
+    "check.failed_run_why": { one: "Failed once: {why}", other: "Failed {n} times in a row: {why}" },
+  },
   {},
   "en-GB",
 );
@@ -57,6 +65,19 @@ test("a check's name and failure are escaped", () => {
     },
   ]);
   assert.doesNotMatch(html, /<script>|<img>|" onclick=/);
+});
+
+test("a failing check says how many failures make a problem, only when its check engine says", () => {
+  const failing = {
+    name: "DNS",
+    url: "https://status.example.com/",
+    failing: true,
+    run: 2,
+    why: "timeout",
+    recent: [],
+  };
+  assert.match(checkRows([{ ...failing, threshold: 3 }]), /Failed 2 of 3: timeout/);
+  assert.match(checkRows([{ ...failing, threshold: 0 }]), /Failed 2 times in a row: timeout/);
 });
 
 test("a section draws its place, each row, its value in its tone and its meter", () => {

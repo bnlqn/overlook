@@ -179,7 +179,10 @@ const moment = (r) =>
 const health = (c) =>
   ({
     down: word("down"),
-    degraded: t("check.failed_n", { run: c.run, threshold: c.threshold }),
+    // With no threshold from its check engine, only the run of failures.
+    degraded: c.threshold
+      ? t("check.failed_n", { run: c.run, threshold: c.threshold })
+      : t("check.failed_run", { n: c.run }),
     up: word("up"),
     unknown: t("check.no_results"),
   })[c.state];

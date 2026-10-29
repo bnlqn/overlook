@@ -102,11 +102,7 @@ type entry struct {
 }
 
 // Read reads the Jellyfin at c, which Check has filled.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
-	return read(ctx, c, time.Now())
-}
-
-func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	var (
 		sys      info
 		disks    storage

@@ -90,11 +90,7 @@ func (c Config) get(ctx context.Context, path string, v any) error {
 }
 
 // Read reads every alert rule Grafana manages, at c.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
-	return read(ctx, c, time.Now())
-}
-
-func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	var rules struct {
 		Data struct {
 			Groups []struct {
@@ -135,11 +131,10 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 	wg.Wait()
 	checks := []snapshot.Check{}
 	for _, f := range all {
-		ch := check(f.r, f.interval, f.changes)
-		ch.Key, ch.Name, ch.Source = f.r.UID, f.r.Name, c.Name
-		ch.Area = snapshot.AreaOf(f.folder, c.Areas)
-		ch.URL = strings.TrimSuffix(c.Link, "/") + "/alerting/grafana/" + url.PathEscape(f.r.UID) + "/view"
-		checks = append(checks, ch)
+		checks = append(checks, check(snapshot.Check{
+			Key: f.r.UID, Name: f.r.Name, Area: snapshot.AreaOf(f.folder, c.Areas),
+			URL: strings.TrimSuffix(c.Link, "/") + "/alerting/grafana/" + url.PathEscape(f.r.UID) + "/view",
+		}, f.r, f.interval, f.changes))
 	}
 	return snapshot.Parts{Checks: checks}, nil
 }
@@ -175,80 +170,60 @@ func problem(state string) bool {
 	return strings.HasPrefix(state, "Alerting") || strings.HasPrefix(state, "NoData") || strings.HasPrefix(state, "Error")
 }
 
-// check is what a rule's state and history say: its results at each of its
-// last evaluations, its failures in a row, and its problems this week.
-//
-// ponytail: Grafana keeps only when a state changed, so the results at each
-// evaluation are drawn from those changes at the group's interval, with no
-// time taken but the last's. If Grafana ever keeps each evaluation, read
-// them.
-func check(r rule, interval time.Duration, history []change) snapshot.Check {
-	ch := snapshot.Check{Results: []snapshot.Result{}, Threshold: 1}
-	if r.LastEvaluation.Year() < 2000 {
-		return ch // never evaluated yet
-	}
-	// The stretches it was failing and a problem: while any of its alerts
-	// was, from their changes, and the one still going from its alerts now.
-	type stretch struct {
-		from time.Time
-		to   *time.Time
-	}
-	var fails, problems []stretch
-	var failingN, problemN int
-	step := func(list *[]stretch, n *int, at time.Time, was, is bool) {
-		switch {
+// check is ch as a rule's state and history make it: its results at each of
+// its last evaluations, drawn from its changes at the group's interval, and
+// the stretches it failed this week, each while any of its alerts was
+// failing, alerted if one was a problem in it. Its state now is what it is,
+// whatever its history says last.
+func check(ch snapshot.Check, r rule, interval time.Duration, history []change) snapshot.Check {
+	ch.Threshold = snapshot.ThresholdOf(time.Duration(r.Duration*float64(time.Second)), interval)
+	var stretches []snapshot.Stretch
+	failingN := 0
+	for _, c := range history {
+		n := len(stretches) - 1
+		switch was, is := failing(c.prev), failing(c.next); {
 		case !was && is:
-			if *n == 0 {
-				*list = append(*list, stretch{from: at})
+			if failingN == 0 {
+				stretches = append(stretches, snapshot.Stretch{From: c.at})
+				n++
 			}
-			*n++
-		case was && !is && *n > 0:
-			if *n--; *n == 0 {
-				end := at
-				(*list)[len(*list)-1].to = &end
+			failingN++
+		case was && !is && failingN > 0:
+			if failingN--; failingN == 0 {
+				at := c.at
+				stretches[n].To = &at
 			}
 		}
+		if problem(c.next) && n >= 0 {
+			stretches[n].Alerted = true
+		}
 	}
-	for _, c := range history {
-		step(&fails, &failingN, c.at, failing(c.prev), failing(c.next))
-		step(&problems, &problemN, c.at, problem(c.prev), problem(c.next))
-	}
+
 	nowFailing := r.State == "firing" || r.State == "pending" || r.Health == "nodata" || r.Health == "error"
-	ch.Problem = r.State == "firing" || r.Health == "nodata" || r.Health == "error"
+	alerting := r.State == "firing" || r.Health == "nodata" || r.Health == "error"
 	var since *time.Time
 	for _, a := range r.Alerts {
 		if failing(a.State) && (since == nil || a.ActiveAt.Before(*since)) {
-			at := a.ActiveAt
-			since = &at
+			since = &a.ActiveAt
 			ch.Why = cmp.Or(r.LastError, a.Annotations["summary"])
 		}
 	}
-	// Its state now is what it is, whatever its history says last.
-	open := func(list []stretch, on bool) []stretch {
-		if n := len(list); n > 0 && list[n-1].to == nil && !on {
-			end := r.LastEvaluation
-			list[n-1].to = &end
-		}
-		if on && (len(list) == 0 || list[len(list)-1].to != nil) {
-			from := r.LastEvaluation
-			if since != nil {
-				from = *since
-			}
-			list = append(list, stretch{from: from})
-		}
-		return list
+	n := len(stretches) - 1
+	switch {
+	case n >= 0 && stretches[n].To == nil && !nowFailing:
+		at := r.LastEvaluation
+		stretches[n].To = &at
+	case nowFailing && (n < 0 || stretches[n].To != nil):
+		stretches = append(stretches, snapshot.Stretch{From: *cmp.Or(since, &r.LastEvaluation)})
+		n++
 	}
-	fails, problems = open(fails, nowFailing), open(problems, ch.Problem)
+	if nowFailing {
+		stretches[n].Alerted = alerting
+	}
 
-	in := func(list []stretch, t time.Time) bool {
-		return slices.ContainsFunc(list, func(s stretch) bool { return !t.Before(s.from) && (s.to == nil || t.Before(*s.to)) })
-	}
-	if interval <= 0 {
-		interval = time.Minute
-	}
-	for k := snapshot.Recent - 1; k >= 0; k-- {
-		at := r.LastEvaluation.Add(-time.Duration(k) * interval)
-		ch.Results = append(ch.Results, snapshot.Result{OK: !in(fails, at), At: at})
+	ch.Results = snapshot.Grid(r.LastEvaluation, interval, stretches)
+	if len(ch.Results) == 0 {
+		return snapshot.CheckOf(ch, nil)
 	}
 	last := &ch.Results[len(ch.Results)-1]
 	last.OK = !nowFailing
@@ -257,28 +232,8 @@ func check(r rule, interval time.Duration, history []change) snapshot.Check {
 	}
 	if nowFailing {
 		last.Why = ch.Why
-	}
-	for i := len(ch.Results) - 1; i >= 0 && !ch.Results[i].OK; i-- {
-		ch.Run++
-	}
-	if ch.Run > 0 {
-		ch.Since = &fails[len(fails)-1].from
 	} else {
 		ch.Why = ""
 	}
-
-	// How many evaluations in a row make a problem: as many as its pending
-	// period holds, and the first.
-	need := int(time.Duration(r.Duration*float64(time.Second))/interval) + 1
-	if ch.Problem {
-		ch.Threshold = max(1, min(need, ch.Run))
-	} else {
-		ch.Threshold = max(need, ch.Run+1)
-	}
-	for _, p := range problems {
-		if p.to == nil || p.to.After(p.from) {
-			ch.Outages = append(ch.Outages, snapshot.Outage{From: p.from, To: p.to})
-		}
-	}
-	return ch
+	return snapshot.CheckOf(ch, stretches)
 }

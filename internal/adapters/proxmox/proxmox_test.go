@@ -15,6 +15,10 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
+// recorded is the morning after testdata's last night of backups, which
+// ends its week of runs.
+var recorded = time.Date(2026, 10, 28, 10, 0, 0, 0, time.UTC)
+
 // testdata holds answers recorded from a Proxmox VE 9 host with its names
 // and numbers invented: one node, nova, with eight guests and a template,
 // and a week of backup runs to 28 October 2026, one with warnings and one
@@ -26,7 +30,7 @@ func TestRead(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	p, err := Read(context.Background(), c)
+	p, err := Read(context.Background(), c, recorded)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -163,14 +167,14 @@ func TestCA(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := Read(context.Background(), c); err == nil || !strings.Contains(err.Error(), "certificate") {
+	if _, err := Read(context.Background(), c, recorded); err == nil || !strings.Contains(err.Error(), "certificate") {
 		t.Errorf("without its CA, Proxmox's certificate is refused: %v", err)
 	}
 	c.CA = ca
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := Read(context.Background(), c); err != nil {
+	if _, err := Read(context.Background(), c, recorded); err != nil {
 		t.Fatal(err)
 	}
 	if auth != "PVEAPIToken=overlook@pve!overlook=s3cret" {

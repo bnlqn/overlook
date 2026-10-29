@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"slices"
 	"strings"
+	"time"
 
 	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
@@ -111,7 +112,7 @@ var (
 // and whether peers reach it, and the torrents in error, with every
 // snapshot, and the totals at most every ten minutes, from the list of every
 // torrent, which is megabytes for a thousand.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	var transfer struct {
 		Status string `json:"connection_status"`
 		Down   int64  `json:"dl_info_speed"`
@@ -124,7 +125,7 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	if err := c.get(ctx, "torrents/info?filter=errored", &errored); err != nil {
 		return snapshot.Parts{}, err
 	}
-	t, err := c.totals.Get(ctx, func(ctx context.Context) (totals, error) {
+	t, err := c.totals.Get(ctx, now, func(ctx context.Context) (totals, error) {
 		var all struct {
 			Server struct {
 				Free int64 `json:"free_space_on_disk"`

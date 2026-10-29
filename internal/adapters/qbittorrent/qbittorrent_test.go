@@ -8,9 +8,14 @@ import (
 	"strings"
 	"sync/atomic"
 	"testing"
+	"time"
 
 	"github.com/bnlqn/overlook/internal/adapters/adaptertest"
 )
+
+// recorded is soon after the torrents' last activity: qBittorrent's adapter
+// uses it only to keep its totals for ten minutes.
+var recorded = time.Date(2026, 10, 28, 9, 35, 0, 0, time.UTC)
 
 // testdata holds the transfer's info as qBittorrent 5.2 answered it, its
 // address replaced and its numbers nudged, and the torrents rebuilt with
@@ -24,7 +29,7 @@ func TestRead(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	p, err := Read(context.Background(), c)
+	p, err := Read(context.Background(), c, recorded)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -99,7 +104,7 @@ func TestLogin(t *testing.T) {
 		t.Fatal(err)
 	}
 	for range 2 {
-		if _, err := Read(context.Background(), c); err != nil {
+		if _, err := Read(context.Background(), c, recorded); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -111,7 +116,7 @@ func TestLogin(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := Read(context.Background(), c); err == nil || !strings.Contains(err.Error(), "login: refused") {
+	if _, err := Read(context.Background(), c, recorded); err == nil || !strings.Contains(err.Error(), "login: refused") {
 		t.Errorf("a login refused: %v", err)
 	}
 }
@@ -124,7 +129,7 @@ func TestKey(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := Read(context.Background(), c); err != nil {
+	if _, err := Read(context.Background(), c, recorded); err != nil {
 		t.Fatal(err)
 	}
 	if n := logins.Load(); n != 0 {
