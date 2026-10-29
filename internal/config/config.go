@@ -88,12 +88,12 @@ type Sources struct {
 func (c Config) Readers() []snapshot.Source { return c.readers }
 
 // add checks the sources under sources.<key>, which list holds, and keeps
-// each with its adapter's read and home area, if it has one. Each source's
-// name must be its own.
+// each with its adapter's read, and its home area and kind, if it has them.
+// Each source's name must be its own.
 func add[C any, P interface {
 	*C
 	Check() error
-}](c *Config, key, area string, list []C, name func(C) string, read func(context.Context, C, time.Time) (snapshot.Parts, error)) error {
+}](c *Config, key, area, kind string, list []C, name func(C) string, read func(context.Context, C, time.Time) (snapshot.Parts, error)) error {
 	for i := range list {
 		if err := P(&list[i]).Check(); err != nil {
 			return fmt.Errorf("sources.%s[%d]: %w", key, i, err)
@@ -102,14 +102,10 @@ func add[C any, P interface {
 		if slices.ContainsFunc(c.readers, func(s snapshot.Source) bool { return s.Name == n }) {
 			return fmt.Errorf("sources.%s[%d]: another source is named %s: give each a name", key, i, n)
 		}
-		c.readers = append(c.readers, snapshot.Source{Name: n, Adapter: key, Area: area, Read: func(ctx context.Context, now time.Time) (snapshot.Parts, error) { return read(ctx, src, now) }})
+		c.readers = append(c.readers, snapshot.Source{Name: n, Adapter: key, Area: area, Kind: kind, Read: func(ctx context.Context, now time.Time) (snapshot.Parts, error) { return read(ctx, src, now) }})
 	}
 	return nil
 }
-
-// checkEngines are the adapters whose sources run the homelab's checks,
-// which a link's check names.
-var checkEngines = []string{"gatus", "uptimekuma", "grafana", "prometheus"}
 
 var (
 	envVar = regexp.MustCompile(`\$\{([A-Za-z_][A-Za-z0-9_]*)\}`)
@@ -180,36 +176,37 @@ func interpolate(n *yaml.Node) error {
 func (c *Config) check() error {
 	// The first refusal, in the order of Sources.
 	if err := cmp.Or(
-		add(c, "gatus", "", c.Sources.Gatus, func(g gatus.Config) string { return g.Name }, gatus.Read),
-		add(c, "uptimekuma", "", c.Sources.UptimeKuma, func(u uptimekuma.Config) string { return u.Name }, uptimekuma.Read),
-		add(c, "grafana", "", c.Sources.Grafana, func(g grafana.Config) string { return g.Name }, grafana.Read),
-		add(c, "prometheus", "", c.Sources.Prometheus, func(p prometheus.Config) string { return p.Name }, prometheus.Read),
-		add(c, "github", "", c.Sources.GitHub, func(g github.Config) string { return g.Name }, github.Read),
-		add(c, "immich", immich.Area, c.Sources.Immich, func(im immich.Config) string { return im.Name }, immich.Read),
-		add(c, "pbs", pbs.Area, c.Sources.PBS, func(b pbs.Config) string { return b.Name }, pbs.Read),
-		add(c, "proxmox", proxmox.Area, c.Sources.Proxmox, func(p proxmox.Config) string { return p.Name }, proxmox.Read),
-		add(c, "beszel", beszel.Area, c.Sources.Beszel, func(b beszel.Config) string { return b.Name }, beszel.Read),
-		add(c, "docker", docker.Area, c.Sources.Docker, func(d docker.Config) string { return d.Name }, docker.Read),
-		add(c, "radarr", radarr.Area, c.Sources.Radarr, func(r radarr.Config) string { return r.Name }, radarr.Read),
-		add(c, "sonarr", sonarr.Area, c.Sources.Sonarr, func(s sonarr.Config) string { return s.Name }, sonarr.Read),
-		add(c, "prowlarr", prowlarr.Area, c.Sources.Prowlarr, func(p prowlarr.Config) string { return p.Name }, prowlarr.Read),
-		add(c, "qbittorrent", qbittorrent.Area, c.Sources.QBittorrent, func(q qbittorrent.Config) string { return q.Name }, qbittorrent.Read),
-		add(c, "jellyfin", jellyfin.Area, c.Sources.Jellyfin, func(j jellyfin.Config) string { return j.Name }, jellyfin.Read),
-		add(c, "tautulli", tautulli.Area, c.Sources.Tautulli, func(t tautulli.Config) string { return t.Name }, tautulli.Read),
-		add(c, "seerr", seerr.Area, c.Sources.Seerr, func(s seerr.Config) string { return s.Name }, seerr.Read),
-		add(c, "homeassistant", homeassistant.Area, c.Sources.HomeAssistant, func(h homeassistant.Config) string { return h.Name }, homeassistant.Read),
-		add(c, "paperless", paperless.Area, c.Sources.Paperless, func(p paperless.Config) string { return p.Name }, paperless.Read),
-		add(c, "nextcloud", nextcloud.Area, c.Sources.Nextcloud, func(n nextcloud.Config) string { return n.Name }, nextcloud.Read),
-		add(c, "nut", nut.Area, c.Sources.NUT, func(n nut.Config) string { return n.Name }, nut.Read),
-		add(c, "adguard", adguard.Area, c.Sources.AdGuard, func(a adguard.Config) string { return a.Name }, adguard.Read),
-		add(c, "pihole", pihole.Area, c.Sources.PiHole, func(p pihole.Config) string { return p.Name }, pihole.Read),
-		add(c, "ical", "", c.Sources.Ical, func(i ical.Config) string { return i.Name }, ical.Read),
+		add(c, "gatus", "", "checkengine", c.Sources.Gatus, func(g gatus.Config) string { return g.Name }, gatus.Read),
+		add(c, "uptimekuma", "", "checkengine", c.Sources.UptimeKuma, func(u uptimekuma.Config) string { return u.Name }, uptimekuma.Read),
+		add(c, "grafana", "", "checkengine", c.Sources.Grafana, func(g grafana.Config) string { return g.Name }, grafana.Read),
+		add(c, "prometheus", "", "checkengine", c.Sources.Prometheus, func(p prometheus.Config) string { return p.Name }, prometheus.Read),
+		add(c, "github", "", "", c.Sources.GitHub, func(g github.Config) string { return g.Name }, github.Read),
+		add(c, "immich", immich.Area, "", c.Sources.Immich, func(im immich.Config) string { return im.Name }, immich.Read),
+		add(c, "pbs", pbs.Area, "", c.Sources.PBS, func(b pbs.Config) string { return b.Name }, pbs.Read),
+		add(c, "proxmox", proxmox.Area, "", c.Sources.Proxmox, func(p proxmox.Config) string { return p.Name }, proxmox.Read),
+		add(c, "beszel", beszel.Area, "", c.Sources.Beszel, func(b beszel.Config) string { return b.Name }, beszel.Read),
+		add(c, "docker", docker.Area, "", c.Sources.Docker, func(d docker.Config) string { return d.Name }, docker.Read),
+		add(c, "radarr", radarr.Area, "", c.Sources.Radarr, func(r radarr.Config) string { return r.Name }, radarr.Read),
+		add(c, "sonarr", sonarr.Area, "", c.Sources.Sonarr, func(s sonarr.Config) string { return s.Name }, sonarr.Read),
+		add(c, "prowlarr", prowlarr.Area, "", c.Sources.Prowlarr, func(p prowlarr.Config) string { return p.Name }, prowlarr.Read),
+		add(c, "qbittorrent", qbittorrent.Area, "", c.Sources.QBittorrent, func(q qbittorrent.Config) string { return q.Name }, qbittorrent.Read),
+		add(c, "jellyfin", jellyfin.Area, "mediaserver", c.Sources.Jellyfin, func(j jellyfin.Config) string { return j.Name }, jellyfin.Read),
+		add(c, "tautulli", tautulli.Area, "mediaserver", c.Sources.Tautulli, func(t tautulli.Config) string { return t.Name }, tautulli.Read),
+		add(c, "seerr", seerr.Area, "", c.Sources.Seerr, func(s seerr.Config) string { return s.Name }, seerr.Read),
+		add(c, "homeassistant", homeassistant.Area, "", c.Sources.HomeAssistant, func(h homeassistant.Config) string { return h.Name }, homeassistant.Read),
+		add(c, "paperless", paperless.Area, "", c.Sources.Paperless, func(p paperless.Config) string { return p.Name }, paperless.Read),
+		add(c, "nextcloud", nextcloud.Area, "", c.Sources.Nextcloud, func(n nextcloud.Config) string { return n.Name }, nextcloud.Read),
+		add(c, "nut", nut.Area, "", c.Sources.NUT, func(n nut.Config) string { return n.Name }, nut.Read),
+		add(c, "adguard", adguard.Area, "resolver", c.Sources.AdGuard, func(a adguard.Config) string { return a.Name }, adguard.Read),
+		add(c, "pihole", pihole.Area, "resolver", c.Sources.PiHole, func(p pihole.Config) string { return p.Name }, pihole.Read),
+		add(c, "ical", "", "todolist", c.Sources.Ical, func(i ical.Config) string { return i.Name }, ical.Read),
 	); err != nil {
 		return err
 	}
+	// The check engines, which a link's check names.
 	var engines []string
 	for _, r := range c.readers {
-		if slices.Contains(checkEngines, r.Adapter) {
+		if r.Kind == "checkengine" {
 			engines = append(engines, r.Name)
 		}
 	}
