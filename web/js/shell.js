@@ -2,7 +2,7 @@
 // tooltips, and start(), which reads the snapshot and draws the page from it.
 
 import { areaState, asIfNow, checkState, linkCheck, named, readChecks, shown } from "./checks.js";
-import { badge, from, stateIcon, svg, TONE } from "./draw.js";
+import { badge, by, stateIcon, svg, TONE } from "./draw.js";
 import { esc, loadWords, number, t, translate } from "./text.js";
 
 /** The pages, in the sidebar's order; key goes after G to jump there. */
@@ -95,6 +95,9 @@ function paintShell(snap, checks) {
     ["side-tools", snap.tools],
   ]) {
     const sec = document.getElementById(id);
+    // Past twelve, a group starts folded, so the one under it stays in
+    // sight; once shown, it stays as the owner leaves it.
+    if (sec.hidden && links.length > 12) sec.open = false;
     sec.hidden = !links.length;
     sec.querySelector("div").innerHTML = links.map(link).join("");
   }
@@ -141,7 +144,7 @@ function palette() {
     ...(last.snap ? last.snap.tools : []).map(link(t("side.tools"))),
     ...last.checks.map((c) => ({
       group: t("palette.checks"),
-      name: esc(c.name) + from(c),
+      name: esc(c.name) + by(c),
       what: c.area ? t(`area.${c.area}`) : "",
       glyph: stateIcon(checkState(c)),
       href: c.url,

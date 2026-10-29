@@ -26,7 +26,7 @@ export const shown = (snap) =>
   );
 
 /**
- * The snapshot with each part named by its source, as from, where another
+ * The snapshot with each part named by its source, as by, where another
  * source of the same adapter is read, so that two of one kind can be told
  * apart. One that didn't answer still counts, so the names don't come and go.
  * A check is named where another check engine has a check of its name.
@@ -37,16 +37,17 @@ export function named(snap) {
       .filter((s) => s.adapter && snap.sources.some((o) => o !== s && o.adapter === s.adapter))
       .map((s) => s.name),
   );
-  const mark = (parts) => parts.map((p) => (twins.has(p.source) ? { ...p, from: p.source } : p));
+  const mark = (parts) => parts.map((p) => (twins.has(p.source) ? { ...p, by: p.source } : p));
   // A check is named only where another engine has one of its name.
   const shared = (c) => snap.checks.some((o) => o.name === c.name && o.source !== c.source);
   return {
     ...snap,
-    checks: snap.checks.map((c) => (shared(c) ? { ...c, from: c.source } : c)),
+    checks: snap.checks.map((c) => (shared(c) ? { ...c, by: c.source } : c)),
     sections: mark(snap.sections),
     charts: mark(snap.charts),
     figures: mark(snap.figures),
     events: mark(snap.events),
+    chores: mark(snap.chores),
   };
 }
 
@@ -72,6 +73,7 @@ export function together(figures) {
       if (f.adds) {
         byKey.set(f.label.key, copy);
         bySource.set(copy, [{ label: { name: f.source }, value: f.value }]);
+        copy.sources = [f.source];
       }
       out.push(copy);
       continue;
@@ -97,9 +99,10 @@ export function together(figures) {
         ? into.meters.map((m, i) => ({ ...m, used: m.used + f.meters[i].used, total: m.total + f.meters[i].total }))
         : undefined;
     into.tone ||= f.tone;
+    into.sources.push(f.source);
     into.shares = bySource.get(into);
     into.shares.push({ label: { name: f.source }, value: f.value });
-    into.from = undefined;
+    into.by = undefined;
   }
   return out;
 }
@@ -121,7 +124,7 @@ export function joinFigures(figures) {
     if (group[0] !== f) return [];
     const { detail, ...first } = f;
     // Each part keeps its figure's place in the tile, and so its colour.
-    const shares = group.flatMap((g, slot) => (g.part ? [{ ...g.part, from: g.from, slot }] : []));
+    const shares = group.flatMap((g, slot) => (g.part ? [{ ...g.part, by: g.by, slot }] : []));
     return [{ ...first, label: f.join, also: group.slice(1), shares }];
   });
 }
@@ -176,7 +179,7 @@ export function joinCharts(charts) {
       ...s,
       hours: last(s.hours),
     }));
-    into.from = undefined;
+    into.by = undefined;
   }
   return out;
 }
@@ -224,8 +227,39 @@ export function choresBy(chores, now = new Date()) {
   };
 }
 
-/** The names of the sources that didn't answer. */
-export const silent = (snap) => snap.sources.filter((s) => !s.answered).map((s) => s.name);
+/**
+ * The names of the sources that didn't answer: on an area's page, those of
+ * its area and those of every area, such as a check engine.
+ */
+export const silent = (snap, area) =>
+  snap.sources.filter((s) => !s.answered && (!area || !s.area || s.area === area)).map((s) => s.name);
+
+/**
+ * The sources of the same adapter as those a part adds up that answered but
+ * gave none of it, such as a resolver that keeps its counts by the day.
+ */
+export function missing(snap, names) {
+  const adapter = snap.sources.find((s) => s.name === names[0])?.adapter;
+  return snap.sources.filter((s) => s.answered && s.adapter === adapter && !names.includes(s.name)).map((s) => s.name);
+}
+
+/**
+ * The areas not up, grouped by their state, the worst first, each group's
+ * areas in the page's order.
+ */
+export function byState(areas) {
+  return ["down", "degraded"]
+    .map((state) => ({ state, areas: areas.filter((a) => a.state === state).map((a) => a.area) }))
+    .filter((g) => g.areas.length);
+}
+
+/**
+ * How many columns n tiles take so their rows come out even, at most most
+ * to a row: 8 tiles in rows of 4, not 6 and 2.
+ */
+export function evenColumns(n, most) {
+  return n ? Math.ceil(n / Math.ceil(n / most)) : 1;
+}
 
 /**
  * When the last problem ended, or, with none remembered, since when the

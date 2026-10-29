@@ -35,7 +35,11 @@ type SourceState struct {
 	Name string `json:"name"`
 	// Adapter is the adapter that reads it, such as adguard: with another
 	// source of the same, the page names each one's parts.
-	Adapter  string `json:"adapter"`
+	Adapter string `json:"adapter"`
+	// Area is its adapter's home area, if it has one, where the page says
+	// when it didn't answer. A check engine's, such as Gatus's, is every
+	// area.
+	Area     string `json:"area,omitempty"`
 	Answered bool   `json:"answered"`
 	// Error is short and never holds the source's URL (see fetch.JSON).
 	Error string `json:"error,omitempty"`
@@ -45,6 +49,7 @@ type SourceState struct {
 type Source struct {
 	Name    string
 	Adapter string
+	Area    string
 	Read    func(context.Context) (Parts, error)
 }
 
@@ -98,7 +103,7 @@ func (r *Reader) Snapshot() Snapshot {
 		Tools:   append([]Link{}, r.tools...),
 	}
 	for i, src := range r.sources {
-		state := SourceState{Name: src.Name, Adapter: src.Adapter, Answered: errs[i] == nil}
+		state := SourceState{Name: src.Name, Adapter: src.Adapter, Area: src.Area, Answered: errs[i] == nil}
 		if errs[i] != nil {
 			state.Error = errs[i].Error()
 			slog.Warn("a source didn't answer", "source", src.Name, "error", errs[i])
@@ -124,7 +129,10 @@ func (r *Reader) Snapshot() Snapshot {
 				snap.Events = append(snap.Events, e)
 			}
 			snap.Updates = append(snap.Updates, p.Updates...)
-			snap.Chores = append(snap.Chores, p.Chores...)
+			for _, c := range p.Chores {
+				c.Source = src.Name
+				snap.Chores = append(snap.Chores, c)
+			}
 		}
 		snap.Sources = append(snap.Sources, state)
 	}

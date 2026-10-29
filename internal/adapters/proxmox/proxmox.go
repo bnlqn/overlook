@@ -22,7 +22,8 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
-const area = "servers"
+// Area is the adapter's home area.
+const Area = "servers"
 
 // week is how far back the backup runs are read, for the page's week.
 const week = 7 * 24 * time.Hour
@@ -226,7 +227,7 @@ func parts(resources []resource, hosts []*host, nodes int) snapshot.Parts {
 		}
 		hostRows = append(hostRows, row)
 	}
-	p.Sections = append(p.Sections, snapshot.Section{Area: area, Title: snapshot.Text{Key: "proxmox.hosts"}, Rows: hostRows})
+	p.Sections = append(p.Sections, snapshot.Section{Area: Area, Title: snapshot.Text{Key: "proxmox.hosts"}, Rows: hostRows})
 
 	// The guests, by their IDs, leaving out templates, which never run.
 	var guests []resource
@@ -258,7 +259,7 @@ func parts(resources []resource, hosts []*host, nodes int) snapshot.Parts {
 		rows = append(rows, row)
 	}
 	if len(guests) > 0 {
-		p.Sections = append(p.Sections, snapshot.Section{Area: area, Title: snapshot.Text{Key: "proxmox.guests"}, Rows: rows})
+		p.Sections = append(p.Sections, snapshot.Section{Area: Area, Title: snapshot.Text{Key: "proxmox.guests"}, Rows: rows})
 	}
 
 	// The storage, a shared one once.
@@ -282,7 +283,7 @@ func parts(resources []resource, hosts []*host, nodes int) snapshot.Parts {
 		rows = append(rows, row)
 	}
 	if len(rows) > 0 {
-		p.Sections = append(p.Sections, snapshot.Section{Area: area, Title: snapshot.Text{Key: "proxmox.storage"}, Rows: rows})
+		p.Sections = append(p.Sections, snapshot.Section{Area: Area, Title: snapshot.Text{Key: "proxmox.storage"}, Rows: rows})
 	}
 
 	// The ZFS pools: how full each is, and its health.
@@ -301,7 +302,7 @@ func parts(resources []resource, hosts []*host, nodes int) snapshot.Parts {
 		}
 	}
 	if len(rows) > 0 {
-		p.Sections = append(p.Sections, snapshot.Section{Area: area, Title: snapshot.Text{Key: "proxmox.pools"}, Rows: rows})
+		p.Sections = append(p.Sections, snapshot.Section{Area: Area, Title: snapshot.Text{Key: "proxmox.pools"}, Rows: rows})
 	}
 
 	// The backup runs: each node's newest in Backups, and the week's as
@@ -312,7 +313,7 @@ func parts(resources []resource, hosts []*host, nodes int) snapshot.Parts {
 		for i, t := range h.runs {
 			start := time.Unix(t.Start, 0).UTC()
 			took := map[string]any{"at": start, "ms": (t.End - t.Start) * 1000, "status": t.Status}
-			e := snapshot.Event{At: start, Area: area, Icon: "archive"}
+			e := snapshot.Event{At: start, Area: Area, Icon: "archive"}
 			row := snapshot.Row{Title: snapshot.Text{Key: "proxmox.last_run"}, Detail: snapshot.Msg("proxmox.run_took", took)}
 			if cluster {
 				row.Title = snapshot.Text{Name: h.name}
@@ -338,7 +339,7 @@ func parts(resources []resource, hosts []*host, nodes int) snapshot.Parts {
 		}
 	}
 	if len(rows) > 0 {
-		p.Sections = append(p.Sections, snapshot.Section{Area: area, Title: snapshot.Text{Key: "proxmox.backups"}, Rows: rows})
+		p.Sections = append(p.Sections, snapshot.Section{Area: Area, Title: snapshot.Text{Key: "proxmox.backups"}, Rows: rows})
 	}
 
 	// Today: the guests up, the hosts online, and how busy and how full the
@@ -352,7 +353,7 @@ func parts(resources []resource, hosts []*host, nodes int) snapshot.Parts {
 		total += float64(h.status.Memory.Total)
 	}
 	f := snapshot.Figure{
-		Area: area, Icon: "stack", Label: snapshot.Text{Key: "proxmox.guests"}, Value: float64(running),
+		Area: Area, Icon: "stack", Label: snapshot.Text{Key: "proxmox.guests"}, Value: float64(running),
 		Unit:   snapshot.Msg("proxmox.of_up", map[string]any{"n": len(guests)}),
 		Detail: snapshot.Msg("proxmox.hosts_online", map[string]any{"online": len(hosts), "n": nodes}),
 		Adds:   true,

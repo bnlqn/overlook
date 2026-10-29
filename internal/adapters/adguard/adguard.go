@@ -17,6 +17,9 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
+// Area is the adapter's home area.
+const Area = "network"
+
 // top is the rows each top list shows.
 const top = 10
 
@@ -127,7 +130,7 @@ func today(s stats, now time.Time) []snapshot.Figure {
 	midnight := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
 	since := int(now.Sub(midnight)/time.Hour) + 1
 	return []snapshot.Figure{{
-		Area: "network", Icon: "shield", Label: snapshot.Text{Key: "adguard.today"}, Adds: true,
+		Area: Area, Icon: "shield", Label: snapshot.Text{Key: "adguard.today"}, Adds: true,
 		Value: float64(sum(s.ByUnit, since)), Hours: floats(s.ByUnit[len(s.ByUnit)-24:]),
 		Within: &snapshot.Series{Label: snapshot.Text{Key: "adguard.blocked"}, Hours: floats(s.BlockedBy[len(s.BlockedBy)-24:])},
 		Detail: snapshot.Msg("adguard.today_blocked", map[string]any{"blocked": sum(s.BlockedBy, since)}),
@@ -160,7 +163,7 @@ func hourly(s stats) []snapshot.Chart {
 		return nil
 	}
 	return []snapshot.Chart{{
-		Area: "network", Title: snapshot.Text{Key: "adguard.per_hour"}, Adds: true,
+		Area: Area, Title: snapshot.Text{Key: "adguard.per_hour"}, Adds: true,
 		Series: []snapshot.Series{
 			{Label: snapshot.Text{Key: "adguard.lookups"}, Hours: floats(s.ByUnit)},
 			{Label: snapshot.Text{Key: "adguard.blocked"}, Hours: floats(s.BlockedBy)},
@@ -229,10 +232,10 @@ func sections(s stats, st status, cl clients) []snapshot.Section {
 
 	// The page names the resolver beside each title when there's another.
 	return []snapshot.Section{
-		{Area: "network", Title: snapshot.Text{Key: "adguard.resolver"}, Rows: resolver},
-		{Area: "network", Title: snapshot.Text{Key: "adguard.top_clients"}, Rows: orNothing(who)},
-		{Area: "network", Title: snapshot.Text{Key: "adguard.top_domains"}, Rows: orNothing(what)},
-		{Area: "network", Title: snapshot.Text{Key: "adguard.top_blocked"}, Rows: orNothing(blocked)},
+		{Area: Area, Title: snapshot.Text{Key: "adguard.resolver"}, Rows: resolver},
+		{Area: Area, Title: snapshot.Text{Key: "adguard.top_clients"}, Rows: orNothing(who)},
+		{Area: Area, Title: snapshot.Text{Key: "adguard.top_domains"}, Rows: orNothing(what)},
+		{Area: Area, Title: snapshot.Text{Key: "adguard.top_blocked"}, Rows: orNothing(blocked)},
 	}
 }
 

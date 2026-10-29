@@ -1,8 +1,8 @@
 // An area's page: its state and checks, its charts by the hour, those of
 // several sources added up, then each section its sources add.
 
-import { areaState, joinCharts, shown, silent } from "./checks.js";
-import { areas, checkRows, from, hourStart, legend, section, seriesColours, stateIcon, TONE, word } from "./draw.js";
+import { areaState, joinCharts, missing, shown, silent } from "./checks.js";
+import { areas, by, checkRows, hourStart, legend, section, seriesColours, stateIcon, TONE, tip, word } from "./draw.js";
 import { HERE, start } from "./shell.js";
 import { clock, day, esc, list, number, say, t } from "./text.js";
 
@@ -14,7 +14,7 @@ let last = null;
 // A chart in a card: its title, the range's sums and busiest hour, the switch
 // between the last day and every hour when there are more, the chart, and
 // its legend.
-function chart(c) {
+function chart(c, snap) {
   const all = c.series[0].hours.length;
   const n = Math.min(range, all);
   const cut = (x) => ({ ...x, hours: x.hours.slice(all - n) });
@@ -34,6 +34,14 @@ function chart(c) {
       ),
     `${t("chart.busiest")} <b>${n > 24 ? `${day(at)}, ` : ""}${clock(at)}</b>`,
   ];
+  // Added up from some of an adapter's sources, it says so when another
+  // answered but gave none.
+  const names = c.sources.map((s) => s.name);
+  const lacking = missing(snap, names);
+  if (lacking.length) {
+    const of = t("figure.of_sources", { n: names.length, total: names.length + lacking.length });
+    sums.push(`<span data-tip="${tip(esc(list(lacking)), [], t("figure.gave_none"))}">${of}</span>`);
+  }
   const pills =
     all > 24
       ? `<div class="pills">${[24, all]
@@ -44,7 +52,7 @@ function chart(c) {
           .join("")}</div>`
       : "";
   return `<section class="card chart">
-    <div class="chart-head"><div><h2 class="card-title">${say(c.title)}${from(c)}</h2><div class="detail">${sums.join(" · ")}</div></div>${pills}</div>
+    <div class="chart-head"><div><h2 class="card-title">${say(c.title)}${by(c)}</h2><div class="detail">${sums.join(" · ")}</div></div>${pills}</div>
     ${areas(series, c.sources.map(cut))}
     ${legend(series, colours)}</section>`;
 }
@@ -53,7 +61,7 @@ function draw(snap, checks) {
   last = { snap, checks };
   const area = HERE.area;
   const a = areaState(area, checks);
-  const silence = silent(snap);
+  const silence = silent(snap, area);
   const title = t(`area.${area}`);
   document.title = title;
   document.getElementById("title").innerHTML = title;
@@ -70,13 +78,14 @@ function draw(snap, checks) {
   const sources = silence.length ? t("source.no_answer", { name: list(silence) }) : "";
   document.getElementById("summary").innerHTML = [state, problems, sources].filter(Boolean).join(" · ");
   document.getElementById("charts").innerHTML = joinCharts(snap.charts.filter((c) => c.area === area))
-    .map(chart)
+    .map((c) => chart(c, snap))
     .join("");
-  // The sections, in two columns, each in the order its sources gave them.
-  // Each knows its place in the snapshot, which one column goes back to.
-  const mine = snap.sections.filter((s) => s.area === area).map((s, i) => section(s, i));
-  document.getElementById("left").innerHTML = mine.filter((_, i) => i % 2 === 0).join("");
-  document.getElementById("right").innerHTML = mine.filter((_, i) => i % 2 === 1).join("");
+  // The sections in the order their sources gave them, each source's
+  // together, flowing down two columns of about the same height.
+  document.getElementById("sections").innerHTML = snap.sections
+    .filter((s) => s.area === area)
+    .map((s, i) => section(s, i))
+    .join("");
 }
 
 document.addEventListener("click", (e) => {

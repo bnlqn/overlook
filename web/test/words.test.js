@@ -26,8 +26,7 @@ test("every message the page names is in the English table", () => {
     // The messages the page names by a variable's value.
     ...AREAS.map((a) => `area.${a}`),
     ...["up", "degraded", "down", "unknown"].map((s) => `state.${s}`),
-    "status.area_down",
-    "status.area_degraded",
+    ...["down", "degraded"].flatMap((s) => [`status.areas_${s}`, `status.every_${s}`]),
   ];
   assert.ok(named.length > 50, `only ${named.length} messages found: is the pattern still right?`);
   const missing = [...new Set(named)].filter((key) => !(key in english));

@@ -3,14 +3,14 @@
   "sources": [
     { "name": "Gatus", "adapter": "gatus", "answered": true },
     { "name": "GitHub", "adapter": "github", "answered": true },
-    { "name": "Immich", "adapter": "immich", "answered": true },
-    { "name": "Backup Server", "adapter": "pbs", "answered": true },
-    { "name": "Proxmox", "adapter": "proxmox", "answered": true },
-    { "name": "Radarr", "adapter": "radarr", "answered": true },
-    { "name": "Sonarr", "adapter": "sonarr", "answered": true },
-    { "name": "NUT", "adapter": "nut", "answered": true },
-    { "name": "Primary DNS", "adapter": "adguard", "answered": true },
-    { "name": "Standby DNS", "adapter": "adguard", "answered": false, "error": "timeout" },
+    { "name": "Immich", "adapter": "immich", "area": "apps", "answered": true },
+    { "name": "Backup Server", "adapter": "pbs", "area": "storage", "answered": true },
+    { "name": "Proxmox", "adapter": "proxmox", "area": "servers", "answered": true },
+    { "name": "Radarr", "adapter": "radarr", "area": "apps", "answered": true },
+    { "name": "Sonarr", "adapter": "sonarr", "area": "apps", "answered": true },
+    { "name": "NUT", "adapter": "nut", "area": "servers", "answered": true },
+    { "name": "Primary DNS", "adapter": "adguard", "area": "network", "answered": true },
+    { "name": "Standby DNS", "adapter": "adguard", "area": "network", "answered": false, "error": "timeout" },
     { "name": "Chores", "adapter": "ical", "answered": true }
   ],
   "checks": [
@@ -1461,16 +1461,19 @@
   "chores": [
     {
       "name": "Clean the NAS's dust filters",
+      "source": "Chores",
       "from": "2026-10-26",
       "note": "Every six months: marking it done moves it on."
     },
     {
       "name": "Swap the offsite backup disk",
+      "source": "Chores",
       "from": "2026-10-31",
       "note": "The one at the office comes home."
     },
     {
       "name": "Label the cables in the rack",
+      "source": "Chores",
       "note": "No day set: due whenever there's an hour."
     }
   ]

@@ -59,11 +59,12 @@ type Sources struct {
 func (c Config) Readers() []snapshot.Source { return c.readers }
 
 // add checks the sources under sources.<key>, which list holds, and keeps
-// each with its adapter's read. Each source's name must be its own.
+// each with its adapter's read and home area, if it has one. Each source's
+// name must be its own.
 func add[C any, P interface {
 	*C
 	Check() error
-}](c *Config, key string, list []C, name func(C) string, read func(context.Context, C) (snapshot.Parts, error)) error {
+}](c *Config, key, area string, list []C, name func(C) string, read func(context.Context, C) (snapshot.Parts, error)) error {
 	for i := range list {
 		if err := P(&list[i]).Check(); err != nil {
 			return fmt.Errorf("sources.%s[%d]: %w", key, i, err)
@@ -72,7 +73,7 @@ func add[C any, P interface {
 		if slices.ContainsFunc(c.readers, func(s snapshot.Source) bool { return s.Name == n }) {
 			return fmt.Errorf("sources.%s[%d]: another source is named %s: give each a name", key, i, n)
 		}
-		c.readers = append(c.readers, snapshot.Source{Name: n, Adapter: key, Read: func(ctx context.Context) (snapshot.Parts, error) { return read(ctx, src) }})
+		c.readers = append(c.readers, snapshot.Source{Name: n, Adapter: key, Area: area, Read: func(ctx context.Context) (snapshot.Parts, error) { return read(ctx, src) }})
 	}
 	return nil
 }
@@ -146,16 +147,16 @@ func interpolate(n *yaml.Node) error {
 func (c *Config) check() error {
 	// The first refusal, in the order of Sources.
 	if err := cmp.Or(
-		add(c, "gatus", c.Sources.Gatus, func(g gatus.Config) string { return g.Name }, gatus.Read),
-		add(c, "github", c.Sources.GitHub, func(g github.Config) string { return g.Name }, github.Read),
-		add(c, "immich", c.Sources.Immich, func(im immich.Config) string { return im.Name }, immich.Read),
-		add(c, "pbs", c.Sources.PBS, func(b pbs.Config) string { return b.Name }, pbs.Read),
-		add(c, "proxmox", c.Sources.Proxmox, func(p proxmox.Config) string { return p.Name }, proxmox.Read),
-		add(c, "radarr", c.Sources.Radarr, func(r radarr.Config) string { return r.Name }, radarr.Read),
-		add(c, "sonarr", c.Sources.Sonarr, func(s sonarr.Config) string { return s.Name }, sonarr.Read),
-		add(c, "nut", c.Sources.NUT, func(n nut.Config) string { return n.Name }, nut.Read),
-		add(c, "adguard", c.Sources.AdGuard, func(a adguard.Config) string { return a.Name }, adguard.Read),
-		add(c, "ical", c.Sources.Ical, func(i ical.Config) string { return i.Name }, ical.Read),
+		add(c, "gatus", "", c.Sources.Gatus, func(g gatus.Config) string { return g.Name }, gatus.Read),
+		add(c, "github", "", c.Sources.GitHub, func(g github.Config) string { return g.Name }, github.Read),
+		add(c, "immich", immich.Area, c.Sources.Immich, func(im immich.Config) string { return im.Name }, immich.Read),
+		add(c, "pbs", pbs.Area, c.Sources.PBS, func(b pbs.Config) string { return b.Name }, pbs.Read),
+		add(c, "proxmox", proxmox.Area, c.Sources.Proxmox, func(p proxmox.Config) string { return p.Name }, proxmox.Read),
+		add(c, "radarr", radarr.Area, c.Sources.Radarr, func(r radarr.Config) string { return r.Name }, radarr.Read),
+		add(c, "sonarr", sonarr.Area, c.Sources.Sonarr, func(s sonarr.Config) string { return s.Name }, sonarr.Read),
+		add(c, "nut", nut.Area, c.Sources.NUT, func(n nut.Config) string { return n.Name }, nut.Read),
+		add(c, "adguard", adguard.Area, c.Sources.AdGuard, func(a adguard.Config) string { return a.Name }, adguard.Read),
+		add(c, "ical", "", c.Sources.Ical, func(i ical.Config) string { return i.Name }, ical.Read),
 	); err != nil {
 		return err
 	}

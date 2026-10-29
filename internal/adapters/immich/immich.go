@@ -18,6 +18,9 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
+// Area is the adapter's home area.
+const Area = "apps"
+
 // Config is one Immich, under sources.immich in overlook.yaml.
 type Config struct {
 	Name string `yaml:"name"`
@@ -174,7 +177,7 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	// Today's figure is everyone's photos and videos, with what they
 	// uploaded this week if every person's read answered, and, when there's
 	// more than one person, each one's share of the room they take.
-	figure := snapshot.Figure{Area: "apps", Icon: "photos", Label: snapshot.Text{Key: "immich.photos"}, Value: float64(stats.Photos + stats.Videos)}
+	figure := snapshot.Figure{Area: Area, Icon: "photos", Label: snapshot.Text{Key: "immich.photos"}, Value: float64(stats.Photos + stats.Videos)}
 	figure.Detail = snapshot.Msg("immich.this_week", map[string]any{"n": everyone})
 	if slices.Contains(week, nil) {
 		figure.Detail = snapshot.Msg("immich.videos", map[string]any{"n": stats.Videos})
@@ -193,7 +196,7 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 		}
 	}
 	return snapshot.Parts{
-		Sections: []snapshot.Section{{Area: "apps", Title: snapshot.Text{Key: "immich.photos"}, Rows: rows}},
+		Sections: []snapshot.Section{{Area: Area, Title: snapshot.Text{Key: "immich.photos"}, Rows: rows}},
 		Figures:  []snapshot.Figure{figure},
 	}, nil
 }
