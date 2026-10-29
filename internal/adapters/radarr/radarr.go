@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/bnlqn/overlook/internal/adapters/servarr"
+	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
@@ -21,12 +22,12 @@ const Area = "apps"
 type Config struct {
 	servarr.Config `yaml:",inline"`
 
-	films *servarr.Cache[[]movie]
+	films *fetch.Cache[[]movie]
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	c.films = &servarr.Cache[[]movie]{}
+	c.films = &fetch.Cache[[]movie]{}
 	return c.Config.Check("Radarr")
 }
 

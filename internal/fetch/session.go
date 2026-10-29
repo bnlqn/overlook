@@ -23,7 +23,10 @@ type Session struct {
 	client      Client
 	login       string
 	credentials map[string]string
-	take        func(http.Header, []byte) (http.Header, error)
+	// form sends the credentials as a form, as qBittorrent takes them,
+	// rather than as JSON.
+	form bool
+	take func(http.Header, []byte) (http.Header, error)
 
 	mu sync.Mutex
 	// header sends the session with each GET; it is nil until a login.
@@ -50,6 +53,17 @@ func (c Client) Session(login string, credentials map[string]string, take func(h
 	// c's keys would.
 	sc := &http.Client{Transport: g, CheckRedirect: hc.CheckRedirect}
 	return &Session{client: Client{sc}, login: g.login, credentials: credentials, take: take}, nil
+}
+
+// FormSession returns a session as Session does, whose login sends the
+// credentials as a form, such as username=…&password=…, as qBittorrent's
+// does.
+func (c Client) FormSession(login string, credentials map[string]string, take func(http.Header, []byte) (http.Header, error)) (*Session, error) {
+	s, err := c.Session(login, credentials, take)
+	if s != nil {
+		s.form = true
+	}
+	return s, err
 }
 
 // JSON reads the answer at rawURL into v as the package's JSON does, sending
@@ -101,11 +115,19 @@ func (s *Session) logIn(ctx context.Context) (http.Header, error) {
 	if err != nil {
 		return nil, err
 	}
+	kind := "application/json"
+	if s.form {
+		form := url.Values{}
+		for k, v := range s.credentials {
+			form.Set(k, v)
+		}
+		body, kind = []byte(form.Encode()), "application/x-www-form-urlencoded"
+	}
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, s.login, bytes.NewReader(body))
 	if err != nil {
 		return nil, errors.New("bad url")
 	}
-	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Content-Type", kind)
 	req.Header.Set("Accept", "application/json")
 	header, answer, err := s.client.do(req)
 	if err != nil {

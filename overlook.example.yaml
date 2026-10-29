@@ -80,6 +80,14 @@ sources:
     - url: http://prowlarr:9696        # where Overlook reads Prowlarr
       key: ${PROWLARR_KEY}             # Settings, General, API Key
 
+  # The torrents: what downloads and seeds, those in error, the room left on
+  # its disk, and whether peers reach it.
+  qbittorrent:
+    - url: http://qbittorrent:8080     # where Overlook reads qBittorrent's web UI
+      key: ${QBITTORRENT_KEY}          # from 5.2: Options, WebUI, API key
+      # user: overlook                 # before 5.2, its login instead
+      # password: ${QBITTORRENT_PASSWORD}
+
   # A UPS, read from NUT's upsd: its power, its battery and what it draws.
   nut:
     - host: ${NUT_HOST}                # where upsd listens, such as nut.example.com or nut.example.com:3493

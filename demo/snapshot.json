@@ -11,6 +11,7 @@
     { "name": "Radarr", "adapter": "radarr", "area": "apps", "answered": true },
     { "name": "Sonarr", "adapter": "sonarr", "area": "apps", "answered": true },
     { "name": "Prowlarr", "adapter": "prowlarr", "area": "apps", "answered": true },
+    { "name": "qBittorrent", "adapter": "qbittorrent", "area": "apps", "answered": true },
     { "name": "NUT", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Primary DNS", "adapter": "adguard", "area": "network", "answered": true },
     { "name": "Standby DNS", "adapter": "adguard", "area": "network", "answered": false, "error": "timeout" },
@@ -1016,6 +1017,34 @@
       ]
     },
     {
+      "area": "apps",
+      "source": "qBittorrent",
+      "title": { "key": "qbittorrent.torrents" },
+      "rows": [
+        {
+          "title": { "key": "qbittorrent.downloading" },
+          "value": { "key": "qbittorrent.torrents_n", "args": { "n": 2 } },
+          "detail": { "key": "qbittorrent.speed", "args": { "n": 3407872 } }
+        },
+        {
+          "title": { "key": "qbittorrent.seeding" },
+          "value": { "key": "qbittorrent.torrents_n", "args": { "n": 146 } },
+          "detail": { "key": "qbittorrent.speed", "args": { "n": 655360 } }
+        },
+        {
+          "title": { "key": "qbittorrent.free" },
+          "value": { "key": "qbittorrent.bytes", "args": { "n": 1843200000000 } }
+        },
+        { "title": { "key": "qbittorrent.connection" }, "value": { "key": "qbittorrent.connected" } },
+        {
+          "title": { "name": "The Cabinet of Dr. Caligari (1920) 1080p" },
+          "value": { "key": "qbittorrent.missing_files" },
+          "detail": { "name": "/downloads/films" },
+          "tone": "red"
+        }
+      ]
+    },
+    {
       "area": "servers",
       "source": "NUT",
       "title": { "key": "nut.ups" },
@@ -1537,6 +1566,17 @@
           { "title": { "key": "servarr.week" }, "value": { "key": "servarr.plus", "args": { "n": 9 } } }
         ]
       }
+    },
+    {
+      "area": "apps",
+      "source": "qBittorrent",
+      "icon": "download",
+      "label": { "key": "qbittorrent.torrents" },
+      "value": 2,
+      "unit": { "key": "qbittorrent.downloading_unit" },
+      "detail": { "key": "qbittorrent.figure_detail", "args": { "n": 146, "down": 3407872 } },
+      "tone": "orange",
+      "adds": true
     },
     {
       "area": "servers",
