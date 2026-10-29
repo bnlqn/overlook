@@ -75,6 +75,11 @@ sources:
     - url: http://sonarr:8989          # where Overlook reads Sonarr
       key: ${SONARR_KEY}               # Settings, General, API Key
 
+  # The indexers: those disabled or failing, and what each found this week.
+  prowlarr:
+    - url: http://prowlarr:9696        # where Overlook reads Prowlarr
+      key: ${PROWLARR_KEY}             # Settings, General, API Key
+
   # A UPS, read from NUT's upsd: its power, its battery and what it draws.
   nut:
     - host: ${NUT_HOST}                # where upsd listens, such as nut.example.com or nut.example.com:3493

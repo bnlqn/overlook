@@ -160,6 +160,7 @@ func TestExample(t *testing.T) {
 	t.Setenv("BESZEL_PASSWORD", "s3cret")
 	t.Setenv("RADARR_KEY", "0123abcd")
 	t.Setenv("SONARR_KEY", "4567efab")
+	t.Setenv("PROWLARR_KEY", "89abcdef")
 	t.Setenv("NUT_HOST", "nut.example.com")
 	t.Setenv("ADGUARD_PASSWORD", "s3cret")
 	t.Setenv("DAV_PASSWORD", "s3cret")

@@ -10,6 +10,7 @@
 /internal/adapters/ical/    @bnlqn
 /internal/adapters/immich/  @bnlqn
 /internal/adapters/pbs/     @bnlqn
+/internal/adapters/prowlarr/ @bnlqn
 /internal/adapters/proxmox/ @bnlqn
 /internal/adapters/radarr/  @bnlqn
 /internal/adapters/servarr/ @bnlqn
@@ -19,6 +20,7 @@
 /web/i18n/en/docker.json    @bnlqn
 /web/i18n/en/immich.json    @bnlqn
 /web/i18n/en/pbs.json       @bnlqn
+/web/i18n/en/prowlarr.json  @bnlqn
 /web/i18n/en/proxmox.json   @bnlqn
 /web/i18n/en/radarr.json    @bnlqn
 /web/i18n/en/servarr.json   @bnlqn

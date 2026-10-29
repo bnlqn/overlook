@@ -1,0 +1,70 @@
+{
+  "indexers": [
+    {
+      "indexerId": 1,
+      "indexerName": "Lantern",
+      "averageResponseTime": 91,
+      "averageGrabResponseTime": 43,
+      "numberOfQueries": 24,
+      "numberOfGrabs": 3,
+      "numberOfRssQueries": 1012,
+      "numberOfAuthQueries": 0,
+      "numberOfFailedQueries": 0,
+      "numberOfFailedGrabs": 0,
+      "numberOfFailedRssQueries": 0,
+      "numberOfFailedAuthQueries": 0
+    },
+    {
+      "indexerId": 2,
+      "indexerName": "Openshelf",
+      "averageResponseTime": 1840,
+      "averageGrabResponseTime": 0,
+      "numberOfQueries": 18,
+      "numberOfGrabs": 0,
+      "numberOfRssQueries": 640,
+      "numberOfAuthQueries": 0,
+      "numberOfFailedQueries": 11,
+      "numberOfFailedGrabs": 0,
+      "numberOfFailedRssQueries": 212,
+      "numberOfFailedAuthQueries": 0
+    },
+    {
+      "indexerId": 3,
+      "indexerName": "Nebula",
+      "averageResponseTime": 212,
+      "averageGrabResponseTime": 150,
+      "numberOfQueries": 31,
+      "numberOfGrabs": 7,
+      "numberOfRssQueries": 1006,
+      "numberOfAuthQueries": 0,
+      "numberOfFailedQueries": 1,
+      "numberOfFailedGrabs": 0,
+      "numberOfFailedRssQueries": 0,
+      "numberOfFailedAuthQueries": 0
+    }
+  ],
+  "userAgents": [
+    {
+      "userAgent": "Radarr",
+      "numberOfQueries": 1104,
+      "numberOfGrabs": 4
+    },
+    {
+      "userAgent": "Sonarr",
+      "numberOfQueries": 1627,
+      "numberOfGrabs": 6
+    }
+  ],
+  "hosts": [
+    {
+      "host": "radarr",
+      "numberOfQueries": 1104,
+      "numberOfGrabs": 4
+    },
+    {
+      "host": "sonarr",
+      "numberOfQueries": 1627,
+      "numberOfGrabs": 6
+    }
+  ]
+}

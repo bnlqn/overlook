@@ -1,0 +1,11 @@
+{
+  "prowlarr.indexers": "Indexers",
+  "prowlarr.enabled": "Enabled",
+  "prowlarr.disabled": "Disabled",
+  "prowlarr.failing": "Failing",
+  "prowlarr.failing_since": "failing since {at:when}",
+  "prowlarr.week": {
+    "one": "{n} query · {grabs} grabbed this week · {ms:ms}",
+    "other": "{n} queries · {grabs} grabbed this week · {ms:ms}"
+  }
+}
