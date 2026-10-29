@@ -62,7 +62,7 @@ and the least key it needs), and CI passes.
        (ADR 0008), one pull request each, in this order: Jellyfin, Home
        Assistant, Uptime Kuma, Pi-hole, Paperless-ngx, Nextcloud, Grafana,
        Plex through Tautulli, Seerr, and Prometheus with Alertmanager.
-6. [ ] What Overlook can't read, listed under [Can't be read](#cant-be-read),
+6. [x] What Overlook can't read, listed under [Can't be read](#cant-be-read),
        and an issue for each adapter wanted.
 
 v0.2 is ready when the large homelab looks right at desktop and phone
@@ -993,24 +993,38 @@ file and the scripts that fill and record it are in the adapter's
 
 ### Can't be read
 
-These tools can't be read the way Overlook reads (ADR 0001, ADR 0009), or
-are left out on purpose, so none of them gets an adapter until that
-changes:
+These tools can't be read the way Overlook reads, with GET (ADR 0001), one
+login (ADR 0009) and, for a source that changes things on GET, a fixed list
+of reads (ADR 0011), or are left out on purpose. Each names the decision it
+runs into, and none gets an adapter until that changes:
 
 - **Backrest and restic**: restic has no API, every call to Backrest's is a
-  POST, and Backrest's metrics don't say when the last backup was.
-- **Caddy**: its admin API has no login, so letting Overlook reach it lets
-  anyone there rewrite Caddy's config.
-- **Deluge, OpenMediaVault and Transmission**: every read is a POST.
-- **Dozzle and Authelia**: they have no API worth reading, and a check
-  already says whether they answer.
-- **Readarr**: retired in June 2025.
-- **Synology DSM**: its login puts the password in the address, where logs
-  keep it, and how to read its health isn't documented.
-- **TrueNAS**: TrueNAS 26 removes the REST API, which leaves only a
-  WebSocket.
+  POST, and its metrics say how the last backup went, not when (ADR 0001).
+- **Caddy**, on purpose: its admin API has no login, and its only lock is a
+  TLS client certificate, so opening it to Overlook opens it to anyone there
+  to rewrite Caddy's config (ADR 0001).
+- **Deluge, Transmission, Komodo and Zabbix**: every read is a POST
+  (ADR 0001).
+- **Dockge**: it speaks only socket.io (ADR 0001).
+- **Plex on its own**, on purpose: its token is your whole Plex account,
+  other servers and friends too, so Overlook reads Plex through
+  [Tautulli](#plex-through-tautulli) (ADR 0011).
+- **Synology DSM**: its only documented login is a GET with the password in
+  the address, where logs keep it, and how to read its health isn't
+  documented (ADR 0009).
+- **TrueNAS**: TrueNAS 27 removes the REST API, which leaves only a
+  WebSocket (ADR 0001).
+- **Unbound**: its statistics come only from `unbound-control`, over TLS
+  with a client certificate, or on the same machine (ADR 0001).
 - **Vaultwarden**, on purpose: reading more than its version takes the
-  admin token, which can delete every user.
+  admin token, which can delete every user (ADR 0009).
+
+Others are left out for a reason of their own:
+
+- **Dozzle and Authelia**: they show nothing more than whether they answer,
+  which a check already says.
+- **Readarr**: retired in June 2025.
+- **Watchtower**: no longer kept, and archived in December 2025.
 
 ## No login
 
