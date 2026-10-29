@@ -484,12 +484,12 @@ function renderChores(updates, chores) {
     [
       stateIcon("degraded"),
       t("chores.due"),
-      due.map((c) => row(stateIcon("degraded"), esc(c.name) + by(c), esc(c.note || ""), t("chores.due"))),
+      due.map((c) => row(stateIcon("degraded"), esc(c.name) + by(c), esc(c.note || ""), t("chores.due"), c.url)),
     ],
     [
       stateIcon("unknown"),
       t("chores.week"),
-      week.map((c) => row(stateIcon("unknown"), esc(c.name) + by(c), esc(c.note || ""), day(c.from))),
+      week.map((c) => row(stateIcon("unknown"), esc(c.name) + by(c), esc(c.note || ""), day(c.from), c.url)),
     ],
   ].filter(([, , rows]) => rows.length);
   $("chores").innerHTML =

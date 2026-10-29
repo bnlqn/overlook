@@ -236,14 +236,18 @@ type Link struct {
 	Color string `yaml:"color" json:"color,omitempty"`
 }
 
-// Chore is one the owner keeps on a to-do list, which is done when it's
-// marked done there (ADR 0010).
+// Chore is something the owner does while nothing is broken, which is done
+// in the source it waits in, never on the page: one kept on a to-do list,
+// done when it's marked done there (ADR 0010), or one a tool keeps, such as
+// an update Home Assistant waits to install.
 type Chore struct {
 	Name string `json:"name"`
 	// From is the day it's due from, as YYYY-MM-DD: a day of the viewer's
 	// calendar, not a moment. With none, it's due now.
 	From string `json:"from,omitempty"`
 	Note string `json:"note,omitempty"`
+	// URL is where in its source it's done, if the source has a page for it.
+	URL string `json:"url,omitempty"`
 	// Source is the name of the to-do list it came from, which the reader
 	// fills in, as the config gives it.
 	Source string `json:"source"`

@@ -22,6 +22,7 @@
     { "name": "qBittorrent", "adapter": "qbittorrent", "area": "apps", "answered": true },
     { "name": "qBittorrent 4K", "adapter": "qbittorrent", "area": "apps", "answered": true },
     { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "answered": true },
+    { "name": "Home Assistant", "adapter": "homeassistant", "area": "apps", "answered": true },
     { "name": "Rack UPS", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Network UPS", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Office UPS", "adapter": "nut", "area": "servers", "answered": false, "error": "timeout" },
@@ -5427,6 +5428,57 @@
       ]
     },
     {
+      "area": "apps",
+      "source": "Home Assistant",
+      "title": { "key": "homeassistant.home" },
+      "rows": [
+        { "title": { "key": "homeassistant.version" }, "value": { "name": "2026.10.3" } },
+        {
+          "title": { "key": "homeassistant.automations" },
+          "value": { "key": "homeassistant.automations_n", "args": { "n": 86 } },
+          "detail": { "key": "homeassistant.automations_detail", "args": { "n": 31, "off": 4 } }
+        },
+        {
+          "title": { "name": "Morning blinds" },
+          "value": { "key": "homeassistant.broken" },
+          "detail": { "key": "homeassistant.broken_detail" },
+          "tone": "red"
+        }
+      ]
+    },
+    {
+      "area": "apps",
+      "source": "Home Assistant",
+      "title": { "key": "homeassistant.unavailable" },
+      "rows": [
+        {
+          "title": { "name": "Garage door" },
+          "value": { "key": "homeassistant.since", "args": { "at": "2026-10-28T07:41:09Z" } },
+          "detail": { "name": "binary_sensor.garage_door" }
+        },
+        {
+          "title": { "name": "Greenhouse humidity" },
+          "value": { "key": "homeassistant.since", "args": { "at": "2026-10-27T22:15:40Z" } },
+          "detail": { "name": "sensor.greenhouse_humidity" }
+        },
+        {
+          "title": { "name": "Greenhouse temperature" },
+          "value": { "key": "homeassistant.since", "args": { "at": "2026-10-27T22:15:40Z" } },
+          "detail": { "name": "sensor.greenhouse_temperature" }
+        },
+        {
+          "title": { "name": "Loft light" },
+          "value": { "key": "homeassistant.since", "args": { "at": "2026-10-25T16:03:52Z" } },
+          "detail": { "name": "light.loft" }
+        },
+        {
+          "title": { "name": "Old kettle plug" },
+          "value": { "key": "homeassistant.since", "args": { "at": "2026-10-23T08:30:00Z" } },
+          "detail": { "name": "switch.old_kettle_plug" }
+        }
+      ]
+    },
+    {
       "area": "servers",
       "source": "Rack UPS",
       "title": { "key": "nut.ups" },
@@ -8073,6 +8125,29 @@
     }
   ],
   "chores": [
+    {
+      "name": "Home Assistant Core update",
+      "from": "2026-10-24",
+      "note": "2026.10.3 → 2026.10.4",
+      "url": "https://home.example.com/config/updates",
+      "source": "Home Assistant"
+    },
+    {
+      "name": "Zigbee2MQTT update",
+      "from": "2026-10-27",
+      "note": "2.6.1 → 2.6.2",
+      "url": "https://home.example.com/config/updates",
+      "source": "Home Assistant"
+    },
+    {
+      "name": "Landing sensor firmware",
+      "from": "2026-10-28",
+      "note": "1.4.0 → 1.4.2",
+      "url": "https://home.example.com/config/updates",
+      "source": "Home Assistant"
+    },
+    { "name": "Front door lock battery", "note": "9%", "source": "Home Assistant" },
+    { "name": "Hall motion battery", "note": "14%", "source": "Home Assistant" },
     {
       "name": "Replace the faulted disk in tank",
       "source": "Chores",

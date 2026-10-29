@@ -7,6 +7,7 @@
 /internal/adapters/docker/  @bnlqn
 /internal/adapters/gatus/   @bnlqn
 /internal/adapters/github/  @bnlqn
+/internal/adapters/homeassistant/ @bnlqn
 /internal/adapters/ical/    @bnlqn
 /internal/adapters/immich/  @bnlqn
 /internal/adapters/jellyfin/ @bnlqn
@@ -20,6 +21,7 @@
 /web/i18n/en/adguard.json   @bnlqn
 /web/i18n/en/beszel.json    @bnlqn
 /web/i18n/en/docker.json    @bnlqn
+/web/i18n/en/homeassistant.json @bnlqn
 /web/i18n/en/immich.json    @bnlqn
 /web/i18n/en/jellyfin.json  @bnlqn
 /web/i18n/en/pbs.json       @bnlqn
