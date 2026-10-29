@@ -83,23 +83,31 @@ type Section struct {
 	Source string `json:"source"`
 }
 
-// Chart is what a source counts by the hour, over as many hours as it keeps,
-// drawn on its area's page, such as a resolver's lookups over a week. Its
-// first series is the whole and each next one a part within it, such as the
-// blocked lookups, all as long. Charts that add up and share a title key are
-// drawn as one, such as two resolvers': hour by hour over the hours they all
-// have, each source's own count in the tooltip.
+// Chart is what a source counts or measures by the hour, over as many hours
+// as it keeps, drawn on its area's page, such as a resolver's lookups over a
+// week. Its first series is the whole and each next one a part within it,
+// such as the blocked lookups, all as long. Charts that add up and share a
+// title key are drawn as one, such as two resolvers': hour by hour over the
+// hours they all have, each source's own count in the tooltip.
 type Chart struct {
 	Area   string   `json:"area"`
 	Title  Text     `json:"title"`
 	Series []Series `json:"series"`
 	Adds   bool     `json:"adds,omitempty"`
+	// Measures says its series are levels in percent, such as each host's
+	// processor, each a line of its own: charts that measure and share a
+	// title key are drawn as one, their lines side by side, never added up.
+	//
+	// ponytail: percent only, which a processor's and memory's are. A level
+	// in another unit, such as a temperature, will need the chart to say it.
+	Measures bool `json:"measures,omitempty"`
 	// Source is the name of the source it came from, which the reader fills
 	// in, as the config gives it.
 	Source string `json:"source"`
 }
 
-// Series is a count by the hour, oldest first, ending with this hour.
+// Series is a count or a level by the hour, oldest first, ending with this
+// hour.
 type Series struct {
 	Label Text      `json:"label"`
 	Hours []float64 `json:"hours"`

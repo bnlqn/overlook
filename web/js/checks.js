@@ -130,6 +130,21 @@ export function joinFigures(figures) {
 }
 
 /**
+ * The places of the series with the highest mean, at most most of them, in
+ * their order: past most, the rest give way.
+ */
+export function busiest(series, most) {
+  if (series.length <= most) return series.map((_, k) => k);
+  const mean = (s) => s.hours.reduce((a, v) => a + v, 0) / (s.hours.length || 1);
+  return series
+    .map((s, k) => [mean(s), k])
+    .sort((a, b) => b[0] - a[0])
+    .slice(0, most - 1)
+    .map(([, k]) => k)
+    .sort((a, b) => a - b);
+}
+
+/**
  * Shares past most folded into one, the smallest first, so that each one
  * kept has a colour of its own. Shares with a tone mean something one by
  * one, such as each guest backed up or not, and are never folded.
@@ -161,12 +176,22 @@ export function joinCharts(charts) {
   const byKey = new Map();
   const out = [];
   for (const c of charts) {
-    const into = c.adds && byKey.get(c.title.key);
+    const joins = c.adds || c.measures;
+    const into = joins && byKey.get(c.title.key);
     if (!into) {
       const copy = { ...c, series: c.series.map((s) => ({ ...s, hours: [...s.hours] })) };
       copy.sources = [{ name: c.source, hours: copy.series[0].hours }];
-      if (c.adds) byKey.set(c.title.key, copy);
+      if (joins) byKey.set(c.title.key, copy);
       out.push(copy);
+      continue;
+    }
+    // Levels, such as several Proxmox's hosts' processors, are lines side by
+    // side over the hours they all have, never added up.
+    if (c.measures) {
+      const n = Math.min(into.series[0].hours.length, c.series[0].hours.length);
+      into.series = [...into.series, ...c.series].map((s) => ({ ...s, hours: s.hours.slice(s.hours.length - n) }));
+      into.sources.push({ name: c.source, hours: [] });
+      into.by = undefined;
       continue;
     }
     const n = Math.min(into.series[0].hours.length, c.series[0].hours.length);

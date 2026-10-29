@@ -7,6 +7,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 	"time"
@@ -49,6 +50,19 @@ func TestRead(t *testing.T) {
 	}
 	if m := host.Meters; len(m) != 2 || m[0].Used/m[0].Total < 0.015 || m[0].Used/m[0].Total > 0.025 || m[1].Tone != "blue" {
 		t.Errorf("2%% of the processor, and memory, never red: %+v", m)
+	}
+
+	// The recorded week has its first two days without readings, so the
+	// lines start where the readings do: 116 hours.
+	if c := p.Charts; len(c) != 2 || !c[0].Measures || c[0].Title.Key != "proxmox.cpu_chart" || c[1].Title.Key != "proxmox.ram_chart" {
+		t.Fatalf("the processor and memory by the hour, as levels: %+v", c)
+	}
+	cpu, mem := p.Charts[0].Series, p.Charts[1].Series
+	if len(cpu) != 1 || cpu[0].Label.Name != "nova" || len(cpu[0].Hours) != 116 || len(mem[0].Hours) != 116 {
+		t.Fatalf("a line for nova, over the hours with readings: %+v", cpu)
+	}
+	if last := len(cpu[0].Hours) - 1; cpu[0].Hours[last] != 1.7 || mem[0].Hours[last] != 79.1 {
+		t.Errorf("the last hour's mean of its half hours, in percent: %v %v", cpu[0].Hours[last], mem[0].Hours[last])
 	}
 
 	guests := sections["proxmox.guests"].Rows
@@ -184,5 +198,43 @@ func TestConfigCheck(t *testing.T) {
 		if err := bad.c.Check(); err == nil || !strings.Contains(err.Error(), bad.want) {
 			t.Errorf("%+v: want an error with %q, got %v", bad.c, bad.want, err)
 		}
+	}
+}
+
+// Hosts' lines start when every host has a reading, each carrying its last
+// over an hour without one, so that they're all as long.
+func TestLevels(t *testing.T) {
+	t.Parallel()
+	at := func(h *host, hour int64, cpu float64) {
+		used, total := 50.0, 100.0
+		h.history = append(h.history, struct {
+			Time     int64    `json:"time"`
+			CPU      *float64 `json:"cpu"`
+			MemUsed  *float64 `json:"memused"`
+			MemTotal *float64 `json:"memtotal"`
+		}{Time: hour * 3600, CPU: &cpu, MemUsed: &used, MemTotal: &total})
+	}
+	a, b := &host{name: "alder"}, &host{name: "birch"}
+	at(a, 10, 0.1)
+	at(a, 11, 0.2)
+	at(a, 13, 0.4) // no reading at 12
+	at(b, 11, 0.5)
+	at(b, 12, 0.6)
+	at(b, 13, 0.7)
+	c := levels([]*host{a, b})
+	if len(c) != 2 {
+		t.Fatalf("two charts: %+v", c)
+	}
+	if got := c[0].Series[0].Hours; !slices.Equal(got, []float64{20, 20, 40}) {
+		t.Errorf("alder from hour 11, its 12th carrying the 11th: %v", got)
+	}
+	if got := c[0].Series[1].Hours; !slices.Equal(got, []float64{50, 60, 70}) {
+		t.Errorf("birch from hour 11: %v", got)
+	}
+	if got := c[1].Series[0].Hours; !slices.Equal(got, []float64{50, 50, 50}) {
+		t.Errorf("memory in percent: %v", got)
+	}
+	if levels([]*host{a, {name: "cedar"}}) != nil {
+		t.Error("a host with no reading at all: no charts")
 	}
 }

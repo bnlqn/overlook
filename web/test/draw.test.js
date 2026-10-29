@@ -1,6 +1,19 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { areas, badge, bars, checkRows, figureMeter, RECENT, section, shares, strip, tip } from "../js/draw.js";
+import {
+  areas,
+  badge,
+  bars,
+  checkRows,
+  figureMeter,
+  lineColours,
+  lines,
+  RECENT,
+  section,
+  shares,
+  strip,
+  tip,
+} from "../js/draw.js";
 import { setWords } from "../js/text.js";
 
 setWords(
@@ -165,4 +178,18 @@ test("a tile's shares may start further on in the colours, and go round", () => 
   };
   assert.match(shares(two, 2), /--c:var\(--m-series-3\).*--c:var\(--m-series-4\)/);
   assert.match(shares(two, 7), /--c:var\(--m-series-8\).*--c:var\(--m-series-1\)/, "after the eighth, the first");
+});
+
+test("levels are lines from 0 to 100%, past eight the highest coloured and the rest grey", () => {
+  const line = (name, v) => ({ label: { name }, hours: [v, v, v] });
+  const html = lines([line("alder", 18), line("<b>birch</b>", 27)], new Date(2026, 9, 28, 12));
+  assert.match(html, /class="stroke" d="M0\.5,82\.00L1\.5,82\.00L2\.5,82\.00" style="stroke:var\(--m-series-1\)"/);
+  assert.match(html, /style="stroke:var\(--m-series-2\)"/);
+  assert.doesNotMatch(html, /<b>birch/, "names are escaped");
+  assert.match(html, /<span class="scale" style="bottom:100%">100%<\/span>/);
+  const ten = Array.from({ length: 10 }, (_, k) => line(`h${k}`, k));
+  const colours = lineColours(ten);
+  assert.equal(colours.filter((c) => c === "var(--m-label-3)").length, 3, "three give way");
+  assert.equal(colours[9], "var(--m-series-7)", "the highest keeps a colour, the seventh of them");
+  assert.equal(colours[0], "var(--m-label-3)", "the lowest is grey");
 });
