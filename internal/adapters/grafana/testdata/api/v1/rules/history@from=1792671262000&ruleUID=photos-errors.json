@@ -1,0 +1,71 @@
+{
+  "schema": {
+    "name": "states",
+    "fields": [
+      {
+        "name": "time",
+        "type": "time",
+        "typeInfo": {
+          "frame": "time.Time"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "photos-errors"
+        }
+      },
+      {
+        "name": "text",
+        "type": "string",
+        "typeInfo": {
+          "frame": "string"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "photos-errors"
+        }
+      },
+      {
+        "name": "prev",
+        "type": "string",
+        "typeInfo": {
+          "frame": "string"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "photos-errors"
+        }
+      },
+      {
+        "name": "next",
+        "type": "string",
+        "typeInfo": {
+          "frame": "string"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "photos-errors"
+        }
+      },
+      {
+        "name": "data",
+        "type": "string",
+        "typeInfo": {
+          "frame": "string"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "photos-errors"
+        }
+      }
+    ]
+  },
+  "data": {
+    "values": [
+      [],
+      [],
+      [],
+      [],
+      []
+    ]
+  }
+}

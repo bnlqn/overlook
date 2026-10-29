@@ -1,0 +1,101 @@
+{
+  "schema": {
+    "name": "states",
+    "fields": [
+      {
+        "name": "time",
+        "type": "time",
+        "typeInfo": {
+          "frame": "time.Time"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "disk-space"
+        }
+      },
+      {
+        "name": "text",
+        "type": "string",
+        "typeInfo": {
+          "frame": "string"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "disk-space"
+        }
+      },
+      {
+        "name": "prev",
+        "type": "string",
+        "typeInfo": {
+          "frame": "string"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "disk-space"
+        }
+      },
+      {
+        "name": "next",
+        "type": "string",
+        "typeInfo": {
+          "frame": "string"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "disk-space"
+        }
+      },
+      {
+        "name": "data",
+        "type": "string",
+        "typeInfo": {
+          "frame": "string"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "disk-space"
+        }
+      }
+    ]
+  },
+  "data": {
+    "values": [
+      [
+        1793276050000000,
+        1793275990000000,
+        1793275930000000,
+        1793275870000000,
+        1793275810000000
+      ],
+      [
+        "Disk space {alertname=Disk space, grafana_folder=Servers} - B=96.000000, C=1.000000",
+        "Disk space {alertname=Disk space, grafana_folder=Servers} - B=72.000000, C=0.000000",
+        "Disk space {alertname=Disk space, grafana_folder=Servers} - B=96.000000, C=1.000000",
+        "Disk space {alertname=Disk space, grafana_folder=Servers} - B=72.000000, C=0.000000",
+        "Disk space {alertname=Disk space, grafana_folder=Servers} - B=96.000000, C=1.000000"
+      ],
+      [
+        "Normal",
+        "Alerting",
+        "Normal",
+        "Alerting",
+        "Normal"
+      ],
+      [
+        "Alerting",
+        "Normal",
+        "Alerting",
+        "Normal",
+        "Alerting"
+      ],
+      [
+        "{\"values\":{\"B\":96,\"C\":1}}",
+        "{\"values\":{\"B\":72,\"C\":0}}",
+        "{\"values\":{\"B\":96,\"C\":1}}",
+        "{\"values\":{\"B\":72,\"C\":0}}",
+        "{\"values\":{\"B\":96,\"C\":1}}"
+      ]
+    ]
+  }
+}

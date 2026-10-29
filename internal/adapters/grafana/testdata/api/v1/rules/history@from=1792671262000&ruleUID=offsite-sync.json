@@ -1,0 +1,81 @@
+{
+  "schema": {
+    "name": "states",
+    "fields": [
+      {
+        "name": "time",
+        "type": "time",
+        "typeInfo": {
+          "frame": "time.Time"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "offsite-sync"
+        }
+      },
+      {
+        "name": "text",
+        "type": "string",
+        "typeInfo": {
+          "frame": "string"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "offsite-sync"
+        }
+      },
+      {
+        "name": "prev",
+        "type": "string",
+        "typeInfo": {
+          "frame": "string"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "offsite-sync"
+        }
+      },
+      {
+        "name": "next",
+        "type": "string",
+        "typeInfo": {
+          "frame": "string"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "offsite-sync"
+        }
+      },
+      {
+        "name": "data",
+        "type": "string",
+        "typeInfo": {
+          "frame": "string"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "offsite-sync"
+        }
+      }
+    ]
+  },
+  "data": {
+    "values": [
+      [
+        1793275790000000
+      ],
+      [
+        "Offsite sync {alertname=Offsite sync, datasource_uid=eg2osqpg15vk0c, grafana_folder=Storage, ref_id=A} - No data"
+      ],
+      [
+        "Normal"
+      ],
+      [
+        "NoData"
+      ],
+      [
+        "{\"noData\":true}"
+      ]
+    ]
+  }
+}

@@ -7,6 +7,7 @@
 /internal/adapters/docker/  @bnlqn
 /internal/adapters/gatus/   @bnlqn
 /internal/adapters/github/  @bnlqn
+/internal/adapters/grafana/ @bnlqn
 /internal/adapters/homeassistant/ @bnlqn
 /internal/adapters/ical/    @bnlqn
 /internal/adapters/immich/  @bnlqn

@@ -1,0 +1,81 @@
+{
+  "schema": {
+    "name": "states",
+    "fields": [
+      {
+        "name": "time",
+        "type": "time",
+        "typeInfo": {
+          "frame": "time.Time"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "packet-loss"
+        }
+      },
+      {
+        "name": "text",
+        "type": "string",
+        "typeInfo": {
+          "frame": "string"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "packet-loss"
+        }
+      },
+      {
+        "name": "prev",
+        "type": "string",
+        "typeInfo": {
+          "frame": "string"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "packet-loss"
+        }
+      },
+      {
+        "name": "next",
+        "type": "string",
+        "typeInfo": {
+          "frame": "string"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "packet-loss"
+        }
+      },
+      {
+        "name": "data",
+        "type": "string",
+        "typeInfo": {
+          "frame": "string"
+        },
+        "labels": {
+          "from": "state-history",
+          "ruleUID": "packet-loss"
+        }
+      }
+    ]
+  },
+  "data": {
+    "values": [
+      [
+        1793275790000000
+      ],
+      [
+        "Packet loss {alertname=Packet loss, grafana_folder=Network} - B=7.000000, C=1.000000"
+      ],
+      [
+        "Normal"
+      ],
+      [
+        "Pending"
+      ],
+      [
+        "{\"values\":{\"B\":7,\"C\":1}}"
+      ]
+    ]
+  }
+}

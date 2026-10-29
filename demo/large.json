@@ -3,13 +3,13 @@
   "sources": [
     { "name": "Gatus", "adapter": "gatus", "answered": true },
     { "name": "Uptime Kuma", "adapter": "uptimekuma", "answered": true },
+    { "name": "Grafana", "adapter": "grafana", "answered": true },
     { "name": "GitHub", "adapter": "github", "answered": true },
     { "name": "Immich", "adapter": "immich", "area": "apps", "answered": true },
     { "name": "Backup Server", "adapter": "pbs", "area": "storage", "answered": true },
     { "name": "Offsite Backups", "adapter": "pbs", "area": "storage", "answered": true },
     { "name": "Cluster", "adapter": "proxmox", "area": "servers", "answered": true },
     { "name": "Vault", "adapter": "proxmox", "area": "servers", "answered": true },
-    { "name": "Edge", "adapter": "proxmox", "area": "servers", "answered": true },
     { "name": "Beszel", "adapter": "beszel", "area": "servers", "answered": true },
     { "name": "Docker", "adapter": "docker", "area": "servers", "answered": true },
     { "name": "Media", "adapter": "docker", "area": "servers", "answered": true },
@@ -3438,6 +3438,345 @@
         { "ok": false, "at": "2026-10-28T09:27:13Z", "ms": 157.076 },
         { "ok": false, "at": "2026-10-28T09:29:13Z", "ms": 124.911 }
       ]
+    },
+    {
+      "key": "disk-space",
+      "name": "Disk space",
+      "area": "storage",
+      "source": "Grafana",
+      "url": "https://grafana.example.com/alerting/grafana/disk-space/view",
+      "threshold": 1,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:01:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:02:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:03:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:04:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:05:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:06:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:07:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:08:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:09:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:10:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:11:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:12:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:13:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:14:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:15:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:16:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:17:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:18:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:19:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:20:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:21:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:22:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:23:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:24:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:25:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:26:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:27:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:28:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:29:00Z", "ms": 0.422 }
+      ],
+      "outages": [{ "from": "2026-10-26T02:14:00Z", "to": "2026-10-26T03:02:00Z" }]
+    },
+    {
+      "key": "pool-capacity",
+      "name": "Pool capacity",
+      "area": "storage",
+      "source": "Grafana",
+      "url": "https://grafana.example.com/alerting/grafana/pool-capacity/view",
+      "threshold": 1,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:01:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:02:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:03:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:04:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:05:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:06:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:07:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:08:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:09:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:10:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:11:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:12:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:13:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:14:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:15:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:16:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:17:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:18:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:19:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:20:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:21:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:22:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:23:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:24:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:25:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:26:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:27:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:28:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:29:00Z", "ms": 0.561 }
+      ]
+    },
+    {
+      "key": "cpu-steal",
+      "name": "CPU steal",
+      "area": "servers",
+      "source": "Grafana",
+      "url": "https://grafana.example.com/alerting/grafana/cpu-steal/view",
+      "threshold": 1,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:01:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:02:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:03:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:04:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:05:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:06:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:07:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:08:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:09:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:10:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:11:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:12:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:13:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:14:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:15:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:16:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:17:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:18:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:19:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:20:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:21:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:22:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:23:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:24:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:25:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:26:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:27:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:28:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:29:00Z", "ms": 0.51 }
+      ]
+    },
+    {
+      "key": "guest-memory",
+      "name": "Guest memory",
+      "area": "servers",
+      "source": "Grafana",
+      "url": "https://grafana.example.com/alerting/grafana/guest-memory/view",
+      "threshold": 1,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:01:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:02:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:03:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:04:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:05:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:06:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:07:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:08:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:09:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:10:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:11:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:12:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:13:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:14:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:15:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:16:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:17:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:18:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:19:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:20:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:21:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:22:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:23:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:24:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:25:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:26:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:27:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:28:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:29:00Z", "ms": 0.417 }
+      ]
+    },
+    {
+      "key": "packet-loss",
+      "name": "Packet loss",
+      "area": "network",
+      "source": "Grafana",
+      "url": "https://grafana.example.com/alerting/grafana/packet-loss/view",
+      "threshold": 31,
+      "run": 4,
+      "problem": false,
+      "why": "Packet loss is over 5%",
+      "since": "2026-10-28T09:26:00Z",
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:01:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:02:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:03:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:04:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:05:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:06:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:07:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:08:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:09:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:10:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:11:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:12:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:13:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:14:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:15:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:16:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:17:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:18:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:19:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:20:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:21:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:22:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:23:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:24:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:25:00Z", "ms": null },
+        { "ok": false, "at": "2026-10-28T09:26:00Z", "ms": null },
+        { "ok": false, "at": "2026-10-28T09:27:00Z", "ms": null },
+        { "ok": false, "at": "2026-10-28T09:28:00Z", "ms": null },
+        { "ok": false, "at": "2026-10-28T09:29:00Z", "ms": 0.552, "why": "Packet loss is over 5%" }
+      ]
+    },
+    {
+      "key": "wan-latency",
+      "name": "WAN latency",
+      "area": "network",
+      "source": "Grafana",
+      "url": "https://grafana.example.com/alerting/grafana/wan-latency/view",
+      "threshold": 1,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:01:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:02:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:03:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:04:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:05:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:06:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:07:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:08:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:09:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:10:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:11:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:12:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:13:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:14:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:15:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:16:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:17:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:18:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:19:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:20:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:21:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:22:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:23:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:24:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:25:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:26:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:27:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:28:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:29:00Z", "ms": 0.411 }
+      ]
+    },
+    {
+      "key": "photos-errors",
+      "name": "Photos errors",
+      "area": "apps",
+      "source": "Grafana",
+      "url": "https://grafana.example.com/alerting/grafana/photos-errors/view",
+      "threshold": 1,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:01:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:02:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:03:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:04:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:05:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:06:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:07:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:08:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:09:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:10:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:11:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:12:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:13:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:14:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:15:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:16:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:17:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:18:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:19:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:20:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:21:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:22:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:23:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:24:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:25:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:26:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:27:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:28:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:29:00Z", "ms": 0.53 }
+      ]
+    },
+    {
+      "key": "queue-depth",
+      "name": "Request queue",
+      "area": "apps",
+      "source": "Grafana",
+      "url": "https://grafana.example.com/alerting/grafana/queue-depth/view",
+      "threshold": 1,
+      "run": 0,
+      "problem": false,
+      "results": [
+        { "ok": true, "at": "2026-10-28T09:00:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:01:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:02:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:03:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:04:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:05:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:06:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:07:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:08:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:09:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:10:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:11:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:12:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:13:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:14:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:15:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:16:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:17:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:18:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:19:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:20:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:21:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:22:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:23:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:24:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:25:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:26:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:27:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:28:00Z", "ms": null },
+        { "ok": true, "at": "2026-10-28T09:29:00Z", "ms": 0.421 }
+      ]
     }
   ],
   "sections": [
@@ -4627,96 +4966,6 @@
           "detail": {
             "key": "proxmox.run_took",
             "args": { "at": "2026-10-28T01:15:00Z", "ms": 2439000, "status": "OK" }
-          },
-          "tone": "green"
-        }
-      ]
-    },
-    {
-      "area": "servers",
-      "source": "Edge",
-      "title": { "key": "section.hosts" },
-      "rows": [
-        {
-          "title": { "name": "edge" },
-          "value": { "key": "proxmox.up_for", "args": { "ms": 8420400000 } },
-          "detail": {
-            "key": "proxmox.host_detail",
-            "args": { "model": "N100", "n": 4, "load": 0.31, "version": "9.2.21" }
-          },
-          "meters": [
-            { "label": { "key": "proxmox.cpu_meter" }, "used": 0.24, "total": 4 },
-            { "label": { "key": "proxmox.ram_meter" }, "used": 10093173145, "total": 17179869184, "tone": "blue" }
-          ]
-        }
-      ]
-    },
-    {
-      "area": "servers",
-      "source": "Edge",
-      "title": { "key": "proxmox.guests" },
-      "rows": [
-        {
-          "title": { "name": "proxy" },
-          "value": { "key": "proxmox.up_for", "args": { "ms": 8416800000 } },
-          "detail": { "key": "proxmox.container", "args": { "id": 300, "n": 1, "gb": 1 } }
-        },
-        {
-          "title": { "name": "vpn" },
-          "value": { "key": "proxmox.up_for", "args": { "ms": 8416800000 } },
-          "detail": { "key": "proxmox.container", "args": { "id": 301, "n": 1, "gb": 1 } }
-        },
-        {
-          "title": { "name": "dns-secondary" },
-          "value": { "key": "proxmox.up_for", "args": { "ms": 8416800000 } },
-          "detail": { "key": "proxmox.container", "args": { "id": 302, "n": 1, "gb": 1 } }
-        },
-        {
-          "title": { "name": "tunnel" },
-          "value": { "key": "proxmox.up_for", "args": { "ms": 8416800000 } },
-          "detail": { "key": "proxmox.container", "args": { "id": 303, "n": 1, "gb": 1 } }
-        },
-        {
-          "title": { "name": "ntp" },
-          "value": { "key": "proxmox.up_for", "args": { "ms": 8416800000 } },
-          "detail": { "key": "proxmox.container", "args": { "id": 304, "n": 1, "gb": 1 } }
-        },
-        {
-          "title": { "name": "netboot" },
-          "value": { "key": "proxmox.stopped" },
-          "detail": { "key": "proxmox.container", "args": { "id": 305, "n": 1, "gb": 1 } },
-          "tone": "gray"
-        }
-      ]
-    },
-    {
-      "area": "servers",
-      "source": "Edge",
-      "title": { "key": "proxmox.storage" },
-      "rows": [
-        {
-          "title": { "name": "local" },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 7623566950, "total": 62277025792 } },
-          "meter": { "used": 7623566950, "total": 62277025792 }
-        },
-        {
-          "title": { "name": "local-lvm" },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 33285996544, "total": 151397597184 } },
-          "meter": { "used": 33285996544, "total": 151397597184 }
-        }
-      ]
-    },
-    {
-      "area": "servers",
-      "source": "Edge",
-      "title": { "key": "proxmox.backups" },
-      "rows": [
-        {
-          "title": { "key": "proxmox.last_run" },
-          "value": { "key": "proxmox.done" },
-          "detail": {
-            "key": "proxmox.run_took",
-            "args": { "at": "2026-10-28T01:00:00Z", "ms": 134000, "status": "OK" }
           },
           "tone": "green"
         }
@@ -6093,50 +6342,6 @@
     },
     {
       "area": "servers",
-      "title": { "key": "chart.processor" },
-      "series": [
-        {
-          "label": { "name": "edge" },
-          "hours": [
-            7.0, 8.2, 8.1, 9.0, 8.4, 8.9, 8.5, 8.0, 7.2, 6.3, 6.3, 5.4, 5.0, 3.8, 28.3, 3.2, 3.5, 3.0, 4.0, 3.8, 4.8,
-            5.5, 6.3, 6.3, 7.6, 8.0, 8.7, 8.5, 8.9, 9.0, 8.6, 8.3, 7.0, 7.1, 6.3, 5.7, 4.3, 3.8, 29.0, 3.5, 3.4, 3.5,
-            3.8, 4.3, 5.0, 5.3, 6.0, 6.9, 7.2, 7.5, 8.1, 8.9, 8.8, 8.5, 8.1, 7.9, 7.7, 6.4, 5.7, 5.3, 4.3, 4.4, 28.9,
-            3.0, 3.6, 3.3, 3.4, 4.5, 4.9, 5.1, 5.9, 6.6, 7.2, 7.8, 8.2, 8.9, 8.5, 8.9, 8.6, 7.7, 7.3, 7.1, 5.7, 5.6,
-            4.5, 3.9, 28.9, 3.2, 3.7, 3.7, 3.8, 4.4, 4.6, 5.4, 5.9, 6.4, 7.4, 8.1, 8.1, 8.3, 8.8, 8.5, 8.6, 8.0, 7.0,
-            6.6, 5.8, 5.7, 4.3, 4.0, 28.6, 3.3, 2.9, 3.4, 3.9, 3.7, 4.4, 5.2, 5.6, 6.3, 7.2, 8.1, 8.1, 8.2, 8.9, 8.2,
-            8.1, 8.1, 7.1, 7.1, 6.4, 5.6, 5.0, 4.2, 28.9, 3.3, 3.3, 3.6, 3.7, 4.2, 4.6, 5.6, 6.3, 6.7, 7.0, 8.2, 8.7,
-            8.7, 8.9, 8.3, 8.2, 7.7, 7.6, 6.5, 6.4, 5.1, 4.5, 4.2, 29.0, 3.5, 3.6, 3.0, 3.9, 3.8, 4.3, 5.0, 6.1, 6.6
-          ]
-        }
-      ],
-      "measures": true,
-      "source": "Edge"
-    },
-    {
-      "area": "servers",
-      "title": { "key": "chart.memory" },
-      "series": [
-        {
-          "label": { "name": "edge" },
-          "hours": [
-            60.4, 61.7, 61.7, 62.8, 62.7, 62.5, 61.6, 62.0, 60.8, 60.2, 59.4, 58.3, 56.9, 56.4, 60.4, 55.9, 54.9, 56.1,
-            55.9, 56.1, 57.2, 57.6, 59.0, 59.8, 61.0, 61.8, 62.2, 62.8, 62.9, 62.4, 61.6, 61.4, 61.1, 59.5, 59.0, 57.6,
-            57.4, 56.9, 60.2, 55.8, 55.7, 55.2, 56.0, 56.7, 57.5, 58.3, 58.6, 59.6, 60.6, 61.0, 62.6, 62.3, 62.1, 62.5,
-            62.5, 61.0, 61.1, 60.2, 59.3, 58.5, 57.5, 56.8, 60.1, 55.8, 55.4, 55.9, 55.6, 56.6, 57.4, 58.1, 59.0, 60.4,
-            60.4, 61.2, 62.1, 62.6, 62.1, 62.7, 61.9, 61.6, 60.5, 59.9, 59.3, 58.6, 57.1, 56.8, 59.4, 55.5, 55.4, 55.2,
-            55.5, 56.6, 57.0, 58.1, 58.5, 60.3, 60.6, 61.2, 62.6, 62.7, 62.2, 62.3, 62.0, 61.5, 60.3, 59.8, 59.0, 58.3,
-            57.2, 56.5, 60.0, 55.6, 55.2, 55.7, 55.8, 56.8, 57.1, 57.8, 59.3, 60.3, 60.3, 61.8, 62.5, 62.1, 62.1, 62.5,
-            62.5, 61.7, 60.8, 60.4, 59.3, 57.8, 57.4, 56.9, 59.9, 56.0, 55.2, 55.1, 56.4, 56.0, 56.9, 58.0, 58.5, 60.4,
-            61.0, 61.3, 61.7, 62.8, 62.0, 62.5, 62.1, 61.1, 61.2, 60.1, 59.5, 57.6, 56.9, 56.1, 59.5, 55.5, 55.8, 55.4,
-            55.6, 57.0, 57.1, 57.8, 58.5, 59.7
-          ]
-        }
-      ],
-      "measures": true,
-      "source": "Edge"
-    },
-    {
-      "area": "servers",
       "source": "Beszel",
       "title": { "key": "chart.processor" },
       "series": [
@@ -7193,21 +7398,6 @@
     },
     {
       "area": "servers",
-      "source": "Edge",
-      "icon": "stack",
-      "label": { "key": "proxmox.guests" },
-      "value": 5,
-      "unit": { "key": "proxmox.of_up", "args": { "n": 6 } },
-      "detail": { "key": "proxmox.hosts_online", "args": { "online": 1, "n": 1 } },
-      "tone": "orange",
-      "adds": true,
-      "meters": [
-        { "label": { "key": "proxmox.cpu_meter" }, "used": 0.24, "total": 4 },
-        { "label": { "key": "proxmox.ram_meter" }, "used": 10093173145, "total": 17179869184, "tone": "blue" }
-      ]
-    },
-    {
-      "area": "servers",
       "source": "Beszel",
       "icon": "server",
       "label": { "key": "beszel.hosts" },
@@ -7734,55 +7924,6 @@
       "source": "Vault",
       "icon": "archive",
       "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-22T01:15:00Z", "ms": 2544000, "status": "OK" } }
-    },
-    {
-      "at": "2026-10-28T01:00:00Z",
-      "area": "servers",
-      "source": "Edge",
-      "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-28T01:00:00Z", "ms": 134000, "status": "OK" } }
-    },
-    {
-      "at": "2026-10-27T01:00:00Z",
-      "area": "servers",
-      "source": "Edge",
-      "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-27T01:00:00Z", "ms": 155000, "status": "OK" } }
-    },
-    {
-      "at": "2026-10-26T01:00:00Z",
-      "area": "servers",
-      "source": "Edge",
-      "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-26T01:00:00Z", "ms": 123000, "status": "OK" } }
-    },
-    {
-      "at": "2026-10-25T01:00:00Z",
-      "area": "servers",
-      "source": "Edge",
-      "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-25T01:00:00Z", "ms": 144000, "status": "OK" } }
-    },
-    {
-      "at": "2026-10-24T01:00:00Z",
-      "area": "servers",
-      "source": "Edge",
-      "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-24T01:00:00Z", "ms": 142000, "status": "OK" } }
-    },
-    {
-      "at": "2026-10-23T01:00:00Z",
-      "area": "servers",
-      "source": "Edge",
-      "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-23T01:00:00Z", "ms": 162000, "status": "OK" } }
-    },
-    {
-      "at": "2026-10-22T01:00:00Z",
-      "area": "servers",
-      "source": "Edge",
-      "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-22T01:00:00Z", "ms": 121000, "status": "OK" } }
     }
   ],
   "updates": [
@@ -8039,6 +8180,12 @@
       "url": "https://uptime.example.com",
       "description": "What the internet sees",
       "color": "#5CDD8B"
+    },
+    {
+      "name": "Grafana",
+      "url": "https://grafana.example.com",
+      "description": "Dashboards and alert rules",
+      "color": "#F46800"
     },
     {
       "name": "Cluster",

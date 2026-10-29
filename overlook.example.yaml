@@ -26,6 +26,14 @@ sources:
       # areas:                         # as Gatus's, for the status page's groups
       #   DNS: network
 
+  # Another check engine: the alert rules Grafana manages, in their folders.
+  grafana:
+    - url: http://grafana:3000         # where Overlook reads Grafana
+      token: ${GRAFANA_TOKEN}          # a service account's, with the Viewer role
+      # link: https://grafana.example.com # where the page sends you, if not the same
+      # areas:                         # as Gatus's, for the rules' folders
+      #   Hosts: servers
+
   # The updates waiting: the open pull requests from Dependabot or Renovate,
   # read at most every 10 minutes.
   github:
