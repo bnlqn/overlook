@@ -1,0 +1,32 @@
+# The scratch Prometheus's invented alert rules, each over a number of its
+# own, so that none needs anything to watch: Disk space fires for a minute
+# every other minute, Packet loss is pending for an hour, Backup age fires
+# and is silenced in Alertmanager by fill.sh, and the rest never fire.
+groups:
+  - name: Servers
+    rules:
+      - alert: Disk space
+        expr: (vector(time() % 120) < bool 60) * 96 > 90
+        annotations: { summary: Disk space is over 90% }
+      - alert: Host memory
+        expr: vector(41) > 90
+        annotations: { summary: Host memory is over 90% }
+  - name: Network
+    rules:
+      - alert: Packet loss
+        expr: vector(7) > 5
+        for: 1h
+        annotations: { summary: Packet loss is over 5% }
+      - alert: Scrape failing
+        expr: up == 0
+        annotations: { summary: "{{ $labels.job }} can't be scraped" }
+  - name: Storage
+    rules:
+      - alert: Backup age
+        expr: vector(30) > 26
+        annotations: { summary: The last backup is over 26 hours old }
+  - name: Apps
+    rules:
+      - alert: Photos errors
+        expr: vector(3) > 10
+        annotations: { summary: Photos answers with errors }

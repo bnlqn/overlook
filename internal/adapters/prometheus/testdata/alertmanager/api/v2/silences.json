@@ -1,0 +1,21 @@
+[
+  {
+    "id": "faa64081-e451-4119-89c5-49a552d93550",
+    "status": {
+      "state": "active"
+    },
+    "updatedAt": "2026-10-29T12:53:09.284Z",
+    "comment": "The offsite disk is being swapped",
+    "createdBy": "owner",
+    "endsAt": "2026-10-30T12:53:09.000Z",
+    "matchers": [
+      {
+        "isEqual": true,
+        "isRegex": false,
+        "name": "alertname",
+        "value": "Backup age"
+      }
+    ],
+    "startsAt": "2026-10-29T12:53:09.284Z"
+  }
+]

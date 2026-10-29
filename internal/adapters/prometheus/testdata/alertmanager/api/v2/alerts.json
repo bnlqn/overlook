@@ -1,0 +1,28 @@
+[
+  {
+    "annotations": {
+      "summary": "The last backup is over 26 hours old"
+    },
+    "endsAt": "2026-10-29T13:02:27.966Z",
+    "fingerprint": "d3ae4fef47b15f03",
+    "receivers": [
+      {
+        "name": "web.hook"
+      }
+    ],
+    "startsAt": "2026-10-29T12:52:37.966Z",
+    "status": {
+      "inhibitedBy": [],
+      "mutedBy": [],
+      "silencedBy": [
+        "faa64081-e451-4119-89c5-49a552d93550"
+      ],
+      "state": "suppressed"
+    },
+    "updatedAt": "2026-10-29T12:58:27.969Z",
+    "generatorURL": "http://452f4a15a466:9090/graph?g0.expr=vector%2830%29+%3E+26&g0.tab=1",
+    "labels": {
+      "alertname": "Backup age"
+    }
+  }
+]

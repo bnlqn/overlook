@@ -31,6 +31,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/paperless"
 	"github.com/bnlqn/overlook/internal/adapters/pbs"
 	"github.com/bnlqn/overlook/internal/adapters/pihole"
+	"github.com/bnlqn/overlook/internal/adapters/prometheus"
 	"github.com/bnlqn/overlook/internal/adapters/prowlarr"
 	"github.com/bnlqn/overlook/internal/adapters/proxmox"
 	"github.com/bnlqn/overlook/internal/adapters/qbittorrent"
@@ -58,6 +59,7 @@ type Sources struct {
 	Gatus         []gatus.Config         `yaml:"gatus"`
 	UptimeKuma    []uptimekuma.Config    `yaml:"uptimekuma"`
 	Grafana       []grafana.Config       `yaml:"grafana"`
+	Prometheus    []prometheus.Config    `yaml:"prometheus"`
 	GitHub        []github.Config        `yaml:"github"`
 	Immich        []immich.Config        `yaml:"immich"`
 	PBS           []pbs.Config           `yaml:"pbs"`
@@ -106,7 +108,7 @@ func add[C any, P interface {
 
 // checkEngines are the adapters whose sources run the homelab's checks,
 // which a link's check names.
-var checkEngines = []string{"gatus", "uptimekuma", "grafana"}
+var checkEngines = []string{"gatus", "uptimekuma", "grafana", "prometheus"}
 
 var (
 	envVar = regexp.MustCompile(`\$\{([A-Za-z_][A-Za-z0-9_]*)\}`)
@@ -180,6 +182,7 @@ func (c *Config) check() error {
 		add(c, "gatus", "", c.Sources.Gatus, func(g gatus.Config) string { return g.Name }, gatus.Read),
 		add(c, "uptimekuma", "", c.Sources.UptimeKuma, func(u uptimekuma.Config) string { return u.Name }, uptimekuma.Read),
 		add(c, "grafana", "", c.Sources.Grafana, func(g grafana.Config) string { return g.Name }, grafana.Read),
+		add(c, "prometheus", "", c.Sources.Prometheus, func(p prometheus.Config) string { return p.Name }, prometheus.Read),
 		add(c, "github", "", c.Sources.GitHub, func(g github.Config) string { return g.Name }, github.Read),
 		add(c, "immich", immich.Area, c.Sources.Immich, func(im immich.Config) string { return im.Name }, immich.Read),
 		add(c, "pbs", pbs.Area, c.Sources.PBS, func(b pbs.Config) string { return b.Name }, pbs.Read),

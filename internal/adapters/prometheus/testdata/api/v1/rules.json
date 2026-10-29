@@ -1,0 +1,167 @@
+{
+  "status": "success",
+  "data": {
+    "groups": [
+      {
+        "name": "Apps",
+        "file": "/etc/prometheus/rules.yml",
+        "rules": [
+          {
+            "state": "inactive",
+            "name": "Photos errors",
+            "query": "vector(3) > 10",
+            "duration": 0,
+            "keepFiringFor": 0,
+            "labels": {},
+            "annotations": {
+              "summary": "Photos answers with errors"
+            },
+            "alerts": [],
+            "health": "ok",
+            "evaluationTime": 0.000263834,
+            "lastEvaluation": "2026-10-29T12:59:16.975999885Z",
+            "type": "alerting"
+          }
+        ],
+        "interval": 10,
+        "limit": 0,
+        "evaluationTime": 0.000340167,
+        "lastEvaluation": "2026-10-29T12:59:16.975930052Z"
+      },
+      {
+        "name": "Network",
+        "file": "/etc/prometheus/rules.yml",
+        "rules": [
+          {
+            "state": "pending",
+            "name": "Packet loss",
+            "query": "vector(7) > 5",
+            "duration": 3600,
+            "keepFiringFor": 0,
+            "labels": {},
+            "annotations": {
+              "summary": "Packet loss is over 5%"
+            },
+            "alerts": [
+              {
+                "labels": {
+                  "alertname": "Packet loss"
+                },
+                "annotations": {
+                  "summary": "Packet loss is over 5%"
+                },
+                "state": "pending",
+                "activeAt": "2026-10-29T12:52:39.137705404Z",
+                "value": "7e+00"
+              }
+            ],
+            "health": "ok",
+            "evaluationTime": 0.000386375,
+            "lastEvaluation": "2026-10-29T12:59:09.143222507Z",
+            "type": "alerting"
+          },
+          {
+            "state": "inactive",
+            "name": "Scrape failing",
+            "query": "up == 0",
+            "duration": 0,
+            "keepFiringFor": 0,
+            "labels": {},
+            "annotations": {
+              "summary": "{{ $labels.job }} can't be scraped"
+            },
+            "alerts": [],
+            "health": "ok",
+            "evaluationTime": 0.000128334,
+            "lastEvaluation": "2026-10-29T12:59:09.143616507Z",
+            "type": "alerting"
+          }
+        ],
+        "interval": 10,
+        "limit": 0,
+        "evaluationTime": 0.000572709,
+        "lastEvaluation": "2026-10-29T12:59:09.143175257Z"
+      },
+      {
+        "name": "Servers",
+        "file": "/etc/prometheus/rules.yml",
+        "rules": [
+          {
+            "state": "inactive",
+            "name": "Disk space",
+            "query": "(vector(time() % 120) < bool 60) * 96 > 90",
+            "duration": 0,
+            "keepFiringFor": 0,
+            "labels": {},
+            "annotations": {
+              "summary": "Disk space is over 90%"
+            },
+            "alerts": [],
+            "health": "ok",
+            "evaluationTime": 0.000217625,
+            "lastEvaluation": "2026-10-29T12:59:14.173967759Z",
+            "type": "alerting"
+          },
+          {
+            "state": "inactive",
+            "name": "Host memory",
+            "query": "vector(41) > 90",
+            "duration": 0,
+            "keepFiringFor": 0,
+            "labels": {},
+            "annotations": {
+              "summary": "Host memory is over 90%"
+            },
+            "alerts": [],
+            "health": "ok",
+            "evaluationTime": 0.000048209,
+            "lastEvaluation": "2026-10-29T12:59:14.174191426Z",
+            "type": "alerting"
+          }
+        ],
+        "interval": 10,
+        "limit": 0,
+        "evaluationTime": 0.000323291,
+        "lastEvaluation": "2026-10-29T12:59:14.173919634Z"
+      },
+      {
+        "name": "Storage",
+        "file": "/etc/prometheus/rules.yml",
+        "rules": [
+          {
+            "state": "firing",
+            "name": "Backup age",
+            "query": "vector(30) > 26",
+            "duration": 0,
+            "keepFiringFor": 0,
+            "labels": {},
+            "annotations": {
+              "summary": "The last backup is over 26 hours old"
+            },
+            "alerts": [
+              {
+                "labels": {
+                  "alertname": "Backup age"
+                },
+                "annotations": {
+                  "summary": "The last backup is over 26 hours old"
+                },
+                "state": "firing",
+                "activeAt": "2026-10-29T12:52:37.966438268Z",
+                "value": "3e+01"
+              }
+            ],
+            "health": "ok",
+            "evaluationTime": 0.000359917,
+            "lastEvaluation": "2026-10-29T12:59:07.968974298Z",
+            "type": "alerting"
+          }
+        ],
+        "interval": 10,
+        "limit": 0,
+        "evaluationTime": 0.000412584,
+        "lastEvaluation": "2026-10-29T12:59:07.968926048Z"
+      }
+    ]
+  }
+}
