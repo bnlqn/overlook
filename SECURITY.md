@@ -2,7 +2,7 @@
 
 Overlook holds a key for every source it reads, and some of those keys can do anything (ADR 0001). Its security rests on four promises:
 
-- **It only reads.** The only HTTP client adapters get sends GET requests and refuses every other method.
+- **It only reads.** The only HTTP client adapters get sends GET requests, and a login where a source offers no other way in, and refuses every other request (ADR 0009).
 - **Keys stay in the container.** The server reads every source; the browser gets a snapshot, never a key or a source's raw answer (ADR 0002). An error a source causes is shortened so that it never carries its URL.
 - **A source's words can't run.** The page escapes everything in the snapshot and is served with a Content-Security-Policy that allows only its own scripts.
 - **It serves nothing else of the config's folder** than `icons/` and `custom.css`.

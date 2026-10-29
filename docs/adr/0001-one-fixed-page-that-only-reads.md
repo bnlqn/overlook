@@ -18,4 +18,4 @@ Decided on 28 October 2026, when the page was first opened up for other homelabs
 
 - "Can I move this?" and "Can I add a widget?" are answered no. A new kind of source is a new adapter.
 - An adapter gives back facts in Overlook's shapes, never markup of its own.
-- "Changes nothing" is enforced, not promised: the HTTP client adapters get sends only GET, and NUT only its read commands. Some keys Overlook holds can do anything (AdGuard Home has no read-only users, Radarr's and Sonarr's keys are full admin keys), so this guard is what keeps them harmless. An adapter that needs another method just to read is a design discussion.
+- "Changes nothing" is enforced, not promised: the HTTP client adapters get sends only GET, and a login where a source offers no other way in (ADR 0009), and NUT only its read commands. Some keys Overlook holds can do anything (AdGuard Home has no read-only users, Radarr's and Sonarr's keys are full admin keys), so this guard is what keeps them harmless. An adapter that needs another method just to read is a design discussion.
