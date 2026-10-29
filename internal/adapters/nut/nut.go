@@ -15,8 +15,9 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
-// area is where a UPS goes: beside the machines it keeps running.
-const area = "servers"
+// Area is the adapter's home area: a UPS goes beside the machines it keeps
+// running.
+const Area = "servers"
 
 // Config is one UPS, under sources.nut in overlook.yaml.
 type Config struct {
@@ -86,9 +87,9 @@ func parts(v map[string]string) snapshot.Parts {
 		rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "nut.load"}, Value: snapshot.Msg("nut.percent", map[string]any{"n": load})})
 	}
 
-	p := snapshot.Parts{Sections: []snapshot.Section{{Area: area, Title: snapshot.Text{Key: "nut.ups"}, Rows: rows}}}
+	p := snapshot.Parts{Sections: []snapshot.Section{{Area: Area, Title: snapshot.Text{Key: "nut.ups"}, Rows: rows}}}
 	if hasWatts {
-		f := snapshot.Figure{Area: area, Icon: "plug", Label: snapshot.Text{Key: "nut.ups"}, Value: w, Unit: snapshot.Msg("nut.watts_unit", nil), Detail: power}
+		f := snapshot.Figure{Area: Area, Icon: "plug", Label: snapshot.Text{Key: "nut.ups"}, Value: w, Unit: snapshot.Msg("nut.watts_unit", nil), Detail: power}
 		if tone == "red" {
 			f.Tone = "red"
 		}

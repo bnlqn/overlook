@@ -151,7 +151,7 @@ export function checkRows(checks) {
             : t("check.no_results");
       return `<a class="check" href="${esc(c.url)}" target="_blank" rel="noopener">
       ${stateIcon(checkState(c))}
-      <span class="copy"><span class="title">${esc(c.name)}${from(c)}</span>${detail ? `<span class="detail">${detail}</span>` : ""}</span>
+      <span class="copy"><span class="title">${esc(c.name)}${by(c)}</span>${detail ? `<span class="detail">${detail}</span>` : ""}</span>
       ${strip(c.recent)}<span class="value">${c.failing ? "" : ms(c.ms)}</span></a>`;
     })
     .join("");
@@ -169,7 +169,14 @@ export const figureMeter = (m) =>
  * page in one column can keep their order.
  */
 export function section(s, i) {
-  const rows = s.rows.map((r) => {
+  // Past twelve rows, a section shows those with a tone that says something
+  // is wrong, then its first rows up to twelve; the rest wait behind
+  // "Show N more", in their order.
+  const wrong = (r) => ["red", "orange", "gray"].includes(r.tone);
+  const kept = new Set(s.rows.length > LONG ? s.rows.filter(wrong) : s.rows);
+  for (const r of s.rows) if (kept.size < LONG) kept.add(r);
+  const order = [...s.rows.filter((r) => kept.has(r)), ...s.rows.filter((r) => !kept.has(r))];
+  const rows = order.map((r) => {
     const title = `<span class="title">${say(r.title)}</span>`;
     const value = r.value ? (r.tone ? `<span class="state tone-${r.tone}">${say(r.value)}</span>` : say(r.value)) : "";
     const detail = r.detail ? say(r.detail) : "";
@@ -181,11 +188,23 @@ export function section(s, i) {
     const meters = r.meters?.length ? `<span class="meters under">${r.meters.map(figureMeter).join("")}</span>` : "";
     return `<div class="row"><span class="copy">${title}${detail ? `<span class="detail">${detail}</span>` : ""}</span><span class="value">${value}</span>${meters}</div>`;
   });
-  return `<section style="--i:${i}"><h2 class="section-title">${say(s.title)}${from(s)}</h2><div class="list card">${rows.join("")}</div></section>`;
+  return `<section style="--i:${i}"><h2 class="section-title">${say(s.title)}${by(s)}</h2><div class="list card">${more(rows, kept.size)}</div></section>`;
 }
 
+/** How many rows a section shows before the rest wait behind "Show N more". */
+const LONG = 12;
+
+/**
+ * Rows, the first keep of them shown and the rest behind "Show N more",
+ * which shows them in place.
+ */
+export const more = (rows, keep) =>
+  rows.length <= keep
+    ? rows.join("")
+    : `${rows.slice(0, keep).join("")}<details class="more"><summary><span>${t("more.show", { n: rows.length - keep })}</span><span>${t("more.fewer")}</span></summary>${rows.slice(keep).join("")}</details>`;
+
 /** The source a part came from, after its title, where the page names it. */
-export const from = (p) => (p.from ? `<span class="from"> · ${esc(p.from)}</span>` : "");
+export const by = (p) => (p.by ? `<span class="by"> · ${esc(p.by)}</span>` : "");
 
 let uid = 0;
 /**
@@ -372,7 +391,7 @@ export function shares(f, start = 0) {
     const rows = s.rows?.length
       ? s.rows.map((r, k) => [k ? "" : c, say(r.title), r.value ? say(r.value) : ""])
       : [[c, number(s.value), t("percent", { n: Math.round((100 * s.value) / whole) })]];
-    return `<i class="${s.tone ? `tone-${s.tone}` : ""}" style="flex:${s.value};--c:${c}" data-tip="${tip(say(s.label) + from(s), rows)}"></i>`;
+    return `<i class="${s.tone ? `tone-${s.tone}` : ""}" style="flex:${s.value};--c:${c}" data-tip="${tip(say(s.label) + by(s), rows)}"></i>`;
   });
   return `<span class="shares${all.length > 12 ? " many" : ""}">${parts.join("")}</span>`;
 }

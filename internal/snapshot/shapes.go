@@ -236,4 +236,7 @@ type Chore struct {
 	// calendar, not a moment. With none, it's due now.
 	From string `json:"from,omitempty"`
 	Note string `json:"note,omitempty"`
+	// Source is the name of the to-do list it came from, which the reader
+	// fills in, as the config gives it.
+	Source string `json:"source"`
 }

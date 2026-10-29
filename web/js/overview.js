@@ -4,10 +4,13 @@
 
 import {
   areaState,
+  byState,
   checkState,
   choresBy,
+  evenColumns,
   joinFigures,
   linkCheck,
+  missing,
   quietSince,
   shown,
   silent,
@@ -16,13 +19,14 @@ import {
 import {
   badge,
   bars,
+  by,
   figureMeter,
-  from,
   GREEN,
   HOURS,
   hourStart,
   hourTip,
   legend,
+  more,
   RECENT,
   RED,
   seriesColours,
@@ -91,8 +95,14 @@ function renderStatus(snap, checks) {
     $("summary").innerHTML = t("source.no_answer_why", { error: snap.sources.find((s) => !s.answered).error });
     return;
   }
+  // Areas in one state are named together, and all of them as every area.
+  const states = byState(areas).map((g) =>
+    g.areas.length === areas.length
+      ? t(`status.every_${g.state}`)
+      : t(`status.areas_${g.state}`, { areas: list(g.areas.map((a) => t(`area.${a}`))) }),
+  );
   const parts = problems.length
-    ? [list(areas.filter((a) => a.state !== "up").map((a) => t(`status.area_${a.state}`, { area: a.area })))]
+    ? [states.join(" · ")]
     : [
         quiet.since &&
           (quiet.problemFree
@@ -143,7 +153,7 @@ function renderProblems(checks) {
 // ── Today: each figure, opening its area's page ──────────────────────────
 
 // A figure that shares a tile, after the first: its number and unit.
-const also = (f) => `${number(f.value)}${f.unit ? ` ${say(f.unit)}` : ""}${from(f)}`;
+const also = (f) => `${number(f.value)}${f.unit ? ` ${say(f.unit)}` : ""}${by(f)}`;
 
 // A figure's hours as series: its own, then the part within them, if any.
 const seriesOf = (f) => [{ label: f.label, hours: f.hours }, ...(f.within ? [f.within] : [])];
@@ -156,8 +166,11 @@ const legendOf = (f, start) =>
     .map((g, slot) => `<span><i style="--c:${shareColour({ slot }, slot, start)}"></i>${also(g)}</span>`)
     .join("")}</span>`;
 
-function renderToday(figures) {
+function renderToday(snap, figures) {
   $("today-block").hidden = !figures.length;
+  // As many columns as make the rows even, a wide tile counting two.
+  const slots = figures.reduce((n, f) => n + (f.also?.length > 1 ? 2 : 1), 0);
+  $("today").style.setProperty("--cols", evenColumns(slots, 6));
   // Each tile whose parts take the colours starts two on from the one
   // before, so tiles side by side differ, and the page stays colourful.
   let coloured = 0;
@@ -175,11 +188,18 @@ function renderToday(figures) {
       // number starts with it. A tile several figures share is none of their
       // sources': each of the others is named after its number, and every one
       // in the bar.
+      // A figure added up from some of an adapter's sources says so, when
+      // another answered but gave none, such as a resolver that counts by
+      // the day.
+      const lacking = f.sources ? missing(snap, f.sources) : [];
+      const some =
+        lacking.length > 0 &&
+        `<span data-tip="${tip(esc(list(lacking)), [], t("figure.gave_none"))}">${t("figure.of_sources", { n: f.sources.length, total: f.sources.length + lacking.length })}</span>`;
       const sub = wide
         ? ""
         : f.also
           ? list(f.also.map(also))
-          : [f.from && esc(f.from), f.detail && say(f.detail)].filter(Boolean).join(" · ");
+          : [f.by && esc(f.by), f.detail && say(f.detail), some].filter(Boolean).join(" · ");
       return `<a class="figure-tile${wide ? " wide" : ""}${f.tone ? ` tone-${f.tone}` : ""}" href="${f.area}" style="--i:${i}">
       <span class="label">${svg(f.icon)}${say(f.label)}</span>
       <span class="figure">${num(`${f.area}.${i}`, f.value)}${f.unit ? `<small> ${say(f.unit)}</small>` : ""}</span>
@@ -201,7 +221,7 @@ function renderHours(figures) {
     .map((f, i) => {
       const series = seriesOf(f);
       return `<div class="card chart" style="--i:${i}">
-      <div class="chart-head"><span class="label">${svg(f.icon)}${say(f.label)}${from(f)}</span>${legend(series, seriesColours(series.length))}</div>
+      <div class="chart-head"><span class="label">${svg(f.icon)}${say(f.label)}${by(f)}</span>${legend(series, seriesColours(series.length))}</div>
       <div class="chart-top"><span class="figure">${num(`hours.${f.area}.${i}`, f.value)}</span><span class="detail">${f.detail ? say(f.detail) : ""}</span></div>
       ${bars(series)}</div>`;
     })
@@ -219,7 +239,7 @@ function worst(a) {
     if (!at.length) return null;
     const failed = at.filter(([, r]) => !r.ok);
     const rows = failed.length
-      ? failed.map(([c]) => [RED, esc(c.name) + from(c), t("areas.failed")])
+      ? failed.map(([c]) => [RED, esc(c.name) + by(c), t("areas.failed")])
       : [[GREEN, t("areas.all_passed", { n: at.length }), ""]];
     return {
       ok: !failed.length,
@@ -259,7 +279,7 @@ function renderAreas(checks, areas) {
               ? word("up")
               : t("check.no_results");
         return `<a class="trow kid" href="${esc(c.url)}" target="_blank" rel="noopener">
-        <span class="tname">${stateIcon(checkState(c))}<span>${esc(c.name)}${from(c)}</span></span>
+        <span class="tname">${stateIcon(checkState(c))}<span>${esc(c.name)}${by(c)}</span></span>
         <span class="health tone-${TONE[checkState(c)]}">${health}</span>
         <span class="tcount detail">${c.failing ? esc(c.why || "") : ""}</span>
         <span class="tms">${c.failing ? "" : ms(c.ms)}</span>${strip(c.recent)}</a>`;
@@ -307,7 +327,7 @@ function renderEvents(checks, events, updates, silence) {
         at,
         mark,
         text: say(e.text),
-        meta: [where(e.area), e.from && esc(e.from)].filter(Boolean).join(" · "),
+        meta: [where(e.area), e.by && esc(e.by)].filter(Boolean).join(" · "),
       });
     }
   }
@@ -377,9 +397,20 @@ function renderWeek(checks, events, areas) {
       ];
       return `<span class="tl-out${o.to ? "" : " now"}" style="left:${x(+o.from)};width:calc(${x(+(o.to || end))} - ${x(+o.from)})" data-tip="${tip(esc(o.check.name), rows)}"></span>`;
     });
-    const diamonds = happened.map((e) => {
-      const bad = e.tone === "red";
-      return `<span class="tl-ms${bad ? " bad" : ""}" style="left:${x(+new Date(e.at))}" data-tip="${tip(say(e.text) + from(e), [[bad ? RED : "var(--m-blue)", when(e.at), ""]])}"></span>`;
+    // Events in the same hour are one diamond, such as five hosts' backups
+    // the same night, its tooltip naming each.
+    const hours = Map.groupBy(happened, (e) => Math.floor(+new Date(e.at) / 3600e3));
+    const diamonds = [...hours.values()].map((group) => {
+      const bad = group.some((e) => e.tone === "red");
+      const colour = (e) => (e.tone === "red" ? RED : "var(--m-blue)");
+      const tp =
+        group.length === 1
+          ? tip(say(group[0].text) + by(group[0]), [[colour(group[0]), when(group[0].at), ""]])
+          : tip(
+              t("week.events", { n: group.length }),
+              group.map((e) => [colour(e), say(e.text) + by(e), clock(new Date(e.at))]),
+            );
+      return `<span class="tl-ms${bad ? " bad" : ""}${group.length > 1 ? " many" : ""}" style="left:${x(+new Date(group[0].at))}" data-tip="${tp}"></span>`;
     });
     return `<div class="tl-row" style="--i:${i};--tint:${TINT[name]}">
       <span class="tl-label">${svg(page(name).icon)}${t(`area.${name}`)}</span>
@@ -393,6 +424,11 @@ function renderWeek(checks, events, areas) {
 
 function renderApps(apps, checks) {
   $("apps-block").hidden = !apps.length;
+  // Past twelve, the tiles go small: the logo, the name, the dot and the
+  // time, the description in the tooltip. Rows come out even either way.
+  const compact = apps.length > 12;
+  $("apps").classList.toggle("compact", compact);
+  $("apps").style.setProperty("--cols", evenColumns(apps.length, compact ? 4 : 3));
   $("apps").innerHTML = apps
     .map((s, i) => {
       const c = s.check && linkCheck(s, checks);
@@ -408,7 +444,8 @@ function renderApps(apps, checks) {
             ),
           )
         : [];
-      return `<a class="app" href="${esc(s.url)}" target="_blank" rel="noopener" style="--tint:${tint};--i:${i}">
+      const about = compact && s.description ? ` data-tip="${tip(esc(s.name), [], esc(s.description))}"` : "";
+      return `<a class="app" href="${esc(s.url)}" target="_blank" rel="noopener" style="--tint:${tint};--i:${i}"${about}>
       <span class="app-top">${badge(s, "lg")}<span class="dot tone-${TONE[state]}"></span></span>
       <span class="title">${esc(s.name)}</span><span class="detail">${esc(s.description || "")}</span>
       <span class="app-foot"><span>${foot}</span>${
@@ -447,19 +484,19 @@ function renderChores(updates, chores) {
     [
       stateIcon("degraded"),
       t("chores.due"),
-      due.map((c) => row(stateIcon("degraded"), esc(c.name), esc(c.note || ""), t("chores.due"))),
+      due.map((c) => row(stateIcon("degraded"), esc(c.name) + by(c), esc(c.note || ""), t("chores.due"))),
     ],
     [
       stateIcon("unknown"),
       t("chores.week"),
-      week.map((c) => row(stateIcon("unknown"), esc(c.name), esc(c.note || ""), day(c.from))),
+      week.map((c) => row(stateIcon("unknown"), esc(c.name) + by(c), esc(c.note || ""), day(c.from))),
     ],
   ].filter(([, , rows]) => rows.length);
   $("chores").innerHTML =
     groups
       .map(
         ([mark, name, rows]) => `<div class="group">
-    <div class="group-head">${mark}<span>${name}</span><span class="n">${number(rows.length)}</span></div>${rows.join("")}</div>`,
+    <div class="group-head">${mark}<span>${name}</span><span class="n">${number(rows.length)}</span></div>${more(rows, 5)}</div>`,
       )
       .join("") ||
     // With nothing waiting, due or this week, the block shows only for a chore after it.
@@ -481,7 +518,7 @@ start((snap, checks) => {
   renderActions(snap);
   renderProblems(checks);
   const figures = joinFigures(together(snap.figures));
-  renderToday(figures);
+  renderToday(snap, figures);
   renderHours(figures);
   renderAreas(
     checks,

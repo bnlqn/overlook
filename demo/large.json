@@ -4,22 +4,22 @@
     { "name": "Gatus", "adapter": "gatus", "answered": true },
     { "name": "Gatus Outside", "adapter": "gatus", "answered": true },
     { "name": "GitHub", "adapter": "github", "answered": true },
-    { "name": "Immich", "adapter": "immich", "answered": true },
-    { "name": "Backup Server", "adapter": "pbs", "answered": true },
-    { "name": "Offsite Backups", "adapter": "pbs", "answered": true },
-    { "name": "Cluster", "adapter": "proxmox", "answered": true },
-    { "name": "Vault", "adapter": "proxmox", "answered": true },
-    { "name": "Edge", "adapter": "proxmox", "answered": true },
-    { "name": "Radarr", "adapter": "radarr", "answered": true },
-    { "name": "Radarr 4K", "adapter": "radarr", "answered": true },
-    { "name": "Sonarr", "adapter": "sonarr", "answered": true },
-    { "name": "Sonarr Anime", "adapter": "sonarr", "answered": true },
-    { "name": "Rack UPS", "adapter": "nut", "answered": true },
-    { "name": "Network UPS", "adapter": "nut", "answered": true },
-    { "name": "Office UPS", "adapter": "nut", "answered": false, "error": "timeout" },
-    { "name": "Primary DNS", "adapter": "adguard", "answered": true },
-    { "name": "Secondary DNS", "adapter": "adguard", "answered": true },
-    { "name": "IoT DNS", "adapter": "adguard", "answered": true },
+    { "name": "Immich", "adapter": "immich", "area": "apps", "answered": true },
+    { "name": "Backup Server", "adapter": "pbs", "area": "storage", "answered": true },
+    { "name": "Offsite Backups", "adapter": "pbs", "area": "storage", "answered": true },
+    { "name": "Cluster", "adapter": "proxmox", "area": "servers", "answered": true },
+    { "name": "Vault", "adapter": "proxmox", "area": "servers", "answered": true },
+    { "name": "Edge", "adapter": "proxmox", "area": "servers", "answered": true },
+    { "name": "Radarr", "adapter": "radarr", "area": "apps", "answered": true },
+    { "name": "Radarr 4K", "adapter": "radarr", "area": "apps", "answered": true },
+    { "name": "Sonarr", "adapter": "sonarr", "area": "apps", "answered": true },
+    { "name": "Sonarr Anime", "adapter": "sonarr", "area": "apps", "answered": true },
+    { "name": "Rack UPS", "adapter": "nut", "area": "servers", "answered": true },
+    { "name": "Network UPS", "adapter": "nut", "area": "servers", "answered": true },
+    { "name": "Office UPS", "adapter": "nut", "area": "servers", "answered": false, "error": "timeout" },
+    { "name": "Primary DNS", "adapter": "adguard", "area": "network", "answered": true },
+    { "name": "Secondary DNS", "adapter": "adguard", "area": "network", "answered": true },
+    { "name": "IoT DNS", "adapter": "adguard", "area": "network", "answered": true },
     { "name": "Chores", "adapter": "ical", "answered": true },
     { "name": "Rack", "adapter": "ical", "answered": true }
   ],
@@ -7172,23 +7172,45 @@
   "chores": [
     {
       "name": "Replace the faulted disk in tank",
+      "source": "Chores",
       "from": "2026-10-27",
       "note": "The spare is in the drawer under the rack, the 18 TB one."
     },
-    { "name": "Bring damson back", "from": "2026-10-28", "note": "The power brick, probably. Check the fan too." },
-    { "name": "Renew the mail certificate", "from": "2026-10-29" },
-    { "name": "Swap the offsite backup disk", "from": "2026-10-31", "note": "The one at the office comes home." },
+    {
+      "name": "Bring damson back",
+      "source": "Chores",
+      "from": "2026-10-28",
+      "note": "The power brick, probably. Check the fan too."
+    },
+    { "name": "Renew the mail certificate", "source": "Chores", "from": "2026-10-29" },
+    {
+      "name": "Swap the offsite backup disk",
+      "source": "Chores",
+      "from": "2026-10-31",
+      "note": "The one at the office comes home."
+    },
     {
       "name": "Clean the NAS's dust filters",
+      "source": "Chores",
       "from": "2026-10-26",
       "note": "Every six months: marking it done moves it on."
     },
-    { "name": "Test a restore from the offsite copy", "from": "2026-11-02", "note": "Pick a guest at random." },
-    { "name": "Update the router's firmware", "from": "2026-11-01" },
-    { "name": "Rotate the Wi-Fi guest password", "from": "2026-11-03" },
-    { "name": "Label the cables in the rack", "note": "No day set: due whenever there's an hour." },
-    { "name": "Replace the UPS batteries", "from": "2026-11-18", "note": "Rack UPS first; it's four years old." },
-    { "name": "Check the rack's fans", "from": "2026-11-09" },
-    { "name": "Tidy the patch panel", "note": "Rack list: whenever." }
+    {
+      "name": "Test a restore from the offsite copy",
+      "source": "Chores",
+      "from": "2026-11-02",
+      "note": "Pick a guest at random."
+    },
+    { "name": "Update the router's firmware", "source": "Chores", "from": "2026-11-01" },
+    { "name": "Rotate the Wi-Fi guest password", "source": "Chores", "from": "2026-11-03" },
+    { "name": "Label the cables in the rack", "source": "Rack", "note": "No day set: due whenever there's an hour." },
+    {
+      "name": "Replace the UPS batteries",
+      "source": "Rack",
+      "from": "2026-11-18",
+      "note": "Rack UPS first; it's four years old."
+    },
+    { "name": "Check the rack's fans", "source": "Rack", "from": "2026-11-09" },
+    { "name": "Tidy the patch panel", "source": "Rack", "note": "Rack list: whenever." }
   ]
 }

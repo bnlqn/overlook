@@ -3,12 +3,15 @@ import { test } from "node:test";
 import {
   areaState,
   asIfNow,
+  byState,
   checkState,
   choresBy,
+  evenColumns,
   fold,
   joinCharts,
   joinFigures,
   linkCheck,
+  missing,
   named,
   quietSince,
   readChecks,
@@ -58,6 +61,54 @@ test("a check failing below its threshold is degraded, not a problem", () => {
   assert.ok(films.failing);
   assert.deepEqual(films.since, new Date("2026-10-28T09:59:00Z"));
   assert.equal(films.ms, 12);
+});
+
+test("an area's page names its own silent sources and those of every area", () => {
+  const snap = {
+    sources: [
+      { name: "Gatus", answered: false },
+      { name: "Office UPS", area: "servers", answered: false },
+      { name: "IoT DNS", area: "network", answered: true },
+    ],
+  };
+  assert.deepEqual(silent(snap), ["Gatus", "Office UPS"], "the overview names them all");
+  assert.deepEqual(silent(snap, "servers"), ["Gatus", "Office UPS"]);
+  assert.deepEqual(silent(snap, "network"), ["Gatus"]);
+});
+
+test("a source of the same adapter that answered but gave none is missing", () => {
+  const dns = (name, answered = true) => ({ name, adapter: "adguard", answered });
+  const snap = {
+    sources: [
+      dns("Primary"),
+      dns("Secondary"),
+      dns("IoT"),
+      dns("Old", false),
+      { name: "Gatus", adapter: "gatus", answered: true },
+    ],
+  };
+  assert.deepEqual(missing(snap, ["Primary", "Secondary"]), ["IoT"], "one that didn't answer is said elsewhere");
+  assert.deepEqual(missing(snap, ["Primary", "Secondary", "IoT"]), []);
+});
+
+test("areas not up group by state, the worst first", () => {
+  const a = (area, state) => ({ area, state });
+  assert.deepEqual(
+    byState([a("servers", "degraded"), a("network", "down"), a("storage", "up"), a("apps", "degraded")]),
+    [
+      { state: "down", areas: ["network"] },
+      { state: "degraded", areas: ["servers", "apps"] },
+    ],
+  );
+});
+
+test("tiles take as many columns as make their rows even", () => {
+  assert.equal(evenColumns(8, 6), 4);
+  assert.equal(evenColumns(6, 6), 6);
+  assert.equal(evenColumns(7, 6), 4);
+  assert.equal(evenColumns(2, 3), 2);
+  assert.equal(evenColumns(25, 6), 5);
+  assert.equal(evenColumns(0, 6), 1);
 });
 
 test("a check with no result yet is unknown, not up", () => {
@@ -155,17 +206,20 @@ test("two sources of one adapter name their parts; one of a kind doesn't", () =>
     charts: [{ title: { key: "adguard.per_hour" }, source: "Primary DNS" }],
     figures: [{ label: { key: "adguard.today" }, source: "Primary DNS" }],
     events: [{ text: { key: "proxmox.backup_done" }, source: "Proxmox" }, { source: "Old" }],
+    chores: [{ name: "Dust", from: "2026-11-01", source: "Primary DNS" }],
   };
   const out = named(snap);
-  assert.equal(out.sections[0].from, "Primary DNS", "even with the other one silent");
-  assert.equal(out.checks[1].from, "Gatus Outside", "a check whose name another engine shares");
-  assert.equal(out.checks[2].from, undefined, "a check no other engine has");
-  assert.equal(out.sections[1].from, undefined);
-  assert.equal(out.charts[0].from, "Primary DNS");
-  assert.equal(out.figures[0].from, "Primary DNS");
-  assert.equal(out.events[0].from, undefined);
-  assert.equal(out.events[1].from, undefined, "sources that don't say their adapter aren't of one kind");
-  assert.equal(snap.sections[0].from, undefined, "the snapshot's own parts are left as they were");
+  assert.equal(out.sections[0].by, "Primary DNS", "even with the other one silent");
+  assert.equal(out.checks[1].by, "Gatus Outside", "a check whose name another engine shares");
+  assert.equal(out.checks[2].by, undefined, "a check no other engine has");
+  assert.equal(out.sections[1].by, undefined);
+  assert.equal(out.charts[0].by, "Primary DNS");
+  assert.equal(out.figures[0].by, "Primary DNS");
+  assert.equal(out.chores[0].by, "Primary DNS");
+  assert.equal(out.chores[0].from, "2026-11-01", "a chore keeps the day it's due from");
+  assert.equal(out.events[0].by, undefined);
+  assert.equal(out.events[1].by, undefined, "sources that don't say their adapter aren't of one kind");
+  assert.equal(snap.sections[0].by, undefined, "the snapshot's own parts are left as they were");
 });
 
 test("two hosts' guests are one tile: their units, details and meters added, split by source", () => {
@@ -174,7 +228,7 @@ test("two hosts' guests are one tile: their units, details and meters added, spl
     label: { key: "proxmox.guests" },
     adds: true,
     source,
-    from: source,
+    by: source,
     value: up,
     unit: { key: "proxmox.of_up", args: { n: of } },
     detail: { key: "proxmox.hosts_online", args: { online: 1, n: 1 } },
@@ -191,7 +245,7 @@ test("two hosts' guests are one tile: their units, details and meters added, spl
     { label: { name: "pve1" }, value: 7 },
     { label: { name: "pve2" }, value: 5 },
   ]);
-  assert.equal(tile.from, undefined, "the tile is both sources', so it names neither");
+  assert.equal(tile.by, undefined, "the tile is both sources', so it names neither");
   const [one] = together([guests("pve1", 7, 8, 2)]);
   assert.equal(one.shares, undefined, "one source alone isn't split");
   const [lost] = together([guests("pve1", 7, 8, 2), { ...guests("pve2", 5, 5, 4), meters: undefined }]);
@@ -338,11 +392,11 @@ test("figures that share a join key are one tile, the first's number first; alon
   assert.equal(other, photos);
   assert.deepEqual(joinFigures([films, photos]), [films, photos], "films alone keep their own tile");
   const [twin] = joinFigures([
-    { ...films, from: "Radarr" },
-    { ...films, from: "Radarr 4K" },
+    { ...films, by: "Radarr" },
+    { ...films, by: "Radarr 4K" },
   ]);
   assert.deepEqual(
-    twin.shares.map((s) => s.from),
+    twin.shares.map((s) => s.by),
     ["Radarr", "Radarr 4K"],
     "two Radarrs' parts say whose they are",
   );

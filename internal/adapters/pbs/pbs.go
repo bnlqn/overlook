@@ -20,7 +20,8 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
-const area = "storage"
+// Area is the adapter's home area.
+const Area = "storage"
 
 // night is the longest gap between two backups of one run. Backups further
 // apart are two runs.
@@ -159,7 +160,7 @@ func parts(backups []backup, now time.Time) snapshot.Parts {
 			rows[i].Value, rows[i].Tone, rows[i].Detail = snapshot.Msg("pbs.failed", nil), "red", snapshot.Msg("pbs.failed_detail", args)
 		}
 	}
-	p.Sections = []snapshot.Section{{Area: area, Title: snapshot.Text{Key: "pbs.backups"}, Rows: rows}}
+	p.Sections = []snapshot.Section{{Area: Area, Title: snapshot.Text{Key: "pbs.backups"}, Rows: rows}}
 
 	// The nights: the backups made one after another, newest first.
 	var runs [][]backup
@@ -175,7 +176,7 @@ func parts(backups []backup, now time.Time) snapshot.Parts {
 			break
 		}
 		p.Events = append(p.Events, snapshot.Event{
-			At: start, Area: area, Icon: "archive",
+			At: start, Area: Area, Icon: "archive",
 			Text: snapshot.Text{Key: "pbs.backed_up", Args: map[string]any{"n": guests(r)}},
 		})
 	}
@@ -221,7 +222,7 @@ func parts(backups []backup, now time.Time) snapshot.Parts {
 		}}
 	}
 	p.Figures = []snapshot.Figure{{
-		Area: area, Icon: "archive", Label: snapshot.Text{Key: "pbs.backups"}, Value: float64(guests(last)),
+		Area: Area, Icon: "archive", Label: snapshot.Text{Key: "pbs.backups"}, Value: float64(guests(last)),
 		Unit:   snapshot.Msg("pbs.of_guests", map[string]any{"n": len(newest)}),
 		Detail: snapshot.Msg("pbs.when", map[string]any{"at": at(last[len(last)-1])}),
 		Shares: shares,

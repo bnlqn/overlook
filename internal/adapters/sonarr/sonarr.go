@@ -14,6 +14,9 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
+// Area is the adapter's home area.
+const Area = "apps"
+
 // Config is one Sonarr, under sources.sonarr in overlook.yaml.
 type Config struct {
 	servarr.Config `yaml:",inline"`
@@ -106,7 +109,7 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 	// when Radarr is read too, their part of it the room they take.
 	join := servarr.Library
 	figure := snapshot.Figure{
-		Area: "apps", Icon: "film", Label: snapshot.Text{Key: "sonarr.shows"}, Value: float64(len(shows)),
+		Area: Area, Icon: "film", Label: snapshot.Text{Key: "sonarr.shows"}, Value: float64(len(shows)),
 		Unit:   &snapshot.Text{Key: "sonarr.unit", Args: map[string]any{"n": len(shows)}},
 		Detail: &snapshot.Text{Key: "sonarr.this_week", Args: map[string]any{"n": len(imported)}},
 		Join:   &join,
@@ -120,8 +123,8 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 	return snapshot.Parts{
 		Figures: []snapshot.Figure{figure},
 		Sections: []snapshot.Section{
-			{Area: "apps", Title: snapshot.Text{Key: "sonarr.shows"}, Rows: append([]snapshot.Row{library}, status...)},
-			{Area: "apps", Title: snapshot.Text{Key: "sonarr.coming"}, Rows: coming(calendar)},
+			{Area: Area, Title: snapshot.Text{Key: "sonarr.shows"}, Rows: append([]snapshot.Row{library}, status...)},
+			{Area: Area, Title: snapshot.Text{Key: "sonarr.coming"}, Rows: coming(calendar)},
 		},
 	}, nil
 }

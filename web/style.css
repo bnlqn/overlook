@@ -906,7 +906,14 @@ main {
 .figures {
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  /* --cols tiles to a row where they fit, so rows come out even; fewer,
+     each 168 px or more, where they don't. */
+  grid-template-columns: repeat(
+      auto-fill,
+      minmax(max(168px, calc((100% - (var(--cols, 6) - 1) * 10px) / var(--cols, 6))), 1fr)
+    );
+  /* A wide tile that doesn't fit a row's end leaves no hole there. */
+  grid-auto-flow: dense;
 }
 .figure-tile {
   position: relative;
@@ -1612,6 +1619,13 @@ main {
   background: var(--m-panel);
   box-shadow: inset 0 0 0 1.5px var(--m-blue);
 }
+/* Several events in the same hour, one diamond a little larger. */
+.tl-ms.many {
+  width: 11px;
+  height: 11px;
+  margin: -5.5px 0 0 -5.5px;
+  box-shadow: inset 0 0 0 2.5px var(--m-blue);
+}
 .tl-ms.bad {
   box-shadow: inset 0 0 0 1.5px var(--m-red);
   background: color-mix(in srgb, var(--m-red) 30%, var(--m-panel));
@@ -1621,7 +1635,24 @@ main {
 .launch {
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* As Today's: --cols to a row where they fit, fewer where they don't. */
+  grid-template-columns: repeat(
+      auto-fill,
+      minmax(max(150px, calc((100% - (var(--cols, 3) - 1) * 10px) / var(--cols, 3))), 1fr)
+    );
+}
+/* Past twelve, each app is its logo, its name, its dot and its time. */
+.launch.compact .app {
+  padding: 10px;
+}
+.launch.compact .app-top {
+  margin-bottom: 6px;
+}
+.launch.compact .app .detail {
+  display: none;
+}
+.launch.compact .app-foot {
+  margin-top: 4px;
 }
 .app {
   position: relative;
@@ -1808,7 +1839,7 @@ a.chore:hover {
 }
 /* The source a part came from, after its title, where another of its kind
    is read. */
-.from {
+.by {
   color: var(--m-label-2);
   font-weight: 400;
 }
@@ -1822,28 +1853,24 @@ a.chore:hover {
   margin: 0 0 8px;
   font: var(--m-type-headline);
 }
-/* An area page deals its sections out to two columns in turn. In one column
-   the two give way, so the sections stand in the snapshot's order, --i,
-   rather than the whole left column before the right. */
-.columns {
-  display: grid;
-  gap: 0 24px;
-  grid-template-columns: minmax(0, 1fr);
-}
-.columns > * {
-  display: contents;
-}
-.columns section {
-  order: var(--i);
-}
+/* An area page's sections flow down two columns of about the same height,
+   in the snapshot's order, so each source's stay together; a section never
+   breaks across them. */
 @media (min-width: 1000px) {
   .columns {
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-    align-items: start;
+    columns: 2;
+    column-gap: 24px;
   }
-  .columns > * {
-    display: block;
-  }
+}
+.columns section {
+  break-inside: avoid;
+}
+/* Both columns start level, a section title's height under what's above. */
+.columns {
+  margin-top: 32px;
+}
+.columns section:first-child .section-title {
+  margin-top: 0;
 }
 .list {
   display: block;
@@ -2064,4 +2091,32 @@ main > :nth-child(n + 6) {
     /* biome-ignore lint/complexity/noImportantStyles: and over every transition */
     transition: none !important;
   }
+}
+
+/* The rows past a list's first ones, behind "Show N more", shown in place. */
+.more > summary {
+  list-style: none;
+  padding: 10px 14px;
+  border-top: 1px solid var(--m-separator);
+  font: var(--m-type-footnote-strong);
+  color: var(--m-label-2);
+  cursor: pointer;
+}
+.more > summary::-webkit-details-marker {
+  display: none;
+}
+.more > summary:hover {
+  color: var(--m-label);
+  background: var(--m-fill-hover);
+}
+.more > summary > :last-child,
+.more[open] > summary > :first-child {
+  display: none;
+}
+.more[open] > summary > :last-child {
+  display: inline;
+}
+.more > .row,
+.more > .chore {
+  border-top: 1px solid var(--m-separator);
 }
