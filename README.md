@@ -29,7 +29,7 @@ project uses are in [CONTEXT.md](CONTEXT.md) and its decisions in
 6. [x] Two sources of one kind told apart: each part names its source
        where another of the same adapter is read, and figures that add up,
        such as two hosts' guests, are one tile split by source.
-7. [ ] The chores from a to-do list (ADR 0010): the iCalendar adapter in
+7. [x] The chores from a to-do list (ADR 0010): the iCalendar adapter in
        place of the config's `chores:`, released as `v0.1.0-rc.3`.
 8. [ ] A week of running rc.3.
 9. [ ] The repository goes public and `v0.1.0` is tagged. The demo goes
