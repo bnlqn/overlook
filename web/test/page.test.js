@@ -130,7 +130,7 @@ test("the large homelab: a problem in every area makes every area degraded", () 
   assert.equal(m.apps.compact, true, "past twelve apps, the tiles go small");
   assert.equal(m.apps.columns, 4);
   const kids = m.apps.links.find((a) => a.link.name === "Kids' corner");
-  assert.equal(kids.state, "unknown", "an app whose check no engine has");
+  assert.deepEqual([kids.check, kids.state], [undefined, "unknown"], "an app with no check");
   assert.equal(m.chores.next.name, "Check the rack's fans");
   assert.equal(m.week.rows.length, 4);
 });
