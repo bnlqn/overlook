@@ -141,15 +141,19 @@ const seriesOf = (f) => [{ label: f.label, hours: f.hours }, ...(f.within ? [f.w
 // A tile three or more figures share, such as two Radarrs' films and two
 // Sonarrs' shows, is two columns wide and names each one under its bar, in
 // its part's colour.
-const legendOf = (f) =>
+const legendOf = (f, start) =>
   `<span class="parts">${[f, ...f.also]
-    .map((g, slot) => `<span><i style="--c:${shareColour({ slot }, slot)}"></i>${also(g)}</span>`)
+    .map((g, slot) => `<span><i style="--c:${shareColour({ slot }, slot, start)}"></i>${also(g)}</span>`)
     .join("")}</span>`;
 
 function renderToday(figures) {
   $("today-block").hidden = !figures.length;
+  // Each tile whose parts take the colours starts two on from the one
+  // before, so tiles side by side differ, and the page stays colourful.
+  let coloured = 0;
   $("today").innerHTML = figures
     .map((f, i) => {
+      const start = f.shares?.some((s) => !s.tone) ? 2 * coloured++ : 0;
       const hours = f.hours || [];
       const series = seriesOf(f);
       const colours = seriesColours(series.length);
@@ -170,7 +174,7 @@ function renderToday(figures) {
       <span class="label">${svg(f.icon)}${say(f.label)}</span>
       <span class="figure">${num(`${f.area}.${i}`, f.value)}${f.unit ? `<small> ${say(f.unit)}</small>` : ""}</span>
       <span class="sub">${sub}</span>
-      <span class="viz">${sparkline(hours, HOURS, tips)}${f.shares?.length ? shares(f) : ""}${wide ? legendOf(f) : ""}${(f.meters || []).map(figureMeter).join("")}</span></a>`;
+      <span class="viz">${sparkline(hours, HOURS, tips)}${f.shares?.length ? shares(f, start) : ""}${wide ? legendOf(f, start) : ""}${(f.meters || []).map(figureMeter).join("")}</span></a>`;
     })
     .join("");
 }

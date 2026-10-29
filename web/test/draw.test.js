@@ -136,3 +136,15 @@ test("shares are as wide as their values, in their tone or the next colour, thei
   };
   assert.match(shares(many), /class="shares many"/, "many guests, each backed up or not, sit closer");
 });
+
+test("a tile's shares may start further on in the colours, and go round", () => {
+  const two = {
+    label: { name: "Library" },
+    shares: [
+      { label: { name: "Films" }, value: 1 },
+      { label: { name: "Shows" }, value: 1 },
+    ],
+  };
+  assert.match(shares(two, 2), /--c:var\(--m-series-3\).*--c:var\(--m-series-4\)/);
+  assert.match(shares(two, 7), /--c:var\(--m-series-8\).*--c:var\(--m-series-1\)/, "after the eighth, the first");
+});
