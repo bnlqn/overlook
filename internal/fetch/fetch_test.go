@@ -67,6 +67,42 @@ func TestJSON(t *testing.T) {
 	}
 }
 
+// A redirect within the source is followed, and one to another host is
+// refused before it goes, so a key in a header Go sends on never reaches it.
+func TestRedirect(t *testing.T) {
+	t.Parallel()
+	var reached atomic.Int32
+	elsewhere := httptest.NewServer(http.HandlerFunc(func(http.ResponseWriter, *http.Request) { reached.Add(1) }))
+	t.Cleanup(elsewhere.Close)
+	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		switch r.URL.Path {
+		case "/api":
+			http.Redirect(w, r, "/api/", http.StatusMovedPermanently)
+		case "/api/":
+			_, _ = w.Write([]byte(`{"n": 4}`))
+		default:
+			http.Redirect(w, r, elsewhere.URL+"/login", http.StatusFound)
+		}
+	}))
+	t.Cleanup(s.Close)
+
+	key := http.Header{"X-Api-Key": {"s3cret"}}
+	var v struct{ N int }
+	if err := JSON(t.Context(), s.URL+"/api", key, &v); err != nil || v.N != 4 {
+		t.Errorf("read %+v, %v", v, err)
+	}
+	err := JSON(t.Context(), s.URL+"/library", key, &v)
+	if err == nil || !strings.Contains(err.Error(), "redirect") {
+		t.Errorf("want a redirect refused, got %v", err)
+	}
+	if err != nil && (strings.Contains(err.Error(), "127.0.0.1") || strings.Contains(err.Error(), "/login")) {
+		t.Errorf("an error mustn't hold the URL: %v", err)
+	}
+	if n := reached.Load(); n != 0 {
+		t.Errorf("%d requests reached the other host", n)
+	}
+}
+
 // A source that signs its own certificate is read with its CA, and with
 // nothing else.
 func TestTrusting(t *testing.T) {
