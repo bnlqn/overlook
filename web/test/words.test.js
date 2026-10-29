@@ -4,7 +4,7 @@
 import assert from "node:assert/strict";
 import { readdirSync, readFileSync } from "node:fs";
 import { test } from "node:test";
-import { AREAS } from "../js/checks.js";
+import { AREAS } from "../js/page.js";
 
 const web = new URL("../", import.meta.url);
 const read = (path) => readFileSync(new URL(path, web), "utf8");

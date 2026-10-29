@@ -71,6 +71,9 @@ export const clock = (d) => new Date(d).toLocaleTimeString(locale, { hour: "2-di
 /** A day of the week, short: "Tue". */
 export const weekday = (d) => new Date(d).toLocaleDateString(locale, { weekday: "short" });
 
+/** A day of the month: "28". */
+export const date = (d) => new Date(d).toLocaleDateString(locale, { day: "numeric" });
+
 /** A day: "Tue 28 Oct", or "Tue, Oct 28". */
 export const day = (d) => new Date(d).toLocaleDateString(locale, { weekday: "short", day: "numeric", month: "short" });
 
@@ -113,4 +116,15 @@ export function bytes(n) {
 export const ms = (v) => (v === null || v === undefined ? "" : v < 1 ? t("ms.under") : t("ms", { n: Math.round(v) }));
 
 // The formats a message's {name:format} can ask for.
-const FORMAT = { span, when, day, clock, bytes, ms, area: (a) => t(`area.${a}`) };
+// A list is of names as written, areas of the page's areas.
+const FORMAT = {
+  span,
+  when,
+  day,
+  clock,
+  bytes,
+  ms,
+  area: (a) => t(`area.${a}`),
+  areas: (areas) => list(areas.map((a) => t(`area.${a}`))),
+  list: (names) => list(names.map(esc)),
+};

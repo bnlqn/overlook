@@ -4,16 +4,18 @@ import {
   areas,
   badge,
   bars,
+  busiest,
   checkRows,
   figureMeter,
+  fold,
   lineColours,
   lines,
-  RECENT,
   section,
   shares,
   strip,
   tip,
 } from "../js/draw.js";
+import { RECENT } from "../js/page.js";
 import { setWords } from "../js/text.js";
 
 setWords(
@@ -46,6 +48,7 @@ test("a check's name and failure are escaped", () => {
       url: 'https://status.example.com/" onclick="go()',
       problem: true,
       failing: true,
+      state: "down",
       why: "<img>",
       recent: [],
       ms: null,
@@ -153,6 +156,36 @@ test("a week as areas: the days named and shaded, each source in the tooltip whe
   const alone = areas([lookups(24)], [sources[0]], now);
   assert.doesNotMatch(alone, /Primary/, "one source needs no naming");
   assert.equal(axis(alone), 4, "a day names its hours instead");
+});
+
+test("past eight shares, the smallest fold into one; toned ones never fold", () => {
+  const person = (name, value) => ({ label: { name }, value });
+  const nine = ["A", "B", "C", "D", "E", "F", "G", "H", "I"].map((n, i) => person(n, i === 2 ? 1 : 10 + i));
+  const out = fold(nine);
+  assert.equal(out.length, 8);
+  assert.deepEqual(
+    out.slice(0, 7).map((s) => s.label.name),
+    ["B", "D", "E", "F", "G", "H", "I"],
+    "the seven largest keep their order",
+  );
+  const others = out[7];
+  assert.equal(others.others, true);
+  assert.deepEqual(others.label, { key: "shares.others", args: { n: 2 } });
+  assert.equal(others.value, 10 + 1);
+  assert.deepEqual(
+    others.rows.map((r) => r.title.name),
+    ["A", "C"],
+  );
+  assert.equal(fold(nine.slice(0, 8)).length, 8, "eight fit");
+  const guests = Array.from({ length: 47 }, (_, i) => ({ ...person(`g${i}`, 1), tone: "blue" }));
+  assert.equal(fold(guests).length, 47, "each guest backed up or not means something");
+});
+
+test("past most lines, the highest keep their places and the rest give way", () => {
+  const line = (n) => ({ label: { name: `h${n}` }, hours: [n, n] });
+  assert.deepEqual(busiest([line(1), line(2)], 8), [0, 1]);
+  const ten = [3, 9, 1, 7, 5, 8, 2, 6, 4, 0].map(line);
+  assert.deepEqual(busiest(ten, 8), [0, 1, 3, 4, 5, 7, 8], "the seven highest, in their order");
 });
 
 test("shares are as wide as their values, in their tone or the next colour, their names escaped", () => {

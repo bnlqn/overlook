@@ -1,7 +1,7 @@
 // An area's page: its state and checks, its charts by the hour, those of
-// several sources added up, then each section its sources add.
+// several sources added up, then each section its sources add. It writes what
+// page() says of the area (page.js) and decides nothing.
 
-import { areaState, joinCharts, missing, shown, silent } from "./checks.js";
 import {
   areas,
   by,
@@ -28,14 +28,14 @@ let last = null;
 // A chart in a card: its title, the range's sums and busiest hour, the switch
 // between the last day and every hour when there are more, the chart, and
 // its legend.
-function chart(c, snap) {
+function chart(c, now) {
   const all = c.series[0].hours.length;
   const n = Math.min(range, all);
   const cut = (x) => ({ ...x, hours: x.hours.slice(all - n) });
   const series = c.series.map(cut);
   const colours = c.measures ? lineColours(series) : seriesColours(series.length);
   const when = (i) => {
-    const at = hourStart(i, n);
+    const at = hourStart(i, n, now);
     return `<b>${n > 24 ? `${day(at)}, ` : ""}${clock(at)}</b>`;
   };
   const sum = (hours) => hours.reduce((a, v) => a + v, 0);
@@ -59,11 +59,9 @@ function chart(c, snap) {
       ];
   // Added up from some of an adapter's sources, it says so when another
   // answered but gave none.
-  const names = c.sources.map((s) => s.name);
-  const lacking = missing(snap, names);
-  if (lacking.length) {
-    const of = t("figure.of_sources", { n: names.length, total: names.length + lacking.length });
-    sums.push(`<span data-tip="${tip(esc(list(lacking)), [], t("figure.gave_none"))}">${of}</span>`);
+  if (c.lacking.length) {
+    const of = t("figure.of_sources", { n: c.sources.length, total: c.sources.length + c.lacking.length });
+    sums.push(`<span data-tip="${tip(esc(list(c.lacking)), [], t("figure.gave_none"))}">${of}</span>`);
   }
   const pills =
     all > 24
@@ -76,46 +74,41 @@ function chart(c, snap) {
       : "";
   return `<section class="card chart">
     <div class="chart-head"><div><h2 class="card-title">${say(c.title)}${by(c)}</h2><div class="detail">${sums.join(" · ")}</div></div>${pills}</div>
-    ${c.measures ? lines(series) : areas(series, c.sources.map(cut))}
+    ${c.measures ? lines(series, now) : areas(series, c.sources.map(cut), now)}
     ${legend(series, colours)}</section>`;
 }
 
-function draw(snap, checks) {
-  last = { snap, checks };
-  const area = HERE.area;
-  const a = areaState(area, checks);
-  const silence = silent(snap, area);
-  const title = t(`area.${area}`);
+function draw(m) {
+  last = m;
+  const a = m.areas.find((x) => x.area === HERE.area);
+  const title = t(`area.${a.area}`);
   document.title = title;
   document.getElementById("title").innerHTML = title;
   document.getElementById("checks").hidden = !a.checks.length;
   document.querySelector("#checks .checks").innerHTML = checkRows(a.checks);
   const state = !a.checks.length
-    ? t(shown(snap).includes(area) ? "area.no_checks" : "area.empty")
+    ? a.shown
+      ? t("area.no_checks")
+      : t("area.empty")
     : `<span class="state tone-${TONE[a.state]}">${stateIcon(a.state)}${word(a.state)}</span>`;
   const problems = a.problems.length
     ? esc(list(a.problems.map((c) => c.name)))
     : a.checks.length
       ? t("area.checks_up", { n: a.checks.length })
       : "";
-  const sources = silence.length ? t("source.no_answer", { name: list(silence) }) : "";
+  const sources = a.silent.length ? t("source.no_answer", { names: a.silent }) : "";
   document.getElementById("summary").innerHTML = [state, problems, sources].filter(Boolean).join(" · ");
-  document.getElementById("charts").innerHTML = joinCharts(snap.charts.filter((c) => c.area === area))
-    .map((c) => chart(c, snap))
-    .join("");
+  document.getElementById("charts").innerHTML = a.charts.map((c) => chart(c, m.now)).join("");
   // The sections in the order their sources gave them, each source's
   // together, flowing down two columns of about the same height.
-  document.getElementById("sections").innerHTML = snap.sections
-    .filter((s) => s.area === area)
-    .map((s, i) => section(s, i))
-    .join("");
+  document.getElementById("sections").innerHTML = a.sections.map((s, i) => section(s, i)).join("");
 }
 
 document.addEventListener("click", (e) => {
   const b = e.target.closest(".pills button");
   if (!b || !last) return;
   range = b.dataset.hours === "all" ? Number.POSITIVE_INFINITY : +b.dataset.hours;
-  draw(last.snap, last.checks);
+  draw(last);
 });
 
 start(draw);

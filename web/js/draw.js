@@ -3,7 +3,7 @@
 // hour as bars or areas, and shares. Every value from the snapshot is escaped
 // here or by t().
 
-import { busiest, checkState, fold } from "./checks.js";
+import { RECENT } from "./page.js";
 import { clock, compact, day, esc, ms, number, say, t, weekday } from "./text.js";
 
 // 16 px strokes for the pages, figures and events; apps and tools show their
@@ -92,9 +92,6 @@ export const SERIES = Array.from({ length: 8 }, (_, i) => `var(--m-series-${i + 
 export const shareColour = (s, i, start = 0) =>
   s.tone ? `var(--m-${s.tone})` : s.others ? "var(--m-gray)" : SERIES[((s.slot ?? i) + start) % SERIES.length];
 
-/** How many results a strip shows: as many as a check engine gives (snapshot.Recent). */
-export const RECENT = 30;
-
 /** An icon's address: a URL as given, or a file the server has in icons/. */
 const iconSrc = (icon) => (/^(https?:)?\/\//.test(icon) ? icon : `icons/${icon}`);
 
@@ -158,7 +155,7 @@ export function checkRows(checks) {
             ? ""
             : t("check.no_results");
       return `<a class="check" href="${esc(c.url)}" target="_blank" rel="noopener">
-      ${stateIcon(checkState(c))}
+      ${stateIcon(c.state)}
       <span class="copy"><span class="title">${esc(c.name)}${by(c)}</span>${detail ? `<span class="detail">${detail}</span>` : ""}</span>
       ${strip(c.recent)}<span class="value">${c.failing ? "" : ms(c.ms)}</span></a>`;
     })
@@ -393,6 +390,21 @@ function hourAxis(n, now) {
   return { long, at, bands, marks };
 }
 
+/**
+ * The places of the series with the highest mean, at most most of them, in
+ * their order: past most, the rest give way.
+ */
+export function busiest(series, most) {
+  if (series.length <= most) return series.map((_, k) => k);
+  const mean = (s) => s.hours.reduce((a, v) => a + v, 0) / (s.hours.length || 1);
+  return series
+    .map((s, k) => [mean(s), k])
+    .sort((a, b) => b[0] - a[0])
+    .slice(0, most - 1)
+    .map(([, k]) => k)
+    .sort((a, b) => a - b);
+}
+
 /** A line among many that isn't one of the highest: thin and grey. */
 const QUIET = "var(--m-label-3)";
 
@@ -442,6 +454,28 @@ export function lines(series, now = new Date()) {
   return `<div class="hour-chart areas lines${long ? " long" : ""}"><div class="plot">${grid.join("")}
     <svg viewBox="0 0 ${n} 100" preserveAspectRatio="none" aria-hidden="true">${bands}<g class="series">${strokes}</g>${cols}</svg>
   </div><div class="axis">${marks.join("")}</div></div>`;
+}
+
+/**
+ * Shares past most folded into one, the smallest first, so that each one
+ * kept has a colour of its own. Shares with a tone mean something one by
+ * one, such as each guest backed up or not, and are never folded.
+ */
+export function fold(shares, most = 8) {
+  if (shares.length <= most || shares.some((s) => s.tone)) return shares;
+  const kept = new Set([...shares].sort((a, b) => b.value - a.value).slice(0, most - 1));
+  const rest = shares.filter((s) => !kept.has(s));
+  const whole = shares.reduce((sum, s) => sum + s.value, 0);
+  const others = {
+    label: { key: "shares.others", args: { n: rest.length } },
+    value: rest.reduce((sum, s) => sum + s.value, 0),
+    others: true,
+    rows: rest.map((s) => ({
+      title: s.label,
+      value: { key: "percent", args: { n: Math.round((100 * s.value) / whole) } },
+    })),
+  };
+  return [...shares.filter((s) => kept.has(s)), others];
 }
 
 /**

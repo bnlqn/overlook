@@ -1,8 +1,9 @@
 // The shell every page sits in: the sidebar, the panel's bar, ⌘K and the
-// tooltips, and start(), which reads the snapshot and draws the page from it.
+// tooltips, and start(), which reads the snapshot and draws the page from
+// what page() says of it.
 
-import { areaState, asIfNow, checkState, linkCheck, named, readChecks, shown } from "./checks.js";
 import { badge, by, stateIcon, svg, TONE } from "./draw.js";
+import { asIfNow, page } from "./page.js";
 import { esc, loadWords, number, t, translate } from "./text.js";
 
 /** The pages, in the sidebar's order; key goes after G to jump there. */
@@ -26,8 +27,8 @@ const DEMO = document.documentElement.hasAttribute("data-demo");
 /** The page showing. */
 export const HERE = PAGES.find((p) => p.area && p.area === location.pathname.split("/").pop()) || PAGES[0];
 
-// The last snapshot and its checks, for ⌘K.
-let last = { snap: null, checks: [] };
+// What the page last said, for ⌘K.
+let last = null;
 
 function shell() {
   const group = (id, name) =>
@@ -76,23 +77,19 @@ function shell() {
   tooltips();
 }
 
-// The sidebar from the snapshot just read: the areas with anything in them,
-// their dots, the count of problems, and the apps and tools.
-function paintShell(snap, checks) {
-  const areas = shown(snap);
+// The sidebar from what the page says: the areas shown, their dots, the
+// count of problems, and the apps and tools, a dot for each with a check.
+function paintShell(m) {
   for (const a of document.querySelectorAll(".side [data-area]")) {
-    a.hidden = !areas.includes(a.dataset.area);
-    a.querySelector(".dot").className = `dot tone-${TONE[areaState(a.dataset.area, checks).state]}`;
+    const area = m.areas.find((x) => x.area === a.dataset.area);
+    a.hidden = !area.shown;
+    a.querySelector(".dot").className = `dot tone-${TONE[area.state]}`;
   }
-  const dot = (s) => {
-    const c = s.check && linkCheck(s, checks);
-    return !s.check ? "" : c ? TONE[checkState(c)] : "gray";
-  };
-  const link = (s) => `<a class="nav" href="${esc(s.url)}" target="_blank" rel="noopener">
-    ${badge(s, "xs")}<span>${esc(s.name)}</span><i class="dot tone-${dot(s)}"></i></a>`;
+  const link = ({ link: s, state }) => `<a class="nav" href="${esc(s.url)}" target="_blank" rel="noopener">
+    ${badge(s, "xs")}<span>${esc(s.name)}</span><i class="dot tone-${s.check ? TONE[state] : ""}"></i></a>`;
   for (const [id, links] of [
-    ["side-apps", snap.apps],
-    ["side-tools", snap.tools],
+    ["side-apps", m.apps.links],
+    ["side-tools", m.tools],
   ]) {
     const sec = document.getElementById(id);
     // Past twelve, a group starts folded, so the one under it stays in
@@ -102,7 +99,7 @@ function paintShell(snap, checks) {
     sec.querySelector("div").innerHTML = links.map(link).join("");
   }
   const count = document.getElementById("problem-count");
-  const n = checks.filter((c) => c.problem).length;
+  const n = m.problems.length;
   count.hidden = !n;
   count.textContent = number(n);
 }
@@ -123,15 +120,17 @@ function palette() {
     for (const ch of s) if (ch === q[i]) i++;
     return i === q.length;
   };
-  const pages = () => PAGES.filter((p) => !p.area || (last.snap && shown(last.snap).includes(p.area)));
-  const link = (group) => (s) => ({
-    group,
-    name: esc(s.name),
-    what: esc(s.description || ""),
-    glyph: badge(s, "sm"),
-    href: s.url,
-    out: true,
-  });
+  const pages = () => PAGES.filter((p) => !p.area || last?.areas.find((a) => a.area === p.area).shown);
+  const link =
+    (group) =>
+    ({ link: s }) => ({
+      group,
+      name: esc(s.name),
+      what: esc(s.description || ""),
+      glyph: badge(s, "sm"),
+      href: s.url,
+      out: true,
+    });
   const everything = () => [
     ...pages().map((p) => ({
       group: t("palette.go"),
@@ -140,13 +139,13 @@ function palette() {
       href: p.href,
       hint: `<kbd>G</kbd><kbd>${p.key.toUpperCase()}</kbd>`,
     })),
-    ...(last.snap ? last.snap.apps : []).map(link(t("side.apps"))),
-    ...(last.snap ? last.snap.tools : []).map(link(t("side.tools"))),
-    ...last.checks.map((c) => ({
+    ...(last ? last.apps.links : []).map(link(t("side.apps"))),
+    ...(last ? last.tools : []).map(link(t("side.tools"))),
+    ...(last ? last.checks : []).map((c) => ({
       group: t("palette.checks"),
       name: esc(c.name) + by(c),
       what: c.area ? t(`area.${c.area}`) : "",
-      glyph: stateIcon(checkState(c)),
+      glyph: stateIcon(c.state),
       href: c.url,
       out: true,
     })),
@@ -278,7 +277,8 @@ function tooltips() {
 /**
  * Draws the page from a new snapshot now, every minute while it shows, on
  * coming back to it, and on ↻. The ring in the sidebar runs down to the next
- * read. draw gets the snapshot and its checks.
+ * read. draw gets what page() says of the snapshot, at the moment it was
+ * read.
  */
 export async function start(draw) {
   await loadWords();
@@ -291,15 +291,13 @@ export async function start(draw) {
         (r) => (r.ok ? r.json() : null),
         () => null,
       );
-      const snap = read && named(DEMO ? asIfNow(read) : read);
-      document.getElementById("refreshed").innerHTML = snap
-        ? t("updated", { at: new Date() })
-        : t("overlook.no_answer");
-      if (!snap) return;
-      const checks = readChecks(snap);
-      last = { snap, checks };
-      paintShell(snap, checks);
-      draw(snap, checks);
+      const now = Date.now();
+      const m = read && page(DEMO ? asIfNow(read, now) : read, now);
+      document.getElementById("refreshed").innerHTML = m ? t("updated", { at: now }) : t("overlook.no_answer");
+      if (!m) return;
+      last = m;
+      paintShell(m);
+      draw(m);
     } finally {
       document.body.classList.remove("loading");
       const ring = document.querySelector(".ring circle:last-child");
