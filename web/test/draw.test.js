@@ -111,31 +111,28 @@ test("a week as areas: the days named and shaded, each source in the tooltip whe
 });
 
 test("shares are as wide as their values, in their tone or the next colour, their names escaped", () => {
-  const html = shares(
-    {
-      label: { name: "Photos" },
-      shares: [
-        { label: { name: "<i>Kim</i>" }, value: 1 },
-        { label: { name: "Noor" }, value: 3 },
-        {
-          label: { name: "Old" },
-          value: 1,
-          tone: "gray",
-          rows: [{ title: { name: "Last" }, value: { name: "a while ago" } }],
-        },
-      ],
-    },
-    ["#F06595", "#7170FF"],
-  );
-  assert.match(html, /^<span class="shares"><i class="" style="flex:1;--c:#F06595"/);
-  assert.match(html, /<i class="" style="flex:3;--c:#7170FF"/);
+  const html = shares({
+    label: { name: "Photos" },
+    shares: [
+      { label: { name: "<i>Kim</i>" }, value: 1 },
+      { label: { name: "Noor" }, value: 3 },
+      {
+        label: { name: "Old" },
+        value: 1,
+        tone: "gray",
+        rows: [{ title: { name: "Last" }, value: { name: "a while ago" } }],
+      },
+    ],
+  });
+  assert.match(html, /^<span class="shares"><i class="" style="flex:1;--c:var\(--m-series-1\)"/);
+  assert.match(html, /<i class="" style="flex:3;--c:var\(--m-series-2\)"/);
   assert.match(html, /<i class="tone-gray" style="flex:1;--c:var\(--m-gray\)"/);
   assert.match(html, /60%/, "Noor's share of all five, with no rows of her own");
   assert.match(html, /a while ago/, "rows stand for the value and share");
   assert.doesNotMatch(html, /<i>Kim/);
   const many = {
     label: { name: "Backups" },
-    shares: Array.from({ length: 13 }, (_, i) => ({ label: { name: `${i}` }, value: 1 })),
+    shares: Array.from({ length: 13 }, (_, i) => ({ label: { name: `${i}` }, value: 1, tone: "blue" })),
   };
-  assert.match(shares(many, ["#fff"]), /class="shares many"/, "many sit closer");
+  assert.match(shares(many), /class="shares many"/, "many guests, each backed up or not, sit closer");
 });

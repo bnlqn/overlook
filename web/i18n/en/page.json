@@ -44,6 +44,7 @@
   "ms": "{n} ms",
   "ms.under": "&lt;1 ms",
   "percent": "{n}%",
+  "shares.others": { "one": "{n} other", "other": "{n} others" },
 
   "result.passed": "Passed",
   "result.failed": "Failed",

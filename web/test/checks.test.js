@@ -5,6 +5,7 @@ import {
   asIfNow,
   checkState,
   choresBy,
+  fold,
   joinCharts,
   joinFigures,
   named,
@@ -254,6 +255,29 @@ test("charts that add up and share a title key are one, over the hours they all 
     alone.sources.map((s) => s.name),
     ["Primary"],
   );
+});
+
+test("past eight shares, the smallest fold into one; toned ones never fold", () => {
+  const person = (name, value) => ({ label: { name }, value });
+  const nine = ["A", "B", "C", "D", "E", "F", "G", "H", "I"].map((n, i) => person(n, i === 2 ? 1 : 10 + i));
+  const out = fold(nine);
+  assert.equal(out.length, 8);
+  assert.deepEqual(
+    out.slice(0, 7).map((s) => s.label.name),
+    ["B", "D", "E", "F", "G", "H", "I"],
+    "the seven largest keep their order",
+  );
+  const others = out[7];
+  assert.equal(others.others, true);
+  assert.deepEqual(others.label, { key: "shares.others", args: { n: 2 } });
+  assert.equal(others.value, 10 + 1);
+  assert.deepEqual(
+    others.rows.map((r) => r.title.name),
+    ["A", "C"],
+  );
+  assert.equal(fold(nine.slice(0, 8)).length, 8, "eight fit");
+  const guests = Array.from({ length: 47 }, (_, i) => ({ ...person(`g${i}`, 1), tone: "blue" }));
+  assert.equal(fold(guests).length, 47, "each guest backed up or not means something");
 });
 
 test("figures that share a join key are one tile, the first's number first; alone, each stays", () => {

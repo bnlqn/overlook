@@ -116,9 +116,32 @@ export function joinFigures(figures) {
     if (group.length < 2) return [f];
     if (group[0] !== f) return [];
     const { detail, ...first } = f;
-    const shares = group.filter((g) => g.part).map((g) => ({ ...g.part, from: g.from }));
+    // Each part keeps its figure's place in the tile, and so its colour.
+    const shares = group.flatMap((g, slot) => (g.part ? [{ ...g.part, from: g.from, slot }] : []));
     return [{ ...first, label: f.join, also: group.slice(1), shares }];
   });
+}
+
+/**
+ * Shares past most folded into one, the smallest first, so that each one
+ * kept has a colour of its own. Shares with a tone mean something one by
+ * one, such as each guest backed up or not, and are never folded.
+ */
+export function fold(shares, most = 8) {
+  if (shares.length <= most || shares.some((s) => s.tone)) return shares;
+  const kept = new Set([...shares].sort((a, b) => b.value - a.value).slice(0, most - 1));
+  const rest = shares.filter((s) => !kept.has(s));
+  const whole = shares.reduce((sum, s) => sum + s.value, 0);
+  const others = {
+    label: { key: "shares.others", args: { n: rest.length } },
+    value: rest.reduce((sum, s) => sum + s.value, 0),
+    others: true,
+    rows: rest.map((s) => ({
+      title: s.label,
+      value: { key: "percent", args: { n: Math.round((100 * s.value) / whole) } },
+    })),
+  };
+  return [...shares.filter((s) => kept.has(s)), others];
 }
 
 /**
