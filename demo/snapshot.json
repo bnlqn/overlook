@@ -2381,12 +2381,14 @@
     {
       "name": "Uptime Kuma",
       "url": "https://uptime.example.com",
+      "icon": "uptime-kuma.svg",
       "description": "What the internet sees",
       "color": "#5CDD8B"
     },
     {
       "name": "Grafana",
       "url": "https://grafana.example.com",
+      "icon": "grafana.svg",
       "description": "Dashboards and alert rules",
       "color": "#F46800"
     },
