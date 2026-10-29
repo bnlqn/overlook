@@ -41,15 +41,10 @@ type Config struct {
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
-	if c.Name == "" {
-		c.Name = "Pi-hole"
-	}
+	c.Name = cmp.Or(c.Name, "Pi-hole")
 	if c.Password != "" {
 		s, err := fetch.Client{}.Session(c.api("/auth"), map[string]string{"password": c.Password}, sid)
 		if err != nil {
@@ -228,11 +223,11 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 	resolver := []snapshot.Row{
 		block,
 		{
-			Title: snapshot.Lookups, Value: snapshot.Msg("pihole.n", map[string]any{"n": sum.Queries.Total}),
+			Title: snapshot.Lookups, Value: snapshot.Number(sum.Queries.Total),
 			Detail: snapshot.Msg("pihole.over_day", nil),
 		},
 		{
-			Title: snapshot.Blocked, Value: snapshot.Msg("pihole.percent", map[string]any{"n": percent(sum.Queries.Blocked, sum.Queries.Total)}),
+			Title: snapshot.Blocked, Value: snapshot.Percent(snapshot.PercentOf(sum.Queries.Blocked, sum.Queries.Total)),
 			Detail: snapshot.Msg("pihole.count", map[string]any{"n": sum.Queries.Blocked}),
 		},
 		{
@@ -280,46 +275,25 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 
 	var who, what, denied []snapshot.Row
 	for _, cl := range clients.Clients {
-		r := snapshot.Row{Title: snapshot.Text{Name: cmp.Or(cl.Name, cl.IP)}, Value: share(cl.Count, sum.Queries.Total)}
+		r := snapshot.Row{Title: snapshot.Text{Name: cmp.Or(cl.Name, cl.IP)}, Value: snapshot.TopShare(cl.Count, sum.Queries.Total)}
 		if cl.Name != "" {
 			r.Detail = &snapshot.Text{Name: cl.IP}
 		}
 		who = append(who, r)
 	}
 	for _, d := range domains.Domains {
-		what = append(what, snapshot.Row{Title: snapshot.Text{Name: d.Domain}, Value: share(d.Count, sum.Queries.Total)})
+		what = append(what, snapshot.Row{Title: snapshot.Text{Name: d.Domain}, Value: snapshot.TopShare(d.Count, sum.Queries.Total)})
 	}
 	for _, d := range blocked.Domains {
-		denied = append(denied, snapshot.Row{Title: snapshot.Text{Name: d.Domain}, Value: snapshot.Msg("pihole.n", map[string]any{"n": d.Count})})
+		denied = append(denied, snapshot.Row{Title: snapshot.Text{Name: d.Domain}, Value: snapshot.Number(d.Count)})
 	}
 	// The same titles as any resolver's, so the page names each by its
 	// source beside another's.
 	out.Sections = []snapshot.Section{
 		{Area: Area, Title: snapshot.ResolverSection, Rows: resolver},
-		{Area: Area, Title: snapshot.TopClients, Rows: orNothing(who)},
-		{Area: Area, Title: snapshot.TopDomains, Rows: orNothing(what)},
-		{Area: Area, Title: snapshot.TopBlocked, Rows: orNothing(denied)},
+		{Area: Area, Title: snapshot.TopClients, Rows: snapshot.OrNothing(who)},
+		{Area: Area, Title: snapshot.TopDomains, Rows: snapshot.OrNothing(what)},
+		{Area: Area, Title: snapshot.TopBlocked, Rows: snapshot.OrNothing(denied)},
 	}
 	return out, nil
-}
-
-// orNothing is rows, or one that says there are none yet.
-func orNothing(rows []snapshot.Row) []snapshot.Row {
-	if len(rows) == 0 {
-		return []snapshot.Row{{Title: snapshot.Text{Key: "pihole.nothing"}}}
-	}
-	return rows
-}
-
-// share is a count and its share of every lookup.
-func share(n, lookups int) *snapshot.Text {
-	return snapshot.Msg("pihole.share", map[string]any{"n": n, "share": percent(n, lookups)})
-}
-
-// percent is part of whole as a percentage, to a tenth.
-func percent(part, whole int) float64 {
-	if whole == 0 {
-		return 0
-	}
-	return math.Round(1000*float64(part)/float64(whole)) / 10
 }

@@ -5,7 +5,6 @@
   "immich.person": "Photos {photos} · videos {videos} · {usage:bytes}",
   "immich.videos_title": "Videos",
   "immich.week": "This week",
-  "immich.n": "{n}",
   "immich.plus": "+{n}",
   "immich.bytes": "{n:bytes}",
   "immich.space": "Space",

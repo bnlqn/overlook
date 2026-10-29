@@ -2,7 +2,6 @@
   "nextcloud.files": "Files",
   "nextcloud.active": { "one": "{n} person active today", "other": "{n} people active today" },
 
-  "nextcloud.n": "{n}",
   "nextcloud.people": { "one": "{n} person · {active} active today", "other": "{n} people · {active} active today" },
   "nextcloud.shares": "Shares",
   "nextcloud.links": "{n} by link · {open} without a password",

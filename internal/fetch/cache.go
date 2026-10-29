@@ -12,8 +12,9 @@ import (
 const every = 10 * time.Minute
 
 // Cache keeps a source's last answer for ten minutes, for an answer too big
-// to read with every snapshot. A read that fails isn't kept, so the next
-// snapshot tries again.
+// to read with every snapshot, or a source that allows few reads, such as
+// GitHub without a token. A read that fails isn't kept, so the next snapshot
+// tries again.
 //
 // ponytail: an answer kept longer than a snapshot (ADR 0004), in memory and
 // one per source, so a film can take ten minutes to count. If a source ever

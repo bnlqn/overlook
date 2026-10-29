@@ -39,18 +39,13 @@ type Config struct {
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
 	if c.Key == "" {
 		return errors.New("key is missing")
 	}
-	if c.Name == "" {
-		c.Name = "Plex"
-	}
+	c.Name = cmp.Or(c.Name, "Plex")
 	return nil
 }
 

@@ -63,7 +63,8 @@ func TestReadEvery(t *testing.T) {
 	if p, err := Read(ctx, c); err != nil || len(p.Updates) != 2 {
 		t.Errorf("within 10 minutes, the last answer: %+v, %v", p, err)
 	}
-	c.last.at = c.last.at.Add(-every)
+	later := time.Now().Add(10 * time.Minute)
+	c.last.Now = func() time.Time { return later }
 	if _, err := Read(ctx, c); err == nil || !strings.Contains(err.Error(), "example/homelab: ") {
 		t.Errorf("after 10 minutes, GitHub is read again, and an error names its repository: %v", err)
 	}

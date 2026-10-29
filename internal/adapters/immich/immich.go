@@ -4,6 +4,7 @@
 package immich
 
 import (
+	"cmp"
 	"context"
 	"errors"
 	"fmt"
@@ -32,18 +33,13 @@ type Config struct {
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
 	if c.Key == "" {
 		return errors.New("key is missing")
 	}
-	if c.Name == "" {
-		c.Name = "Immich"
-	}
+	c.Name = cmp.Or(c.Name, "Immich")
 	return nil
 }
 
@@ -185,8 +181,8 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	if len(stats.People) > 1 && stats.Usage > 0 {
 		for i, p := range stats.People {
 			rows := []snapshot.Row{
-				{Title: snapshot.Text{Key: "immich.photos"}, Value: snapshot.Msg("immich.n", map[string]any{"n": p.Photos})},
-				{Title: snapshot.Text{Key: "immich.videos_title"}, Value: snapshot.Msg("immich.n", map[string]any{"n": p.Videos})},
+				{Title: snapshot.Text{Key: "immich.photos"}, Value: snapshot.Number(p.Photos)},
+				{Title: snapshot.Text{Key: "immich.videos_title"}, Value: snapshot.Number(p.Videos)},
 				{Title: snapshot.Text{Key: "immich.space"}, Value: snapshot.Msg("immich.bytes", map[string]any{"n": p.Usage})},
 			}
 			if week[i] != nil {

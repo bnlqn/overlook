@@ -48,7 +48,7 @@ func TestRead(t *testing.T) {
 		d.URL != "https://grafana.example.com/alerting/grafana/disk-space/view" {
 		t.Errorf("Disk space, firing for two evaluations: %+v", d)
 	}
-	if len(d.Results) != recent || !d.Results[recent-1].At.Equal(at("12:14:20")) || d.Results[recent-1].MS == nil {
+	if len(d.Results) != snapshot.Recent || !d.Results[snapshot.Recent-1].At.Equal(at("12:14:20")) || d.Results[snapshot.Recent-1].MS == nil {
 		t.Errorf("30 results, 10 seconds apart, to its last evaluation: %+v", d.Results)
 	}
 	failed := 0

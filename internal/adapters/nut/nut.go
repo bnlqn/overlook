@@ -3,6 +3,7 @@
 package nut
 
 import (
+	"cmp"
 	"context"
 	"errors"
 	"fmt"
@@ -45,9 +46,7 @@ func (c *Config) Check() error {
 	if err := fetch.CheckNUTName(c.UPS); err != nil {
 		return fmt.Errorf("ups: %w", err)
 	}
-	if c.Name == "" {
-		c.Name = "NUT"
-	}
+	c.Name = cmp.Or(c.Name, "NUT")
 	return nil
 }
 
@@ -72,7 +71,7 @@ func parts(v map[string]string) snapshot.Parts {
 		if charge < 50 {
 			battery.Tone = "red"
 		}
-		rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "nut.battery"}, Value: snapshot.Msg("nut.percent", map[string]any{"n": charge}), Detail: runtime(v), Meter: battery})
+		rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "nut.battery"}, Value: snapshot.Percent(charge), Detail: runtime(v), Meter: battery})
 	}
 	load, hasLoad := number(v, "ups.load")
 	w, hasWatts := watts(v)
@@ -84,7 +83,7 @@ func parts(v map[string]string) snapshot.Parts {
 		}
 		rows = append(rows, row)
 	case hasLoad:
-		rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "nut.load"}, Value: snapshot.Msg("nut.percent", map[string]any{"n": load})})
+		rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "nut.load"}, Value: snapshot.Percent(load)})
 	}
 
 	p := snapshot.Parts{Sections: []snapshot.Section{{Area: Area, Title: snapshot.Text{Key: "nut.ups"}, Rows: rows}}}

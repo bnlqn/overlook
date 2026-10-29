@@ -4,6 +4,7 @@
 package seerr
 
 import (
+	"cmp"
 	"context"
 	"errors"
 	"fmt"
@@ -39,21 +40,14 @@ type Config struct {
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
 	if c.Key == "" {
 		return errors.New("key is missing")
 	}
-	if c.Name == "" {
-		c.Name = "Seerr"
-	}
-	if c.Link == "" {
-		c.Link = c.URL
-	}
+	c.Name = cmp.Or(c.Name, "Seerr")
+	c.Link = cmp.Or(c.Link, c.URL)
 	if err := fetch.CheckURL(c.Link); err != nil {
 		return fmt.Errorf("link %w", err)
 	}

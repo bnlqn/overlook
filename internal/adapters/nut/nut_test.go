@@ -132,7 +132,7 @@ func TestParts(t *testing.T) {
 		t.Errorf("draws 40%% of 900 W, and has no battery to show: %+v", p.Figures)
 	}
 	p = parts(map[string]string{"ups.status": "OL", "ups.load": "40"})
-	if len(p.Figures) != 0 || len(p.Sections[0].Rows) != 2 || p.Sections[0].Rows[1].Value.Key != "nut.percent" {
+	if len(p.Figures) != 0 || len(p.Sections[0].Rows) != 2 || p.Sections[0].Rows[1].Value.Key != "percent" {
 		t.Errorf("with no watts, no figure, and the load as a share: %+v", p)
 	}
 	p = parts(map[string]string{"ups.status": "OFF"})

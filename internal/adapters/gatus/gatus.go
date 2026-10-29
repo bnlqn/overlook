@@ -4,6 +4,7 @@
 package gatus
 
 import (
+	"cmp"
 	"context"
 	"errors"
 	"fmt"
@@ -15,10 +16,6 @@ import (
 	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
-
-// recent is the results each check's strip shows: half an hour at Gatus's
-// default minute.
-const recent = 30
 
 // Config is one Gatus, under sources.gatus in overlook.yaml.
 type Config struct {
@@ -40,27 +37,18 @@ type Config struct {
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
 	if (c.User == "") != (c.Password == "") {
 		return errors.New("give user and password together, or neither")
 	}
-	if c.Name == "" {
-		c.Name = "Gatus"
-	}
-	if c.Link == "" {
-		c.Link = c.URL
-	}
+	c.Name = cmp.Or(c.Name, "Gatus")
+	c.Link = cmp.Or(c.Link, c.URL)
 	if err := fetch.CheckURL(c.Link); err != nil {
 		return fmt.Errorf("link %w", err)
 	}
-	if c.Threshold == 0 {
-		c.Threshold = 3
-	}
+	c.Threshold = cmp.Or(c.Threshold, 3)
 	if c.Threshold < 1 {
 		return errors.New("threshold must be 1 or more")
 	}
@@ -96,7 +84,7 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	base := strings.TrimSuffix(c.URL, "/")
 	login := fetch.Login(c.User, c.Password)
 	var endpoints []endpoint
-	if err := fetch.JSON(ctx, fmt.Sprintf("%s/api/v1/endpoints/statuses?page=1&pageSize=%d", base, recent), login, &endpoints); err != nil {
+	if err := fetch.JSON(ctx, fmt.Sprintf("%s/api/v1/endpoints/statuses?page=1&pageSize=%d", base, snapshot.Recent), login, &endpoints); err != nil {
 		return snapshot.Parts{}, err
 	}
 	// Each check's events, which only its own read has. A check whose read

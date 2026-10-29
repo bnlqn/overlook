@@ -173,10 +173,14 @@ func Login(user, password string) http.Header {
 	return http.Header{"Authorization": {"Basic " + base64.StdEncoding.EncodeToString([]byte(user+":"+password))}}
 }
 
-// CheckURL refuses a URL Overlook couldn't read or link to: one that isn't
-// http or https, or has no host. It refuses a login in one too, which a
-// password's own characters can break and a link would show on the page.
+// CheckURL refuses a URL Overlook couldn't read or link to: none, one that
+// isn't http or https, or one with no host. It refuses a login in one too,
+// which a password's own characters can break and a link would show on the
+// page. Its error follows the URL's name, as "url is missing".
 func CheckURL(rawURL string) error {
+	if rawURL == "" {
+		return errors.New("is missing")
+	}
 	u, err := url.Parse(rawURL)
 	if err != nil {
 		return errors.New("isn't a URL")

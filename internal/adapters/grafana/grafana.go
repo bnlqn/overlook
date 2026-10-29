@@ -20,9 +20,6 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
-// recent is the results each check's strip shows.
-const recent = 30
-
 // week is how far back the state history is read, for this week's problems.
 const week = 7 * 24 * time.Hour
 
@@ -42,21 +39,14 @@ type Config struct {
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
 	if c.Token == "" {
 		return errors.New("token is missing: a service account's, with the Viewer role")
 	}
-	if c.Name == "" {
-		c.Name = "Grafana"
-	}
-	if c.Link == "" {
-		c.Link = c.URL
-	}
+	c.Name = cmp.Or(c.Name, "Grafana")
+	c.Link = cmp.Or(c.Link, c.URL)
 	if err := fetch.CheckURL(c.Link); err != nil {
 		return fmt.Errorf("link %w", err)
 	}
@@ -256,7 +246,7 @@ func check(r rule, interval time.Duration, history []change) snapshot.Check {
 	if interval <= 0 {
 		interval = time.Minute
 	}
-	for k := recent - 1; k >= 0; k-- {
+	for k := snapshot.Recent - 1; k >= 0; k-- {
 		at := r.LastEvaluation.Add(-time.Duration(k) * interval)
 		ch.Results = append(ch.Results, snapshot.Result{OK: !in(fails, at), At: at})
 	}

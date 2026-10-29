@@ -3,7 +3,6 @@
   "sonarr.this_week": { "one": "+{n} episode this week", "other": "+{n} episodes this week" },
   "sonarr.unit": { "one": "show", "other": "shows" },
   "sonarr.episodes": "Episodes",
-  "sonarr.n": "{n}",
   "sonarr.shows_n": { "one": "{n} show", "other": "{n} shows" },
   "sonarr.library_detail": {
     "one": "{n} episode · {size:bytes} · +{week} this week",

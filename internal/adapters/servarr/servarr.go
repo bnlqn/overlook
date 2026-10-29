@@ -4,6 +4,7 @@
 package servarr
 
 import (
+	"cmp"
 	"context"
 	"errors"
 	"fmt"
@@ -32,18 +33,13 @@ type Config struct {
 // Check fills c's defaults, naming it name if the config doesn't, and
 // refuses what can't work.
 func (c *Config) Check(name string) error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
 	if c.Key == "" {
 		return errors.New("key is missing")
 	}
-	if c.Name == "" {
-		c.Name = name
-	}
+	c.Name = cmp.Or(c.Name, name)
 	return nil
 }
 

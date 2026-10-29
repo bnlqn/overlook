@@ -62,7 +62,7 @@ func TestRead(t *testing.T) {
 	if ch := checks["lab_test-page"]; ch.Area != "" {
 		t.Errorf("a group in no area stays in none: %q", ch.Area)
 	}
-	if ch := checks["servers_hypervisor"]; ch.Area != "servers" || len(ch.Results) != recent || ch.Results[0].MS == nil {
+	if ch := checks["servers_hypervisor"]; ch.Area != "servers" || len(ch.Results) != snapshot.Recent || ch.Results[0].MS == nil {
 		t.Errorf("Hypervisor: %+v", ch)
 	}
 }

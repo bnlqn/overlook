@@ -92,7 +92,7 @@ export const SERIES = Array.from({ length: 8 }, (_, i) => `var(--m-series-${i + 
 export const shareColour = (s, i, start = 0) =>
   s.tone ? `var(--m-${s.tone})` : s.others ? "var(--m-gray)" : SERIES[((s.slot ?? i) + start) % SERIES.length];
 
-/** How many results a strip shows. */
+/** How many results a strip shows: as many as a check engine gives (snapshot.Recent). */
 export const RECENT = 30;
 
 /** An icon's address: a URL as given, or a file the server has in icons/. */
@@ -274,9 +274,11 @@ export function hourTip(series, colours, i, from, { long = false, last = false, 
     return [colours[k], say(s.label), `${number(v)}${share}`];
   });
   for (const s of sources) rows.push(["", esc(s.name), number(s.hours[i])]);
-  const title = `${long ? `${day(from)}, ` : ""}${clock(from)} – ${clock(+from + 3600e3)}`;
-  return tip(title, rows, last ? t("chart.so_far") : "");
+  return tip(hourTitle(from, long), rows, last ? t("chart.so_far") : "");
 }
+
+// An hour's tooltip title: "14:00 – 15:00", after its day over a long chart.
+const hourTitle = (from, long) => `${long ? `${day(from)}, ` : ""}${clock(from)} – ${clock(+from + 3600e3)}`;
 
 /** A chart's series by colour, in a row. */
 export const legend = (series, colours) =>
@@ -304,13 +306,7 @@ export function bars(series, now = new Date()) {
       .join("");
     return `<span class="hour" style="--i:${i}" data-tip="${tp}"><i class="whole" style="height:${pct(v)};--c:${HOURS}"></i>${parts}</span>`;
   });
-  const marks = series[0].hours
-    .map((_, i) => hourStart(i, n, now))
-    .map(
-      (d, i) =>
-        d.getHours() % 6 === 0 && `<span style="left:${(((i + 0.5) * 100) / n).toFixed(2)}%">${clock(d)}</span>`,
-    )
-    .filter(Boolean);
+  const { marks } = hourAxis(n, now);
   const grid = gridOf(max, 2).map(
     (v) =>
       `<i class="line" style="bottom:${pct(v)}"></i><span class="scale" style="bottom:${pct(v)}">${scaleNumber(v)}</span>`,
@@ -437,8 +433,7 @@ export function lines(series, now = new Date()) {
       .map((s, k) => ({ v: s.hours[i], row: [colours[k], say(s.label), t("percent", { n: Math.round(s.hours[i]) })] }))
       .sort((a, b) => b.v - a.v)
       .map((r) => r.row);
-    const title = `${long ? `${day(at(i))}, ` : ""}${clock(at(i))} – ${clock(+at(i) + 3600e3)}`;
-    return `<g class="col"><rect class="hit" x="${i}" y="0" width="1" height="100" data-tip="${tip(title, rows, i === n - 1 ? t("chart.so_far") : "")}"/><line class="cur" x1="${i + 0.5}" x2="${i + 0.5}" y1="0" y2="100"/></g>`;
+    return `<g class="col"><rect class="hit" x="${i}" y="0" width="1" height="100" data-tip="${tip(hourTitle(at(i), long), rows, i === n - 1 ? t("chart.so_far") : "")}"/><line class="cur" x1="${i + 0.5}" x2="${i + 0.5}" y1="0" y2="100"/></g>`;
   }).join("");
   const grid = [0, 50, 100].map(
     (v) =>

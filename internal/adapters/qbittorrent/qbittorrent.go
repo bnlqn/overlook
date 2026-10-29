@@ -39,9 +39,6 @@ type Config struct {
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
@@ -51,9 +48,7 @@ func (c *Config) Check() error {
 	if c.Password != "" && c.User == "" {
 		return errors.New("password without a user")
 	}
-	if c.Name == "" {
-		c.Name = "qBittorrent"
-	}
+	c.Name = cmp.Or(c.Name, "qBittorrent")
 	if c.User != "" {
 		s, err := fetch.Client{}.FormSession(c.api("auth/login"), map[string]string{"username": c.User, "password": c.Password}, cookie)
 		if err != nil {
