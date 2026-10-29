@@ -81,6 +81,13 @@ _Avoid_: State, cache
 
 ### What the page shows
 
+**Page**:
+What Overlook draws for a homelab, in the same shape for every one: what is
+wrong, how each area is, and what the homelab did today and this week, with
+a page of its own for each area. The config says which sources fill it,
+never where anything goes.
+_Avoid_: Dashboard, start page, homepage
+
 **Area**:
 One of the four fixed parts of a homelab: Servers, Network, Storage and Apps.
 An area with nothing in it isn't shown.

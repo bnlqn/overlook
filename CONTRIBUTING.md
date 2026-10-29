@@ -4,6 +4,10 @@ Thank you for helping. Overlook answers the same questions for every homelab, in
 
 Before you start, read [CONTEXT.md](CONTEXT.md) for the words the project uses and [docs/adr](docs/adr) for what has been decided. For anything larger than a fix, open an issue first, so nobody's work is wasted.
 
+## How Overlook is written
+
+Overlook is written with an AI coding agent, Claude Code. The maintainer decides, with the agent, what Overlook does and how: the road, the words in CONTEXT.md and every ADR. The agent writes the code, the tests and the docs, following [AGENTS.md](AGENTS.md). The maintainer reviews every pull request before it merges, and `make check` is the gate it passes.
+
 ## Setting up
 
 You need:
