@@ -5,6 +5,7 @@
 package adguard
 
 import (
+	"cmp"
 	"context"
 	"errors"
 	"fmt"
@@ -35,18 +36,13 @@ type Config struct {
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
 	if (c.User == "") != (c.Password == "") {
 		return errors.New("give user and password together, or neither")
 	}
-	if c.Name == "" {
-		c.Name = "AdGuard Home"
-	}
+	c.Name = cmp.Or(c.Name, "AdGuard Home")
 	return nil
 }
 
@@ -192,11 +188,11 @@ func sections(s stats, st status, cl clients) []snapshot.Section {
 	resolver := []snapshot.Row{
 		protection,
 		{
-			Title: snapshot.Text{Key: "adguard.lookups"}, Value: snapshot.Msg("adguard.n", map[string]any{"n": s.Lookups}),
+			Title: snapshot.Text{Key: "adguard.lookups"}, Value: snapshot.Number(s.Lookups),
 			Detail: snapshot.Msg("adguard.over", map[string]any{"ms": interval.Milliseconds()}),
 		},
 		{
-			Title: snapshot.Text{Key: "adguard.blocked"}, Value: snapshot.Msg("adguard.percent", map[string]any{"n": percent(s.Blocked, s.Lookups)}),
+			Title: snapshot.Text{Key: "adguard.blocked"}, Value: snapshot.Percent(snapshot.PercentOf(s.Blocked, s.Lookups)),
 			Detail: snapshot.Msg("adguard.count", map[string]any{"n": s.Blocked}),
 		},
 		{Title: snapshot.Text{Key: "adguard.processing"}, Value: snapshot.Msg("adguard.ms", map[string]any{"n": ms(s.Processing)})},
@@ -217,26 +213,26 @@ func sections(s stats, st status, cl clients) []snapshot.Section {
 	names := clientNames(cl)
 	var who, what, blocked []snapshot.Row
 	for _, e := range entries(s.Clients) {
-		r := snapshot.Row{Title: snapshot.Text{Name: e.name}, Value: share(e.n, s.Lookups)}
+		r := snapshot.Row{Title: snapshot.Text{Name: e.name}, Value: snapshot.TopShare(e.n, s.Lookups)}
 		if name, ok := names[e.name]; ok {
 			r.Title, r.Detail = snapshot.Text{Name: name}, &snapshot.Text{Name: e.name}
 		}
 		who = append(who, r)
 	}
 	for _, e := range entries(s.Domains) {
-		what = append(what, snapshot.Row{Title: snapshot.Text{Name: e.name}, Value: share(e.n, s.Lookups)})
+		what = append(what, snapshot.Row{Title: snapshot.Text{Name: e.name}, Value: snapshot.TopShare(e.n, s.Lookups)})
 	}
 	for _, e := range entries(s.BlockedTop) {
-		blocked = append(blocked, snapshot.Row{Title: snapshot.Text{Name: e.name}, Value: snapshot.Msg("adguard.n", map[string]any{"n": e.n})})
+		blocked = append(blocked, snapshot.Row{Title: snapshot.Text{Name: e.name}, Value: snapshot.Number(e.n)})
 	}
 
 	// The same titles as any resolver's, so the page names the resolver
 	// beside each title when there's another.
 	return []snapshot.Section{
 		{Area: Area, Title: snapshot.ResolverSection, Rows: resolver},
-		{Area: Area, Title: snapshot.TopClients, Rows: orNothing(who)},
-		{Area: Area, Title: snapshot.TopDomains, Rows: orNothing(what)},
-		{Area: Area, Title: snapshot.TopBlocked, Rows: orNothing(blocked)},
+		{Area: Area, Title: snapshot.TopClients, Rows: snapshot.OrNothing(who)},
+		{Area: Area, Title: snapshot.TopDomains, Rows: snapshot.OrNothing(what)},
+		{Area: Area, Title: snapshot.TopBlocked, Rows: snapshot.OrNothing(blocked)},
 	}
 }
 
@@ -273,27 +269,6 @@ func clientNames(cl clients) map[string]string {
 		}
 	}
 	return names
-}
-
-// orNothing is rows, or one that says there are none yet.
-func orNothing(rows []snapshot.Row) []snapshot.Row {
-	if len(rows) == 0 {
-		return []snapshot.Row{{Title: snapshot.Text{Key: "adguard.nothing"}}}
-	}
-	return rows
-}
-
-// share is a count and its share of every lookup.
-func share(n, lookups int) *snapshot.Text {
-	return snapshot.Msg("adguard.share", map[string]any{"n": n, "share": percent(n, lookups)})
-}
-
-// percent is part of whole as a percentage, to a tenth.
-func percent(part, whole int) float64 {
-	if whole == 0 {
-		return 0
-	}
-	return math.Round(1000*float64(part)/float64(whole)) / 10
 }
 
 // ms is seconds as milliseconds, to a tenth.

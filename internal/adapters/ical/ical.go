@@ -5,6 +5,7 @@
 package ical
 
 import (
+	"cmp"
 	"context"
 	"errors"
 	"fmt"
@@ -28,15 +29,10 @@ type Config struct {
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
-	if c.Name == "" {
-		c.Name = "Chores"
-	}
+	c.Name = cmp.Or(c.Name, "Chores")
 	return nil
 }
 

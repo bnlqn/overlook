@@ -36,18 +36,13 @@ type Config struct {
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
 	if c.Token == "" {
 		return errors.New("token is missing")
 	}
-	if c.Name == "" {
-		c.Name = "Paperless-ngx"
-	}
+	c.Name = cmp.Or(c.Name, "Paperless-ngx")
 	return nil
 }
 
@@ -127,7 +122,7 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 		}
 	}
 
-	documents := snapshot.Row{Title: snapshot.Text{Key: "paperless.documents"}, Value: snapshot.Msg("paperless.n", map[string]any{"n": stats.Total})}
+	documents := snapshot.Row{Title: snapshot.Text{Key: "paperless.documents"}, Value: snapshot.Number(stats.Total)}
 	if stats.Inbox != nil {
 		documents.Detail = snapshot.Msg("paperless.inbox", map[string]any{"n": *stats.Inbox})
 	}

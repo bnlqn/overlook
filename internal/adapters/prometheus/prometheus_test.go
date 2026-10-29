@@ -74,17 +74,17 @@ func TestRead(t *testing.T) {
 			failed++
 		}
 	}
-	if len(d.Results) != recent || failed < 12 || failed == recent {
+	if len(d.Results) != snapshot.Recent || failed < 12 || failed == snapshot.Recent {
 		t.Errorf("30 results, the minutes it fired among them: %d failed of %d", failed, len(d.Results))
 	}
 	if len(d.Outages) != 1 || d.Outages[0].To == nil {
 		t.Errorf("its firing this week, to five minutes, and over: %+v", d.Outages)
 	}
 
-	if l := by["Packet loss"]; l.Problem || l.Run != recent || l.Threshold != 361 {
+	if l := by["Packet loss"]; l.Problem || l.Run != snapshot.Recent || l.Threshold != 361 {
 		t.Errorf("Packet loss, pending for an hour of 10-second evaluations: %+v", l)
 	}
-	if b := by["Backup age"]; b.Problem || b.Run != recent || b.Threshold != recent+1 || b.Why != "The offsite disk is being swapped" {
+	if b := by["Backup age"]; b.Problem || b.Run != snapshot.Recent || b.Threshold != snapshot.Recent+1 || b.Why != "The offsite disk is being swapped" {
 		t.Errorf("Backup age, firing but silenced, with the silence's comment: %+v", b)
 	}
 	if h := by["Host memory"]; h.Problem || h.Run != 0 || len(h.Outages) != 0 {

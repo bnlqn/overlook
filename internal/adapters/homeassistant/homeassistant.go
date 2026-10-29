@@ -40,21 +40,14 @@ type Config struct {
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
 	if c.Token == "" {
 		return errors.New("token is missing")
 	}
-	if c.Name == "" {
-		c.Name = "Home Assistant"
-	}
-	if c.Link == "" {
-		c.Link = c.URL
-	}
+	c.Name = cmp.Or(c.Name, "Home Assistant")
+	c.Link = cmp.Or(c.Link, c.URL)
 	if err := fetch.CheckURL(c.Link); err != nil {
 		return fmt.Errorf("link %w", err)
 	}

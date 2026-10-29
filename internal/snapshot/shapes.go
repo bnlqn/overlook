@@ -25,6 +25,18 @@ type Text struct {
 // a figure's unit and detail take it.
 func Msg(key string, args map[string]any) *Text { return &Text{Key: key, Args: args} }
 
+// Number is n written the viewer's way, as a row's value, such as a count of
+// documents.
+func Number[N int | int64](n N) *Text { return Msg("number", map[string]any{"n": n}) }
+
+// Percent is v as a percentage, as a row's value, such as a battery's charge.
+func Percent(v float64) *Text { return Msg("percent", map[string]any{"n": v}) }
+
+// Recent is how many results a check engine gives each check, which its
+// strip on the page shows (RECENT in web/js/draw.js): half an hour at
+// Gatus's and Uptime Kuma's default minute.
+const Recent = 30
+
 // Check is one check of a check engine and its recent results.
 type Check struct {
 	// Key is the check engine's own key for the check.

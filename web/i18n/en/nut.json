@@ -6,7 +6,6 @@
   "nut.model_in": "{model} · {v} V in",
   "nut.in": "{v} V in",
   "nut.battery": "Battery",
-  "nut.percent": "{n}%",
   "nut.runtime": "{ms:span} at this load",
   "nut.runtime_low": "{ms:span} at this load; shutdown at {low}%",
   "nut.drawing": "Drawing",

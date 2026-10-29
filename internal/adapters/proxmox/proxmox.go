@@ -48,9 +48,6 @@ var tokenID = regexp.MustCompile(`^[^@!\s]+@[^@!\s]+![^@!\s]+$`)
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
@@ -60,9 +57,7 @@ func (c *Config) Check() error {
 	if c.Secret == "" {
 		return errors.New("secret is missing")
 	}
-	if c.Name == "" {
-		c.Name = "Proxmox"
-	}
+	c.Name = cmp.Or(c.Name, "Proxmox")
 	if c.CA != "" {
 		client, err := fetch.Trusting(c.CA, "")
 		if err != nil {

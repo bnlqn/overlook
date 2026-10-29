@@ -117,7 +117,7 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		Part: &snapshot.Share{Label: snapshot.Text{Key: "sonarr.shows"}, Value: float64(size), Rows: []snapshot.Row{
 			{Title: snapshot.Text{Key: "servarr.on_disk"}, Value: &snapshot.Text{Key: "servarr.bytes", Args: map[string]any{"n": size}}},
 			{Title: snapshot.Text{Key: "servarr.in_library"}, Value: &snapshot.Text{Key: "sonarr.shows_n", Args: map[string]any{"n": len(shows)}}},
-			{Title: snapshot.Text{Key: "sonarr.episodes"}, Value: &snapshot.Text{Key: "sonarr.n", Args: map[string]any{"n": episodes}}},
+			{Title: snapshot.Text{Key: "sonarr.episodes"}, Value: snapshot.Number(episodes)},
 			{Title: snapshot.Text{Key: "servarr.week"}, Value: &snapshot.Text{Key: "servarr.plus", Args: map[string]any{"n": len(imported)}}},
 		}},
 	}

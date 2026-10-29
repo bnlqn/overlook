@@ -5,6 +5,7 @@
 package nextcloud
 
 import (
+	"cmp"
 	"context"
 	"encoding/json"
 	"errors"
@@ -34,21 +35,14 @@ type Config struct {
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
 	if c.Token == "" {
 		return errors.New("token is missing: serverinfo's, as the README says")
 	}
-	if c.Name == "" {
-		c.Name = "Nextcloud"
-	}
-	if c.Link == "" {
-		c.Link = c.URL
-	}
+	c.Name = cmp.Or(c.Name, "Nextcloud")
+	c.Link = cmp.Or(c.Link, c.URL)
 	if err := fetch.CheckURL(c.Link); err != nil {
 		return fmt.Errorf("link %w", err)
 	}
@@ -128,12 +122,12 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	rows := []snapshot.Row{
 		{
 			Title:  snapshot.Text{Key: "nextcloud.files"},
-			Value:  snapshot.Msg("nextcloud.n", map[string]any{"n": nc.Storage.Files}),
+			Value:  snapshot.Number(nc.Storage.Files),
 			Detail: snapshot.Msg("nextcloud.people", map[string]any{"n": nc.Storage.Users, "active": d.Active.Day}),
 		},
 		{
 			Title:  snapshot.Text{Key: "nextcloud.shares"},
-			Value:  snapshot.Msg("nextcloud.n", map[string]any{"n": nc.Shares.All}),
+			Value:  snapshot.Number(nc.Shares.All),
 			Detail: snapshot.Msg("nextcloud.links", map[string]any{"n": nc.Shares.Links, "open": nc.Shares.LinksNoPassword}),
 		},
 		{Title: snapshot.Text{Key: "nextcloud.free"}, Value: snapshot.Msg("nextcloud.bytes", map[string]any{"n": nc.System.Free})},

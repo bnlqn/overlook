@@ -5938,7 +5938,7 @@
       "rows": [
         {
           "title": { "key": "paperless.documents" },
-          "value": { "key": "paperless.n", "args": { "n": 8917 } },
+          "value": { "key": "number", "args": { "n": 8917 } },
           "detail": { "key": "paperless.inbox", "args": { "n": 23 } }
         },
         {
@@ -5976,12 +5976,12 @@
       "rows": [
         {
           "title": { "key": "nextcloud.files" },
-          "value": { "key": "nextcloud.n", "args": { "n": 612480 } },
+          "value": { "key": "number", "args": { "n": 612480 } },
           "detail": { "key": "nextcloud.people", "args": { "n": 9, "active": 6 } }
         },
         {
           "title": { "key": "nextcloud.shares" },
-          "value": { "key": "nextcloud.n", "args": { "n": 187 } },
+          "value": { "key": "number", "args": { "n": 187 } },
           "detail": { "key": "nextcloud.links", "args": { "n": 41, "open": 9 } }
         },
         { "title": { "key": "nextcloud.free" }, "value": { "key": "nextcloud.bytes", "args": { "n": 2310000000000 } } },
@@ -6011,7 +6011,7 @@
         },
         {
           "title": { "key": "nut.battery" },
-          "value": { "key": "nut.percent", "args": { "n": 100 } },
+          "value": { "key": "percent", "args": { "n": 100 } },
           "detail": { "key": "nut.runtime_low", "args": { "ms": 840000, "low": 20 } },
           "meter": { "used": 100, "total": 100, "tone": "green" }
         },
@@ -6030,12 +6030,12 @@
         { "title": { "key": "adguard.protection" }, "value": { "key": "adguard.filtering" }, "tone": "green" },
         {
           "title": { "key": "adguard.lookups" },
-          "value": { "key": "adguard.n", "args": { "n": 960079 } },
+          "value": { "key": "number", "args": { "n": 960079 } },
           "detail": { "key": "adguard.over", "args": { "ms": 604800000 } }
         },
         {
           "title": { "key": "adguard.blocked" },
-          "value": { "key": "adguard.percent", "args": { "n": 26.8 } },
+          "value": { "key": "percent", "args": { "n": 26.8 } },
           "detail": { "key": "adguard.count", "args": { "n": 257447 } }
         },
         { "title": { "key": "adguard.processing" }, "value": { "key": "adguard.ms", "args": { "n": 2.9 } } },
@@ -6064,51 +6064,51 @@
       "rows": [
         {
           "title": { "name": "living-room-tv.lan" },
-          "value": { "key": "adguard.share", "args": { "n": 107528, "share": 11.2 } },
+          "value": { "key": "top.share", "args": { "n": 107528, "share": 11.2 } },
           "detail": { "name": "192.0.2.21" }
         },
         {
           "title": { "name": "media.lan" },
-          "value": { "key": "adguard.share", "args": { "n": 90247, "share": 9.4 } },
+          "value": { "key": "top.share", "args": { "n": 90247, "share": 9.4 } },
           "detail": { "name": "192.0.2.110" }
         },
         {
           "title": { "name": "kims-phone.lan" },
-          "value": { "key": "adguard.share", "args": { "n": 68165, "share": 7.1 } },
+          "value": { "key": "top.share", "args": { "n": 68165, "share": 7.1 } },
           "detail": { "name": "192.0.2.31" }
         },
         {
           "title": { "name": "noors-laptop.lan" },
-          "value": { "key": "adguard.share", "args": { "n": 63365, "share": 6.6 } },
+          "value": { "key": "top.share", "args": { "n": 63365, "share": 6.6 } },
           "detail": { "name": "192.0.2.32" }
         },
         {
           "title": { "name": "docker.lan" },
-          "value": { "key": "adguard.share", "args": { "n": 55684, "share": 5.8 } },
+          "value": { "key": "top.share", "args": { "n": 55684, "share": 5.8 } },
           "detail": { "name": "192.0.2.105" }
         },
         {
           "title": { "name": "lenas-tablet.lan" },
-          "value": { "key": "adguard.share", "args": { "n": 39363, "share": 4.1 } },
+          "value": { "key": "top.share", "args": { "n": 39363, "share": 4.1 } },
           "detail": { "name": "192.0.2.36" }
         },
         {
           "title": { "name": "theos-console.lan" },
-          "value": { "key": "adguard.share", "args": { "n": 36483, "share": 3.8 } },
+          "value": { "key": "top.share", "args": { "n": 36483, "share": 3.8 } },
           "detail": { "name": "192.0.2.44" }
         },
         {
           "title": { "name": "ari-pc.lan" },
-          "value": { "key": "adguard.share", "args": { "n": 33602, "share": 3.5 } },
+          "value": { "key": "top.share", "args": { "n": 33602, "share": 3.5 } },
           "detail": { "name": "192.0.2.33" }
         },
         {
           "title": { "name": "192.0.2.47" },
-          "value": { "key": "adguard.share", "args": { "n": 27842, "share": 2.9 } }
+          "value": { "key": "top.share", "args": { "n": 27842, "share": 2.9 } }
         },
         {
           "title": { "name": "mias-phone.lan" },
-          "value": { "key": "adguard.share", "args": { "n": 24962, "share": 2.6 } },
+          "value": { "key": "top.share", "args": { "n": 24962, "share": 2.6 } },
           "detail": { "name": "192.0.2.38" }
         }
       ]
@@ -6120,43 +6120,43 @@
       "rows": [
         {
           "title": { "name": "time.example.com" },
-          "value": { "key": "adguard.share", "args": { "n": 29762, "share": 3.1 } }
+          "value": { "key": "top.share", "args": { "n": 29762, "share": 3.1 } }
         },
         {
           "title": { "name": "photos.example.com" },
-          "value": { "key": "adguard.share", "args": { "n": 25922, "share": 2.7 } }
+          "value": { "key": "top.share", "args": { "n": 25922, "share": 2.7 } }
         },
         {
           "title": { "name": "updates.example.org" },
-          "value": { "key": "adguard.share", "args": { "n": 21121, "share": 2.2 } }
+          "value": { "key": "top.share", "args": { "n": 21121, "share": 2.2 } }
         },
         {
           "title": { "name": "cdn.example.net" },
-          "value": { "key": "adguard.share", "args": { "n": 18241, "share": 1.9 } }
+          "value": { "key": "top.share", "args": { "n": 18241, "share": 1.9 } }
         },
         {
           "title": { "name": "api.example.com" },
-          "value": { "key": "adguard.share", "args": { "n": 15361, "share": 1.6 } }
+          "value": { "key": "top.share", "args": { "n": 15361, "share": 1.6 } }
         },
         {
           "title": { "name": "weather.example.org" },
-          "value": { "key": "adguard.share", "args": { "n": 10560, "share": 1.1 } }
+          "value": { "key": "top.share", "args": { "n": 10560, "share": 1.1 } }
         },
         {
           "title": { "name": "stream.example.net" },
-          "value": { "key": "adguard.share", "args": { "n": 9600, "share": 1.0 } }
+          "value": { "key": "top.share", "args": { "n": 9600, "share": 1.0 } }
         },
         {
           "title": { "name": "mail.example.com" },
-          "value": { "key": "adguard.share", "args": { "n": 8640, "share": 0.9 } }
+          "value": { "key": "top.share", "args": { "n": 8640, "share": 0.9 } }
         },
         {
           "title": { "name": "games.example.org" },
-          "value": { "key": "adguard.share", "args": { "n": 7680, "share": 0.8 } }
+          "value": { "key": "top.share", "args": { "n": 7680, "share": 0.8 } }
         },
         {
           "title": { "name": "push.example.net" },
-          "value": { "key": "adguard.share", "args": { "n": 6720, "share": 0.7 } }
+          "value": { "key": "top.share", "args": { "n": 6720, "share": 0.7 } }
         }
       ]
     },
@@ -6165,16 +6165,16 @@
       "source": "Primary DNS",
       "title": { "key": "section.top_blocked" },
       "rows": [
-        { "title": { "name": "ads.example.com" }, "value": { "key": "adguard.n", "args": { "n": 61787 } } },
-        { "title": { "name": "tracker.example.net" }, "value": { "key": "adguard.n", "args": { "n": 43765 } } },
-        { "title": { "name": "telemetry.example.org" }, "value": { "key": "adguard.n", "args": { "n": 30893 } } },
-        { "title": { "name": "metrics.example.com" }, "value": { "key": "adguard.n", "args": { "n": 20595 } } },
-        { "title": { "name": "pixel.example.net" }, "value": { "key": "adguard.n", "args": { "n": 12872 } } },
-        { "title": { "name": "beacon.example.org" }, "value": { "key": "adguard.n", "args": { "n": 10297 } } },
-        { "title": { "name": "analytics.example.net" }, "value": { "key": "adguard.n", "args": { "n": 7723 } } },
-        { "title": { "name": "adserver.example.com" }, "value": { "key": "adguard.n", "args": { "n": 5148 } } },
-        { "title": { "name": "crash.example.org" }, "value": { "key": "adguard.n", "args": { "n": 3861 } } },
-        { "title": { "name": "logs.example.net" }, "value": { "key": "adguard.n", "args": { "n": 2574 } } }
+        { "title": { "name": "ads.example.com" }, "value": { "key": "number", "args": { "n": 61787 } } },
+        { "title": { "name": "tracker.example.net" }, "value": { "key": "number", "args": { "n": 43765 } } },
+        { "title": { "name": "telemetry.example.org" }, "value": { "key": "number", "args": { "n": 30893 } } },
+        { "title": { "name": "metrics.example.com" }, "value": { "key": "number", "args": { "n": 20595 } } },
+        { "title": { "name": "pixel.example.net" }, "value": { "key": "number", "args": { "n": 12872 } } },
+        { "title": { "name": "beacon.example.org" }, "value": { "key": "number", "args": { "n": 10297 } } },
+        { "title": { "name": "analytics.example.net" }, "value": { "key": "number", "args": { "n": 7723 } } },
+        { "title": { "name": "adserver.example.com" }, "value": { "key": "number", "args": { "n": 5148 } } },
+        { "title": { "name": "crash.example.org" }, "value": { "key": "number", "args": { "n": 3861 } } },
+        { "title": { "name": "logs.example.net" }, "value": { "key": "number", "args": { "n": 2574 } } }
       ]
     },
     {
@@ -6190,12 +6190,12 @@
         },
         {
           "title": { "key": "chart.lookups" },
-          "value": { "key": "pihole.n", "args": { "n": 38904 } },
+          "value": { "key": "number", "args": { "n": 38904 } },
           "detail": { "key": "pihole.over_day" }
         },
         {
           "title": { "key": "chart.blocked" },
-          "value": { "key": "pihole.percent", "args": { "n": 23.7 } },
+          "value": { "key": "percent", "args": { "n": 23.7 } },
           "detail": { "key": "pihole.count", "args": { "n": 9221 } }
         },
         {
@@ -6228,20 +6228,20 @@
       "rows": [
         {
           "title": { "name": "guest-phone-1.lan" },
-          "value": { "key": "pihole.share", "args": { "n": 57170, "share": 21.0 } },
+          "value": { "key": "top.share", "args": { "n": 57170, "share": 21.0 } },
           "detail": { "name": "192.0.2.201" }
         },
         {
           "title": { "name": "guest-laptop.lan" },
-          "value": { "key": "pihole.share", "args": { "n": 46280, "share": 17.0 } },
+          "value": { "key": "top.share", "args": { "n": 46280, "share": 17.0 } },
           "detail": { "name": "192.0.2.202" }
         },
         {
           "title": { "name": "office-printer.lan" },
-          "value": { "key": "pihole.share", "args": { "n": 24501, "share": 9.0 } },
+          "value": { "key": "top.share", "args": { "n": 24501, "share": 9.0 } },
           "detail": { "name": "192.0.2.60" }
         },
-        { "title": { "name": "192.0.2.203" }, "value": { "key": "pihole.share", "args": { "n": 13611, "share": 5.0 } } }
+        { "title": { "name": "192.0.2.203" }, "value": { "key": "top.share", "args": { "n": 13611, "share": 5.0 } } }
       ]
     },
     {
@@ -6251,15 +6251,15 @@
       "rows": [
         {
           "title": { "name": "cdn.example.net" },
-          "value": { "key": "pihole.share", "args": { "n": 13611, "share": 5.0 } }
+          "value": { "key": "top.share", "args": { "n": 13611, "share": 5.0 } }
         },
         {
           "title": { "name": "time.example.com" },
-          "value": { "key": "pihole.share", "args": { "n": 10889, "share": 4.0 } }
+          "value": { "key": "top.share", "args": { "n": 10889, "share": 4.0 } }
         },
         {
           "title": { "name": "api.example.com" },
-          "value": { "key": "pihole.share", "args": { "n": 8167, "share": 3.0 } }
+          "value": { "key": "top.share", "args": { "n": 8167, "share": 3.0 } }
         }
       ]
     },
@@ -6268,8 +6268,8 @@
       "source": "Secondary DNS",
       "title": { "key": "section.top_blocked" },
       "rows": [
-        { "title": { "name": "ads.example.com" }, "value": { "key": "pihole.n", "args": { "n": 20289 } } },
-        { "title": { "name": "tracker.example.net" }, "value": { "key": "pihole.n", "args": { "n": 14399 } } }
+        { "title": { "name": "ads.example.com" }, "value": { "key": "number", "args": { "n": 20289 } } },
+        { "title": { "name": "tracker.example.net" }, "value": { "key": "number", "args": { "n": 14399 } } }
       ]
     },
     {
@@ -6280,12 +6280,12 @@
         { "title": { "key": "adguard.protection" }, "value": { "key": "adguard.filtering" }, "tone": "green" },
         {
           "title": { "key": "adguard.lookups" },
-          "value": { "key": "adguard.n", "args": { "n": 1381072 } },
+          "value": { "key": "number", "args": { "n": 1381072 } },
           "detail": { "key": "adguard.over", "args": { "ms": 2592000000 } }
         },
         {
           "title": { "key": "adguard.blocked" },
-          "value": { "key": "adguard.percent", "args": { "n": 40.1 } },
+          "value": { "key": "percent", "args": { "n": 40.1 } },
           "detail": { "key": "adguard.count", "args": { "n": 554453 } }
         },
         { "title": { "key": "adguard.processing" }, "value": { "key": "adguard.ms", "args": { "n": 2.3 } } },
@@ -6304,52 +6304,52 @@
       "rows": [
         {
           "title": { "name": "thermostat.iot" },
-          "value": { "key": "adguard.share", "args": { "n": 248592, "share": 18.0 } },
+          "value": { "key": "top.share", "args": { "n": 248592, "share": 18.0 } },
           "detail": { "name": "198.51.100.11" }
         },
         {
           "title": { "name": "doorbell.iot" },
-          "value": { "key": "adguard.share", "args": { "n": 207160, "share": 15.0 } },
+          "value": { "key": "top.share", "args": { "n": 207160, "share": 15.0 } },
           "detail": { "name": "198.51.100.12" }
         },
         {
           "title": { "name": "plug-kitchen.iot" },
-          "value": { "key": "adguard.share", "args": { "n": 124296, "share": 9.0 } },
+          "value": { "key": "top.share", "args": { "n": 124296, "share": 9.0 } },
           "detail": { "name": "198.51.100.21" }
         },
         {
           "title": { "name": "plug-desk.iot" },
-          "value": { "key": "adguard.share", "args": { "n": 110485, "share": 8.0 } },
+          "value": { "key": "top.share", "args": { "n": 110485, "share": 8.0 } },
           "detail": { "name": "198.51.100.22" }
         },
         {
           "title": { "name": "tv-bedroom.iot" },
-          "value": { "key": "adguard.share", "args": { "n": 96675, "share": 7.0 } },
+          "value": { "key": "top.share", "args": { "n": 96675, "share": 7.0 } },
           "detail": { "name": "198.51.100.30" }
         },
         {
           "title": { "name": "vacuum.iot" },
-          "value": { "key": "adguard.share", "args": { "n": 82864, "share": 6.0 } },
+          "value": { "key": "top.share", "args": { "n": 82864, "share": 6.0 } },
           "detail": { "name": "198.51.100.40" }
         },
         {
           "title": { "name": "speaker-hall.iot" },
-          "value": { "key": "adguard.share", "args": { "n": 69053, "share": 5.0 } },
+          "value": { "key": "top.share", "args": { "n": 69053, "share": 5.0 } },
           "detail": { "name": "198.51.100.51" }
         },
         {
           "title": { "name": "speaker-kitchen.iot" },
-          "value": { "key": "adguard.share", "args": { "n": 69053, "share": 5.0 } },
+          "value": { "key": "top.share", "args": { "n": 69053, "share": 5.0 } },
           "detail": { "name": "198.51.100.52" }
         },
         {
           "title": { "name": "camera-garden.iot" },
-          "value": { "key": "adguard.share", "args": { "n": 55242, "share": 4.0 } },
+          "value": { "key": "top.share", "args": { "n": 55242, "share": 4.0 } },
           "detail": { "name": "198.51.100.61" }
         },
         {
           "title": { "name": "camera-drive.iot" },
-          "value": { "key": "adguard.share", "args": { "n": 55242, "share": 4.0 } },
+          "value": { "key": "top.share", "args": { "n": 55242, "share": 4.0 } },
           "detail": { "name": "198.51.100.62" }
         }
       ]
@@ -6361,19 +6361,19 @@
       "rows": [
         {
           "title": { "name": "telemetry.example.org" },
-          "value": { "key": "adguard.share", "args": { "n": 290025, "share": 21.0 } }
+          "value": { "key": "top.share", "args": { "n": 290025, "share": 21.0 } }
         },
         {
           "title": { "name": "time.example.com" },
-          "value": { "key": "adguard.share", "args": { "n": 165728, "share": 12.0 } }
+          "value": { "key": "top.share", "args": { "n": 165728, "share": 12.0 } }
         },
         {
           "title": { "name": "cloud.example.net" },
-          "value": { "key": "adguard.share", "args": { "n": 124296, "share": 9.0 } }
+          "value": { "key": "top.share", "args": { "n": 124296, "share": 9.0 } }
         },
         {
           "title": { "name": "firmware.example.com" },
-          "value": { "key": "adguard.share", "args": { "n": 55242, "share": 4.0 } }
+          "value": { "key": "top.share", "args": { "n": 55242, "share": 4.0 } }
         }
       ]
     },
@@ -6382,9 +6382,9 @@
       "source": "IoT DNS",
       "title": { "key": "section.top_blocked" },
       "rows": [
-        { "title": { "name": "telemetry.example.org" }, "value": { "key": "adguard.n", "args": { "n": 282771 } } },
-        { "title": { "name": "metrics.example.com" }, "value": { "key": "adguard.n", "args": { "n": 99801 } } },
-        { "title": { "name": "beacon.example.org" }, "value": { "key": "adguard.n", "args": { "n": 49900 } } }
+        { "title": { "name": "telemetry.example.org" }, "value": { "key": "number", "args": { "n": 282771 } } },
+        { "title": { "name": "metrics.example.com" }, "value": { "key": "number", "args": { "n": 99801 } } },
+        { "title": { "name": "beacon.example.org" }, "value": { "key": "number", "args": { "n": 49900 } } }
       ]
     }
   ],
@@ -6773,8 +6773,8 @@
           "label": { "name": "Kim" },
           "value": 318274200000,
           "rows": [
-            { "title": { "key": "immich.photos" }, "value": { "key": "immich.n", "args": { "n": 24182 } } },
-            { "title": { "key": "immich.videos_title" }, "value": { "key": "immich.n", "args": { "n": 1204 } } },
+            { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 24182 } } },
+            { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 1204 } } },
             { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 318274200000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 412 } } }
           ]
@@ -6783,8 +6783,8 @@
           "label": { "name": "Noor" },
           "value": 532915700000,
           "rows": [
-            { "title": { "key": "immich.photos" }, "value": { "key": "immich.n", "args": { "n": 31877 } } },
-            { "title": { "key": "immich.videos_title" }, "value": { "key": "immich.n", "args": { "n": 2210 } } },
+            { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 31877 } } },
+            { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 2210 } } },
             { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 532915700000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 386 } } }
           ]
@@ -6793,8 +6793,8 @@
           "label": { "name": "Sam" },
           "value": 98009200000,
           "rows": [
-            { "title": { "key": "immich.photos" }, "value": { "key": "immich.n", "args": { "n": 8812 } } },
-            { "title": { "key": "immich.videos_title" }, "value": { "key": "immich.n", "args": { "n": 340 } } },
+            { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 8812 } } },
+            { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 340 } } },
             { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 98009200000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 41 } } }
           ]
@@ -6803,8 +6803,8 @@
           "label": { "name": "Ari" },
           "value": 223163000000,
           "rows": [
-            { "title": { "key": "immich.photos" }, "value": { "key": "immich.n", "args": { "n": 14390 } } },
-            { "title": { "key": "immich.videos_title" }, "value": { "key": "immich.n", "args": { "n": 902 } } },
+            { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 14390 } } },
+            { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 902 } } },
             { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 223163000000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 77 } } }
           ]
@@ -6813,8 +6813,8 @@
           "label": { "name": "Jo" },
           "value": 30198400000,
           "rows": [
-            { "title": { "key": "immich.photos" }, "value": { "key": "immich.n", "args": { "n": 3104 } } },
-            { "title": { "key": "immich.videos_title" }, "value": { "key": "immich.n", "args": { "n": 96 } } },
+            { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 3104 } } },
+            { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 96 } } },
             { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 30198400000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 0 } } }
           ]
@@ -6823,8 +6823,8 @@
           "label": { "name": "Lena" },
           "value": 372785500000,
           "rows": [
-            { "title": { "key": "immich.photos" }, "value": { "key": "immich.n", "args": { "n": 19455 } } },
-            { "title": { "key": "immich.videos_title" }, "value": { "key": "immich.n", "args": { "n": 1610 } } },
+            { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 19455 } } },
+            { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 1610 } } },
             { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 372785500000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 123 } } }
           ]
@@ -6833,8 +6833,8 @@
           "label": { "name": "Theo" },
           "value": 110362000000,
           "rows": [
-            { "title": { "key": "immich.photos" }, "value": { "key": "immich.n", "args": { "n": 6720 } } },
-            { "title": { "key": "immich.videos_title" }, "value": { "key": "immich.n", "args": { "n": 455 } } },
+            { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 6720 } } },
+            { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 455 } } },
             { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 110362000000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 18 } } }
           ]
@@ -6843,8 +6843,8 @@
           "label": { "name": "Mia" },
           "value": 182390300000,
           "rows": [
-            { "title": { "key": "immich.photos" }, "value": { "key": "immich.n", "args": { "n": 11903 } } },
-            { "title": { "key": "immich.videos_title" }, "value": { "key": "immich.n", "args": { "n": 734 } } },
+            { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 11903 } } },
+            { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 734 } } },
             { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 182390300000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 64 } } }
           ]
@@ -6853,8 +6853,8 @@
           "label": { "name": "Ravi" },
           "value": 18654600000,
           "rows": [
-            { "title": { "key": "immich.photos" }, "value": { "key": "immich.n", "args": { "n": 2286 } } },
-            { "title": { "key": "immich.videos_title" }, "value": { "key": "immich.n", "args": { "n": 51 } } },
+            { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 2286 } } },
+            { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 51 } } },
             { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 18654600000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 5 } } }
           ]
@@ -7730,7 +7730,7 @@
             "value": { "key": "servarr.bytes", "args": { "n": 16052869765529 } }
           },
           { "title": { "key": "servarr.in_library" }, "value": { "key": "sonarr.shows_n", "args": { "n": 214 } } },
-          { "title": { "key": "sonarr.episodes" }, "value": { "key": "sonarr.n", "args": { "n": 9872 } } },
+          { "title": { "key": "sonarr.episodes" }, "value": { "key": "number", "args": { "n": 9872 } } },
           { "title": { "key": "servarr.week" }, "value": { "key": "servarr.plus", "args": { "n": 46 } } }
         ]
       }

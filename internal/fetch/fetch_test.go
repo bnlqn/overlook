@@ -158,6 +158,7 @@ func TestTrusting(t *testing.T) {
 func TestCheckURL(t *testing.T) {
 	t.Parallel()
 	for raw, ok := range map[string]bool{
+		"":                                false,
 		"https://status.example.com":      true,
 		"http://gatus:8080":               true,
 		"javascript:alert(1)":             false,

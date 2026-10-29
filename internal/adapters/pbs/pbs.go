@@ -55,9 +55,6 @@ var tokenID = regexp.MustCompile(`^[^@!\s]+@[^@!\s]+![^@!\s]+$`)
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
@@ -70,9 +67,7 @@ func (c *Config) Check() error {
 	if c.Datastore == "" {
 		return errors.New("datastore is missing")
 	}
-	if c.Name == "" {
-		c.Name = "Backup Server"
-	}
+	c.Name = cmp.Or(c.Name, "Backup Server")
 	if c.ServerName != "" && c.CA == "" {
 		return errors.New("server_name needs the ca that signed the certificate")
 	}

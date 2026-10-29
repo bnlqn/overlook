@@ -20,9 +20,6 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
-// recent is the results each check's strip shows.
-const recent = 30
-
 // weekStep is how finely the week's problems are read: every five minutes,
 // which a week of firing alerts holds in a few thousand samples.
 //
@@ -51,9 +48,6 @@ type Config struct {
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
@@ -65,12 +59,8 @@ func (c *Config) Check() error {
 	if (c.User == "") != (c.Password == "") {
 		return errors.New("give user and password together, or neither")
 	}
-	if c.Name == "" {
-		c.Name = "Prometheus"
-	}
-	if c.Link == "" {
-		c.Link = c.URL
-	}
+	c.Name = cmp.Or(c.Name, "Prometheus")
+	c.Link = cmp.Or(c.Link, c.URL)
 	if err := fetch.CheckURL(c.Link); err != nil {
 		return fmt.Errorf("link %w", err)
 	}
@@ -186,7 +176,7 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 			interval = time.Minute
 		}
 		if _, ok := failing[interval]; !ok && last.Year() > 2000 {
-			s, err := c.rangeOf(ctx, "max by (alertname) (ALERTS)", last.Add(-(recent-1)*interval), last, interval)
+			s, err := c.rangeOf(ctx, "max by (alertname) (ALERTS)", last.Add(-(snapshot.Recent-1)*interval), last, interval)
 			if err != nil {
 				return snapshot.Parts{}, err
 			}
@@ -271,7 +261,7 @@ func check(r rule, last time.Time, interval time.Duration, failing, firing []flo
 		i, _ := slices.BinarySearch(samples, t-within.Seconds()/2)
 		return i < len(samples) && samples[i] <= t+within.Seconds()/2
 	}
-	for k := recent - 1; k >= 0; k-- {
+	for k := snapshot.Recent - 1; k >= 0; k-- {
 		at := last.Add(-time.Duration(k) * interval)
 		ch.Results = append(ch.Results, snapshot.Result{OK: !near(at, failing, interval), At: at})
 	}

@@ -4,6 +4,7 @@
 package github
 
 import (
+	"cmp"
 	"context"
 	"errors"
 	"fmt"
@@ -17,12 +18,6 @@ import (
 	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
-
-// every is how often GitHub is read at most. Without a token GitHub allows 60
-// requests an hour, and each read is one request per repository, so ten
-// repositories hold. ponytail: one wait for every source, with a token or
-// without; shorten it for a token if 10 minutes ever feels slow.
-const every = 10 * time.Minute
 
 // Config is the repositories whose updates the page shows, under
 // sources.github in overlook.yaml.
@@ -38,13 +33,17 @@ type Config struct {
 	// Bots are the authors whose pull requests are updates.
 	Bots []string `yaml:"bots"`
 
-	// last is the last read, which Read gives back for every.
-	last *last
+	// last is the last read, which Read gives back for the ten minutes a
+	// fetch.Cache keeps it. Without a token GitHub allows 60 requests an
+	// hour, and each read is one request per repository, so ten
+	// repositories hold. ponytail: one wait, with a token or without; give a
+	// token a shorter one if 10 minutes ever feels slow.
+	last *fetch.Cache[result]
 }
 
-type last struct {
-	mu    sync.Mutex
-	at    time.Time
+// result is one read of every repository, kept even when it failed, so that
+// a GitHub that refuses isn't asked again every 30 seconds.
+type result struct {
 	parts snapshot.Parts
 	err   error
 }
@@ -60,19 +59,15 @@ func (c *Config) Check() error {
 			return fmt.Errorf("repos: %q isn't owner/name", r)
 		}
 	}
-	if c.Name == "" {
-		c.Name = "GitHub"
-	}
-	if c.URL == "" {
-		c.URL = "https://api.github.com"
-	}
+	c.Name = cmp.Or(c.Name, "GitHub")
+	c.URL = cmp.Or(c.URL, "https://api.github.com")
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
 	if len(c.Bots) == 0 {
 		c.Bots = []string{"dependabot[bot]", "renovate[bot]"}
 	}
-	c.last = &last{}
+	c.last = &fetch.Cache[result]{}
 	return nil
 }
 
@@ -88,16 +83,14 @@ type pull struct {
 }
 
 // Read gives back the updates waiting in every repository of c, newest
-// first. Within every of its last read it gives that back, error and all, so
-// a GitHub that refuses isn't asked again every 30 seconds.
+// first, as its last read found them if that was under ten minutes ago,
+// error and all.
 func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
-	c.last.mu.Lock()
-	defer c.last.mu.Unlock()
-	if time.Since(c.last.at) >= every {
-		c.last.parts, c.last.err = read(ctx, c)
-		c.last.at = time.Now()
-	}
-	return c.last.parts, c.last.err
+	r, _ := c.last.Get(ctx, func(ctx context.Context) (result, error) {
+		parts, err := read(ctx, c)
+		return result{parts, err}, nil
+	})
+	return r.parts, r.err
 }
 
 func read(ctx context.Context, c Config) (snapshot.Parts, error) {

@@ -4,6 +4,7 @@
 package uptimekuma
 
 import (
+	"cmp"
 	"context"
 	"encoding/json"
 	"errors"
@@ -16,10 +17,6 @@ import (
 	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
-
-// recent is the results each check's strip shows: half an hour at Uptime
-// Kuma's default minute.
-const recent = 30
 
 // A monitor's result, as Uptime Kuma numbers it. Pending is a failure it
 // tries again before calling the monitor down, which is when it alerts.
@@ -47,21 +44,14 @@ type Config struct {
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
 	if c.Page == "" {
 		return errors.New("page is missing: the slug of the status page to read, such as homelab")
 	}
-	if c.Name == "" {
-		c.Name = "Uptime Kuma"
-	}
-	if c.Link == "" {
-		c.Link = c.URL
-	}
+	c.Name = cmp.Or(c.Name, "Uptime Kuma")
+	c.Link = cmp.Or(c.Link, c.URL)
 	if err := fetch.CheckURL(c.Link); err != nil {
 		return fmt.Errorf("link %w", err)
 	}
@@ -131,7 +121,7 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 func check(beats []beat) snapshot.Check {
 	ok := func(b beat) bool { return b.Status == up || b.Status == maintenance }
 	ch := snapshot.Check{Results: []snapshot.Result{}}
-	for _, b := range beats[max(0, len(beats)-recent):] {
+	for _, b := range beats[max(0, len(beats)-snapshot.Recent):] {
 		ch.Results = append(ch.Results, snapshot.Result{OK: ok(b), At: b.Time.Time, MS: b.Ping})
 	}
 

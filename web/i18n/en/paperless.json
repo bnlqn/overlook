@@ -1,6 +1,5 @@
 {
   "paperless.documents": "Documents",
-  "paperless.n": "{n}",
   "paperless.inbox": "{n} in the inbox",
   "paperless.space": "Space",
   "paperless.free": "{n:bytes} free",

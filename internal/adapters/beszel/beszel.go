@@ -40,18 +40,13 @@ type Config struct {
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if c.URL == "" {
-		return errors.New("url is missing")
-	}
 	if err := fetch.CheckURL(c.URL); err != nil {
 		return fmt.Errorf("url %w", err)
 	}
 	if c.User == "" || c.Password == "" {
 		return errors.New("user and password are missing: Beszel lets Overlook in only with a login")
 	}
-	if c.Name == "" {
-		c.Name = "Beszel"
-	}
+	c.Name = cmp.Or(c.Name, "Beszel")
 	s, err := fetch.Client{}.Session(c.api("collections/users/auth-with-password"), map[string]string{"identity": c.User, "password": c.Password}, token)
 	if err != nil {
 		return err
