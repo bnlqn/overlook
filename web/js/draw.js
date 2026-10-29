@@ -492,8 +492,8 @@ export function chart(c, range, now) {
           ),
         `${t("chart.busiest")} ${when(series[0].hours.indexOf(Math.max(...series[0].hours)))}`,
       ];
-  // Added up from some of an adapter's sources, it says so when another
-  // answered but gave none.
+  // Added up from some of a kind's sources, it says so when another answered
+  // but gave none.
   if (c.lacking.length) {
     const of = t("figure.of_sources", { n: c.sources.length, total: c.sources.length + c.lacking.length });
     sums.push(`<span data-tip="${tip(esc(list(c.lacking)), [], t("figure.gave_none"))}">${of}</span>`);

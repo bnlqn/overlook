@@ -96,9 +96,9 @@ _Avoid_: Alert (the push that announces a problem), incident, issue
 An area that still works while it has a problem, such as DNS with one of two
 resolvers down. An area that doesn't work is down, one whose checks have no
 problem is up, and one with no checks is unknown, since nothing says whether
-it works. The homelab is down when an area is down or no check engine
-answered, degraded with any other problem, one in a check in no area too,
-unknown with no checks, and up otherwise.
+it works. The homelab is down when an area is down or it has check engines
+and none answered, degraded with any other problem, one in a check in no
+area too, unknown with no checks, and up otherwise.
 _Avoid_: Warning, partial outage
 
 **Quiet**:

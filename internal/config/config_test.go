@@ -192,7 +192,21 @@ func TestExample(t *testing.T) {
 	t.Setenv("ADGUARD_PASSWORD", "s3cret")
 	t.Setenv("PIHOLE_PASSWORD", "s3cret")
 	t.Setenv("DAV_PASSWORD", "s3cret")
-	if _, err := Load("../../overlook.example.yaml"); err != nil {
+	c, err := Load("../../overlook.example.yaml")
+	if err != nil {
 		t.Fatal(err)
+	}
+	// The example has a source of every adapter, so each says its kind, which
+	// the page asks by (ADR 0012).
+	kinds := map[string]string{
+		"gatus": "checkengine", "uptimekuma": "checkengine", "grafana": "checkengine", "prometheus": "checkengine",
+		"ical":    "todolist",
+		"adguard": "resolver", "pihole": "resolver",
+		"jellyfin": "mediaserver", "tautulli": "mediaserver",
+	}
+	for _, r := range c.Readers() {
+		if r.Kind != kinds[r.Adapter] {
+			t.Errorf("%s, read by %s: kind %q, want %q", r.Name, r.Adapter, r.Kind, kinds[r.Adapter])
+		}
 	}
 }
