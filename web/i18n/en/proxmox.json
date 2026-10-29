@@ -1,14 +1,11 @@
 {
-  "proxmox.host": "Host",
+  "proxmox.hosts": "Hosts",
+  "proxmox.host_detail": {
+    "one": "{model} · {n} thread · load {load} · Proxmox VE {version}",
+    "other": "{model} · {n} threads · load {load} · Proxmox VE {version}"
+  },
+  "proxmox.offline": "Offline",
   "proxmox.on_node": "{name} on {node}",
-  "proxmox.cpu": "Processor",
-  "proxmox.cpu_detail": { "one": "{model} · {n} thread · load {load}", "other": "{model} · {n} threads · load {load}" },
-  "proxmox.memory": "Memory",
-  "proxmox.gb_of": "{used} of {total} GB",
-  "proxmox.up": "Up",
-  "proxmox.span": "{ms:span}",
-  "proxmox.since": "since {at:day}",
-  "proxmox.version": "Proxmox VE",
 
   "proxmox.guests": "Guests",
   "proxmox.vm": { "one": "VM {id} · {n} core · {gb} GB", "other": "VM {id} · {n} cores · {gb} GB" },

@@ -4152,82 +4152,45 @@
     {
       "area": "servers",
       "source": "Cluster",
-      "title": { "name": "alder" },
+      "title": { "key": "proxmox.hosts" },
       "rows": [
         {
-          "title": { "key": "proxmox.cpu" },
-          "value": { "key": "percent", "args": { "n": 18 } },
-          "detail": { "key": "proxmox.cpu_detail", "args": { "model": "i5-12500T", "n": 12, "load": 1.84 } }
+          "title": { "name": "alder" },
+          "value": { "key": "proxmox.up_for", "args": { "ms": 3567600000 } },
+          "detail": {
+            "key": "proxmox.host_detail",
+            "args": { "model": "i5-12500T", "n": 12, "load": 1.84, "version": "9.2.21" }
+          },
+          "meters": [
+            { "label": { "key": "proxmox.cpu_meter" }, "used": 2.16, "total": 12 },
+            { "label": { "key": "proxmox.ram_meter" }, "used": 55834574848, "total": 68719476736, "tone": "blue" }
+          ]
         },
         {
-          "title": { "key": "proxmox.memory" },
-          "value": { "key": "proxmox.gb_of", "args": { "used": 52, "total": 64 } },
-          "meter": { "used": 55834574848, "total": 68719476736, "tone": "blue" }
+          "title": { "name": "birch" },
+          "value": { "key": "proxmox.up_for", "args": { "ms": 3567600000 } },
+          "detail": {
+            "key": "proxmox.host_detail",
+            "args": { "model": "i5-12500T", "n": 12, "load": 3.02, "version": "9.2.21" }
+          },
+          "meters": [
+            { "label": { "key": "proxmox.cpu_meter" }, "used": 3.24, "total": 12 },
+            { "label": { "key": "proxmox.ram_meter" }, "used": 61203283968, "total": 68719476736, "tone": "blue" }
+          ]
         },
         {
-          "title": { "key": "proxmox.up" },
-          "value": { "key": "proxmox.span", "args": { "ms": 3567600000 } },
-          "detail": { "key": "proxmox.since", "args": { "at": "2026-09-17T02:30:00Z" } }
+          "title": { "name": "cedar" },
+          "value": { "key": "proxmox.up_for", "args": { "ms": 1047600000 } },
+          "detail": {
+            "key": "proxmox.host_detail",
+            "args": { "model": "i7-12700T", "n": 20, "load": 1.12, "version": "9.2.21" }
+          },
+          "meters": [
+            { "label": { "key": "proxmox.cpu_meter" }, "used": 2.2, "total": 20 },
+            { "label": { "key": "proxmox.ram_meter" }, "used": 94489280512, "total": 137438953472, "tone": "blue" }
+          ]
         },
-        {
-          "title": { "key": "proxmox.version" },
-          "value": { "name": "9.2.21" },
-          "detail": { "name": "Linux 7.0.14-25-pve" }
-        }
-      ]
-    },
-    {
-      "area": "servers",
-      "source": "Cluster",
-      "title": { "name": "birch" },
-      "rows": [
-        {
-          "title": { "key": "proxmox.cpu" },
-          "value": { "key": "percent", "args": { "n": 27 } },
-          "detail": { "key": "proxmox.cpu_detail", "args": { "model": "i5-12500T", "n": 12, "load": 3.02 } }
-        },
-        {
-          "title": { "key": "proxmox.memory" },
-          "value": { "key": "proxmox.gb_of", "args": { "used": 57, "total": 64 } },
-          "meter": { "used": 61203283968, "total": 68719476736, "tone": "blue" }
-        },
-        {
-          "title": { "key": "proxmox.up" },
-          "value": { "key": "proxmox.span", "args": { "ms": 3567600000 } },
-          "detail": { "key": "proxmox.since", "args": { "at": "2026-09-17T02:30:00Z" } }
-        },
-        {
-          "title": { "key": "proxmox.version" },
-          "value": { "name": "9.2.21" },
-          "detail": { "name": "Linux 7.0.14-25-pve" }
-        }
-      ]
-    },
-    {
-      "area": "servers",
-      "source": "Cluster",
-      "title": { "name": "cedar" },
-      "rows": [
-        {
-          "title": { "key": "proxmox.cpu" },
-          "value": { "key": "percent", "args": { "n": 11 } },
-          "detail": { "key": "proxmox.cpu_detail", "args": { "model": "i7-12700T", "n": 20, "load": 1.12 } }
-        },
-        {
-          "title": { "key": "proxmox.memory" },
-          "value": { "key": "proxmox.gb_of", "args": { "used": 88, "total": 128 } },
-          "meter": { "used": 94489280512, "total": 137438953472, "tone": "blue" }
-        },
-        {
-          "title": { "key": "proxmox.up" },
-          "value": { "key": "proxmox.span", "args": { "ms": 1047600000 } },
-          "detail": { "key": "proxmox.since", "args": { "at": "2026-10-16T06:30:00Z" } }
-        },
-        {
-          "title": { "key": "proxmox.version" },
-          "value": { "name": "9.2.21" },
-          "detail": { "name": "Linux 7.0.14-25-pve" }
-        }
+        { "title": { "name": "damson" }, "value": { "key": "proxmox.offline" }, "tone": "red" }
       ]
     },
     {
@@ -4545,27 +4508,19 @@
     {
       "area": "servers",
       "source": "Vault",
-      "title": { "key": "proxmox.host" },
+      "title": { "key": "proxmox.hosts" },
       "rows": [
         {
-          "title": { "key": "proxmox.cpu" },
-          "value": { "key": "percent", "args": { "n": 9 } },
-          "detail": { "key": "proxmox.cpu_detail", "args": { "model": "Xeon(R) E-2236", "n": 12, "load": 2.21 } }
-        },
-        {
-          "title": { "key": "proxmox.memory" },
-          "value": { "key": "proxmox.gb_of", "args": { "used": 101, "total": 128 } },
-          "meter": { "used": 108447924224, "total": 137438953472, "tone": "blue" }
-        },
-        {
-          "title": { "key": "proxmox.up" },
-          "value": { "key": "proxmox.span", "args": { "ms": 5450400000 } },
-          "detail": { "key": "proxmox.since", "args": { "at": "2026-08-26T07:30:00Z" } }
-        },
-        {
-          "title": { "key": "proxmox.version" },
-          "value": { "name": "9.2.21" },
-          "detail": { "name": "Linux 7.0.14-25-pve" }
+          "title": { "name": "vault" },
+          "value": { "key": "proxmox.up_for", "args": { "ms": 5450400000 } },
+          "detail": {
+            "key": "proxmox.host_detail",
+            "args": { "model": "Xeon(R) E-2236", "n": 12, "load": 2.21, "version": "9.2.21" }
+          },
+          "meters": [
+            { "label": { "key": "proxmox.cpu_meter" }, "used": 1.08, "total": 12 },
+            { "label": { "key": "proxmox.ram_meter" }, "used": 108447924224, "total": 137438953472, "tone": "blue" }
+          ]
         }
       ]
     },
@@ -4678,27 +4633,19 @@
     {
       "area": "servers",
       "source": "Edge",
-      "title": { "key": "proxmox.host" },
+      "title": { "key": "proxmox.hosts" },
       "rows": [
         {
-          "title": { "key": "proxmox.cpu" },
-          "value": { "key": "percent", "args": { "n": 6 } },
-          "detail": { "key": "proxmox.cpu_detail", "args": { "model": "N100", "n": 4, "load": 0.31 } }
-        },
-        {
-          "title": { "key": "proxmox.memory" },
-          "value": { "key": "proxmox.gb_of", "args": { "used": 9.4, "total": 16 } },
-          "meter": { "used": 10093173145, "total": 17179869184, "tone": "blue" }
-        },
-        {
-          "title": { "key": "proxmox.up" },
-          "value": { "key": "proxmox.span", "args": { "ms": 8420400000 } },
-          "detail": { "key": "proxmox.since", "args": { "at": "2026-07-22T22:30:00Z" } }
-        },
-        {
-          "title": { "key": "proxmox.version" },
-          "value": { "name": "9.2.21" },
-          "detail": { "name": "Linux 7.0.14-25-pve" }
+          "title": { "name": "edge" },
+          "value": { "key": "proxmox.up_for", "args": { "ms": 8420400000 } },
+          "detail": {
+            "key": "proxmox.host_detail",
+            "args": { "model": "N100", "n": 4, "load": 0.31, "version": "9.2.21" }
+          },
+          "meters": [
+            { "label": { "key": "proxmox.cpu_meter" }, "used": 0.24, "total": 4 },
+            { "label": { "key": "proxmox.ram_meter" }, "used": 10093173145, "total": 17179869184, "tone": "blue" }
+          ]
         }
       ]
     },
