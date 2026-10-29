@@ -31,15 +31,11 @@ project uses are in [CONTEXT.md](CONTEXT.md) and its decisions in
        such as two hosts' guests, are one tile split by source.
 7. [x] The chores from a to-do list (ADR 0010): the iCalendar adapter in
        place of the config's `chores:`, released as `v0.1.0-rc.3`.
-8. [ ] A week of running rc.3.
-9. [ ] The repository goes public and `v0.1.0` is tagged. The demo goes
-       live then: Pages set to build from GitHub Actions, and the Demo
-       workflow run once by hand, since going public pushes nothing to
-       `main`.
 
-v0.1 is ready when the author's homelab has run it for a week with nothing
-missing, the demo is live, every adapter has its section here (its config
-and the least key it needs), and CI passes.
+v0.1 is never tagged. Its last two steps, a week on the author's homelab
+and going public, moved to the end of the road to v0.2, so that the week
+is run with the adapters the author's homelab needs. Its three release
+candidates stay as pre-releases.
 
 ## The road to v0.2
 
@@ -64,9 +60,19 @@ and the least key it needs), and CI passes.
        Plex through Tautulli, Seerr, and Prometheus with Alertmanager.
 6. [x] What Overlook can't read, listed under [Can't be read](#cant-be-read),
        and an issue for each adapter wanted.
+7. [ ] `v0.2.0-rc.1`, and the author's homelab reads everything it runs
+       with it: step 4's adapters, and Home Assistant, whose adapter is
+       then recorded again from the author's own (ADR 0008).
+8. [ ] A week of running it.
+9. [ ] The repository goes public, `v0.2.0` is tagged and the issues for
+       the adapters wanted are opened. The demo goes live then: Pages set
+       to build from GitHub Actions, and the Demo workflow run once by
+       hand, since going public pushes nothing to `main`.
 
 v0.2 is ready when the large homelab looks right at desktop and phone
-width, and every adapter has its section here.
+width, the author's homelab has run it for a week with nothing missing,
+the demo is live, every adapter has its section here (its config and the
+least key it needs), and CI passes.
 
 ## What it shows
 
