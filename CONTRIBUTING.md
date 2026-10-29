@@ -48,7 +48,7 @@ and open <http://localhost:8080>.
 | `internal/adapters/<name>` | one adapter each, with its recorded answers in `testdata/` |
 | `internal/adapters/adaptertest` | the contract test every adapter passes |
 | `internal/server` | the routes, and the headers every answer carries |
-| `web` | the page, embedded in the binary: HTML, `style.css`, the modules in `js/`, their tests in `test/`, the words in `i18n/` |
+| `web` | the page, embedded in the binary: HTML, `style.css`, the modules in `js/`, their tests in `test/`, the words in `i18n/`. A decision the page makes goes in `js/page.js`, with a test; `overview.js`, `area.js` and `shell.js` only write what it returns |
 | `demo` | the demo: an invented snapshot with every adapter's parts, a small and a large homelab beside it, the contract the server and the page keep (ADR 0003), and what writes the page from them for GitHub Pages |
 
 ## Adding an adapter
