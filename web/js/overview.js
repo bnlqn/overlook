@@ -1,22 +1,9 @@
 // The overview: how everything is, what is wrong, today's figures, each area
 // and its checks, today by the hour, what happened, the week, the apps, and
-// the chores.
+// the chores. It writes what page() says (page.js) and decides nothing.
 
 import {
-  areaState,
-  byState,
-  checkState,
-  choresBy,
-  evenColumns,
-  joinFigures,
-  linkCheck,
-  missing,
-  quietSince,
-  shown,
-  silent,
-  together,
-} from "./checks.js";
-import {
+  also,
   badge,
   bars,
   by,
@@ -27,10 +14,8 @@ import {
   hourTip,
   legend,
   more,
-  RECENT,
   RED,
   seriesColours,
-  shareColour,
   shares,
   sparkline,
   stateIcon,
@@ -42,9 +27,8 @@ import {
   word,
 } from "./draw.js";
 import { PAGES, pageName, start } from "./shell.js";
-import { ago, clock, day, esc, list, ms, number, say, span, t, weekday, when } from "./text.js";
+import { ago, clock, date, day, esc, list, ms, number, say, span, t, weekday, when } from "./text.js";
 
-const DAY = 864e5;
 const page = (area) => PAGES.find((p) => p.area === area);
 const where = (area) => (area ? t(`area.${area}`) : "");
 const $ = (id) => document.getElementById(id);
@@ -75,70 +59,37 @@ function countUp(root) {
 
 // ── How everything is, and the quick ways out ────────────────────────────
 
-function renderStatus(snap, checks) {
-  const problems = checks.filter((c) => c.problem);
-  const areas = shown(snap)
-    .filter((a) => checks.some((c) => c.area === a))
-    .map((a) => areaState(a, checks));
-  const silence = silent(snap);
-  const blind = !checks.length && silence.length > 0;
-  const state = blind ? "down" : !problems.length ? "up" : areas.some((a) => a.state === "down") ? "down" : "degraded";
-  const quiet = quietSince(checks);
-  $("status").className = `status tone-${TONE[state]}`;
-  $("status-icon").innerHTML = stateIcon(state);
-  $("headline").innerHTML = blind
-    ? t("source.no_answer", { name: list(silence) })
-    : problems.length
-      ? t("status.problems", { n: problems.length })
-      : t("status.up");
-  if (blind) {
-    $("summary").innerHTML = t("source.no_answer_why", { error: snap.sources.find((s) => !s.answered).error });
-    return;
-  }
-  // Areas in one state are named together, and all of them as every area.
-  const states = byState(areas).map((g) =>
-    g.areas.length === areas.length
-      ? t(`status.every_${g.state}`)
-      : t(`status.areas_${g.state}`, { areas: list(g.areas.map((a) => t(`area.${a}`))) }),
-  );
-  const parts = problems.length
-    ? [states.join(" · ")]
-    : [
-        quiet.since &&
-          (quiet.problemFree
-            ? t("status.quiet_since", { at: quiet.since })
-            : t("status.quiet_for", { ms: Date.now() - quiet.since })),
-        `${t("status.checks", { n: checks.length })} ${t("status.areas", { n: areas.length })}`,
-      ];
-  if (silence.length) parts.push(t("source.no_answer", { name: list(silence) }));
-  $("summary").innerHTML = parts.filter(Boolean).join(" · ");
+function renderStatus(homelab) {
+  $("status").className = `status tone-${TONE[homelab.state]}`;
+  $("status-icon").innerHTML = stateIcon(homelab.state);
+  $("headline").innerHTML = say(homelab.headline);
+  $("summary").innerHTML = homelab.summary.map((part) => part.map(say).join(" ")).join(" · ");
 }
 
-function renderActions(snap) {
-  const u = snap.updates;
-  const target = u.length === 1 ? `href="${esc(u[0].url)}" target="_blank" rel="noopener"` : 'href="#chores-block"';
-  const merge = u.length
-    ? `<a class="action strong" ${target}><span class="tone-green">${svg("pr")}</span>${t("actions.merge", { n: u.length })}</a>`
+function renderActions(updates, tools) {
+  const target =
+    updates.length === 1 ? `href="${esc(updates[0].url)}" target="_blank" rel="noopener"` : 'href="#chores-block"';
+  const merge = updates.length
+    ? `<a class="action strong" ${target}><span class="tone-green">${svg("pr")}</span>${t("actions.merge", { n: updates.length })}</a>`
     : "";
-  const tools = snap.tools
+  const links = tools
     .slice(0, 5)
     .map(
-      (s) =>
+      ({ link: s }) =>
         `<a class="action" href="${esc(s.url)}" target="_blank" rel="noopener">${badge(s, "sm")}${esc(s.name)}</a>`,
     );
   $("actions").innerHTML =
     merge +
-    tools.join("") +
+    links.join("") +
     `<button class="action" type="button" data-palette>${svg("search")}${t("actions.everything")}<kbd>⌘K</kbd></button>`;
 }
 
-function renderProblems(checks) {
-  const problems = checks.filter((c) => c.problem);
+function renderProblems(problems, now) {
   $("problems").hidden = !problems.length;
   $("problem-n").textContent = number(problems.length);
   $("problem-list").innerHTML = problems
     .map((c) => {
-      const since = c.since && t("problem.since", { at: c.since, ms: Date.now() - c.since });
+      const since = c.since && t("problem.since", { at: c.since, ms: now - c.since });
       return `
     <a class="inbox-row" href="${esc(c.url)}" target="_blank" rel="noopener">
       ${stateIcon("down")}
@@ -152,59 +103,37 @@ function renderProblems(checks) {
 
 // ── Today: each figure, opening its area's page ──────────────────────────
 
-// A figure that shares a tile, after the first: its number and unit.
-const also = (f) => `${number(f.value)}${f.unit ? ` ${say(f.unit)}` : ""}${by(f)}`;
-
 // A figure's hours as series: its own, then the part within them, if any.
 const seriesOf = (f) => [{ label: f.label, hours: f.hours }, ...(f.within ? [f.within] : [])];
 
-// A tile three or more figures share, such as two Radarrs' films and two
-// Sonarrs' shows, is two columns wide and names each one under its bar, in
-// its part's colour.
-const legendOf = (f, start) =>
-  `<span class="parts">${[f, ...f.also]
-    .map((g, slot) => `<span><i style="--c:${shareColour({ slot }, slot, start)}"></i>${also(g)}</span>`)
-    .join("")}</span>`;
-
-function renderToday(snap, figures) {
-  $("today-block").hidden = !figures.length;
-  // As many columns as make the rows even, a wide tile counting two.
-  const slots = figures.reduce((n, f) => n + (f.also?.length > 1 ? 2 : 1), 0);
-  $("today").style.setProperty("--cols", evenColumns(slots, 6));
-  // Each tile whose parts take the colours starts two on from the one
-  // before, so tiles side by side differ, and the page stays colourful.
-  let coloured = 0;
-  $("today").innerHTML = figures
+function renderToday({ tiles, columns }, now) {
+  $("today-block").hidden = !tiles.length;
+  $("today").style.setProperty("--cols", columns);
+  $("today").innerHTML = tiles
     .map((f, i) => {
-      const start = f.shares?.some((s) => !s.tone) ? 2 * coloured++ : 0;
       const hours = f.hours || [];
       const series = seriesOf(f);
       const colours = seriesColours(series.length);
       const tips = hours.map((_, k) =>
-        hourTip(series, colours, k, hourStart(k, hours.length), { last: k === hours.length - 1 }),
+        hourTip(series, colours, k, hourStart(k, hours.length, now), { last: k === hours.length - 1 }),
       );
-      const wide = f.also?.length > 1;
       // A tile's label has no room for its source, so the line under the
       // number starts with it. A tile several figures share is none of their
       // sources': each of the others is named after its number, and every one
-      // in the bar.
-      // A figure added up from some of an adapter's sources says so, when
-      // another answered but gave none, such as a resolver that counts by
-      // the day.
-      const lacking = f.sources ? missing(snap, f.sources) : [];
+      // in the bar. One added up from some of its sources says so.
       const some =
-        lacking.length > 0 &&
-        `<span data-tip="${tip(esc(list(lacking)), [], t("figure.gave_none"))}">${t("figure.of_sources", { n: f.sources.length, total: f.sources.length + lacking.length })}</span>`;
-      const sub = wide
+        f.lacking.length > 0 &&
+        `<span data-tip="${tip(esc(list(f.lacking)), [], t("figure.gave_none"))}">${t("figure.of_sources", { n: f.sources.length, total: f.sources.length + f.lacking.length })}</span>`;
+      const sub = f.wide
         ? ""
         : f.also
           ? list(f.also.map(also))
           : [f.by && esc(f.by), f.detail && say(f.detail), some].filter(Boolean).join(" · ");
-      return `<a class="figure-tile${wide ? " wide" : ""}${f.tone ? ` tone-${f.tone}` : ""}" href="${f.area}" style="--i:${i}">
+      return `<a class="figure-tile${f.wide ? " wide" : ""}${f.tone ? ` tone-${f.tone}` : ""}" href="${f.area}" style="--i:${i}">
       <span class="label">${svg(f.icon)}${say(f.label)}</span>
       <span class="figure">${num(`${f.area}.${i}`, f.value)}${f.unit ? `<small> ${say(f.unit)}</small>` : ""}</span>
       <span class="sub">${sub}</span>
-      <span class="viz">${sparkline(hours, HOURS, tips)}${f.shares?.length ? shares(f, start) : ""}${wide ? legendOf(f, start) : ""}${(f.meters || []).map(figureMeter).join("")}</span></a>`;
+      <span class="viz">${sparkline(hours, HOURS, tips)}${f.shares?.length || f.wide ? shares(f, f.start) : ""}${(f.meters || []).map(figureMeter).join("")}</span></a>`;
     })
     .join("");
 }
@@ -212,18 +141,19 @@ function renderToday(snap, figures) {
 // ── Today by the hour: each figure with hours, as bars, beside the events.
 // With none, the week takes their place there ───────────────────────────
 
-function renderHours(figures) {
-  const mine = figures.filter((f) => f.hours?.length);
+function renderHours(tiles, now) {
+  const mine = tiles.filter((f) => f.hours?.length);
   $("hours-block").hidden = !mine.length;
   if (mine.length) $("day").after($("week-block"));
   else $("events-block").before($("week-block"));
   $("hours").innerHTML = mine
     .map((f, i) => {
       const series = seriesOf(f);
+      const colours = seriesColours(series.length);
       return `<div class="card chart" style="--i:${i}">
-      <div class="chart-head"><span class="label">${svg(f.icon)}${say(f.label)}${by(f)}</span>${legend(series, seriesColours(series.length))}</div>
+      <div class="chart-head"><span class="label">${svg(f.icon)}${say(f.label)}${by(f)}</span>${legend(series, colours)}</div>
       <div class="chart-top"><span class="figure">${num(`hours.${f.area}.${i}`, f.value)}</span><span class="detail">${f.detail ? say(f.detail) : ""}</span></div>
-      ${bars(series)}</div>`;
+      ${bars(series, colours, now)}</div>`;
     })
     .join("");
 }
@@ -232,67 +162,60 @@ function renderHours(figures) {
 
 const unfolded = new Set();
 
-// Each moment's worst result across an area's checks: red when any failed.
-function worst(a) {
-  return Array.from({ length: RECENT }, (_, k) => {
-    const at = a.checks.map((c) => [c, c.recent[c.recent.length - RECENT + k]]).filter(([, r]) => r);
-    if (!at.length) return null;
-    const failed = at.filter(([, r]) => !r.ok);
-    const rows = failed.length
-      ? failed.map(([c]) => [RED, esc(c.name) + by(c), t("areas.failed")])
-      : [[GREEN, t("areas.all_passed", { n: at.length }), ""]];
-    return {
-      ok: !failed.length,
-      bad: failed.length / at.length,
-      at: at[0][1].at,
-      tip: tip(clock(at[0][1].at), rows, failed.length === 1 ? esc(failed[0][1].why || "") : ""),
-    };
-  });
-}
+// An area's moment: red when any check failed then, each named in its tooltip.
+const moment = (r) =>
+  r && {
+    ...r,
+    tip: tip(
+      clock(r.at),
+      r.failed.length
+        ? r.failed.map(({ check }) => [RED, esc(check.name) + by(check), t("areas.failed")])
+        : [[GREEN, t("areas.all_passed", { n: r.n }), ""]],
+      r.failed.length === 1 ? esc(r.failed[0].why || "") : "",
+    ),
+  };
 
-function renderAreas(checks, areas) {
+// A check's health in the table, by its state.
+const health = (c) =>
+  ({
+    down: word("down"),
+    // With no threshold from its check engine, only the run of failures.
+    degraded: c.threshold
+      ? t("check.failed_n", { run: c.run, threshold: c.threshold })
+      : t("check.failed_run", { n: c.run }),
+    up: word("up"),
+    unknown: t("check.no_results"),
+  })[c.state];
+
+function renderAreas(areas) {
   $("areas-block").hidden = !areas.length;
   $("areas").innerHTML = areas
-    .map((name, i) => {
-      const a = areaState(name, checks);
-      const p = page(name);
-      const fine = a.checks.filter((c) => !c.problem).length;
-      const times = a.checks
-        .filter((c) => !c.failing && c.ms !== null)
-        .map((c) => c.ms)
-        .sort((x, y) => x - y);
+    .map((a, i) => {
+      const p = page(a.area);
+      const fine = a.checks.length - a.problems.length;
       const ring = `<svg class="pie" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.5"/><circle cx="7" cy="7" r="5.5" pathLength="1" style="stroke-dasharray:${(fine / a.checks.length).toFixed(3)} 1"/></svg>`;
       const count = tip(
-        t("areas.checks_of", { area: name }),
+        t("areas.checks_of", { area: a.area }),
         [
           [GREEN, word("up"), number(fine)],
           ...(a.problems.length ? [[RED, t("problems.title"), number(a.problems.length)]] : []),
         ],
         a.problems.length ? esc(list(a.problems.map((c) => c.name))) : "",
       );
-      const kids = a.checks.map((c) => {
-        const health = c.problem
-          ? word("down")
-          : c.failing
-            ? c.threshold
-              ? t("check.failed_n", { run: c.run, threshold: c.threshold })
-              : t("check.failed_run", { n: c.run })
-            : c.recent.length
-              ? word("up")
-              : t("check.no_results");
-        return `<a class="trow kid" href="${esc(c.url)}" target="_blank" rel="noopener">
-        <span class="tname">${stateIcon(checkState(c))}<span>${esc(c.name)}${by(c)}</span></span>
-        <span class="health tone-${TONE[checkState(c)]}">${health}</span>
+      const kids = a.checks.map(
+        (c) => `<a class="trow kid" href="${esc(c.url)}" target="_blank" rel="noopener">
+        <span class="tname">${stateIcon(c.state)}<span>${esc(c.name)}${by(c)}</span></span>
+        <span class="health tone-${TONE[c.state]}">${health(c)}</span>
         <span class="tcount detail">${c.failing ? esc(c.why || "") : ""}</span>
-        <span class="tms">${c.failing ? "" : ms(c.ms)}</span>${strip(c.recent)}</a>`;
-      });
-      return `<details class="area" data-area="${name}" style="--i:${i}"${unfolded.has(name) ? " open" : ""}>
+        <span class="tms">${c.failing ? "" : ms(c.ms)}</span>${strip(c.recent)}</a>`,
+      );
+      return `<details class="area" data-area="${a.area}" style="--i:${i}"${unfolded.has(a.area) ? " open" : ""}>
       <summary class="trow">
-        <span class="tname">${svg("chevron", "ic twist")}<span class="badge" style="--tint:${TINT[name]}">${svg(p.icon)}</span><a href="${p.href}">${pageName(p)}</a></span>
+        <span class="tname">${svg("chevron", "ic twist")}<span class="badge" style="--tint:${TINT[a.area]}">${svg(p.icon)}</span><a href="${p.href}">${pageName(p)}</a></span>
         <span class="health tone-${TONE[a.state]}">${stateIcon(a.state)}${word(a.state)}</span>
         <span class="tcount" data-tip="${count}">${ring}${number(fine)} / ${number(a.checks.length)}</span>
-        <span class="tms">${times.length ? ms(times[times.length >> 1]) : ""}</span>
-        ${strip(worst(a))}
+        <span class="tms">${ms(a.ms)}</span>
+        ${strip(a.strip.map(moment))}
       </summary>
       <div class="tkids">${kids.join("")}</div>
     </details>`;
@@ -302,146 +225,79 @@ function renderAreas(checks, areas) {
 
 // ── This week's events, newest first ─────────────────────────────────────
 
-function renderEvents(checks, events, updates, silence) {
-  const weekAgo = Date.now() - 7 * DAY;
-  const items = [];
-  for (const c of checks) {
-    for (const o of c.outages) {
-      if (o.from >= weekAgo) {
-        items.push({
-          at: o.from,
-          mark: stateIcon("down"),
-          text: t("events.down", { name: c.name }),
-          meta: where(c.area),
-        });
-      }
-      if (o.to && o.to >= weekAgo) {
-        const text = t("events.back", { name: c.name, ms: o.to - o.from });
-        items.push({ at: o.to, mark: stateIcon("up"), text, meta: where(c.area) });
-      }
-    }
-  }
-  for (const e of events) {
-    const at = new Date(e.at);
-    if (at >= weekAgo) {
-      const mark = `<span class="tone-${e.tone || "blue"}">${svg(e.icon)}</span>`;
-      items.push({
-        at,
-        mark,
-        text: say(e.text),
-        meta: [where(e.area), e.by && esc(e.by)].filter(Boolean).join(" · "),
-      });
-    }
-  }
-  for (const u of updates) {
-    const mark = `<span class="tone-green">${svg("pr")}</span>`;
-    items.push({
-      at: new Date(u.at),
-      mark,
-      text: t("events.update", { name: u.name }),
-      meta: t("events.update_meta"),
-    });
-  }
-  items.sort((a, b) => b.at - a.at);
-  // With nothing to show and a source silent, the week may not have been quiet.
-  const empty = silence.length ? t("source.no_answer", { name: list(silence) }) : t("events.quiet");
+function renderEvents({ items, empty }, now) {
+  const mark = (m) => (m.state ? stateIcon(m.state) : `<span class="tone-${m.tone}">${svg(m.icon)}</span>`);
   $("events").innerHTML =
     items
-      .slice(0, 8)
       .map(
         (it, i) => `<li style="--i:${i}">
-    <span class="mark">${it.mark}</span><span class="feed-text">${it.text} <span class="meta">${[it.meta, ago(it.at)].filter(Boolean).join(" · ")}</span></span></li>`,
+    <span class="mark">${mark(it.mark)}</span><span class="feed-text">${say(it.text)} <span class="meta">${[...it.about.map(say), ago(it.at, now)].join(" · ")}</span></span></li>`,
       )
-      .join("") || `<li class="empty">${empty}</li>`;
+      .join("") || `<li class="empty">${say(empty)}</li>`;
 }
 
 // ── This week: each area along the last 7 days, its problems in red, its
 // events as diamonds ──────────────────────────────────────────────────────
 
-function renderWeek(checks, events, areas) {
-  $("week-block").hidden = !areas.length;
-  // Midnights by the calendar, not 24 h apart: a day the clocks change lasts 23 or 25.
-  const days = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date();
-    d.setHours(0, 0, 0, 0);
-    d.setDate(d.getDate() - 6 + i);
-    return d;
-  });
-  const start = +days[0];
-  const end = Date.now();
-  const x = (at) => `${((100 * (Math.max(at, start) - start)) / (end - start)).toFixed(2)}%`;
+const at = (left) => `${(100 * left).toFixed(2)}%`;
+
+function renderWeek({ days, rows }, now) {
+  $("week-block").hidden = !rows.length;
   const head = days.map(
     (d, i) =>
-      `<span style="left:${x(+d)}"${i === 6 ? ' class="today"' : ""}><span class="wd">${weekday(d)} </span><b>${d.toLocaleDateString(undefined, { day: "numeric" })}</b></span>`,
+      `<span style="left:${at(d.left)}"${i === 6 ? ' class="today"' : ""}><span class="wd">${weekday(d.at)} </span><b>${date(d.at)}</b></span>`,
   );
-  const rows = areas.map((name, i) => {
-    const mine = checks
-      .filter((c) => c.area === name)
-      .flatMap((c) => c.outages)
-      .filter((o) => !o.to || o.to >= start);
-    const happened = events.filter((e) => e.area === name && new Date(e.at) >= start);
-    const down = mine.reduce((sum, o) => sum + ((o.to || end) - Math.max(+o.from, start)), 0);
+  const lines = rows.map((row, i) => {
     const summary = tip(
-      t("week.area", { area: name }),
-      mine.length
-        ? [[RED, t("week.problems", { n: mine.length }), t("week.in_all", { ms: down })]]
+      t("week.area", { area: row.area }),
+      row.outages.length
+        ? [[RED, t("week.problems", { n: row.outages.length }), t("week.in_all", { ms: row.down })]]
         : [[GREEN, t("week.no_problems"), ""]],
     );
-    const outages = mine.map((o) => {
-      const rows = [
-        [
-          RED,
-          t(o.to ? "week.was_down" : "week.down"),
-          o.to ? span(o.to - o.from) : t("week.for", { ms: end - o.from }),
-        ],
-        ["", t("week.from"), when(o.from)],
-        ...(o.to ? [["", t("week.back"), when(o.to)]] : []),
+    const outages = row.outages.map((o) => {
+      const tips = [
+        [RED, o.to ? t("week.was_down") : t("week.down"), o.to ? span(o.ms) : t("week.for", { ms: o.ms })],
+        ["", t("week.from"), when(o.from, now)],
+        ...(o.to ? [["", t("week.back"), when(o.to, now)]] : []),
       ];
-      return `<span class="tl-out${o.to ? "" : " now"}" style="left:${x(+o.from)};width:calc(${x(+(o.to || end))} - ${x(+o.from)})" data-tip="${tip(esc(o.check.name), rows)}"></span>`;
+      return `<span class="tl-out${o.to ? "" : " now"}" style="left:${at(o.left)};width:${at(o.width)}" data-tip="${tip(esc(o.check.name), tips)}"></span>`;
     });
-    // Events in the same hour are one diamond, such as five hosts' backups
-    // the same night, its tooltip naming each.
-    const hours = Map.groupBy(happened, (e) => Math.floor(+new Date(e.at) / 3600e3));
-    const diamonds = [...hours.values()].map((group) => {
-      const bad = group.some((e) => e.tone === "red");
+    const diamonds = row.events.map(({ events, left, bad }) => {
       const colour = (e) => (e.tone === "red" ? RED : "var(--m-blue)");
       const tp =
-        group.length === 1
-          ? tip(say(group[0].text) + by(group[0]), [[colour(group[0]), when(group[0].at), ""]])
+        events.length === 1
+          ? tip(say(events[0].text) + by(events[0]), [[colour(events[0]), when(events[0].at, now), ""]])
           : tip(
-              t("week.events", { n: group.length }),
-              group.map((e) => [colour(e), say(e.text) + by(e), clock(new Date(e.at))]),
+              t("week.events", { n: events.length }),
+              events.map((e) => [colour(e), say(e.text) + by(e), clock(new Date(e.at))]),
             );
-      return `<span class="tl-ms${bad ? " bad" : ""}${group.length > 1 ? " many" : ""}" style="left:${x(+new Date(group[0].at))}" data-tip="${tp}"></span>`;
+      return `<span class="tl-ms${bad ? " bad" : ""}${events.length > 1 ? " many" : ""}" style="left:${at(left)}" data-tip="${tp}"></span>`;
     });
-    return `<div class="tl-row" style="--i:${i};--tint:${TINT[name]}">
-      <span class="tl-label">${svg(page(name).icon)}${t(`area.${name}`)}</span>
+    return `<div class="tl-row" style="--i:${i};--tint:${TINT[row.area]}">
+      <span class="tl-label">${svg(page(row.area).icon)}${t(`area.${row.area}`)}</span>
       <span class="tl-track"><span class="tl-bar" data-tip="${summary}"></span>${outages.join("")}${diamonds.join("")}</span></div>`;
   });
   $("week").innerHTML = `<div class="tl-row tl-head"><span></span><span class="tl-track">${head.join("")}</span></div>
-    <div class="tl-grid">${days.map((d) => `<i style="left:${x(+d)}"></i>`).join("")}</div>${rows.join("")}`;
+    <div class="tl-grid">${days.map((d) => `<i style="left:${at(d.left)}"></i>`).join("")}</div>${lines.join("")}`;
 }
 
 // ── The apps: each one's door, whether it answers, and how fast lately ───
 
-function renderApps(apps, checks) {
-  $("apps-block").hidden = !apps.length;
-  // Past twelve, the tiles go small: the logo, the name, the dot and the
-  // time, the description in the tooltip. Rows come out even either way.
-  const compact = apps.length > 12;
+function renderApps({ links, compact, columns }) {
+  $("apps-block").hidden = !links.length;
+  // Small tiles show the logo, the name, the dot and the time, the
+  // description in the tooltip.
   $("apps").classList.toggle("compact", compact);
-  $("apps").style.setProperty("--cols", evenColumns(apps.length, compact ? 4 : 3));
-  $("apps").innerHTML = apps
-    .map((s, i) => {
-      const c = s.check && linkCheck(s, checks);
-      const state = c ? checkState(c) : "unknown";
+  $("apps").style.setProperty("--cols", columns);
+  $("apps").innerHTML = links
+    .map(({ link: s, check: c, state }, i) => {
       const tint = esc(s.color || "#7170FF");
       const foot = !s.check ? t("apps.no_check") : !c || c.failing ? word(state) : ms(c.ms);
       const tips = c
         ? c.recent.map((r) =>
             tip(
               clock(r.at),
-              [[r.ok ? tint : RED, t(r.ok ? "apps.answered" : "apps.failed_after"), ms(r.ms)]],
+              [[r.ok ? tint : RED, r.ok ? t("apps.answered") : t("apps.failed_after"), ms(r.ms)]],
               esc(r.why || ""),
             ),
           )
@@ -467,9 +323,8 @@ function renderApps(apps, checks) {
 // to-do lists that are due, then those this week. A chore is done when it's
 // marked done on its list (ADR 0010) ───────────────────────────────────────
 
-function renderChores(updates, chores) {
-  $("chores-block").hidden = !updates.length && !chores.length;
-  const { due, week, next } = choresBy(chores);
+function renderChores({ updates, due, week, next }, now) {
+  $("chores-block").hidden = !updates.length && !due.length && !week.length && !next;
   const merge = `<span class="tone-green">${svg("pr")}</span>`;
   const row = (mark, title, detail, meta, href) => {
     const copy = `${mark}<span class="copy"><span class="title">${title}</span>${detail ? `<span class="detail">${detail}</span>` : ""}</span><span class="meta">${meta}</span>`;
@@ -481,7 +336,7 @@ function renderChores(updates, chores) {
     [
       merge,
       t("chores.merge"),
-      updates.map((u) => row(merge, esc(u.name), t("chores.update"), ago(new Date(u.at)), u.url)),
+      updates.map((u) => row(merge, esc(u.name), t("chores.update"), ago(new Date(u.at), now), u.url)),
     ],
     [
       stateIcon("degraded"),
@@ -501,8 +356,9 @@ function renderChores(updates, chores) {
     <div class="group-head">${mark}<span>${name}</span><span class="n">${number(rows.length)}</span></div>${more(rows, 5)}</div>`,
       )
       .join("") ||
-    // With nothing waiting, due or this week, the block shows only for a chore after it.
-    `<div class="empty card">${t("chores.next", { name: next.name, at: next.from })}</div>`;
+    // With nothing waiting, due or this week, the block shows only for a chore
+    // after it, and with none, it's hidden.
+    (next ? `<div class="empty card">${t("chores.next", { name: next.name, at: next.from })}</div>` : "");
 }
 
 $("areas").addEventListener(
@@ -514,21 +370,16 @@ $("areas").addEventListener(
   true,
 );
 
-start((snap, checks) => {
-  const areas = shown(snap);
-  renderStatus(snap, checks);
-  renderActions(snap);
-  renderProblems(checks);
-  const figures = joinFigures(together(snap.figures));
-  renderToday(snap, figures);
-  renderHours(figures);
-  renderAreas(
-    checks,
-    areas.filter((a) => checks.some((c) => c.area === a)),
-  );
-  renderEvents(checks, snap.events, snap.updates, silent(snap));
-  renderWeek(checks, snap.events, areas);
-  renderApps(snap.apps, checks);
-  renderChores(snap.updates, snap.chores);
+start((m) => {
+  renderStatus(m.homelab);
+  renderActions(m.chores.updates, m.tools);
+  renderProblems(m.problems, m.now);
+  renderToday(m.today, m.now);
+  renderHours(m.today.tiles, m.now);
+  renderAreas(m.areas.filter((a) => a.shown && a.checks.length));
+  renderEvents(m.events, m.now);
+  renderWeek(m.week, m.now);
+  renderApps(m.apps);
+  renderChores(m.chores, m.now);
   countUp(document);
 });

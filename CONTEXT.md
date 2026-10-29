@@ -94,7 +94,11 @@ _Avoid_: Alert (the push that announces a problem), incident, issue
 
 **Degraded**:
 An area that still works while it has a problem, such as DNS with one of two
-resolvers down. An area that doesn't work is down; one with no problem is up.
+resolvers down. An area that doesn't work is down, one whose checks have no
+problem is up, and one with no checks is unknown, since nothing says whether
+it works. The homelab is down when an area is down or no check engine
+answered, degraded with any other problem, one in a check in no area too,
+unknown with no checks, and up otherwise.
 _Avoid_: Warning, partial outage
 
 **Quiet**:
@@ -110,16 +114,17 @@ _Avoid_: Card, panel, widget
 What a source counts or measures by the hour, over as many hours as it
 keeps, drawn on its adapter's home area's page, such as a resolver's lookups
 and the blocked ones, or a host's processor. Several sources' charts of the
-same count are added up into one; those of the same measure share one, a
-line each.
+same count are added up into one, and those of the same measure share one, a
+line each, both over the hours they all keep.
 _Avoid_: Graph, plot, time series
 
 **Figure**:
 A number an adapter reports for today, such as lookups blocked or photos
 uploaded, sometimes with the hours that make it up or the shares it splits
 into, such as each person's photos. Figures of one count from several
-sources, such as two hosts' guests, are added up into one, split by source;
-figures of one whole, such as films and shows in the library, share a tile.
+sources, such as two hosts' guests, are added up into one, split by source,
+its hours over those they all keep; figures of one whole, such as films and
+shows in the library, share a tile.
 _Avoid_: Stat, metric, KPI
 
 **Event**:

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { ago, bytes, ms, say, setWords, span, t, when } from "../js/text.js";
+import { ago, bytes, drawnAt, ms, say, setWords, span, t, when } from "../js/text.js";
 
 const en = {
   "span.minutes": "{n} min",
@@ -69,4 +69,12 @@ test("moments, from now", () => {
   assert.equal(when(new Date(2026, 9, 28, 14, 5), now), "today, 14:05");
   assert.equal(when(new Date(2026, 9, 27, 9, 30), now), "yesterday, 09:30");
   assert.match(when(new Date(2026, 9, 20, 9, 30), now), /20 Oct/);
+});
+
+test("a message's moment counts from the moment the page is drawn for", () => {
+  setWords({ ...en, since: "since {at:when}" }, {}, "en-GB");
+  drawnAt(+new Date(2026, 9, 28, 15, 0));
+  assert.equal(t("since", { at: new Date(2026, 9, 27, 9, 30) }), "since yesterday, 09:30");
+  drawnAt(+new Date(2026, 9, 29, 15, 0));
+  assert.match(t("since", { at: new Date(2026, 9, 27, 9, 30) }), /27 Oct/);
 });
