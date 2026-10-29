@@ -1,10 +1,5 @@
 {
   "jellyfin.episode": "{series}: {name}",
-  "jellyfin.direct": "{device} · as it is",
-  "jellyfin.transcoding": "{device} · transcoded",
-  "jellyfin.paused": "{device} · paused",
-  "jellyfin.playing": "Playing",
-  "jellyfin.nothing": "Nothing",
 
   "jellyfin.films": "Films",
   "jellyfin.films_n": { "one": "{n} film", "other": "{n} films" },

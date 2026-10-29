@@ -13,7 +13,6 @@ import (
 	"time"
 
 	"github.com/bnlqn/overlook/internal/adapters/adaptertest"
-	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
 // testdata holds answers recorded from a scratch Pi-hole 2026.10 (ADR 0008),
@@ -38,35 +37,33 @@ func TestRead(t *testing.T) {
 	}
 	adaptertest.Validate(t, p)
 
+	// Its ten minutes in the hours of Overlook's time zone.
 	f := p.Figures[0]
-	if f.Label.Key != snapshot.LookupsFigure.Key || f.Value != 57 || f.Detail.Args["blocked"] != 18 || !f.Adds {
-		t.Errorf("57 lookups since midnight, 18 blocked, adding up with any resolver's: %+v", f)
+	if f.Value != 57 || f.Detail.Args["blocked"] != 18 {
+		t.Errorf("57 lookups since midnight, 18 blocked: %+v", f)
 	}
 	if f.Hours[23] != 57 || f.Hours[9] != 120 || f.Within.Hours[23] != 18 || f.Within.Hours[9] != 31 {
 		t.Errorf("this hour's and 21:00's, by the hour: %v %v", f.Hours, f.Within.Hours)
 	}
-	if ch := p.Charts[0]; ch.Title.Key != snapshot.LookupsChart.Key || !ch.Adds || len(ch.Series) != 2 || ch.Series[0].Hours[9] != 120 {
-		t.Errorf("the last day by the hour, adding up with any resolver's: %+v", ch)
+	if ch := p.Charts[0]; len(ch.Series[0].Hours) != 24 || ch.Series[0].Hours[9] != 120 {
+		t.Errorf("the last day by the hour: %+v", ch)
 	}
 
-	if len(p.Sections) != 4 || p.Sections[0].Title.Key != snapshot.ResolverSection.Key || p.Sections[3].Title.Key != snapshot.TopBlocked.Key {
-		t.Fatalf("the resolver and its three top lists, as any resolver's: %+v", p.Sections)
-	}
 	rows := p.Sections[0].Rows
 	if len(rows) != 7 {
-		t.Fatalf("blocking, lookups, blocked, blocklists, one upstream, the rate limit and the image: %+v", rows)
+		t.Fatalf("blocking, lookups, blocked, one upstream, blocklists, the rate limit and the image: %+v", rows)
 	}
-	if r := rows[0]; r.Value.Key != "pihole.blocking_on" || r.Tone != "green" {
+	if r := rows[0]; r.Value.Key != "resolver.on" {
 		t.Errorf("blocking: %+v", r)
 	}
 	if r := rows[2]; r.Value.Args["n"] != 31.6 || r.Detail.Args["n"] != 18 {
 		t.Errorf("31.6%% blocked: %+v %+v", r.Value, r.Detail)
 	}
-	if r := rows[3]; r.Value.Args["n"] != 76148 {
-		t.Errorf("the blocklists' domains: %+v", r.Value)
-	}
-	if r := rows[4]; r.Title.Name != "dns.google" || r.Value.Args["n"] != 15 {
+	if r := rows[3]; r.Title.Name != "dns.google" || r.Value.Args["n"] != 15 {
 		t.Errorf("the one upstream, not the blocklist or the cache: %+v", r)
+	}
+	if r := rows[4]; r.Value.Args["n"] != 76148 {
+		t.Errorf("the blocklists' domains: %+v", r.Value)
 	}
 	if r := rows[5]; r.Tone != "orange" || !strings.Contains(r.Detail.Name, "Rate-limiting 172.31.53.12") {
 		t.Errorf("the rate limit, as Pi-hole words it: %+v", r)

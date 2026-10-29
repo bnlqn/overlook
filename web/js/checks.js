@@ -27,7 +27,7 @@ export const shown = (snap) =>
 
 /**
  * The snapshot with each part named by its source, as by, where another
- * source of the same adapter is read, so that two of one kind can be told
+ * source of the same adapter is read, so that two of one adapter can be told
  * apart. One that didn't answer still counts, so the names don't come and go.
  * A check is named where another check engine has a check of its name, a
  * section where another source gives one of its title, such as the hosts of

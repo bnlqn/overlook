@@ -166,7 +166,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 			return snapshot.Parts{}, err
 		}
 	}
-	return parts(resources, hosts, nodes), nil
+	return parts(resources, hosts, nodes, now), nil
 }
 
 // get reads the answer at path into v: Proxmox wraps each in {"data": …}.
@@ -177,7 +177,7 @@ func get(ctx context.Context, c Config, path string, v any) error {
 	}{v})
 }
 
-func parts(resources []resource, hosts []*host, nodes int) snapshot.Parts {
+func parts(resources []resource, hosts []*host, nodes int, now time.Time) snapshot.Parts {
 	// In a cluster, what belongs to one node says which.
 	cluster := nodes > 1
 	onNode := func(name, node string) snapshot.Text {
@@ -372,13 +372,13 @@ func parts(resources []resource, hosts []*host, nodes int) snapshot.Parts {
 		f.Tone = "orange"
 	}
 	p.Figures = append(p.Figures, f)
-	p.Charts = levels(hosts)
+	p.Charts = levels(hosts, now)
 	return p
 }
 
-// levels are the hosts' processor and memory by the hour, from each one's
-// readings every half hour.
-func levels(hosts []*host) []snapshot.Chart {
+// levels are the hosts' processor and memory by the hour, as at now, from
+// each one's readings every half hour.
+func levels(hosts []*host, now time.Time) []snapshot.Chart {
 	names := make([]string, len(hosts))
 	readings := make([][]snapshot.Reading, len(hosts))
 	for i, h := range hosts {
@@ -390,7 +390,7 @@ func levels(hosts []*host) []snapshot.Chart {
 			readings[i] = append(readings[i], snapshot.Reading{At: time.Unix(r.Time, 0), CPU: 100 * *r.CPU, Mem: 100 * *r.MemUsed / *r.MemTotal})
 		}
 	}
-	return snapshot.HostCharts(Area, names, readings)
+	return snapshot.HostCharts(Area, now, names, readings)
 }
 
 // cpuBrand is what goes before a processor's model, such as "12th Gen

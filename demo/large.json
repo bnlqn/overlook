@@ -5734,33 +5734,33 @@
     {
       "area": "apps",
       "source": "Jellyfin",
-      "title": { "key": "section.media" },
+      "title": { "key": "mediaserver.section" },
       "rows": [
         {
           "title": { "name": "Ari" },
           "value": { "name": "The General (1926)" },
-          "detail": { "key": "jellyfin.direct", "args": { "device": "Bedroom TV" } }
+          "detail": { "key": "mediaserver.direct", "args": { "device": "Bedroom TV" } }
         },
         {
           "title": { "name": "Lena" },
           "value": { "key": "jellyfin.episode", "args": { "series": "The Allotment", "name": "First Frost" } },
-          "detail": { "key": "jellyfin.transcoding", "args": { "device": "Phone" } }
+          "detail": { "key": "mediaserver.transcoding", "args": { "device": "Phone" } }
         },
         {
           "title": { "name": "Mia" },
           "value": { "key": "jellyfin.episode", "args": { "series": "Harbour Lights", "name": "The Lamp Room" } },
-          "detail": { "key": "jellyfin.direct", "args": { "device": "Living room TV" } }
+          "detail": { "key": "mediaserver.direct", "args": { "device": "Living room TV" } }
         },
         {
           "title": { "name": "Ravi" },
           "value": { "name": "Metropolis (1927)" },
-          "detail": { "key": "jellyfin.paused", "args": { "device": "Firefox" } },
+          "detail": { "key": "mediaserver.paused", "args": { "device": "Firefox" } },
           "tone": "gray"
         },
         {
           "title": { "name": "Theo" },
           "value": { "name": "Big Buck Bunny (2008)" },
-          "detail": { "key": "jellyfin.transcoding", "args": { "device": "Kids' tablet" } }
+          "detail": { "key": "mediaserver.transcoding", "args": { "device": "Kids' tablet" } }
         },
         { "title": { "key": "jellyfin.films" }, "value": { "key": "jellyfin.films_n", "args": { "n": 2318 } } },
         {
@@ -5810,28 +5810,28 @@
     {
       "area": "apps",
       "source": "Plex",
-      "title": { "key": "section.media" },
+      "title": { "key": "mediaserver.section" },
       "rows": [
         {
           "title": { "name": "Jo" },
           "value": { "name": "Sherlock Jr. (1924)" },
-          "detail": { "key": "tautulli.transcoding", "args": { "device": "Chrome" } }
+          "detail": { "key": "mediaserver.transcoding", "args": { "device": "Chrome" } }
         },
         {
           "title": { "name": "Kim" },
           "value": { "name": "Harbour Lights - The Lamp Room" },
-          "detail": { "key": "tautulli.direct", "args": { "device": "Kitchen tablet" } }
+          "detail": { "key": "mediaserver.direct", "args": { "device": "Kitchen tablet" } }
         },
         {
           "title": { "name": "Noor" },
           "value": { "name": "Metropolis (1927)" },
-          "detail": { "key": "tautulli.paused", "args": { "device": "Bedroom TV" } },
+          "detail": { "key": "mediaserver.paused", "args": { "device": "Bedroom TV" } },
           "tone": "gray"
         },
         {
           "title": { "name": "Sam" },
           "value": { "name": "Nosferatu (1922)" },
-          "detail": { "key": "tautulli.transcoding", "args": { "device": "Phone" } }
+          "detail": { "key": "mediaserver.transcoding", "args": { "device": "Phone" } }
         },
         {
           "title": { "key": "tautulli.bandwidth" },
@@ -6025,90 +6025,90 @@
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "section.resolver" },
+      "title": { "key": "resolver.section" },
       "rows": [
-        { "title": { "key": "adguard.protection" }, "value": { "key": "adguard.filtering" }, "tone": "green" },
+        { "title": { "key": "resolver.blocking" }, "value": { "key": "resolver.on" }, "tone": "green" },
         {
-          "title": { "key": "adguard.lookups" },
+          "title": { "key": "resolver.lookups" },
           "value": { "key": "number", "args": { "n": 960079 } },
-          "detail": { "key": "adguard.over", "args": { "ms": 604800000 } }
+          "detail": { "key": "resolver.over", "args": { "ms": 604800000 } }
         },
         {
-          "title": { "key": "adguard.blocked" },
+          "title": { "key": "resolver.blocked" },
           "value": { "key": "percent", "args": { "n": 26.8 } },
-          "detail": { "key": "adguard.count", "args": { "n": 257447 } }
+          "detail": { "key": "resolver.count", "args": { "n": 257447 } }
         },
-        { "title": { "key": "adguard.processing" }, "value": { "key": "adguard.ms", "args": { "n": 2.9 } } },
         {
           "title": { "name": "tls://dns.example.net:853" },
-          "value": { "key": "adguard.answers", "args": { "n": 252666, "ms": 14.8 } },
-          "detail": { "key": "adguard.upstream" }
+          "value": { "key": "resolver.answers", "args": { "n": 252666, "ms": 14.8 } },
+          "detail": { "key": "resolver.upstream" }
         },
         {
           "title": { "name": "tls://resolver.example.org:853" },
-          "value": { "key": "adguard.answers", "args": { "n": 126333, "ms": 19.6 } },
-          "detail": { "key": "adguard.upstream" }
+          "value": { "key": "resolver.answers", "args": { "n": 126333, "ms": 19.6 } },
+          "detail": { "key": "resolver.upstream" }
         },
         {
           "title": { "name": "https://doh.example.com/dns-query" },
-          "value": { "key": "adguard.answers", "args": { "n": 28526, "ms": 27.1 } },
-          "detail": { "key": "adguard.upstream" }
+          "value": { "key": "resolver.answers", "args": { "n": 28526, "ms": 27.1 } },
+          "detail": { "key": "resolver.upstream" }
         },
+        { "title": { "key": "adguard.processing" }, "value": { "key": "adguard.ms", "args": { "n": 2.9 } } },
         { "title": { "key": "adguard.version" }, "value": { "name": "v0.107.79" } }
       ]
     },
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "section.top_clients" },
+      "title": { "key": "resolver.top_clients" },
       "rows": [
         {
           "title": { "name": "living-room-tv.lan" },
-          "value": { "key": "top.share", "args": { "n": 107528, "share": 11.2 } },
+          "value": { "key": "resolver.share", "args": { "n": 107528, "share": 11.2 } },
           "detail": { "name": "192.0.2.21" }
         },
         {
           "title": { "name": "media.lan" },
-          "value": { "key": "top.share", "args": { "n": 90247, "share": 9.4 } },
+          "value": { "key": "resolver.share", "args": { "n": 90247, "share": 9.4 } },
           "detail": { "name": "192.0.2.110" }
         },
         {
           "title": { "name": "kims-phone.lan" },
-          "value": { "key": "top.share", "args": { "n": 68165, "share": 7.1 } },
+          "value": { "key": "resolver.share", "args": { "n": 68165, "share": 7.1 } },
           "detail": { "name": "192.0.2.31" }
         },
         {
           "title": { "name": "noors-laptop.lan" },
-          "value": { "key": "top.share", "args": { "n": 63365, "share": 6.6 } },
+          "value": { "key": "resolver.share", "args": { "n": 63365, "share": 6.6 } },
           "detail": { "name": "192.0.2.32" }
         },
         {
           "title": { "name": "docker.lan" },
-          "value": { "key": "top.share", "args": { "n": 55684, "share": 5.8 } },
+          "value": { "key": "resolver.share", "args": { "n": 55684, "share": 5.8 } },
           "detail": { "name": "192.0.2.105" }
         },
         {
           "title": { "name": "lenas-tablet.lan" },
-          "value": { "key": "top.share", "args": { "n": 39363, "share": 4.1 } },
+          "value": { "key": "resolver.share", "args": { "n": 39363, "share": 4.1 } },
           "detail": { "name": "192.0.2.36" }
         },
         {
           "title": { "name": "theos-console.lan" },
-          "value": { "key": "top.share", "args": { "n": 36483, "share": 3.8 } },
+          "value": { "key": "resolver.share", "args": { "n": 36483, "share": 3.8 } },
           "detail": { "name": "192.0.2.44" }
         },
         {
           "title": { "name": "ari-pc.lan" },
-          "value": { "key": "top.share", "args": { "n": 33602, "share": 3.5 } },
+          "value": { "key": "resolver.share", "args": { "n": 33602, "share": 3.5 } },
           "detail": { "name": "192.0.2.33" }
         },
         {
           "title": { "name": "192.0.2.47" },
-          "value": { "key": "top.share", "args": { "n": 27842, "share": 2.9 } }
+          "value": { "key": "resolver.share", "args": { "n": 27842, "share": 2.9 } }
         },
         {
           "title": { "name": "mias-phone.lan" },
-          "value": { "key": "top.share", "args": { "n": 24962, "share": 2.6 } },
+          "value": { "key": "resolver.share", "args": { "n": 24962, "share": 2.6 } },
           "detail": { "name": "192.0.2.38" }
         }
       ]
@@ -6116,54 +6116,54 @@
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "section.top_domains" },
+      "title": { "key": "resolver.top_domains" },
       "rows": [
         {
           "title": { "name": "time.example.com" },
-          "value": { "key": "top.share", "args": { "n": 29762, "share": 3.1 } }
+          "value": { "key": "resolver.share", "args": { "n": 29762, "share": 3.1 } }
         },
         {
           "title": { "name": "photos.example.com" },
-          "value": { "key": "top.share", "args": { "n": 25922, "share": 2.7 } }
+          "value": { "key": "resolver.share", "args": { "n": 25922, "share": 2.7 } }
         },
         {
           "title": { "name": "updates.example.org" },
-          "value": { "key": "top.share", "args": { "n": 21121, "share": 2.2 } }
+          "value": { "key": "resolver.share", "args": { "n": 21121, "share": 2.2 } }
         },
         {
           "title": { "name": "cdn.example.net" },
-          "value": { "key": "top.share", "args": { "n": 18241, "share": 1.9 } }
+          "value": { "key": "resolver.share", "args": { "n": 18241, "share": 1.9 } }
         },
         {
           "title": { "name": "api.example.com" },
-          "value": { "key": "top.share", "args": { "n": 15361, "share": 1.6 } }
+          "value": { "key": "resolver.share", "args": { "n": 15361, "share": 1.6 } }
         },
         {
           "title": { "name": "weather.example.org" },
-          "value": { "key": "top.share", "args": { "n": 10560, "share": 1.1 } }
+          "value": { "key": "resolver.share", "args": { "n": 10560, "share": 1.1 } }
         },
         {
           "title": { "name": "stream.example.net" },
-          "value": { "key": "top.share", "args": { "n": 9600, "share": 1.0 } }
+          "value": { "key": "resolver.share", "args": { "n": 9600, "share": 1.0 } }
         },
         {
           "title": { "name": "mail.example.com" },
-          "value": { "key": "top.share", "args": { "n": 8640, "share": 0.9 } }
+          "value": { "key": "resolver.share", "args": { "n": 8640, "share": 0.9 } }
         },
         {
           "title": { "name": "games.example.org" },
-          "value": { "key": "top.share", "args": { "n": 7680, "share": 0.8 } }
+          "value": { "key": "resolver.share", "args": { "n": 7680, "share": 0.8 } }
         },
         {
           "title": { "name": "push.example.net" },
-          "value": { "key": "top.share", "args": { "n": 6720, "share": 0.7 } }
+          "value": { "key": "resolver.share", "args": { "n": 6720, "share": 0.7 } }
         }
       ]
     },
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "section.top_blocked" },
+      "title": { "key": "resolver.top_blocked" },
       "rows": [
         { "title": { "name": "ads.example.com" }, "value": { "key": "number", "args": { "n": 61787 } } },
         { "title": { "name": "tracker.example.net" }, "value": { "key": "number", "args": { "n": 43765 } } },
@@ -6180,38 +6180,38 @@
     {
       "area": "network",
       "source": "Secondary DNS",
-      "title": { "key": "section.resolver" },
+      "title": { "key": "resolver.section" },
       "rows": [
         {
-          "title": { "key": "pihole.blocking" },
-          "value": { "key": "pihole.paused" },
-          "detail": { "key": "pihole.back_in", "args": { "ms": 1080000 } },
+          "title": { "key": "resolver.blocking" },
+          "value": { "key": "resolver.paused" },
+          "detail": { "key": "resolver.back_in", "args": { "ms": 1080000 } },
           "tone": "orange"
         },
         {
-          "title": { "key": "chart.lookups" },
+          "title": { "key": "resolver.lookups" },
           "value": { "key": "number", "args": { "n": 38904 } },
-          "detail": { "key": "pihole.over_day" }
+          "detail": { "key": "resolver.over", "args": { "ms": 86400000 } }
         },
         {
-          "title": { "key": "chart.blocked" },
+          "title": { "key": "resolver.blocked" },
           "value": { "key": "percent", "args": { "n": 23.7 } },
-          "detail": { "key": "pihole.count", "args": { "n": 9221 } }
+          "detail": { "key": "resolver.count", "args": { "n": 9221 } }
+        },
+        {
+          "title": { "name": "dns.example.net" },
+          "value": { "key": "resolver.answers", "args": { "n": 11452, "ms": 14.8 } },
+          "detail": { "key": "resolver.upstream" }
+        },
+        {
+          "title": { "name": "resolver.example.org" },
+          "value": { "key": "resolver.answers", "args": { "n": 5731, "ms": 19.6 } },
+          "detail": { "key": "resolver.upstream" }
         },
         {
           "title": { "key": "pihole.blocklists" },
           "value": { "key": "pihole.domains", "args": { "n": 186412 } },
           "detail": { "key": "pihole.updated", "args": { "at": "2026-10-25T03:12:40Z" } }
-        },
-        {
-          "title": { "name": "dns.example.net" },
-          "value": { "key": "pihole.answers", "args": { "n": 11452, "ms": 14.8 } },
-          "detail": { "key": "pihole.upstream" }
-        },
-        {
-          "title": { "name": "resolver.example.org" },
-          "value": { "key": "pihole.answers", "args": { "n": 5731, "ms": 19.6 } },
-          "detail": { "key": "pihole.upstream" }
         },
         {
           "title": { "key": "pihole.image" },
@@ -6224,49 +6224,52 @@
     {
       "area": "network",
       "source": "Secondary DNS",
-      "title": { "key": "section.top_clients" },
+      "title": { "key": "resolver.top_clients" },
       "rows": [
         {
           "title": { "name": "guest-phone-1.lan" },
-          "value": { "key": "top.share", "args": { "n": 57170, "share": 21.0 } },
+          "value": { "key": "resolver.share", "args": { "n": 57170, "share": 21.0 } },
           "detail": { "name": "192.0.2.201" }
         },
         {
           "title": { "name": "guest-laptop.lan" },
-          "value": { "key": "top.share", "args": { "n": 46280, "share": 17.0 } },
+          "value": { "key": "resolver.share", "args": { "n": 46280, "share": 17.0 } },
           "detail": { "name": "192.0.2.202" }
         },
         {
           "title": { "name": "office-printer.lan" },
-          "value": { "key": "top.share", "args": { "n": 24501, "share": 9.0 } },
+          "value": { "key": "resolver.share", "args": { "n": 24501, "share": 9.0 } },
           "detail": { "name": "192.0.2.60" }
         },
-        { "title": { "name": "192.0.2.203" }, "value": { "key": "top.share", "args": { "n": 13611, "share": 5.0 } } }
-      ]
-    },
-    {
-      "area": "network",
-      "source": "Secondary DNS",
-      "title": { "key": "section.top_domains" },
-      "rows": [
         {
-          "title": { "name": "cdn.example.net" },
-          "value": { "key": "top.share", "args": { "n": 13611, "share": 5.0 } }
-        },
-        {
-          "title": { "name": "time.example.com" },
-          "value": { "key": "top.share", "args": { "n": 10889, "share": 4.0 } }
-        },
-        {
-          "title": { "name": "api.example.com" },
-          "value": { "key": "top.share", "args": { "n": 8167, "share": 3.0 } }
+          "title": { "name": "192.0.2.203" },
+          "value": { "key": "resolver.share", "args": { "n": 13611, "share": 5.0 } }
         }
       ]
     },
     {
       "area": "network",
       "source": "Secondary DNS",
-      "title": { "key": "section.top_blocked" },
+      "title": { "key": "resolver.top_domains" },
+      "rows": [
+        {
+          "title": { "name": "cdn.example.net" },
+          "value": { "key": "resolver.share", "args": { "n": 13611, "share": 5.0 } }
+        },
+        {
+          "title": { "name": "time.example.com" },
+          "value": { "key": "resolver.share", "args": { "n": 10889, "share": 4.0 } }
+        },
+        {
+          "title": { "name": "api.example.com" },
+          "value": { "key": "resolver.share", "args": { "n": 8167, "share": 3.0 } }
+        }
+      ]
+    },
+    {
+      "area": "network",
+      "source": "Secondary DNS",
+      "title": { "key": "resolver.top_blocked" },
       "rows": [
         { "title": { "name": "ads.example.com" }, "value": { "key": "number", "args": { "n": 20289 } } },
         { "title": { "name": "tracker.example.net" }, "value": { "key": "number", "args": { "n": 14399 } } }
@@ -6275,81 +6278,81 @@
     {
       "area": "network",
       "source": "IoT DNS",
-      "title": { "key": "section.resolver" },
+      "title": { "key": "resolver.section" },
       "rows": [
-        { "title": { "key": "adguard.protection" }, "value": { "key": "adguard.filtering" }, "tone": "green" },
+        { "title": { "key": "resolver.blocking" }, "value": { "key": "resolver.on" }, "tone": "green" },
         {
-          "title": { "key": "adguard.lookups" },
+          "title": { "key": "resolver.lookups" },
           "value": { "key": "number", "args": { "n": 1381072 } },
-          "detail": { "key": "adguard.over", "args": { "ms": 2592000000 } }
+          "detail": { "key": "resolver.over", "args": { "ms": 2592000000 } }
         },
         {
-          "title": { "key": "adguard.blocked" },
+          "title": { "key": "resolver.blocked" },
           "value": { "key": "percent", "args": { "n": 40.1 } },
-          "detail": { "key": "adguard.count", "args": { "n": 554453 } }
+          "detail": { "key": "resolver.count", "args": { "n": 554453 } }
         },
-        { "title": { "key": "adguard.processing" }, "value": { "key": "adguard.ms", "args": { "n": 2.3 } } },
         {
           "title": { "name": "tls://dns.example.net:853" },
-          "value": { "key": "adguard.answers", "args": { "n": 479439, "ms": 15.4 } },
-          "detail": { "key": "adguard.upstream" }
+          "value": { "key": "resolver.answers", "args": { "n": 479439, "ms": 15.4 } },
+          "detail": { "key": "resolver.upstream" }
         },
+        { "title": { "key": "adguard.processing" }, "value": { "key": "adguard.ms", "args": { "n": 2.3 } } },
         { "title": { "key": "adguard.version" }, "value": { "name": "v0.107.78" } }
       ]
     },
     {
       "area": "network",
       "source": "IoT DNS",
-      "title": { "key": "section.top_clients" },
+      "title": { "key": "resolver.top_clients" },
       "rows": [
         {
           "title": { "name": "thermostat.iot" },
-          "value": { "key": "top.share", "args": { "n": 248592, "share": 18.0 } },
+          "value": { "key": "resolver.share", "args": { "n": 248592, "share": 18.0 } },
           "detail": { "name": "198.51.100.11" }
         },
         {
           "title": { "name": "doorbell.iot" },
-          "value": { "key": "top.share", "args": { "n": 207160, "share": 15.0 } },
+          "value": { "key": "resolver.share", "args": { "n": 207160, "share": 15.0 } },
           "detail": { "name": "198.51.100.12" }
         },
         {
           "title": { "name": "plug-kitchen.iot" },
-          "value": { "key": "top.share", "args": { "n": 124296, "share": 9.0 } },
+          "value": { "key": "resolver.share", "args": { "n": 124296, "share": 9.0 } },
           "detail": { "name": "198.51.100.21" }
         },
         {
           "title": { "name": "plug-desk.iot" },
-          "value": { "key": "top.share", "args": { "n": 110485, "share": 8.0 } },
+          "value": { "key": "resolver.share", "args": { "n": 110485, "share": 8.0 } },
           "detail": { "name": "198.51.100.22" }
         },
         {
           "title": { "name": "tv-bedroom.iot" },
-          "value": { "key": "top.share", "args": { "n": 96675, "share": 7.0 } },
+          "value": { "key": "resolver.share", "args": { "n": 96675, "share": 7.0 } },
           "detail": { "name": "198.51.100.30" }
         },
         {
           "title": { "name": "vacuum.iot" },
-          "value": { "key": "top.share", "args": { "n": 82864, "share": 6.0 } },
+          "value": { "key": "resolver.share", "args": { "n": 82864, "share": 6.0 } },
           "detail": { "name": "198.51.100.40" }
         },
         {
           "title": { "name": "speaker-hall.iot" },
-          "value": { "key": "top.share", "args": { "n": 69053, "share": 5.0 } },
+          "value": { "key": "resolver.share", "args": { "n": 69053, "share": 5.0 } },
           "detail": { "name": "198.51.100.51" }
         },
         {
           "title": { "name": "speaker-kitchen.iot" },
-          "value": { "key": "top.share", "args": { "n": 69053, "share": 5.0 } },
+          "value": { "key": "resolver.share", "args": { "n": 69053, "share": 5.0 } },
           "detail": { "name": "198.51.100.52" }
         },
         {
           "title": { "name": "camera-garden.iot" },
-          "value": { "key": "top.share", "args": { "n": 55242, "share": 4.0 } },
+          "value": { "key": "resolver.share", "args": { "n": 55242, "share": 4.0 } },
           "detail": { "name": "198.51.100.61" }
         },
         {
           "title": { "name": "camera-drive.iot" },
-          "value": { "key": "top.share", "args": { "n": 55242, "share": 4.0 } },
+          "value": { "key": "resolver.share", "args": { "n": 55242, "share": 4.0 } },
           "detail": { "name": "198.51.100.62" }
         }
       ]
@@ -6357,30 +6360,30 @@
     {
       "area": "network",
       "source": "IoT DNS",
-      "title": { "key": "section.top_domains" },
+      "title": { "key": "resolver.top_domains" },
       "rows": [
         {
           "title": { "name": "telemetry.example.org" },
-          "value": { "key": "top.share", "args": { "n": 290025, "share": 21.0 } }
+          "value": { "key": "resolver.share", "args": { "n": 290025, "share": 21.0 } }
         },
         {
           "title": { "name": "time.example.com" },
-          "value": { "key": "top.share", "args": { "n": 165728, "share": 12.0 } }
+          "value": { "key": "resolver.share", "args": { "n": 165728, "share": 12.0 } }
         },
         {
           "title": { "name": "cloud.example.net" },
-          "value": { "key": "top.share", "args": { "n": 124296, "share": 9.0 } }
+          "value": { "key": "resolver.share", "args": { "n": 124296, "share": 9.0 } }
         },
         {
           "title": { "name": "firmware.example.com" },
-          "value": { "key": "top.share", "args": { "n": 55242, "share": 4.0 } }
+          "value": { "key": "resolver.share", "args": { "n": 55242, "share": 4.0 } }
         }
       ]
     },
     {
       "area": "network",
       "source": "IoT DNS",
-      "title": { "key": "section.top_blocked" },
+      "title": { "key": "resolver.top_blocked" },
       "rows": [
         { "title": { "name": "telemetry.example.org" }, "value": { "key": "number", "args": { "n": 282771 } } },
         { "title": { "name": "metrics.example.com" }, "value": { "key": "number", "args": { "n": 99801 } } },
@@ -6392,10 +6395,10 @@
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "chart.lookups_per_hour" },
+      "title": { "key": "resolver.lookups_per_hour" },
       "series": [
         {
-          "label": { "key": "chart.lookups" },
+          "label": { "key": "resolver.lookups" },
           "hours": [
             6739, 5849, 5824, 5406, 6633, 6686, 7153, 8384, 9182, 9571, 8081, 5918, 4263, 4511, 3359, 3090, 2763, 2299,
             2656, 3274, 6214, 7875, 6999, 6391, 5933, 5868, 6205, 6228, 6491, 6318, 7745, 8169, 10168, 8413, 6725, 6100,
@@ -6410,7 +6413,7 @@
           ]
         },
         {
-          "label": { "key": "chart.blocked" },
+          "label": { "key": "resolver.blocked" },
           "hours": [
             1617, 1814, 1637, 1245, 1771, 2010, 2012, 1924, 2260, 2220, 2448, 1833, 1304, 1364, 963, 864, 846, 550, 775,
             904, 1642, 2037, 1833, 1617, 1373, 1381, 1628, 1871, 1494, 1799, 1972, 1942, 2913, 2582, 2029, 1608, 1169,
@@ -6429,17 +6432,17 @@
     {
       "area": "network",
       "source": "Secondary DNS",
-      "title": { "key": "chart.lookups_per_hour" },
+      "title": { "key": "resolver.lookups_per_hour" },
       "series": [
         {
-          "label": { "key": "chart.lookups" },
+          "label": { "key": "resolver.lookups" },
           "hours": [
             1554, 1776, 1696, 1450, 1572, 2185, 2261, 2313, 2817, 2677, 2216, 1603, 1265, 1057, 911, 846, 668, 656, 811,
             1122, 1639, 2235, 1957, 1866
           ]
         },
         {
-          "label": { "key": "chart.blocked" },
+          "label": { "key": "resolver.blocked" },
           "hours": [
             355, 451, 354, 303, 386, 577, 585, 606, 667, 565, 544, 388, 280, 239, 192, 195, 173, 166, 169, 297, 361,
             524, 534, 411
@@ -7750,9 +7753,9 @@
       "area": "apps",
       "source": "Jellyfin",
       "icon": "play",
-      "label": { "key": "figure.plays" },
+      "label": { "key": "mediaserver.plays" },
       "value": 6,
-      "detail": { "key": "figure.playing_now", "args": { "n": 5 } },
+      "detail": { "key": "mediaserver.playing_now", "args": { "n": 5 } },
       "tone": "orange",
       "hours": [1, 0, 1, 2, 1, 2, 4, 6, 9, 7, 11, 14, 12, 9, 6, 3, 1, 0, 0, 0, 0, 1, 2, 3],
       "adds": true
@@ -7761,9 +7764,9 @@
       "area": "apps",
       "source": "Plex",
       "icon": "play",
-      "label": { "key": "figure.plays" },
+      "label": { "key": "mediaserver.plays" },
       "value": 5,
-      "detail": { "key": "figure.playing_now", "args": { "n": 4 } },
+      "detail": { "key": "mediaserver.playing_now", "args": { "n": 4 } },
       "hours": [2, 1, 0, 0, 1, 3, 5, 7, 10, 8, 9, 12, 11, 8, 4, 2, 1, 0, 0, 0, 1, 1, 2, 3],
       "adds": true
     },
@@ -7798,16 +7801,16 @@
       "area": "network",
       "source": "Primary DNS",
       "icon": "shield",
-      "label": { "key": "figure.lookups" },
+      "label": { "key": "resolver.dns_lookups" },
       "value": 45074,
-      "detail": { "key": "figure.lookups_blocked", "args": { "blocked": 12259 } },
+      "detail": { "key": "resolver.lookups_blocked", "args": { "blocked": 12259 } },
       "hours": [
         6796, 6693, 5773, 5868, 6888, 7271, 7984, 9159, 10015, 8939, 6852, 6137, 4123, 3901, 3491, 3073, 2269, 2161,
         2313, 3303, 5373, 6692, 5915, 6583
       ],
       "adds": true,
       "within": {
-        "label": { "key": "chart.blocked" },
+        "label": { "key": "resolver.blocked" },
         "hours": [
           1990, 1879, 1458, 1798, 2136, 1786, 1842, 2314, 2724, 2670, 2027, 1853, 1036, 959, 967, 887, 616, 558, 536,
           889, 1667, 1699, 1533, 1948
@@ -7818,16 +7821,16 @@
       "area": "network",
       "source": "Secondary DNS",
       "icon": "shield",
-      "label": { "key": "figure.lookups" },
+      "label": { "key": "resolver.dns_lookups" },
       "value": 13768,
-      "detail": { "key": "figure.lookups_blocked", "args": { "blocked": 3261 } },
+      "detail": { "key": "resolver.lookups_blocked", "args": { "blocked": 3261 } },
       "hours": [
         1554, 1776, 1696, 1450, 1572, 2185, 2261, 2313, 2817, 2677, 2216, 1603, 1265, 1057, 911, 846, 668, 656, 811,
         1122, 1639, 2235, 1957, 1866
       ],
       "adds": true,
       "within": {
-        "label": { "key": "chart.blocked" },
+        "label": { "key": "resolver.blocked" },
         "hours": [
           355, 451, 354, 303, 386, 577, 585, 606, 667, 565, 544, 388, 280, 239, 192, 195, 173, 166, 169, 297, 361, 524,
           534, 411

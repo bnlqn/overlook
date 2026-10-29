@@ -1,7 +1,6 @@
-// Package adguard reads AdGuard Home, a DNS resolver: today's lookups and
-// blocks, whether it is filtering, and its statistics, with its clients'
-// names. Two resolvers are two sources, each with its own sections, and the
-// page adds their figures up, a Pi-hole's too (snapshot.LookupsFigure).
+// Package adguard reads AdGuard Home, a resolver: its lookups and blocks,
+// whether it is filtering, and its statistics, with its clients' names, as
+// any resolver's (snapshot.Resolver).
 package adguard
 
 import (
@@ -20,9 +19,6 @@ import (
 
 // Area is the adapter's home area.
 const Area = "network"
-
-// top is the rows each top list shows.
-const top = 10
 
 // Config is one AdGuard Home, under sources.adguard in overlook.yaml.
 type Config struct {
@@ -106,129 +102,58 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 			return snapshot.Parts{}, err
 		}
 	}
-	return snapshot.Parts{Figures: today(s, now), Sections: sections(s, st, cl), Charts: hourly(s)}, nil
+	return resolver(s, st, cl, now).Parts(Area, now), nil
 }
 
-// today is the lookups since midnight where Overlook runs, with the blocked
-// ones, and the last 24 hours of both. Statistics kept by the day have no
-// today: AdGuard's days are UTC's.
-func today(s stats, now time.Time) []snapshot.Figure {
-	if s.TimeUnits != "hours" || len(s.ByUnit) < 24 || len(s.BlockedBy) < 24 {
-		return nil
-	}
-	// The hours since midnight, this one included: 23 or 25 on the days the
-	// clocks change.
-	midnight := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
-	since := int(now.Sub(midnight)/time.Hour) + 1
-	return []snapshot.Figure{{
-		Area: Area, Icon: "shield", Label: snapshot.LookupsFigure, Adds: true,
-		Value: float64(sum(s.ByUnit, since)), Hours: floats(s.ByUnit[len(s.ByUnit)-24:]),
-		Within: &snapshot.Series{Label: snapshot.Blocked, Hours: floats(s.BlockedBy[len(s.BlockedBy)-24:])},
-		Detail: snapshot.Msg(snapshot.LookupsBlocked, map[string]any{"blocked": sum(s.BlockedBy, since)}),
-	}}
-}
-
-// floats are counts as the page's numbers.
-func floats(counts []int) []float64 {
-	out := make([]float64, len(counts))
-	for i, n := range counts {
-		out[i] = float64(n)
-	}
-	return out
-}
-
-// sum adds up the last n counts.
-func sum(counts []int, n int) int {
-	total := 0
-	for _, v := range counts[max(0, len(counts)-n):] {
-		total += v
-	}
-	return total
-}
-
-// hourly is the lookups and the blocked ones by the hour, over as many hours
-// as the statistics keep, when they keep them by the hour: one chart that
-// adds up every resolver's.
-func hourly(s stats) []snapshot.Chart {
-	if s.TimeUnits != "hours" || len(s.ByUnit) < 2 || len(s.BlockedBy) != len(s.ByUnit) {
-		return nil
-	}
-	return []snapshot.Chart{{
-		Area: Area, Title: snapshot.LookupsChart, Adds: true,
-		Series: []snapshot.Series{
-			{Label: snapshot.Lookups, Hours: floats(s.ByUnit)},
-			{Label: snapshot.Blocked, Hours: floats(s.BlockedBy)},
-		},
-	}}
-}
-
-// sections are the resolver itself, then its top clients, domains and
-// blocked domains, over the interval its statistics keep.
-func sections(s stats, st status, cl clients) []snapshot.Section {
+// resolver is what AdGuard Home's statistics, status and clients say, as at
+// now, over the interval its statistics keep.
+func resolver(s stats, st status, cl clients, now time.Time) snapshot.Resolver {
 	unit := time.Hour
 	if s.TimeUnits == "days" {
 		unit = 24 * time.Hour
 	}
-	interval := time.Duration(len(s.ByUnit)) * unit
-
-	protection := snapshot.Row{Title: snapshot.Text{Key: "adguard.protection"}, Value: snapshot.Msg("adguard.filtering", nil), Tone: "green"}
-	switch {
-	case st.Filtering:
-	case st.PausedFor > 0:
-		protection.Value, protection.Tone = snapshot.Msg("adguard.paused", nil), "orange"
-		protection.Detail = snapshot.Msg("adguard.back_in", map[string]any{"ms": st.PausedFor})
-	default:
-		protection.Value, protection.Tone = snapshot.Msg("adguard.off", nil), "red"
+	r := snapshot.Resolver{
+		Total: s.Lookups, Blocked: s.Blocked, Over: time.Duration(len(s.ByUnit)) * unit,
+		Blocking: st.Filtering, BackIn: time.Duration(st.PausedFor) * time.Millisecond,
 	}
-	resolver := []snapshot.Row{
-		protection,
-		{
-			Title: snapshot.Text{Key: "adguard.lookups"}, Value: snapshot.Number(s.Lookups),
-			Detail: snapshot.Msg("adguard.over", map[string]any{"ms": interval.Milliseconds()}),
-		},
-		{
-			Title: snapshot.Text{Key: "adguard.blocked"}, Value: snapshot.Percent(snapshot.PercentOf(s.Blocked, s.Lookups)),
-			Detail: snapshot.Msg("adguard.count", map[string]any{"n": s.Blocked}),
-		},
-		{Title: snapshot.Text{Key: "adguard.processing"}, Value: snapshot.Msg("adguard.ms", map[string]any{"n": ms(s.Processing)})},
+	// Its hours end with the current one, so each is timed back from now.
+	// Statistics kept by the day have none: AdGuard's days are UTC's.
+	//
+	// ponytail: AdGuard's hours are UTC's, so in a half-hour zone each one
+	// counted is half in the hour before the one it is put in. AdGuard
+	// can't be asked for others; split each in two if it matters there.
+	if s.TimeUnits == "hours" && len(s.BlockedBy) == len(s.ByUnit) {
+		for i, n := range s.ByUnit {
+			ago := time.Duration(len(s.ByUnit)-1-i) * time.Hour
+			r.Counts = append(r.Counts, snapshot.Count{At: now.Add(-ago), Lookups: n, Blocked: s.BlockedBy[i]})
+		}
 	}
-	// The upstreams say how the resolver resolves, so they sit with it.
 	times := map[string]float64{}
 	for _, t := range s.UpstreamTimes {
 		maps.Copy(times, t)
 	}
 	for _, e := range entries(s.Upstreams) {
-		resolver = append(resolver, snapshot.Row{
-			Title: snapshot.Text{Name: e.name}, Detail: snapshot.Msg("adguard.upstream", nil),
-			Value: snapshot.Msg("adguard.answers", map[string]any{"n": e.n, "ms": ms(times[e.name])}),
-		})
+		r.Upstreams = append(r.Upstreams, snapshot.Upstream{Name: e.name, Answers: e.n, Average: time.Duration(times[e.name] * float64(time.Second))})
 	}
-	resolver = append(resolver, snapshot.Row{Title: snapshot.Text{Key: "adguard.version"}, Value: &snapshot.Text{Name: st.Version}})
-
 	names := clientNames(cl)
-	var who, what, blocked []snapshot.Row
 	for _, e := range entries(s.Clients) {
-		r := snapshot.Row{Title: snapshot.Text{Name: e.name}, Value: snapshot.TopShare(e.n, s.Lookups)}
+		t := snapshot.Top{Name: e.name, N: e.n}
 		if name, ok := names[e.name]; ok {
-			r.Title, r.Detail = snapshot.Text{Name: name}, &snapshot.Text{Name: e.name}
+			t.Name, t.Address = name, e.name
 		}
-		who = append(who, r)
+		r.Clients = append(r.Clients, t)
 	}
 	for _, e := range entries(s.Domains) {
-		what = append(what, snapshot.Row{Title: snapshot.Text{Name: e.name}, Value: snapshot.TopShare(e.n, s.Lookups)})
+		r.Domains = append(r.Domains, snapshot.Top{Name: e.name, N: e.n})
 	}
 	for _, e := range entries(s.BlockedTop) {
-		blocked = append(blocked, snapshot.Row{Title: snapshot.Text{Name: e.name}, Value: snapshot.Number(e.n)})
+		r.BlockedDomains = append(r.BlockedDomains, snapshot.Top{Name: e.name, N: e.n})
 	}
-
-	// The same titles as any resolver's, so the page names the resolver
-	// beside each title when there's another.
-	return []snapshot.Section{
-		{Area: Area, Title: snapshot.ResolverSection, Rows: resolver},
-		{Area: Area, Title: snapshot.TopClients, Rows: snapshot.OrNothing(who)},
-		{Area: Area, Title: snapshot.TopDomains, Rows: snapshot.OrNothing(what)},
-		{Area: Area, Title: snapshot.TopBlocked, Rows: snapshot.OrNothing(blocked)},
+	r.Rows = []snapshot.Row{
+		{Title: snapshot.Text{Key: "adguard.processing"}, Value: snapshot.Msg("adguard.ms", map[string]any{"n": ms(s.Processing)})},
+		{Title: snapshot.Text{Key: "adguard.version"}, Value: &snapshot.Text{Name: st.Version}},
 	}
+	return r
 }
 
 type entry struct {
@@ -236,10 +161,10 @@ type entry struct {
 	n    int
 }
 
-// entries are a top list's first ten.
+// entries are a top list's, each entry an object of one name.
 func entries(list []map[string]int) []entry {
 	var out []entry
-	for _, item := range list[:min(top, len(list))] {
+	for _, item := range list {
 		for name, n := range item {
 			out = append(out, entry{name, n})
 		}

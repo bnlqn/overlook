@@ -32,6 +32,14 @@ func TestProblems(t *testing.T) {
 		t.Errorf("want the area, the key, the hours, the tone, the meter's label, tone and total, the missing {n}, the missing time and the problem refused, got %d: %q", len(got), got)
 	}
 
+	adds := snapshot.Parts{Figures: []snapshot.Figure{{
+		Area: "servers", Label: snapshot.Text{Key: "pbs.backed_up", Args: map[string]any{"n": 4}}, Adds: true,
+		Detail: &snapshot.Text{Key: "pbs.backed_up", Args: map[string]any{"n": "four"}},
+	}}}
+	if got := Problems(adds, english); len(got) != 1 {
+		t.Errorf("want a figure that adds up with a {n} that isn't a count refused, got %d: %q", len(got), got)
+	}
+
 	name := snapshot.Text{Name: "x"}
 	charts := snapshot.Parts{
 		Figures: []snapshot.Figure{{

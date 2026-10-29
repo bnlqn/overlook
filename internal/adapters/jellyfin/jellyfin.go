@@ -1,6 +1,8 @@
-// Package jellyfin reads Jellyfin: what each person is playing, the films,
-// shows and music it holds, the room left on their disks, the plays and
-// failed logins of the last day, and the tasks whose last run failed.
+// Package jellyfin reads Jellyfin, a media server: what each person is
+// playing and the plays of the last day, as any media server's
+// (snapshot.MediaServer); and the films, shows and music it holds, the room
+// left on their disks, the failed logins of the last day, and the tasks
+// whose last run failed.
 package jellyfin
 
 import (
@@ -130,37 +132,23 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		}
 	}
 
-	// What each person plays now, by person: paused in grey, and how it
-	// reaches them, as it is or transcoded, which takes the processor.
-	slices.SortFunc(sessions, func(a, b session) int {
-		return cmp.Or(cmp.Compare(a.UserName, b.UserName), cmp.Compare(a.DeviceName, b.DeviceName))
-	})
-	var rows []snapshot.Row
-	playing := 0
+	var m snapshot.MediaServer
 	for _, s := range sessions {
 		if s.NowPlayingItem == nil {
 			continue
 		}
-		playing++
-		row := snapshot.Row{Title: snapshot.Text{Name: s.UserName}, Value: &snapshot.Text{Name: s.NowPlayingItem.Name}}
+		what := snapshot.Text{Name: s.NowPlayingItem.Name}
 		if s.NowPlayingItem.SeriesName != "" {
-			row.Value = snapshot.Msg("jellyfin.episode", map[string]any{"series": s.NowPlayingItem.SeriesName, "name": s.NowPlayingItem.Name})
+			what = snapshot.Text{Key: "jellyfin.episode", Args: map[string]any{"series": s.NowPlayingItem.SeriesName, "name": s.NowPlayingItem.Name}}
 		}
-		how := "jellyfin.direct"
-		switch {
-		case s.PlayState.IsPaused:
-			how, row.Tone = "jellyfin.paused", "gray"
-		case s.PlayState.PlayMethod == "Transcode":
-			how = "jellyfin.transcoding"
-		}
-		row.Detail = snapshot.Msg(how, map[string]any{"device": s.DeviceName})
-		rows = append(rows, row)
-	}
-	if playing == 0 {
-		rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "jellyfin.playing"}, Value: snapshot.Msg("jellyfin.nothing", nil)})
+		m.Playing = append(m.Playing, snapshot.Play{
+			Who: s.UserName, Device: s.DeviceName, What: what,
+			Paused: s.PlayState.IsPaused, Transcoding: s.PlayState.PlayMethod == "Transcode",
+		})
 	}
 
-	// What it holds, leaving out the kinds it has none of.
+	// What it holds, leaving out films, shows, music or books it has none
+	// of.
 	for _, k := range []struct {
 		key  string
 		has  int
@@ -172,7 +160,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		{"jellyfin.books", n.BookCount, map[string]any{"n": n.BookCount}},
 	} {
 		if k.has > 0 {
-			rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: k.key}, Value: snapshot.Msg(k.key+"_n", k.args)})
+			m.Rows = append(m.Rows, snapshot.Row{Title: snapshot.Text{Key: k.key}, Value: snapshot.Msg(k.key+"_n", k.args)})
 		}
 	}
 
@@ -185,7 +173,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 				continue
 			}
 			seen = append(seen, f.DeviceID)
-			rows = append(rows, snapshot.Row{
+			m.Rows = append(m.Rows, snapshot.Row{
 				Title: snapshot.Text{Name: f.DeviceID},
 				Value: snapshot.Msg("jellyfin.free", map[string]any{"n": f.FreeSpace}),
 				Meter: &snapshot.Meter{Used: float64(f.UsedSpace), Total: float64(f.FreeSpace + f.UsedSpace)},
@@ -193,34 +181,20 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		}
 	}
 
-	// The plays of the last day by the hour, and the failed logins, which
-	// Jellyfin words itself.
-	// By the hours of Overlook's time zone, which a half-hour offset sets
-	// apart from UTC's.
-	hour := func(t time.Time) time.Time {
-		t = t.In(now.Location())
-		return time.Date(t.Year(), t.Month(), t.Day(), t.Hour(), 0, 0, 0, t.Location())
-	}
-	this := hour(now)
-	midnight := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
-	hours, today := make([]float64, 24), 0
+	// The plays of the last day, and the failed logins, which Jellyfin
+	// words itself.
 	var failed []entry
 	for _, e := range log.Items {
 		switch e.Type {
 		case "VideoPlayback", "AudioPlayback":
-			if ago := int(this.Sub(hour(e.Date)) / time.Hour); ago >= 0 && ago < 24 {
-				hours[23-ago]++
-			}
-			if !e.Date.Before(midnight) {
-				today++
-			}
+			m.Plays = append(m.Plays, e.Date)
 		case "AuthenticationFailed":
 			failed = append(failed, e)
 		}
 	}
 	if len(failed) > 0 {
 		newest := slices.MaxFunc(failed, func(a, b entry) int { return a.Date.Compare(b.Date) })
-		rows = append(rows, snapshot.Row{
+		m.Rows = append(m.Rows, snapshot.Row{
 			Title: snapshot.Text{Key: "jellyfin.failed_logins"}, Tone: "orange",
 			Value:  snapshot.Msg("jellyfin.failed_logins_n", map[string]any{"n": len(failed)}),
 			Detail: &snapshot.Text{Name: newest.Name},
@@ -229,19 +203,17 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 
 	// The tasks whose last run failed, such as a scan of a library, as
 	// Jellyfin words why.
-	broken := false
 	for _, t := range tasks {
 		r := t.LastExecutionResult
 		if r == nil || r.Status != "Failed" {
 			continue
 		}
-		broken = true
 		row := snapshot.Row{Title: snapshot.Text{Name: t.Name}, Value: snapshot.Msg("jellyfin.task_failed", nil), Tone: "red"}
 		row.Detail = snapshot.Msg("jellyfin.task_failed_at", map[string]any{"at": r.EndTimeUtc})
 		if r.ErrorMessage != "" {
 			row.Detail = &snapshot.Text{Name: r.ErrorMessage}
 		}
-		rows = append(rows, row)
+		m.Rows = append(m.Rows, row)
 	}
 
 	version := snapshot.Row{Title: snapshot.Text{Key: "jellyfin.version"}, Value: &snapshot.Text{Name: sys.Version}}
@@ -249,19 +221,6 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		version.Value, version.Tone = snapshot.Msg("jellyfin.restart", nil), "orange"
 		version.Detail = &snapshot.Text{Name: sys.Version}
 	}
-	rows = append(rows, version)
-
-	// Today: the plays since midnight, which add up with any other media
-	// server's, and what plays now.
-	f := snapshot.Figure{
-		Area: Area, Icon: "play", Label: snapshot.PlaysFigure, Value: float64(today), Hours: hours, Adds: true,
-		Detail: snapshot.Msg(snapshot.PlayingNow, map[string]any{"n": playing}),
-	}
-	if broken {
-		f.Tone = "orange"
-	}
-	return snapshot.Parts{
-		Sections: []snapshot.Section{{Area: Area, Title: snapshot.MediaSection, Rows: rows}},
-		Figures:  []snapshot.Figure{f},
-	}, nil
+	m.Rows = append(m.Rows, version)
+	return m.Parts(Area, now), nil
 }
