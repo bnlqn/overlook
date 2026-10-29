@@ -32,7 +32,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	p, err := read(context.Background(), c, time.Date(2026, 10, 29, 11, 20, 0, 0, london))
+	p, err := Read(context.Background(), c, time.Date(2026, 10, 29, 11, 20, 0, 0, london))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -121,7 +121,7 @@ func TestLogin(t *testing.T) {
 		t.Fatal(err)
 	}
 	for range 2 {
-		if _, err := Read(context.Background(), c); err != nil {
+		if _, err := Read(context.Background(), c, time.Date(2026, 10, 29, 11, 20, 0, 0, time.UTC)); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -133,7 +133,7 @@ func TestLogin(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := Read(context.Background(), c); err == nil || !strings.Contains(err.Error(), "login: HTTP 401") {
+	if _, err := Read(context.Background(), c, time.Date(2026, 10, 29, 11, 20, 0, 0, time.UTC)); err == nil || !strings.Contains(err.Error(), "login: HTTP 401") {
 		t.Errorf("a password refused: %v", err)
 	}
 }

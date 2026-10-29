@@ -11,6 +11,7 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
@@ -51,7 +52,7 @@ func (c *Config) Check() error {
 }
 
 // Read reads the UPS at c.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 	v, err := fetch.NUTVars(ctx, c.Host, c.UPS)
 	if err != nil {
 		return snapshot.Parts{}, err

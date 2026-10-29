@@ -98,7 +98,7 @@ type task struct {
 }
 
 // Read reads the Paperless-ngx at c, which Check has filled.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 	var st status
 	var stats struct {
 		Total int  `json:"documents_total"`

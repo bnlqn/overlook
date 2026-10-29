@@ -23,7 +23,7 @@ func TestRead(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	p, err := read(context.Background(), c, time.UnixMilli(1793276062000))
+	p, err := Read(context.Background(), c, time.UnixMilli(1793276062000))
 	if err != nil {
 		t.Fatal(err)
 	}

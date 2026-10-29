@@ -90,11 +90,7 @@ func (c Config) get(ctx context.Context, path string, v any) error {
 }
 
 // Read reads every alert rule Grafana manages, at c.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
-	return read(ctx, c, time.Now())
-}
-
-func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	var rules struct {
 		Data struct {
 			Groups []struct {

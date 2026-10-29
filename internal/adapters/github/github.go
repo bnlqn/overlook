@@ -85,8 +85,8 @@ type pull struct {
 // Read gives back the updates waiting in every repository of c, newest
 // first, as its last read found them if that was under ten minutes ago,
 // error and all.
-func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
-	r, _ := c.last.Get(ctx, func(ctx context.Context) (result, error) {
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+	r, _ := c.last.Get(ctx, now, func(ctx context.Context) (result, error) {
 		parts, err := read(ctx, c)
 		return result{parts, err}, nil
 	})
