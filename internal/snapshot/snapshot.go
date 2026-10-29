@@ -6,7 +6,9 @@ package snapshot
 import (
 	"context"
 	"log/slog"
+	"runtime/debug"
 	"slices"
+	"strings"
 	"sync"
 	"time"
 )
@@ -19,6 +21,16 @@ const (
 	timeout = 10 * time.Second
 )
 
+// version is the Overlook reading, as the tag it was built at without its v,
+// such as 0.2.0, which Go records; none when Go records none, as with go run.
+var version = func() string {
+	info, ok := debug.ReadBuildInfo()
+	if !ok || info.Main.Version == "(devel)" {
+		return ""
+	}
+	return strings.TrimPrefix(info.Main.Version, "v")
+}()
+
 // Snapshot is every source's parts as read at one moment, and the config's
 // links. A source that didn't answer is marked so and gives no
 // parts.
@@ -28,6 +40,8 @@ type Snapshot struct {
 	Parts
 	Apps  []Link `json:"apps"`
 	Tools []Link `json:"tools"`
+	// Version is the Overlook that read it, which the page names at its foot.
+	Version string `json:"version,omitempty"`
 }
 
 // SourceState says whether a source answered the last read.
@@ -109,6 +123,7 @@ func (r *Reader) Snapshot() Snapshot {
 		Parts:   Parts{Checks: []Check{}, Sections: []Section{}, Charts: []Chart{}, Figures: []Figure{}, Events: []Event{}, Updates: []Update{}, Chores: []Chore{}},
 		Apps:    append([]Link{}, r.apps...),
 		Tools:   append([]Link{}, r.tools...),
+		Version: version,
 	}
 	for i, src := range r.sources {
 		state := SourceState{Name: src.Name, Adapter: src.Adapter, Area: src.Area, Kind: src.Kind, Answered: errs[i] == nil}

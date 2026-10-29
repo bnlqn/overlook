@@ -70,6 +70,7 @@ function shell() {
   const main = document.querySelector("main");
   main.before(panel);
   panel.append(main);
+  panel.insertAdjacentHTML("beforeend", `<footer class="foot" id="powered"></footer>`);
   document.addEventListener("click", (e) => {
     if (e.target.closest("[data-menu]")) document.body.classList.toggle("nav-open");
   });
@@ -102,6 +103,12 @@ function paintShell(m) {
   const n = m.problems.length;
   count.hidden = !n;
   count.textContent = number(n);
+  // The words say which of them is the link, Overlook's name; it goes to
+  // the repository.
+  const foot = document.getElementById("powered");
+  foot.innerHTML = t(m.version ? "powered.version" : "powered", { version: m.version });
+  const repo = foot.querySelector("a");
+  if (repo) Object.assign(repo, { href: "https://github.com/bnlqn/overlook", target: "_blank", rel: "noopener" });
 }
 
 // ⌘K (or /): go to a page, open an app or a tool, or a check in its check

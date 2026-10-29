@@ -7,6 +7,8 @@
   "refresh": "Refresh",
   "search": "Search",
   "search.label": "Search (⌘K)",
+  "powered": "Powered by <a>Overlook</a>",
+  "powered.version": "Powered by <a>Overlook</a> ({version})",
 
   "page.overview": "Overview",
   "area.servers": "Servers",
