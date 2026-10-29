@@ -176,7 +176,8 @@ function quietSince(checks) {
 
 /**
  * An area: whether it's shown, which it is with anything in it; its state,
- * down when every check in it is a problem, degraded with any, up with none;
+ * down when every check in it is a problem, degraded with any, up with none,
+ * and unknown with no checks, since nothing says whether it works;
  * its checks and problems; the middle response time of those answering; its
  * strip; its charts, those of several sources added up; its sections; and
  * the sources that didn't answer, its own and those of every area.
@@ -193,7 +194,7 @@ function areaOf(area, snap, checks) {
     shown: [snap.checks, snap.sections, snap.charts, snap.figures, snap.events].some((l) =>
       l.some((x) => x.area === area),
     ),
-    state: !problems.length ? "up" : problems.length === mine.length ? "down" : "degraded",
+    state: !mine.length ? "unknown" : !problems.length ? "up" : problems.length === mine.length ? "down" : "degraded",
     checks: mine,
     problems,
     ms: times.length ? times[times.length >> 1] : null,

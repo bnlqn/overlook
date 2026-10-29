@@ -238,6 +238,19 @@ test("with no check and a source silent, the homelab is down and says why", () =
   assert.deepEqual(m.homelab.summary, [[{ key: "source.no_answer_why", args: { error: "connection refused" } }]]);
 });
 
+test("an area with no checks is unknown, not up: nothing says whether it works", () => {
+  const m = page(
+    snap([check("web", "servers", 0, false)], {
+      sections: [{ area: "storage", title: { key: "x" }, rows: [] }],
+    }),
+    NOW,
+  );
+  const storage = area(m, "storage");
+  assert.deepEqual([storage.shown, storage.state], [true, "unknown"]);
+  assert.equal(m.homelab.state, "up", "and it says nothing of the homelab");
+  assert.deepEqual(m.homelab.summary.at(-1)[1], { key: "status.areas", args: { n: 1 } }, "nor counts as checked");
+});
+
 test("an area with nothing in it isn't shown", () => {
   const m = page(
     snap([check("a", "servers", 0, false), check("b", "", 0, false)], {
