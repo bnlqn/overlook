@@ -3,6 +3,7 @@
 // the chores. It writes what page() says (page.js) and decides nothing.
 
 import {
+  also,
   badge,
   bars,
   by,
@@ -15,7 +16,6 @@ import {
   more,
   RED,
   seriesColours,
-  shareColour,
   shares,
   sparkline,
   stateIcon,
@@ -103,17 +103,8 @@ function renderProblems(problems, now) {
 
 // ── Today: each figure, opening its area's page ──────────────────────────
 
-// A figure that shares a tile, after the first: its number and unit.
-const also = (f) => `${number(f.value)}${f.unit ? ` ${say(f.unit)}` : ""}${by(f)}`;
-
 // A figure's hours as series: its own, then the part within them, if any.
 const seriesOf = (f) => [{ label: f.label, hours: f.hours }, ...(f.within ? [f.within] : [])];
-
-// A wide tile names each figure under its bar, in its part's colour.
-const legendOf = (f, start) =>
-  `<span class="parts">${[f, ...f.also]
-    .map((g, slot) => `<span><i style="--c:${shareColour({ slot }, slot, start)}"></i>${also(g)}</span>`)
-    .join("")}</span>`;
 
 function renderToday({ tiles, columns }, now) {
   $("today-block").hidden = !tiles.length;
@@ -142,7 +133,7 @@ function renderToday({ tiles, columns }, now) {
       <span class="label">${svg(f.icon)}${say(f.label)}</span>
       <span class="figure">${num(`${f.area}.${i}`, f.value)}${f.unit ? `<small> ${say(f.unit)}</small>` : ""}</span>
       <span class="sub">${sub}</span>
-      <span class="viz">${sparkline(hours, HOURS, tips)}${f.shares?.length ? shares(f, f.start) : ""}${f.wide ? legendOf(f, f.start) : ""}${(f.meters || []).map(figureMeter).join("")}</span></a>`;
+      <span class="viz">${sparkline(hours, HOURS, tips)}${f.shares?.length || f.wide ? shares(f, f.start) : ""}${(f.meters || []).map(figureMeter).join("")}</span></a>`;
     })
     .join("");
 }
@@ -158,10 +149,11 @@ function renderHours(tiles, now) {
   $("hours").innerHTML = mine
     .map((f, i) => {
       const series = seriesOf(f);
+      const colours = seriesColours(series.length);
       return `<div class="card chart" style="--i:${i}">
-      <div class="chart-head"><span class="label">${svg(f.icon)}${say(f.label)}${by(f)}</span>${legend(series, seriesColours(series.length))}</div>
+      <div class="chart-head"><span class="label">${svg(f.icon)}${say(f.label)}${by(f)}</span>${legend(series, colours)}</div>
       <div class="chart-top"><span class="figure">${num(`hours.${f.area}.${i}`, f.value)}</span><span class="detail">${f.detail ? say(f.detail) : ""}</span></div>
-      ${bars(series, now)}</div>`;
+      ${bars(series, colours, now)}</div>`;
     })
     .join("");
 }

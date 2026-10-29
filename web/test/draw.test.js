@@ -5,12 +5,14 @@ import {
   badge,
   bars,
   busiest,
+  chart,
   checkRows,
   figureMeter,
   fold,
   lineColours,
   lines,
   section,
+  seriesColours,
   shares,
   strip,
   tip,
@@ -127,7 +129,7 @@ const now = new Date(2026, 9, 28, 14, 30);
 const axis = (html) => html.match(/class="axis">(.*?)<\/div>/s)[1].match(/<span/g)?.length ?? 0;
 
 test("a day as bars: each hour's whole with its part inside, every sixth hour named", () => {
-  const html = bars([lookups(24, 24), blocked(24)], now);
+  const html = bars([lookups(24, 24), blocked(24)], seriesColours(2), now);
   assert.equal(html.match(/class="hour"/g).length, 24);
   assert.equal(
     html.match(/<i style="height:[\d.]+%;--c:var\(--m-orange\)">/g).length,
@@ -138,7 +140,7 @@ test("a day as bars: each hour's whole with its part inside, every sixth hour na
   assert.match(html, /class="scale" style="bottom:100.00%">25</, "the scale rounds up the busiest hour");
   assert.doesNotMatch(html, /<b>Blocked/, "a label is escaped in its tooltip");
   assert.match(html, /class="whole" style="height:[\d.]+%;--c:var\(--m-accent-2\)"/, "the whole in the accent");
-  assert.equal(bars([lookups(1)], now), "");
+  assert.equal(bars([lookups(1)], seriesColours(1), now), "");
 });
 
 test("a week as areas: the days named and shaded, each source in the tooltip when several add up", () => {
@@ -146,14 +148,14 @@ test("a week as areas: the days named and shaded, each source in the tooltip whe
     { name: "Primary", hours: Array(168).fill(3) },
     { name: "<i>Standby</i>", hours: Array(168).fill(2) },
   ];
-  const html = areas([lookups(168), blocked(168)], sources, now);
+  const html = areas([lookups(168), blocked(168)], seriesColours(2), sources, now);
   assert.match(html, /class="hour-chart areas long"/);
   assert.equal(axis(html), 7, "a day each, its first part too short to name");
   assert.ok(html.match(/class="band"/g).length >= 3, "every other day shaded");
   assert.equal(html.match(/class="stroke"/g).length, 2, "a line for the whole and one for its part");
   assert.match(html, /Primary/);
   assert.doesNotMatch(html, /<i>Standby/, "a source's name is escaped");
-  const alone = areas([lookups(24)], [sources[0]], now);
+  const alone = areas([lookups(24)], seriesColours(1), [sources[0]], now);
   assert.doesNotMatch(alone, /Primary/, "one source needs no naming");
   assert.equal(axis(alone), 4, "a day names its hours instead");
 });
@@ -229,7 +231,8 @@ test("a tile's shares may start further on in the colours, and go round", () => 
 
 test("levels are lines from 0 to 100%, past eight the highest coloured and the rest grey", () => {
   const line = (name, v) => ({ label: { name }, hours: [v, v, v] });
-  const html = lines([line("alder", 18), line("<b>birch</b>", 27)], new Date(2026, 9, 28, 12));
+  const two = [line("alder", 18), line("<b>birch</b>", 27)];
+  const html = lines(two, lineColours(two), new Date(2026, 9, 28, 12));
   assert.match(html, /class="stroke" d="M0\.5,82\.00L1\.5,82\.00L2\.5,82\.00" style="stroke:var\(--m-series-1\)"/);
   assert.match(html, /style="stroke:var\(--m-series-2\)"/);
   assert.doesNotMatch(html, /<b>birch/, "names are escaped");
@@ -239,4 +242,61 @@ test("levels are lines from 0 to 100%, past eight the highest coloured and the r
   assert.equal(colours.filter((c) => c === "var(--m-label-3)").length, 3, "three give way");
   assert.equal(colours[9], "var(--m-series-7)", "the highest keeps a colour, the seventh of them");
   assert.equal(colours[0], "var(--m-label-3)", "the lowest is grey");
+});
+
+test("a chart's legend is in the colours it's drawn in, over the hours picked", () => {
+  const cpu = {
+    title: { name: "Processor" },
+    measures: true,
+    sources: [{ name: "Cluster" }],
+    lacking: [],
+    series: Array.from({ length: 10 }, (_, k) => ({ label: { name: `h${k}` }, hours: Array(48).fill(k) })),
+  };
+  const html = chart(cpu, 24, now);
+  const strokes = [...html.matchAll(/class="stroke[^"]*" d="[^"]*" style="stroke:([^"]+)"/g)].map((m) => m[1]);
+  const legend = [...html.matchAll(/<span><i style="--c:([^"]+)"><\/i>/g)].map((m) => m[1]);
+  assert.equal(legend.length, 10);
+  assert.deepEqual(legend.toSorted(), strokes.toSorted(), "each line's colour is its name's, the grey ones too");
+  assert.match(html, /d="M0\.5,[\d.]+L1\.5,[\d.]+(L[\d.]+,[\d.]+){22}"/, "the last day of two");
+  assert.match(html, /data-hours="24" aria-pressed="true"/);
+  const lookups = {
+    title: { name: "Lookups" },
+    adds: true,
+    sources: [{ name: "Primary", hours: Array(24).fill(1) }],
+    lacking: ["<i>IoT</i>"],
+    series: [{ label: { name: "Lookups" }, hours: Array(24).fill(1) }],
+  };
+  const added = chart(lookups, Number.POSITIVE_INFINITY, now);
+  assert.match(added, /figure\.of_sources/, "it says it's from some of its sources");
+  assert.doesNotMatch(added, /<i>IoT/, "and names the others, escaped");
+  assert.doesNotMatch(added, /class="pills"/, "a day has no other range");
+});
+
+test("a wide tile names each figure under its bar, in its part's colour", () => {
+  const html = shares(
+    {
+      label: { name: "Library" },
+      wide: true,
+      value: 412,
+      unit: { name: "films" },
+      also: [
+        { value: 38, unit: { name: "shows" } },
+        { value: 7, unit: { name: "albums" } },
+      ],
+      shares: [
+        { label: { name: "Films" }, value: 2, tone: "orange", slot: 0 },
+        { label: { name: "Shows" }, value: 1, slot: 1 },
+      ],
+    },
+    2,
+  );
+  assert.deepEqual(
+    [...html.matchAll(/<span><i style="--c:([^"]+)"><\/i>([^<]*)/g)].map((m) => [m[1], m[2]]),
+    [
+      ["var(--m-orange)", "412 films"],
+      ["var(--m-series-4)", "38 shows"],
+      ["var(--m-gray)", "7 albums"],
+    ],
+    "a part's tone, its slot's colour from where the tile starts, or grey with no part",
+  );
 });

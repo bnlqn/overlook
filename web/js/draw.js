@@ -4,7 +4,7 @@
 // here or by t().
 
 import { RECENT } from "./page.js";
-import { clock, compact, day, esc, ms, number, say, t, weekday } from "./text.js";
+import { clock, compact, day, esc, list, ms, number, say, t, weekday } from "./text.js";
 
 // 16 px strokes for the pages, figures and events; apps and tools show their
 // own logos.
@@ -285,14 +285,14 @@ export const legend = (series, colours) =>
 const gridOf = (max, steps) => Array.from({ length: steps + 1 }, (_, k) => (max * k) / steps);
 
 /**
- * The last day by the hour as bars, oldest first, ending with this hour: the
- * whole of each, and each part within it from its foot. Each bar brings its
- * tooltip. Every sixth hour under them, and the scale beside.
+ * The last day by the hour as bars, oldest first, ending with this hour, in
+ * the colours its legend has: the whole of each, and each part within it
+ * from its foot. Each bar brings its tooltip. Every sixth hour under them,
+ * and the scale beside.
  */
-export function bars(series, now) {
+export function bars(series, colours, now) {
   const n = series[0].hours.length;
   if (n < 2) return "";
-  const colours = seriesColours(series.length);
   const max = niceMax(Math.max(...series[0].hours));
   const pct = (v) => `${((100 * v) / max).toFixed(2)}%`;
   const cols = series[0].hours.map((v, i) => {
@@ -313,18 +313,18 @@ export function bars(series, now) {
 
 let charts = 0;
 /**
- * Many hours as areas, oldest first, ending with this hour: the whole, and
- * each part within it from the foot, each with its line. Each hour is a
+ * Many hours as areas, oldest first, ending with this hour, in the colours
+ * its legend has: the whole, and each part within it from the foot, each
+ * with its line. Each hour is a
  * column that lights up under the pointer and brings its tooltip, with each
  * source's own whole when several add up. Over more than two days, the days
  * alternate in shade and are named under their middle; over fewer, every
  * sixth hour is. The scale is beside.
  */
-export function areas(series, sources, now) {
+export function areas(series, colours, sources, now) {
   const n = series[0].hours.length;
   if (n < 2) return "";
   const id = `ch${++charts}`;
-  const colours = seriesColours(series.length);
   const { long, at, bands, marks } = hourAxis(n, now);
   const max = niceMax(Math.max(...series[0].hours));
   const y = (v) => (100 - (100 * v) / max).toFixed(2);
@@ -420,13 +420,12 @@ export function lineColours(series) {
 
 /**
  * Levels by the hour as lines from 0 to 100%, oldest first, ending with this
- * hour, such as each host's processor. Each hour is a column that lights up
+ * hour, in the colours its legend has, such as each host's processor. Each hour is a column that lights up
  * under the pointer, its tooltip every line at that hour, highest first.
  */
-export function lines(series, now) {
+export function lines(series, colours, now) {
   const n = series[0].hours.length;
   if (n < 2) return "";
-  const colours = lineColours(series);
   const { long, at, bands, marks } = hourAxis(n, now);
   const path = (h) => h.map((v, i) => `${i ? "L" : "M"}${i + 0.5},${(100 - v).toFixed(2)}`).join("");
   // The grey ones first, so the coloured ones are drawn over them.
@@ -457,6 +456,62 @@ export function lines(series, now) {
 }
 
 /**
+ * A chart in a card, over its last range hours or all it has: its title, the
+ * range's sums and busiest hour, or for levels the highest, the switch
+ * between the last day and every hour when there are more, the chart, and
+ * its legend, in the colours it's drawn in.
+ */
+export function chart(c, range, now) {
+  const all = c.series[0].hours.length;
+  const n = Math.min(range, all);
+  const cut = (x) => ({ ...x, hours: x.hours.slice(all - n) });
+  const series = c.series.map(cut);
+  const colours = c.measures ? lineColours(series) : seriesColours(series.length);
+  const when = (i) => {
+    const at = hourStart(i, n, now);
+    return `<b>${n > 24 ? `${day(at)}, ` : ""}${clock(at)}</b>`;
+  };
+  const sum = (hours) => hours.reduce((a, v) => a + v, 0);
+  const whole = sum(series[0].hours);
+  // Levels say which was highest and when; counts, their sums and the
+  // busiest hour.
+  const [top, topAt, topOf] = series
+    .flatMap((s) => s.hours.map((v, i) => [v, i, s]))
+    .reduce((a, b) => (b[0] > a[0] ? b : a));
+  const sums = c.measures
+    ? [`${t("chart.highest")} <b>${say(topOf.label)} ${t("percent", { n: Math.round(top) })}</b>`, when(topAt)]
+    : [
+        `${say(series[0].label)} <b>${number(whole)}</b>`,
+        ...series
+          .slice(1)
+          .map(
+            (s) =>
+              `${say(s.label)} <b>${t("percent", { n: whole ? Math.round((1000 * sum(s.hours)) / whole) / 10 : 0 })}</b>`,
+          ),
+        `${t("chart.busiest")} ${when(series[0].hours.indexOf(Math.max(...series[0].hours)))}`,
+      ];
+  // Added up from some of an adapter's sources, it says so when another
+  // answered but gave none.
+  if (c.lacking.length) {
+    const of = t("figure.of_sources", { n: c.sources.length, total: c.sources.length + c.lacking.length });
+    sums.push(`<span data-tip="${tip(esc(list(c.lacking)), [], t("figure.gave_none"))}">${of}</span>`);
+  }
+  const pills =
+    all > 24
+      ? `<div class="pills">${[24, all]
+          .map(
+            (h) =>
+              `<button type="button" data-hours="${h === all ? "all" : h}" aria-pressed="${h === n}">${h === all ? t("chart.all", { ms: all * 3600e3 }) : t("chart.day")}</button>`,
+          )
+          .join("")}</div>`
+      : "";
+  return `<section class="card chart">
+    <div class="chart-head"><div><h2 class="card-title">${say(c.title)}${by(c)}</h2><div class="detail">${sums.join(" · ")}</div></div>${pills}</div>
+    ${c.measures ? lines(series, colours, now) : areas(series, colours, c.sources.map(cut), now)}
+    ${legend(series, colours)}</section>`;
+}
+
+/**
  * Shares past most folded into one, the smallest first, so that each one
  * kept has a colour of its own. Shares with a tone mean something one by
  * one, such as each guest backed up or not, and are never folded.
@@ -481,17 +536,33 @@ export function fold(shares, most = 8) {
 /**
  * A figure's shares as one bar, each as wide as its share of the whole, in
  * its colour, past eight the smallest folded into one. Its tooltip is its
- * label over its rows, or over its value and share.
+ * label over its rows, or over its value and share. A wide tile's figures
+ * are named under it.
  */
 export function shares(f, start = 0) {
-  const all = fold(f.shares);
+  const all = fold(f.shares || []);
+  const colours = all.map((s, i) => shareColour(s, i, start));
   const whole = all.reduce((sum, s) => sum + s.value, 0);
   const parts = all.map((s, i) => {
-    const c = shareColour(s, i, start);
+    const c = colours[i];
     const rows = s.rows?.length
       ? s.rows.map((r, k) => [k ? "" : c, say(r.title), r.value ? say(r.value) : ""])
       : [[c, number(s.value), t("percent", { n: Math.round((100 * s.value) / whole) })]];
     return `<i class="${s.tone ? `tone-${s.tone}` : ""}" style="flex:${s.value};--c:${c}" data-tip="${tip(say(s.label) + by(s), rows)}"></i>`;
   });
-  return `<span class="shares${all.length > 12 ? " many" : ""}">${parts.join("")}</span>`;
+  const bar = all.length ? `<span class="shares${all.length > 12 ? " many" : ""}">${parts.join("")}</span>` : "";
+  // A wide tile names each figure under the bar, in its part's colour, or
+  // grey where its part was folded away or it has none.
+  const names = f.wide
+    ? `<span class="parts">${[f, ...f.also]
+        .map((g, slot) => {
+          const k = all.findIndex((s) => s.slot === slot);
+          return `<span><i style="--c:${k < 0 ? "var(--m-gray)" : colours[k]}"></i>${also(g)}</span>`;
+        })
+        .join("")}</span>`
+    : "";
+  return bar + names;
 }
+
+/** A figure that shares a tile, after the first: its number and unit, and its source where the page names it. */
+export const also = (f) => `${number(f.value)}${f.unit ? ` ${say(f.unit)}` : ""}${by(f)}`;
