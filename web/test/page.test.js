@@ -196,6 +196,35 @@ test("areas not up are named by state, the worst first; all of them as every are
   assert.deepEqual(every.homelab.summary, [[{ key: "status.every_down" }]]);
 });
 
+test("an area's strip lines its checks up by time, at the pace of the most frequent", () => {
+  // A check every minute and one every ten, each with its last thirty
+  // results, the slow one failing once two hours ago and once ten minutes ago.
+  const every = (key, minutes, failedAt = []) =>
+    check(key, "storage", 0, false, {
+      results: Array.from({ length: 30 }, (_, i) => {
+        const ago = (29 - i) * minutes;
+        return { ok: !failedAt.includes(ago), at: new Date(NOW - ago * 60e3).toISOString(), ms: 1, why: "slow" };
+      }),
+    });
+  const { strip } = area(page(snap([every("disk", 1), every("copy", 10, [120, 10])]), NOW), "storage");
+  assert.equal(strip.length, 30);
+  assert.deepEqual(
+    strip.map((r, k) => (r.n === 2 ? k : -1)).filter((k) => k >= 0),
+    [9, 19, 29],
+    "half an hour, the slow check's results where they fell",
+  );
+  assert.deepEqual(
+    strip.filter((r) => !r.ok).map((r) => [r.at.getTime(), r.bad, r.failed.map((f) => f.check.name)]),
+    [[NOW - 10 * 60e3, 0.5, ["copy"]]],
+    "the failure two hours ago is older than the strip",
+  );
+  const fresh = every("new", 1);
+  fresh.results = fresh.results.slice(-1);
+  const alone = area(page(snap([fresh]), NOW), "storage").strip;
+  assert.equal(alone.filter(Boolean).length, 1);
+  assert.equal(alone[29].n, 1, "one result, its pace unknown, is the last tick");
+});
+
 test("the middle response time is of the checks answering", () => {
   const timed = (key, ms, run = 0) =>
     check(key, "apps", run, false, { results: [{ ok: !run, at: "2026-10-28T09:59:00Z", ms }] });

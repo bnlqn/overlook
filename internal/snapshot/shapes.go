@@ -33,7 +33,7 @@ func Number[N int | int64](n N) *Text { return Msg("number", map[string]any{"n":
 func Percent(v float64) *Text { return Msg("percent", map[string]any{"n": v}) }
 
 // Recent is how many results a check engine gives each check, which its
-// strip on the page shows (RECENT in web/js/draw.js): half an hour at
+// strip on the page shows (RECENT in web/js/page.js): half an hour at
 // Gatus's and Uptime Kuma's default minute.
 const Recent = 30
 

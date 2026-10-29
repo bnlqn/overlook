@@ -222,17 +222,45 @@ function areaOf(area, snap, checks) {
 }
 
 /**
- * Each moment's worst result across an area's checks, as RECENT ticks:
- * whether all passed, the share that failed, when it was, how many results
- * there were, and those that failed with their checks.
+ * An area's recent past as RECENT ticks, each as long as its most frequent
+ * check takes between results and the last ending with its newest result,
+ * so that checks run at different paces line up by time. A tick is the
+ * worst result each check had in it: whether all passed, the share of the
+ * checks that failed, when the latest was, how many checks there were, and
+ * those that failed. A tick no result fell in is empty.
  */
 function worst(checks) {
-  return Array.from({ length: RECENT }, (_, k) => {
-    const at = checks.map((c) => [c, c.recent[c.recent.length - RECENT + k]]).filter(([, r]) => r);
-    if (!at.length) return null;
+  const results = checks.flatMap((c) => c.recent.map((r) => [c, r]));
+  const ticks = Array.from({ length: RECENT }, () => new Map());
+  if (results.length) {
+    const end = Math.max(...results.map(([, r]) => +r.at));
+    // With no check's pace known, every result is in the last tick.
+    const step = Math.min(...checks.map((c) => pace(c.recent)));
+    for (const [c, r] of results) {
+      const k = RECENT - 1 - Math.floor((end - r.at) / step);
+      const had = ticks[k]?.get(c);
+      if (k >= 0 && (!had || (had.ok && !r.ok))) ticks[k].set(c, r);
+    }
+  }
+  return ticks.map((tick) => {
+    if (!tick.size) return null;
+    const at = [...tick];
     const failed = at.filter(([, r]) => !r.ok).map(([check, r]) => ({ check, why: r.why }));
-    return { ok: !failed.length, bad: failed.length / at.length, at: at[0][1].at, n: at.length, failed };
+    const latest = new Date(Math.max(...at.map(([, r]) => +r.at)));
+    return { ok: !failed.length, bad: failed.length / at.length, at: latest, n: at.length, failed };
   });
+}
+
+// How long a check takes between results: the middle of its gaps, so that a
+// gap while its engine was away doesn't stretch it. With fewer than two
+// results, it isn't known.
+function pace(recent) {
+  const gaps = recent
+    .slice(1)
+    .map((r, i) => r.at - recent[i].at)
+    .filter((gap) => gap > 0)
+    .sort((a, b) => a - b);
+  return gaps.length ? gaps[gaps.length >> 1] : Number.POSITIVE_INFINITY;
 }
 
 /**
