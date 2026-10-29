@@ -1,32 +1,9 @@
 package servarr
 
 import (
-	"context"
-	"net/http"
-	"net/http/httptest"
 	"strings"
 	"testing"
 )
-
-func TestGetSendsTheKey(t *testing.T) {
-	t.Parallel()
-	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Header.Get("X-Api-Key") != "0123abcd" {
-			http.Error(w, "no key", http.StatusUnauthorized)
-			return
-		}
-		_, _ = w.Write([]byte(`[]`))
-	}))
-	t.Cleanup(s.Close)
-	c := Config{URL: s.URL + "/", Key: "0123abcd"}
-	if err := c.Check("Radarr"); err != nil {
-		t.Fatal(err)
-	}
-	var v []any
-	if err := c.Get(context.Background(), "/api/v3/health", &v); err != nil {
-		t.Error(err)
-	}
-}
 
 func TestConfigCheck(t *testing.T) {
 	t.Parallel()

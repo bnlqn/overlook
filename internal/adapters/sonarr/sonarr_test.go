@@ -25,6 +25,11 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
+	for _, r := range src.Sent() {
+		if r.Header.Get("X-Api-Key") != "4567efab" {
+			t.Errorf("%s: read without the key", r.URL)
+		}
+	}
 
 	if len(p.Figures) != 1 || p.Figures[0].Value != 3 || p.Figures[0].Detail.Args["n"] != 2 {
 		t.Errorf("3 shows, 2 episodes this week: %+v", p.Figures)

@@ -2,6 +2,7 @@ package ical
 
 import (
 	"context"
+	"net/http"
 	"os"
 	"slices"
 	"strings"
@@ -19,7 +20,7 @@ import (
 func TestRead(t *testing.T) {
 	t.Parallel()
 	src := adaptertest.Replay(t, "testdata")
-	c := Config{URL: src.URL + "/owner/chores/"}
+	c := Config{URL: src.URL + "/owner/chores/", User: "overlook", Password: "s3cret"}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
@@ -28,6 +29,11 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
+	for _, r := range src.Sent() {
+		if user, password, _ := (&http.Request{Header: r.Header}).BasicAuth(); user != "overlook" || password != "s3cret" || r.Header.Get("Accept") != "text/calendar" {
+			t.Errorf("%s: read without the user and password, or asking for another answer than iCalendar's", r.URL)
+		}
+	}
 	if c.Name != "Chores" {
 		t.Errorf("named %q", c.Name)
 	}

@@ -27,6 +27,11 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
+	for _, r := range src.Sent() {
+		if r.Header.Get("Authorization") != `MediaBrowser Token="0123abcd"` {
+			t.Errorf("%s: read without the key", r.URL)
+		}
+	}
 
 	rows := p.Sections[0].Rows
 	if len(rows) != 9 {

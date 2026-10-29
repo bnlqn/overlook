@@ -2,10 +2,10 @@ package beszel
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"path/filepath"
 	"strings"
 	"sync"
@@ -17,9 +17,9 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
-// hub answers as Beszel's does: a login for overlook@example.com and s3cret
-// with a token, getkey with a 401 without it, and a list with testdata's
-// answer, or with nothing in it, as a guest's, without it.
+// hub answers as Beszel's does, as Replay can't: a login with a new token
+// each time, getkey with a 401 without the newest, and a list with
+// testdata's answer, or with nothing in it, as a guest's, without it.
 type hub struct {
 	*httptest.Server
 	logins atomic.Int32
@@ -38,11 +38,6 @@ func newHub(t *testing.T) *hub {
 		switch {
 		case r.Method == http.MethodPost && r.URL.Path == "/api/collections/users/auth-with-password":
 			n := h.logins.Add(1)
-			var login struct{ Identity, Password string }
-			if json.NewDecoder(r.Body).Decode(&login) != nil || login.Identity != "overlook@example.com" || login.Password != "s3cret" {
-				http.Error(w, `{"status": 400, "message": "Failed to authenticate."}`, http.StatusBadRequest)
-				return
-			}
 			h.mu.Lock()
 			h.token = fmt.Sprintf("token-%d", n)
 			_, _ = fmt.Fprintf(w, `{"token": %q, "record": {"role": "readonly"}}`, h.token)
@@ -65,11 +60,13 @@ func newHub(t *testing.T) *hub {
 // renamed, their IDs and the hub's key replaced, every number nudged, and
 // the times moved to end at 28 October 2026, 09:30 UTC: nova, a Proxmox
 // host with a week of records, and three VMs with a day or two, of which
-// vega has been down since 06:12.
+// vega has been down since 06:12. Its login's answer is written in the
+// shape Beszel gives it, its token invented: Overlook logs in once, and
+// sends the token with every read.
 func TestRead(t *testing.T) {
 	t.Parallel()
-	h := newHub(t)
-	c := Config{URL: h.URL, User: "overlook@example.com", Password: "s3cret"}
+	src := adaptertest.Replay(t, "testdata")
+	c := Config{URL: src.URL, User: "overlook@example.com", Password: "s3cret"}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
@@ -78,6 +75,15 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
+	sent := src.Sent()
+	if login := sent[0]; login.Method != http.MethodPost || login.Body != `{"identity":"overlook@example.com","password":"s3cret"}` {
+		t.Errorf("first, the login: %+v", login)
+	}
+	for _, r := range sent[1:] {
+		if r.Header.Get("Authorization") != "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6InE3dzJlOXI0dDF5NnUzaSJ9.ZXhhbXBsZQ" {
+			t.Errorf("%s: read without the token", r.URL)
+		}
+	}
 
 	if len(p.Sections) != 1 || p.Sections[0].Title.Key != snapshot.HostsSection.Key {
 		t.Fatalf("one section, the hosts: %+v", p.Sections)
@@ -143,12 +149,25 @@ func TestLapsedSession(t *testing.T) {
 	if n := h.logins.Load(); n != 2 || len(p.Sections[0].Rows) != 4 {
 		t.Errorf("logged in %d times, read %d hosts: want twice and 4", n, len(p.Sections[0].Rows))
 	}
+}
 
-	c = Config{URL: h.URL, User: "overlook@example.com", Password: "wrong"}
+// A login Beszel refuses is an error that says so.
+func TestLoginRefused(t *testing.T) {
+	t.Parallel()
+	dir := t.TempDir()
+	login := filepath.Join(dir, "api", "collections", "users", "auth-with-password.http")
+	if err := os.MkdirAll(filepath.Dir(login), 0o750); err != nil {
+		t.Fatal(err)
+	}
+	answer := "HTTP/1.1 400 Bad Request\r\nContent-Type: application/json\r\n\r\n" + `{"data": {}, "message": "Failed to authenticate.", "status": 400}`
+	if err := os.WriteFile(login, []byte(answer), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	c := Config{URL: adaptertest.Replay(t, dir).URL, User: "overlook@example.com", Password: "wrong"}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := Read(context.Background(), c, now); err == nil || !strings.Contains(err.Error(), "login: HTTP 400") {
+	if _, err := Read(context.Background(), c, time.Date(2026, 10, 28, 9, 30, 0, 0, time.UTC)); err == nil || !strings.Contains(err.Error(), "login: HTTP 400") {
 		t.Errorf("a login refused: %v", err)
 	}
 }

@@ -35,6 +35,11 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
+	for _, r := range src.Sent() {
+		if r.Header.Get("Authorization") != "PVEAPIToken=overlook@pve!overlook=00000000-0000-0000-0000-000000000000" {
+			t.Errorf("%s: read without the token", r.URL)
+		}
+	}
 
 	sections := map[string]snapshot.Section{}
 	for _, s := range p.Sections {
@@ -152,13 +157,10 @@ func TestCluster(t *testing.T) {
 	}
 }
 
-// Proxmox signs its own certificate: Overlook reads it trusting its CA, and
-// sends its token as Proxmox expects.
+// Proxmox signs its own certificate: Overlook reads it trusting its CA.
 func TestCA(t *testing.T) {
 	t.Parallel()
-	var auth string
-	s := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		auth = r.Header.Get("Authorization")
+	s := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		_, _ = w.Write([]byte(`{"data": []}`))
 	}))
 	t.Cleanup(s.Close)
@@ -179,9 +181,6 @@ func TestCA(t *testing.T) {
 	}
 	if _, err := Read(context.Background(), c, recorded); err != nil {
 		t.Fatal(err)
-	}
-	if auth != "PVEAPIToken=overlook@pve!overlook=s3cret" {
-		t.Errorf("the token's header: %q", auth)
 	}
 }
 

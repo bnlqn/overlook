@@ -2,8 +2,6 @@ package immich
 
 import (
 	"context"
-	"net/http"
-	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -81,22 +79,10 @@ func TestReadStatisticsOnly(t *testing.T) {
 	}
 }
 
-// Every read carries the key, and without its statistics Immich didn't
-// answer.
+// Without its statistics, Immich didn't answer.
 func TestReadNoStatistics(t *testing.T) {
 	t.Parallel()
-	src := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Header.Get("X-Api-Key") != "k3y" {
-			t.Errorf("%s: read without the key", r.URL.Path)
-		}
-		http.NotFound(w, r)
-	}))
-	t.Cleanup(src.Close)
-	c := Config{URL: src.URL, Key: "k3y"}
-	if err := c.Check(); err != nil {
-		t.Fatal(err)
-	}
-	if _, err := Read(context.Background(), c, recorded); err == nil || !strings.Contains(err.Error(), "HTTP 404") {
+	if _, err := Read(context.Background(), source(t, t.TempDir()), recorded); err == nil || !strings.Contains(err.Error(), "HTTP 404") {
 		t.Errorf("want HTTP 404, got %v", err)
 	}
 }
@@ -125,16 +111,31 @@ func TestConfigCheck(t *testing.T) {
 // gave.
 func read(t *testing.T, dir string) snapshot.Parts {
 	t.Helper()
-	c := Config{URL: adaptertest.Replay(t, dir).URL, Key: "k3y"}
-	if err := c.Check(); err != nil {
-		t.Fatal(err)
-	}
-	p, err := Read(context.Background(), c, recorded)
+	p, err := Read(context.Background(), source(t, dir), recorded)
 	if err != nil {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
 	return p
+}
+
+// source is an Immich that replays the answers in dir, and checks at the
+// end of the test that each read carried the key.
+func source(t *testing.T, dir string) Config {
+	t.Helper()
+	src := adaptertest.Replay(t, dir)
+	t.Cleanup(func() {
+		for _, r := range src.Sent() {
+			if r.Header.Get("X-Api-Key") != "k3y" {
+				t.Errorf("%s: read without the key", r.URL)
+			}
+		}
+	})
+	c := Config{URL: src.URL, Key: "k3y"}
+	if err := c.Check(); err != nil {
+		t.Fatal(err)
+	}
+	return c
 }
 
 func said(x *snapshot.Text, key, arg string, v any) bool {

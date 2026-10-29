@@ -2,8 +2,6 @@ package nextcloud
 
 import (
 	"context"
-	"net/http"
-	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"strings"
@@ -29,6 +27,11 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
+	for _, r := range src.Sent() {
+		if r.Header.Get("NC-Token") != "serverinfo-0123abcd" {
+			t.Errorf("%s: read without the token", r.URL)
+		}
+	}
 
 	rows := p.Sections[0].Rows
 	if len(rows) != 5 {
@@ -54,31 +57,11 @@ func TestRead(t *testing.T) {
 	}
 }
 
-// source answers as testdata does, with each of edits made to the recorded
-// answers, as old and new.
-func source(t *testing.T, edits ...string) *httptest.Server {
-	t.Helper()
-	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		answer, err := os.ReadFile(filepath.Join("testdata", r.URL.Path+".json"))
-		if err != nil {
-			http.NotFound(w, r)
-			return
-		}
-		body := string(answer)
-		for i := 0; i+1 < len(edits); i += 2 {
-			body = strings.ReplaceAll(body, edits[i], edits[i+1])
-		}
-		_, _ = w.Write([]byte(body))
-	}))
-	t.Cleanup(s.Close)
-	return s
-}
-
 // An app waiting for its update is a chore, done on Nextcloud's page of
 // updates, and a newer Nextcloud is said beside its version.
 func TestUpdates(t *testing.T) {
 	t.Parallel()
-	src := source(t,
+	src := adaptertest.Replay(t, "testdata",
 		`"app_updates": []`, `"app_updates": {"deck": "1.17.2", "calendar": "6.2.1"}`,
 		`"available": false`, `"available": true, "available_version": "35.0.3"`,
 	)
@@ -103,7 +86,14 @@ func TestUpdates(t *testing.T) {
 // In maintenance, Nextcloud answers only its status, and the page says so.
 func TestMaintenance(t *testing.T) {
 	t.Parallel()
-	src := source(t, `"maintenance": false`, `"maintenance": true`)
+	dir := t.TempDir()
+	if err := os.CopyFS(dir, os.DirFS("testdata")); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.RemoveAll(filepath.Join(dir, "ocs")); err != nil {
+		t.Fatal(err)
+	}
+	src := adaptertest.Replay(t, dir, `"maintenance": false`, `"maintenance": true`)
 	c := Config{URL: src.URL, Token: "serverinfo-0123abcd"}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)

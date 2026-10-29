@@ -3,10 +3,9 @@ package qbittorrent
 import (
 	"context"
 	"net/http"
-	"net/http/httptest"
+	"os"
 	"path/filepath"
 	"strings"
-	"sync/atomic"
 	"testing"
 	"time"
 
@@ -21,11 +20,13 @@ var recorded = time.Date(2026, 10, 28, 9, 35, 0, 0, time.UTC)
 // address replaced and its numbers nudged, and the torrents rebuilt with
 // every field of a recorded one but invented names, hashes, paths and
 // trackers: three downloading, three seeding, one stopped, one whose files
-// are missing and one in error. It is firewalled.
+// are missing and one in error. It is firewalled. Its login's answer is
+// written in the shape qBittorrent gives it. Before 5.2, Overlook logs in
+// once with a form and sends the cookie it gets with every read.
 func TestRead(t *testing.T) {
 	t.Parallel()
 	src := adaptertest.Replay(t, "testdata")
-	c := Config{URL: src.URL}
+	c := Config{URL: src.URL, User: "overlook", Password: "s3cret"}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
@@ -34,6 +35,18 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
+	if _, err := Read(context.Background(), c, recorded.Add(time.Minute)); err != nil {
+		t.Fatal(err)
+	}
+	sent := src.Sent()
+	if login := sent[0]; login.Method != http.MethodPost || login.URL.Path != "/api/v2/auth/login" || login.Body != "password=s3cret&username=overlook" {
+		t.Errorf("first, the login, as a form: %+v", login)
+	}
+	for _, r := range sent[1:] {
+		if r.Header.Get("Cookie") != "SID=a1b2c3" {
+			t.Errorf("%s: read without the cookie", r.URL)
+		}
+	}
 
 	if len(p.Sections) != 1 || p.Sections[0].Title.Key != "qbittorrent.torrents" {
 		t.Fatalf("one section, the torrents: %+v", p.Sections)
@@ -65,66 +78,18 @@ func TestRead(t *testing.T) {
 	}
 }
 
-// source answers as qBittorrent does: GETs with testdata's answers when in
-// lets them in, and a 403 otherwise, and a login with a cookie for overlook
-// and s3cret.
-func source(t *testing.T, in func(*http.Request) bool) (*httptest.Server, *atomic.Int32) {
-	t.Helper()
-	logins := &atomic.Int32{}
-	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		switch {
-		case r.Method == http.MethodPost && r.URL.Path == "/api/v2/auth/login":
-			logins.Add(1)
-			if r.FormValue("username") != "overlook" || r.FormValue("password") != "s3cret" {
-				_, _ = w.Write([]byte("Fails."))
-				return
-			}
-			http.SetCookie(w, &http.Cookie{Name: "SID", Value: "a1b2c3", HttpOnly: true})
-			_, _ = w.Write([]byte("Ok."))
-		case r.Method == http.MethodGet && in(r):
-			http.ServeFile(w, r, filepath.Join("testdata", r.URL.Path+".json"))
-		default:
-			http.Error(w, "Forbidden", http.StatusForbidden)
-		}
-	}))
-	t.Cleanup(s.Close)
-	return s, logins
-}
-
-// Before 5.2, Overlook logs in once with a form and sends the cookie it gets
-// with every read.
-func TestLogin(t *testing.T) {
-	t.Parallel()
-	src, logins := source(t, func(r *http.Request) bool {
-		c, err := r.Cookie("SID")
-		return err == nil && c.Value == "a1b2c3"
-	})
-	c := Config{URL: src.URL, User: "overlook", Password: "s3cret"}
-	if err := c.Check(); err != nil {
-		t.Fatal(err)
-	}
-	for range 2 {
-		if _, err := Read(context.Background(), c, recorded); err != nil {
-			t.Fatal(err)
-		}
-	}
-	if n := logins.Load(); n != 1 {
-		t.Errorf("two reads logged in %d times, want once", n)
-	}
-
-	c = Config{URL: src.URL, User: "overlook", Password: "wrong"}
-	if err := c.Check(); err != nil {
-		t.Fatal(err)
-	}
-	if _, err := Read(context.Background(), c, recorded); err == nil || !strings.Contains(err.Error(), "login: refused") {
-		t.Errorf("a login refused: %v", err)
-	}
-}
-
-// From 5.2, Overlook sends its key with every read, and never logs in.
+// From 5.2, Overlook sends its key with every read, and never logs in; a
+// login qBittorrent refuses is an error that says so.
 func TestKey(t *testing.T) {
 	t.Parallel()
-	src, logins := source(t, func(r *http.Request) bool { return r.Header.Get("Authorization") == "Bearer qbt_0123abcd" })
+	dir := t.TempDir()
+	if err := os.CopyFS(dir, os.DirFS("testdata")); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Remove(filepath.Join(dir, "api", "v2", "auth", "login.http")); err != nil {
+		t.Fatal(err)
+	}
+	src := adaptertest.Replay(t, dir)
 	c := Config{URL: src.URL, Key: "qbt_0123abcd"}
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
@@ -132,8 +97,26 @@ func TestKey(t *testing.T) {
 	if _, err := Read(context.Background(), c, recorded); err != nil {
 		t.Fatal(err)
 	}
-	if n := logins.Load(); n != 0 {
-		t.Errorf("a key logged in %d times", n)
+	for _, r := range src.Sent() {
+		if r.Method != http.MethodGet || r.Header.Get("Authorization") != "Bearer qbt_0123abcd" {
+			t.Errorf("%s %s: a login, or a read without the key", r.Method, r.URL)
+		}
+	}
+
+	refused := t.TempDir()
+	login := filepath.Join(refused, "api", "v2", "auth", "login.http")
+	if err := os.MkdirAll(filepath.Dir(login), 0o750); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(login, []byte("HTTP/1.1 200 OK\r\ncontent-type: text/plain; charset=UTF-8\r\n\r\nFails."), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	c = Config{URL: adaptertest.Replay(t, refused).URL, User: "overlook", Password: "wrong"}
+	if err := c.Check(); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := Read(context.Background(), c, recorded); err == nil || !strings.Contains(err.Error(), "login: refused") {
+		t.Errorf("a login refused: %v", err)
 	}
 }
 

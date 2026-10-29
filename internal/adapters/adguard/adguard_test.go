@@ -2,6 +2,7 @@ package adguard
 
 import (
 	"context"
+	"net/http"
 	"strings"
 	"testing"
 	"time"
@@ -19,7 +20,7 @@ func TestRead(t *testing.T) {
 	t.Parallel()
 	src := adaptertest.Replay(t, "testdata")
 	parts := func(name, dir string) snapshot.Parts {
-		c := Config{Name: name, URL: src.URL + "/" + dir}
+		c := Config{Name: name, URL: src.URL + "/" + dir, User: "overlook", Password: "s3cret"}
 		if err := c.Check(); err != nil {
 			t.Fatal(err)
 		}
@@ -31,6 +32,11 @@ func TestRead(t *testing.T) {
 		return p
 	}
 	primary, standby := parts("Primary DNS", "primary"), parts("Standby DNS", "standby")
+	for _, r := range src.Sent() {
+		if user, password, _ := (&http.Request{Header: r.Header}).BasicAuth(); user != "overlook" || password != "s3cret" {
+			t.Errorf("%s: read without the user and password", r.URL)
+		}
+	}
 
 	// Its hours timed back from now: since midnight is 17 of them, this
 	// one included.

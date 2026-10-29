@@ -28,6 +28,11 @@ func TestRead(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, p)
+	for _, r := range src.Sent() {
+		if r.Header.Get("Authorization") != "Bearer glsa_0123abcd" {
+			t.Errorf("%s: read without the token", r.URL)
+		}
+	}
 
 	by := map[string]snapshot.Check{}
 	var names []string
