@@ -68,6 +68,20 @@ test("a section draws its place, each row, its value in its tone and its meter",
   assert.match(html, /class="meter tone-red"/);
 });
 
+test("a long section keeps a nearly full disk in sight, as it does a row in red", () => {
+  const row = (name, more) => ({ title: { name }, ...more });
+  const rows = Array.from({ length: 13 }, (_, i) => row(`guest ${i}`));
+  rows.push(
+    row("/mnt/films", { meter: { used: 95, total: 100 } }),
+    row("/mnt/music", { meter: { used: 40, total: 100 } }),
+  );
+  const html = section({ area: "apps", title: { name: "Media" }, rows });
+  const [shown] = html.split('<details class="more">');
+  assert.match(shown, /\/mnt\/films/);
+  assert.doesNotMatch(shown, /\/mnt\/music/);
+  assert.doesNotMatch(shown, /guest 11/, "the first rows make up the rest of the twelve");
+});
+
 test("a meter in its own tone stays in it, however full", () => {
   const html = section({
     area: "servers",

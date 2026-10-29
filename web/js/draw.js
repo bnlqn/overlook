@@ -105,12 +105,14 @@ export const badge = (s, size = "md") =>
   }</span>`;
 
 /**
- * A thin bar for how full something is, in its tone, or with none blue,
- * turning orange past 80% and red past 90%, as a disk's does.
+ * A meter's tone: its own, or with none blue, turning orange past 80% and red
+ * past 90%, as a disk's does.
  */
+const meterTone = (m) => m.tone || (m.used / m.total > 0.9 ? "red" : m.used / m.total > 0.8 ? "orange" : "blue");
+
+/** A thin bar for how full something is, in its meter's tone. */
 export function meter(used, total, tone) {
-  const tn = tone || (used / total > 0.9 ? "red" : used / total > 0.8 ? "orange" : "blue");
-  return `<span class="meter tone-${tn}"><span style="width:${Math.min(100, (100 * used) / total).toFixed(1)}%"></span></span>`;
+  return `<span class="meter tone-${meterTone({ used, total, tone })}"><span style="width:${Math.min(100, (100 * used) / total).toFixed(1)}%"></span></span>`;
 }
 
 /**
@@ -176,9 +178,10 @@ export const figureMeter = (m) =>
  */
 export function section(s, i) {
   // Past twelve rows, a section shows those with a tone that says something
-  // is wrong, then its first rows up to twelve; the rest wait behind
-  // "Show N more", in their order.
-  const wrong = (r) => ["red", "orange", "gray"].includes(r.tone);
+  // is wrong, a nearly full disk's meter too, then its first rows up to
+  // twelve; the rest wait behind "Show N more", in their order.
+  const wrong = (r) =>
+    ["red", "orange", "gray"].includes(r.tone) || (r.meter && ["red", "orange"].includes(meterTone(r.meter)));
   const kept = new Set(s.rows.length > LONG ? s.rows.filter(wrong) : s.rows);
   for (const r of s.rows) if (kept.size < LONG) kept.add(r);
   const order = [...s.rows.filter((r) => kept.has(r)), ...s.rows.filter((r) => !kept.has(r))];

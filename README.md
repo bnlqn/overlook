@@ -62,7 +62,7 @@ and the least key it needs), and CI passes.
        (ADR 0008), one pull request each, in this order: Jellyfin, Home
        Assistant, Uptime Kuma, Pi-hole, Paperless-ngx, Nextcloud, Grafana,
        Plex through Tautulli, Seerr, and Prometheus with Alertmanager.
-6. [ ] What Overlook can't read, listed under [Can't be read](#cant-be-read),
+6. [x] What Overlook can't read, listed under [Can't be read](#cant-be-read),
        and an issue for each adapter wanted.
 
 v0.2 is ready when the large homelab looks right at desktop and phone
@@ -85,9 +85,10 @@ width, and every adapter has its section here.
 - **Your apps and tools**, each a link with a dot that says whether it
   answers.
 - **The chores**: the ones on your to-do list that are due or come this
-  week, the updates waiting for your merge or to be installed, and the
-  batteries to change. You do a chore where it waits, such as marking it
-  done on the list, never on the page, and a chore is never a problem.
+  week, the updates waiting for your merge or to be installed, the
+  batteries to change and the requests waiting for your approval. You do a
+  chore where it waits, such as marking it done on the list, never on the
+  page, and a chore is never a problem.
 
 ## What it never does
 
@@ -236,13 +237,16 @@ if you don't, the dot shows the worse of the two, and the log says so once.
 Overlook ships icons for a few common apps (`web/icons`); a file of the
 same name in `icons/` beside the config wins over one of them.
 
-**Chores** are the maintenance due while nothing is broken: the ones you
-keep on a to-do list, which the [iCalendar](#icalendar-to-do-list) source
-reads, the updates waiting for your merge, which the [GitHub](#github)
-source reads, and the updates waiting to be installed and the batteries to
-change, which the [Home Assistant](#home-assistant) source reads. The page
-lists the chores due, from their day on, and those in the coming week, by
-the viewer's own calendar; with none, it says which is next. You add, change
+**Chores** are what you do while nothing is broken: the ones you keep on a
+to-do list, which the [iCalendar](#icalendar-to-do-list) source reads; the
+updates waiting for your merge, which the [GitHub](#github) source reads;
+the updates waiting to be installed, which the
+[Home Assistant](#home-assistant) and [Nextcloud](#nextcloud) sources read,
+and the batteries to change, from Home Assistant; and the requests waiting
+for your approval, which the [Seerr](#seerr) source reads. The page lists
+the chores due, from their day on, and those in the coming week, by the
+viewer's own calendar; with none, it says which is next. With chores from
+more than one source, each is named by the one it waits in. You add, change
 and mark chores done in your to-do app or from a script, and do the others
 where they wait, never on the page (ADR 0010), and the page follows within
 30 seconds.
@@ -989,24 +993,38 @@ file and the scripts that fill and record it are in the adapter's
 
 ### Can't be read
 
-These tools can't be read the way Overlook reads (ADR 0001, ADR 0009), or
-are left out on purpose, so none of them gets an adapter until that
-changes:
+These tools can't be read the way Overlook reads, with GET (ADR 0001), one
+login (ADR 0009) and, for a source that changes things on GET, a fixed list
+of reads (ADR 0011), or are left out on purpose. Each names the decision it
+runs into, and none gets an adapter until that changes:
 
 - **Backrest and restic**: restic has no API, every call to Backrest's is a
-  POST, and Backrest's metrics don't say when the last backup was.
-- **Caddy**: its admin API has no login, so letting Overlook reach it lets
-  anyone there rewrite Caddy's config.
-- **Deluge, OpenMediaVault and Transmission**: every read is a POST.
-- **Dozzle and Authelia**: they have no API worth reading, and a check
-  already says whether they answer.
-- **Readarr**: retired in June 2025.
-- **Synology DSM**: its login puts the password in the address, where logs
-  keep it, and how to read its health isn't documented.
-- **TrueNAS**: TrueNAS 26 removes the REST API, which leaves only a
-  WebSocket.
+  POST, and its metrics say how the last backup went, not when (ADR 0001).
+- **Caddy**, on purpose: its admin API has no login, and its only lock is a
+  TLS client certificate, so opening it to Overlook opens it to anyone there
+  to rewrite Caddy's config (ADR 0001).
+- **Deluge, Transmission, Komodo and Zabbix**: every read is a POST
+  (ADR 0001).
+- **Dockge**: it speaks only socket.io (ADR 0001).
+- **Plex on its own**, on purpose: its token is your whole Plex account,
+  other servers and friends too, so Overlook reads Plex through
+  [Tautulli](#plex-through-tautulli) (ADR 0011).
+- **Synology DSM**: its only documented login is a GET with the password in
+  the address, where logs keep it, and how to read its health isn't
+  documented (ADR 0009).
+- **TrueNAS**: TrueNAS 27 removes the REST API, which leaves only a
+  WebSocket (ADR 0001).
+- **Unbound**: its statistics come only from `unbound-control`, over TLS
+  with a client certificate, or on the same machine (ADR 0001).
 - **Vaultwarden**, on purpose: reading more than its version takes the
-  admin token, which can delete every user.
+  admin token, which can delete every user (ADR 0009).
+
+Others are left out for a reason of their own:
+
+- **Dozzle and Authelia**: they show nothing more than whether they answer,
+  which a check already says.
+- **Readarr**: retired in June 2025.
+- **Watchtower**: no longer kept, and archived in December 2025.
 
 ## No login
 

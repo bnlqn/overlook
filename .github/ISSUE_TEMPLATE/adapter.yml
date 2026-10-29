@@ -6,7 +6,9 @@ body:
     attributes:
       value: >-
         An adapter comes in by pull request from someone who runs its source,
-        who then keeps it (ADR 0005). CONTRIBUTING.md says what one needs.
+        who then keeps it (ADR 0005), or from the maintainer, recorded from a
+        scratch instance (ADR 0008). CONTRIBUTING.md says what one needs, and
+        the README's Can't be read lists the tools that can't have one.
   - type: input
     id: source
     attributes:

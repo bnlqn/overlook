@@ -248,7 +248,7 @@ type Chore struct {
 	Note string `json:"note,omitempty"`
 	// URL is where in its source it's done, if the source has a page for it.
 	URL string `json:"url,omitempty"`
-	// Source is the name of the to-do list it came from, which the reader
-	// fills in, as the config gives it.
+	// Source is the name of the source it waits in, such as a to-do list or
+	// Seerr, which the reader fills in, as the config gives it.
 	Source string `json:"source"`
 }
