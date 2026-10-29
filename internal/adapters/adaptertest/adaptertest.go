@@ -144,6 +144,9 @@ func Problems(p snapshot.Parts, english map[string]any) []string {
 			if r.Meter != nil {
 				meter(w, *r.Meter)
 			}
+			for _, m := range r.Meters {
+				meter(w, m)
+			}
 		}
 	}
 	for _, c := range p.Charts {

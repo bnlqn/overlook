@@ -161,7 +161,7 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 			return snapshot.Parts{}, err
 		}
 	}
-	return parts(resources, hosts, nodes, time.Now()), nil
+	return parts(resources, hosts, nodes), nil
 }
 
 // get reads the answer at path into v: Proxmox wraps each in {"data": …}.
@@ -172,7 +172,7 @@ func get(ctx context.Context, c Config, path string, v any) error {
 	}{v})
 }
 
-func parts(resources []resource, hosts []*host, nodes int, now time.Time) snapshot.Parts {
+func parts(resources []resource, hosts []*host, nodes int) snapshot.Parts {
 	// In a cluster, what belongs to one node says which.
 	cluster := nodes > 1
 	onNode := func(name, node string) snapshot.Text {
@@ -183,46 +183,50 @@ func parts(resources []resource, hosts []*host, nodes int, now time.Time) snapsh
 	}
 	var p snapshot.Parts
 
+	// The hosts, a row each, by name: how long each has been up, or that
+	// it's offline, what it runs on, and how busy and how full it is.
+	online := map[string]*host{}
 	for _, h := range hosts {
-		s := h.status
-		title := snapshot.Text{Key: "proxmox.host"}
-		if cluster {
-			title = snapshot.Text{Name: h.name}
+		online[h.name] = h
+	}
+	var names []string
+	for _, r := range resources {
+		if r.Type == "node" {
+			names = append(names, r.Node)
 		}
+	}
+	slices.Sort(names)
+	hostRows := []snapshot.Row{}
+	for _, name := range names {
+		h := online[name]
+		if h == nil {
+			hostRows = append(hostRows, snapshot.Row{Title: snapshot.Text{Name: name}, Value: snapshot.Msg("proxmox.offline", nil), Tone: "red"})
+			continue
+		}
+		s := h.status
 		var load float64
 		if len(s.LoadAvg) > 0 {
 			load, _ = strconv.ParseFloat(s.LoadAvg[0], 64)
 		}
-		up := time.Duration(s.Uptime) * time.Second
-		// "pve-manager/9.2.21/…" and "Linux 7.0.14-25-pve #1 SMP …".
+		// "pve-manager/9.2.21/…".
 		_, version, _ := strings.Cut(s.PVEVersion, "/")
 		version, _, _ = strings.Cut(version, "/")
-		kernel := strings.Fields(s.KVersion)
-		p.Sections = append(p.Sections, snapshot.Section{Area: area, Title: title, Rows: []snapshot.Row{
-			{
-				Title:  snapshot.Text{Key: "proxmox.cpu"},
-				Value:  snapshot.Msg("percent", map[string]any{"n": math.Round(100 * s.CPU)}),
-				Detail: snapshot.Msg("proxmox.cpu_detail", map[string]any{"model": model(s.CPUInfo.Model), "n": s.CPUInfo.CPUs, "load": load}),
-			},
-			{
-				Title: snapshot.Text{Key: "proxmox.memory"},
-				Value: snapshot.Msg("proxmox.gb_of", map[string]any{"used": gb(s.Memory.Used), "total": gb(s.Memory.Total)}),
+		row := snapshot.Row{
+			Title:  snapshot.Text{Name: name},
+			Value:  snapshot.Msg("proxmox.up_for", map[string]any{"ms": s.Uptime * 1000}),
+			Detail: snapshot.Msg("proxmox.host_detail", map[string]any{"model": model(s.CPUInfo.Model), "n": s.CPUInfo.CPUs, "load": load, "version": version}),
+		}
+		if s.CPUInfo.CPUs > 0 && s.Memory.Total > 0 {
+			row.Meters = []snapshot.Meter{
+				{Label: snapshot.Msg("proxmox.cpu_meter", nil), Used: s.CPU * float64(s.CPUInfo.CPUs), Total: float64(s.CPUInfo.CPUs)},
 				// Mostly the guests', which keep what they're given: full is
 				// normal, so the bar never turns red.
-				Meter: &snapshot.Meter{Used: float64(s.Memory.Used), Total: float64(s.Memory.Total), Tone: "blue"},
-			},
-			{
-				Title:  snapshot.Text{Key: "proxmox.up"},
-				Value:  snapshot.Msg("proxmox.span", map[string]any{"ms": up.Milliseconds()}),
-				Detail: snapshot.Msg("proxmox.since", map[string]any{"at": now.Add(-up)}),
-			},
-			{
-				Title:  snapshot.Text{Key: "proxmox.version"},
-				Value:  &snapshot.Text{Name: version},
-				Detail: &snapshot.Text{Name: strings.Join(kernel[:min(2, len(kernel))], " ")},
-			},
-		}})
+				{Label: snapshot.Msg("proxmox.ram_meter", nil), Used: float64(s.Memory.Used), Total: float64(s.Memory.Total), Tone: "blue"},
+			}
+		}
+		hostRows = append(hostRows, row)
 	}
+	p.Sections = append(p.Sections, snapshot.Section{Area: area, Title: snapshot.Text{Key: "proxmox.hosts"}, Rows: hostRows})
 
 	// The guests, by their IDs, leaving out templates, which never run.
 	var guests []resource

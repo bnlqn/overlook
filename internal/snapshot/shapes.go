@@ -113,6 +113,9 @@ type Row struct {
 	Detail *Text  `json:"detail,omitempty"`
 	Tone   string `json:"tone,omitempty"`
 	Meter  *Meter `json:"meter,omitempty"`
+	// Meters are drawn under the row side by side, each with its label, as
+	// a figure's are, such as a host's processor and memory.
+	Meters []Meter `json:"meters,omitempty"`
 }
 
 // Meter is how full something is. With no tone it's blue, turning orange

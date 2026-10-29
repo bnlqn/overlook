@@ -64,6 +64,24 @@ test("a meter in its own tone stays in it, however full", () => {
   assert.match(html, /class="meter tone-green"/);
 });
 
+test("a row's meters sit side by side under it, each with its label", () => {
+  const html = section({
+    area: "servers",
+    title: { name: "Hosts" },
+    rows: [
+      {
+        title: { name: "alder" },
+        meters: [
+          { label: { name: "CPU" }, used: 3, total: 12 },
+          { label: { name: "RAM" }, used: 52, total: 64, tone: "blue" },
+        ],
+      },
+    ],
+  });
+  assert.match(html, /<span class="meters under"><span class="figure-meter"><span>CPU<\/span>.*25%/);
+  assert.match(html, /<span>RAM<\/span><span class="meter tone-blue".*81%<\/span><\/span><\/span><\/div>/);
+});
+
 test("a figure's meter names itself and says how full it is", () => {
   const html = figureMeter({ label: { name: "<b>Battery</b>" }, used: 96.6, total: 100, tone: "red" });
   assert.match(

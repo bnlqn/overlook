@@ -690,27 +690,19 @@
     {
       "area": "servers",
       "source": "Proxmox",
-      "title": { "key": "proxmox.host" },
+      "title": { "key": "proxmox.hosts" },
       "rows": [
         {
-          "title": { "key": "proxmox.cpu" },
-          "value": { "key": "percent", "args": { "n": 7 } },
-          "detail": { "key": "proxmox.cpu_detail", "args": { "load": 0.58, "model": "N305", "n": 8 } }
-        },
-        {
-          "title": { "key": "proxmox.memory" },
-          "value": { "key": "proxmox.gb_of", "args": { "used": 21, "total": 31 } },
-          "meter": { "used": 22548578304, "total": 33554432000, "tone": "blue" }
-        },
-        {
-          "title": { "key": "proxmox.up" },
-          "value": { "key": "proxmox.span", "args": { "ms": 1054800000.0 } },
-          "detail": { "key": "proxmox.since", "args": { "at": "2026-10-16T04:30:00Z" } }
-        },
-        {
-          "title": { "key": "proxmox.version" },
-          "value": { "name": "9.2.18" },
-          "detail": { "name": "Linux 7.0.12-3-pve" }
+          "title": { "name": "pve" },
+          "value": { "key": "proxmox.up_for", "args": { "ms": 1054800000.0 } },
+          "detail": {
+            "key": "proxmox.host_detail",
+            "args": { "load": 0.58, "model": "N305", "n": 8, "version": "9.2.18" }
+          },
+          "meters": [
+            { "label": { "key": "proxmox.cpu_meter" }, "used": 0.56, "total": 8 },
+            { "label": { "key": "proxmox.ram_meter" }, "used": 22548578304, "total": 33554432000, "tone": "blue" }
+          ]
         }
       ]
     },

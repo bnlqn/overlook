@@ -37,17 +37,18 @@ func TestRead(t *testing.T) {
 		sections[s.Title.Key] = s
 	}
 	if len(p.Sections) != 5 || len(sections) != 5 {
-		t.Fatalf("a host, its guests, storage, pools and backups: %+v", p.Sections)
+		t.Fatalf("the hosts, the guests, storage, pools and backups: %+v", p.Sections)
 	}
-	host := sections["proxmox.host"].Rows
-	if v := host[0].Value.Args["n"]; v != 2.0 || host[0].Detail.Args["model"] != "i5-13500H" || host[0].Detail.Args["load"] != 0.64 {
-		t.Errorf("the processor: %+v %+v", host[0].Value, host[0].Detail)
+	hosts := sections["proxmox.hosts"].Rows
+	if len(hosts) != 1 {
+		t.Fatalf("one host: %+v", hosts)
 	}
-	if m := host[1]; m.Value.Args["used"] != 24.0 || m.Value.Args["total"] != 31.0 || m.Meter.Tone != "blue" {
-		t.Errorf("memory, in binary gigabytes, never red: %+v %+v", m.Value, m.Meter)
+	host := hosts[0]
+	if d := host.Detail.Args; host.Title.Name != "nova" || host.Value.Key != "proxmox.up_for" || d["model"] != "i5-13500H" || d["load"] != 0.64 || d["version"] != "9.2.21" {
+		t.Errorf("the host, up, on what, with which Proxmox: %+v %+v", host.Value, host.Detail)
 	}
-	if v := host[3]; v.Value.Name != "9.2.21" || v.Detail.Name != "Linux 7.0.14-25-pve" {
-		t.Errorf("the versions: %+v %+v", v.Value, v.Detail)
+	if m := host.Meters; len(m) != 2 || m[0].Used/m[0].Total < 0.015 || m[0].Used/m[0].Total > 0.025 || m[1].Tone != "blue" {
+		t.Errorf("2%% of the processor, and memory, never red: %+v", m)
 	}
 
 	guests := sections["proxmox.guests"].Rows
@@ -111,11 +112,14 @@ func TestCluster(t *testing.T) {
 		{Type: "storage", Node: "nova", Storage: "local", Status: "available", MaxDisk: 100},
 		{Type: "storage", Node: "nova", Storage: "backups", Shared: 1, Status: "available", MaxDisk: 100},
 		{Type: "storage", Node: "vega", Storage: "backups", Shared: 1, Status: "unknown"},
-	}, []*host{h}, 2, time.Now())
+	}, []*host{h}, 2)
 	adaptertest.Validate(t, p)
 
-	if p.Sections[0].Title.Name != "nova" || p.Sections[1].Rows[0].Title.Args["node"] != "nova" {
-		t.Errorf("a host by its name, a guest by its node: %+v", p.Sections[:2])
+	if h := p.Sections[0].Rows; len(h) != 2 || h[0].Title.Name != "nova" || h[1].Title.Name != "vega" || h[1].Value.Key != "proxmox.offline" || h[1].Tone != "red" {
+		t.Errorf("each host by its name, the one offline in red: %+v", h)
+	}
+	if p.Sections[1].Rows[0].Title.Args["node"] != "nova" {
+		t.Errorf("a guest by its node: %+v", p.Sections[1])
 	}
 	if s := p.Sections[2].Rows; len(s) != 2 || s[0].Title.Key != "proxmox.on_node" || s[1].Title.Name != "backups" {
 		t.Errorf("a shared storage once, without its node: %+v", s)

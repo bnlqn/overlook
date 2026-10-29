@@ -176,7 +176,10 @@ export function section(s, i) {
     if (r.meter) {
       return `<div class="row"><span class="copy">${title}</span><span class="value">${value}</span>${meter(r.meter.used, r.meter.total, r.meter.tone)}${detail ? `<span class="detail under">${detail}</span>` : ""}</div>`;
     }
-    return `<div class="row"><span class="copy">${title}${detail ? `<span class="detail">${detail}</span>` : ""}</span><span class="value">${value}</span></div>`;
+    // Several meters, such as a host's processor and memory, sit side by side
+    // under the row, each with its label.
+    const meters = r.meters?.length ? `<span class="meters under">${r.meters.map(figureMeter).join("")}</span>` : "";
+    return `<div class="row"><span class="copy">${title}${detail ? `<span class="detail">${detail}</span>` : ""}</span><span class="value">${value}</span>${meters}</div>`;
   });
   return `<section style="--i:${i}"><h2 class="section-title">${say(s.title)}${from(s)}</h2><div class="list card">${rows.join("")}</div></section>`;
 }
