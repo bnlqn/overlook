@@ -1,86 +1,35 @@
 # Overlook
 
+[![CI](https://github.com/bnlqn/overlook/actions/workflows/ci.yml/badge.svg)](https://github.com/bnlqn/overlook/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/bnlqn/overlook)](https://github.com/bnlqn/overlook/releases/latest)
+[![Licence](https://img.shields.io/github/license/bnlqn/overlook)](LICENSE)
+
 One page that tells you whether your homelab is fine.
 
 [![The overview of a homelab that doesn't exist: one problem, Standby DNS down, so Network is degraded; today's figures; and each area's checks](docs/overview.png)](https://bnlqn.github.io/overlook/)
 
 What's wrong, how each area of the homelab is, and what it did today and
 this week, on one page that is the same for every homelab. Overlook reads
-the tools you already run, such as Gatus, Proxmox, AdGuard Home, Immich,
-Radarr and Sonarr, and changes nothing. [See the demo](https://bnlqn.github.io/overlook/),
-drawn from a homelab that doesn't exist.
+the tools you already run and changes nothing.
+[See the demo](https://bnlqn.github.io/overlook/), drawn from a homelab
+that doesn't exist.
 
-**Not released yet.** The road below says where it is. The words the
-project uses are in [CONTEXT.md](CONTEXT.md) and its decisions in
-[docs/adr](docs/adr).
+It reads:
 
-## The road to v0.1
+- **Check engines**: [Gatus](#gatus), [Uptime Kuma](#uptime-kuma),
+  [Grafana](#grafana), [Prometheus and Alertmanager](#prometheus-and-alertmanager)
+- **Servers**: [Proxmox VE](#proxmox-ve), [Beszel](#beszel),
+  [Docker](#docker), [NUT](#nut)
+- **Network**: [AdGuard Home](#adguard-home), [Pi-hole](#pi-hole)
+- **Storage**: [Proxmox Backup Server](#proxmox-backup-server)
+- **Apps**: [Immich](#immich), [Jellyfin](#jellyfin),
+  [Plex, through Tautulli](#plex-through-tautulli), [Radarr](#radarr),
+  [Sonarr](#sonarr), [Prowlarr](#prowlarr), [qBittorrent](#qbittorrent),
+  [Seerr](#seerr), [Home Assistant](#home-assistant),
+  [Paperless-ngx](#paperless-ngx), [Nextcloud](#nextcloud)
+- **Chores**: [GitHub](#github), [iCalendar to-do lists](#icalendar-to-do-list)
 
-1. [x] The skeleton: the Go server, the strict config, the GET-only client,
-       the snapshot, the translation table, the page, the Gatus adapter and
-       the contract test.
-2. [x] The other adapters, one pull request each: Proxmox VE, Proxmox Backup
-       Server, AdGuard Home, Immich, Radarr and Sonarr, NUT, GitHub.
-3. [x] The demo from an invented snapshot, this README, CI, and releases
-       (amd64 and arm64 binaries, a multi-arch image on GHCR).
-4. [x] `v0.1.0-rc.1`, with its image public.
-5. [x] The author's homelab runs the release candidate in place of its own
-       page.
-6. [x] Two sources of one adapter told apart: each part names its source
-       where another of the same adapter is read, and figures that add up,
-       such as two hosts' guests, are one tile split by source.
-7. [x] The chores from a to-do list (ADR 0010): the iCalendar adapter in
-       place of the config's `chores:`, released as `v0.1.0-rc.3`.
-
-v0.1 is never tagged. Its last two steps, a week on the author's homelab
-and going public, moved to the end of the road to v0.2, so that the week
-is run with the adapters the author's homelab needs. Its three release
-candidates stay as pre-releases.
-
-## The road to v0.2
-
-1. [x] Three homelabs to look at, each an invented snapshot the demo
-       serves: the demo's own, a small one (Gatus and two apps) and a
-       large one, at the most the page is made for: 12 hosts, 12 people,
-       30 sources, 100 checks and 30 apps. Every change to the page is
-       looked at with all three.
-2. [x] The page at that scale: eight colours for people and sources, the
-       rest folded into one share; a section of hosts per source, a row
-       each; a check that keeps no recent results; `check:` naming its
-       check engine; charts of what hosts measure, a line each. Then the
-       large homelab is looked at whole, and what still looks wrong is
-       fixed.
-3. [x] One login, in `internal/fetch`, for a source that offers no other
-       way in (ADR 0009).
-4. [x] The adapters for what the author's homelab runs: Beszel, Docker,
-       Prowlarr and qBittorrent.
-5. [x] The tools most homelabs run, each recorded from a scratch instance
-       (ADR 0008), one pull request each, in this order: Jellyfin, Home
-       Assistant, Uptime Kuma, Pi-hole, Paperless-ngx, Nextcloud, Grafana,
-       Plex through Tautulli, Seerr, and Prometheus with Alertmanager.
-6. [x] What Overlook can't read, listed under [Can't be read](#cant-be-read),
-       and an issue for each adapter wanted.
-7. [x] `v0.2.0-rc.1`, and the author's homelab reads everything it runs
-       with it: step 4's adapters, and Home Assistant, whose adapter is
-       then recorded again from the author's own (ADR 0008).
-8. [ ] A week of running it.
-9. [ ] The repository goes public, `v0.2.0` is tagged and the issues for
-       the adapters wanted are opened. Before that, the history, every
-       pull request and the release notes are read for anything of a
-       real homelab, and the stale branches deleted; and the README is
-       written for someone who has never seen Overlook, with a code of
-       conduct and Discussions for questions. Then private vulnerability
-       reporting is turned on, the repository gets its description,
-       topics, homepage and social preview, and `main` a ruleset. The
-       demo goes live then: Pages set to build from GitHub Actions, and
-       the Demo workflow run once by hand, since going public pushes
-       nothing to `main`. The release attests its binaries and its image
-       from then on, since attestations need a public repository.
-
-v0.2 is ready when the large homelab looks right at desktop and phone
-width, the author's homelab has run it for a week with nothing missing,
-the demo is live, every adapter has its section here (its config and the
-least key it needs), and CI passes.
+What it can't read, and why, is under [Can't be read](#cant-be-read).
 
 ## What it shows
 
@@ -144,7 +93,7 @@ compose.yaml
 # compose.yaml
 services:
   overlook:
-    image: ghcr.io/bnlqn/overlook:0.1
+    image: ghcr.io/bnlqn/overlook:0.2
     restart: unless-stopped
     ports:
       - "8080:8080"
@@ -190,8 +139,8 @@ which sources Overlook reads, and the page names any that didn't answer.
   its files must be readable by others, as they are by default.
 - **`TZ`** says when today starts, for today's figures. Any zone works: the
   zone database is inside the binary.
-- **The image** is `ghcr.io/bnlqn/overlook`, for amd64 and arm64: `0.1` for
-  the newest 0.1 release, or a version such as `0.1.0`. It holds the
+- **The image** is `ghcr.io/bnlqn/overlook`, for amd64 and arm64: `0.2` for
+  the newest 0.2 release, or a version such as `0.2.0`. It holds the
   binary and the CA certificates it checks HTTPS sources with, and nothing
   else.
 
@@ -1069,11 +1018,23 @@ The page speaks the language of your browser when someone has translated
 it, and English for any word a translation lacks. A translation is one
 file; [CONTRIBUTING.md](CONTRIBUTING.md#translating) says how.
 
+## What's next
+
+`v0.2.0` is the first release. The road to v0.3 is written from what
+people ask for once it is out, and goes here. Until then, the
+[adapters wanted](https://github.com/bnlqn/overlook/issues?q=is%3Aissue%20is%3Aopen%20label%3Aenhancement)
+are open as issues: if you run one of them, its issue says what an
+adapter for it takes.
+
 ## Contributing
 
 [CONTRIBUTING.md](CONTRIBUTING.md) says how to set up, what every change
-passes and how to add an adapter. Report a vulnerability privately, as
-[SECURITY.md](SECURITY.md) explains.
+passes, how to add an adapter and how Overlook is written. The words the
+project uses are in [CONTEXT.md](CONTEXT.md) and its decisions in
+[docs/adr](docs/adr). Ask a question in
+[Discussions](https://github.com/bnlqn/overlook/discussions), and report a
+vulnerability privately, as [SECURITY.md](SECURITY.md) explains. Everyone
+who takes part keeps to the [code of conduct](CODE_OF_CONDUCT.md).
 
 ## Licence
 

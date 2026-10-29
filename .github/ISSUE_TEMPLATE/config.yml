@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: A question
+    url: https://github.com/bnlqn/overlook/discussions/new?category=q-a
+    about: Ask how to set something up, or why Overlook does what it does.
   - name: A vulnerability
     url: https://github.com/bnlqn/overlook/security/advisories/new
     about: Report it privately, as SECURITY.md explains.
