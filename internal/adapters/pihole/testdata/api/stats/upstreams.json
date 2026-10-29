@@ -1,0 +1,37 @@
+{
+  "upstreams": [
+    {
+      "ip": "blocklist",
+      "name": "blocklist",
+      "port": -1,
+      "count": 18,
+      "statistics": {
+        "response": 0,
+        "variance": 0
+      }
+    },
+    {
+      "ip": "cache",
+      "name": "cache",
+      "port": -1,
+      "count": 24,
+      "statistics": {
+        "response": 0,
+        "variance": 0
+      }
+    },
+    {
+      "ip": "8.8.8.8",
+      "name": "dns.google",
+      "port": 53,
+      "count": 15,
+      "statistics": {
+        "response": 0.00808065278189523,
+        "variance": 0.00041300330271528085
+      }
+    }
+  ],
+  "total_queries": 57,
+  "forwarded_queries": 15,
+  "took": 0.000032663345336914062
+}

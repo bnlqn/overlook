@@ -21,7 +21,9 @@ import (
 
 // Replay starts a source that answers each GET with the answer recorded at
 // dir/<path>.json, or at dir/<path>.ics for a source that answers in
-// iCalendar, the query left out, and fails tb on any other method.
+// iCalendar, the query left out, and fails tb on any other method. An
+// answer whose query sets it apart from another of the same path, such as
+// Pi-hole's blocked top domains, is at dir/<path>@<query>.json.
 func Replay(tb testing.TB, dir string) *httptest.Server {
 	tb.Helper()
 	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -32,7 +34,9 @@ func Replay(tb testing.TB, dir string) *httptest.Server {
 		}
 		// An fs.FS refuses a path with "..", so dir is never left.
 		recorded, answer := os.DirFS(dir), strings.Trim(r.URL.Path, "/")
-		if _, err := fs.Stat(recorded, answer+".ics"); err == nil {
+		if _, err := fs.Stat(recorded, answer+"@"+r.URL.RawQuery+".json"); err == nil && r.URL.RawQuery != "" {
+			answer += "@" + r.URL.RawQuery + ".json"
+		} else if _, err := fs.Stat(recorded, answer+".ics"); err == nil {
 			answer += ".ics"
 		} else {
 			answer += ".json"

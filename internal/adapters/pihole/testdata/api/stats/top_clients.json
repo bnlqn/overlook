@@ -1,0 +1,32 @@
+{
+  "clients": [
+    {
+      "name": "living-room-tv",
+      "ip": "172.31.53.12",
+      "count": 20
+    },
+    {
+      "name": "kims-laptop",
+      "ip": "172.31.53.11",
+      "count": 16
+    },
+    {
+      "name": "noors-phone",
+      "ip": "172.31.53.13",
+      "count": 10
+    },
+    {
+      "name": "thermostat",
+      "ip": "172.31.53.14",
+      "count": 6
+    },
+    {
+      "name": "",
+      "ip": "127.0.0.1",
+      "count": 5
+    }
+  ],
+  "total_queries": 57,
+  "blocked_queries": 18,
+  "took": 0.000036954879760742188
+}

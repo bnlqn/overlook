@@ -12,6 +12,7 @@
 /internal/adapters/immich/  @bnlqn
 /internal/adapters/jellyfin/ @bnlqn
 /internal/adapters/pbs/     @bnlqn
+/internal/adapters/pihole/  @bnlqn
 /internal/adapters/prowlarr/ @bnlqn
 /internal/adapters/proxmox/ @bnlqn
 /internal/adapters/qbittorrent/ @bnlqn
@@ -26,6 +27,7 @@
 /web/i18n/en/immich.json    @bnlqn
 /web/i18n/en/jellyfin.json  @bnlqn
 /web/i18n/en/pbs.json       @bnlqn
+/web/i18n/en/pihole.json    @bnlqn
 /web/i18n/en/prowlarr.json  @bnlqn
 /web/i18n/en/proxmox.json   @bnlqn
 /web/i18n/en/qbittorrent.json @bnlqn

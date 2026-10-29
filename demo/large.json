@@ -27,7 +27,7 @@
     { "name": "Network UPS", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Office UPS", "adapter": "nut", "area": "servers", "answered": false, "error": "timeout" },
     { "name": "Primary DNS", "adapter": "adguard", "area": "network", "answered": true },
-    { "name": "Secondary DNS", "adapter": "adguard", "area": "network", "answered": true },
+    { "name": "Secondary DNS", "adapter": "pihole", "area": "network", "answered": true },
     { "name": "IoT DNS", "adapter": "adguard", "area": "network", "answered": true },
     { "name": "Chores", "adapter": "ical", "answered": true },
     { "name": "Rack", "adapter": "ical", "answered": true }
@@ -5522,7 +5522,7 @@
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "adguard.resolver" },
+      "title": { "key": "section.resolver" },
       "rows": [
         { "title": { "key": "adguard.protection" }, "value": { "key": "adguard.filtering" }, "tone": "green" },
         {
@@ -5557,7 +5557,7 @@
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "adguard.top_clients" },
+      "title": { "key": "section.top_clients" },
       "rows": [
         {
           "title": { "name": "living-room-tv.lan" },
@@ -5613,7 +5613,7 @@
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "adguard.top_domains" },
+      "title": { "key": "section.top_domains" },
       "rows": [
         {
           "title": { "name": "time.example.com" },
@@ -5660,7 +5660,7 @@
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "adguard.top_blocked" },
+      "title": { "key": "section.top_blocked" },
       "rows": [
         { "title": { "name": "ads.example.com" }, "value": { "key": "adguard.n", "args": { "n": 61787 } } },
         { "title": { "name": "tracker.example.net" }, "value": { "key": "adguard.n", "args": { "n": 43765 } } },
@@ -5677,96 +5677,102 @@
     {
       "area": "network",
       "source": "Secondary DNS",
-      "title": { "key": "adguard.resolver" },
+      "title": { "key": "section.resolver" },
       "rows": [
         {
-          "title": { "key": "adguard.protection" },
-          "value": { "key": "adguard.paused" },
-          "detail": { "key": "adguard.back_in", "args": { "ms": 1080000 } },
+          "title": { "key": "pihole.blocking" },
+          "value": { "key": "pihole.paused" },
+          "detail": { "key": "pihole.back_in", "args": { "ms": 1080000 } },
           "tone": "orange"
         },
         {
-          "title": { "key": "adguard.lookups" },
-          "value": { "key": "adguard.n", "args": { "n": 272239 } },
-          "detail": { "key": "adguard.over", "args": { "ms": 604800000 } }
+          "title": { "key": "chart.lookups" },
+          "value": { "key": "pihole.n", "args": { "n": 38904 } },
+          "detail": { "key": "pihole.over_day" }
         },
         {
-          "title": { "key": "adguard.blocked" },
-          "value": { "key": "adguard.percent", "args": { "n": 24.0 } },
-          "detail": { "key": "adguard.count", "args": { "n": 65450 } }
-        },
-        { "title": { "key": "adguard.processing" }, "value": { "key": "adguard.ms", "args": { "n": 2.5 } } },
-        {
-          "title": { "name": "tls://dns.example.net:853" },
-          "value": { "key": "adguard.answers", "args": { "n": 79958, "ms": 14.8 } },
-          "detail": { "key": "adguard.upstream" }
+          "title": { "key": "chart.blocked" },
+          "value": { "key": "pihole.percent", "args": { "n": 23.7 } },
+          "detail": { "key": "pihole.count", "args": { "n": 9221 } }
         },
         {
-          "title": { "name": "tls://resolver.example.org:853" },
-          "value": { "key": "adguard.answers", "args": { "n": 39979, "ms": 19.6 } },
-          "detail": { "key": "adguard.upstream" }
+          "title": { "key": "pihole.blocklists" },
+          "value": { "key": "pihole.domains", "args": { "n": 186412 } },
+          "detail": { "key": "pihole.updated", "args": { "at": "2026-10-25T03:12:40Z" } }
         },
-        { "title": { "key": "adguard.version" }, "value": { "name": "v0.107.79" } }
+        {
+          "title": { "name": "dns.example.net" },
+          "value": { "key": "pihole.answers", "args": { "n": 11452, "ms": 14.8 } },
+          "detail": { "key": "pihole.upstream" }
+        },
+        {
+          "title": { "name": "resolver.example.org" },
+          "value": { "key": "pihole.answers", "args": { "n": 5731, "ms": 19.6 } },
+          "detail": { "key": "pihole.upstream" }
+        },
+        {
+          "title": { "key": "pihole.image" },
+          "value": { "key": "pihole.newer", "args": { "version": "2026.10.1" } },
+          "detail": { "name": "2026.10.0" },
+          "tone": "orange"
+        }
       ]
     },
     {
       "area": "network",
       "source": "Secondary DNS",
-      "title": { "key": "adguard.top_clients" },
+      "title": { "key": "section.top_clients" },
       "rows": [
         {
           "title": { "name": "guest-phone-1.lan" },
-          "value": { "key": "adguard.share", "args": { "n": 57170, "share": 21.0 } },
+          "value": { "key": "pihole.share", "args": { "n": 57170, "share": 21.0 } },
           "detail": { "name": "192.0.2.201" }
         },
         {
           "title": { "name": "guest-laptop.lan" },
-          "value": { "key": "adguard.share", "args": { "n": 46280, "share": 17.0 } },
+          "value": { "key": "pihole.share", "args": { "n": 46280, "share": 17.0 } },
           "detail": { "name": "192.0.2.202" }
         },
         {
           "title": { "name": "office-printer.lan" },
-          "value": { "key": "adguard.share", "args": { "n": 24501, "share": 9.0 } },
+          "value": { "key": "pihole.share", "args": { "n": 24501, "share": 9.0 } },
           "detail": { "name": "192.0.2.60" }
         },
-        {
-          "title": { "name": "192.0.2.203" },
-          "value": { "key": "adguard.share", "args": { "n": 13611, "share": 5.0 } }
-        }
+        { "title": { "name": "192.0.2.203" }, "value": { "key": "pihole.share", "args": { "n": 13611, "share": 5.0 } } }
       ]
     },
     {
       "area": "network",
       "source": "Secondary DNS",
-      "title": { "key": "adguard.top_domains" },
+      "title": { "key": "section.top_domains" },
       "rows": [
         {
           "title": { "name": "cdn.example.net" },
-          "value": { "key": "adguard.share", "args": { "n": 13611, "share": 5.0 } }
+          "value": { "key": "pihole.share", "args": { "n": 13611, "share": 5.0 } }
         },
         {
           "title": { "name": "time.example.com" },
-          "value": { "key": "adguard.share", "args": { "n": 10889, "share": 4.0 } }
+          "value": { "key": "pihole.share", "args": { "n": 10889, "share": 4.0 } }
         },
         {
           "title": { "name": "api.example.com" },
-          "value": { "key": "adguard.share", "args": { "n": 8167, "share": 3.0 } }
+          "value": { "key": "pihole.share", "args": { "n": 8167, "share": 3.0 } }
         }
       ]
     },
     {
       "area": "network",
       "source": "Secondary DNS",
-      "title": { "key": "adguard.top_blocked" },
+      "title": { "key": "section.top_blocked" },
       "rows": [
-        { "title": { "name": "ads.example.com" }, "value": { "key": "adguard.n", "args": { "n": 20289 } } },
-        { "title": { "name": "tracker.example.net" }, "value": { "key": "adguard.n", "args": { "n": 14399 } } }
+        { "title": { "name": "ads.example.com" }, "value": { "key": "pihole.n", "args": { "n": 20289 } } },
+        { "title": { "name": "tracker.example.net" }, "value": { "key": "pihole.n", "args": { "n": 14399 } } }
       ]
     },
     {
       "area": "network",
       "source": "IoT DNS",
-      "title": { "key": "adguard.resolver" },
+      "title": { "key": "section.resolver" },
       "rows": [
         { "title": { "key": "adguard.protection" }, "value": { "key": "adguard.filtering" }, "tone": "green" },
         {
@@ -5791,7 +5797,7 @@
     {
       "area": "network",
       "source": "IoT DNS",
-      "title": { "key": "adguard.top_clients" },
+      "title": { "key": "section.top_clients" },
       "rows": [
         {
           "title": { "name": "thermostat.iot" },
@@ -5848,7 +5854,7 @@
     {
       "area": "network",
       "source": "IoT DNS",
-      "title": { "key": "adguard.top_domains" },
+      "title": { "key": "section.top_domains" },
       "rows": [
         {
           "title": { "name": "telemetry.example.org" },
@@ -5871,7 +5877,7 @@
     {
       "area": "network",
       "source": "IoT DNS",
-      "title": { "key": "adguard.top_blocked" },
+      "title": { "key": "section.top_blocked" },
       "rows": [
         { "title": { "name": "telemetry.example.org" }, "value": { "key": "adguard.n", "args": { "n": 282771 } } },
         { "title": { "name": "metrics.example.com" }, "value": { "key": "adguard.n", "args": { "n": 99801 } } },
@@ -5883,10 +5889,10 @@
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "adguard.per_hour" },
+      "title": { "key": "chart.lookups_per_hour" },
       "series": [
         {
-          "label": { "key": "adguard.lookups" },
+          "label": { "key": "chart.lookups" },
           "hours": [
             6739, 5849, 5824, 5406, 6633, 6686, 7153, 8384, 9182, 9571, 8081, 5918, 4263, 4511, 3359, 3090, 2763, 2299,
             2656, 3274, 6214, 7875, 6999, 6391, 5933, 5868, 6205, 6228, 6491, 6318, 7745, 8169, 10168, 8413, 6725, 6100,
@@ -5901,7 +5907,7 @@
           ]
         },
         {
-          "label": { "key": "adguard.blocked" },
+          "label": { "key": "chart.blocked" },
           "hours": [
             1617, 1814, 1637, 1245, 1771, 2010, 2012, 1924, 2260, 2220, 2448, 1833, 1304, 1364, 963, 864, 846, 550, 775,
             904, 1642, 2037, 1833, 1617, 1373, 1381, 1628, 1871, 1494, 1799, 1972, 1942, 2913, 2582, 2029, 1608, 1169,
@@ -5920,33 +5926,20 @@
     {
       "area": "network",
       "source": "Secondary DNS",
-      "title": { "key": "adguard.per_hour" },
+      "title": { "key": "chart.lookups_per_hour" },
       "series": [
         {
-          "label": { "key": "adguard.lookups" },
+          "label": { "key": "chart.lookups" },
           "hours": [
-            1777, 1825, 1888, 1710, 1742, 1911, 2506, 2554, 2717, 2308, 1956, 1810, 1311, 1118, 854, 714, 765, 604, 673,
-            992, 1484, 1825, 1860, 1766, 1674, 1734, 1636, 1495, 1927, 2130, 2054, 2637, 2910, 2316, 2092, 1721, 1325,
-            1228, 882, 694, 644, 654, 793, 968, 1477, 1855, 1922, 1666, 1780, 1627, 1749, 1636, 1827, 2192, 2353, 2349,
-            2837, 2178, 1891, 1602, 1316, 1051, 975, 770, 685, 731, 805, 1137, 1789, 1978, 1705, 1692, 1907, 1631, 1709,
-            1629, 1823, 1922, 2020, 2472, 2896, 2521, 2052, 1600, 1385, 1068, 1018, 801, 756, 642, 807, 941, 1512, 2083,
-            1900, 1944, 1678, 1901, 1838, 1824, 1533, 2023, 2118, 2422, 2596, 2500, 1896, 1891, 1374, 1058, 929, 788,
-            703, 736, 791, 979, 1680, 2253, 1878, 1696, 1542, 1955, 1865, 1747, 1894, 1887, 2165, 2363, 2591, 2452,
-            1968, 1837, 1392, 1235, 934, 771, 739, 625, 708, 968, 1578, 2188, 1970, 1829, 1554, 1776, 1696, 1450, 1572,
-            2185, 2261, 2313, 2817, 2677, 2216, 1603, 1265, 1057, 911, 846, 668, 656, 811, 1122, 1639, 2235, 1957, 1866
+            1554, 1776, 1696, 1450, 1572, 2185, 2261, 2313, 2817, 2677, 2216, 1603, 1265, 1057, 911, 846, 668, 656, 811,
+            1122, 1639, 2235, 1957, 1866
           ]
         },
         {
-          "label": { "key": "adguard.blocked" },
+          "label": { "key": "chart.blocked" },
           "hours": [
-            378, 384, 429, 470, 475, 496, 622, 655, 661, 496, 513, 442, 361, 238, 223, 176, 167, 149, 142, 228, 328,
-            388, 505, 434, 414, 376, 436, 311, 484, 454, 481, 644, 673, 482, 436, 436, 352, 270, 204, 177, 136, 148,
-            213, 212, 399, 399, 466, 423, 438, 359, 386, 334, 494, 517, 514, 596, 682, 579, 479, 433, 275, 226, 258,
-            172, 150, 154, 184, 253, 476, 416, 441, 427, 400, 439, 370, 430, 397, 511, 449, 670, 778, 694, 518, 330,
-            338, 278, 218, 195, 205, 137, 184, 197, 413, 537, 519, 444, 382, 476, 485, 448, 406, 445, 569, 596, 663,
-            625, 387, 407, 322, 235, 222, 163, 146, 193, 172, 209, 361, 608, 423, 397, 402, 467, 420, 400, 430, 466,
-            573, 491, 687, 653, 466, 479, 321, 293, 224, 178, 165, 150, 195, 249, 400, 502, 432, 465, 355, 451, 354,
-            303, 386, 577, 585, 606, 667, 565, 544, 388, 280, 239, 192, 195, 173, 166, 169, 297, 361, 524, 534, 411
+            355, 451, 354, 303, 386, 577, 585, 606, 667, 565, 544, 388, 280, 239, 192, 195, 173, 166, 169, 297, 361,
+            524, 534, 411
           ]
         }
       ],
@@ -7409,16 +7402,16 @@
       "area": "network",
       "source": "Primary DNS",
       "icon": "shield",
-      "label": { "key": "adguard.today" },
+      "label": { "key": "figure.lookups" },
       "value": 45074,
-      "detail": { "key": "adguard.today_blocked", "args": { "blocked": 12259 } },
+      "detail": { "key": "figure.lookups_blocked", "args": { "blocked": 12259 } },
       "hours": [
         6796, 6693, 5773, 5868, 6888, 7271, 7984, 9159, 10015, 8939, 6852, 6137, 4123, 3901, 3491, 3073, 2269, 2161,
         2313, 3303, 5373, 6692, 5915, 6583
       ],
       "adds": true,
       "within": {
-        "label": { "key": "adguard.blocked" },
+        "label": { "key": "chart.blocked" },
         "hours": [
           1990, 1879, 1458, 1798, 2136, 1786, 1842, 2314, 2724, 2670, 2027, 1853, 1036, 959, 967, 887, 616, 558, 536,
           889, 1667, 1699, 1533, 1948
@@ -7429,16 +7422,16 @@
       "area": "network",
       "source": "Secondary DNS",
       "icon": "shield",
-      "label": { "key": "adguard.today" },
+      "label": { "key": "figure.lookups" },
       "value": 13768,
-      "detail": { "key": "adguard.today_blocked", "args": { "blocked": 3261 } },
+      "detail": { "key": "figure.lookups_blocked", "args": { "blocked": 3261 } },
       "hours": [
         1554, 1776, 1696, 1450, 1572, 2185, 2261, 2313, 2817, 2677, 2216, 1603, 1265, 1057, 911, 846, 668, 656, 811,
         1122, 1639, 2235, 1957, 1866
       ],
       "adds": true,
       "within": {
-        "label": { "key": "adguard.blocked" },
+        "label": { "key": "chart.blocked" },
         "hours": [
           355, 451, 354, 303, 386, 577, 585, 606, 667, 565, 544, 388, 280, 239, 192, 195, 173, 166, 169, 297, 361, 524,
           534, 411

@@ -1,0 +1,25 @@
+{
+  "pihole.blocking": "Blocking",
+  "pihole.blocking_on": "On",
+  "pihole.paused": "Paused",
+  "pihole.back_in": "Back on in {ms:span}",
+  "pihole.off": "Off",
+  "pihole.n": "{n}",
+  "pihole.over_day": "Over the last day",
+  "pihole.percent": "{n}%",
+  "pihole.count": { "one": "{n} lookup", "other": "{n} lookups" },
+  "pihole.blocklists": "Blocklists",
+  "pihole.domains": { "one": "{n} domain", "other": "{n} domains" },
+  "pihole.updated": "Updated {at:when}",
+  "pihole.upstream": "Upstream",
+  "pihole.answers": "{n} · {ms} ms",
+  "pihole.warning": "Warning",
+  "pihole.core": "Pi-hole",
+  "pihole.ftl": "FTL",
+  "pihole.web": "Web interface",
+  "pihole.image": "Pi-hole",
+  "pihole.newer": "{version} is out",
+
+  "pihole.share": "{n} · {share}%",
+  "pihole.nothing": "Nothing yet"
+}

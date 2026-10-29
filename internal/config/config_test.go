@@ -184,6 +184,7 @@ func TestExample(t *testing.T) {
 	t.Setenv("HOMEASSISTANT_TOKEN", "0123abcd")
 	t.Setenv("NUT_HOST", "nut.example.com")
 	t.Setenv("ADGUARD_PASSWORD", "s3cret")
+	t.Setenv("PIHOLE_PASSWORD", "s3cret")
 	t.Setenv("DAV_PASSWORD", "s3cret")
 	if _, err := Load("../../overlook.example.yaml"); err != nil {
 		t.Fatal(err)

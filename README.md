@@ -587,6 +587,41 @@ restart AdGuard Home.
 the hour for an interval of up to 7 days; over a longer one it keeps them
 by the day, in UTC, and the Overview shows no figure for it.
 
+### Pi-hole
+
+A resolver, as AdGuard Home is: each one is its own source, and its lookups
+add up with every other resolver's, AdGuard Home's too, on the Overview and
+in the Network page's chart, hour by hour over the last day, which is all
+Pi-hole keeps in memory, so beside a resolver that keeps a week, the chart
+shows the day they both have. Then each one: whether it blocks, or is paused and
+until when, its lookups and blocks, its blocklists and when they were last
+updated, its upstreams, what it warns about, such as a client it
+rate-limits, its version and whether a newer one is out, and its top
+clients, domains and blocked domains.
+
+```yaml
+sources:
+  pihole:
+    - name: Kids' DNS
+      url: http://pihole.example.com
+      password: ${PIHOLE_PASSWORD}
+```
+
+**Key:** an app password, from Settings, Web interface / API, in expert
+mode: **Configure app password**. Pi-hole gives a session only for a login,
+so Overlook logs in with one POST, keeps the session in memory and sends it
+with each GET, logging in again only when Pi-hole forgets it (ADR 0009). An
+app password logs in without the second factor, if you set one, and Pi-hole
+has no read-only one, so it could change anything; what keeps it harmless is
+that Overlook sends nothing else. With no password set in Pi-hole, leave
+`password` out. Each Overlook keeps one of the sessions Pi-hole allows, 16
+unless you changed `webserver.api.max_sessions`.
+
+Recorded from a scratch Pi-hole 2026.10 with invented clients and domains
+(ADR 0008), until someone who runs one records it from theirs: the compose
+file and the scripts that fill and record it are in the adapter's
+[`testdata`](internal/adapters/pihole/testdata).
+
 ### Beszel
 
 Each system Beszel's agents report on, as a host, in Servers: how long it

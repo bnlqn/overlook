@@ -127,6 +127,12 @@ sources:
       user: overlook
       password: ${ADGUARD_PASSWORD}
 
+  # A Pi-hole resolver the same way, its lookups added up with any other's.
+  pihole:
+    - name: Kids' DNS
+      url: http://pihole.example.com   # where Overlook reads Pi-hole's web interface
+      password: ${PIHOLE_PASSWORD}     # an app password, from Settings, Web interface / API
+
   # The chores you keep on a to-do list: mark one done there, in any CalDAV
   # app, and the page follows. A to-do with no due date is due now.
   ical:
