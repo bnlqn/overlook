@@ -9,6 +9,9 @@
   "search.label": "Search (⌘K)",
   "powered": "Powered by <a>Overlook</a>",
   "powered.version": "Powered by <a>Overlook</a> ({version})",
+  "demo": "Demo",
+  "demo.repo": "Overlook on GitHub",
+  "demo.repo.short": "GitHub",
 
   "page.overview": "Overview",
   "area.servers": "Servers",
