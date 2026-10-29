@@ -116,6 +116,13 @@ sources:
     - url: http://paperless:8000       # where Overlook reads Paperless-ngx
       token: ${PAPERLESS_TOKEN}        # the API token of a user of its own, as the README says
 
+  # The files: how many, the shares, who used it today, the room left, and,
+  # as chores, the apps waiting for an update.
+  nextcloud:
+    - url: http://nextcloud            # where Overlook reads Nextcloud
+      token: ${NEXTCLOUD_TOKEN}        # serverinfo's token, as the README says
+      # link: https://cloud.example.com # where the page sends you, if not the same
+
   # A UPS, read from NUT's upsd: its power, its battery and what it draws.
   nut:
     - host: ${NUT_HOST}                # where upsd listens, such as nut.example.com or nut.example.com:3493
