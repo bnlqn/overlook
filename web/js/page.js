@@ -103,50 +103,60 @@ function named(snap) {
 // ── The homelab and its areas ────────────────────────────────────────────
 
 /**
- * The homelab's state, headline and summary. The summary is parts, each
- * texts said one after the other.
+ * The homelab's state, headline and summary (CONTEXT.md, Degraded): down when
+ * an area is down or no check engine answered, degraded with any other
+ * problem, one in a check in no area too, unknown with no checks, and up
+ * otherwise. The summary is parts, each texts said one after the other.
  */
 function homelab(snap, checks, areas, silence, now) {
   const problems = checks.filter((c) => c.problem);
   const judged = areas.filter((a) => a.shown && a.checks.length);
+  const silentText = { key: "source.no_answer", args: { names: silence } };
+  const silentPart = silence.length ? [[silentText]] : [];
   // ponytail: blind is no check at all with any source silent, so a homelab
   // with no check engine and a silent resolver is down. Once a source says
   // its kind (candidate 3), blind is no check engine answering.
-  const blind = !checks.length && silence.length > 0;
-  const state = blind ? "down" : !problems.length ? "up" : judged.some((a) => a.state === "down") ? "down" : "degraded";
-  const silentText = { key: "source.no_answer", args: { names: silence } };
-  if (blind) {
+  if (!checks.length && silence.length) {
+    const { error } = snap.sources.find((s) => !s.answered);
+    return { state: "down", headline: silentText, summary: [[{ key: "source.no_answer_why", args: { error } }]] };
+  }
+  if (!checks.length) return { state: "unknown", headline: { key: "status.no_checks" }, summary: [] };
+  if (!problems.length) {
+    const quiet = quietSince(checks);
     return {
-      state,
-      headline: silentText,
-      summary: [[{ key: "source.no_answer_why", args: { error: snap.sources.find((s) => !s.answered).error } }]],
+      state: "up",
+      headline: { key: "status.up" },
+      summary: [
+        ...(quiet.since
+          ? [
+              [
+                quiet.problemFree
+                  ? { key: "status.quiet_since", args: { at: quiet.since } }
+                  : { key: "status.quiet_for", args: { ms: now - quiet.since } },
+              ],
+            ]
+          : []),
+        [
+          { key: "status.checks", args: { n: checks.length } },
+          { key: "status.areas", args: { n: judged.length } },
+        ],
+        ...silentPart,
+      ],
     };
   }
-  // Areas in one state are named together, and all of them as every area.
+  // Areas in one state are named together, all of them as every area, and
+  // the checks in no area by their names.
   const states = byState(judged).map((g) =>
     g.areas.length === judged.length
       ? { key: `status.every_${g.state}` }
       : { key: `status.areas_${g.state}`, args: { areas: g.areas } },
   );
-  const quiet = quietSince(checks);
-  const parts = problems.length
-    ? states.map((s) => [s])
-    : [
-        quiet.since && [
-          quiet.problemFree
-            ? { key: "status.quiet_since", args: { at: quiet.since } }
-            : { key: "status.quiet_for", args: { ms: now - quiet.since } },
-        ],
-        [
-          { key: "status.checks", args: { n: checks.length } },
-          { key: "status.areas", args: { n: judged.length } },
-        ],
-      ];
-  if (silence.length) parts.push([silentText]);
+  const elsewhere = problems.filter((c) => !c.area).map((c) => c.name);
+  if (elsewhere.length) states.push({ key: "status.checks_down", args: { names: elsewhere } });
   return {
-    state,
-    headline: problems.length ? { key: "status.problems", args: { n: problems.length } } : { key: "status.up" },
-    summary: parts.filter(Boolean),
+    state: judged.some((a) => a.state === "down") ? "down" : "degraded",
+    headline: { key: "status.problems", args: { n: problems.length } },
+    summary: [...states.map((s) => [s]), ...silentPart],
   };
 }
 

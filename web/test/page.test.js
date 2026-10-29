@@ -238,6 +238,28 @@ test("with no check and a source silent, the homelab is down and says why", () =
   assert.deepEqual(m.homelab.summary, [[{ key: "source.no_answer_why", args: { error: "connection refused" } }]]);
 });
 
+test("a problem in a check in no area makes the homelab degraded, and the summary names it", () => {
+  const mail = check("Mail", "", 3, true);
+  const alone = page(snap([check("web", "servers", 0, false), mail]), NOW);
+  assert.equal(alone.homelab.state, "degraded");
+  assert.deepEqual(alone.homelab.summary, [[{ key: "status.checks_down", args: { names: ["Mail"] } }]]);
+  const beside = page(snap([check("web", "servers", 0, false), check("dns", "network", 3, true), mail]), NOW);
+  assert.deepEqual(
+    beside.homelab.summary,
+    [
+      [{ key: "status.areas_down", args: { areas: ["network"] } }],
+      [{ key: "status.checks_down", args: { names: ["Mail"] } }],
+    ],
+    "after the areas",
+  );
+  assert.equal(beside.homelab.state, "down", "an area down is still the homelab down");
+});
+
+test("with no checks and nothing silent, the homelab is unknown, not up", () => {
+  const m = page(snap([]), NOW);
+  assert.deepEqual(m.homelab, { state: "unknown", headline: { key: "status.no_checks" }, summary: [] });
+});
+
 test("an area with no checks is unknown, not up: nothing says whether it works", () => {
   const m = page(
     snap([check("web", "servers", 0, false)], {
