@@ -38,7 +38,7 @@ _Avoid_: Service, integration, endpoint
 The part of Overlook that reads the sources of one program, such as AdGuard
 Home, and gives back their facts in Overlook's own shapes. Two AdGuard Home
 resolvers are two sources read by one adapter. Each adapter has a fixed home
-area.
+area, but a check engine's checks go in every area, and chores go in none.
 _Avoid_: Widget, plugin, integration
 
 **Kind**:
