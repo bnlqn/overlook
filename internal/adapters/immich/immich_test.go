@@ -92,7 +92,11 @@ func TestReadNoStatistics(t *testing.T) {
 		http.NotFound(w, r)
 	}))
 	t.Cleanup(src.Close)
-	if _, err := Read(context.Background(), Config{URL: src.URL, Key: "k3y"}, recorded); err == nil || !strings.Contains(err.Error(), "HTTP 404") {
+	c := Config{URL: src.URL, Key: "k3y"}
+	if err := c.Check(); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := Read(context.Background(), c, recorded); err == nil || !strings.Contains(err.Error(), "HTTP 404") {
 		t.Errorf("want HTTP 404, got %v", err)
 	}
 }

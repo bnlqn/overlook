@@ -36,12 +36,15 @@ type Config struct {
 	// Link is where the page sends the owner to install an update, if not
 	// URL.
 	Link string `yaml:"link"`
+
+	source fetch.Source
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL, Header: http.Header{"Authorization": {"Bearer " + c.Token}}}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	if c.Token == "" {
 		return errors.New("token is missing")
@@ -52,11 +55,6 @@ func (c *Config) Check() error {
 		return fmt.Errorf("link %w", err)
 	}
 	return nil
-}
-
-// get reads the answer at Home Assistant's path into v, with the token.
-func (c Config) get(ctx context.Context, path string, v any) error {
-	return fetch.JSON(ctx, strings.TrimSuffix(c.URL, "/")+path, http.Header{"Authorization": {"Bearer " + c.Token}}, v)
 }
 
 // entity is one of /api/states: a light, a sensor, an automation, an
@@ -87,10 +85,10 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		RecoveryMode bool   `json:"recovery_mode"`
 	}
 	var states []entity
-	if err := c.get(ctx, "/api/config", &config); err != nil {
+	if err := c.source.JSON(ctx, "/api/config", &config); err != nil {
 		return snapshot.Parts{}, err
 	}
-	if err := c.get(ctx, "/api/states", &states); err != nil {
+	if err := c.source.JSON(ctx, "/api/states", &states); err != nil {
 		return snapshot.Parts{}, err
 	}
 

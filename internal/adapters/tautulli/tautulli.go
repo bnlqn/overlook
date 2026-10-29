@@ -36,12 +36,15 @@ type Config struct {
 	URL string `yaml:"url"`
 	// Key is Tautulli's API key, from Settings, Web Interface.
 	Key string `yaml:"key"`
+
+	source fetch.Source
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	if c.Key == "" {
 		return errors.New("key is missing")
@@ -68,7 +71,7 @@ func (c Config) get(ctx context.Context, cmd string, values url.Values, v any) e
 			Data    json.RawMessage `json:"data"`
 		} `json:"response"`
 	}
-	if err := fetch.JSON(ctx, strings.TrimSuffix(c.URL, "/")+"/api/v2?"+q.Encode(), nil, &answer); err != nil {
+	if err := c.source.JSON(ctx, "/api/v2?"+q.Encode(), &answer); err != nil {
 		return err
 	}
 	if answer.Response.Result != "success" {

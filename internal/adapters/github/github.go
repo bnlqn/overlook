@@ -38,7 +38,8 @@ type Config struct {
 	// hour, and each read is one request per repository, so ten
 	// repositories hold. ponytail: one wait, with a token or without; give a
 	// token a shorter one if 10 minutes ever feels slow.
-	last *fetch.Cache[result]
+	last   *fetch.Cache[result]
+	source fetch.Source
 }
 
 // result is one read of every repository, kept even when it failed, so that
@@ -61,8 +62,12 @@ func (c *Config) Check() error {
 	}
 	c.Name = cmp.Or(c.Name, "GitHub")
 	c.URL = cmp.Or(c.URL, "https://api.github.com")
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL}
+	if c.Token != "" {
+		c.source.Header = http.Header{"Authorization": {"Bearer " + c.Token}}
+	}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	if len(c.Bots) == 0 {
 		c.Bots = []string{"dependabot[bot]", "renovate[bot]"}
@@ -94,11 +99,6 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 }
 
 func read(ctx context.Context, c Config) (snapshot.Parts, error) {
-	var header http.Header
-	if c.Token != "" {
-		header = http.Header{"Authorization": {"Bearer " + c.Token}}
-	}
-	base := strings.TrimSuffix(c.URL, "/")
 	pulls := make([][]pull, len(c.Repos))
 	errs := make([]error, len(c.Repos))
 	var wg sync.WaitGroup
@@ -106,9 +106,9 @@ func read(ctx context.Context, c Config) (snapshot.Parts, error) {
 		owner, name, _ := strings.Cut(r, "/")
 		// ponytail: the first 100 open pull requests of each repository;
 		// follow GitHub's Link header if one ever has more.
-		u := fmt.Sprintf("%s/repos/%s/%s/pulls?state=open&per_page=100", base, url.PathEscape(owner), url.PathEscape(name))
+		u := fmt.Sprintf("/repos/%s/%s/pulls?state=open&per_page=100", url.PathEscape(owner), url.PathEscape(name))
 		wg.Go(func() {
-			if err := fetch.JSON(ctx, u, header, &pulls[i]); err != nil {
+			if err := c.source.JSON(ctx, u, &pulls[i]); err != nil {
 				errs[i] = fmt.Errorf("%s: %w", r, err)
 			}
 		})

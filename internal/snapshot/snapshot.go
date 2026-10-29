@@ -41,7 +41,7 @@ type SourceState struct {
 	// area.
 	Area     string `json:"area,omitempty"`
 	Answered bool   `json:"answered"`
-	// Error is short and never holds the source's URL (see fetch.JSON).
+	// Error is short and never holds the source's URL (see fetch.Source).
 	Error string `json:"error,omitempty"`
 }
 

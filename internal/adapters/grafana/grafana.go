@@ -35,12 +35,15 @@ type Config struct {
 	// Areas maps each folder of alert rules not named like an area to the
 	// area it goes in.
 	Areas map[string]string `yaml:"areas"`
+
+	source fetch.Source
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL, Header: http.Header{"Authorization": {"Bearer " + c.Token}}}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	if c.Token == "" {
 		return errors.New("token is missing: a service account's, with the Viewer role")
@@ -85,10 +88,6 @@ type change struct {
 	prev, next string
 }
 
-func (c Config) get(ctx context.Context, path string, v any) error {
-	return fetch.JSON(ctx, strings.TrimSuffix(c.URL, "/")+path, http.Header{"Authorization": {"Bearer " + c.Token}}, v)
-}
-
 // Read reads every alert rule Grafana manages, at c.
 func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
 	var rules struct {
@@ -100,7 +99,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 			} `json:"groups"`
 		} `json:"data"`
 	}
-	if err := c.get(ctx, "/api/prometheus/grafana/api/v1/rules", &rules); err != nil {
+	if err := c.source.JSON(ctx, "/api/prometheus/grafana/api/v1/rules", &rules); err != nil {
 		return snapshot.Parts{}, err
 	}
 	type found struct {
@@ -123,7 +122,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		wg.Go(func() {
 			var h history
 			q := url.Values{"ruleUID": {all[i].r.UID}, "from": from["from"]}
-			if c.get(ctx, "/api/v1/rules/history?"+q.Encode(), &h) == nil {
+			if c.source.JSON(ctx, "/api/v1/rules/history?"+q.Encode(), &h) == nil {
 				all[i].changes = changes(h)
 			}
 		})

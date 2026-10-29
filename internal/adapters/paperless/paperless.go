@@ -6,11 +6,8 @@ package paperless
 import (
 	"cmp"
 	"context"
-	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/bnlqn/overlook/internal/fetch"
@@ -32,31 +29,20 @@ type Config struct {
 	URL string `yaml:"url"`
 	// Token is the API token of a user of Overlook's own.
 	Token string `yaml:"token"`
+
+	source fetch.Source
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL, Header: http.Header{"Authorization": {"Token " + c.Token}, "Accept": {"application/json; version=" + version}}}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	if c.Token == "" {
 		return errors.New("token is missing")
 	}
 	c.Name = cmp.Or(c.Name, "Paperless-ngx")
-	return nil
-}
-
-// get reads the answer at Paperless-ngx's API path into v, with the token,
-// at the API's version.
-func (c Config) get(ctx context.Context, path string, v any) error {
-	body, err := fetch.Text(ctx, strings.TrimSuffix(c.URL, "/")+"/api"+path, "application/json; version="+version,
-		http.Header{"Authorization": {"Token " + c.Token}})
-	if err != nil {
-		return err
-	}
-	if err := json.Unmarshal(body, v); err != nil {
-		return fmt.Errorf("an answer that isn't the JSON expected: %w", err)
-	}
 	return nil
 }
 
@@ -111,13 +97,13 @@ func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 		path string
 		v    any
 	}{
-		{"/status/", &st},
-		{"/statistics/", &stats},
+		{"/api/status/", &st},
+		{"/api/statistics/", &stats},
 		// The failures not yet dismissed in Paperless-ngx, which shows them
 		// until they are, the newest first.
-		{"/tasks/?status=failure&acknowledged=false&ordering=-date_created&page_size=10", &failed},
+		{"/api/tasks/?status=failure&acknowledged=false&ordering=-date_created&page_size=10", &failed},
 	} {
-		if err := c.get(ctx, r.path, r.v); err != nil {
+		if err := c.source.JSON(ctx, r.path, r.v); err != nil {
 			return snapshot.Parts{}, err
 		}
 	}

@@ -7,7 +7,6 @@ import (
 	"cmp"
 	"context"
 	"errors"
-	"fmt"
 	"maps"
 	"math"
 	"strings"
@@ -28,12 +27,15 @@ type Config struct {
 	// User and Password are the login Overlook reads it with.
 	User     string `yaml:"user"`
 	Password string `yaml:"password"`
+
+	source fetch.Source
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL, Header: fetch.Basic(c.User, c.Password)}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	if (c.User == "") != (c.Password == "") {
 		return errors.New("give user and password together, or neither")
@@ -89,16 +91,14 @@ type found struct {
 // Read reads the AdGuard Home at c as at now, whose time zone says when
 // today started.
 func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
-	base := strings.TrimSuffix(c.URL, "/") + "/control/"
-	login := fetch.Login(c.User, c.Password)
 	var s stats
 	var st status
 	var cl clients
 	for _, r := range []struct {
 		path string
 		v    any
-	}{{"stats", &s}, {"status", &st}, {"clients", &cl}} {
-		if err := fetch.JSON(ctx, base+r.path, login, r.v); err != nil {
+	}{{"/control/stats", &s}, {"/control/status", &st}, {"/control/clients", &cl}} {
+		if err := c.source.JSON(ctx, r.path, r.v); err != nil {
 			return snapshot.Parts{}, err
 		}
 	}

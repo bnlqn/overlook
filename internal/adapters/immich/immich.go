@@ -7,11 +7,9 @@ import (
 	"cmp"
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
 	"net/url"
 	"slices"
-	"strings"
 	"sync"
 	"time"
 
@@ -29,12 +27,15 @@ type Config struct {
 	URL string `yaml:"url"`
 	// Key is an API key with the read permissions the README names.
 	Key string `yaml:"key"`
+
+	source fetch.Source
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL, Header: http.Header{"X-Api-Key": {c.Key}}}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	if c.Key == "" {
 		return errors.New("key is missing")
@@ -85,9 +86,7 @@ type queue struct {
 // Read reads the Immich at c. Its statistics are all it needs: any other read
 // that fails leaves out what it would have shown.
 func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
-	api := strings.TrimSuffix(c.URL, "/") + "/api"
-	key := http.Header{"X-Api-Key": {c.Key}}
-	get := func(path string, v any) bool { return fetch.JSON(ctx, api+path, key, v) == nil }
+	get := func(path string, v any) bool { return c.source.JSON(ctx, path, v) == nil }
 
 	var (
 		stats    statistics
@@ -101,11 +100,11 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		hasQueue bool
 		wg       sync.WaitGroup
 	)
-	wg.Go(func() { err = fetch.JSON(ctx, api+"/server/statistics", key, &stats) })
-	wg.Go(func() { hasDisk = get("/server/storage", &disk) })
-	wg.Go(func() { hasAbout = get("/server/about", &about) })
-	wg.Go(func() { get("/server/version-check", &release) })
-	wg.Go(func() { hasQueue = get("/queues", &queues) })
+	wg.Go(func() { err = c.source.JSON(ctx, "/api/server/statistics", &stats) })
+	wg.Go(func() { hasDisk = get("/api/server/storage", &disk) })
+	wg.Go(func() { hasAbout = get("/api/server/about", &about) })
+	wg.Go(func() { get("/api/server/version-check", &release) })
+	wg.Go(func() { hasQueue = get("/api/queues", &queues) })
 	wg.Wait()
 	if err != nil {
 		return snapshot.Parts{}, err
@@ -121,7 +120,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 			var heatmap struct {
 				TotalCount int64 `json:"totalCount"`
 			}
-			if get("/admin/users/"+url.PathEscape(p.ID)+"/calendar-heatmap?"+days, &heatmap) {
+			if get("/api/admin/users/"+url.PathEscape(p.ID)+"/calendar-heatmap?"+days, &heatmap) {
 				week[i] = &heatmap.TotalCount
 			}
 		})

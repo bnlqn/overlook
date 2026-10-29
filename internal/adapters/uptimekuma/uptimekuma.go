@@ -40,12 +40,15 @@ type Config struct {
 	// Areas maps each group of the status page not named like an area to
 	// the area it goes in.
 	Areas map[string]string `yaml:"areas"`
+
+	source fetch.Source
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	if c.Page == "" {
 		return errors.New("page is missing: the slug of the status page to read, such as homelab")
@@ -81,7 +84,7 @@ func (m *moment) UnmarshalJSON(b []byte) error {
 
 // Read reads the monitors on the status page of the Uptime Kuma at c.
 func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
-	base := strings.TrimSuffix(c.URL, "/") + "/api/status-page/"
+	const api = "/api/status-page/"
 	var page struct {
 		Groups []struct {
 			Name     string `json:"name"`
@@ -94,10 +97,10 @@ func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 	var beats struct {
 		List map[string][]beat `json:"heartbeatList"`
 	}
-	if err := fetch.JSON(ctx, base+url.PathEscape(c.Page), nil, &page); err != nil {
+	if err := c.source.JSON(ctx, api+url.PathEscape(c.Page), &page); err != nil {
 		return snapshot.Parts{}, err
 	}
-	if err := fetch.JSON(ctx, base+"heartbeat/"+url.PathEscape(c.Page), nil, &beats); err != nil {
+	if err := c.source.JSON(ctx, api+"heartbeat/"+url.PathEscape(c.Page), &beats); err != nil {
 		return snapshot.Parts{}, err
 	}
 	checks := []snapshot.Check{}

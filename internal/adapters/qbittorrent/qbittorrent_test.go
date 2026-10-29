@@ -140,7 +140,7 @@ func TestKey(t *testing.T) {
 func TestConfigCheck(t *testing.T) {
 	t.Parallel()
 	c := Config{URL: "http://qbittorrent:8080"}
-	if err := c.Check(); err != nil || c.Name != "qBittorrent" || c.session != nil {
+	if err := c.Check(); err != nil || c.Name != "qBittorrent" || c.source.Login != nil {
 		t.Errorf("defaults: %+v, %v", c, err)
 	}
 	for _, bad := range []struct {

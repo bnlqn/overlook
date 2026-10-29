@@ -44,16 +44,23 @@ type Config struct {
 	// Areas maps each rule group not named like an area to the area it
 	// goes in.
 	Areas map[string]string `yaml:"areas"`
+
+	prometheus, alertmanager fetch.Source
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.prometheus = fetch.Source{URL: c.URL, Header: fetch.Basic(c.User, c.Password)}
+	if err := c.prometheus.Check(); err != nil {
+		return err
 	}
 	if c.Alertmanager != "" {
 		if err := fetch.CheckURL(c.Alertmanager); err != nil {
 			return fmt.Errorf("alertmanager %w", err)
+		}
+		c.alertmanager = fetch.Source{URL: c.Alertmanager, Header: c.prometheus.Header}
+		if err := c.alertmanager.Check(); err != nil {
+			return err
 		}
 	}
 	if (c.User == "") != (c.Password == "") {
@@ -65,10 +72,6 @@ func (c *Config) Check() error {
 		return fmt.Errorf("link %w", err)
 	}
 	return snapshot.CheckAreas(c.Areas)
-}
-
-func (c Config) get(ctx context.Context, base, path string, v any) error {
-	return fetch.JSON(ctx, strings.TrimSuffix(base, "/")+path, fetch.Login(c.User, c.Password), v)
 }
 
 type rule struct {
@@ -127,7 +130,7 @@ func (c Config) rangeOf(ctx context.Context, query string, from, to time.Time, s
 		"step": {strconv.FormatFloat(step.Seconds(), 'f', -1, 64)},
 	}
 	var s series
-	err := c.get(ctx, c.URL, "/api/v1/query_range?"+q.Encode(), &s)
+	err := c.prometheus.JSON(ctx, "/api/v1/query_range?"+q.Encode(), &s)
 	return s, err
 }
 
@@ -142,7 +145,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 			} `json:"groups"`
 		} `json:"data"`
 	}
-	if err := c.get(ctx, c.URL, "/api/v1/rules?type=alert", &rules); err != nil {
+	if err := c.prometheus.JSON(ctx, "/api/v1/rules?type=alert", &rules); err != nil {
 		return snapshot.Parts{}, err
 	}
 	// The week, by alert name, for this week's problems: each five minutes,
@@ -220,10 +223,10 @@ func (c Config) silenced(ctx context.Context) (map[string]string, error) {
 		} `json:"status"`
 	}
 	var silences []silence
-	if err := c.get(ctx, c.Alertmanager, "/api/v2/alerts", &alerts); err != nil {
+	if err := c.alertmanager.JSON(ctx, "/api/v2/alerts", &alerts); err != nil {
 		return nil, err
 	}
-	if err := c.get(ctx, c.Alertmanager, "/api/v2/silences", &silences); err != nil {
+	if err := c.alertmanager.JSON(ctx, "/api/v2/silences", &silences); err != nil {
 		return nil, err
 	}
 	loud := map[string]bool{}

@@ -7,9 +7,7 @@ import (
 	"cmp"
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
-	"strings"
 
 	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
@@ -28,13 +26,16 @@ type Config struct {
 	// and no lesser one exists; Overlook's GET-only reads keep it harmless
 	// (ADR 0001).
 	Key string `yaml:"key"`
+
+	source fetch.Source
 }
 
 // Check fills c's defaults, naming it name if the config doesn't, and
 // refuses what can't work.
 func (c *Config) Check(name string) error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL, Header: http.Header{"X-Api-Key": {c.Key}}}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	if c.Key == "" {
 		return errors.New("key is missing")
@@ -45,7 +46,7 @@ func (c *Config) Check(name string) error {
 
 // Get reads the answer at path, such as /api/v3/health, into v.
 func (c Config) Get(ctx context.Context, path string, v any) error {
-	return fetch.JSON(ctx, strings.TrimSuffix(c.URL, "/")+path, http.Header{"X-Api-Key": {c.Key}}, v)
+	return c.source.JSON(ctx, path, v)
 }
 
 // Status is what the source is downloading and what it warns about, as

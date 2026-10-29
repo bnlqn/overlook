@@ -12,7 +12,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"strings"
 	"time"
 
 	"github.com/bnlqn/overlook/internal/fetch"
@@ -32,26 +31,21 @@ type Config struct {
 	// (ADR 0009). With none, Pi-hole must ask for none.
 	Password string `yaml:"password"`
 
-	session *fetch.Session
+	source fetch.Source
 }
 
 // Check fills c's defaults and refuses what can't work.
 func (c *Config) Check() error {
-	if err := fetch.CheckURL(c.URL); err != nil {
-		return fmt.Errorf("url %w", err)
+	c.source = fetch.Source{URL: c.URL}
+	if c.Password != "" {
+		c.source.Login = &fetch.Login{Path: "/api/auth", Credentials: map[string]string{"password": c.Password}, Take: sid}
+	}
+	if err := c.source.Check(); err != nil {
+		return err
 	}
 	c.Name = cmp.Or(c.Name, "Pi-hole")
-	if c.Password != "" {
-		s, err := fetch.Client{}.Session(c.api("/auth"), map[string]string{"password": c.Password}, sid)
-		if err != nil {
-			return err
-		}
-		c.session = s
-	}
 	return nil
 }
-
-func (c Config) api(path string) string { return strings.TrimSuffix(c.URL, "/") + "/api" + path }
 
 // sid takes the session from a login's answer, which Pi-hole sends back as
 // X-FTL-SID with each read. A password it refuses answers 401, so a login
@@ -70,15 +64,6 @@ func sid(_ http.Header, body []byte) (http.Header, error) {
 		return nil, errors.New("refused")
 	}
 	return http.Header{"X-FTL-SID": {answer.Session.SID}}, nil
-}
-
-// get reads the answer at Pi-hole's API path into v, with the session, if
-// there is one.
-func (c Config) get(ctx context.Context, path string, v any) error {
-	if c.session != nil {
-		return c.session.JSON(ctx, c.api(path), v)
-	}
-	return fetch.JSON(ctx, c.api(path), nil, v)
 }
 
 type summary struct {
@@ -155,17 +140,17 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		path string
 		v    any
 	}{
-		{"/stats/summary", &sum},
-		{"/history", &history},
-		{"/dns/blocking", &blocking},
-		{"/stats/top_clients?" + count.Encode(), &clients},
-		{"/stats/top_domains?" + count.Encode(), &domains},
-		{"/stats/top_domains?" + url.Values{"count": count["count"], "blocked": {"true"}}.Encode(), &blocked},
-		{"/stats/upstreams", &upstreams},
-		{"/info/version", &versions},
-		{"/info/messages", &messages},
+		{"/api/stats/summary", &sum},
+		{"/api/history", &history},
+		{"/api/dns/blocking", &blocking},
+		{"/api/stats/top_clients?" + count.Encode(), &clients},
+		{"/api/stats/top_domains?" + count.Encode(), &domains},
+		{"/api/stats/top_domains?" + url.Values{"count": count["count"], "blocked": {"true"}}.Encode(), &blocked},
+		{"/api/stats/upstreams", &upstreams},
+		{"/api/info/version", &versions},
+		{"/api/info/messages", &messages},
 	} {
-		if err := c.get(ctx, r.path, r.v); err != nil {
+		if err := c.source.JSON(ctx, r.path, r.v); err != nil {
 			return snapshot.Parts{}, err
 		}
 	}
