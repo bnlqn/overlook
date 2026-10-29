@@ -1353,18 +1353,18 @@
     {
       "area": "apps",
       "source": "Jellyfin",
-      "title": { "key": "section.media" },
+      "title": { "key": "mediaserver.section" },
       "rows": [
         {
           "title": { "name": "Kim" },
           "value": { "name": "Sherlock Jr. (1924)" },
-          "detail": { "key": "jellyfin.paused", "args": { "device": "Living room TV" } },
+          "detail": { "key": "mediaserver.paused", "args": { "device": "Living room TV" } },
           "tone": "gray"
         },
         {
           "title": { "name": "Noor" },
           "value": { "key": "jellyfin.episode", "args": { "series": "Harbour Lights", "name": "The Lamp Room" } },
-          "detail": { "key": "jellyfin.transcoding", "args": { "device": "Kitchen tablet" } }
+          "detail": { "key": "mediaserver.transcoding", "args": { "device": "Kitchen tablet" } }
         },
         { "title": { "key": "jellyfin.films" }, "value": { "key": "jellyfin.films_n", "args": { "n": 412 } } },
         {
@@ -1386,12 +1386,12 @@
     {
       "area": "apps",
       "source": "Plex",
-      "title": { "key": "section.media" },
+      "title": { "key": "mediaserver.section" },
       "rows": [
         {
           "title": { "name": "Noor" },
           "value": { "name": "Night of the Living Dead (1968)" },
-          "detail": { "key": "tautulli.direct", "args": { "device": "Bedroom TV" } }
+          "detail": { "key": "mediaserver.direct", "args": { "device": "Bedroom TV" } }
         },
         {
           "title": { "key": "tautulli.bandwidth" },
@@ -1517,104 +1517,104 @@
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "section.resolver" },
+      "title": { "key": "resolver.section" },
       "rows": [
-        { "title": { "key": "adguard.protection" }, "value": { "key": "adguard.filtering" }, "tone": "green" },
+        { "title": { "key": "resolver.blocking" }, "value": { "key": "resolver.on" }, "tone": "green" },
         {
-          "title": { "key": "adguard.lookups" },
+          "title": { "key": "resolver.lookups" },
           "value": { "key": "number", "args": { "n": 642318 } },
-          "detail": { "key": "adguard.over", "args": { "ms": 604800000 } }
+          "detail": { "key": "resolver.over", "args": { "ms": 604800000 } }
         },
         {
-          "title": { "key": "adguard.blocked" },
+          "title": { "key": "resolver.blocked" },
           "value": { "key": "percent", "args": { "n": 31.4 } },
-          "detail": { "key": "adguard.count", "args": { "n": 201688 } }
+          "detail": { "key": "resolver.count", "args": { "n": 201688 } }
         },
-        { "title": { "key": "adguard.processing" }, "value": { "key": "adguard.ms", "args": { "n": 1.4 } } },
         {
           "title": { "name": "tls://dns.example.net:853" },
-          "value": { "key": "adguard.answers", "args": { "n": 14210, "ms": 16.9 } },
-          "detail": { "key": "adguard.upstream" }
+          "value": { "key": "resolver.answers", "args": { "n": 14210, "ms": 16.9 } },
+          "detail": { "key": "resolver.upstream" }
         },
         {
           "title": { "name": "tls://resolver.example.org:853" },
-          "value": { "key": "adguard.answers", "args": { "n": 7084, "ms": 18.2 } },
-          "detail": { "key": "adguard.upstream" }
+          "value": { "key": "resolver.answers", "args": { "n": 7084, "ms": 18.2 } },
+          "detail": { "key": "resolver.upstream" }
         },
+        { "title": { "key": "adguard.processing" }, "value": { "key": "adguard.ms", "args": { "n": 1.4 } } },
         { "title": { "key": "adguard.version" }, "value": { "name": "v0.107.79" } }
       ]
     },
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "section.top_clients" },
+      "title": { "key": "resolver.top_clients" },
       "rows": [
         {
           "title": { "name": "living-room-tv.lan" },
-          "value": { "key": "top.share", "args": { "n": 112480, "share": 17.5 } },
+          "value": { "key": "resolver.share", "args": { "n": 112480, "share": 17.5 } },
           "detail": { "name": "192.0.2.21" }
         },
         {
           "title": { "name": "media.lan" },
-          "value": { "key": "top.share", "args": { "n": 96215, "share": 15.0 } },
+          "value": { "key": "resolver.share", "args": { "n": 96215, "share": 15.0 } },
           "detail": { "name": "192.0.2.110" }
         },
         {
           "title": { "name": "kims-phone.lan" },
-          "value": { "key": "top.share", "args": { "n": 71904, "share": 11.2 } },
+          "value": { "key": "resolver.share", "args": { "n": 71904, "share": 11.2 } },
           "detail": { "name": "192.0.2.31" }
         },
         {
           "title": { "name": "noors-laptop.lan" },
-          "value": { "key": "top.share", "args": { "n": 58377, "share": 9.1 } },
+          "value": { "key": "resolver.share", "args": { "n": 58377, "share": 9.1 } },
           "detail": { "name": "192.0.2.32" }
         },
         {
           "title": { "name": "home.lan" },
-          "value": { "key": "top.share", "args": { "n": 45120, "share": 7.0 } },
+          "value": { "key": "resolver.share", "args": { "n": 45120, "share": 7.0 } },
           "detail": { "name": "192.0.2.100" }
         },
         {
           "title": { "name": "192.0.2.47" },
-          "value": { "key": "top.share", "args": { "n": 21064, "share": 3.3 } }
+          "value": { "key": "resolver.share", "args": { "n": 21064, "share": 3.3 } }
         }
       ]
     },
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "section.top_domains" },
+      "title": { "key": "resolver.top_domains" },
       "rows": [
         {
           "title": { "name": "time.example.com" },
-          "value": { "key": "top.share", "args": { "n": 18342, "share": 2.9 } }
+          "value": { "key": "resolver.share", "args": { "n": 18342, "share": 2.9 } }
         },
         {
           "title": { "name": "photos.example.com" },
-          "value": { "key": "top.share", "args": { "n": 16107, "share": 2.5 } }
+          "value": { "key": "resolver.share", "args": { "n": 16107, "share": 2.5 } }
         },
         {
           "title": { "name": "updates.example.org" },
-          "value": { "key": "top.share", "args": { "n": 12955, "share": 2.0 } }
+          "value": { "key": "resolver.share", "args": { "n": 12955, "share": 2.0 } }
         },
         {
           "title": { "name": "cdn.example.net" },
-          "value": { "key": "top.share", "args": { "n": 10418, "share": 1.6 } }
+          "value": { "key": "resolver.share", "args": { "n": 10418, "share": 1.6 } }
         },
         {
           "title": { "name": "api.example.com" },
-          "value": { "key": "top.share", "args": { "n": 9870, "share": 1.5 } }
+          "value": { "key": "resolver.share", "args": { "n": 9870, "share": 1.5 } }
         },
         {
           "title": { "name": "weather.example.org" },
-          "value": { "key": "top.share", "args": { "n": 5112, "share": 0.8 } }
+          "value": { "key": "resolver.share", "args": { "n": 5112, "share": 0.8 } }
         }
       ]
     },
     {
       "area": "network",
       "source": "Primary DNS",
-      "title": { "key": "section.top_blocked" },
+      "title": { "key": "resolver.top_blocked" },
       "rows": [
         { "title": { "name": "ads.example.com" }, "value": { "key": "number", "args": { "n": 58120 } } },
         { "title": { "name": "tracker.example.net" }, "value": { "key": "number", "args": { "n": 41377 } } },
@@ -1627,28 +1627,28 @@
     {
       "area": "network",
       "source": "Kids' DNS",
-      "title": { "key": "section.resolver" },
+      "title": { "key": "resolver.section" },
       "rows": [
-        { "title": { "key": "pihole.blocking" }, "value": { "key": "pihole.blocking_on" }, "tone": "green" },
+        { "title": { "key": "resolver.blocking" }, "value": { "key": "resolver.on" }, "tone": "green" },
         {
-          "title": { "key": "chart.lookups" },
+          "title": { "key": "resolver.lookups" },
           "value": { "key": "number", "args": { "n": 12420 } },
-          "detail": { "key": "pihole.over_day" }
+          "detail": { "key": "resolver.over", "args": { "ms": 86400000 } }
         },
         {
-          "title": { "key": "chart.blocked" },
+          "title": { "key": "resolver.blocked" },
           "value": { "key": "percent", "args": { "n": 23.8 } },
-          "detail": { "key": "pihole.count", "args": { "n": 2954 } }
+          "detail": { "key": "resolver.count", "args": { "n": 2954 } }
+        },
+        {
+          "title": { "name": "dns.example.net" },
+          "value": { "key": "resolver.answers", "args": { "n": 6610, "ms": 15.2 } },
+          "detail": { "key": "resolver.upstream" }
         },
         {
           "title": { "key": "pihole.blocklists" },
           "value": { "key": "pihole.domains", "args": { "n": 412880 } },
           "detail": { "key": "pihole.updated", "args": { "at": "2026-10-25T03:12:40Z" } }
-        },
-        {
-          "title": { "name": "dns.example.net" },
-          "value": { "key": "pihole.answers", "args": { "n": 6610, "ms": 15.2 } },
-          "detail": { "key": "pihole.upstream" }
         },
         {
           "title": { "key": "pihole.warning" },
@@ -1661,21 +1661,21 @@
     {
       "area": "network",
       "source": "Kids' DNS",
-      "title": { "key": "section.top_clients" },
+      "title": { "key": "resolver.top_clients" },
       "rows": [
         {
           "title": { "name": "kids-tablet" },
-          "value": { "key": "top.share", "args": { "n": 5210, "share": 41.9 } },
+          "value": { "key": "resolver.share", "args": { "n": 5210, "share": 41.9 } },
           "detail": { "name": "192.0.2.61" }
         },
         {
           "title": { "name": "games-console" },
-          "value": { "key": "top.share", "args": { "n": 4380, "share": 35.3 } },
+          "value": { "key": "resolver.share", "args": { "n": 4380, "share": 35.3 } },
           "detail": { "name": "192.0.2.62" }
         },
         {
           "title": { "name": "homework-laptop" },
-          "value": { "key": "top.share", "args": { "n": 2830, "share": 22.8 } },
+          "value": { "key": "resolver.share", "args": { "n": 2830, "share": 22.8 } },
           "detail": { "name": "192.0.2.63" }
         }
       ]
@@ -1683,26 +1683,26 @@
     {
       "area": "network",
       "source": "Kids' DNS",
-      "title": { "key": "section.top_domains" },
+      "title": { "key": "resolver.top_domains" },
       "rows": [
         {
           "title": { "name": "videos.example.com" },
-          "value": { "key": "top.share", "args": { "n": 3120, "share": 25.1 } }
+          "value": { "key": "resolver.share", "args": { "n": 3120, "share": 25.1 } }
         },
         {
           "title": { "name": "games.example.net" },
-          "value": { "key": "top.share", "args": { "n": 2410, "share": 19.4 } }
+          "value": { "key": "resolver.share", "args": { "n": 2410, "share": 19.4 } }
         },
         {
           "title": { "name": "school.example.org" },
-          "value": { "key": "top.share", "args": { "n": 1180, "share": 9.5 } }
+          "value": { "key": "resolver.share", "args": { "n": 1180, "share": 9.5 } }
         }
       ]
     },
     {
       "area": "network",
       "source": "Kids' DNS",
-      "title": { "key": "section.top_blocked" },
+      "title": { "key": "resolver.top_blocked" },
       "rows": [
         { "title": { "name": "ads.example.com" }, "value": { "key": "number", "args": { "n": 1420 } } },
         { "title": { "name": "chat.example.net" }, "value": { "key": "number", "args": { "n": 860 } } }
@@ -1712,10 +1712,10 @@
   "charts": [
     {
       "area": "network",
-      "title": { "key": "chart.lookups_per_hour" },
+      "title": { "key": "resolver.lookups_per_hour" },
       "series": [
         {
-          "label": { "key": "chart.lookups" },
+          "label": { "key": "resolver.lookups" },
           "hours": [
             2556, 2122, 1595, 1389, 1509, 1608, 2181, 3538, 4752, 4021, 3563, 3623, 3736, 3670, 3286, 3943, 4516, 4931,
             5379, 5611, 5720, 4965, 3855, 2402, 2732, 2322, 1739, 1675, 1542, 1573, 2330, 4059, 4677, 4626, 4265, 3900,
@@ -1730,7 +1730,7 @@
           ]
         },
         {
-          "label": { "key": "chart.blocked" },
+          "label": { "key": "resolver.blocked" },
           "hours": [
             768, 690, 466, 417, 424, 491, 645, 1119, 1641, 1356, 1162, 1158, 1286, 1036, 1157, 1111, 1562, 1536, 1776,
             1989, 1547, 1468, 1074, 709, 792, 757, 595, 487, 468, 437, 640, 1144, 1277, 1584, 1252, 1281, 1430, 1236,
@@ -1750,18 +1750,18 @@
     {
       "area": "network",
       "source": "Kids' DNS",
-      "title": { "key": "chart.lookups_per_hour" },
+      "title": { "key": "resolver.lookups_per_hour" },
       "adds": true,
       "series": [
         {
-          "label": { "key": "chart.lookups" },
+          "label": { "key": "resolver.lookups" },
           "hours": [
             310, 220, 140, 90, 60, 50, 80, 260, 520, 610, 480, 350, 390, 420, 560, 880, 1240, 1460, 1390, 1100, 720,
             460, 330, 280
           ]
         },
         {
-          "label": { "key": "chart.blocked" },
+          "label": { "key": "resolver.blocked" },
           "hours": [
             60, 41, 25, 14, 9, 8, 13, 52, 118, 140, 104, 72, 81, 90, 131, 214, 302, 355, 330, 256, 160, 98, 70, 61
           ]
@@ -2133,9 +2133,9 @@
       "area": "apps",
       "source": "Jellyfin",
       "icon": "play",
-      "label": { "key": "figure.plays" },
+      "label": { "key": "mediaserver.plays" },
       "value": 3,
-      "detail": { "key": "figure.playing_now", "args": { "n": 2 } },
+      "detail": { "key": "mediaserver.playing_now", "args": { "n": 2 } },
       "hours": [0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 3, 5, 4, 6, 3, 1, 0, 0, 0, 0, 0, 1, 1, 1],
       "adds": true
     },
@@ -2143,9 +2143,9 @@
       "area": "apps",
       "source": "Plex",
       "icon": "play",
-      "label": { "key": "figure.plays" },
+      "label": { "key": "mediaserver.plays" },
       "value": 2,
-      "detail": { "key": "figure.playing_now", "args": { "n": 1 } },
+      "detail": { "key": "mediaserver.playing_now", "args": { "n": 1 } },
       "hours": [0, 0, 0, 0, 0, 1, 1, 2, 1, 2, 3, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1],
       "adds": true
     },
@@ -2179,16 +2179,16 @@
       "area": "network",
       "source": "Primary DNS",
       "icon": "shield",
-      "label": { "key": "figure.lookups" },
+      "label": { "key": "resolver.dns_lookups" },
       "value": 41870,
-      "detail": { "key": "figure.lookups_blocked", "args": { "blocked": 13215 } },
+      "detail": { "key": "resolver.lookups_blocked", "args": { "blocked": 13215 } },
       "hours": [
         3120, 2410, 1980, 1760, 1690, 1840, 2650, 4120, 5210, 4870, 4430, 4290, 4610, 4380, 4150, 4420, 5030, 5880,
         6410, 6820, 6230, 5470, 4390, 2960
       ],
       "adds": true,
       "within": {
-        "label": { "key": "chart.blocked" },
+        "label": { "key": "resolver.blocked" },
         "hours": [
           874, 679, 641, 503, 476, 574, 815, 1192, 1590, 1684, 1248, 1231, 1256, 1277, 1156, 1585, 1500, 2111, 1805,
           2396, 1966, 1817, 1447, 871
@@ -2199,15 +2199,15 @@
       "area": "network",
       "source": "Kids' DNS",
       "icon": "shield",
-      "label": { "key": "figure.lookups" },
+      "label": { "key": "resolver.dns_lookups" },
       "value": 3410,
-      "detail": { "key": "figure.lookups_blocked", "args": { "blocked": 812 } },
+      "detail": { "key": "resolver.lookups_blocked", "args": { "blocked": 812 } },
       "hours": [
         310, 220, 140, 90, 60, 50, 80, 260, 520, 610, 480, 350, 390, 420, 560, 880, 1240, 1460, 1390, 1100, 720, 460,
         330, 280
       ],
       "within": {
-        "label": { "key": "chart.blocked" },
+        "label": { "key": "resolver.blocked" },
         "hours": [
           60, 41, 25, 14, 9, 8, 13, 52, 118, 140, 104, 72, 81, 90, 131, 214, 302, 355, 330, 256, 160, 98, 70, 61
         ]

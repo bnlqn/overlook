@@ -26,7 +26,8 @@ func TestRead(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	p, err := Read(context.Background(), c)
+	// Its week was recorded up to 09:30 UTC on 28 October 2026.
+	p, err := read(context.Background(), c, time.Date(2026, 10, 28, 9, 45, 0, 0, time.UTC))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -125,7 +126,7 @@ func TestCluster(t *testing.T) {
 		{Type: "storage", Node: "nova", Storage: "local", Status: "available", MaxDisk: 100},
 		{Type: "storage", Node: "nova", Storage: "backups", Shared: 1, Status: "available", MaxDisk: 100},
 		{Type: "storage", Node: "vega", Storage: "backups", Shared: 1, Status: "unknown"},
-	}, []*host{h}, 2)
+	}, []*host{h}, 2, time.Now())
 	adaptertest.Validate(t, p)
 
 	if h := p.Sections[0].Rows; len(h) != 2 || h[0].Title.Name != "nova" || h[1].Title.Name != "vega" || h[1].Value.Key != "proxmox.offline" || h[1].Tone != "red" {

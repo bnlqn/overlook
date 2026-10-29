@@ -175,6 +175,20 @@ func Problems(p snapshot.Parts, english map[string]any) []string {
 		text(w, f.Unit)
 		text(w, f.Detail)
 		tone(w, f.Tone)
+		// The page adds up such figures' numbers, those in their units and
+		// details too, so each of those must be a count (snapshot.Figure).
+		for _, x := range []*snapshot.Text{f.Unit, f.Detail} {
+			if !f.Adds || x == nil {
+				continue
+			}
+			for name, v := range x.Args {
+				switch v.(type) {
+				case int, int64, float64:
+				default:
+					fail("%s: it adds up, so {%s} must be a count, not %T", w, name, v)
+				}
+			}
+		}
 		if len(f.Hours) != 0 && len(f.Hours) != 24 {
 			fail("%s: %d hours, not 24", w, len(f.Hours))
 		}

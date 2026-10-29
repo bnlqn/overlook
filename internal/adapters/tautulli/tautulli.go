@@ -1,6 +1,7 @@
-// Package tautulli reads Plex through Tautulli: what plays now and how, the
-// libraries, the plays of the last day, whether Tautulli reaches the Plex
-// server, and whether a newer Plex is out.
+// Package tautulli reads Plex through Tautulli, a media server: what plays
+// now and how, and the plays of the last day, as any media server's
+// (snapshot.MediaServer); and the libraries, whether Tautulli reaches the
+// Plex server, and whether a newer Plex is out.
 package tautulli
 
 import (
@@ -94,7 +95,6 @@ func (n *count) UnmarshalJSON(b []byte) error {
 }
 
 type activity struct {
-	Streams   count     `json:"stream_count"`
 	Bandwidth int       `json:"total_bandwidth"` // kilobits a second
 	Remote    int       `json:"wan_bandwidth"`
 	Sessions  []session `json:"sessions"`
@@ -158,32 +158,19 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		}
 	}
 
-	var rows []snapshot.Row
+	var m snapshot.MediaServer
+	for _, s := range act.Sessions {
+		m.Playing = append(m.Playing, snapshot.Play{
+			Who: s.User, Device: s.Player, What: snapshot.Text{Name: s.Title},
+			Paused: s.State == "paused", Transcoding: s.Transcode == "transcode",
+		})
+	}
 	// Without the Plex server, Tautulli knows only what it kept.
 	if !status.Connected {
-		rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "tautulli.plex"}, Value: snapshot.Msg("tautulli.unreachable", nil), Tone: "red"})
+		m.Rows = append(m.Rows, snapshot.Row{Title: snapshot.Text{Key: "tautulli.plex"}, Value: snapshot.Msg("tautulli.unreachable", nil), Tone: "red"})
 	}
-	// What each person plays now, by person: paused in grey, and how it
-	// reaches them, as it is or transcoded, which takes the processor.
-	slices.SortFunc(act.Sessions, func(a, b session) int {
-		return cmp.Or(cmp.Compare(a.User, b.User), cmp.Compare(a.Player, b.Player))
-	})
-	for _, s := range act.Sessions {
-		row := snapshot.Row{Title: snapshot.Text{Name: s.User}, Value: &snapshot.Text{Name: s.Title}}
-		how := "tautulli.direct"
-		switch {
-		case s.State == "paused":
-			how, row.Tone = "tautulli.paused", "gray"
-		case s.Transcode == "transcode":
-			how = "tautulli.transcoding"
-		}
-		row.Detail = snapshot.Msg(how, map[string]any{"device": s.Player})
-		rows = append(rows, row)
-	}
-	if len(act.Sessions) == 0 {
-		rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "tautulli.playing"}, Value: snapshot.Msg("tautulli.nothing", nil)})
-	} else {
-		rows = append(rows, snapshot.Row{
+	if len(act.Sessions) > 0 {
+		m.Rows = append(m.Rows, snapshot.Row{
 			Title:  snapshot.Text{Key: "tautulli.bandwidth"},
 			Value:  snapshot.Msg("tautulli.speed", map[string]any{"n": act.Bandwidth * 1000 / 8}),
 			Detail: snapshot.Msg("tautulli.remote", map[string]any{"n": act.Remote * 1000 / 8}),
@@ -198,7 +185,7 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		if key == "" {
 			key = "tautulli.items_n"
 		}
-		rows = append(rows, snapshot.Row{Title: snapshot.Text{Name: l.Name}, Value: snapshot.Msg(key, args)})
+		m.Rows = append(m.Rows, snapshot.Row{Title: snapshot.Text{Name: l.Name}, Value: snapshot.Msg(key, args)})
 	}
 
 	if update.Available != nil && status.Connected {
@@ -206,36 +193,12 @@ func read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		if *update.Available && update.Version != "" {
 			plex.Value, plex.Tone = snapshot.Msg("tautulli.newer", map[string]any{"version": update.Version}), "orange"
 		}
-		rows = append(rows, plex)
+		m.Rows = append(m.Rows, plex)
 	}
 
-	// The plays of the last day by the hour, those still going too, in
-	// Overlook's time zone.
-	hour := func(t time.Time) time.Time {
-		t = t.In(now.Location())
-		return time.Date(t.Year(), t.Month(), t.Day(), t.Hour(), 0, 0, 0, t.Location())
-	}
-	this := hour(now)
-	midnight := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
-	hours, today := make([]float64, 24), 0
+	// The plays of the last day, those still going too.
 	for _, h := range history.Data {
-		at := time.Unix(h.Started, 0)
-		if ago := int(this.Sub(hour(at)) / time.Hour); ago >= 0 && ago < 24 {
-			hours[23-ago]++
-		}
-		if !at.Before(midnight) {
-			today++
-		}
+		m.Plays = append(m.Plays, time.Unix(h.Started, 0))
 	}
-	f := snapshot.Figure{
-		Area: Area, Icon: "play", Label: snapshot.PlaysFigure, Value: float64(today), Hours: hours, Adds: true,
-		Detail: snapshot.Msg(snapshot.PlayingNow, map[string]any{"n": int(act.Streams)}),
-	}
-	if !status.Connected {
-		f.Tone = "orange"
-	}
-	return snapshot.Parts{
-		Sections: []snapshot.Section{{Area: Area, Title: snapshot.MediaSection, Rows: rows}},
-		Figures:  []snapshot.Figure{f},
-	}, nil
+	return m.Parts(Area, now), nil
 }

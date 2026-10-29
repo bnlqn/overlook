@@ -1,9 +1,4 @@
 {
-  "tautulli.direct": "{device} · as it is",
-  "tautulli.transcoding": "{device} · transcoded",
-  "tautulli.paused": "{device} · paused",
-  "tautulli.playing": "Playing",
-  "tautulli.nothing": "Nothing",
   "tautulli.bandwidth": "Streaming",
   "tautulli.speed": "{n:bytes}/s",
   "tautulli.remote": "{n:bytes}/s of it to remote players",

@@ -1,5 +1,5 @@
 ---
-status: proposed
+status: accepted
 ---
 
 # A kind of source builds its parts from its adapters' facts

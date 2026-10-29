@@ -1,0 +1,11 @@
+{
+  "mediaserver.plays": "Plays",
+  "mediaserver.playing_now": "{n} playing now",
+
+  "mediaserver.section": "Media",
+  "mediaserver.direct": "{device} · as it is",
+  "mediaserver.transcoding": "{device} · transcoded",
+  "mediaserver.paused": "{device} · paused",
+  "mediaserver.playing": "Playing",
+  "mediaserver.nothing": "Nothing"
+}

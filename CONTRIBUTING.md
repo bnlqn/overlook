@@ -44,7 +44,7 @@ and open <http://localhost:8080>.
 | `cmd/overlook` | the binary: flags, the server's start and its graceful stop |
 | `internal/config` | `overlook.yaml`: strict loading, `${VAR}`s, every adapter's config |
 | `internal/fetch` | the only way to read a source: GET requests, a login where a source offers no other way in, and NUT's LIST VAR, nothing else (ADR 0001, ADR 0009) |
-| `internal/snapshot` | the shapes every adapter gives back, and the reader that builds a snapshot on demand (ADR 0004) |
+| `internal/snapshot` | the shapes every adapter gives back, what every resolver and media server shows whichever adapter reads it (ADR 0012), and the reader that builds a snapshot on demand (ADR 0004) |
 | `internal/adapters/<name>` | one adapter each, with its recorded answers in `testdata/` |
 | `internal/adapters/adaptertest` | the contract test every adapter passes |
 | `internal/server` | the routes, and the headers every answer carries |
@@ -53,13 +53,13 @@ and open <http://localhost:8080>.
 
 ## Adding an adapter
 
-An adapter reads one kind of source and gives back its facts in Overlook's shapes. It comes in by pull request from someone who runs that source, who then keeps it (ADR 0005), or from the maintainer, recorded from a scratch instance (ADR 0008).
+An adapter reads the sources of one program and gives back their facts in Overlook's shapes. It comes in by pull request from someone who runs that source, who then keeps it (ADR 0005), or from the maintainer, recorded from a scratch instance (ADR 0008).
 
 A source gets an adapter when three things hold: Overlook can read it with GET, and at most one login (ADR 0009), using a key its owner makes once and that lasts a year or more, and, if its GETs can change things too, as Tautulli's do, through a fixed list of the ones that read, which its test checks (ADR 0011); about one homelab in ten runs it, or its author does; and it shows more than whether it answers, which a check engine already says. A source that can't be read is listed under [Can't be read](README.md#cant-be-read), with why.
 
 One adapter per pull request, with:
 
-1. **Its package**, `internal/adapters/<name>`, with a `Config` (whose `Check` fills its defaults and refuses what can't work) and a `Read(ctx, Config) (snapshot.Parts, error)` that reads only through `internal/fetch`: `fetch.JSON` over HTTP, `fetch.Text` for an answer that isn't JSON, such as iCalendar, a `fetch.Session` for a source that lets Overlook in only after a login (ADR 0009), or `fetch.NUTVars` from NUT's upsd. An answer too big to read with every snapshot, such as Radarr's films, is read through a `fetch.Cache`, at most every 10 minutes. Its home area, the one its parts go in, is its `Area`; a check engine, whose checks go in every area, has none. Wire it into `internal/config`: a field in `Sources`, and one `add` line in `check`, which passes its `Area`.
+1. **Its package**, `internal/adapters/<name>`, with a `Config` (whose `Check` fills its defaults and refuses what can't work) and a `Read(ctx, Config) (snapshot.Parts, error)` that reads only through `internal/fetch`: `fetch.JSON` over HTTP, `fetch.Text` for an answer that isn't JSON, such as iCalendar, a `fetch.Session` for a source that lets Overlook in only after a login (ADR 0009), or `fetch.NUTVars` from NUT's upsd. An answer too big to read with every snapshot, such as Radarr's films, is read through a `fetch.Cache`, at most every 10 minutes. Its home area, the one its parts go in, is its `Area`; a check engine, whose checks go in every area, has none. Wire it into `internal/config`: a field in `Sources`, and one `add` line in `check`, which passes its `Area`. A resolver's or a media server's adapter fills in its kind's facts, a `snapshot.Resolver` or a `snapshot.MediaServer`, and returns their `Parts`, which are what every source of that kind shows, so that they add up (ADR 0012); its own words are for its own rows.
 2. **Recorded answers**, in its `testdata/`, by the path read, such as `testdata/api/v1/endpoints/statuses.json`, or with `.ics` for an answer in iCalendar. An answer whose query sets it apart from another of the same path goes at `<path>@<query>.json`, such as Pi-hole's `api/stats/top_domains@blocked=true&count=10.json`. Record them from your own source, then replace every key, host, name and number that is yours. For a source you don't run, record them from a scratch instance filled with invented data, with its compose file and the steps that fill it beside them (ADR 0008).
 3. **Its test**, which replays them with `adaptertest.Replay` (NUT's, which isn't HTTP, replays a transcript of upsd through a fake upsd in its own test), checks the result with `adaptertest.Validate`, and asserts what the adapter makes of them.
 4. **Its words**, in `web/i18n/en/<name>.json`, each key starting with `<name>.`. Every word the adapter adds to the page is a key and its values (ADR 0006); names from the source are shown as written.

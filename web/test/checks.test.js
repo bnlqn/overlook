@@ -186,7 +186,7 @@ test("figures that add up and share a label key are one, hour by hour, their det
   assert.equal(together([ups(80), ups(120)]).length, 2, "two UPSes' draws stay apart unless they say they add up");
 });
 
-test("two sources of one adapter name their parts; one of a kind doesn't", () => {
+test("two sources of one adapter name their parts; one alone doesn't", () => {
   const snap = {
     sources: [
       { name: "Primary DNS", adapter: "adguard", answered: true },
@@ -237,7 +237,7 @@ test("two sources of one adapter name their parts; one of a kind doesn't", () =>
     "chores from two sources each say where they wait",
   );
   assert.equal(out.events[0].by, undefined);
-  assert.equal(out.events[1].by, undefined, "sources that don't say their adapter aren't of one kind");
+  assert.equal(out.events[1].by, undefined, "sources that don't say their adapter aren't of one adapter");
   assert.equal(snap.sections[0].by, undefined, "the snapshot's own parts are left as they were");
 });
 

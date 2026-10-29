@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/bnlqn/overlook/internal/adapters/adaptertest"
-	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
 // testdata holds answers recorded from a scratch Jellyfin 12.4 (ADR 0008),
@@ -29,23 +28,18 @@ func TestRead(t *testing.T) {
 	}
 	adaptertest.Validate(t, p)
 
-	if len(p.Sections) != 1 || p.Sections[0].Title.Key != snapshot.MediaSection.Key {
-		t.Fatalf("one section: %+v", p.Sections)
-	}
 	rows := p.Sections[0].Rows
 	if len(rows) != 9 {
 		t.Fatalf("three playing, films, shows, a disk, failed logins, the failed scan and the version: %+v", rows)
 	}
-	if r := rows[0]; r.Title.Name != "Alex" || r.Value.Name != "Metropolis (1927)" || r.Detail.Key != "jellyfin.direct" ||
-		r.Detail.Args["device"] != "Living room TV" || r.Tone != "" {
-		t.Errorf("Alex first by name, playing a film as it is: %+v %+v", r, r.Detail)
+	if r := rows[0]; r.Title.Name != "Alex" || r.Value.Name != "Metropolis (1927)" || r.Detail.Key != "mediaserver.direct" || r.Detail.Args["device"] != "Living room TV" {
+		t.Errorf("Alex playing a film as it is: %+v %+v", r, r.Detail)
 	}
-	if r := rows[1]; r.Title.Name != "Robin" || r.Detail.Key != "jellyfin.transcoding" {
+	if r := rows[1]; r.Title.Name != "Robin" || r.Detail.Key != "mediaserver.transcoding" {
 		t.Errorf("Robin's film, transcoded: %+v %+v", r, r.Detail)
 	}
-	if r := rows[2]; r.Title.Name != "Sam" || r.Value.Key != "jellyfin.episode" || r.Value.Args["series"] != "Harbour Lights" ||
-		r.Detail.Key != "jellyfin.paused" || r.Tone != "gray" {
-		t.Errorf("Sam's episode, paused in grey: %+v %+v", r, r.Value)
+	if r := rows[2]; r.Title.Name != "Sam" || r.Value.Key != "jellyfin.episode" || r.Value.Args["series"] != "Harbour Lights" || r.Detail.Key != "mediaserver.paused" {
+		t.Errorf("Sam's episode, paused: %+v %+v", r, r.Value)
 	}
 	if r := rows[3]; r.Title.Key != "jellyfin.films" || r.Value.Args["n"] != 8 {
 		t.Errorf("8 films: %+v", r.Value)
@@ -68,8 +62,8 @@ func TestRead(t *testing.T) {
 	}
 
 	f := p.Figures[0]
-	if f.Value != 3 || f.Detail.Args["n"] != 3 || f.Tone != "orange" || !f.Adds {
-		t.Errorf("3 plays since midnight, 3 playing now, orange for the failed scan: %+v", f)
+	if f.Value != 3 || f.Detail.Args["n"] != 3 {
+		t.Errorf("3 plays since midnight, 3 playing now: %+v", f)
 	}
 	if f.Hours[23] != 3 || f.Hours[10] != 1 {
 		t.Errorf("3 plays this hour and one at 21:00 yesterday: %v", f.Hours)

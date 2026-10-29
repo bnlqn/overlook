@@ -108,8 +108,8 @@ func (r *Reader) Snapshot() Snapshot {
 			state.Error = errs[i].Error()
 			slog.Warn("a source didn't answer", "source", src.Name, "error", errs[i])
 		} else {
-			// Each part is named by its source, so two of one kind can be
-			// told apart.
+			// Each part is named by its source, so two of one adapter can
+			// be told apart.
 			p := parts[i]
 			snap.Checks = append(snap.Checks, p.Checks...)
 			for _, s := range p.Sections {
