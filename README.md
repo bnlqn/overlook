@@ -823,6 +823,37 @@ invented films and plays (ADR 0008), until someone who runs one records it
 from theirs: the compose file and the scripts that fill and record it are
 in the adapter's [`testdata`](internal/adapters/tautulli/testdata).
 
+### Seerr
+
+The requests for films and shows, on the Apps page: how many wait for your
+approval, how many are on their way and how many are there, the problems
+people reported that are still open, in orange, and whether a newer Seerr
+is out or it waits for a restart. Each request waiting for approval is a
+chore, from the day it was made, by its title and who asked, a link to its
+page in Seerr, where you approve or decline it.
+
+```yaml
+sources:
+  seerr:
+    - url: http://seerr:5055             # where Overlook reads Seerr
+      key: ${SEERR_KEY}
+      link: https://requests.example.com # where the page sends you, if not the same
+```
+
+**Key:** Seerr's API key, from Settings, General. It's the only key Seerr
+has, and it can do anything an administrator can, approving requests too,
+but Overlook sends it only with GET requests, which change nothing
+(ADR 0001).
+
+A request names its film only by its number on TMDB, so Overlook reads each
+title once from Seerr and keeps it, a title never changing; the 20 newest
+requests waiting are listed.
+
+Recorded from a scratch Seerr 3.5 with invented people asking for
+public-domain films (ADR 0008), until someone who runs one records it from
+theirs: the compose file and the scripts that fill and record it are in the
+adapter's [`testdata`](internal/adapters/seerr/testdata).
+
 ### Home Assistant
 
 The home, on the Apps page: Home Assistant's version, or whether it started
