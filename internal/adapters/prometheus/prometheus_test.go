@@ -40,7 +40,7 @@ func source(t *testing.T) *httptest.Server {
 // seconds, in groups named Servers, Network, Storage and Apps. Disk space
 // fires for a minute every other minute, and had just stopped; Packet loss
 // is pending for an hour; Backup age fires, but the owner silenced it in
-// Alertmanager. record.sh read them at 12:59:17.
+// Alertmanager. record.sh read them at 15:49:15.
 func TestRead(t *testing.T) {
 	t.Parallel()
 	src := source(t)
@@ -48,7 +48,7 @@ func TestRead(t *testing.T) {
 	if err := c.Check(); err != nil {
 		t.Fatal(err)
 	}
-	p, err := read(context.Background(), c, time.Unix(1793278757, 0))
+	p, err := read(context.Background(), c, time.Unix(1793288955, 0))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -81,24 +81,26 @@ func TestRead(t *testing.T) {
 		t.Errorf("its firing this week, to five minutes, and over: %+v", d.Outages)
 	}
 
-	if l := by["Packet loss"]; l.Problem || l.Run != snapshot.Recent || l.Threshold != 361 {
-		t.Errorf("Packet loss, pending for an hour of 10-second evaluations: %+v", l)
+	pending, _ := time.Parse(time.RFC3339, "2026-10-29T15:43:59.137705404Z")
+	if l := by["Packet loss"]; l.Problem || l.Run != snapshot.Recent || l.Threshold != 361 || !l.Since.Equal(pending) || len(l.Outages) != 0 {
+		t.Errorf("Packet loss, pending for an hour of 10-second evaluations, since it went pending: %+v", l)
 	}
-	if b := by["Backup age"]; b.Problem || b.Run != snapshot.Recent || b.Threshold != snapshot.Recent+1 || b.Why != "The offsite disk is being swapped" {
-		t.Errorf("Backup age, firing but silenced, with the silence's comment: %+v", b)
+	if b := by["Backup age"]; b.Problem || b.Run != snapshot.Recent || b.Threshold != 0 || b.Why != "The offsite disk is being swapped" || len(b.Outages) != 0 {
+		t.Errorf("Backup age, firing but silenced, with the silence's comment, and no problem this week: %+v", b)
 	}
 	if h := by["Host memory"]; h.Problem || h.Run != 0 || len(h.Outages) != 0 {
 		t.Errorf("Host memory, never firing: %+v", h)
 	}
 
 	// Without Alertmanager, a silence isn't known, and Backup age is a
-	// problem as Prometheus sees it.
+	// problem as Prometheus sees it, still going since it fired.
 	c.Alertmanager = ""
-	if p, err = read(context.Background(), c, time.Unix(1793278757, 0)); err != nil {
+	if p, err = read(context.Background(), c, time.Unix(1793288955, 0)); err != nil {
 		t.Fatal(err)
 	}
+	adaptertest.Validate(t, p)
 	for _, ch := range p.Checks {
-		if ch.Name == "Backup age" && !ch.Problem {
+		if ch.Name == "Backup age" && (!ch.Problem || ch.Threshold != 1 || len(ch.Outages) != 1 || ch.Outages[0].To != nil) {
 			t.Errorf("Backup age without Alertmanager: %+v", ch)
 		}
 	}

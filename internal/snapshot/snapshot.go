@@ -111,7 +111,10 @@ func (r *Reader) Snapshot() Snapshot {
 			// Each part is named by its source, so two of one kind can be
 			// told apart.
 			p := parts[i]
-			snap.Checks = append(snap.Checks, p.Checks...)
+			for _, c := range p.Checks {
+				c.Source = src.Name
+				snap.Checks = append(snap.Checks, c)
+			}
 			for _, s := range p.Sections {
 				s.Source = src.Name
 				snap.Sections = append(snap.Sections, s)

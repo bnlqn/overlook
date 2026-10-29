@@ -104,71 +104,55 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 	for _, g := range page.Groups {
 		for _, m := range g.Monitors {
 			key := strconv.Itoa(m.ID)
-			ch := check(beats.List[key])
-			ch.Key, ch.Name, ch.Source = key, m.Name, c.Name
-			ch.Area = snapshot.AreaOf(g.Name, c.Areas)
-			ch.URL = strings.TrimSuffix(c.Link, "/") + "/dashboard/" + key
-			checks = append(checks, ch)
+			checks = append(checks, check(snapshot.Check{
+				Key: key, Name: m.Name, Area: snapshot.AreaOf(g.Name, c.Areas),
+				URL: strings.TrimSuffix(c.Link, "/") + "/dashboard/" + key,
+			}, beats.List[key]))
 		}
 	}
 	return snapshot.Parts{Checks: checks}, nil
 }
 
-// check is what a monitor's beats, oldest first, say: its recent results,
-// and from all Uptime Kuma keeps, its failures in a row and the problems
-// they made. A monitor is a problem once Uptime Kuma calls it down, after
-// the tries again it was given, and maintenance fails nothing.
-func check(beats []beat) snapshot.Check {
+// check is ch as a monitor's beats, oldest first, make it: its results, and
+// the stretches it failed, each from its first failing beat to its next
+// pass, alerted once Uptime Kuma called it down, after the tries again it
+// was given, and the one still going only while it's down now. Maintenance
+// fails nothing.
+func check(ch snapshot.Check, beats []beat) snapshot.Check {
 	ok := func(b beat) bool { return b.Status == up || b.Status == maintenance }
-	ch := snapshot.Check{Results: []snapshot.Result{}}
-	for _, b := range beats[max(0, len(beats)-snapshot.Recent):] {
+	var stretches []snapshot.Stretch
+	failed := 0 // the last stretch's failures
+	for _, b := range beats {
 		ch.Results = append(ch.Results, snapshot.Result{OK: ok(b), At: b.Time.Time, MS: b.Ping})
-	}
-
-	run := 0
-	for i := len(beats) - 1; i >= 0 && !ok(beats[i]); i-- {
-		run++
-	}
-	if run > 0 {
-		at := beats[len(beats)-run].Time.Time
-		ch.Since = &at
-	}
-	ch.Problem = run > 0 && beats[len(beats)-1].Status == down
-
-	// The stretches it was down, each from when Uptime Kuma called it so
-	// to its next pass, and the tries again it took to get there: the
-	// threshold, which Uptime Kuma keeps to itself.
-	tries := 0
-	var from *time.Time
-	for i, b := range beats {
+		n := len(stretches) - 1
 		switch {
-		case b.Status == down && from == nil:
-			at := b.Time.Time
-			from = &at
-			n := 0
-			for j := i - 1; j >= 0 && beats[j].Status == pending; j-- {
-				n++
-			}
-			tries = n
-		case ok(b) && from != nil:
+		case !ok(b) && (n < 0 || stretches[n].To != nil):
+			stretches = append(stretches, snapshot.Stretch{From: b.Time.Time})
+			failed, n = 0, n+1
+		case ok(b) && n >= 0 && stretches[n].To == nil:
 			to := b.Time.Time
-			ch.Outages = append(ch.Outages, snapshot.Outage{From: *from, To: &to})
-			from = nil
+			stretches[n].To = &to
 		}
-	}
-	if from != nil {
-		ch.Outages = append(ch.Outages, snapshot.Outage{From: *from})
+		if ok(b) {
+			continue
+		}
+		// The tries again it took to go down, and the first, are its
+		// threshold, which Uptime Kuma keeps to itself.
+		failed++
+		if b.Status == down && !stretches[n].Alerted {
+			stretches[n].Alerted, ch.Threshold = true, failed
+		}
 	}
 
 	// ponytail: the tries again come from the last time it went down, and
-	// a monitor that never did is a problem at the next failure as far as
-	// the page says. If Uptime Kuma ever serves a monitor's retries to a
-	// status page, read them.
-	ch.Run = min(run, len(ch.Results))
-	if ch.Problem {
-		ch.Threshold = min(tries+1, ch.Run)
-	} else {
-		ch.Threshold = max(tries+1, ch.Run+1)
+	// one that never did, or tries again more than it did then, has none.
+	// If Uptime Kuma ever serves a monitor's retries to a status page, read
+	// them.
+	if n := len(stretches) - 1; n >= 0 && stretches[n].To == nil {
+		stretches[n].Alerted = beats[len(beats)-1].Status == down
+		if !stretches[n].Alerted && failed >= ch.Threshold {
+			ch.Threshold = 0
+		}
 	}
-	return ch
+	return snapshot.CheckOf(ch, stretches)
 }
