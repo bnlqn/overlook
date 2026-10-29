@@ -32,6 +32,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/qbittorrent"
 	"github.com/bnlqn/overlook/internal/adapters/radarr"
 	"github.com/bnlqn/overlook/internal/adapters/sonarr"
+	"github.com/bnlqn/overlook/internal/adapters/uptimekuma"
 	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
@@ -49,6 +50,7 @@ type Config struct {
 // Sources are the sources to read, by adapter: each adapter's own config.
 type Sources struct {
 	Gatus         []gatus.Config         `yaml:"gatus"`
+	UptimeKuma    []uptimekuma.Config    `yaml:"uptimekuma"`
 	GitHub        []github.Config        `yaml:"github"`
 	Immich        []immich.Config        `yaml:"immich"`
 	PBS           []pbs.Config           `yaml:"pbs"`
@@ -89,6 +91,10 @@ func add[C any, P interface {
 	}
 	return nil
 }
+
+// checkEngines are the adapters whose sources run the homelab's checks,
+// which a link's check names.
+var checkEngines = []string{"gatus", "uptimekuma"}
 
 var (
 	envVar = regexp.MustCompile(`\$\{([A-Za-z_][A-Za-z0-9_]*)\}`)
@@ -160,6 +166,7 @@ func (c *Config) check() error {
 	// The first refusal, in the order of Sources.
 	if err := cmp.Or(
 		add(c, "gatus", "", c.Sources.Gatus, func(g gatus.Config) string { return g.Name }, gatus.Read),
+		add(c, "uptimekuma", "", c.Sources.UptimeKuma, func(u uptimekuma.Config) string { return u.Name }, uptimekuma.Read),
 		add(c, "github", "", c.Sources.GitHub, func(g github.Config) string { return g.Name }, github.Read),
 		add(c, "immich", immich.Area, c.Sources.Immich, func(im immich.Config) string { return im.Name }, immich.Read),
 		add(c, "pbs", pbs.Area, c.Sources.PBS, func(b pbs.Config) string { return b.Name }, pbs.Read),
@@ -178,6 +185,12 @@ func (c *Config) check() error {
 	); err != nil {
 		return err
 	}
+	var engines []string
+	for _, r := range c.readers {
+		if slices.Contains(checkEngines, r.Adapter) {
+			engines = append(engines, r.Name)
+		}
+	}
 	for _, list := range []struct {
 		name  string
 		links []snapshot.Link
@@ -192,13 +205,13 @@ func (c *Config) check() error {
 			if l.Color != "" && !color.MatchString(l.Color) {
 				return fmt.Errorf("%s[%d]: color %q isn't #rgb or #rrggbb", list.name, i, l.Color)
 			}
-			if l.Check != "" && len(c.Sources.Gatus) == 0 {
+			if l.Check != "" && len(engines) == 0 {
 				return fmt.Errorf("%s[%d]: check %q, but no check engine is configured", list.name, i, l.Check)
 			}
 			// Engine/Check names the check engine, when Engine is one: a
 			// check's own name may hold a slash.
 			engine, name, ok := strings.Cut(l.Check, "/")
-			if ok && slices.ContainsFunc(c.Sources.Gatus, func(g gatus.Config) bool { return g.Name == engine }) {
+			if ok && slices.Contains(engines, engine) {
 				list.links[i].Engine, list.links[i].Check = engine, name
 			}
 		}

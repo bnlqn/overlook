@@ -1,0 +1,113 @@
+{
+  "config": {
+    "slug": "homelab",
+    "title": "Homelab",
+    "description": "",
+    "icon": "/icon.svg",
+    "autoRefreshInterval": 300,
+    "theme": "auto",
+    "published": true,
+    "showTags": false,
+    "customCSS": null,
+    "footerText": null,
+    "showPoweredBy": true,
+    "analyticsId": null,
+    "analyticsScriptUrl": null,
+    "analyticsType": null,
+    "showCertificateExpiry": false,
+    "showOnlyLastHeartbeat": false,
+    "rssTitle": null
+  },
+  "incidents": [],
+  "publicGroupList": [
+    {
+      "id": 1,
+      "name": "Servers",
+      "weight": 1,
+      "monitorList": [
+        {
+          "id": 1,
+          "name": "Hypervisor",
+          "sendUrl": 0,
+          "type": "http"
+        },
+        {
+          "id": 2,
+          "name": "Backup server",
+          "sendUrl": 0,
+          "type": "http"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Network",
+      "weight": 2,
+      "monitorList": [
+        {
+          "id": 3,
+          "name": "Router",
+          "sendUrl": 0,
+          "type": "http"
+        },
+        {
+          "id": 4,
+          "name": "Internet",
+          "sendUrl": 0,
+          "type": "http"
+        },
+        {
+          "id": 5,
+          "name": "VPN",
+          "sendUrl": 0,
+          "type": "push"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Apps",
+      "weight": 3,
+      "monitorList": [
+        {
+          "id": 6,
+          "name": "Photos",
+          "sendUrl": 0,
+          "type": "http"
+        },
+        {
+          "id": 7,
+          "name": "Recipes",
+          "sendUrl": 0,
+          "type": "push"
+        },
+        {
+          "id": 8,
+          "name": "Requests",
+          "sendUrl": 0,
+          "type": "http"
+        },
+        {
+          "id": 9,
+          "name": "Books",
+          "sendUrl": 0,
+          "type": "http"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Outside",
+      "weight": 4,
+      "monitorList": [
+        {
+          "id": 10,
+          "name": "Website",
+          "sendUrl": 0,
+          "type": "http"
+        }
+      ]
+    }
+  ],
+  "maintenanceList": []
+}
