@@ -818,6 +818,40 @@ Recorded from a scratch Paperless-ngx 3.3.4 filled with invented letters
 file and the scripts that fill and record it are in the adapter's
 [`testdata`](internal/adapters/paperless/testdata).
 
+### Nextcloud
+
+The files, on the Apps page, from Nextcloud's serverinfo app: how many files
+there are, of how many people, and how many used Nextcloud since yesterday;
+the shares, by link and without a password; the room left and the
+database's size; and its version, whether a newer one is out, or, in red,
+whether it's in maintenance. Each app waiting for an update is a chore, a
+link to Nextcloud's page of updates. Today shows the files, and who used it.
+
+```yaml
+sources:
+  nextcloud:
+    - url: http://nextcloud             # where Overlook reads Nextcloud
+      token: ${NEXTCLOUD_TOKEN}
+      link: https://cloud.example.com   # where the page sends you, if not the same
+```
+
+**Key:** serverinfo's own token, which reads serverinfo's answer and nothing
+else, not even a file. Serverinfo ships with Nextcloud; set its token with
+`occ`, as Nextcloud's own user:
+
+```bash
+occ config:app:set serverinfo token --value "$(openssl rand -hex 24)"
+occ config:app:get serverinfo token
+```
+
+The counts are Nextcloud's background jobs', so they move as often as its
+cron runs, every five minutes if you set it up so.
+
+Recorded from a scratch Nextcloud 35.0.2 with invented people and files
+(ADR 0008), until someone who runs one records it from theirs: the compose
+file and the scripts that fill and record it are in the adapter's
+[`testdata`](internal/adapters/nextcloud/testdata).
+
 ### Can't be read
 
 These tools can't be read the way Overlook reads (ADR 0001, ADR 0009), or

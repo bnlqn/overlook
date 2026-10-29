@@ -25,6 +25,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/ical"
 	"github.com/bnlqn/overlook/internal/adapters/immich"
 	"github.com/bnlqn/overlook/internal/adapters/jellyfin"
+	"github.com/bnlqn/overlook/internal/adapters/nextcloud"
 	"github.com/bnlqn/overlook/internal/adapters/nut"
 	"github.com/bnlqn/overlook/internal/adapters/paperless"
 	"github.com/bnlqn/overlook/internal/adapters/pbs"
@@ -66,6 +67,7 @@ type Sources struct {
 	Jellyfin      []jellyfin.Config      `yaml:"jellyfin"`
 	HomeAssistant []homeassistant.Config `yaml:"homeassistant"`
 	Paperless     []paperless.Config     `yaml:"paperless"`
+	Nextcloud     []nextcloud.Config     `yaml:"nextcloud"`
 	NUT           []nut.Config           `yaml:"nut"`
 	AdGuard       []adguard.Config       `yaml:"adguard"`
 	PiHole        []pihole.Config        `yaml:"pihole"`
@@ -184,6 +186,7 @@ func (c *Config) check() error {
 		add(c, "jellyfin", jellyfin.Area, c.Sources.Jellyfin, func(j jellyfin.Config) string { return j.Name }, jellyfin.Read),
 		add(c, "homeassistant", homeassistant.Area, c.Sources.HomeAssistant, func(h homeassistant.Config) string { return h.Name }, homeassistant.Read),
 		add(c, "paperless", paperless.Area, c.Sources.Paperless, func(p paperless.Config) string { return p.Name }, paperless.Read),
+		add(c, "nextcloud", nextcloud.Area, c.Sources.Nextcloud, func(n nextcloud.Config) string { return n.Name }, nextcloud.Read),
 		add(c, "nut", nut.Area, c.Sources.NUT, func(n nut.Config) string { return n.Name }, nut.Read),
 		add(c, "adguard", adguard.Area, c.Sources.AdGuard, func(a adguard.Config) string { return a.Name }, adguard.Read),
 		add(c, "pihole", pihole.Area, c.Sources.PiHole, func(p pihole.Config) string { return p.Name }, pihole.Read),

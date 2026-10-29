@@ -23,8 +23,8 @@
     { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "answered": true },
     { "name": "Home Assistant", "adapter": "homeassistant", "area": "apps", "answered": true },
     { "name": "Paperless-ngx", "adapter": "paperless", "area": "apps", "answered": true },
+    { "name": "Nextcloud", "adapter": "nextcloud", "area": "apps", "answered": true },
     { "name": "Rack UPS", "adapter": "nut", "area": "servers", "answered": true },
-    { "name": "Network UPS", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Office UPS", "adapter": "nut", "area": "servers", "answered": false, "error": "timeout" },
     { "name": "Primary DNS", "adapter": "adguard", "area": "network", "answered": true },
     { "name": "Secondary DNS", "adapter": "pihole", "area": "network", "answered": true },
@@ -5463,6 +5463,35 @@
       ]
     },
     {
+      "area": "apps",
+      "source": "Nextcloud",
+      "title": { "key": "nextcloud.files" },
+      "rows": [
+        {
+          "title": { "key": "nextcloud.files" },
+          "value": { "key": "nextcloud.n", "args": { "n": 612480 } },
+          "detail": { "key": "nextcloud.people", "args": { "n": 9, "active": 6 } }
+        },
+        {
+          "title": { "key": "nextcloud.shares" },
+          "value": { "key": "nextcloud.n", "args": { "n": 187 } },
+          "detail": { "key": "nextcloud.links", "args": { "n": 41, "open": 9 } }
+        },
+        { "title": { "key": "nextcloud.free" }, "value": { "key": "nextcloud.bytes", "args": { "n": 2310000000000 } } },
+        {
+          "title": { "key": "nextcloud.database" },
+          "value": { "key": "nextcloud.bytes", "args": { "n": 2840000000 } },
+          "detail": { "name": "pgsql" }
+        },
+        {
+          "title": { "key": "nextcloud.version" },
+          "value": { "key": "nextcloud.newer", "args": { "version": "35.0.3" } },
+          "detail": { "name": "35.0.2" },
+          "tone": "orange"
+        }
+      ]
+    },
+    {
       "area": "servers",
       "source": "Rack UPS",
       "title": { "key": "nut.ups" },
@@ -5483,30 +5512,6 @@
           "title": { "key": "nut.drawing" },
           "value": { "key": "nut.watts", "args": { "n": 412 } },
           "detail": { "key": "nut.load_of", "args": { "n": 46 } }
-        }
-      ]
-    },
-    {
-      "area": "servers",
-      "source": "Network UPS",
-      "title": { "key": "nut.ups" },
-      "rows": [
-        {
-          "title": { "key": "nut.power" },
-          "value": { "key": "nut.on_mains" },
-          "detail": { "key": "nut.model_in", "args": { "model": "Line 650", "v": 231 } },
-          "tone": "green"
-        },
-        {
-          "title": { "key": "nut.battery" },
-          "value": { "key": "nut.percent", "args": { "n": 97 } },
-          "detail": { "key": "nut.runtime_low", "args": { "ms": 3120000, "low": 20 } },
-          "meter": { "used": 97, "total": 100, "tone": "green" }
-        },
-        {
-          "title": { "key": "nut.drawing" },
-          "value": { "key": "nut.watts", "args": { "n": 38 } },
-          "detail": { "key": "nut.load_of", "args": { "n": 11 } }
         }
       ]
     },
@@ -7369,6 +7374,14 @@
       "tone": "orange"
     },
     {
+      "area": "apps",
+      "source": "Nextcloud",
+      "icon": "cloud",
+      "label": { "key": "nextcloud.files" },
+      "value": 612480,
+      "detail": { "key": "nextcloud.active", "args": { "n": 6 } }
+    },
+    {
       "area": "servers",
       "source": "Rack UPS",
       "icon": "plug",
@@ -7377,16 +7390,6 @@
       "unit": { "key": "nut.watts_unit" },
       "detail": { "key": "nut.on_mains" },
       "meters": [{ "label": { "key": "nut.battery" }, "used": 100, "total": 100, "tone": "green" }]
-    },
-    {
-      "area": "servers",
-      "source": "Network UPS",
-      "icon": "plug",
-      "label": { "key": "nut.ups" },
-      "value": 38,
-      "unit": { "key": "nut.watts_unit" },
-      "detail": { "key": "nut.on_mains" },
-      "meters": [{ "label": { "key": "nut.battery" }, "used": 97, "total": 100, "tone": "green" }]
     },
     {
       "area": "network",
@@ -8123,6 +8126,24 @@
     },
     { "name": "Front door lock battery", "note": "9%", "source": "Home Assistant" },
     { "name": "Hall motion battery", "note": "14%", "source": "Home Assistant" },
+    {
+      "name": "calendar",
+      "note": "→ 6.2.1",
+      "url": "https://files.example.com/settings/apps/updates",
+      "source": "Nextcloud"
+    },
+    {
+      "name": "deck",
+      "note": "→ 1.17.2",
+      "url": "https://files.example.com/settings/apps/updates",
+      "source": "Nextcloud"
+    },
+    {
+      "name": "notes",
+      "note": "→ 4.13.0",
+      "url": "https://files.example.com/settings/apps/updates",
+      "source": "Nextcloud"
+    },
     {
       "name": "Replace the faulted disk in tank",
       "source": "Chores",

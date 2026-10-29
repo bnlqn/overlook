@@ -11,6 +11,7 @@
 /internal/adapters/ical/    @bnlqn
 /internal/adapters/immich/  @bnlqn
 /internal/adapters/jellyfin/ @bnlqn
+/internal/adapters/nextcloud/ @bnlqn
 /internal/adapters/pbs/     @bnlqn
 /internal/adapters/pihole/  @bnlqn
 /internal/adapters/prowlarr/ @bnlqn
@@ -26,6 +27,7 @@
 /web/i18n/en/homeassistant.json @bnlqn
 /web/i18n/en/immich.json    @bnlqn
 /web/i18n/en/jellyfin.json  @bnlqn
+/web/i18n/en/nextcloud.json @bnlqn
 /web/i18n/en/pbs.json       @bnlqn
 /web/i18n/en/pihole.json    @bnlqn
 /web/i18n/en/prowlarr.json  @bnlqn

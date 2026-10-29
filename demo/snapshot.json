@@ -16,6 +16,7 @@
     { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "answered": true },
     { "name": "Home Assistant", "adapter": "homeassistant", "area": "apps", "answered": true },
     { "name": "Paperless-ngx", "adapter": "paperless", "area": "apps", "answered": true },
+    { "name": "Nextcloud", "adapter": "nextcloud", "area": "apps", "answered": true },
     { "name": "NUT", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Primary DNS", "adapter": "adguard", "area": "network", "answered": true },
     { "name": "Standby DNS", "adapter": "adguard", "area": "network", "answered": false, "error": "timeout" },
@@ -1167,6 +1168,30 @@
       ]
     },
     {
+      "area": "apps",
+      "source": "Nextcloud",
+      "title": { "key": "nextcloud.files" },
+      "rows": [
+        {
+          "title": { "key": "nextcloud.files" },
+          "value": { "key": "nextcloud.n", "args": { "n": 48213 } },
+          "detail": { "key": "nextcloud.people", "args": { "n": 3, "active": 2 } }
+        },
+        {
+          "title": { "key": "nextcloud.shares" },
+          "value": { "key": "nextcloud.n", "args": { "n": 14 } },
+          "detail": { "key": "nextcloud.links", "args": { "n": 5, "open": 1 } }
+        },
+        { "title": { "key": "nextcloud.free" }, "value": { "key": "nextcloud.bytes", "args": { "n": 1730000000000 } } },
+        {
+          "title": { "key": "nextcloud.database" },
+          "value": { "key": "nextcloud.bytes", "args": { "n": 412000000 } },
+          "detail": { "name": "pgsql" }
+        },
+        { "title": { "key": "nextcloud.version" }, "value": { "name": "35.0.2" } }
+      ]
+    },
+    {
       "area": "servers",
       "source": "NUT",
       "title": { "key": "nut.ups" },
@@ -1824,6 +1849,14 @@
       "detail": { "key": "paperless.inbox", "args": { "n": 4 } }
     },
     {
+      "area": "apps",
+      "source": "Nextcloud",
+      "icon": "cloud",
+      "label": { "key": "nextcloud.files" },
+      "value": 48213,
+      "detail": { "key": "nextcloud.active", "args": { "n": 2 } }
+    },
+    {
       "area": "servers",
       "source": "NUT",
       "icon": "plug",
@@ -2075,6 +2108,12 @@
       "source": "Home Assistant"
     },
     { "name": "Hall motion battery", "note": "12%", "source": "Home Assistant" },
+    {
+      "name": "calendar",
+      "note": "→ 6.2.1",
+      "url": "https://cloud.example.com/settings/apps/updates",
+      "source": "Nextcloud"
+    },
     {
       "name": "Clean the NAS's dust filters",
       "source": "Chores",

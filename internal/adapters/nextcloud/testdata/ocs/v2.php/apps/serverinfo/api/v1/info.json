@@ -1,0 +1,94 @@
+{
+  "ocs": {
+    "meta": {
+      "status": "ok",
+      "statuscode": 200,
+      "message": "OK"
+    },
+    "data": {
+      "nextcloud": {
+        "system": {
+          "version": "35.0.2.2",
+          "theme": "none",
+          "enable_avatars": "yes",
+          "enable_previews": "yes",
+          "memcache.local": "\\OC\\Memcache\\APCu",
+          "memcache.distributed": "none",
+          "filelocking.enabled": "yes",
+          "memcache.locking": "none",
+          "debug": "no",
+          "freespace": 912396820480,
+          "cpuload": [
+            0.517578125,
+            0.4228515625,
+            0.29833984375
+          ],
+          "cpunum": 8,
+          "mem_total": 8126464,
+          "mem_free": 7221248,
+          "swap_total": 1047552,
+          "swap_free": 1047552,
+          "apps": {
+            "num_installed": 51,
+            "num_updates_available": 0,
+            "app_updates": []
+          },
+          "update": {
+            "lastupdatedat": 1793275027,
+            "available": false
+          }
+        },
+        "storage": {
+          "num_users": 4,
+          "num_disabled_users": 0,
+          "num_files": 309,
+          "num_storages": 5,
+          "num_storages_local": 1,
+          "num_storages_home": 4,
+          "num_storages_other": 0,
+          "size_appdata_storage": 0,
+          "num_files_appdata": 19
+        },
+        "shares": {
+          "num_shares": 2,
+          "num_shares_user": 1,
+          "num_shares_groups": 0,
+          "num_shares_link": 1,
+          "num_shares_mail": 0,
+          "num_shares_room": 0,
+          "num_shares_link_no_password": 1,
+          "num_fed_shares_sent": 0,
+          "num_fed_shares_received": 0,
+          "permissions_3_17": 1,
+          "permissions_0_19": 1
+        }
+      },
+      "server": {
+        "webserver": "Apache/2.4.69 (Debian)",
+        "php": {
+          "version": "8.5.12",
+          "memory_limit": 536870912,
+          "max_execution_time": 3600,
+          "upload_max_filesize": 536870912,
+          "opcache_revalidate_freq": 60
+        },
+        "fpm": false,
+        "database": {
+          "type": "sqlite3",
+          "version": "3.46.1",
+          "size": 3493888
+        }
+      },
+      "activeUsers": {
+        "last5minutes": 4,
+        "last1hour": 4,
+        "last24hours": 4,
+        "last7days": 4,
+        "last1month": 4,
+        "last3months": 4,
+        "last6months": 4,
+        "lastyear": 4
+      }
+    }
+  }
+}
