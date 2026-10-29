@@ -26,7 +26,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, Area, p)
 	for _, r := range src.Sent() {
 		if r.Header.Get("NC-Token") != "serverinfo-0123abcd" {
 			t.Errorf("%s: read without the token", r.URL)
@@ -73,7 +73,7 @@ func TestUpdates(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, Area, p)
 	if len(p.Chores) != 2 || p.Chores[0].Name != "calendar" || p.Chores[0].Note != "→ 6.2.1" ||
 		p.Chores[0].URL != "https://cloud.example.com/settings/apps/updates" {
 		t.Errorf("two apps waiting, by name: %+v", p.Chores)

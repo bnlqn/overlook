@@ -27,7 +27,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, "", p)
 	for _, r := range src.Sent() {
 		if r.Header.Get("Authorization") != "Bearer glsa_0123abcd" {
 			t.Errorf("%s: read without the token", r.URL)

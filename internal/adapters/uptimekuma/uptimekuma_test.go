@@ -28,7 +28,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, "", p)
 
 	by := map[string]snapshot.Check{}
 	var names []string

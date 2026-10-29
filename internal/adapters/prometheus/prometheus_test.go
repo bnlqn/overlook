@@ -30,7 +30,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, "", p)
 	for _, r := range src.Sent() {
 		if user, password, _ := (&http.Request{Header: r.Header}).BasicAuth(); user != "overlook" || password != "s3cret" {
 			t.Errorf("%s: read without the user and password", r.URL)
@@ -81,7 +81,7 @@ func TestRead(t *testing.T) {
 	if p, err = Read(context.Background(), c, time.Unix(1793288955, 0)); err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, "", p)
 	for _, ch := range p.Checks {
 		if ch.Name == "Backup age" && (!ch.Problem || ch.Threshold != 1 || len(ch.Outages) != 1 || ch.Outages[0].To != nil) {
 			t.Errorf("Backup age without Alertmanager: %+v", ch)

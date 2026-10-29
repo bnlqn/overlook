@@ -77,7 +77,7 @@ func read(t *testing.T, path string) (map[string]snapshot.Row, snapshot.Figure) 
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, Area, p)
 	if len(p.Sections) != 1 || len(p.Figures) != 1 {
 		t.Fatalf("want one section and one figure: %+v", p)
 	}
@@ -128,7 +128,7 @@ func TestRead(t *testing.T) {
 func TestParts(t *testing.T) {
 	t.Parallel()
 	p := parts(map[string]string{"ups.status": "OL CHRG", "ups.load": "40", "ups.realpower.nominal": "900"})
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, Area, p)
 	if len(p.Figures) != 1 || p.Figures[0].Value != 360 || len(p.Figures[0].Meters) != 0 {
 		t.Errorf("draws 40%% of 900 W, and has no battery to show: %+v", p.Figures)
 	}
@@ -137,7 +137,7 @@ func TestParts(t *testing.T) {
 		t.Errorf("with no watts, no figure, and the load as a share: %+v", p)
 	}
 	p = parts(map[string]string{"ups.status": "OFF"})
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, Area, p)
 	if r := p.Sections[0].Rows; len(r) != 1 || r[0].Value.Name != "OFF" || r[0].Tone != "gray" || r[0].Detail != nil {
 		t.Errorf("a status it doesn't know, as upsd words it: %+v", r)
 	}

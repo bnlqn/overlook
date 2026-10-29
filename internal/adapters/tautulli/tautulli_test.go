@@ -29,7 +29,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, p)
+	adaptertest.Validate(t, Area, p)
 
 	// Each command it sent reads, and is one of reads, which name only
 	// commands that read.
