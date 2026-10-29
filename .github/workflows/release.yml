@@ -1,6 +1,8 @@
 # A v* tag makes a release: make check, then GoReleaser builds the Linux
-# binaries and the image, publishes the release with them, and pushes the
-# image to GHCR (.goreleaser.yaml).
+# binaries, an SBOM of each and the image, publishes the release with them,
+# and pushes the image to GHCR (.goreleaser.yaml). Last, GitHub attests
+# where the binaries and the image were built, so anyone can check them
+# (SECURITY.md).
 name: Release
 
 on:
@@ -20,7 +22,9 @@ jobs:
     timeout-minutes: 30
     permissions:
       contents: write # the release and its files
-      packages: write # the image on GHCR
+      packages: write # the image on GHCR, and its attestation beside it
+      id-token: write # the identity the attestations are signed with
+      attestations: write # the attestations themselves
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -39,9 +43,31 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      # Syft writes the SBOMs. It is a tool on the runner, not a dependency
+      # of Overlook's, which stays at one (ADR 0003).
+      - uses: anchore/sbom-action/download-syft@66cbf4bc1f1c0d2edc94016e65bc221b6bb0ad6c # v0.24.3
       - uses: goreleaser/goreleaser-action@a4f02ab5355a589de60d917a659ce617ed19b3de # v7.3.0
         with:
           version: v2.19.0
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Attestations on a private repository need GitHub Enterprise Cloud,
+      # so a release candidate tagged while this one is private skips them.
+      - if: ${{ !github.event.repository.private }}
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: |
+            dist/*.tar.gz
+            dist/checksums.txt
+      # The image is attested by the digest of its list for both platforms,
+      # the one a pull of either resolves through.
+      - if: ${{ !github.event.repository.private }}
+        id: image
+        run: echo "digest=$(docker buildx imagetools inspect "ghcr.io/bnlqn/overlook:${GITHUB_REF_NAME#v}" --format '{{.Manifest.Digest}}')" >> "$GITHUB_OUTPUT"
+      - if: ${{ !github.event.repository.private }}
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-name: ghcr.io/bnlqn/overlook
+          subject-digest: ${{ steps.image.outputs.digest }}
+          push-to-registry: true
