@@ -60,7 +60,7 @@ candidates stay as pre-releases.
        Plex through Tautulli, Seerr, and Prometheus with Alertmanager.
 6. [x] What Overlook can't read, listed under [Can't be read](#cant-be-read),
        and an issue for each adapter wanted.
-7. [ ] `v0.2.0-rc.1`, and the author's homelab reads everything it runs
+7. [x] `v0.2.0-rc.1`, and the author's homelab reads everything it runs
        with it: step 4's adapters, and Home Assistant, whose adapter is
        then recorded again from the author's own (ADR 0008).
 8. [ ] A week of running it.
