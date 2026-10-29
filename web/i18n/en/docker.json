@@ -1,0 +1,15 @@
+{
+  "docker.containers": "Containers",
+  "docker.of_running": "of {n} running",
+  "docker.unhealthy_n": "{n} unhealthy",
+
+  "docker.running": "Running",
+  "docker.healthy": "Healthy",
+  "docker.unhealthy": "Unhealthy",
+  "docker.starting": "Starting",
+  "docker.exited": "Exited ({code})",
+  "docker.restarting": "Restarting",
+  "docker.dead": "Dead",
+  "docker.paused": "Paused",
+  "docker.created": "Not started"
+}

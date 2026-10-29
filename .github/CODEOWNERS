@@ -4,6 +4,7 @@
 
 /internal/adapters/adguard/ @bnlqn
 /internal/adapters/beszel/  @bnlqn
+/internal/adapters/docker/  @bnlqn
 /internal/adapters/gatus/   @bnlqn
 /internal/adapters/github/  @bnlqn
 /internal/adapters/ical/    @bnlqn
@@ -15,6 +16,7 @@
 /internal/adapters/sonarr/  @bnlqn
 /web/i18n/en/adguard.json   @bnlqn
 /web/i18n/en/beszel.json    @bnlqn
+/web/i18n/en/docker.json    @bnlqn
 /web/i18n/en/immich.json    @bnlqn
 /web/i18n/en/pbs.json       @bnlqn
 /web/i18n/en/proxmox.json   @bnlqn

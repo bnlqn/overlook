@@ -574,6 +574,43 @@ at `/_/`, add the user to the `users` collection with `role` set to
 `readonly`, then add it to the `users` of each system to show, or set
 `SHARE_ALL_SYSTEMS=true` on the hub so that every user sees every system.
 
+### Docker
+
+Each container a Docker engine runs, in Servers: its image, and whether it
+runs, those that exited with an error, restart or fail their health check
+in red or orange, and one that exited cleanly, as a job does when it's
+done, in grey. Today shows the containers running, every engine's added up.
+
+```yaml
+sources:
+  docker:
+    - url: http://socket-proxy:2375 # Docker's API, through a socket proxy
+      name: Media                   # if you run more than one engine, tell them apart
+```
+
+**Key:** none, as Docker's API has no login and no read-only access:
+whoever reaches its socket is root on the host, even through a socket
+mounted read-only. So Overlook reads it only through a socket proxy that
+lets the containers' reads through and refuses the rest, over HTTP: it has
+no way to read Docker's socket itself, nor Docker's API over TLS. With
+[linuxserver's socket proxy](https://docs.linuxserver.io/images/docker-socket-proxy/),
+beside the containers on each host:
+
+```yaml
+services:
+  socket-proxy:
+    image: lscr.io/linuxserver/socket-proxy:3.4.7
+    environment:
+      CONTAINERS: "1" # the containers' reads; every write stays refused
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock:ro"]
+    read_only: true
+    tmpfs: [/run]
+    ports: ["2375:2375"] # where Overlook reaches it: keep it from anyone else
+```
+
+Overlook reads only the list of containers, never a container's own
+details, which hold its environment and so its keys.
+
 ### Can't be read
 
 These tools can't be read the way Overlook reads (ADR 0001, ADR 0009), or

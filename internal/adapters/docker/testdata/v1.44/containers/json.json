@@ -1,0 +1,716 @@
+[
+  {
+    "Id": "5bdd9d290d63ece76abc04af9c17d90d3a5e39314212154480ca1607d0153ebe",
+    "Names": [
+      "/media-prowlarr-1"
+    ],
+    "Image": "lscr.io/linuxserver/prowlarr:2.7.0@sha256:6bb42f11c78bdbe90e4b5a4a81630d9dd1c42e71256b2081d3b87449d2538927",
+    "ImageID": "sha256:6bb42f11c78bdbe90e4b5a4a81630d9dd1c42e71256b2081d3b87449d2538927",
+    "Command": "/init",
+    "Created": 1793042373,
+    "Ports": [
+      {
+        "IP": "0.0.0.0",
+        "PrivatePort": 9696,
+        "PublicPort": 9696,
+        "Type": "tcp"
+      },
+      {
+        "IP": "::",
+        "PrivatePort": 9696,
+        "PublicPort": 9696,
+        "Type": "tcp"
+      }
+    ],
+    "Labels": {
+      "build_version": "Linuxserver.io version:- 2.7.0.5723-ls166 Build-date:- 2026-10-27T21:16:22+00:00",
+      "com.docker.compose.config-hash": "43d1c3971719cb675a185d7f1a427109b0dddddcbd1d1cefdddd7d5f36454e2f",
+      "com.docker.compose.container-number": "1",
+      "com.docker.compose.depends_on": "",
+      "com.docker.compose.image": "sha256:18fc0b6215bc5a5fb20259cc9673bacdb3ef4e56a2f07d91e6aea56da64ec198",
+      "com.docker.compose.oneoff": "False",
+      "com.docker.compose.project": "media",
+      "com.docker.compose.project.config_files": "/srv/media/compose.yaml",
+      "com.docker.compose.project.working_dir": "/srv/media",
+      "com.docker.compose.replace": "prowlarr-1",
+      "com.docker.compose.service": "prowlarr",
+      "com.docker.compose.version": "5.6.1",
+      "maintainer": "Roxedus,thespad",
+      "org.opencontainers.image.authors": "linuxserver.io",
+      "org.opencontainers.image.created": "2026-10-27T21:16:22+00:00",
+      "org.opencontainers.image.description": "[Prowlarr](https://github.com/Prowlarr/Prowlarr) is a indexer manager/proxy built on the popular arr .net/reactjs base stack to integrate with your various PVR apps. Prowlarr supports both Torrent Trackers and Usenet Indexers. It integrates seamlessly with Sonarr, Radarr, Lidarr, and Readarr offering complete management of your indexers with no per app Indexer setup required (we do it all).  ",
+      "org.opencontainers.image.documentation": "https://docs.linuxserver.io/images/docker-prowlarr",
+      "org.opencontainers.image.licenses": "GPL-3.0-only",
+      "org.opencontainers.image.ref.name": "108e31d6a5f062a5243733c79d5099e5929506fa",
+      "org.opencontainers.image.revision": "108e31d6a5f062a5243733c79d5099e5929506fa",
+      "org.opencontainers.image.source": "https://github.com/linuxserver/docker-prowlarr",
+      "org.opencontainers.image.title": "Prowlarr",
+      "org.opencontainers.image.url": "https://github.com/linuxserver/docker-prowlarr/packages",
+      "org.opencontainers.image.vendor": "linuxserver.io",
+      "org.opencontainers.image.version": "2.7.0.5723-ls166"
+    },
+    "State": "running",
+    "Status": "Up 9 hours",
+    "HostConfig": {
+      "NetworkMode": "media_default"
+    },
+    "NetworkSettings": {
+      "Networks": {
+        "media_default": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "DriverOpts": null,
+          "GwPriority": 0,
+          "NetworkID": "5dd02e2aa057875287d5a0116f4fb4b60b0a492803da084d0ff4ba6e2799f5cc",
+          "EndpointID": "85780f0ec2aa5c959f3a0265b0d406e32f9225a107e244758f4bcb038ea1b583",
+          "Gateway": "172.30.0.1",
+          "IPAddress": "172.30.0.2",
+          "MacAddress": "02:42:ac:12:00:1d",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "DNSNames": null
+        }
+      }
+    },
+    "Mounts": [
+      {
+        "Type": "bind",
+        "Source": "/srv/media/config/prowlarr",
+        "Destination": "/config",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      }
+    ]
+  },
+  {
+    "Id": "36fed93821c6d12b6a19e10851a18189a5d6330bf28c0ed52950ae9e1c323dc6",
+    "Names": [
+      "/media-qbittorrent-1"
+    ],
+    "Image": "lscr.io/linuxserver/qbittorrent:5.2.4-libtorrentv1@sha256:b637b72ef66e29a108a610ff9bd795c3326c4515fba399a7193002266475e4a7",
+    "ImageID": "sha256:b637b72ef66e29a108a610ff9bd795c3326c4515fba399a7193002266475e4a7",
+    "Command": "/init",
+    "Created": 1792982581,
+    "Ports": [],
+    "Labels": {
+      "build_version": "Linuxserver.io version:- 5.2.4_v1.2.20-ls137 Build-date:- 2026-10-18T11:50:12+00:00",
+      "com.docker.compose.config-hash": "893622e90aa0f49b9854cbaea1f0fa68ae8db663ef0663e8c911825189dfd359",
+      "com.docker.compose.container-number": "1",
+      "com.docker.compose.depends_on": "gluetun:service_healthy:true",
+      "com.docker.compose.image": "sha256:b8529de47751bb4c342a014e8bac0be8b7c1db26a91088a631f3bc4709a0dad7",
+      "com.docker.compose.oneoff": "False",
+      "com.docker.compose.project": "media",
+      "com.docker.compose.project.config_files": "/srv/media/compose.yaml",
+      "com.docker.compose.project.working_dir": "/srv/media",
+      "com.docker.compose.service": "qbittorrent",
+      "com.docker.compose.version": "5.6.1",
+      "maintainer": "thespad",
+      "org.opencontainers.image.authors": "linuxserver.io",
+      "org.opencontainers.image.created": "2026-10-18T11:50:12+00:00",
+      "org.opencontainers.image.description": "The [Qbittorrent](https://www.qbittorrent.org/) is a bittorrent client programmed in C++ / Qt that uses libtorrent (sometimes called libtorrent-rasterbar) by Arvid Norberg.",
+      "org.opencontainers.image.documentation": "https://docs.linuxserver.io/images/docker-qbittorrent",
+      "org.opencontainers.image.licenses": "GPL-3.0-only",
+      "org.opencontainers.image.ref.name": "3a3a5788b84c60c3e1883e723148685922855003",
+      "org.opencontainers.image.revision": "3a3a5788b84c60c3e1883e723148685922855003",
+      "org.opencontainers.image.source": "https://github.com/linuxserver/docker-qbittorrent",
+      "org.opencontainers.image.title": "Qbittorrent",
+      "org.opencontainers.image.url": "https://github.com/linuxserver/docker-qbittorrent/packages",
+      "org.opencontainers.image.vendor": "linuxserver.io",
+      "org.opencontainers.image.version": "5.2.4_v1.2.20-ls137"
+    },
+    "State": "running",
+    "Status": "Up 26 hours",
+    "HostConfig": {
+      "NetworkMode": "container:8ef555f7d4d5787fdae719ac7a0a253a6b6f9e90342edbbc99c90a0b38a62e4a"
+    },
+    "NetworkSettings": {
+      "Networks": {}
+    },
+    "Mounts": [
+      {
+        "Type": "bind",
+        "Source": "/srv/media/config/qbittorrent",
+        "Destination": "/config",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "volume",
+        "Name": "media_data",
+        "Source": "/var/lib/docker/volumes/media_data/_data",
+        "Destination": "/media/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      }
+    ]
+  },
+  {
+    "Id": "2ab3e1ddeaf37b9bf58950c56bb5c96db7551cef9d10469f716343cb40ff2863",
+    "Names": [
+      "/media-recyclarr-1"
+    ],
+    "Image": "ghcr.io/recyclarr/recyclarr:8.4.0",
+    "ImageID": "sha256:076379d2cd561fa32cc69c0c75ec9d750dd78fa38d0826a5cb721d9df9013f10",
+    "Command": "/init",
+    "Created": 1792982580,
+    "Ports": [],
+    "Labels": {
+      "com.docker.compose.config-hash": "30e176546cbf39b9a667d3f291d4619a9eb901a17ff1bef827e204e0619dd087",
+      "com.docker.compose.container-number": "1",
+      "com.docker.compose.depends_on": "",
+      "com.docker.compose.image": "sha256:e5de59d4c45610ac19ee623e41f283887bf30ecf34165771555f38cd301663b0",
+      "com.docker.compose.oneoff": "False",
+      "com.docker.compose.project": "media",
+      "com.docker.compose.project.config_files": "/srv/media/compose.yaml",
+      "com.docker.compose.project.working_dir": "/srv/media",
+      "com.docker.compose.service": "recyclarr",
+      "com.docker.compose.version": "5.6.1"
+    },
+    "State": "exited",
+    "Status": "Exited (0) 5 hours ago",
+    "HostConfig": {
+      "NetworkMode": "media_default"
+    },
+    "NetworkSettings": {
+      "Networks": {
+        "media_default": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "DriverOpts": null,
+          "GwPriority": 0,
+          "NetworkID": "79352e8e51e56e91259c7f664304b13bf6af958b4853de500ea0a67225bff478",
+          "EndpointID": "",
+          "Gateway": "",
+          "IPAddress": "",
+          "MacAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "DNSNames": null
+        }
+      }
+    },
+    "Mounts": [
+      {
+        "Type": "bind",
+        "Source": "/srv/media/config/recyclarr",
+        "Destination": "/config",
+        "Mode": "",
+        "RW": true,
+        "Propagation": "rprivate"
+      }
+    ]
+  },
+  {
+    "Id": "64d5d16ee884fc18f475bc5fe8d16265dbf4da61517e9c8cd6ec2982bb2736fa",
+    "Names": [
+      "/media-socket-proxy-1"
+    ],
+    "Image": "lscr.io/linuxserver/socket-proxy:3.4.7@sha256:e0389927ea53751adb6d788515b03b76fa4d6e8f8000ef30cb849ae32ee2b8ed",
+    "ImageID": "sha256:e0389927ea53751adb6d788515b03b76fa4d6e8f8000ef30cb849ae32ee2b8ed",
+    "Command": "/docker-entrypoint.sh",
+    "Created": 1792982580,
+    "Ports": [
+      {
+        "IP": "127.0.0.1",
+        "PrivatePort": 2375,
+        "PublicPort": 2375,
+        "Type": "tcp"
+      }
+    ],
+    "Labels": {
+      "build_version": "Linuxserver.io version:- 3.4.7-r0-ls104 Build-date:- 2026-10-27T00:04:57+00:00",
+      "com.docker.compose.config-hash": "3e35332647959c2a200a28ef9ea671ba8d29409a26a0b9da9b32a7c429abd171",
+      "com.docker.compose.container-number": "1",
+      "com.docker.compose.depends_on": "",
+      "com.docker.compose.image": "sha256:93f1259060deddd078430834baf1a1b3fd9464992b8f1563f9930339744e68ef",
+      "com.docker.compose.oneoff": "False",
+      "com.docker.compose.project": "media",
+      "com.docker.compose.project.config_files": "/srv/media/compose.yaml",
+      "com.docker.compose.project.working_dir": "/srv/media",
+      "com.docker.compose.service": "socket-proxy",
+      "com.docker.compose.version": "5.6.1",
+      "maintainer": "thespad",
+      "org.opencontainers.image.authors": "linuxserver.io",
+      "org.opencontainers.image.created": "2026-10-27T00:04:57+00:00",
+      "org.opencontainers.image.description": "The Socket Proxy is a security-enhanced proxy which allows you to apply access rules to the Docker socket, limiting the attack surface for containers such as watchtower or Traefik that need to use it.",
+      "org.opencontainers.image.documentation": "https://docs.linuxserver.io/images/docker-socket-proxy",
+      "org.opencontainers.image.licenses": "GPL-3.0-only",
+      "org.opencontainers.image.ref.name": "1b4552e5f6d809b274de108b4c4ea09e59951579",
+      "org.opencontainers.image.revision": "1b4552e5f6d809b274de108b4c4ea09e59951579",
+      "org.opencontainers.image.source": "https://github.com/linuxserver/docker-socket-proxy",
+      "org.opencontainers.image.title": "Socket-proxy",
+      "org.opencontainers.image.url": "https://github.com/linuxserver/docker-socket-proxy/packages",
+      "org.opencontainers.image.vendor": "linuxserver.io",
+      "org.opencontainers.image.version": "3.4.7-r0-ls104"
+    },
+    "State": "running",
+    "Status": "Up 26 hours",
+    "HostConfig": {
+      "NetworkMode": "media_socket"
+    },
+    "NetworkSettings": {
+      "Networks": {
+        "media_socket": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "DriverOpts": null,
+          "GwPriority": 0,
+          "NetworkID": "79352e8e51e56e91259c7f664304b13bf6af958b4853de500ea0a67225bff478",
+          "EndpointID": "108fdd0a3dbecfe7df5139ed88b9619fa4b482c8dbea1c5abae820da48cf2cf6",
+          "Gateway": "172.31.0.1",
+          "IPAddress": "172.31.0.2",
+          "MacAddress": "02:42:ac:12:00:8c",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "DNSNames": null
+        }
+      }
+    },
+    "Mounts": [
+      {
+        "Type": "bind",
+        "Source": "/var/run/docker.sock",
+        "Destination": "/var/run/docker.sock",
+        "Mode": "ro",
+        "RW": false,
+        "Propagation": "rprivate"
+      }
+    ]
+  },
+  {
+    "Id": "8ef555f7d4d5787fdae719ac7a0a253a6b6f9e90342edbbc99c90a0b38a62e4a",
+    "Names": [
+      "/media-gluetun-1"
+    ],
+    "Image": "qmcgaw/gluetun:v3.41.3",
+    "ImageID": "sha256:6aaf8660a1f9c73ab304ff04a4c27d6b697d41c2e4c78e191c61c1d57ca75245",
+    "Command": "/gluetun-entrypoint",
+    "Created": 1792982580,
+    "Ports": [
+      {
+        "IP": "",
+        "PrivatePort": 8388,
+        "Type": "udp"
+      },
+      {
+        "IP": "",
+        "PrivatePort": 8888,
+        "Type": "tcp"
+      },
+      {
+        "IP": "",
+        "PrivatePort": 8000,
+        "Type": "tcp"
+      },
+      {
+        "IP": "0.0.0.0",
+        "PrivatePort": 8080,
+        "PublicPort": 8080,
+        "Type": "tcp"
+      },
+      {
+        "IP": "::",
+        "PrivatePort": 8080,
+        "PublicPort": 8080,
+        "Type": "tcp"
+      },
+      {
+        "IP": "",
+        "PrivatePort": 8388,
+        "Type": "tcp"
+      }
+    ],
+    "Labels": {
+      "com.docker.compose.config-hash": "2da966345fa5042bdbf864e7d8453f2732789b06cf812d8358353e09553463f3",
+      "com.docker.compose.container-number": "1",
+      "com.docker.compose.depends_on": "",
+      "com.docker.compose.image": "sha256:471cefb45e270e2c3e59e0ef955aa222b4674eeb51518bc365929cc4790c1e8c",
+      "com.docker.compose.oneoff": "False",
+      "com.docker.compose.project": "media",
+      "com.docker.compose.project.config_files": "/srv/media/compose.yaml",
+      "com.docker.compose.project.working_dir": "/srv/media",
+      "com.docker.compose.service": "gluetun",
+      "com.docker.compose.version": "5.6.1",
+      "org.opencontainers.image.authors": "quentin.mcgaw@gmail.com",
+      "org.opencontainers.image.created": "2026-07-30T14:53:40.495Z",
+      "org.opencontainers.image.description": "VPN client in a thin Docker container for multiple VPN providers, written in Go, and using OpenVPN or Wireguard, DNS over TLS, with a few proxy servers built-in.",
+      "org.opencontainers.image.documentation": "https://github.com/qdm12/gluetun",
+      "org.opencontainers.image.licenses": "MIT",
+      "org.opencontainers.image.revision": "53025358c599154c711e66bcdb80cae05ba64f15",
+      "org.opencontainers.image.source": "https://github.com/passteque/gluetun",
+      "org.opencontainers.image.title": "gluetun",
+      "org.opencontainers.image.url": "https://github.com/passteque/gluetun",
+      "org.opencontainers.image.version": "v3.41.3"
+    },
+    "State": "running",
+    "Status": "Up 26 hours (unhealthy)",
+    "HostConfig": {
+      "NetworkMode": "media_default"
+    },
+    "NetworkSettings": {
+      "Networks": {
+        "media_default": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "DriverOpts": null,
+          "GwPriority": 0,
+          "NetworkID": "5dd02e2aa057875287d5a0116f4fb4b60b0a492803da084d0ff4ba6e2799f5cc",
+          "EndpointID": "38d02c7f67279556a0097d54ce3108cd6825433a85a53246a7940014fd10afc0",
+          "Gateway": "172.30.0.1",
+          "IPAddress": "172.30.0.4",
+          "MacAddress": "02:42:ac:12:00:05",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "DNSNames": null
+        }
+      }
+    },
+    "Mounts": []
+  },
+  {
+    "Id": "19bdc7e4332bc5caa13189173aed3088638054c4a1c4f56cd54cd990d25c21ee",
+    "Names": [
+      "/media-sonarr-1"
+    ],
+    "Image": "lscr.io/linuxserver/sonarr:4.0.20@sha256:a521833aa0cd375d54f266657a97a5038e8fcfa65d7ca4938bdc2b37ae97ba2f",
+    "ImageID": "sha256:a521833aa0cd375d54f266657a97a5038e8fcfa65d7ca4938bdc2b37ae97ba2f",
+    "Command": "/init",
+    "Created": 1792982580,
+    "Ports": [
+      {
+        "IP": "0.0.0.0",
+        "PrivatePort": 8989,
+        "PublicPort": 8989,
+        "Type": "tcp"
+      },
+      {
+        "IP": "::",
+        "PrivatePort": 8989,
+        "PublicPort": 8989,
+        "Type": "tcp"
+      }
+    ],
+    "Labels": {
+      "build_version": "Linuxserver.io version:- 4.0.20.3014-ls1 Build-date:- 2026-10-24T01:45:43+00:00",
+      "com.docker.compose.config-hash": "268de4441c611eb4cb578b66607b82b703144f4e7071ba0f3f97e3bc602e7026",
+      "com.docker.compose.container-number": "1",
+      "com.docker.compose.depends_on": "",
+      "com.docker.compose.image": "sha256:4a1b087e4cae7531d62341a4b69797592de12031516772998ff650bef4b52fd5",
+      "com.docker.compose.oneoff": "False",
+      "com.docker.compose.project": "media",
+      "com.docker.compose.project.config_files": "/srv/media/compose.yaml",
+      "com.docker.compose.project.working_dir": "/srv/media",
+      "com.docker.compose.service": "sonarr",
+      "com.docker.compose.version": "5.6.1",
+      "maintainer": "thespad",
+      "org.opencontainers.image.authors": "linuxserver.io",
+      "org.opencontainers.image.created": "2026-10-24T01:45:43+00:00",
+      "org.opencontainers.image.description": "[Sonarr](https://sonarr.tv/) (formerly NZBdrone) is a PVR for usenet and bittorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them. It can also be configured to automatically upgrade the quality of files already downloaded when a better quality format becomes available.  ",
+      "org.opencontainers.image.documentation": "https://docs.linuxserver.io/images/docker-sonarr",
+      "org.opencontainers.image.licenses": "GPL-3.0-only",
+      "org.opencontainers.image.ref.name": "46967da087c2826b3250bad27277adaee54e318f",
+      "org.opencontainers.image.revision": "46967da087c2826b3250bad27277adaee54e318f",
+      "org.opencontainers.image.source": "https://github.com/linuxserver/docker-sonarr",
+      "org.opencontainers.image.title": "Sonarr",
+      "org.opencontainers.image.url": "https://github.com/linuxserver/docker-sonarr/packages",
+      "org.opencontainers.image.vendor": "linuxserver.io",
+      "org.opencontainers.image.version": "4.0.20.3014-ls1"
+    },
+    "State": "running",
+    "Status": "Up 25 hours",
+    "HostConfig": {
+      "NetworkMode": "media_default"
+    },
+    "NetworkSettings": {
+      "Networks": {
+        "media_default": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "DriverOpts": null,
+          "GwPriority": 0,
+          "NetworkID": "5dd02e2aa057875287d5a0116f4fb4b60b0a492803da084d0ff4ba6e2799f5cc",
+          "EndpointID": "339d31a3e67312ab3c8d2d62a806a745fe3ae07499cae3230fc43a9acf10295a",
+          "Gateway": "172.30.0.1",
+          "IPAddress": "172.30.0.3",
+          "MacAddress": "02:42:ac:12:00:f1",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "DNSNames": null
+        }
+      }
+    },
+    "Mounts": [
+      {
+        "Type": "bind",
+        "Source": "/srv/media/config/sonarr",
+        "Destination": "/config",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "volume",
+        "Name": "media_data",
+        "Source": "/var/lib/docker/volumes/media_data/_data",
+        "Destination": "/media/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      }
+    ]
+  },
+  {
+    "Id": "704341971559eb0e8ac687c70353342c078521368260e054dbd506943c27b1af",
+    "Names": [
+      "/media-radarr-1"
+    ],
+    "Image": "lscr.io/linuxserver/radarr:6.4.4@sha256:97bce106118ed20d3ba99fe7d71661c62203335bb73b0ba219811e574cd0c8b3",
+    "ImageID": "sha256:97bce106118ed20d3ba99fe7d71661c62203335bb73b0ba219811e574cd0c8b3",
+    "Command": "/init",
+    "Created": 1792982580,
+    "Ports": [
+      {
+        "IP": "0.0.0.0",
+        "PrivatePort": 7878,
+        "PublicPort": 7878,
+        "Type": "tcp"
+      },
+      {
+        "IP": "::",
+        "PrivatePort": 7878,
+        "PublicPort": 7878,
+        "Type": "tcp"
+      }
+    ],
+    "Labels": {
+      "build_version": "Linuxserver.io version:- 6.4.4.10685-ls324 Build-date:- 2026-10-25T19:21:49+00:00",
+      "com.docker.compose.config-hash": "8cc25e95f4896f858980890ff7163e6e3931ec310d538145f301964316c0e0ef",
+      "com.docker.compose.container-number": "1",
+      "com.docker.compose.depends_on": "",
+      "com.docker.compose.image": "sha256:70f22dbbcfc2e344fbfe394b729c76cc4365ec8bfe2572794b32e1953b88e95a",
+      "com.docker.compose.oneoff": "False",
+      "com.docker.compose.project": "media",
+      "com.docker.compose.project.config_files": "/srv/media/compose.yaml",
+      "com.docker.compose.project.working_dir": "/srv/media",
+      "com.docker.compose.service": "radarr",
+      "com.docker.compose.version": "5.6.1",
+      "maintainer": "Roxedus,thespad",
+      "org.opencontainers.image.authors": "linuxserver.io",
+      "org.opencontainers.image.created": "2026-10-25T19:21:49+00:00",
+      "org.opencontainers.image.description": "[Radarr](https://github.com/Radarr/Radarr) - A fork of Sonarr to work with movies \u00e0 la Couchpotato.  ",
+      "org.opencontainers.image.documentation": "https://docs.linuxserver.io/images/docker-radarr",
+      "org.opencontainers.image.licenses": "GPL-3.0-only",
+      "org.opencontainers.image.ref.name": "e443d7f292ad0e5a9db47342d5e826dcf398d5a3",
+      "org.opencontainers.image.revision": "e443d7f292ad0e5a9db47342d5e826dcf398d5a3",
+      "org.opencontainers.image.source": "https://github.com/linuxserver/docker-radarr",
+      "org.opencontainers.image.title": "Radarr",
+      "org.opencontainers.image.url": "https://github.com/linuxserver/docker-radarr/packages",
+      "org.opencontainers.image.vendor": "linuxserver.io",
+      "org.opencontainers.image.version": "6.4.4.10685-ls324"
+    },
+    "State": "running",
+    "Status": "Up 25 hours",
+    "HostConfig": {
+      "NetworkMode": "media_default"
+    },
+    "NetworkSettings": {
+      "Networks": {
+        "media_default": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "DriverOpts": null,
+          "GwPriority": 0,
+          "NetworkID": "5dd02e2aa057875287d5a0116f4fb4b60b0a492803da084d0ff4ba6e2799f5cc",
+          "EndpointID": "f3fa6f5fdd21f40f0641f655c722e2e5f4dd9d6cc5c3006a3e7f0222a885699e",
+          "Gateway": "172.30.0.1",
+          "IPAddress": "172.30.0.6",
+          "MacAddress": "02:42:ac:12:00:83",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "DNSNames": null
+        }
+      }
+    },
+    "Mounts": [
+      {
+        "Type": "bind",
+        "Source": "/srv/media/config/radarr",
+        "Destination": "/config",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "volume",
+        "Name": "media_data",
+        "Source": "/var/lib/docker/volumes/media_data/_data",
+        "Destination": "/media/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      }
+    ]
+  },
+  {
+    "Id": "2fb305463a9d5e173960bb8079f7a5623e22bd68c0e76a4036df1188ac325711",
+    "Names": [
+      "/media-bazarr-1"
+    ],
+    "Image": "lscr.io/linuxserver/bazarr:1.5.3@sha256:16939584707cce0860cda105c1fcd2b5ac4b60c53481f4d888d64db468b5a6c0",
+    "ImageID": "sha256:a4fe375b00ce9b80ccb79340c89c16b3a3829ce6bf178f2290f2e1a6091b6f5e",
+    "Command": "/init",
+    "Created": 1792982580,
+    "Ports": [],
+    "Labels": {
+      "com.docker.compose.config-hash": "84008e7b2b0f1a2b71041fd5839873c171a7103223842daf5e316f9dae3df844",
+      "com.docker.compose.container-number": "1",
+      "com.docker.compose.depends_on": "",
+      "com.docker.compose.image": "sha256:3271aa773dc32b312a8613b2527063ba8096eb04f86dff7796607f2335e3b32e",
+      "com.docker.compose.oneoff": "False",
+      "com.docker.compose.project": "media",
+      "com.docker.compose.project.config_files": "/srv/media/compose.yaml",
+      "com.docker.compose.project.working_dir": "/srv/media",
+      "com.docker.compose.service": "bazarr",
+      "com.docker.compose.version": "5.6.1"
+    },
+    "State": "exited",
+    "Status": "Exited (1) 2 hours ago",
+    "HostConfig": {
+      "NetworkMode": "media_default"
+    },
+    "NetworkSettings": {
+      "Networks": {
+        "media_default": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "DriverOpts": null,
+          "GwPriority": 0,
+          "NetworkID": "5dd02e2aa057875287d5a0116f4fb4b60b0a492803da084d0ff4ba6e2799f5cc",
+          "EndpointID": "",
+          "Gateway": "",
+          "IPAddress": "",
+          "MacAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "DNSNames": null
+        }
+      }
+    },
+    "Mounts": [
+      {
+        "Type": "bind",
+        "Source": "/srv/media/config/bazarr",
+        "Destination": "/config",
+        "Mode": "",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "volume",
+        "Name": "media_data",
+        "Source": "/var/lib/docker/volumes/media_data/_data",
+        "Destination": "/media/data",
+        "Driver": "local",
+        "Mode": "z",
+        "RW": true,
+        "Propagation": ""
+      }
+    ]
+  },
+  {
+    "Id": "1dc471d8819b8ba433836670e7cb231d2d991bd262b1ca6d452b3cc9ed680be4",
+    "Names": [
+      "/media-jellyfin-1"
+    ],
+    "Image": "jellyfin/jellyfin:10.11.2",
+    "ImageID": "sha256:6e184e1de5bef46445709bcdbbc2decac345fee530b18a5740478e060ff079a6",
+    "Command": "/jellyfin/jellyfin",
+    "Created": 1792982580,
+    "Ports": [],
+    "Labels": {
+      "com.docker.compose.config-hash": "fcc426aeef034323a38c4701aebe5ad25b2b7a5a9eede2782d66b4ea9b8b1b02",
+      "com.docker.compose.container-number": "1",
+      "com.docker.compose.depends_on": "",
+      "com.docker.compose.image": "sha256:1055afcd875b3c95afff6e66188d6514c5d07ce9629ef6f8ff39b6070196ff33",
+      "com.docker.compose.oneoff": "False",
+      "com.docker.compose.project": "media",
+      "com.docker.compose.project.config_files": "/srv/media/compose.yaml",
+      "com.docker.compose.project.working_dir": "/srv/media",
+      "com.docker.compose.service": "jellyfin",
+      "com.docker.compose.version": "5.6.1"
+    },
+    "State": "running",
+    "Status": "Up 40 seconds (health: starting)",
+    "HostConfig": {
+      "NetworkMode": "host"
+    },
+    "NetworkSettings": {
+      "Networks": {
+        "host": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "DriverOpts": null,
+          "GwPriority": 0,
+          "NetworkID": "195434da6c6b6da0960e66baf3b3ea5042b90206a752d1eff10761a29fde0345",
+          "EndpointID": "da34618abf8d9d4b6a522c91727c96b21d6f863a8e648b3b2d47be03e98a53d3",
+          "Gateway": "",
+          "IPAddress": "",
+          "MacAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "DNSNames": null
+        }
+      }
+    },
+    "Mounts": [
+      {
+        "Type": "bind",
+        "Source": "/srv/media/config/jellyfin",
+        "Destination": "/config",
+        "Mode": "",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "volume",
+        "Name": "media_data",
+        "Source": "/var/lib/docker/volumes/media_data/_data",
+        "Destination": "/media/data",
+        "Driver": "local",
+        "Mode": "z",
+        "RW": false,
+        "Propagation": ""
+      }
+    ]
+  }
+]

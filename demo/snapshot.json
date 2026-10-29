@@ -7,6 +7,7 @@
     { "name": "Backup Server", "adapter": "pbs", "area": "storage", "answered": true },
     { "name": "Proxmox", "adapter": "proxmox", "area": "servers", "answered": true },
     { "name": "Beszel", "adapter": "beszel", "area": "servers", "answered": true },
+    { "name": "Docker", "adapter": "docker", "area": "servers", "answered": true },
     { "name": "Radarr", "adapter": "radarr", "area": "apps", "answered": true },
     { "name": "Sonarr", "adapter": "sonarr", "area": "apps", "answered": true },
     { "name": "NUT", "adapter": "nut", "area": "servers", "answered": true },
@@ -855,6 +856,60 @@
       ]
     },
     {
+      "area": "servers",
+      "source": "Docker",
+      "title": { "key": "docker.containers" },
+      "rows": [
+        {
+          "title": { "name": "bazarr" },
+          "value": { "key": "docker.exited", "args": { "code": 1 } },
+          "detail": { "name": "lscr.io/linuxserver/bazarr:1.5.3" },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "gluetun" },
+          "value": { "key": "docker.healthy" },
+          "detail": { "name": "qmcgaw/gluetun:v3.41.3" }
+        },
+        {
+          "title": { "name": "jellyfin" },
+          "value": { "key": "docker.healthy" },
+          "detail": { "name": "jellyfin/jellyfin:10.11.2" }
+        },
+        {
+          "title": { "name": "prowlarr" },
+          "value": { "key": "docker.running" },
+          "detail": { "name": "lscr.io/linuxserver/prowlarr:2.7.0" }
+        },
+        {
+          "title": { "name": "qbittorrent" },
+          "value": { "key": "docker.running" },
+          "detail": { "name": "lscr.io/linuxserver/qbittorrent:5.2.4" }
+        },
+        {
+          "title": { "name": "radarr" },
+          "value": { "key": "docker.running" },
+          "detail": { "name": "lscr.io/linuxserver/radarr:6.4.4" }
+        },
+        {
+          "title": { "name": "recyclarr" },
+          "value": { "key": "docker.exited", "args": { "code": 0 } },
+          "detail": { "name": "ghcr.io/recyclarr/recyclarr:8.4.0" },
+          "tone": "gray"
+        },
+        {
+          "title": { "name": "socket-proxy" },
+          "value": { "key": "docker.running" },
+          "detail": { "name": "lscr.io/linuxserver/socket-proxy:3.4.7" }
+        },
+        {
+          "title": { "name": "sonarr" },
+          "value": { "key": "docker.running" },
+          "detail": { "name": "lscr.io/linuxserver/sonarr:4.0.20" }
+        }
+      ]
+    },
+    {
       "area": "apps",
       "source": "Radarr",
       "title": { "key": "radarr.films" },
@@ -1390,6 +1445,17 @@
         { "label": { "key": "beszel.cpu_meter" }, "used": 0.51, "total": 10 },
         { "label": { "key": "beszel.ram_meter" }, "used": 6.78, "total": 15.3 }
       ]
+    },
+    {
+      "area": "servers",
+      "source": "Docker",
+      "icon": "box",
+      "label": { "key": "docker.containers" },
+      "value": 7,
+      "unit": { "key": "docker.of_running", "args": { "n": 9 } },
+      "detail": { "key": "docker.unhealthy_n", "args": { "n": 0 } },
+      "tone": "orange",
+      "adds": true
     },
     {
       "area": "apps",

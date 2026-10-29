@@ -18,6 +18,7 @@ import (
 
 	"github.com/bnlqn/overlook/internal/adapters/adguard"
 	"github.com/bnlqn/overlook/internal/adapters/beszel"
+	"github.com/bnlqn/overlook/internal/adapters/docker"
 	"github.com/bnlqn/overlook/internal/adapters/gatus"
 	"github.com/bnlqn/overlook/internal/adapters/github"
 	"github.com/bnlqn/overlook/internal/adapters/ical"
@@ -49,6 +50,7 @@ type Sources struct {
 	PBS     []pbs.Config     `yaml:"pbs"`
 	Proxmox []proxmox.Config `yaml:"proxmox"`
 	Beszel  []beszel.Config  `yaml:"beszel"`
+	Docker  []docker.Config  `yaml:"docker"`
 	Radarr  []radarr.Config  `yaml:"radarr"`
 	Sonarr  []sonarr.Config  `yaml:"sonarr"`
 	NUT     []nut.Config     `yaml:"nut"`
@@ -155,6 +157,7 @@ func (c *Config) check() error {
 		add(c, "pbs", pbs.Area, c.Sources.PBS, func(b pbs.Config) string { return b.Name }, pbs.Read),
 		add(c, "proxmox", proxmox.Area, c.Sources.Proxmox, func(p proxmox.Config) string { return p.Name }, proxmox.Read),
 		add(c, "beszel", beszel.Area, c.Sources.Beszel, func(b beszel.Config) string { return b.Name }, beszel.Read),
+		add(c, "docker", docker.Area, c.Sources.Docker, func(d docker.Config) string { return d.Name }, docker.Read),
 		add(c, "radarr", radarr.Area, c.Sources.Radarr, func(r radarr.Config) string { return r.Name }, radarr.Read),
 		add(c, "sonarr", sonarr.Area, c.Sources.Sonarr, func(s sonarr.Config) string { return s.Name }, sonarr.Read),
 		add(c, "nut", nut.Area, c.Sources.NUT, func(n nut.Config) string { return n.Name }, nut.Read),
