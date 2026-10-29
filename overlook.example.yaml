@@ -207,6 +207,11 @@ apps:
     check: Films
     description: The film library
     color: "#FFC230"
+  - name: Home Assistant
+    url: https://ha.example.com
+    icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/home-assistant.svg
+    description: The house
+    color: "#18BCF2"
 
 tools:
   - name: Gatus
@@ -220,8 +225,3 @@ tools:
     check: Hypervisor
     description: The host and its guests
     color: "#E57000"
-  - name: Home Assistant
-    url: https://ha.example.com
-    icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/home-assistant.svg
-    description: The house
-    color: "#18BCF2"
