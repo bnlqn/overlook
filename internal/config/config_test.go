@@ -89,6 +89,24 @@ apps:
 	if a := c.Apps[1]; a.Engine != "" || a.Check != "NAS/SMB" {
 		t.Errorf("a check's own slash: %+v", a)
 	}
+
+	// Any check engine will do, not only Gatus.
+	c, err = Load(write(t, `
+sources:
+  uptimekuma:
+    - url: http://uptime-kuma:3001
+      page: homelab
+apps:
+  - name: Photos
+    url: https://photos.example.com
+    check: Uptime Kuma/Photos
+`))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if a := c.Apps[0]; a.Engine != "Uptime Kuma" || a.Check != "Photos" {
+		t.Errorf("Uptime Kuma named: %+v", a)
+	}
 }
 
 // A password is whatever the source allows, so one with a URL's own

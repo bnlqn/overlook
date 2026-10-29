@@ -17,6 +17,15 @@ sources:
         DNS: network
         Backups: storage
         Media: apps
+
+  # Another check engine: the monitors on one of Uptime Kuma's status pages.
+  uptimekuma:
+    - url: http://uptime-kuma:3001     # where Overlook reads Uptime Kuma
+      page: homelab                    # the status page's slug, as in /status/homelab
+      # link: https://uptime.example.com # where the page sends you, if not the same
+      # areas:                         # as Gatus's, for the status page's groups
+      #   DNS: network
+
   # The updates waiting: the open pull requests from Dependabot or Renovate,
   # read at most every 10 minutes.
   github:

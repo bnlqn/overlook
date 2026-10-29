@@ -2,7 +2,7 @@
   "at": "2026-10-28T09:30:00Z",
   "sources": [
     { "name": "Gatus", "adapter": "gatus", "answered": true },
-    { "name": "Gatus Outside", "adapter": "gatus", "answered": true },
+    { "name": "Uptime Kuma", "adapter": "uptimekuma", "answered": true },
     { "name": "GitHub", "adapter": "github", "answered": true },
     { "name": "Immich", "adapter": "immich", "area": "apps", "answered": true },
     { "name": "Backup Server", "adapter": "pbs", "area": "storage", "answered": true },
@@ -3189,11 +3189,11 @@
       "watched": "2026-03-14T10:00:00Z"
     },
     {
-      "key": "apps_photos",
+      "key": "1",
       "name": "Photos",
       "area": "apps",
-      "source": "Gatus Outside",
-      "url": "https://outside.example.com/endpoints/apps_photos",
+      "source": "Uptime Kuma",
+      "url": "https://uptime.example.com/dashboard/1",
       "threshold": 3,
       "run": 0,
       "problem": false,
@@ -3228,15 +3228,14 @@
         { "ok": true, "at": "2026-10-28T09:25:13Z", "ms": 132.353 },
         { "ok": true, "at": "2026-10-28T09:27:13Z", "ms": 112.846 },
         { "ok": true, "at": "2026-10-28T09:29:13Z", "ms": 113.437 }
-      ],
-      "watched": "2026-03-14T10:00:00Z"
+      ]
     },
     {
-      "key": "apps_requests",
+      "key": "2",
       "name": "Requests",
       "area": "apps",
-      "source": "Gatus Outside",
-      "url": "https://outside.example.com/endpoints/apps_requests",
+      "source": "Uptime Kuma",
+      "url": "https://uptime.example.com/dashboard/2",
       "threshold": 3,
       "run": 0,
       "problem": false,
@@ -3271,15 +3270,14 @@
         { "ok": true, "at": "2026-10-28T09:25:18Z", "ms": 117.475 },
         { "ok": true, "at": "2026-10-28T09:27:18Z", "ms": 102.027 },
         { "ok": true, "at": "2026-10-28T09:29:18Z", "ms": 104.55 }
-      ],
-      "watched": "2026-03-14T10:00:00Z"
+      ]
     },
     {
-      "key": "network_vpn",
+      "key": "3",
       "name": "VPN",
       "area": "network",
-      "source": "Gatus Outside",
-      "url": "https://outside.example.com/endpoints/network_vpn",
+      "source": "Uptime Kuma",
+      "url": "https://uptime.example.com/dashboard/3",
       "threshold": 3,
       "run": 0,
       "problem": false,
@@ -3315,14 +3313,13 @@
         { "ok": true, "at": "2026-10-28T09:27:18Z", "ms": 112.387 },
         { "ok": true, "at": "2026-10-28T09:29:18Z", "ms": 100.038 }
       ],
-      "outages": [{ "from": "2026-10-24T03:40:00Z", "to": "2026-10-24T04:06:00Z" }],
-      "watched": "2026-03-14T10:00:00Z"
+      "outages": [{ "from": "2026-10-24T03:40:00Z", "to": "2026-10-24T04:06:00Z" }]
     },
     {
-      "key": "public_website",
+      "key": "4",
       "name": "Website",
-      "source": "Gatus Outside",
-      "url": "https://outside.example.com/endpoints/public_website",
+      "source": "Uptime Kuma",
+      "url": "https://uptime.example.com/dashboard/4",
       "threshold": 3,
       "run": 0,
       "problem": false,
@@ -3357,14 +3354,13 @@
         { "ok": true, "at": "2026-10-28T09:25:15Z", "ms": 76.818 },
         { "ok": true, "at": "2026-10-28T09:27:15Z", "ms": 65.933 },
         { "ok": true, "at": "2026-10-28T09:29:15Z", "ms": 61.396 }
-      ],
-      "watched": "2026-03-14T10:00:00Z"
+      ]
     },
     {
-      "key": "public_blog",
+      "key": "5",
       "name": "Blog",
-      "source": "Gatus Outside",
-      "url": "https://outside.example.com/endpoints/public_blog",
+      "source": "Uptime Kuma",
+      "url": "https://uptime.example.com/dashboard/5",
       "threshold": 3,
       "run": 0,
       "problem": false,
@@ -3399,18 +3395,16 @@
         { "ok": true, "at": "2026-10-28T09:25:17Z", "ms": 35.786 },
         { "ok": true, "at": "2026-10-28T09:27:17Z", "ms": 35.944 },
         { "ok": true, "at": "2026-10-28T09:29:17Z", "ms": 44.174 }
-      ],
-      "watched": "2026-03-14T10:00:00Z"
+      ]
     },
     {
-      "key": "public_mail",
+      "key": "6",
       "name": "Mail",
-      "source": "Gatus Outside",
-      "url": "https://outside.example.com/endpoints/public_mail",
+      "source": "Uptime Kuma",
+      "url": "https://uptime.example.com/dashboard/6",
       "threshold": 3,
       "run": 2,
       "problem": false,
-      "why": "tls: certificate expires in 6 days",
       "since": "2026-10-28T09:27:13Z",
       "results": [
         { "ok": true, "at": "2026-10-28T08:31:13Z", "ms": 167.223 },
@@ -3441,10 +3435,9 @@
         { "ok": true, "at": "2026-10-28T09:21:13Z", "ms": 152.871 },
         { "ok": true, "at": "2026-10-28T09:23:13Z", "ms": 136.024 },
         { "ok": true, "at": "2026-10-28T09:25:13Z", "ms": 157.015 },
-        { "ok": false, "at": "2026-10-28T09:27:13Z", "ms": 157.076, "why": "tls: certificate expires in 6 days" },
-        { "ok": false, "at": "2026-10-28T09:29:13Z", "ms": 124.911, "why": "tls: certificate expires in 6 days" }
-      ],
-      "watched": "2026-03-14T10:00:00Z"
+        { "ok": false, "at": "2026-10-28T09:27:13Z", "ms": 157.076 },
+        { "ok": false, "at": "2026-10-28T09:29:13Z", "ms": 124.911 }
+      ]
     }
   ],
   "sections": [
@@ -8056,11 +8049,10 @@
       "color": "#3CAD4B"
     },
     {
-      "name": "Gatus Outside",
-      "url": "https://outside.example.com",
-      "icon": "gatus.svg",
+      "name": "Uptime Kuma",
+      "url": "https://uptime.example.com",
       "description": "What the internet sees",
-      "color": "#3CAD4B"
+      "color": "#5CDD8B"
     },
     {
       "name": "Cluster",

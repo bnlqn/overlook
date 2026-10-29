@@ -18,6 +18,7 @@
 /internal/adapters/radarr/  @bnlqn
 /internal/adapters/servarr/ @bnlqn
 /internal/adapters/sonarr/  @bnlqn
+/internal/adapters/uptimekuma/ @bnlqn
 /web/i18n/en/adguard.json   @bnlqn
 /web/i18n/en/beszel.json    @bnlqn
 /web/i18n/en/docker.json    @bnlqn

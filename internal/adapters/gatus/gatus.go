@@ -8,7 +8,6 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
-	"slices"
 	"strings"
 	"sync"
 	"time"
@@ -65,12 +64,7 @@ func (c *Config) Check() error {
 	if c.Threshold < 1 {
 		return errors.New("threshold must be 1 or more")
 	}
-	for group, area := range c.Areas {
-		if !slices.Contains(snapshot.Areas, area) {
-			return fmt.Errorf("areas: %s goes to %q, not one of %s", group, area, strings.Join(snapshot.Areas, ", "))
-		}
-	}
-	return nil
+	return snapshot.CheckAreas(c.Areas)
 }
 
 // endpoint is Gatus's answer for one check, from /api/v1/endpoints/statuses
@@ -126,7 +120,7 @@ func Read(ctx context.Context, c Config) (snapshot.Parts, error) {
 
 func check(e endpoint, c Config) snapshot.Check {
 	ch := snapshot.Check{
-		Key: e.Key, Name: e.Name, Area: area(e.Group, c.Areas), Source: c.Name, Threshold: c.Threshold,
+		Key: e.Key, Name: e.Name, Area: snapshot.AreaOf(e.Group, c.Areas), Source: c.Name, Threshold: c.Threshold,
 		URL: strings.TrimSuffix(c.Link, "/") + "/endpoints/" + url.PathEscape(e.Key), Results: []snapshot.Result{},
 	}
 	for _, r := range e.Results {
@@ -199,16 +193,4 @@ func interval(results []snapshot.Result) time.Duration {
 		return time.Minute
 	}
 	return results[len(results)-1].At.Sub(results[0].At) / time.Duration(len(results)-1)
-}
-
-// area is the area a group goes in: the config's say, or the area it's named
-// like, or none.
-func area(group string, areas map[string]string) string {
-	if a, ok := areas[group]; ok {
-		return a
-	}
-	if a := strings.ToLower(group); slices.Contains(snapshot.Areas, a) {
-		return a
-	}
-	return ""
 }

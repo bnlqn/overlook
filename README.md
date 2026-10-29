@@ -256,7 +256,7 @@ people who run them ([CONTRIBUTING.md](CONTRIBUTING.md)).
 
 ### Gatus
 
-The check engine: every check, its last results and the problems Gatus
+A check engine: every check, its last results and the problems Gatus
 remembers. A check is a problem once it fails as many times in a row as
 your alerts wait for, and stops being one when it passes.
 
@@ -280,6 +280,41 @@ checks there. `areas` says where each other group goes, and a group it
 doesn't name is in no area. **Threshold:** set it to your alerts'
 `failure-threshold` (3 unless you changed it), so a problem on the page is
 one your alerts announced.
+
+### Uptime Kuma
+
+A check engine, as Gatus is: each monitor on one of its status pages, its
+last 30 results and the problems they remember. A monitor is a problem once
+Uptime Kuma calls it down, after the retries you gave it, which is when it
+alerts; while it retries, the page shows it failing.
+
+```yaml
+sources:
+  uptimekuma:
+    - url: http://uptime-kuma:3001     # where Overlook reads Uptime Kuma
+      page: homelab                    # the status page's slug, as in /status/homelab
+      link: https://uptime.example.com # where the page sends you, if not the same
+      areas:                           # where a group not named like an area goes
+        DNS: network
+```
+
+**Key:** none, as a status page is public: Overlook reads the monitors on the
+one you name, and no others. Make one for it in Status Pages, with each
+monitor in a group named like an area, such as Servers or Network, or one
+`areas` places, as Gatus's groups are. Uptime Kuma gives a monitor's results
+only there and over its socket.io, after a login, which Overlook doesn't
+speak.
+
+A status page doesn't say why a monitor failed, so the page doesn't either.
+Nor does it say how many retries a monitor has: the page counts them from
+the last time the monitor went down, in the 100 results a status page keeps,
+and a monitor that hasn't gone down there is one failure from a problem.
+Uptime Kuma serves a status page's results a minute at a time.
+
+Recorded from a scratch Uptime Kuma 2.5.8 with invented monitors (ADR 0008),
+until someone who runs one records it from theirs: the compose file and the
+scripts that fill and record it are in the adapter's
+[`testdata`](internal/adapters/uptimekuma/testdata).
 
 ### GitHub
 
