@@ -18,6 +18,7 @@
     { "name": "Radarr 4K", "adapter": "radarr", "area": "apps", "answered": true },
     { "name": "Sonarr", "adapter": "sonarr", "area": "apps", "answered": true },
     { "name": "Sonarr Anime", "adapter": "sonarr", "area": "apps", "answered": true },
+    { "name": "Prowlarr", "adapter": "prowlarr", "area": "apps", "answered": true },
     { "name": "Rack UPS", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Network UPS", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Office UPS", "adapter": "nut", "area": "servers", "answered": false, "error": "timeout" },
@@ -5216,6 +5217,72 @@
           "title": { "name": "Paper Crane Club 1×11" },
           "value": { "key": "servarr.on", "args": { "at": "2026-11-04T16:00:00Z" } },
           "detail": { "key": "sonarr.untitled" }
+        }
+      ]
+    },
+    {
+      "area": "apps",
+      "source": "Prowlarr",
+      "title": { "key": "prowlarr.indexers" },
+      "rows": [
+        { "title": { "name": "Ferrovia" }, "value": { "key": "prowlarr.disabled" }, "tone": "gray" },
+        {
+          "title": { "name": "Harbour" },
+          "value": { "key": "prowlarr.enabled" },
+          "detail": { "key": "prowlarr.week", "args": { "n": 1974, "grabs": 6, "ms": 312 } }
+        },
+        {
+          "title": { "name": "Kestrel" },
+          "value": { "key": "prowlarr.enabled" },
+          "detail": { "key": "prowlarr.week", "args": { "n": 2105, "grabs": 22, "ms": 143 } }
+        },
+        {
+          "title": { "name": "Lantern" },
+          "value": { "key": "prowlarr.enabled" },
+          "detail": { "key": "prowlarr.week", "args": { "n": 2071, "grabs": 14, "ms": 88 } }
+        },
+        {
+          "title": { "name": "Moorland" },
+          "value": { "key": "prowlarr.enabled" },
+          "detail": { "key": "prowlarr.week", "args": { "n": 1889, "grabs": 4, "ms": 520 } }
+        },
+        {
+          "title": { "name": "Nebula" },
+          "value": { "key": "prowlarr.enabled" },
+          "detail": { "key": "prowlarr.week", "args": { "n": 2210, "grabs": 31, "ms": 204 } }
+        },
+        {
+          "title": { "name": "Openshelf" },
+          "value": { "key": "prowlarr.failing" },
+          "detail": { "key": "prowlarr.failing_since", "args": { "at": "2026-10-27T23:05:13Z" } },
+          "tone": "red"
+        },
+        { "title": { "name": "Pinewood" }, "value": { "key": "prowlarr.disabled" }, "tone": "gray" },
+        {
+          "title": { "name": "Quayside" },
+          "value": { "key": "prowlarr.enabled" },
+          "detail": { "key": "prowlarr.week", "args": { "n": 2042, "grabs": 9, "ms": 97 } }
+        },
+        {
+          "title": { "name": "Saltmarsh" },
+          "value": { "key": "prowlarr.enabled" },
+          "detail": { "key": "prowlarr.week", "args": { "n": 640, "grabs": 0, "ms": 1310 } }
+        },
+        {
+          "title": { "name": "Tidewater" },
+          "value": { "key": "prowlarr.enabled" },
+          "detail": { "key": "prowlarr.week", "args": { "n": 1996, "grabs": 12, "ms": 176 } }
+        },
+        {
+          "title": { "name": "Whinmoor" },
+          "value": { "key": "prowlarr.enabled" },
+          "detail": { "key": "prowlarr.week", "args": { "n": 2003, "grabs": 17, "ms": 121 } }
+        },
+        {
+          "title": { "name": "Prowlarr" },
+          "value": { "key": "servarr.warning" },
+          "detail": { "name": "Indexers unavailable due to failures: Openshelf" },
+          "tone": "orange"
         }
       ]
     },

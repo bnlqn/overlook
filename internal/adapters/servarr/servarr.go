@@ -1,6 +1,6 @@
-// Package servarr is what the Radarr and Sonarr adapters share, because the
-// two are built on the same code: their config and key, their queue and
-// health, and the cache their libraries are read through.
+// Package servarr is what the Radarr, Sonarr and Prowlarr adapters share,
+// because the three are built on the same code: their config and key, their
+// queue and health, and the cache their libraries are read through.
 package servarr
 
 import (
@@ -61,23 +61,32 @@ func Status(ctx context.Context, c Config, words string) ([]snapshot.Row, error)
 	var queue struct {
 		TotalCount int `json:"totalCount"`
 	}
-	var health []struct {
-		Type    string `json:"type"`
-		Message string `json:"message"`
-	}
 	if err := c.Get(ctx, "/api/v3/queue/status", &queue); err != nil {
 		return nil, err
 	}
-	if err := c.Get(ctx, "/api/v3/health", &health); err != nil {
+	health, err := Health(ctx, c, "/api/v3")
+	if err != nil {
 		return nil, err
 	}
 	value := snapshot.Text{Key: "servarr.nothing"}
 	if queue.TotalCount > 0 {
 		value = snapshot.Text{Key: words + ".downloading_n", Args: map[string]any{"n": queue.TotalCount}}
 	}
-	rows := []snapshot.Row{{Title: snapshot.Text{Key: "servarr.downloading"}, Value: &value}}
-	// Every warning, as the source words it: its health lists only what's
-	// wrong.
+	return append([]snapshot.Row{{Title: snapshot.Text{Key: "servarr.downloading"}, Value: &value}}, health...), nil
+}
+
+// Health is every warning the source gives at its API api, such as /api/v3,
+// as a row each, as the source words it: its health lists only what's
+// wrong.
+func Health(ctx context.Context, c Config, api string) ([]snapshot.Row, error) {
+	var health []struct {
+		Type    string `json:"type"`
+		Message string `json:"message"`
+	}
+	if err := c.Get(ctx, api+"/health", &health); err != nil {
+		return nil, err
+	}
+	var rows []snapshot.Row
 	for _, h := range health {
 		level, tone := snapshot.Text{Key: "servarr.warning"}, "orange"
 		if h.Type == "error" {

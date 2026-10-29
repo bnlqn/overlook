@@ -25,6 +25,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/immich"
 	"github.com/bnlqn/overlook/internal/adapters/nut"
 	"github.com/bnlqn/overlook/internal/adapters/pbs"
+	"github.com/bnlqn/overlook/internal/adapters/prowlarr"
 	"github.com/bnlqn/overlook/internal/adapters/proxmox"
 	"github.com/bnlqn/overlook/internal/adapters/radarr"
 	"github.com/bnlqn/overlook/internal/adapters/sonarr"
@@ -44,18 +45,19 @@ type Config struct {
 
 // Sources are the sources to read, by adapter: each adapter's own config.
 type Sources struct {
-	Gatus   []gatus.Config   `yaml:"gatus"`
-	GitHub  []github.Config  `yaml:"github"`
-	Immich  []immich.Config  `yaml:"immich"`
-	PBS     []pbs.Config     `yaml:"pbs"`
-	Proxmox []proxmox.Config `yaml:"proxmox"`
-	Beszel  []beszel.Config  `yaml:"beszel"`
-	Docker  []docker.Config  `yaml:"docker"`
-	Radarr  []radarr.Config  `yaml:"radarr"`
-	Sonarr  []sonarr.Config  `yaml:"sonarr"`
-	NUT     []nut.Config     `yaml:"nut"`
-	AdGuard []adguard.Config `yaml:"adguard"`
-	Ical    []ical.Config    `yaml:"ical"`
+	Gatus    []gatus.Config    `yaml:"gatus"`
+	GitHub   []github.Config   `yaml:"github"`
+	Immich   []immich.Config   `yaml:"immich"`
+	PBS      []pbs.Config      `yaml:"pbs"`
+	Proxmox  []proxmox.Config  `yaml:"proxmox"`
+	Beszel   []beszel.Config   `yaml:"beszel"`
+	Docker   []docker.Config   `yaml:"docker"`
+	Radarr   []radarr.Config   `yaml:"radarr"`
+	Sonarr   []sonarr.Config   `yaml:"sonarr"`
+	Prowlarr []prowlarr.Config `yaml:"prowlarr"`
+	NUT      []nut.Config      `yaml:"nut"`
+	AdGuard  []adguard.Config  `yaml:"adguard"`
+	Ical     []ical.Config     `yaml:"ical"`
 }
 
 // Readers are the sources, each with its adapter's read, as Load checked
@@ -160,6 +162,7 @@ func (c *Config) check() error {
 		add(c, "docker", docker.Area, c.Sources.Docker, func(d docker.Config) string { return d.Name }, docker.Read),
 		add(c, "radarr", radarr.Area, c.Sources.Radarr, func(r radarr.Config) string { return r.Name }, radarr.Read),
 		add(c, "sonarr", sonarr.Area, c.Sources.Sonarr, func(s sonarr.Config) string { return s.Name }, sonarr.Read),
+		add(c, "prowlarr", prowlarr.Area, c.Sources.Prowlarr, func(p prowlarr.Config) string { return p.Name }, prowlarr.Read),
 		add(c, "nut", nut.Area, c.Sources.NUT, func(n nut.Config) string { return n.Name }, nut.Read),
 		add(c, "adguard", adguard.Area, c.Sources.AdGuard, func(a adguard.Config) string { return a.Name }, adguard.Read),
 		add(c, "ical", "", c.Sources.Ical, func(i ical.Config) string { return i.Name }, ical.Read),

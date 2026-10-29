@@ -611,6 +611,23 @@ services:
 Overlook reads only the list of containers, never a container's own
 details, which hold its environment and so its keys.
 
+### Prowlarr
+
+Each indexer, on the Apps page: whether it's enabled, those Prowlarr leaves
+out because they fail, in red with since when, and what each was asked and
+grabbed this week; and what Prowlarr warns about.
+
+```yaml
+sources:
+  prowlarr:
+    - url: http://prowlarr:9696 # where Overlook reads Prowlarr
+      key: ${PROWLARR_KEY}
+```
+
+**Key:** Prowlarr's API key, from Settings, General. Like Radarr's, it's the
+only key and it can do anything, even read each indexer's own key, and
+Overlook sends it only with GET requests (ADR 0001).
+
 ### Can't be read
 
 These tools can't be read the way Overlook reads (ADR 0001, ADR 0009), or

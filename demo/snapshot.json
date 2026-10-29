@@ -10,6 +10,7 @@
     { "name": "Docker", "adapter": "docker", "area": "servers", "answered": true },
     { "name": "Radarr", "adapter": "radarr", "area": "apps", "answered": true },
     { "name": "Sonarr", "adapter": "sonarr", "area": "apps", "answered": true },
+    { "name": "Prowlarr", "adapter": "prowlarr", "area": "apps", "answered": true },
     { "name": "NUT", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Primary DNS", "adapter": "adguard", "area": "network", "answered": true },
     { "name": "Standby DNS", "adapter": "adguard", "area": "network", "answered": false, "error": "timeout" },
@@ -976,6 +977,41 @@
           "title": { "name": "Small Hours 4×01" },
           "value": { "key": "servarr.on", "args": { "at": "2026-11-01T21:00:00Z" } },
           "detail": { "key": "sonarr.untitled" }
+        }
+      ]
+    },
+    {
+      "area": "apps",
+      "source": "Prowlarr",
+      "title": { "key": "prowlarr.indexers" },
+      "rows": [
+        { "title": { "name": "Ferrovia" }, "value": { "key": "prowlarr.disabled" }, "tone": "gray" },
+        {
+          "title": { "name": "Harbour" },
+          "value": { "key": "prowlarr.enabled" },
+          "detail": { "key": "prowlarr.week", "args": { "n": 988, "grabs": 1, "ms": 340 } }
+        },
+        {
+          "title": { "name": "Lantern" },
+          "value": { "key": "prowlarr.enabled" },
+          "detail": { "key": "prowlarr.week", "args": { "n": 1036, "grabs": 3, "ms": 91 } }
+        },
+        {
+          "title": { "name": "Nebula" },
+          "value": { "key": "prowlarr.enabled" },
+          "detail": { "key": "prowlarr.week", "args": { "n": 1112, "grabs": 7, "ms": 212 } }
+        },
+        {
+          "title": { "name": "Openshelf" },
+          "value": { "key": "prowlarr.failing" },
+          "detail": { "key": "prowlarr.failing_since", "args": { "at": "2026-10-28T03:12:40Z" } },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "Prowlarr" },
+          "value": { "key": "servarr.warning" },
+          "detail": { "name": "Indexers unavailable due to failures: Openshelf" },
+          "tone": "orange"
         }
       ]
     },
