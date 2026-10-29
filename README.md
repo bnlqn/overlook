@@ -54,7 +54,7 @@ and the least key it needs), and CI passes.
        check engine; charts of what hosts measure, a line each. Then the
        large homelab is looked at whole, and what still looks wrong is
        fixed.
-3. [ ] One login, in `internal/fetch`, for a source that offers no other
+3. [x] One login, in `internal/fetch`, for a source that offers no other
        way in (ADR 0009).
 4. [ ] The adapters for what the author's homelab runs: Beszel, Docker,
        Prowlarr and qBittorrent.
@@ -91,10 +91,11 @@ width, and every adapter has its section here.
 ## What it never does
 
 - **It never changes anything.** Overlook sends a source only GET requests,
-  and NUT only LIST VAR, which reads; the client it reads with refuses every
-  other method. Some keys it holds could do anything (AdGuard Home has no
-  read-only users, and Radarr's and Sonarr's keys are admin keys), and this
-  is what keeps them harmless.
+  and a login where a source offers no other way in, which changes nothing
+  but a session; it sends NUT only LIST VAR, which reads. The client it
+  reads with refuses every other request. Some keys it holds could do
+  anything (AdGuard Home has no read-only users, and Radarr's and Sonarr's
+  keys are admin keys), and this is what keeps them harmless.
 - **It never runs a check or sends an alert.** Your check engine does both.
 - **It remembers nothing.** No database and no volume: it reads every
   source when the page asks, at most every 30 seconds, so an Overlook

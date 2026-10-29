@@ -1,6 +1,7 @@
-// Package fetch is how adapters read their sources: with GET requests, and
-// NUT's LIST VAR, and nothing else, so that no key Overlook holds can
-// change anything, whatever an adapter asks for (ADR 0001).
+// Package fetch is how adapters read their sources: with GET requests, a
+// login where a source offers no other way in, and NUT's LIST VAR, and
+// nothing else, so that no key Overlook holds can change anything, whatever
+// an adapter asks for (ADR 0001, ADR 0009).
 package fetch
 
 import (
@@ -22,11 +23,20 @@ import (
 // Radarr's whole library, is about a megabyte.
 const maxAnswer = 32 << 20
 
-// getOnly refuses every request but a GET.
-type getOnly struct{ next http.RoundTripper }
+// guard refuses every request but a GET, and a POST to login, the one URL a
+// Session logs in at, if it has one (ADR 0009). A redirect is a request of
+// its own, so a login is never sent on to another URL, nor sent twice.
+type guard struct {
+	next  http.RoundTripper
+	login string
+}
 
-func (g getOnly) RoundTrip(r *http.Request) (*http.Response, error) {
-	if r.Method != http.MethodGet {
+func (g guard) RoundTrip(r *http.Request) (*http.Response, error) {
+	login := r.Method == http.MethodPost && g.login != "" && r.URL.String() == g.login && r.Response == nil
+	if r.Method != http.MethodGet && !login {
+		if r.Body != nil {
+			_ = r.Body.Close()
+		}
 		return nil, fmt.Errorf("overlook only reads: %s refused", r.Method)
 	}
 	return g.next.RoundTrip(r)
@@ -47,7 +57,7 @@ func sameOrigin(req *http.Request, via []*http.Request) error {
 	return nil
 }
 
-var client = &http.Client{Transport: getOnly{http.DefaultTransport}, CheckRedirect: sameOrigin}
+var client = &http.Client{Transport: guard{next: http.DefaultTransport}, CheckRedirect: sameOrigin}
 
 // Client reads a source. Its zero value trusts the CAs the system trusts;
 // Trusting makes one that trusts the source's own.
@@ -70,7 +80,7 @@ func Trusting(caFile, serverName string) (Client, error) {
 	}
 	t := http.DefaultTransport.(*http.Transport).Clone()
 	t.TLSClientConfig = &tls.Config{RootCAs: pool, ServerName: serverName, MinVersion: tls.VersionTLS12}
-	return Client{&http.Client{Transport: getOnly{t}, CheckRedirect: sameOrigin}}, nil
+	return Client{&http.Client{Transport: guard{next: t}, CheckRedirect: sameOrigin}}, nil
 }
 
 // JSON reads the answer at rawURL into v, sending header with the request,
@@ -86,6 +96,10 @@ func (c Client) JSON(ctx context.Context, rawURL string, header http.Header, v a
 	if err != nil {
 		return err
 	}
+	return decode(body, v)
+}
+
+func decode(body []byte, v any) error {
 	if err := json.Unmarshal(body, v); err != nil {
 		return fmt.Errorf("an answer that isn't the JSON expected: %w", err)
 	}
@@ -107,35 +121,47 @@ func (c Client) get(ctx context.Context, rawURL, accept string, header http.Head
 		req.Header[http.CanonicalHeaderKey(k)] = vs
 	}
 	req.Header.Set("Accept", accept)
+	_, body, err := c.do(req)
+	return body, err
+}
+
+// do sends req and reads the answer, which must be a 200, giving back its
+// header and body. Its error is short enough for the page.
+func (c Client) do(req *http.Request) (http.Header, []byte, error) {
 	req.Header.Set("User-Agent", "Overlook")
 	hc := c.http
 	if hc == nil {
 		hc = client
 	}
-	res, err := hc.Do(req)
+	res, err := hc.Do(req) //nolint:gosec // the owner names their sources, and the guard decides what reaches them
 	if err != nil {
 		var u *url.Error
 		if errors.As(err, &u) {
 			if u.Timeout() {
-				return nil, errors.New("timeout")
+				return nil, nil, errors.New("timeout")
 			}
-			return nil, u.Err
+			return nil, nil, u.Err
 		}
-		return nil, err
+		return nil, nil, err
 	}
 	defer res.Body.Close()
 	if res.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("HTTP %d", res.StatusCode)
+		return nil, nil, status(res.StatusCode)
 	}
 	body, err := io.ReadAll(io.LimitReader(res.Body, maxAnswer+1))
 	if err != nil {
-		return nil, fmt.Errorf("reading the answer: %w", err)
+		return nil, nil, fmt.Errorf("reading the answer: %w", err)
 	}
 	if len(body) > maxAnswer {
-		return nil, fmt.Errorf("an answer over %d MiB", maxAnswer>>20)
+		return nil, nil, fmt.Errorf("an answer over %d MiB", maxAnswer>>20)
 	}
-	return body, nil
+	return res.Header, body, nil
 }
+
+// status is a source answering with a status other than 200.
+type status int
+
+func (s status) Error() string { return fmt.Sprintf("HTTP %d", int(s)) }
 
 // Login is the header that sends a source its user and password, by HTTP's
 // basic authentication, or none without a user. Unlike a login in a URL, it
