@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/bnlqn/overlook/actions/workflows/ci.yml/badge.svg)](https://github.com/bnlqn/overlook/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/bnlqn/overlook)](https://github.com/bnlqn/overlook/releases/latest)
-[![Licence](https://img.shields.io/github/license/bnlqn/overlook)](LICENSE)
+[![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue)](LICENSE)
 
 One page that tells you whether your homelab is fine.
 
