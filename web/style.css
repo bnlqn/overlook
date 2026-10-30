@@ -2010,9 +2010,10 @@ a.chore:hover {
   color: var(--tone-text);
 }
 
-/* An area page's checks, in the card under its head. */
+/* An area page's checks, titled like the sections, in the card under its
+   head. */
 #checks {
-  margin-top: 20px;
+  margin-top: 32px;
 }
 #checks .checks {
   padding: 4px 0;
@@ -2042,6 +2043,11 @@ a.chore:hover {
     grid-template-columns: auto minmax(0, 1fr) 56px;
   }
   .check .strip {
+    display: none;
+  }
+  /* At this width the checks draw no results, so their title doesn't name
+     them. */
+  #checks .hint {
     display: none;
   }
 }

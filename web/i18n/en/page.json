@@ -21,6 +21,7 @@
   "area.no_checks": "No checks",
   "area.empty": "Nothing here yet",
   "area.checks_up": { "one": "{n} check up", "other": "{n} checks up" },
+  "area.checks_hint": "the last 30 results",
 
   "side.areas": "Areas",
   "side.apps": "Apps",
@@ -99,7 +100,7 @@
   "section.hosts": "Hosts",
 
   "areas.title": "Areas",
-  "areas.hint": "the last 30 results",
+  "areas.hint": "their checks, the last 30 results",
   "areas.name": "Name",
   "areas.health": "Health",
   "areas.checks": "Checks",
