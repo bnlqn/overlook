@@ -20,7 +20,8 @@ It reads:
   [Grafana](#grafana), [Prometheus and Alertmanager](#prometheus-and-alertmanager)
 - **Servers**: [Proxmox VE](#proxmox-ve), [Beszel](#beszel),
   [Docker](#docker), [NUT](#nut)
-- **Network**: [AdGuard Home](#adguard-home), [Pi-hole](#pi-hole)
+- **Network**: [UniFi Network](#unifi-network), [AdGuard Home](#adguard-home),
+  [Pi-hole](#pi-hole)
 - **Storage**: [Proxmox Backup Server](#proxmox-backup-server)
 - **Apps**: [Immich](#immich), [Jellyfin](#jellyfin),
   [Plex, through Tautulli](#plex-through-tautulli), [Radarr](#radarr),
@@ -49,9 +50,10 @@ What it can't read, and why, is under [Can't be read](#cant-be-read).
   answers.
 - **The chores**: the ones on your to-do list that are due or come this
   week, the updates waiting for your merge or to be installed, the
-  batteries to change and the requests waiting for your approval. You do a
-  chore where it waits, such as marking it done on the list, never on the
-  page, and a chore is never a problem.
+  batteries to change, the devices waiting to be adopted and the requests
+  waiting for your approval. You do a chore where it waits, such as
+  marking it done on the list, never on the page, and a chore is never a
+  problem.
 
 ## What it never does
 
@@ -204,15 +206,16 @@ same name in `icons/` beside the config wins over one of them.
 to-do list, which the [iCalendar](#icalendar-to-do-list) source reads; the
 updates waiting for your merge, which the [GitHub](#github) source reads;
 the updates waiting to be installed, which the
-[Home Assistant](#home-assistant) and [Nextcloud](#nextcloud) sources read,
-and the batteries to change, from Home Assistant; and the requests waiting
-for your approval, which the [Seerr](#seerr) source reads. The page lists
-the chores due, from their day on, and those in the coming week, by the
-viewer's own calendar; with none, it says which is next. With chores from
-more than one source, each is named by the one it waits in. You add, change
-and mark chores done in your to-do app or from a script, and do the others
-where they wait, never on the page (ADR 0010), and the page follows within
-30 seconds.
+[Home Assistant](#home-assistant), [Nextcloud](#nextcloud) and
+[UniFi](#unifi-network) sources read, the batteries to change, from Home
+Assistant, and the devices waiting to be adopted, from UniFi; and the
+requests waiting for your approval, which the [Seerr](#seerr) source reads.
+The page lists the chores due, from their day on, and those in the coming
+week, by the viewer's own calendar; with none, it says which is next. With
+chores from more than one source, each is named by the one it waits in. You
+add, change and mark chores done in your to-do app or from a script, and do
+the others where they wait, never on the page (ADR 0010), and the page
+follows within 30 seconds.
 
 **Flags.** `-config` names the config (`overlook.yaml` by default), and
 `icons/` and `custom.css` are read beside it; `-listen` is the address to
@@ -594,6 +597,57 @@ set `MODE=netserver` in `nut.conf`, add a `LISTEN` line for the address
 Overlook reaches to `upsd.conf` (such as `LISTEN 192.0.2.13 3493`), and let
 Overlook through any firewall to that port. The readings cross the network
 unencrypted, as upsd sends them without TLS.
+
+### UniFi Network
+
+Each UniFi OS console, such as a Cloud Gateway, a Dream Machine or UniFi OS
+Server, and every site on it, in Network. First the internet: each WAN, how
+long it has been up, how much of the last day it answered and how fast, or
+since when it's down, and the last speed test. A WAN down since the gateway
+started, as a spare port with nothing in it is, is grey while another is
+up; one that drops is red. Then each device, the gateway, switches and
+access points: how long it has been up and how busy its processor and how
+full its memory are, or its state, offline in red and interrupted in orange.
+Today shows the clients connected, wired, wireless and on the VPN, every
+console's added up, in orange while a device or a WAN is down. A device
+offline isn't a problem, since Overlook runs no check: give it a check in
+your check engine to make it one. The chores are each device whose firmware
+waits, a gateway's being UniFi OS itself, each device waiting to be adopted,
+and the Network application's update.
+
+```yaml
+sources:
+  unifi:
+    - url: https://unifi.example.com
+      key: ${UNIFI_KEY}
+      ca: /etc/overlook/unifi.pem    # the console's own certificate
+      server_name: unifi.local       # the name it's for
+```
+
+**Key:** an API key, from the Network application's **Integrations**:
+**Create New API Key**, with **Never Expires**. UniFi has no read-only key,
+so it could change anything on the console, every site and device; what
+keeps it harmless is that Overlook only ever sends GET (ADR 0001). It needs
+UniFi OS and Network 10.0 or later.
+
+**Certificate:** the console signs its own, for `unifi.local`, and Overlook
+never reads a source it can't check. Save it with
+`openssl s_client -connect unifi.example.com:443 </dev/null | openssl x509 >unifi.pem`,
+give it as `ca` and name `unifi.local` as `server_name`. When the console
+makes a new one, every two years or so, save it again. With a certificate
+of your own on the console, you need neither.
+
+**Two reads nothing documents.** UniFi's documented API says nothing of the
+WANs or of the Network application's update, so Overlook reads them from
+the API before it, with the same key and a GET too. Ubiquiti changes that
+one without warning: when a change breaks a read, the Internet section or
+that chore goes missing, and the rest stays, until the adapter is recorded
+again. UniFi's history isn't read: its events come only from a POST, and
+its traffic by the hour from a read that Network 11 has only just moved.
+
+Recorded from the maintainer's Cloud Gateway Fiber, on UniFi OS 5.1.34 with
+Network 10.6.109, with every name, ID and MAC address made up; its
+[`record.sh`](internal/adapters/unifi/testdata/record.sh) records yours.
 
 ### AdGuard Home
 
@@ -985,6 +1039,9 @@ Others are left out for a reason of their own:
 - **Dozzle and Authelia**: they show nothing more than whether they answer,
   which a check already says.
 - **Readarr**: retired in June 2025.
+- **The UniFi Network application on its own**, without UniFi OS: it has
+  no API keys, and Ubiquiti dropped it in Network 11, for UniFi OS Server,
+  which [UniFi](#unifi-network) reads.
 - **Watchtower**: no longer kept, and archived in December 2025.
 
 ## No login

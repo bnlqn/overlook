@@ -40,6 +40,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/seerr"
 	"github.com/bnlqn/overlook/internal/adapters/sonarr"
 	"github.com/bnlqn/overlook/internal/adapters/tautulli"
+	"github.com/bnlqn/overlook/internal/adapters/unifi"
 	"github.com/bnlqn/overlook/internal/adapters/uptimekuma"
 	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
@@ -81,6 +82,7 @@ type Sources struct {
 	Paperless     []paperless.Config     `yaml:"paperless"`
 	Nextcloud     []nextcloud.Config     `yaml:"nextcloud"`
 	NUT           []nut.Config           `yaml:"nut"`
+	UniFi         []unifi.Config         `yaml:"unifi"`
 	AdGuard       []adguard.Config       `yaml:"adguard"`
 	PiHole        []pihole.Config        `yaml:"pihole"`
 	Ical          []ical.Config          `yaml:"ical"`
@@ -200,6 +202,7 @@ func (c *Config) check() error {
 		add(c, "paperless", paperless.Area, "", c.Sources.Paperless, func(p paperless.Config) string { return p.Name }, paperless.Read),
 		add(c, "nextcloud", nextcloud.Area, "", c.Sources.Nextcloud, func(n nextcloud.Config) string { return n.Name }, nextcloud.Read),
 		add(c, "nut", nut.Area, "", c.Sources.NUT, func(n nut.Config) string { return n.Name }, nut.Read),
+		add(c, "unifi", unifi.Area, "", c.Sources.UniFi, func(u unifi.Config) string { return u.Name }, unifi.Read),
 		add(c, "adguard", adguard.Area, "resolver", c.Sources.AdGuard, func(a adguard.Config) string { return a.Name }, adguard.Read),
 		add(c, "pihole", pihole.Area, "resolver", c.Sources.PiHole, func(p pihole.Config) string { return p.Name }, pihole.Read),
 		add(c, "ical", "", "todolist", c.Sources.Ical, func(i ical.Config) string { return i.Name }, ical.Read),

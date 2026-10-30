@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "rc": "ok"
+  },
+  "data": [
+    {
+      "subsystem": "wan",
+      "status": "ok",
+      "gw_system-stats": {
+        "uptime": "111922"
+      },
+      "uptime_stats": {
+        "WAN": {
+          "alerting_monitors": [
+            {
+              "availability": 100.0,
+              "latency_average": 3,
+              "target": "ping.ui.com",
+              "type": "icmp"
+            },
+            {
+              "availability": 100.0,
+              "latency_average": 3,
+              "target": "1.1.1.1",
+              "type": "dns"
+            },
+            {
+              "availability": 100.0,
+              "latency_average": 13,
+              "target": "8.8.8.8",
+              "type": "dns"
+            }
+          ],
+          "availability": 99.79170000553131,
+          "latency_average": 3,
+          "monitors": [
+            {
+              "availability": 100.0,
+              "latency_average": 11,
+              "target": "www.microsoft.com",
+              "type": "icmp"
+            },
+            {
+              "availability": 100.0,
+              "latency_average": 8,
+              "target": "google.com",
+              "type": "icmp"
+            },
+            {
+              "availability": 100.0,
+              "latency_average": 3,
+              "target": "1.1.1.1",
+              "type": "icmp"
+            }
+          ],
+          "time_period": 86400,
+          "uptime": 111848
+        },
+        "WAN2": {
+          "alerting_monitors": [
+            {
+              "availability": 0.0,
+              "target": "ping.ui.com",
+              "type": "icmp"
+            },
+            {
+              "availability": 0.0,
+              "target": "1.1.1.1",
+              "type": "dns"
+            },
+            {
+              "availability": 0.0,
+              "target": "8.8.8.8",
+              "type": "dns"
+            }
+          ],
+          "downtime": 111865,
+          "monitors": [
+            {
+              "availability": 0.0,
+              "target": "www.microsoft.com",
+              "type": "icmp"
+            },
+            {
+              "availability": 0.0,
+              "target": "google.com",
+              "type": "icmp"
+            },
+            {
+              "availability": 0.0,
+              "target": "1.1.1.1",
+              "type": "icmp"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "subsystem": "www",
+      "status": "ok",
+      "latency": 8,
+      "uptime": 111866,
+      "speedtest_status": "Idle",
+      "speedtest_lastrun": 0,
+      "speedtest_ping": 0,
+      "xput_down": 0.0,
+      "xput_up": 0.0
+    }
+  ]
+}

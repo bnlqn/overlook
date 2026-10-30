@@ -22,6 +22,7 @@
     { "name": "Paperless-ngx", "adapter": "paperless", "area": "apps", "answered": true },
     { "name": "Nextcloud", "adapter": "nextcloud", "area": "apps", "answered": true },
     { "name": "NUT", "adapter": "nut", "area": "servers", "answered": true },
+    { "name": "UniFi", "adapter": "unifi", "area": "network", "answered": true },
     { "name": "Primary DNS", "adapter": "adguard", "area": "network", "kind": "resolver", "answered": true },
     {
       "name": "Standby DNS",
@@ -1781,6 +1782,87 @@
     },
     {
       "area": "network",
+      "source": "UniFi",
+      "title": { "key": "unifi.internet" },
+      "rows": [
+        {
+          "title": { "name": "WAN" },
+          "value": { "key": "unifi.up_for", "args": { "ms": 1036800000 } },
+          "detail": { "key": "unifi.wan_detail", "args": { "availability": 99.9, "period": 86400000, "latency": 4 } }
+        },
+        {
+          "title": { "name": "WAN2" },
+          "value": { "key": "unifi.down" },
+          "detail": { "key": "unifi.down_since_start" },
+          "tone": "gray"
+        },
+        {
+          "title": { "key": "unifi.speed_test" },
+          "value": { "key": "unifi.speed", "args": { "down": 942, "up": 487 } },
+          "detail": { "key": "unifi.speed_detail", "args": { "at": "2026-10-28T03:00:00Z", "ping": 5 } }
+        }
+      ]
+    },
+    {
+      "area": "network",
+      "source": "UniFi",
+      "title": { "key": "unifi.devices" },
+      "rows": [
+        {
+          "title": { "name": "ap-garden" },
+          "value": { "key": "unifi.interrupted" },
+          "detail": { "key": "unifi.device_detail", "args": { "model": "U6 Mesh", "firmware": "6.7.31" } },
+          "tone": "orange"
+        },
+        {
+          "title": { "name": "ap-hall" },
+          "value": { "key": "unifi.up_for", "args": { "ms": 1036200000 } },
+          "detail": { "key": "unifi.device_detail", "args": { "model": "U7 Pro", "firmware": "7.1.68" } },
+          "meters": [
+            { "label": { "key": "unifi.cpu_meter" }, "used": 4.2, "total": 100 },
+            { "label": { "key": "unifi.ram_meter" }, "used": 61.3, "total": 100 }
+          ]
+        },
+        {
+          "title": { "name": "ap-loft" },
+          "value": { "key": "unifi.up_for", "args": { "ms": 1036300000 } },
+          "detail": { "key": "unifi.device_detail", "args": { "model": "U6 Lite", "firmware": "6.7.31" } },
+          "meters": [
+            { "label": { "key": "unifi.cpu_meter" }, "used": 2.8, "total": 100 },
+            { "label": { "key": "unifi.ram_meter" }, "used": 48.9, "total": 100 }
+          ]
+        },
+        {
+          "title": { "name": "gateway" },
+          "value": { "key": "unifi.up_for", "args": { "ms": 1036800000 } },
+          "detail": { "key": "unifi.device_detail", "args": { "model": "UCG Ultra", "firmware": "4.4.6" } },
+          "meters": [
+            { "label": { "key": "unifi.cpu_meter" }, "used": 17.5, "total": 100 },
+            { "label": { "key": "unifi.ram_meter" }, "used": 64.2, "total": 100 }
+          ]
+        },
+        {
+          "title": { "name": "switch-rack" },
+          "value": { "key": "unifi.up_for", "args": { "ms": 1036500000 } },
+          "detail": { "key": "unifi.device_detail", "args": { "model": "USW Pro 24 PoE", "firmware": "7.2.123" } },
+          "meters": [
+            { "label": { "key": "unifi.cpu_meter" }, "used": 9.1, "total": 100 },
+            { "label": { "key": "unifi.ram_meter" }, "used": 41.7, "total": 100 }
+          ]
+        },
+        {
+          "title": { "name": "switch-study" },
+          "value": { "key": "unifi.up_for", "args": { "ms": 1036400000 } },
+          "detail": { "key": "unifi.device_detail", "args": { "model": "USW Flex Mini", "firmware": "2.1.6" } },
+          "meters": [
+            { "label": { "key": "unifi.cpu_meter" }, "used": 3.4, "total": 100 },
+            { "label": { "key": "unifi.ram_meter" }, "used": 52.8, "total": 100 }
+          ]
+        }
+      ]
+    },
+    {
+      "area": "network",
       "source": "Primary DNS",
       "title": { "key": "resolver.section" },
       "rows": [
@@ -2442,6 +2524,21 @@
     },
     {
       "area": "network",
+      "source": "UniFi",
+      "icon": "network",
+      "label": { "key": "unifi.clients" },
+      "value": 42,
+      "detail": { "key": "unifi.devices_online", "args": { "online": 5, "n": 6 } },
+      "tone": "orange",
+      "adds": true,
+      "shares": [
+        { "label": { "key": "unifi.wired" }, "value": 17 },
+        { "label": { "key": "unifi.wireless" }, "value": 23 },
+        { "label": { "key": "unifi.vpn" }, "value": 2 }
+      ]
+    },
+    {
+      "area": "network",
       "source": "Primary DNS",
       "icon": "shield",
       "label": { "key": "resolver.dns_lookups" },
@@ -2757,6 +2854,18 @@
       "note": "Kim",
       "url": "https://requests.example.com/tv/6357",
       "source": "Seerr"
+    },
+    {
+      "name": "U7 Lite",
+      "note": "00:00:5e:00:53:21",
+      "url": "https://unifi.example.com/network/default/devices",
+      "source": "UniFi"
+    },
+    {
+      "name": "ap-hall",
+      "note": "7.1.68 →",
+      "url": "https://unifi.example.com/network/default/devices",
+      "source": "UniFi"
     },
     {
       "name": "Clean the NAS's dust filters",
