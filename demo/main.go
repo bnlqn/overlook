@@ -31,8 +31,8 @@ import (
 //go:embed snapshot.json
 var invented []byte
 
-// The two other homelabs every change to the page is looked at with (the
-// README's road to v0.2), in the shapes today's adapters give: a small one,
+// The two other homelabs every change to the page is looked at with
+// (CONTRIBUTING.md), in the shapes today's adapters give: a small one,
 // Gatus and two apps, and a large one, at the most the page is made for.
 var (
 	//go:embed small.json
