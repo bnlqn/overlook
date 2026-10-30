@@ -92,6 +92,14 @@ By contributing, you agree that your contribution is licensed under the project'
 
 The maintainer tags a commit of `main` as `v` and its version, such as `v0.1.0`, and pushes the tag. The release workflow runs `make check`, then [GoReleaser](https://goreleaser.com) builds the Linux binaries for amd64 and arm64, publishes them as the tag's release, and pushes one image for both to `ghcr.io/bnlqn/overlook` (`.goreleaser.yaml`, `Dockerfile`). A tag with a suffix, such as `v0.1.0-rc.1`, is a release candidate, and the image's `latest` stays where it was.
 
+Versions follow [Semantic Versioning](https://semver.org) to the letter. A fix is a patch, such as `v0.3.1`. Anything new, such as an adapter, is a minor version, such as `v0.4.0`, never a patch. A change that breaks what worked, such as a config key or one of the page's promises, is a major version from 1.0 on; until then it is a minor one, and its notes say so first.
+
+Each release goes in three steps:
+
+1. **A pull request** brings every file that names a version up to the new one: the image in the README's quick start and its line on the image, the README's road under What's next, the commands in SECURITY.md, and any proposed ADR written for the next road.
+2. **The tag**, on `main` once that pull request is merged, annotated as `Overlook v0.4.0, which …`, saying what it brings.
+3. **The notes**: once the release is published, they go above GitHub's list of what was merged: what's new, how to upgrade, with anything that breaks first, and how to check the build (SECURITY.md).
+
 To try a release without publishing anything, with Docker running:
 
 ```bash
