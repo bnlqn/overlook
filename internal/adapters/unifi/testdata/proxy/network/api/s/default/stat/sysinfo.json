@@ -1,0 +1,12 @@
+{
+  "meta": {
+    "rc": "ok"
+  },
+  "data": [
+    {
+      "version": "10.6.109",
+      "update_available": false,
+      "update_downloaded": false
+    }
+  ]
+}

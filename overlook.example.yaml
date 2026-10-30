@@ -159,6 +159,18 @@ sources:
     - host: ${NUT_HOST}                # where upsd listens, such as nut.example.com or nut.example.com:3493
       ups: ups                         # the UPS's name in upsd, as in its ups.conf
 
+  # A UniFi OS console: each WAN, each device and its state, the clients
+  # connected, and, as chores, the firmware waiting and the devices waiting
+  # to be adopted. It reads every site on the console.
+  unifi:
+    - url: https://unifi.example.com   # where Overlook reads the console
+      key: ${UNIFI_KEY}                # an API key, from the Network application's Integrations
+      # The console signs its own certificate, for unifi.local. Save it, such
+      # as with openssl s_client, say where it is, and name unifi.local.
+      # ca: /etc/overlook/unifi.pem
+      # server_name: unifi.local
+      # link: https://unifi.ui.com/consoles/… # where the page sends you, if not the same
+
   # Each DNS resolver: whether it filters, today's lookups and blocks, and
   # its top clients and domains. Give each its own name.
   adguard:

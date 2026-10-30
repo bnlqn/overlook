@@ -1,0 +1,92 @@
+{
+  "offset": 0,
+  "limit": 200,
+  "count": 7,
+  "totalCount": 7,
+  "data": [
+    {
+      "id": "00000000-0000-4000-8000-000000000100",
+      "name": "switch-hall",
+      "model": "USW Lite 8 PoE",
+      "state": "ONLINE",
+      "firmwareVersion": "7.5.15",
+      "firmwareUpdatable": false,
+      "features": [
+        "switching"
+      ],
+      "supported": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000101",
+      "name": "ap-study",
+      "model": "U6 Lite",
+      "state": "ONLINE",
+      "firmwareVersion": "6.7.57",
+      "firmwareUpdatable": false,
+      "features": [
+        "accessPoint"
+      ],
+      "supported": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000102",
+      "name": "ap-attic",
+      "model": "U6 Mesh",
+      "state": "ONLINE",
+      "firmwareVersion": "6.8.2",
+      "firmwareUpdatable": false,
+      "features": [
+        "accessPoint"
+      ],
+      "supported": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000103",
+      "name": "ap-garden",
+      "model": "U6 Pro",
+      "state": "ONLINE",
+      "firmwareVersion": "6.8.2",
+      "firmwareUpdatable": false,
+      "features": [
+        "accessPoint"
+      ],
+      "supported": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000104",
+      "name": "ap-kitchen",
+      "model": "U7 Pro XG",
+      "state": "ONLINE",
+      "firmwareVersion": "8.7.11",
+      "firmwareUpdatable": false,
+      "features": [
+        "accessPoint"
+      ],
+      "supported": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000105",
+      "name": "switch-garage",
+      "model": "USW Flex 2.5G 8 PoE",
+      "state": "ONLINE",
+      "firmwareVersion": "2.1.8",
+      "firmwareUpdatable": false,
+      "features": [
+        "switching"
+      ],
+      "supported": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000106",
+      "name": "gateway",
+      "model": "UCG Fiber",
+      "state": "ONLINE",
+      "firmwareVersion": "5.1.34",
+      "firmwareUpdatable": false,
+      "features": [
+        "switching"
+      ],
+      "supported": true
+    }
+  ]
+}

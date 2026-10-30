@@ -189,6 +189,7 @@ func TestExample(t *testing.T) {
 	t.Setenv("TAUTULLI_KEY", "0123abcd")
 	t.Setenv("SEERR_KEY", "0123abcd")
 	t.Setenv("NUT_HOST", "nut.example.com")
+	t.Setenv("UNIFI_KEY", "0123abcd")
 	t.Setenv("ADGUARD_PASSWORD", "s3cret")
 	t.Setenv("PIHOLE_PASSWORD", "s3cret")
 	t.Setenv("DAV_PASSWORD", "s3cret")
