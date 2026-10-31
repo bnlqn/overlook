@@ -6,7 +6,7 @@ status: proposed
 
 When Overlook finds no config, it serves a setup page in place of the page. The setup page asks which tools the homelab runs, with each one's address and key, reads each once through the server, as its adapter would, and says what each answered. It then gives the owner `overlook.yaml` and `.env` to save beside the compose file, put together in the browser, so the server never sends a key back. Overlook writes nothing. Once a config exists, the setup page is gone, and the config is changed in its file, as before. This amends ADR 0001: until its config exists, Overlook draws a second page.
 
-Proposed on 29 October 2026, for the next road, which became the road to v0.4 when v0.3.0 shipped the UniFi adapter on its own, so that a homelab's first page takes minutes rather than an evening of YAML. It is decided when that road is written.
+Proposed on 29 October 2026, for the next road, which became the road to v0.5 when v0.3.0 shipped the UniFi adapter, and v0.4.0 the Emby and Checkmate adapters, on their own, so that a homelab's first page takes minutes rather than an evening of YAML. It is decided when that road is written.
 
 ## Considered options
 
