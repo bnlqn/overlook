@@ -14,4 +14,5 @@ A new adapter (CONTRIBUTING.md, Adding an adapter):
 - [ ] Its config in overlook.example.yaml, and the least key it needs in the README.
 - [ ] Its author in .github/CODEOWNERS.
 - [ ] Its parts in the demo, demo/snapshot.json.
+- [ ] Its logo in web/icons/, unchanged from homarr-labs/dashboard-icons when it has one, and checked.
 -->
