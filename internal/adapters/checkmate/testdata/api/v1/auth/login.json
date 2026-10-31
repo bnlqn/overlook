@@ -1,0 +1,21 @@
+{
+  "success": true,
+  "msg": "User logged in successfully",
+  "data": {
+    "user": {
+      "id": "6ae5bc169fc2e0de2a484a9f",
+      "firstName": "Overlook",
+      "lastName": "Reader",
+      "email": "overlook@example.com",
+      "isActive": true,
+      "isVerified": false,
+      "role": [
+        "user"
+      ],
+      "teamId": "6ae5bc169fc2e0de2a484a98",
+      "createdAt": "2026-10-31T09:59:50.992Z",
+      "updatedAt": "2026-10-31T09:59:50.992Z"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZTViYzE2OWZjMmUwZGUyYTQ4NGE5ZiIsImZpcnN0TmFtZSI6Ik92ZXJsb29rIiwibGFzdE5hbWUiOiJSZWFkZXIiLCJlbWFpbCI6Im92ZXJsb29rQGV4YW1wbGUuY29tIiwiYXZhdGFySW1hZ2UiOiIiLCJpc0FjdGl2ZSI6dHJ1ZSwiaXNWZXJpZmllZCI6ZmFsc2UsInJvbGUiOlsidXNlciJdLCJ0ZWFtSWQiOiI2YWU1YmMxNjlmYzJlMGRlMmE0ODRhOTgiLCJjcmVhdGVkQXQiOiIyMDI2LTEwLTMxVDA5OjU5OjUwLjk5MloiLCJ1cGRhdGVkQXQiOiIyMDI2LTEwLTMxVDA5OjU5OjUwLjk5MloiLCJpYXQiOjE3OTM0NDE0MjEsImV4cCI6MTgwMTk5NTAyMX0.dE-YGkkdDwWapwoToxIyNbOUa5qhVP0wQZ3RFP8tGfI"
+  }
+}

@@ -1,0 +1,34 @@
+# A scratch Checkmate to record from (ADR 0008), with a Capture agent for
+# its hardware monitors: fill.sh makes its owner, Overlook's user and
+# invented monitors, then record.sh reads what Overlook reads, once the
+# monitors have ten minutes of results.
+#
+#   docker compose -f compose.yaml up -d --wait && ./fill.sh && ./record.sh
+#   docker compose -f compose.yaml down -v
+services:
+  checkmate:
+    image: ghcr.io/bluewave-labs/checkmate:v3.13.1
+    ports: ["127.0.0.1:52345:52345"]
+    environment:
+      DB_CONNECTION_STRING: mongodb://mongodb:27017/uptime_db
+      CLIENT_HOST: http://localhost:52345
+      JWT_SECRET: scratch-secret-for-recording-only
+      TELEMETRY_ENABLED: "false"
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:52346/livez',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      interval: 5s
+      retries: 30
+    depends_on:
+      mongodb:
+        condition: service_healthy
+  mongodb:
+    image: mongo:8.0
+    command: ["mongod", "--quiet", "--bind_ip_all"]
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/27017"]
+      interval: 2s
+      retries: 30
+  capture:
+    image: ghcr.io/bluewave-labs/capture:v1.4.0
+    environment:
+      API_SECRET: scratch-capture-secret
