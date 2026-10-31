@@ -23,7 +23,7 @@ It reads:
 - **Network**: [UniFi Network](#unifi-network), [AdGuard Home](#adguard-home),
   [Pi-hole](#pi-hole)
 - **Storage**: [Proxmox Backup Server](#proxmox-backup-server)
-- **Apps**: [Immich](#immich), [Jellyfin](#jellyfin),
+- **Apps**: [Immich](#immich), [Jellyfin](#jellyfin), [Emby](#emby),
   [Plex, through Tautulli](#plex-through-tautulli), [Radarr](#radarr),
   [Sonarr](#sonarr), [Prowlarr](#prowlarr), [qBittorrent](#qbittorrent),
   [Seerr](#seerr), [Home Assistant](#home-assistant),
@@ -853,6 +853,29 @@ Recorded from a scratch Jellyfin 12.4 filled with invented films and people
 file and the scripts that fill and record it are in the adapter's
 [`testdata`](internal/adapters/jellyfin/testdata).
 
+### Emby
+
+The films, shows and music, on the Apps page: what each person plays now
+and how, as it is, transcoded or paused; how many films, shows, albums and
+books there are; the failed logins of the last day; and each task whose last
+run failed, such as a library's scan, in red with why. Today shows the plays
+since midnight, hour by hour, every media server's added up.
+
+```yaml
+sources:
+  emby:
+    - url: http://emby:8096 # where Overlook reads Emby
+      key: ${EMBY_KEY}
+```
+
+**Key:** an API key, from the dashboard's Advanced section, API Keys. It's
+the only kind Emby makes, and it can do anything an administrator can, but
+Overlook sends it only with GET requests, which change nothing (ADR 0001).
+
+Recorded from a scratch Emby 4.10 filled with invented films and people
+(ADR 0008): the compose file and the scripts that fill and record it are in
+the adapter's [`testdata`](internal/adapters/emby/testdata).
+
 ### Plex, through Tautulli
 
 Plex, on the Apps page, as Tautulli watches it: what each person plays now
@@ -860,7 +883,7 @@ and how, as it is, transcoded or paused, and the bandwidth it takes, of it
 to remote players; each library, by what it holds; whether a newer Plex is
 out, when Tautulli knows; and, in red, a Plex server Tautulli can't reach.
 Today shows the plays since midnight, hour by hour, every media server's
-added up, Jellyfin's too.
+added up, Jellyfin's and Emby's too.
 
 ```yaml
 sources:

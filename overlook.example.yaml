@@ -121,8 +121,14 @@ sources:
     - url: http://jellyfin:8096        # where Overlook reads Jellyfin
       key: ${JELLYFIN_KEY}             # Dashboard, API Keys
 
+  # Emby's films, shows and music: what each person plays now, the plays of
+  # the last day, failed logins and tasks.
+  emby:
+    - url: http://emby:8096            # where Overlook reads Emby
+      key: ${EMBY_KEY}                 # Dashboard, Advanced, API Keys
+
   # Plex, through Tautulli: what plays now, the libraries and the plays of
-  # the last day, added up with Jellyfin's.
+  # the last day, added up with Jellyfin's and Emby's.
   tautulli:
     - url: http://tautulli:8181        # where Overlook reads Tautulli, directly, not through a proxy
       key: ${TAUTULLI_KEY}             # Settings, Web Interface, API key

@@ -66,7 +66,7 @@ test("the demo: one resolver down makes the network degraded, and it's named as 
   const lookups = m.today.tiles.find((f) => f.label.key === "resolver.dns_lookups");
   assert.deepEqual(lookups.sources, ["Primary DNS", "Kids' DNS"], "an AdGuard Home's and a Pi-hole's add up");
   const plays = m.today.tiles.find((f) => f.label.key === "mediaserver.plays");
-  assert.deepEqual(plays.sources, ["Jellyfin", "Plex"], "so do Jellyfin's and Plex's");
+  assert.deepEqual(plays.sources, ["Jellyfin", "Emby", "Plex"], "so do Jellyfin's, Emby's and Plex's");
   assert.equal(m.events.items.length, 8, "a busy week shows its eight newest");
   assert.ok(
     m.events.items.every((e, i) => !i || m.events.items[i - 1].at >= e.at),

@@ -20,6 +20,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/adguard"
 	"github.com/bnlqn/overlook/internal/adapters/beszel"
 	"github.com/bnlqn/overlook/internal/adapters/docker"
+	"github.com/bnlqn/overlook/internal/adapters/emby"
 	"github.com/bnlqn/overlook/internal/adapters/gatus"
 	"github.com/bnlqn/overlook/internal/adapters/github"
 	"github.com/bnlqn/overlook/internal/adapters/grafana"
@@ -76,6 +77,7 @@ type Sources struct {
 	Prowlarr      []prowlarr.Config      `yaml:"prowlarr"`
 	QBittorrent   []qbittorrent.Config   `yaml:"qbittorrent"`
 	Jellyfin      []jellyfin.Config      `yaml:"jellyfin"`
+	Emby          []emby.Config          `yaml:"emby"`
 	Tautulli      []tautulli.Config      `yaml:"tautulli"`
 	Seerr         []seerr.Config         `yaml:"seerr"`
 	HomeAssistant []homeassistant.Config `yaml:"homeassistant"`
@@ -196,6 +198,7 @@ func (c *Config) check() error {
 		add(c, "prowlarr", prowlarr.Area, "", c.Sources.Prowlarr, func(p prowlarr.Config) string { return p.Name }, prowlarr.Read),
 		add(c, "qbittorrent", qbittorrent.Area, "", c.Sources.QBittorrent, func(q qbittorrent.Config) string { return q.Name }, qbittorrent.Read),
 		add(c, "jellyfin", jellyfin.Area, "mediaserver", c.Sources.Jellyfin, func(j jellyfin.Config) string { return j.Name }, jellyfin.Read),
+		add(c, "emby", emby.Area, "mediaserver", c.Sources.Emby, func(e emby.Config) string { return e.Name }, emby.Read),
 		add(c, "tautulli", tautulli.Area, "mediaserver", c.Sources.Tautulli, func(t tautulli.Config) string { return t.Name }, tautulli.Read),
 		add(c, "seerr", seerr.Area, "", c.Sources.Seerr, func(s seerr.Config) string { return s.Name }, seerr.Read),
 		add(c, "homeassistant", homeassistant.Area, "", c.Sources.HomeAssistant, func(h homeassistant.Config) string { return h.Name }, homeassistant.Read),
