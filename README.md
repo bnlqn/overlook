@@ -95,7 +95,7 @@ compose.yaml
 # compose.yaml
 services:
   overlook:
-    image: ghcr.io/bnlqn/overlook:0.3
+    image: ghcr.io/bnlqn/overlook:0.4
     restart: unless-stopped
     ports:
       - "8080:8080"
@@ -141,8 +141,8 @@ which sources Overlook reads, and the page names any that didn't answer.
   its files must be readable by others, as they are by default.
 - **`TZ`** says when today starts, for today's figures. Any zone works: the
   zone database is inside the binary.
-- **The image** is `ghcr.io/bnlqn/overlook`, for amd64 and arm64: `0.3` for
-  the newest 0.3 release, or a version such as `0.3.0`. It holds the
+- **The image** is `ghcr.io/bnlqn/overlook`, for amd64 and arm64: `0.4` for
+  the newest 0.4 release, or a version such as `0.4.0`. It holds the
   binary and the CA certificates it checks HTTPS sources with, and nothing
   else.
 
@@ -1100,8 +1100,8 @@ file; [CONTRIBUTING.md](CONTRIBUTING.md#translating) says how.
 
 ## What's next
 
-`v0.3.0` is the newest release, and [the releases](https://github.com/bnlqn/overlook/releases)
-say what each one brought. The road to v0.4 is written from what people
+`v0.4.0` is the newest release, and [the releases](https://github.com/bnlqn/overlook/releases)
+say what each one brought. The road to v0.5 is written from what people
 ask for, and goes here. Until then, the
 [adapters wanted](https://github.com/bnlqn/overlook/issues?q=is%3Aissue%20is%3Aopen%20label%3Aenhancement)
 are open as issues: if you run one of them, its issue says what an
