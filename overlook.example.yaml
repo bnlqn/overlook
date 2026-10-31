@@ -121,6 +121,13 @@ sources:
     - url: http://jellyfin:8096        # where Overlook reads Jellyfin
       key: ${JELLYFIN_KEY}             # Dashboard, API Keys
 
+  # Emby, which answers as Jellyfin does but for the room left on its disks:
+  # what each person plays now, the plays of the last day, failed logins and
+  # tasks.
+  emby:
+    - url: http://emby:8096            # where Overlook reads Emby
+      key: ${EMBY_KEY}                 # Dashboard, Advanced, API Keys
+
   # Plex, through Tautulli: what plays now, the libraries and the plays of
   # the last day, added up with Jellyfin's.
   tautulli:

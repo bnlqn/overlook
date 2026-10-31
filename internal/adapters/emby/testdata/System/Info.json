@@ -1,0 +1,25 @@
+{
+  "SystemUpdateLevel": "Release",
+  "OperatingSystemDisplayName": "Unix",
+  "HasPendingRestart": false,
+  "IsShuttingDown": false,
+  "OperatingSystem": "Linux",
+  "SupportsLibraryMonitor": true,
+  "WebSocketPortNumber": 8096,
+  "CanSelfRestart": true,
+  "CanSelfUpdate": true,
+  "CanLaunchWebBrowser": false,
+  "HasUpdateAvailable": false,
+  "Version": "4.10.2.0",
+  "ServerName": "emby",
+  "Id": "0123456789abcdef0123456789abcdef",
+  "LocalAddresses": [
+    "192.0.2.10"
+  ],
+  "RemoteAddresses": [
+    "198.51.100.7"
+  ],
+  "HttpServerPortNumber": 8096,
+  "SupportsHttps": true,
+  "HttpsPortNumber": 8920
+}

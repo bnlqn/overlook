@@ -1,0 +1,20 @@
+{
+  "emby.episode": "{series}: {name}",
+
+  "emby.films": "Films",
+  "emby.films_n": { "one": "{n} film", "other": "{n} films" },
+  "emby.shows": "Shows",
+  "emby.shows_n": { "one": "{n} show · {episodes} episodes", "other": "{n} shows · {episodes} episodes" },
+  "emby.music": "Music",
+  "emby.music_n": { "one": "{n} album · {songs} songs", "other": "{n} albums · {songs} songs" },
+  "emby.books": "Books",
+  "emby.books_n": { "one": "{n} book", "other": "{n} books" },
+
+  "emby.failed_logins": "Failed logins",
+  "emby.failed_logins_n": { "one": "{n} in the last day", "other": "{n} in the last day" },
+  "emby.task_failed": "Failed",
+  "emby.task_failed_at": "Last run {at:when}",
+
+  "emby.version": "Version",
+  "emby.restart": "Restart pending"
+}

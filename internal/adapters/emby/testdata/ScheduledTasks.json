@@ -1,0 +1,82 @@
+[
+  {
+    "Name": "Scan media library",
+    "State": "Idle",
+    "Id": "t-RefreshLibrary",
+    "LastExecutionResult": {
+      "StartTimeUtc": "2026-10-29T03:00:00.0000000Z",
+      "EndTimeUtc": "2026-10-29T03:04:10.0000000Z",
+      "Status": "Failed",
+      "Name": "Scan media library",
+      "Key": "RefreshLibrary",
+      "Id": "t-RefreshLibrary",
+      "ErrorMessage": "Access to the path '/media/Films' is denied."
+    },
+    "Triggers": [
+      {
+        "Type": "IntervalTrigger",
+        "IntervalTicks": 864000000000
+      }
+    ],
+    "Description": "Scan media library.",
+    "Category": "Library",
+    "IsHidden": false,
+    "Key": "RefreshLibrary"
+  },
+  {
+    "Name": "Clean Transcode Directory",
+    "State": "Idle",
+    "Id": "t-DeleteTranscodeFiles",
+    "LastExecutionResult": {
+      "StartTimeUtc": "2026-10-29T03:00:00.0000000Z",
+      "EndTimeUtc": "2026-10-29T03:04:10.0000000Z",
+      "Status": "Completed",
+      "Name": "Clean Transcode Directory",
+      "Key": "DeleteTranscodeFiles",
+      "Id": "t-DeleteTranscodeFiles"
+    },
+    "Triggers": [
+      {
+        "Type": "IntervalTrigger",
+        "IntervalTicks": 864000000000
+      }
+    ],
+    "Description": "Clean Transcode Directory.",
+    "Category": "Maintenance",
+    "IsHidden": false,
+    "Key": "DeleteTranscodeFiles"
+  },
+  {
+    "Name": "Clean Cache Directory",
+    "State": "Idle",
+    "Id": "t-DeleteCacheFiles",
+    "LastExecutionResult": {
+      "StartTimeUtc": "2026-10-29T03:00:00.0000000Z",
+      "EndTimeUtc": "2026-10-29T03:04:10.0000000Z",
+      "Status": "Completed",
+      "Name": "Clean Cache Directory",
+      "Key": "DeleteCacheFiles",
+      "Id": "t-DeleteCacheFiles"
+    },
+    "Triggers": [
+      {
+        "Type": "IntervalTrigger",
+        "IntervalTicks": 864000000000
+      }
+    ],
+    "Description": "Clean Cache Directory.",
+    "Category": "Maintenance",
+    "IsHidden": false,
+    "Key": "DeleteCacheFiles"
+  },
+  {
+    "Name": "Refresh Guide",
+    "State": "Idle",
+    "Id": "t-guide",
+    "Triggers": [],
+    "Description": "Refresh Guide.",
+    "Category": "Live TV",
+    "IsHidden": false,
+    "Key": "RefreshGuide"
+  }
+]

@@ -71,7 +71,7 @@ _Avoid_: DNS server, ad blocker
 
 **Media server**:
 A source that plays the homelab's films, shows and music, or tells what one
-plays, such as Jellyfin, or Plex through Tautulli. Their plays add up.
+plays, such as Jellyfin, Emby, or Plex through Tautulli. Their plays add up.
 _Avoid_: Streaming server, Plex (for all of them)
 
 **Snapshot**:

@@ -182,6 +182,7 @@ func TestExample(t *testing.T) {
 	t.Setenv("PROWLARR_KEY", "89abcdef")
 	t.Setenv("QBITTORRENT_KEY", "qbt_0123abcd")
 	t.Setenv("JELLYFIN_KEY", "0123abcd")
+	t.Setenv("EMBY_KEY", "0123abcd")
 	t.Setenv("HOMEASSISTANT_TOKEN", "0123abcd")
 	t.Setenv("PAPERLESS_TOKEN", "0123abcd")
 	t.Setenv("NEXTCLOUD_TOKEN", "0123abcd")
@@ -203,7 +204,7 @@ func TestExample(t *testing.T) {
 		"gatus": "checkengine", "uptimekuma": "checkengine", "grafana": "checkengine", "prometheus": "checkengine",
 		"ical":    "todolist",
 		"adguard": "resolver", "pihole": "resolver",
-		"jellyfin": "mediaserver", "tautulli": "mediaserver",
+		"jellyfin": "mediaserver", "emby": "mediaserver", "tautulli": "mediaserver",
 	}
 	for _, r := range c.Readers() {
 		if r.Kind != kinds[r.Adapter] {

@@ -1,0 +1,75 @@
+{
+  "Items": [
+    {
+      "Id": 9,
+      "Name": "Robin has finished playing Sintel (2010) on Phone",
+      "Type": "playback.stop",
+      "Date": "2026-10-29T10:44:02.0000000Z",
+      "Severity": "Info",
+      "ItemId": "1",
+      "UserId": "2"
+    },
+    {
+      "Id": 8,
+      "Name": "Robin is playing Sintel (2010) on Phone",
+      "Type": "playback.start",
+      "Date": "2026-10-29T10:40:20.7491228Z",
+      "Severity": "Info",
+      "ItemId": "1",
+      "UserId": "2"
+    },
+    {
+      "Id": 7,
+      "Name": "Sam is playing Harbour Lights - The Lamp Room on Firefox",
+      "Type": "playback.start",
+      "Date": "2026-10-29T10:40:20.2274051Z",
+      "Severity": "Info",
+      "ItemId": "3",
+      "UserId": "4"
+    },
+    {
+      "Id": 6,
+      "Name": "Alex is playing Metropolis (1927) on Living room TV",
+      "Type": "playback.start",
+      "Date": "2026-10-29T10:39:11.0000000Z",
+      "Severity": "Info",
+      "ItemId": "5",
+      "UserId": "6"
+    },
+    {
+      "Id": 5,
+      "Name": "Failed Login Attempt from Robin on Phone",
+      "Type": "user.authenticationfailed",
+      "Date": "2026-10-29T10:12:40.0000000Z",
+      "Severity": "Error",
+      "Overview": "192.0.2.50\n\n\n\n\nTime\n\nThursday, October 29, 2026 10:12 AM"
+    },
+    {
+      "Id": 4,
+      "Name": "Failed Login Attempt from Robin on Phone",
+      "Type": "user.authenticationfailed",
+      "Date": "2026-10-29T10:12:10.0000000Z",
+      "Severity": "Error",
+      "Overview": "192.0.2.50\n\n\n\n\nTime\n\nThursday, October 29, 2026 10:12 AM"
+    },
+    {
+      "Id": 3,
+      "Name": "Alex is playing Metropolis (1927) on Living room TV",
+      "Type": "playback.start",
+      "Date": "2026-10-28T21:14:05.0000000Z",
+      "Severity": "Info",
+      "ItemId": "5",
+      "UserId": "6"
+    },
+    {
+      "Id": 2,
+      "Name": "Alex authenticated on Living room TV",
+      "Type": "user.authenticated",
+      "Date": "2026-10-28T21:13:50.0000000Z",
+      "Severity": "Info",
+      "ItemId": "",
+      "UserId": "6"
+    }
+  ],
+  "TotalRecordCount": 8
+}

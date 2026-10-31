@@ -1,0 +1,129 @@
+[
+  {
+    "PlayState": {
+      "PositionTicks": 24040000000,
+      "CanSeek": true,
+      "IsPaused": false,
+      "IsMuted": false,
+      "PlayMethod": "DirectPlay",
+      "RepeatMode": "RepeatNone"
+    },
+    "AdditionalUsers": [],
+    "RemoteEndPoint": "192.0.2.50",
+    "Protocol": "HTTP/1.1",
+    "PlayableMediaTypes": [
+      "Audio",
+      "Video"
+    ],
+    "Id": "s-alex",
+    "UserId": "u-alex",
+    "UserName": "Alex",
+    "Client": "Roku",
+    "LastActivityDate": "2026-10-29T10:44:50.0000000Z",
+    "DeviceName": "Living room TV",
+    "DeviceId": "d-alex",
+    "ApplicationVersion": "1.0",
+    "NowPlayingItem": {
+      "Name": "Metropolis (1927)",
+      "ServerId": "0123456789abcdef0123456789abcdef",
+      "Id": "26594653",
+      "RunTimeTicks": 54000000000,
+      "Type": "Movie",
+      "MediaType": "Video"
+    },
+    "SupportsRemoteControl": true
+  },
+  {
+    "PlayState": {
+      "PositionTicks": 24040000000,
+      "CanSeek": true,
+      "IsPaused": false,
+      "IsMuted": false,
+      "PlayMethod": "Transcode",
+      "RepeatMode": "RepeatNone"
+    },
+    "AdditionalUsers": [],
+    "RemoteEndPoint": "192.0.2.50",
+    "Protocol": "HTTP/1.1",
+    "PlayableMediaTypes": [
+      "Audio",
+      "Video"
+    ],
+    "Id": "s-robin",
+    "UserId": "u-robin",
+    "UserName": "Robin",
+    "Client": "Emby for Android",
+    "LastActivityDate": "2026-10-29T10:44:50.0000000Z",
+    "DeviceName": "Phone",
+    "DeviceId": "d-robin",
+    "ApplicationVersion": "1.0",
+    "NowPlayingItem": {
+      "Name": "Sintel (2010)",
+      "ServerId": "0123456789abcdef0123456789abcdef",
+      "Id": "80313730",
+      "RunTimeTicks": 54000000000,
+      "Type": "Movie",
+      "MediaType": "Video"
+    },
+    "SupportsRemoteControl": true
+  },
+  {
+    "PlayState": {
+      "PositionTicks": 24040000000,
+      "CanSeek": true,
+      "IsPaused": true,
+      "IsMuted": false,
+      "PlayMethod": "DirectStream",
+      "RepeatMode": "RepeatNone"
+    },
+    "AdditionalUsers": [],
+    "RemoteEndPoint": "192.0.2.50",
+    "Protocol": "HTTP/1.1",
+    "PlayableMediaTypes": [
+      "Audio",
+      "Video"
+    ],
+    "Id": "s-sam",
+    "UserId": "u-sam",
+    "UserName": "Sam",
+    "Client": "Emby Web",
+    "LastActivityDate": "2026-10-29T10:44:50.0000000Z",
+    "DeviceName": "Firefox",
+    "DeviceId": "d-sam",
+    "ApplicationVersion": "1.0",
+    "NowPlayingItem": {
+      "Name": "The Lamp Room",
+      "ServerId": "0123456789abcdef0123456789abcdef",
+      "Id": "7781883",
+      "RunTimeTicks": 54000000000,
+      "Type": "Episode",
+      "MediaType": "Video",
+      "SeriesName": "Harbour Lights",
+      "ParentIndexNumber": 1,
+      "IndexNumber": 3
+    },
+    "SupportsRemoteControl": true
+  },
+  {
+    "PlayState": {
+      "CanSeek": false,
+      "IsPaused": false,
+      "IsMuted": false,
+      "RepeatMode": "RepeatNone"
+    },
+    "AdditionalUsers": [],
+    "RemoteEndPoint": "192.0.2.51",
+    "Protocol": "HTTP/1.1",
+    "PlayableMediaTypes": [
+      "Audio",
+      "Video"
+    ],
+    "Id": "s-idle",
+    "Client": "Emby Web",
+    "LastActivityDate": "2026-10-29T10:30:00.0000000Z",
+    "DeviceName": "Chrome",
+    "DeviceId": "d-idle",
+    "ApplicationVersion": "4.10.2.0",
+    "SupportsRemoteControl": false
+  }
+]

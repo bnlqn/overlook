@@ -16,6 +16,7 @@
     { "name": "Prowlarr", "adapter": "prowlarr", "area": "apps", "answered": true },
     { "name": "qBittorrent", "adapter": "qbittorrent", "area": "apps", "answered": true },
     { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "kind": "mediaserver", "answered": true },
+    { "name": "Emby", "adapter": "emby", "area": "apps", "kind": "mediaserver", "answered": true },
     { "name": "Plex", "adapter": "tautulli", "area": "apps", "kind": "mediaserver", "answered": true },
     { "name": "Seerr", "adapter": "seerr", "area": "apps", "answered": true },
     { "name": "Home Assistant", "adapter": "homeassistant", "area": "apps", "answered": true },
@@ -1651,6 +1652,30 @@
     },
     {
       "area": "apps",
+      "source": "Emby",
+      "title": { "key": "mediaserver.section" },
+      "rows": [
+        {
+          "title": { "name": "Robin" },
+          "value": { "name": "Sintel (2010)" },
+          "detail": { "key": "mediaserver.direct", "args": { "device": "Study laptop" } }
+        },
+        { "title": { "key": "emby.films" }, "value": { "key": "emby.films_n", "args": { "n": 96 } } },
+        {
+          "title": { "key": "emby.shows" },
+          "value": { "key": "emby.shows_n", "args": { "n": 12, "episodes": 340 } }
+        },
+        {
+          "title": { "key": "emby.failed_logins" },
+          "value": { "key": "emby.failed_logins_n", "args": { "n": 2 } },
+          "detail": { "name": "Failed Login Attempt from Robin on Phone" },
+          "tone": "orange"
+        },
+        { "title": { "key": "emby.version" }, "value": { "name": "4.10.2.0" } }
+      ]
+    },
+    {
+      "area": "apps",
       "source": "Plex",
       "title": { "key": "mediaserver.section" },
       "rows": [
@@ -2484,6 +2509,16 @@
       "value": 3,
       "detail": { "key": "mediaserver.playing_now", "args": { "n": 2 } },
       "hours": [0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 3, 5, 4, 6, 3, 1, 0, 0, 0, 0, 0, 1, 1, 1],
+      "adds": true
+    },
+    {
+      "area": "apps",
+      "source": "Emby",
+      "icon": "play",
+      "label": { "key": "mediaserver.plays" },
+      "value": 1,
+      "detail": { "key": "mediaserver.playing_now", "args": { "n": 1 } },
+      "hours": [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 2, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
       "adds": true
     },
     {
