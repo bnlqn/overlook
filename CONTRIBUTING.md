@@ -70,6 +70,7 @@ One adapter per pull request, with:
 5. **Its config**, in `overlook.example.yaml`, and the least key it needs, in its section of the README.
 6. **Its author**, in `.github/CODEOWNERS`, beside its folder and its words.
 7. **Its parts in the demo**, `demo/snapshot.json`, after the parts of the adapters before it in `check`, with names and numbers made up. The demo's test fails until a word of the adapter's is there.
+8. **Its logo**, in `web/icons/`, named after the program, such as `adguard-home.svg`, for an owner to name in a link's `icon:`. Take it unchanged from [homarr-labs/dashboard-icons](https://github.com/homarr-labs/dashboard-icons) when it has one, and say in the pull request when it hasn't. Where it comes in a dark and a light version, take the one that shows on the page's dark tiles, as `github.svg` is its `github-light.svg`. Check that it is the program's own logo, and that it holds no script, no event handler and nothing it loads or links to outside itself. An adapter that reads a format, such as iCalendar, brings the logos of the programs that serve it.
 
 ## Translating
 
