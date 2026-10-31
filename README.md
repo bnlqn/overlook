@@ -17,7 +17,8 @@ that doesn't exist.
 It reads:
 
 - **Check engines**: [Gatus](#gatus), [Uptime Kuma](#uptime-kuma),
-  [Grafana](#grafana), [Prometheus and Alertmanager](#prometheus-and-alertmanager)
+  [Grafana](#grafana), [Prometheus and Alertmanager](#prometheus-and-alertmanager),
+  [Checkmate](#checkmate)
 - **Servers**: [Proxmox VE](#proxmox-ve), [Beszel](#beszel),
   [Docker](#docker), [NUT](#nut)
 - **Network**: [UniFi Network](#unifi-network), [AdGuard Home](#adguard-home),
@@ -359,6 +360,52 @@ alert rules over numbers of their own (ADR 0008), until someone who runs
 them records it from theirs: the compose file, the rules and the scripts
 that fill and record it are in the adapter's
 [`testdata`](internal/adapters/prometheus/testdata).
+
+### Checkmate
+
+A check engine, as Gatus is: each monitor Checkmate checks, in the area its
+group is named after, or the one `areas` gives, with its last 30 results
+and the problems its incidents remember this week. A monitor is a problem
+once Checkmate calls it down, when enough of the last checks in its status
+window failed, which is when it alerts; until then, the page shows it
+failing, and how many failures in a row make a problem, 3 at the window's
+5 checks and 60%. A hardware or Docker monitor is a problem too while
+Checkmate calls it breached, over a threshold you gave it: its results fail
+for as long, with what crossed it.
+
+```yaml
+sources:
+  checkmate:
+    - url: http://checkmate:52345         # where Overlook reads Checkmate
+      user: overlook@example.com          # its user's email
+      password: ${CHECKMATE_PASSWORD}
+      link: https://checkmate.example.com # where the page sends you, if not the same
+      areas:                              # where a group not named like an area goes
+        DNS: network
+```
+
+**Key:** a login, as `user` and `password`, since Checkmate has no API
+keys. Overlook logs in with one POST, keeps the token in memory and sends
+it with each GET, logging in again when Checkmate refuses it, after the 99
+days it lasts unless you changed `TOKEN_TTL` (ADR 0009). The least it needs
+is a user of its own with the role **User**, which reads every monitor and
+its incidents, and can pause, change or delete none. As the super admin, in
+your account's Team, use Add member to make one with that role.
+
+A monitor you paused is left out, as Checkmate neither checks it nor alerts
+on it. One in a maintenance window isn't a problem either, for the same
+reason: the page shows its last results from before the window, failing if
+it was failing then. Checkmate lists a hardware monitor with its newest
+check alone, so Overlook reads each one's last 30 with a request of its
+own. A published status page could be read without a login, but it doesn't
+say which group a monitor is in, so nothing would place its checks in an
+area.
+
+Recorded from a scratch Checkmate 3.13.1 with invented monitors, and a
+Capture agent 1.4.0 for its hardware monitors (ADR 0008), until someone who
+runs one records it from theirs: the compose file and the scripts that fill
+and record it are in the adapter's
+[`testdata`](internal/adapters/checkmate/testdata).
 
 ### GitHub
 

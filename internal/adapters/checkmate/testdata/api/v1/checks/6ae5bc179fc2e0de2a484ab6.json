@@ -1,0 +1,7089 @@
+{
+  "success": true,
+  "msg": "Checks retrieved successfully",
+  "data": {
+    "checksCount": 32,
+    "checks": [
+      {
+        "id": "6ae5be869fc2e0de2a485e62",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1009,
+        "timings": {
+          "start": 1793441413421,
+          "socket": 1793441413421,
+          "lookup": 1793441413421,
+          "connect": 1793441413421,
+          "secureConnect": 0,
+          "upload": 1793441413421,
+          "response": 1793441414429,
+          "end": 1793441414430,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1008,
+            "download": 1,
+            "total": 1009
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9887,
+          "usage_percent": 0.0113
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7264681984,
+          "used_bytes": 848121856,
+          "usage_percent": 0.1019
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905130536960,
+            "used_bytes": 23015743488,
+            "usage_percent": 0.0248,
+            "total_inodes": 60710912,
+            "free_inodes": 60139983,
+            "used_inodes": 570929,
+            "inodes_usage_percent": 0.0094,
+            "read_bytes": 16614400,
+            "write_bytes": 5026623488,
+            "read_time": 367,
+            "write_time": 136054
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 272239,
+            "bytes_recv": 109365,
+            "packets_sent": 1407,
+            "packets_recv": 1431,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:10:14.430Z",
+        "updatedAt": "2026-10-31T10:10:14.430Z"
+      },
+      {
+        "id": "6ae5be749fc2e0de2a485dcc",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1007,
+        "timings": {
+          "start": 1793441395557,
+          "socket": 1793441395557,
+          "lookup": 1793441395557,
+          "connect": 1793441395557,
+          "secureConnect": 0,
+          "upload": 1793441395558,
+          "response": 1793441396563,
+          "end": 1793441396564,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 1,
+            "firstByte": 1005,
+            "download": 1,
+            "total": 1007
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9873,
+          "usage_percent": 0.0127
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7275675648,
+          "used_bytes": 837111808,
+          "usage_percent": 0.1006
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905130565632,
+            "used_bytes": 23015714816,
+            "usage_percent": 0.0248,
+            "total_inodes": 60710912,
+            "free_inodes": 60139984,
+            "used_inodes": 570928,
+            "inodes_usage_percent": 0.0094,
+            "read_bytes": 16614400,
+            "write_bytes": 5026283520,
+            "read_time": 367,
+            "write_time": 136041
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 262590,
+            "bytes_recv": 104932,
+            "packets_sent": 1349,
+            "packets_recv": 1373,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:09:56.564Z",
+        "updatedAt": "2026-10-31T10:09:56.564Z"
+      },
+      {
+        "id": "6ae5be5d9fc2e0de2a485d27",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1008,
+        "timings": {
+          "start": 1793441372756,
+          "socket": 1793441372756,
+          "lookup": 1793441372756,
+          "connect": 1793441372756,
+          "secureConnect": 0,
+          "upload": 1793441372756,
+          "response": 1793441373763,
+          "end": 1793441373764,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1007,
+            "download": 1,
+            "total": 1008
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9851,
+          "usage_percent": 0.0149
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7269167104,
+          "used_bytes": 843628544,
+          "usage_percent": 0.1014
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905130614784,
+            "used_bytes": 23015665664,
+            "usage_percent": 0.0248,
+            "total_inodes": 60710912,
+            "free_inodes": 60139983,
+            "used_inodes": 570929,
+            "inodes_usage_percent": 0.0094,
+            "read_bytes": 16614400,
+            "write_bytes": 5024800768,
+            "read_time": 367,
+            "write_time": 135980
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 249042,
+            "bytes_recv": 99377,
+            "packets_sent": 1275,
+            "packets_recv": 1298,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:09:33.764Z",
+        "updatedAt": "2026-10-31T10:09:33.764Z"
+      },
+      {
+        "id": "6ae5be4b9fc2e0de2a485c8e",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1004,
+        "timings": {
+          "start": 1793441354958,
+          "socket": 1793441354958,
+          "lookup": 1793441354958,
+          "connect": 1793441354958,
+          "secureConnect": 0,
+          "upload": 1793441354958,
+          "response": 1793441355962,
+          "end": 1793441355962,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1004,
+            "download": 0,
+            "total": 1004
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9912,
+          "usage_percent": 0.0088
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7255834624,
+          "used_bytes": 856944640,
+          "usage_percent": 0.103
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905130618880,
+            "used_bytes": 23015661568,
+            "usage_percent": 0.0248,
+            "total_inodes": 60710912,
+            "free_inodes": 60139983,
+            "used_inodes": 570929,
+            "inodes_usage_percent": 0.0094,
+            "read_bytes": 16614400,
+            "write_bytes": 5024444416,
+            "read_time": 367,
+            "write_time": 135965
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 243290,
+            "bytes_recv": 95926,
+            "packets_sent": 1233,
+            "packets_recv": 1255,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:09:15.963Z",
+        "updatedAt": "2026-10-31T10:09:15.963Z"
+      },
+      {
+        "id": "6ae5be359fc2e0de2a485be8",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1004,
+        "timings": {
+          "start": 1793441332148,
+          "socket": 1793441332148,
+          "lookup": 1793441332148,
+          "connect": 1793441332148,
+          "secureConnect": 0,
+          "upload": 1793441332148,
+          "response": 1793441333151,
+          "end": 1793441333152,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1003,
+            "download": 1,
+            "total": 1004
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.99,
+          "usage_percent": 0.01
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7270641664,
+          "used_bytes": 842158080,
+          "usage_percent": 0.1012
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905130618880,
+            "used_bytes": 23015661568,
+            "usage_percent": 0.0248,
+            "total_inodes": 60710912,
+            "free_inodes": 60139983,
+            "used_inodes": 570929,
+            "inodes_usage_percent": 0.0094,
+            "read_bytes": 16614400,
+            "write_bytes": 5024014336,
+            "read_time": 367,
+            "write_time": 135948
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 231461,
+            "bytes_recv": 92186,
+            "packets_sent": 1183,
+            "packets_recv": 1205,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:08:53.153Z",
+        "updatedAt": "2026-10-31T10:08:53.153Z"
+      },
+      {
+        "id": "6ae5be239fc2e0de2a485b51",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1004,
+        "timings": {
+          "start": 1793441314354,
+          "socket": 1793441314355,
+          "lookup": 1793441314355,
+          "connect": 1793441314355,
+          "secureConnect": 0,
+          "upload": 1793441314355,
+          "response": 1793441315358,
+          "end": 1793441315358,
+          "phases": {
+            "wait": 1,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1003,
+            "download": 0,
+            "total": 1004
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9875,
+          "usage_percent": 0.0125
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7269453824,
+          "used_bytes": 843321344,
+          "usage_percent": 0.1013
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905130631168,
+            "used_bytes": 23015649280,
+            "usage_percent": 0.0248,
+            "total_inodes": 60710912,
+            "free_inodes": 60139983,
+            "used_inodes": 570929,
+            "inodes_usage_percent": 0.0094,
+            "read_bytes": 16614400,
+            "write_bytes": 5023014912,
+            "read_time": 367,
+            "write_time": 135915
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 226107,
+            "bytes_recv": 89238,
+            "packets_sent": 1145,
+            "packets_recv": 1167,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:08:35.359Z",
+        "updatedAt": "2026-10-31T10:08:35.359Z"
+      },
+      {
+        "id": "6ae5be0c9fc2e0de2a485aaf",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1003,
+        "timings": {
+          "start": 1793441291560,
+          "socket": 1793441291560,
+          "lookup": 1793441291560,
+          "connect": 1793441291560,
+          "secureConnect": 0,
+          "upload": 1793441291560,
+          "response": 1793441292563,
+          "end": 1793441292563,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1003,
+            "download": 0,
+            "total": 1003
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9875,
+          "usage_percent": 0.0125
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7271071744,
+          "used_bytes": 841719808,
+          "usage_percent": 0.1011
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905130631168,
+            "used_bytes": 23015649280,
+            "usage_percent": 0.0248,
+            "total_inodes": 60710912,
+            "free_inodes": 60139983,
+            "used_inodes": 570929,
+            "inodes_usage_percent": 0.0094,
+            "read_bytes": 16614400,
+            "write_bytes": 5022650368,
+            "read_time": 367,
+            "write_time": 135902
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 217183,
+            "bytes_recv": 85564,
+            "packets_sent": 1096,
+            "packets_recv": 1118,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:08:12.564Z",
+        "updatedAt": "2026-10-31T10:08:12.564Z"
+      },
+      {
+        "id": "6ae5bdfa9fc2e0de2a485a13",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1004,
+        "timings": {
+          "start": 1793441273769,
+          "socket": 1793441273769,
+          "lookup": 1793441273769,
+          "connect": 1793441273769,
+          "secureConnect": 0,
+          "upload": 1793441273769,
+          "response": 1793441274773,
+          "end": 1793441274773,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1004,
+            "download": 0,
+            "total": 1004
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.99,
+          "usage_percent": 0.01
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7263068160,
+          "used_bytes": 849731584,
+          "usage_percent": 0.1021
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905130635264,
+            "used_bytes": 23015645184,
+            "usage_percent": 0.0248,
+            "total_inodes": 60710912,
+            "free_inodes": 60139983,
+            "used_inodes": 570929,
+            "inodes_usage_percent": 0.0094,
+            "read_bytes": 16614400,
+            "write_bytes": 5022253056,
+            "read_time": 367,
+            "write_time": 135854
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 208987,
+            "bytes_recv": 82616,
+            "packets_sent": 1058,
+            "packets_recv": 1080,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:07:54.773Z",
+        "updatedAt": "2026-10-31T10:07:54.773Z"
+      },
+      {
+        "id": "6ae5bde89fc2e0de2a485978",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1008,
+        "timings": {
+          "start": 1793441255974,
+          "socket": 1793441255974,
+          "lookup": 1793441255974,
+          "connect": 1793441255974,
+          "secureConnect": 0,
+          "upload": 1793441255974,
+          "response": 1793441256982,
+          "end": 1793441256982,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1008,
+            "download": 0,
+            "total": 1008
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9887,
+          "usage_percent": 0.0113
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7275798528,
+          "used_bytes": 836997120,
+          "usage_percent": 0.1006
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905130635264,
+            "used_bytes": 23015645184,
+            "usage_percent": 0.0248,
+            "total_inodes": 60710912,
+            "free_inodes": 60139983,
+            "used_inodes": 570929,
+            "inodes_usage_percent": 0.0094,
+            "read_bytes": 16614400,
+            "write_bytes": 5021007872,
+            "read_time": 367,
+            "write_time": 135830
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 197809,
+            "bytes_recv": 79536,
+            "packets_sent": 1018,
+            "packets_recv": 1040,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:07:36.982Z",
+        "updatedAt": "2026-10-31T10:07:36.982Z"
+      },
+      {
+        "id": "6ae5bdd29fc2e0de2a4858d4",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1003,
+        "timings": {
+          "start": 1793441233172,
+          "socket": 1793441233172,
+          "lookup": 1793441233172,
+          "connect": 1793441233172,
+          "secureConnect": 0,
+          "upload": 1793441233172,
+          "response": 1793441234174,
+          "end": 1793441234175,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1002,
+            "download": 1,
+            "total": 1003
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9875,
+          "usage_percent": 0.0125
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7272058880,
+          "used_bytes": 840749056,
+          "usage_percent": 0.101
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905130639360,
+            "used_bytes": 23015641088,
+            "usage_percent": 0.0248,
+            "total_inodes": 60710912,
+            "free_inodes": 60139983,
+            "used_inodes": 570929,
+            "inodes_usage_percent": 0.0094,
+            "read_bytes": 16614400,
+            "write_bytes": 5020651520,
+            "read_time": 367,
+            "write_time": 135702
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 188955,
+            "bytes_recv": 75928,
+            "packets_sent": 970,
+            "packets_recv": 992,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:07:14.175Z",
+        "updatedAt": "2026-10-31T10:07:14.175Z"
+      },
+      {
+        "id": "6ae5bdc09fc2e0de2a48583e",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1009,
+        "timings": {
+          "start": 1793441215372,
+          "socket": 1793441215372,
+          "lookup": 1793441215372,
+          "connect": 1793441215372,
+          "secureConnect": 0,
+          "upload": 1793441215372,
+          "response": 1793441216381,
+          "end": 1793441216381,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1009,
+            "download": 0,
+            "total": 1009
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9838,
+          "usage_percent": 0.0162
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7249186816,
+          "used_bytes": 863604736,
+          "usage_percent": 0.1038
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905130639360,
+            "used_bytes": 23015641088,
+            "usage_percent": 0.0248,
+            "total_inodes": 60710912,
+            "free_inodes": 60139983,
+            "used_inodes": 570929,
+            "inodes_usage_percent": 0.0094,
+            "read_bytes": 16614400,
+            "write_bytes": 5020352512,
+            "read_time": 367,
+            "write_time": 135693
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 183669,
+            "bytes_recv": 73046,
+            "packets_sent": 933,
+            "packets_recv": 955,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:06:56.381Z",
+        "updatedAt": "2026-10-31T10:06:56.381Z"
+      },
+      {
+        "id": "6ae5bda99fc2e0de2a485797",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1008,
+        "timings": {
+          "start": 1793441192555,
+          "socket": 1793441192555,
+          "lookup": 1793441192555,
+          "connect": 1793441192555,
+          "secureConnect": 0,
+          "upload": 1793441192555,
+          "response": 1793441193563,
+          "end": 1793441193563,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1008,
+            "download": 0,
+            "total": 1008
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9875,
+          "usage_percent": 0.0125
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7244460032,
+          "used_bytes": 868339712,
+          "usage_percent": 0.1043
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905130643456,
+            "used_bytes": 23015636992,
+            "usage_percent": 0.0248,
+            "total_inodes": 60710912,
+            "free_inodes": 60139983,
+            "used_inodes": 570929,
+            "inodes_usage_percent": 0.0094,
+            "read_bytes": 16614400,
+            "write_bytes": 5019332608,
+            "read_time": 367,
+            "write_time": 135664
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 171771,
+            "bytes_recv": 69240,
+            "packets_sent": 882,
+            "packets_recv": 904,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:06:33.564Z",
+        "updatedAt": "2026-10-31T10:06:33.564Z"
+      },
+      {
+        "id": "6ae5bd979fc2e0de2a4856ff",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1011,
+        "timings": {
+          "start": 1793441174748,
+          "socket": 1793441174748,
+          "lookup": 1793441174748,
+          "connect": 1793441174748,
+          "secureConnect": 0,
+          "upload": 1793441174748,
+          "response": 1793441175757,
+          "end": 1793441175759,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1009,
+            "download": 2,
+            "total": 1011
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9888,
+          "usage_percent": 0.0112
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7266009088,
+          "used_bytes": 846774272,
+          "usage_percent": 0.1018
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905130643456,
+            "used_bytes": 23015636992,
+            "usage_percent": 0.0248,
+            "total_inodes": 60710912,
+            "free_inodes": 60139983,
+            "used_inodes": 570929,
+            "inodes_usage_percent": 0.0094,
+            "read_bytes": 16614400,
+            "write_bytes": 5018976256,
+            "read_time": 367,
+            "write_time": 135647
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 163377,
+            "bytes_recv": 66094,
+            "packets_sent": 841,
+            "packets_recv": 863,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:06:15.759Z",
+        "updatedAt": "2026-10-31T10:06:15.759Z"
+      },
+      {
+        "id": "6ae5bd809fc2e0de2a48565f",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1006,
+        "timings": {
+          "start": 1793441151949,
+          "socket": 1793441151949,
+          "lookup": 1793441151949,
+          "connect": 1793441151949,
+          "secureConnect": 0,
+          "upload": 1793441151949,
+          "response": 1793441152954,
+          "end": 1793441152955,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1005,
+            "download": 1,
+            "total": 1006
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9862,
+          "usage_percent": 0.0138
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7255633920,
+          "used_bytes": 857161728,
+          "usage_percent": 0.103
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905130643456,
+            "used_bytes": 23015636992,
+            "usage_percent": 0.0248,
+            "total_inodes": 60710912,
+            "free_inodes": 60139983,
+            "used_inodes": 570929,
+            "inodes_usage_percent": 0.0094,
+            "read_bytes": 16614400,
+            "write_bytes": 5018476544,
+            "read_time": 367,
+            "write_time": 135622
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 157366,
+            "bytes_recv": 62486,
+            "packets_sent": 793,
+            "packets_recv": 815,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:05:52.955Z",
+        "updatedAt": "2026-10-31T10:05:52.955Z"
+      },
+      {
+        "id": "6ae5bd6f9fc2e0de2a4855c2",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1009,
+        "timings": {
+          "start": 1793441134152,
+          "socket": 1793441134152,
+          "lookup": 1793441134152,
+          "connect": 1793441134152,
+          "secureConnect": 0,
+          "upload": 1793441134152,
+          "response": 1793441135160,
+          "end": 1793441135161,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1008,
+            "download": 1,
+            "total": 1009
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9875,
+          "usage_percent": 0.0125
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7258742784,
+          "used_bytes": 854056960,
+          "usage_percent": 0.1026
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905130659840,
+            "used_bytes": 23015620608,
+            "usage_percent": 0.0248,
+            "total_inodes": 60710912,
+            "free_inodes": 60139983,
+            "used_inodes": 570929,
+            "inodes_usage_percent": 0.0094,
+            "read_bytes": 16614400,
+            "write_bytes": 5012783104,
+            "read_time": 367,
+            "write_time": 135535
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 146195,
+            "bytes_recv": 59406,
+            "packets_sent": 753,
+            "packets_recv": 775,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:05:35.162Z",
+        "updatedAt": "2026-10-31T10:05:35.162Z"
+      },
+      {
+        "id": "6ae5bd589fc2e0de2a48551e",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1002,
+        "timings": {
+          "start": 1793441111092,
+          "socket": 1793441111092,
+          "lookup": 1793441111092,
+          "connect": 1793441111092,
+          "secureConnect": 0,
+          "upload": 1793441111092,
+          "response": 1793441112094,
+          "end": 1793441112094,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1002,
+            "download": 0,
+            "total": 1002
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9647,
+          "usage_percent": 0.0353
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7270924288,
+          "used_bytes": 841867264,
+          "usage_percent": 0.1012
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 904914419712,
+            "used_bytes": 23231860736,
+            "usage_percent": 0.025,
+            "total_inodes": 60710912,
+            "free_inodes": 60124044,
+            "used_inodes": 586868,
+            "inodes_usage_percent": 0.0097,
+            "read_bytes": 16614400,
+            "write_bytes": 5007982592,
+            "read_time": 367,
+            "write_time": 135510
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 140250,
+            "bytes_recv": 55864,
+            "packets_sent": 706,
+            "packets_recv": 728,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:05:12.094Z",
+        "updatedAt": "2026-10-31T10:05:12.094Z"
+      },
+      {
+        "id": "6ae5bd469fc2e0de2a485480",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1002,
+        "timings": {
+          "start": 1793441093324,
+          "socket": 1793441093324,
+          "lookup": 1793441093324,
+          "connect": 1793441093324,
+          "secureConnect": 0,
+          "upload": 1793441093324,
+          "response": 1793441094326,
+          "end": 1793441094326,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1002,
+            "download": 0,
+            "total": 1002
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9888,
+          "usage_percent": 0.0112
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7211425792,
+          "used_bytes": 901300224,
+          "usage_percent": 0.1083
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 904917782528,
+            "used_bytes": 23228497920,
+            "usage_percent": 0.025,
+            "total_inodes": 60710912,
+            "free_inodes": 60124205,
+            "used_inodes": 586707,
+            "inodes_usage_percent": 0.0097,
+            "read_bytes": 16086016,
+            "write_bytes": 4136046592,
+            "read_time": 357,
+            "write_time": 129219
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 131992,
+            "bytes_recv": 52850,
+            "packets_sent": 667,
+            "packets_recv": 689,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:04:54.327Z",
+        "updatedAt": "2026-10-31T10:04:54.327Z"
+      },
+      {
+        "id": "6ae5bd349fc2e0de2a4853e7",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1013,
+        "timings": {
+          "start": 1793441075524,
+          "socket": 1793441075524,
+          "lookup": 1793441075524,
+          "connect": 1793441075524,
+          "secureConnect": 0,
+          "upload": 1793441075524,
+          "response": 1793441076537,
+          "end": 1793441076537,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1013,
+            "download": 0,
+            "total": 1013
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.99,
+          "usage_percent": 0.01
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7218397184,
+          "used_bytes": 894312448,
+          "usage_percent": 0.1075
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 904917839872,
+            "used_bytes": 23228440576,
+            "usage_percent": 0.025,
+            "total_inodes": 60710912,
+            "free_inodes": 60124204,
+            "used_inodes": 586708,
+            "inodes_usage_percent": 0.0097,
+            "read_bytes": 16086016,
+            "write_bytes": 4134883328,
+            "read_time": 357,
+            "write_time": 129185
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 123670,
+            "bytes_recv": 49770,
+            "packets_sent": 627,
+            "packets_recv": 649,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:04:36.537Z",
+        "updatedAt": "2026-10-31T10:04:36.537Z"
+      },
+      {
+        "id": "6ae5bd1d9fc2e0de2a48533a",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1002,
+        "timings": {
+          "start": 1793441052718,
+          "socket": 1793441052718,
+          "lookup": 1793441052718,
+          "connect": 1793441052718,
+          "secureConnect": 0,
+          "upload": 1793441052718,
+          "response": 1793441053720,
+          "end": 1793441053720,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1002,
+            "download": 0,
+            "total": 1002
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.99,
+          "usage_percent": 0.01
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7225737216,
+          "used_bytes": 886988800,
+          "usage_percent": 0.1066
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 904917843968,
+            "used_bytes": 23228436480,
+            "usage_percent": 0.025,
+            "total_inodes": 60710912,
+            "free_inodes": 60124204,
+            "used_inodes": 586708,
+            "inodes_usage_percent": 0.0097,
+            "read_bytes": 16086016,
+            "write_bytes": 4134510592,
+            "read_time": 357,
+            "write_time": 129171
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 111783,
+            "bytes_recv": 45964,
+            "packets_sent": 576,
+            "packets_recv": 598,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:04:13.721Z",
+        "updatedAt": "2026-10-31T10:04:13.721Z"
+      },
+      {
+        "id": "6ae5bd0b9fc2e0de2a4852a2",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1004,
+        "timings": {
+          "start": 1793441034917,
+          "socket": 1793441034917,
+          "lookup": 1793441034917,
+          "connect": 1793441034917,
+          "secureConnect": 0,
+          "upload": 1793441034917,
+          "response": 1793441035920,
+          "end": 1793441035921,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1003,
+            "download": 1,
+            "total": 1004
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.985,
+          "usage_percent": 0.015
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7196266496,
+          "used_bytes": 916467712,
+          "usage_percent": 0.1101
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 904917843968,
+            "used_bytes": 23228436480,
+            "usage_percent": 0.025,
+            "total_inodes": 60710912,
+            "free_inodes": 60124204,
+            "used_inodes": 586708,
+            "inodes_usage_percent": 0.0097,
+            "read_bytes": 16086016,
+            "write_bytes": 4134133760,
+            "read_time": 357,
+            "write_time": 129147
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 103593,
+            "bytes_recv": 43016,
+            "packets_sent": 538,
+            "packets_recv": 560,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:03:55.922Z",
+        "updatedAt": "2026-10-31T10:03:55.922Z"
+      },
+      {
+        "id": "6ae5bcf59fc2e0de2a4851fb",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1008,
+        "timings": {
+          "start": 1793441012125,
+          "socket": 1793441012126,
+          "lookup": 1793441012126,
+          "connect": 1793441012126,
+          "secureConnect": 0,
+          "upload": 1793441012126,
+          "response": 1793441013133,
+          "end": 1793441013133,
+          "phases": {
+            "wait": 1,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1007,
+            "download": 0,
+            "total": 1008
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.99,
+          "usage_percent": 0.01
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7210938368,
+          "used_bytes": 901758976,
+          "usage_percent": 0.1084
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 904917868544,
+            "used_bytes": 23228411904,
+            "usage_percent": 0.025,
+            "total_inodes": 60710912,
+            "free_inodes": 60124204,
+            "used_inodes": 586708,
+            "inodes_usage_percent": 0.0097,
+            "read_bytes": 16086016,
+            "write_bytes": 4132589568,
+            "read_time": 357,
+            "write_time": 129109
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 94749,
+            "bytes_recv": 39408,
+            "packets_sent": 490,
+            "packets_recv": 512,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:03:33.134Z",
+        "updatedAt": "2026-10-31T10:03:33.134Z"
+      },
+      {
+        "id": "6ae5bce39fc2e0de2a485161",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1006,
+        "timings": {
+          "start": 1793440994316,
+          "socket": 1793440994316,
+          "lookup": 1793440994316,
+          "connect": 1793440994316,
+          "secureConnect": 0,
+          "upload": 1793440994316,
+          "response": 1793440995322,
+          "end": 1793440995322,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1006,
+            "download": 0,
+            "total": 1006
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.985,
+          "usage_percent": 0.015
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7191392256,
+          "used_bytes": 921341952,
+          "usage_percent": 0.1107
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 904917872640,
+            "used_bytes": 23228407808,
+            "usage_percent": 0.025,
+            "total_inodes": 60710912,
+            "free_inodes": 60124204,
+            "used_inodes": 586708,
+            "inodes_usage_percent": 0.0097,
+            "read_bytes": 16086016,
+            "write_bytes": 4132261888,
+            "read_time": 357,
+            "write_time": 129097
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 86561,
+            "bytes_recv": 36460,
+            "packets_sent": 452,
+            "packets_recv": 474,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:03:15.322Z",
+        "updatedAt": "2026-10-31T10:03:15.322Z"
+      },
+      {
+        "id": "6ae5bccc9fc2e0de2a4850bf",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1002,
+        "timings": {
+          "start": 1793440971508,
+          "socket": 1793440971508,
+          "lookup": 1793440971508,
+          "connect": 1793440971508,
+          "secureConnect": 0,
+          "upload": 1793440971508,
+          "response": 1793440972510,
+          "end": 1793440972510,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1002,
+            "download": 0,
+            "total": 1002
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9837,
+          "usage_percent": 0.0163
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7198306304,
+          "used_bytes": 914423808,
+          "usage_percent": 0.1099
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 904917872640,
+            "used_bytes": 23228407808,
+            "usage_percent": 0.025,
+            "total_inodes": 60710912,
+            "free_inodes": 60124204,
+            "used_inodes": 586708,
+            "inodes_usage_percent": 0.0097,
+            "read_bytes": 16086016,
+            "write_bytes": 4131885056,
+            "read_time": 357,
+            "write_time": 129078
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 77577,
+            "bytes_recv": 32720,
+            "packets_sent": 402,
+            "packets_recv": 424,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:02:52.510Z",
+        "updatedAt": "2026-10-31T10:02:52.510Z"
+      },
+      {
+        "id": "6ae5bcba9fc2e0de2a485025",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1003,
+        "timings": {
+          "start": 1793440953706,
+          "socket": 1793440953706,
+          "lookup": 1793440953706,
+          "connect": 1793440953706,
+          "secureConnect": 0,
+          "upload": 1793440953706,
+          "response": 1793440954708,
+          "end": 1793440954709,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1002,
+            "download": 1,
+            "total": 1003
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9875,
+          "usage_percent": 0.0125
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7203012608,
+          "used_bytes": 909701120,
+          "usage_percent": 0.1093
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 904918114304,
+            "used_bytes": 23228166144,
+            "usage_percent": 0.025,
+            "total_inodes": 60710912,
+            "free_inodes": 60124204,
+            "used_inodes": 586708,
+            "inodes_usage_percent": 0.0097,
+            "read_bytes": 16086016,
+            "write_bytes": 4130275328,
+            "read_time": 357,
+            "write_time": 129001
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 72227,
+            "bytes_recv": 29772,
+            "packets_sent": 364,
+            "packets_recv": 386,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:02:34.709Z",
+        "updatedAt": "2026-10-31T10:02:34.709Z"
+      },
+      {
+        "id": "6ae5bca89fc2e0de2a484f89",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1007,
+        "timings": {
+          "start": 1793440935908,
+          "socket": 1793440935908,
+          "lookup": 1793440935908,
+          "connect": 1793440935908,
+          "secureConnect": 0,
+          "upload": 1793440935908,
+          "response": 1793440936915,
+          "end": 1793440936915,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1007,
+            "download": 0,
+            "total": 1007
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.99,
+          "usage_percent": 0.01
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7209345024,
+          "used_bytes": 903368704,
+          "usage_percent": 0.1086
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 904918114304,
+            "used_bytes": 23228166144,
+            "usage_percent": 0.025,
+            "total_inodes": 60710912,
+            "free_inodes": 60124204,
+            "used_inodes": 586708,
+            "inodes_usage_percent": 0.0097,
+            "read_bytes": 16086016,
+            "write_bytes": 4129955840,
+            "read_time": 357,
+            "write_time": 128986
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 61069,
+            "bytes_recv": 26692,
+            "packets_sent": 324,
+            "packets_recv": 346,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:02:16.916Z",
+        "updatedAt": "2026-10-31T10:02:16.916Z"
+      },
+      {
+        "id": "6ae5bc929fc2e0de2a484ee3",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1006,
+        "timings": {
+          "start": 1793440913096,
+          "socket": 1793440913096,
+          "lookup": 1793440913096,
+          "connect": 1793440913096,
+          "secureConnect": 0,
+          "upload": 1793440913096,
+          "response": 1793440914102,
+          "end": 1793440914102,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1006,
+            "download": 0,
+            "total": 1006
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9825,
+          "usage_percent": 0.0175
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7175282688,
+          "used_bytes": 937435136,
+          "usage_percent": 0.1126
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 904918118400,
+            "used_bytes": 23228162048,
+            "usage_percent": 0.025,
+            "total_inodes": 60710912,
+            "free_inodes": 60124204,
+            "used_inodes": 586708,
+            "inodes_usage_percent": 0.0097,
+            "read_bytes": 16086016,
+            "write_bytes": 4125708288,
+            "read_time": 357,
+            "write_time": 128878
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 52087,
+            "bytes_recv": 22952,
+            "packets_sent": 274,
+            "packets_recv": 296,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:01:54.102Z",
+        "updatedAt": "2026-10-31T10:01:54.102Z"
+      },
+      {
+        "id": "6ae5bc809fc2e0de2a484e4c",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1002,
+        "timings": {
+          "start": 1793440895297,
+          "socket": 1793440895297,
+          "lookup": 1793440895297,
+          "connect": 1793440895297,
+          "secureConnect": 0,
+          "upload": 1793440895297,
+          "response": 1793440896299,
+          "end": 1793440896299,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1002,
+            "download": 0,
+            "total": 1002
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9849,
+          "usage_percent": 0.0151
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7034961920,
+          "used_bytes": 1077719040,
+          "usage_percent": 0.1295
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 904918704128,
+            "used_bytes": 23227576320,
+            "usage_percent": 0.025,
+            "total_inodes": 60710912,
+            "free_inodes": 60124239,
+            "used_inodes": 586673,
+            "inodes_usage_percent": 0.0097,
+            "read_bytes": 16086016,
+            "write_bytes": 3895599104,
+            "read_time": 357,
+            "write_time": 126055
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 46736,
+            "bytes_recv": 20004,
+            "packets_sent": 236,
+            "packets_recv": 258,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:01:36.299Z",
+        "updatedAt": "2026-10-31T10:01:36.299Z"
+      },
+      {
+        "id": "6ae5bc699fc2e0de2a484daa",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1003,
+        "timings": {
+          "start": 1793440872517,
+          "socket": 1793440872517,
+          "lookup": 1793440872517,
+          "connect": 1793440872517,
+          "secureConnect": 0,
+          "upload": 1793440872517,
+          "response": 1793440873520,
+          "end": 1793440873520,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1003,
+            "download": 0,
+            "total": 1003
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.7853,
+          "usage_percent": 0.2147
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 6885584896,
+          "used_bytes": 1226784768,
+          "usage_percent": 0.1474
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905256103936,
+            "used_bytes": 22890176512,
+            "usage_percent": 0.0247,
+            "total_inodes": 60710912,
+            "free_inodes": 60148834,
+            "used_inodes": 562078,
+            "inodes_usage_percent": 0.0093,
+            "read_bytes": 16086016,
+            "write_bytes": 2713530368,
+            "read_time": 357,
+            "write_time": 113851
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 37815,
+            "bytes_recv": 16330,
+            "packets_sent": 187,
+            "packets_recv": 209,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:01:13.520Z",
+        "updatedAt": "2026-10-31T10:01:13.520Z"
+      },
+      {
+        "id": "6ae5bc579fc2e0de2a484d12",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1011,
+        "timings": {
+          "start": 1793440854735,
+          "socket": 1793440854735,
+          "lookup": 1793440854735,
+          "connect": 1793440854735,
+          "secureConnect": 0,
+          "upload": 1793440854735,
+          "response": 1793440855744,
+          "end": 1793440855746,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1009,
+            "download": 2,
+            "total": 1011
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9912,
+          "usage_percent": 0.0088
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7154728960,
+          "used_bytes": 958058496,
+          "usage_percent": 0.1151
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905771388928,
+            "used_bytes": 22374891520,
+            "usage_percent": 0.0241,
+            "total_inodes": 60710912,
+            "free_inodes": 60163504,
+            "used_inodes": 547408,
+            "inodes_usage_percent": 0.009,
+            "read_bytes": 16049152,
+            "write_bytes": 2337202176,
+            "read_time": 352,
+            "write_time": 106384
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 26713,
+            "bytes_recv": 13316,
+            "packets_sent": 148,
+            "packets_recv": 170,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:00:55.746Z",
+        "updatedAt": "2026-10-31T10:00:55.746Z"
+      },
+      {
+        "id": "6ae5bc419fc2e0de2a484c6b",
+        "metadata": {
+          "monitorId": "6ae5bc179fc2e0de2a484ab6",
+          "teamId": "6ae5bc169fc2e0de2a484a98",
+          "type": "hardware"
+        },
+        "status": true,
+        "responseTime": 1126,
+        "timings": {
+          "start": 1793440831958,
+          "socket": 1793440831958,
+          "lookup": 1793440831958,
+          "connect": 1793440831958,
+          "secureConnect": 0,
+          "upload": 1793440831958,
+          "response": 1793440833005,
+          "end": 1793440833084,
+          "phases": {
+            "wait": 0,
+            "dns": 0,
+            "tcp": 0,
+            "tls": 0,
+            "request": 0,
+            "firstByte": 1047,
+            "download": 79,
+            "total": 1126
+          }
+        },
+        "statusCode": 207,
+        "message": "Multi-Status",
+        "cpu": {
+          "physical_core": 8,
+          "logical_core": 8,
+          "frequency": 0,
+          "current_frequency": 0,
+          "temperature": [],
+          "free_percent": 0.9878,
+          "usage_percent": 0.0122
+        },
+        "memory": {
+          "total_bytes": 8321798144,
+          "available_bytes": 7156482048,
+          "used_bytes": 956321792,
+          "usage_percent": 0.1149
+        },
+        "disk": [
+          {
+            "device": "/dev/vda1",
+            "mountpoint": "/etc/resolv.conf",
+            "total_bytes": 977896124416,
+            "free_bytes": 905772589056,
+            "used_bytes": 22373691392,
+            "usage_percent": 0.0241,
+            "total_inodes": 60710912,
+            "free_inodes": 60163500,
+            "used_inodes": 547412,
+            "inodes_usage_percent": 0.009,
+            "read_bytes": 16049152,
+            "write_bytes": 2334093312,
+            "read_time": 352,
+            "write_time": 106307
+          }
+        ],
+        "host": {
+          "os": "linux",
+          "platform": "wolfi",
+          "kernel_version": "6.12.76-linuxkit",
+          "pretty_name": "Wolfi"
+        },
+        "errors": [
+          {
+            "metric": [
+              "cpu.temperature"
+            ],
+            "err": "unable to read CPU temperature"
+          },
+          {
+            "metric": [
+              "cpu.current_frequency"
+            ],
+            "err": "open /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq: no such file or directory"
+          }
+        ],
+        "capture": {
+          "version": "1.4.0",
+          "mode": "debug"
+        },
+        "net": [
+          {
+            "name": "lo",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "tunl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "gretap0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "erspan0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6_vti0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "sit0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6tnl0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "ip6gre0",
+            "bytes_sent": 0,
+            "bytes_recv": 0,
+            "packets_sent": 0,
+            "packets_recv": 0,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          },
+          {
+            "name": "eth0",
+            "bytes_sent": 17734,
+            "bytes_recv": 9576,
+            "packets_sent": 98,
+            "packets_recv": 120,
+            "err_in": 0,
+            "err_out": 0,
+            "drop_in": 0,
+            "drop_out": 0,
+            "fifo_in": 0,
+            "fifo_out": 0
+          }
+        ],
+        "createdAt": "2026-10-31T10:00:33.087Z",
+        "updatedAt": "2026-10-31T10:00:33.087Z"
+      }
+    ]
+  }
+}

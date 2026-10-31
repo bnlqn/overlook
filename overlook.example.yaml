@@ -44,6 +44,16 @@ sources:
       # areas:                         # as Gatus's, for the rule groups
       #   node: servers
 
+  # Another check engine: each monitor Checkmate checks, by its group, and
+  # the problems its incidents remember.
+  checkmate:
+    - url: http://checkmate:52345      # where Overlook reads Checkmate
+      user: overlook@example.com       # a user of its own, with the role user
+      password: ${CHECKMATE_PASSWORD}
+      # link: https://checkmate.example.com # where the page sends you, if not the same
+      # areas:                         # as Gatus's, for the monitors' groups
+      #   DNS: network
+
   # The updates waiting: the open pull requests from Dependabot or Renovate,
   # read at most every 10 minutes.
   github:
