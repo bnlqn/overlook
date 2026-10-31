@@ -1657,7 +1657,7 @@
       "rows": [
         {
           "title": { "name": "Robin" },
-          "value": { "name": "Sintel (2010)" },
+          "value": { "name": "Sintel" },
           "detail": { "key": "mediaserver.direct", "args": { "device": "Study laptop" } }
         },
         { "title": { "key": "emby.films" }, "value": { "key": "emby.films_n", "args": { "n": 96 } } },
@@ -1668,7 +1668,7 @@
         {
           "title": { "key": "emby.failed_logins" },
           "value": { "key": "emby.failed_logins_n", "args": { "n": 2 } },
-          "detail": { "name": "Failed Login Attempt from Robin on Phone" },
+          "detail": { "name": "Failed Login Attempt from Robin on emby" },
           "tone": "orange"
         },
         { "title": { "key": "emby.version" }, "value": { "name": "4.10.2.0" } }

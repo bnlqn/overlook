@@ -1,75 +1,236 @@
 {
   "Items": [
     {
+      "Id": 26,
+      "Name": "Robin is playing Sintel on Phone",
+      "Type": "playback.start",
+      "ItemId": "15",
+      "Date": "2026-10-31T07:30:15.1600000Z",
+      "UserId": "4",
+      "Severity": "Info"
+    },
+    {
+      "Id": 25,
+      "Name": "New User Sam Created on 3212bdb3a9e5",
+      "Overview": "\n\n\nTime\n\nSaturday, 31 October 2026 07:30",
+      "Type": "user.created",
+      "Date": "2026-10-31T07:30:14.9210000Z",
+      "UserId": "3",
+      "Severity": "Info"
+    },
+    {
+      "Id": 24,
+      "Name": "New User Robin Created on 3212bdb3a9e5",
+      "Overview": "\n\n\nTime\n\nSaturday, 31 October 2026 07:30",
+      "Type": "user.created",
+      "Date": "2026-10-31T07:30:14.8660000Z",
+      "UserId": "4",
+      "Severity": "Info"
+    },
+    {
+      "Id": 23,
+      "Name": "Failed Login Attempt from Robin on 3212bdb3a9e5",
+      "Overview": "172.18.0.1\n\n\n\n\nTime\n\nSaturday, 31 October 2026 07:30",
+      "Type": "user.authenticationfailed",
+      "Date": "2026-10-31T07:30:14.8150000Z",
+      "Severity": "Error"
+    },
+    {
+      "Id": 22,
+      "Name": "Alex is playing Metropolis on Living room TV",
+      "Type": "playback.start",
+      "ItemId": "16",
+      "Date": "2026-10-31T07:30:14.7650000Z",
+      "UserId": "2",
+      "Severity": "Info"
+    },
+    {
+      "Id": 21,
+      "Name": "User Policy has been updated for Sam on 3212bdb3a9e5",
+      "Overview": "\n\n\nTime\n\nSaturday, 31 October 2026 07:30",
+      "Type": "user.policyupdated",
+      "Date": "2026-10-31T07:30:14.7130000Z",
+      "UserId": "3",
+      "Severity": "Info"
+    },
+    {
+      "Id": 20,
+      "Name": "Sam is playing Harbour Lights - S1, Ep3 - Harbour Lights S01E03 on Firefox",
+      "Type": "playback.start",
+      "ItemId": "26",
+      "Date": "2026-10-31T07:30:14.6620000Z",
+      "UserId": "3",
+      "Severity": "Info"
+    },
+    {
+      "Id": 19,
+      "Name": "User Policy has been updated for Robin on 3212bdb3a9e5",
+      "Overview": "\n\n\nTime\n\nSaturday, 31 October 2026 07:30",
+      "Type": "user.policyupdated",
+      "Date": "2026-10-31T07:30:14.6110000Z",
+      "UserId": "4",
+      "Severity": "Info"
+    },
+    {
+      "Id": 18,
+      "Name": "Robin has Authenticated on 3212bdb3a9e5",
+      "Overview": "Phone 172.18.0.1\n\n\n\n\nTime\n\nSaturday, 31 October 2026 07:30",
+      "Type": "user.authenticated",
+      "Date": "2026-10-31T07:30:14.5610000Z",
+      "UserId": "4",
+      "Severity": "Info"
+    },
+    {
+      "Id": 17,
+      "Name": "Sam has Authenticated on 3212bdb3a9e5",
+      "Overview": "Firefox 172.18.0.1\n\n\n\n\nTime\n\nSaturday, 31 October 2026 07:30",
+      "Type": "user.authenticated",
+      "Date": "2026-10-31T07:30:14.5100000Z",
+      "UserId": "3",
+      "Severity": "Info"
+    },
+    {
+      "Id": 16,
+      "Name": "User Policy has been updated for Alex on 3212bdb3a9e5",
+      "Overview": "\n\n\nTime\n\nSaturday, 31 October 2026 07:30",
+      "Type": "user.policyupdated",
+      "Date": "2026-10-31T07:30:14.4590000Z",
+      "UserId": "2",
+      "Severity": "Info"
+    },
+    {
+      "Id": 15,
+      "Name": "Alex has Authenticated on 3212bdb3a9e5",
+      "Overview": "Living room TV 172.18.0.1\n\n\n\n\nTime\n\nSaturday, 31 October 2026 07:30",
+      "Type": "user.authenticated",
+      "Date": "2026-10-31T07:30:14.4080000Z",
+      "UserId": "2",
+      "Severity": "Info"
+    },
+    {
+      "Id": 14,
+      "Name": "Failed Login Attempt from Robin on 3212bdb3a9e5",
+      "Overview": "172.18.0.1\n\n\n\n\nTime\n\nSaturday, 31 October 2026 07:30",
+      "Type": "user.authenticationfailed",
+      "Date": "2026-10-31T07:30:14.3570000Z",
+      "Severity": "Error"
+    },
+    {
+      "Id": 13,
+      "Name": "Password has been changed for Robin on 3212bdb3a9e5",
+      "Overview": "\n\n\nTime\n\nSaturday, 31 October 2026 07:30",
+      "Type": "user.passwordchanged",
+      "Date": "2026-10-31T07:30:14.3070000Z",
+      "UserId": "4",
+      "Severity": "Info"
+    },
+    {
+      "Id": 12,
+      "Name": "Password has been changed for Sam on 3212bdb3a9e5",
+      "Overview": "\n\n\nTime\n\nSaturday, 31 October 2026 07:30",
+      "Type": "user.passwordchanged",
+      "Date": "2026-10-31T07:30:14.2540000Z",
+      "UserId": "3",
+      "Severity": "Info"
+    },
+    {
+      "Id": 11,
+      "Name": "Password has been changed for Alex on 3212bdb3a9e5",
+      "Overview": "\n\n\nTime\n\nSaturday, 31 October 2026 07:30",
+      "Type": "user.passwordchanged",
+      "Date": "2026-10-31T07:30:14.2040000Z",
+      "UserId": "2",
+      "Severity": "Info"
+    },
+    {
+      "Id": 10,
+      "Name": "New User Alex Created on 3212bdb3a9e5",
+      "Overview": "\n\n\nTime\n\nSaturday, 31 October 2026 07:30",
+      "Type": "user.created",
+      "Date": "2026-10-31T07:30:14.1540000Z",
+      "UserId": "2",
+      "Severity": "Info"
+    },
+    {
       "Id": 9,
-      "Name": "Robin has finished playing Sintel (2010) on Phone",
-      "Type": "playback.stop",
-      "Date": "2026-10-29T10:44:02.0000000Z",
-      "Severity": "Info",
-      "ItemId": "1",
-      "UserId": "2"
+      "Name": "owner has Authenticated on 3212bdb3a9e5",
+      "Overview": "fill 172.18.0.1\n\n\n\n\nTime\n\nSaturday, 31 October 2026 07:30",
+      "Type": "user.authenticated",
+      "Date": "2026-10-31T07:30:12.0300000Z",
+      "UserId": "1",
+      "Severity": "Info"
     },
     {
       "Id": 8,
-      "Name": "Robin is playing Sintel (2010) on Phone",
-      "Type": "playback.start",
-      "Date": "2026-10-29T10:40:20.7491228Z",
-      "Severity": "Info",
-      "ItemId": "1",
-      "UserId": "2"
+      "Name": "User Policy has been updated for owner on 3212bdb3a9e5",
+      "Overview": "\n\n\nTime\n\nSaturday, 31 October 2026 07:30",
+      "Type": "user.policyupdated",
+      "Date": "2026-10-31T07:30:11.9800000Z",
+      "UserId": "1",
+      "Severity": "Info"
     },
     {
       "Id": 7,
-      "Name": "Sam is playing Harbour Lights - The Lamp Room on Firefox",
-      "Type": "playback.start",
-      "Date": "2026-10-29T10:40:20.2274051Z",
-      "Severity": "Info",
-      "ItemId": "3",
-      "UserId": "4"
+      "Name": "Password has been changed for owner on 3212bdb3a9e5",
+      "Overview": "\n\n\nTime\n\nSaturday, 31 October 2026 07:30",
+      "Type": "user.passwordchanged",
+      "Date": "2026-10-31T07:30:11.9290000Z",
+      "UserId": "1",
+      "Severity": "Info"
     },
     {
       "Id": 6,
-      "Name": "Alex is playing Metropolis (1927) on Living room TV",
-      "Type": "playback.start",
-      "Date": "2026-10-29T10:39:11.0000000Z",
-      "Severity": "Info",
-      "ItemId": "5",
-      "UserId": "6"
+      "Name": "OpenSubtitles 1.0.71.0 Installed on 3212bdb3a9e5",
+      "Type": "plugins.plugininstalled",
+      "Date": "2026-10-31T07:28:23.2550000Z",
+      "Severity": "Info"
     },
     {
       "Id": 5,
-      "Name": "Failed Login Attempt from Robin on Phone",
-      "Type": "user.authenticationfailed",
-      "Date": "2026-10-29T10:12:40.0000000Z",
-      "Severity": "Error",
-      "Overview": "192.0.2.50\n\n\n\n\nTime\n\nThursday, October 29, 2026 10:12 AM"
+      "Name": "Xml TV 1.2.5.0 Installed on 3212bdb3a9e5",
+      "Type": "plugins.plugininstalled",
+      "Date": "2026-10-31T07:28:23.2050000Z",
+      "Severity": "Info"
     },
     {
       "Id": 4,
-      "Name": "Failed Login Attempt from Robin on Phone",
-      "Type": "user.authenticationfailed",
-      "Date": "2026-10-29T10:12:10.0000000Z",
-      "Severity": "Error",
-      "Overview": "192.0.2.50\n\n\n\n\nTime\n\nThursday, October 29, 2026 10:12 AM"
+      "Name": "MovieDb 2.0.0.0 Installed on 3212bdb3a9e5",
+      "Type": "plugins.plugininstalled",
+      "Date": "2026-10-31T07:28:23.1540000Z",
+      "Severity": "Info"
     },
     {
       "Id": 3,
-      "Name": "Alex is playing Metropolis (1927) on Living room TV",
-      "Type": "playback.start",
-      "Date": "2026-10-28T21:14:05.0000000Z",
-      "Severity": "Info",
-      "ItemId": "5",
-      "UserId": "6"
+      "Name": "MusicBrainz Updated to 1.0.34.0 on 3212bdb3a9e5",
+      "Overview": "Improve album metadata fetching",
+      "Type": "plugins.pluginupdated",
+      "Date": "2026-10-31T07:28:23.1040000Z",
+      "Severity": "Info"
     },
     {
       "Id": 2,
-      "Name": "Alex authenticated on Living room TV",
-      "Type": "user.authenticated",
-      "Date": "2026-10-28T21:13:50.0000000Z",
-      "Severity": "Info",
-      "ItemId": "",
-      "UserId": "6"
+      "Name": "M3UTuner 1.0.50.0 Installed on 3212bdb3a9e5",
+      "Type": "plugins.plugininstalled",
+      "Date": "2026-10-31T07:28:23.0530000Z",
+      "Severity": "Info"
+    },
+    {
+      "Id": 1,
+      "Name": "Backup & Restore Updated to 1.8.8.0 on 3212bdb3a9e5",
+      "Overview": "Improve error handling",
+      "Type": "plugins.pluginupdated",
+      "Date": "2026-10-31T07:28:23.0020000Z",
+      "Severity": "Info"
+    },
+    {
+      "Id": 0,
+      "Name": "Alex is playing Metropolis on Living room TV",
+      "Type": "playback.start",
+      "ItemId": "16",
+      "Date": "2026-10-30T21:14:05.0000000Z",
+      "UserId": "2",
+      "Severity": "Info"
     }
   ],
-  "TotalRecordCount": 8
+  "TotalRecordCount": 0
 }

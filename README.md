@@ -855,8 +855,7 @@ file and the scripts that fill and record it are in the adapter's
 
 ### Emby
 
-The films, shows and music, on the Apps page, as Jellyfin's are, but without
-the room left on the disks, which Emby doesn't say: what each person plays now
+The films, shows and music, on the Apps page: what each person plays now
 and how, as it is, transcoded or paused; how many films, shows, albums and
 books there are; the failed logins of the last day; and each task whose last
 run failed, such as a library's scan, in red with why. Today shows the plays
@@ -873,8 +872,9 @@ sources:
 the only kind Emby makes, and it can do anything an administrator can, but
 Overlook sends it only with GET requests, which change nothing (ADR 0001).
 
-Recorded from an Emby 4.10 and then made over with invented films and people
-(ADR 0008): Emby has no free scratch image, so there is no compose file.
+Recorded from a scratch Emby 4.10 filled with invented films and people
+(ADR 0008): the compose file and the scripts that fill and record it are in
+the adapter's [`testdata`](internal/adapters/emby/testdata).
 
 ### Plex, through Tautulli
 

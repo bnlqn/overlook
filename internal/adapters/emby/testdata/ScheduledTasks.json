@@ -1,82 +1,127 @@
 [
   {
-    "Name": "Scan media library",
+    "Name": "Convert media",
     "State": "Idle",
-    "Id": "t-RefreshLibrary",
-    "LastExecutionResult": {
-      "StartTimeUtc": "2026-10-29T03:00:00.0000000Z",
-      "EndTimeUtc": "2026-10-29T03:04:10.0000000Z",
-      "Status": "Failed",
-      "Name": "Scan media library",
-      "Key": "RefreshLibrary",
-      "Id": "t-RefreshLibrary",
-      "ErrorMessage": "Access to the path '/media/Films' is denied."
-    },
+    "Id": "8542b8a00478ef9d9a590e7f2e3b62da",
+    "Triggers": [
+      {
+        "Type": "IntervalTrigger",
+        "IntervalTicks": 108000000000
+      }
+    ],
+    "Description": "Runs conversion jobs that were created using the convert media feature as well as downloads that require conversion to compatible formats.",
+    "Category": "Downloads & Conversions",
+    "IsHidden": false,
+    "Key": "SyncPrepare"
+  },
+  {
+    "Name": "Download subtitles",
+    "State": "Idle",
+    "Id": "0ac9e449d14bbda75dc6e7ea6f830b9c",
     "Triggers": [
       {
         "Type": "IntervalTrigger",
         "IntervalTicks": 864000000000
       }
     ],
-    "Description": "Scan media library.",
+    "Description": "Searches the internet for missing subtitles, if automatic subtitle downloading is enabled in Emby library setup.",
+    "Category": "Library",
+    "IsHidden": false,
+    "Key": "DownloadSubtitles"
+  },
+  {
+    "Name": "Rotate log file",
+    "State": "Idle",
+    "Id": "c3f011675d868fcc11e278b847523ef5",
+    "Triggers": [
+      {
+        "Type": "DailyTrigger",
+        "TimeOfDayTicks": 0
+      }
+    ],
+    "Description": "Moves logging to a new file to help reduce log file sizes.",
+    "Category": "Application",
+    "IsHidden": false
+  },
+  {
+    "Name": "Scan media library",
+    "State": "Idle",
+    "Id": "6330ee8fb4a957f33981f89aa78b030f",
+    "LastExecutionResult": {
+      "StartTimeUtc": "2026-10-31T03:00:00.4113528Z",
+      "EndTimeUtc": "2026-10-31T03:00:02.8301266Z",
+      "Status": "Failed",
+      "Name": "Scan media library",
+      "Key": "RefreshLibrary",
+      "Id": "6330ee8fb4a957f33981f89aa78b030f",
+      "ErrorMessage": "Access to the path '/media/shows' is denied.",
+      "LongErrorMessage": "   at System.IO.Enumeration.FileSystemEnumerator`1.CreateDirectoryHandle(String path, Boolean ignoreNotFound)"
+    },
+    "Triggers": [
+      {
+        "Type": "IntervalTrigger",
+        "IntervalTicks": 432000000000
+      }
+    ],
+    "Description": "Scans your media library to check for new and updated files.",
     "Category": "Library",
     "IsHidden": false,
     "Key": "RefreshLibrary"
   },
   {
-    "Name": "Clean Transcode Directory",
+    "Name": "Scan Metadata Folder",
     "State": "Idle",
-    "Id": "t-DeleteTranscodeFiles",
-    "LastExecutionResult": {
-      "StartTimeUtc": "2026-10-29T03:00:00.0000000Z",
-      "EndTimeUtc": "2026-10-29T03:04:10.0000000Z",
-      "Status": "Completed",
-      "Name": "Clean Transcode Directory",
-      "Key": "DeleteTranscodeFiles",
-      "Id": "t-DeleteTranscodeFiles"
-    },
-    "Triggers": [
-      {
-        "Type": "IntervalTrigger",
-        "IntervalTicks": 864000000000
-      }
-    ],
-    "Description": "Clean Transcode Directory.",
-    "Category": "Maintenance",
-    "IsHidden": false,
-    "Key": "DeleteTranscodeFiles"
-  },
-  {
-    "Name": "Clean Cache Directory",
-    "State": "Idle",
-    "Id": "t-DeleteCacheFiles",
-    "LastExecutionResult": {
-      "StartTimeUtc": "2026-10-29T03:00:00.0000000Z",
-      "EndTimeUtc": "2026-10-29T03:04:10.0000000Z",
-      "Status": "Completed",
-      "Name": "Clean Cache Directory",
-      "Key": "DeleteCacheFiles",
-      "Id": "t-DeleteCacheFiles"
-    },
-    "Triggers": [
-      {
-        "Type": "IntervalTrigger",
-        "IntervalTicks": 864000000000
-      }
-    ],
-    "Description": "Clean Cache Directory.",
-    "Category": "Maintenance",
-    "IsHidden": false,
-    "Key": "DeleteCacheFiles"
-  },
-  {
-    "Name": "Refresh Guide",
-    "State": "Idle",
-    "Id": "t-guide",
+    "Id": "66ff02a80e8afc5da71945716f0f53e3",
     "Triggers": [],
-    "Description": "Refresh Guide.",
-    "Category": "Live TV",
+    "Description": "Run this task if you've modified the contents of Emby Server's internal metadata folder directly, so that Emby Server can discover the changes.",
+    "Category": "Library",
     "IsHidden": false,
-    "Key": "RefreshGuide"
+    "Key": "ScanInternalMetadataFolderTask"
+  },
+  {
+    "Name": "Transfer media",
+    "State": "Idle",
+    "Id": "9c4589c712196c27894f665a58cc42e3",
+    "Triggers": [
+      {
+        "Type": "IntervalTrigger",
+        "IntervalTicks": 108000000000
+      }
+    ],
+    "Description": "Transfers completed conversions to their final destination. Used by the Download and Conversion features.",
+    "Category": "Downloads & Conversions",
+    "IsHidden": false,
+    "Key": "ServerSync"
+  },
+  {
+    "Name": "Vacuum Database",
+    "State": "Idle",
+    "Id": "82280a18c237acd24570a386d598c3ba",
+    "Triggers": [
+      {
+        "Type": "IntervalTrigger",
+        "IntervalTicks": 6048000000000
+      }
+    ],
+    "Description": "Schedules a database vacuum on the next server startup",
+    "Category": "Database",
+    "IsHidden": false,
+    "Key": "VacuumDatabase"
+  },
+  {
+    "Name": "Video preview thumbnail extraction",
+    "State": "Idle",
+    "Id": "d15b3f9fc313609ffe7e49bd1c74f753",
+    "Triggers": [
+      {
+        "Type": "DailyTrigger",
+        "TimeOfDayTicks": 72000000000,
+        "MaxRuntimeTicks": 144000000000
+      }
+    ],
+    "Description": "Creates thumbnails for videos.",
+    "Category": "Library",
+    "IsHidden": false,
+    "Key": "RefreshChapterImages"
   }
 ]
