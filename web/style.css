@@ -1891,10 +1891,14 @@ a.chore:hover {
   font: var(--m-type-body);
   color: var(--m-label-2);
 }
+/* The state's box takes its baseline from the icon, which has none, so it
+   would sit above the words after it. Set by its top instead, its words land
+   on the line's own baseline, the box being one line high. */
 .head p .state {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  vertical-align: top;
 }
 .section-title {
   margin: 32px 0 12px;
