@@ -1098,5 +1098,5 @@ who takes part keeps to the [code of conduct](CODE_OF_CONDUCT.md).
 
 Overlook is under the [MIT licence](LICENSE). The page ships the Inter
 font, under the SIL Open Font License ([`web/fonts`](web/fonts)), and logos
-of common apps, under the Apache License 2.0
-([`web/icons`](web/icons)), each logo its owner's trademark.
+of common apps, under the Apache License 2.0 but for UniFi's, which is
+Ubiquiti's own ([`web/icons`](web/icons)), each logo its owner's trademark.
