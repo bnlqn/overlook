@@ -4,6 +4,7 @@
 
 /internal/adapters/adguard/ @bnlqn
 /internal/adapters/beszel/  @bnlqn
+/internal/adapters/checkmate/ @bnlqn
 /internal/adapters/docker/  @bnlqn
 /internal/adapters/emby/    @linkinxp
 /internal/adapters/gatus/   @bnlqn

@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "msg": "Incidents retrieved successfully",
+  "data": {
+    "incidents": [
+      {
+        "id": "6ae5bcf69fc2e0de2a48524c",
+        "monitorId": "6ae5bc179fc2e0de2a484adc",
+        "teamId": "6ae5bc169fc2e0de2a484a98",
+        "startTime": "2026-10-31T10:03:34.958Z",
+        "endTime": "2026-10-31T10:05:13.933Z",
+        "status": false,
+        "message": null,
+        "statusCode": 5000,
+        "resolutionType": "automatic",
+        "resolvedBy": null,
+        "resolvedByEmail": null,
+        "comment": null,
+        "createdAt": "2026-10-31T10:03:34.959Z",
+        "updatedAt": "2026-10-31T10:05:13.934Z"
+      }
+    ],
+    "count": 1
+  }
+}

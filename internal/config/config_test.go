@@ -177,6 +177,7 @@ func TestExample(t *testing.T) {
 	t.Setenv("PBS_SECRET", "00000000-0000-0000-0000-000000000000")
 	t.Setenv("PROXMOX_SECRET", "00000000-0000-0000-0000-000000000000")
 	t.Setenv("BESZEL_PASSWORD", "s3cret")
+	t.Setenv("CHECKMATE_PASSWORD", "s3cret")
 	t.Setenv("RADARR_KEY", "0123abcd")
 	t.Setenv("SONARR_KEY", "4567efab")
 	t.Setenv("PROWLARR_KEY", "89abcdef")
@@ -201,7 +202,7 @@ func TestExample(t *testing.T) {
 	// The example has a source of every adapter, so each says its kind, which
 	// the page asks by (ADR 0012).
 	kinds := map[string]string{
-		"gatus": "checkengine", "uptimekuma": "checkengine", "grafana": "checkengine", "prometheus": "checkengine",
+		"gatus": "checkengine", "uptimekuma": "checkengine", "grafana": "checkengine", "prometheus": "checkengine", "checkmate": "checkengine",
 		"ical":    "todolist",
 		"adguard": "resolver", "pihole": "resolver",
 		"jellyfin": "mediaserver", "emby": "mediaserver", "tautulli": "mediaserver",

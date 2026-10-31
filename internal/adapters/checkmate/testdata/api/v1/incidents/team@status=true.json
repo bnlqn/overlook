@@ -1,0 +1,41 @@
+{
+  "success": true,
+  "msg": "Incidents retrieved successfully",
+  "data": {
+    "incidents": [
+      {
+        "id": "6ae5bcbc9fc2e0de2a485062",
+        "monitorId": "6ae5bc179fc2e0de2a484ab6",
+        "teamId": "6ae5bc169fc2e0de2a484a98",
+        "startTime": "2026-10-31T10:02:36.540Z",
+        "endTime": null,
+        "status": true,
+        "message": "MEMORY: 10.9% (threshold: 1%)",
+        "statusCode": 9999,
+        "resolutionType": null,
+        "resolvedBy": null,
+        "resolvedByEmail": null,
+        "comment": null,
+        "createdAt": "2026-10-31T10:02:36.541Z",
+        "updatedAt": "2026-10-31T10:02:36.541Z"
+      },
+      {
+        "id": "6ae5bc1a9fc2e0de2a484b68",
+        "monitorId": "6ae5bc179fc2e0de2a484ac8",
+        "teamId": "6ae5bc169fc2e0de2a484a98",
+        "startTime": "2026-10-31T09:59:54.071Z",
+        "endTime": null,
+        "status": true,
+        "message": null,
+        "statusCode": 5000,
+        "resolutionType": null,
+        "resolvedBy": null,
+        "resolvedByEmail": null,
+        "comment": null,
+        "createdAt": "2026-10-31T09:59:54.072Z",
+        "updatedAt": "2026-10-31T09:59:54.072Z"
+      }
+    ],
+    "count": 2
+  }
+}

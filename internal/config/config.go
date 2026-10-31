@@ -19,6 +19,7 @@ import (
 
 	"github.com/bnlqn/overlook/internal/adapters/adguard"
 	"github.com/bnlqn/overlook/internal/adapters/beszel"
+	"github.com/bnlqn/overlook/internal/adapters/checkmate"
 	"github.com/bnlqn/overlook/internal/adapters/docker"
 	"github.com/bnlqn/overlook/internal/adapters/emby"
 	"github.com/bnlqn/overlook/internal/adapters/gatus"
@@ -66,6 +67,7 @@ type Sources struct {
 	UptimeKuma    []uptimekuma.Config    `yaml:"uptimekuma"`
 	Grafana       []grafana.Config       `yaml:"grafana"`
 	Prometheus    []prometheus.Config    `yaml:"prometheus"`
+	Checkmate     []checkmate.Config     `yaml:"checkmate"`
 	GitHub        []github.Config        `yaml:"github"`
 	Immich        []immich.Config        `yaml:"immich"`
 	PBS           []pbs.Config           `yaml:"pbs"`
@@ -187,6 +189,7 @@ func (c *Config) check() error {
 		add(c, "uptimekuma", "", "checkengine", c.Sources.UptimeKuma, func(u uptimekuma.Config) string { return u.Name }, uptimekuma.Read),
 		add(c, "grafana", "", "checkengine", c.Sources.Grafana, func(g grafana.Config) string { return g.Name }, grafana.Read),
 		add(c, "prometheus", "", "checkengine", c.Sources.Prometheus, func(p prometheus.Config) string { return p.Name }, prometheus.Read),
+		add(c, "checkmate", "", "checkengine", c.Sources.Checkmate, func(m checkmate.Config) string { return m.Name }, checkmate.Read),
 		add(c, "github", "", "", c.Sources.GitHub, func(g github.Config) string { return g.Name }, github.Read),
 		add(c, "immich", immich.Area, "", c.Sources.Immich, func(im immich.Config) string { return im.Name }, immich.Read),
 		add(c, "pbs", pbs.Area, "", c.Sources.PBS, func(b pbs.Config) string { return b.Name }, pbs.Read),
