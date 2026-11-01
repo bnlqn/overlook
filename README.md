@@ -14,6 +14,8 @@ the tools you already run and changes nothing.
 [See the demo](https://bnlqn.github.io/overlook/), drawn from a homelab
 that doesn't exist.
 
+![Overlook — one page that tells you whether your homelab is fine](https://github.com/yasirwhite/OpenDemo/releases/download/showcase-media/overlook-demo.gif)
+
 It reads:
 
 - **Check engines**: [Gatus](#gatus), [Uptime Kuma](#uptime-kuma),
