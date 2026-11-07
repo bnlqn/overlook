@@ -1,0 +1,5948 @@
+{
+ "at": "2026-10-28T09:30:00Z",
+ "sources": [
+  {
+   "name": "GitHub",
+   "adapter": "github",
+   "answered": true
+  },
+  {
+   "name": "Immich",
+   "adapter": "immich",
+   "area": "apps",
+   "answered": true
+  },
+  {
+   "name": "Backup Server",
+   "adapter": "pbs",
+   "area": "storage",
+   "answered": true
+  },
+  {
+   "name": "Proxmox",
+   "adapter": "proxmox",
+   "area": "servers",
+   "answered": true
+  },
+  {
+   "name": "Beszel",
+   "adapter": "beszel",
+   "area": "servers",
+   "answered": true
+  },
+  {
+   "name": "Docker",
+   "adapter": "docker",
+   "area": "servers",
+   "answered": true
+  },
+  {
+   "name": "Radarr",
+   "adapter": "radarr",
+   "area": "apps",
+   "answered": true
+  },
+  {
+   "name": "Sonarr",
+   "adapter": "sonarr",
+   "area": "apps",
+   "answered": true
+  },
+  {
+   "name": "Prowlarr",
+   "adapter": "prowlarr",
+   "area": "apps",
+   "answered": true
+  },
+  {
+   "name": "qBittorrent",
+   "adapter": "qbittorrent",
+   "area": "apps",
+   "answered": true
+  },
+  {
+   "name": "Jellyfin",
+   "adapter": "jellyfin",
+   "area": "apps",
+   "kind": "mediaserver",
+   "answered": true
+  },
+  {
+   "name": "Emby",
+   "adapter": "emby",
+   "area": "apps",
+   "kind": "mediaserver",
+   "answered": true
+  },
+  {
+   "name": "Plex",
+   "adapter": "tautulli",
+   "area": "apps",
+   "kind": "mediaserver",
+   "answered": true
+  },
+  {
+   "name": "Seerr",
+   "adapter": "seerr",
+   "area": "apps",
+   "answered": true
+  },
+  {
+   "name": "Home Assistant",
+   "adapter": "homeassistant",
+   "area": "apps",
+   "answered": true
+  },
+  {
+   "name": "Paperless-ngx",
+   "adapter": "paperless",
+   "area": "apps",
+   "answered": true
+  },
+  {
+   "name": "Nextcloud",
+   "adapter": "nextcloud",
+   "area": "apps",
+   "answered": true
+  },
+  {
+   "name": "NUT",
+   "adapter": "nut",
+   "area": "servers",
+   "answered": true
+  },
+  {
+   "name": "UniFi",
+   "adapter": "unifi",
+   "area": "network",
+   "answered": true
+  },
+  {
+   "name": "Primary DNS",
+   "adapter": "adguard",
+   "area": "network",
+   "kind": "resolver",
+   "answered": true
+  },
+  {
+   "name": "Standby DNS",
+   "adapter": "adguard",
+   "area": "network",
+   "kind": "resolver",
+   "answered": false,
+   "error": "timeout"
+  },
+  {
+   "name": "Kids' DNS",
+   "adapter": "pihole",
+   "area": "network",
+   "kind": "resolver",
+   "answered": true
+  },
+  {
+   "name": "Chores",
+   "adapter": "ical",
+   "kind": "todolist",
+   "answered": true
+  }
+ ],
+ "checks": [],
+ "sections": [
+  {
+   "area": "apps",
+   "source": "Immich",
+   "title": {
+    "key": "immich.photos"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "Kim"
+     },
+     "value": {
+      "key": "immich.this_week",
+      "args": {
+       "n": 12
+      }
+     },
+     "detail": {
+      "key": "immich.person",
+      "args": {
+       "photos": 9214,
+       "videos": 402,
+       "usage": 104183526912
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "Noor"
+     },
+     "value": {
+      "key": "immich.this_week",
+      "args": {
+       "n": 41
+      }
+     },
+     "detail": {
+      "key": "immich.person",
+      "args": {
+       "photos": 15873,
+       "videos": 736,
+       "usage": 131459047424
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "immich.space"
+     },
+     "value": {
+      "key": "immich.space_used",
+      "args": {
+       "used": 5398823092224,
+       "size": 7996287737856
+      }
+     },
+     "detail": {
+      "key": "immich.space_photos",
+      "args": {
+       "usage": 235642574336
+      }
+     },
+     "meter": {
+      "used": 5398823092224,
+      "total": 7996287737856
+     }
+    },
+    {
+     "title": {
+      "name": "Immich"
+     },
+     "value": {
+      "name": "v3.3.5"
+     },
+     "detail": {
+      "key": "immich.newer",
+      "args": {
+       "version": "v3.4.0"
+      }
+     },
+     "tone": "orange"
+    },
+    {
+     "title": {
+      "key": "immich.jobs_of",
+      "args": {
+       "name": "thumbnailGeneration"
+      }
+     },
+     "value": {
+      "key": "immich.queued",
+      "args": {
+       "n": 18
+      }
+     }
+    }
+   ]
+  },
+  {
+   "area": "storage",
+   "source": "Backup Server",
+   "title": {
+    "key": "pbs.backups"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "home"
+     },
+     "value": {
+      "key": "pbs.when",
+      "args": {
+       "at": "2026-10-28T00:30:00Z",
+       "group": "vm/100",
+       "size": 34359738368
+      }
+     },
+     "detail": {
+      "key": "pbs.verified",
+      "args": {
+       "at": "2026-10-28T00:30:00Z",
+       "group": "vm/100",
+       "size": 34359738368
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "media"
+     },
+     "value": {
+      "key": "pbs.when",
+      "args": {
+       "at": "2026-10-28T00:33:21Z",
+       "group": "vm/110",
+       "size": 21474836480
+      }
+     },
+     "detail": {
+      "key": "pbs.verified",
+      "args": {
+       "at": "2026-10-28T00:33:21Z",
+       "group": "vm/110",
+       "size": 21474836480
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "photos"
+     },
+     "value": {
+      "key": "pbs.when",
+      "args": {
+       "at": "2026-10-28T00:35:35Z",
+       "group": "vm/120",
+       "size": 42949672960
+      }
+     },
+     "detail": {
+      "key": "pbs.unverified",
+      "args": {
+       "at": "2026-10-28T00:35:35Z",
+       "group": "vm/120",
+       "size": 42949672960
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "dns-primary"
+     },
+     "value": {
+      "key": "pbs.when",
+      "args": {
+       "at": "2026-10-28T00:39:03Z",
+       "group": "ct/140",
+       "size": 1073741824
+      }
+     },
+     "detail": {
+      "key": "pbs.verified",
+      "args": {
+       "at": "2026-10-28T00:39:03Z",
+       "group": "ct/140",
+       "size": 1073741824
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "dns-standby"
+     },
+     "value": {
+      "key": "pbs.when",
+      "args": {
+       "at": "2026-10-28T00:39:03Z",
+       "group": "ct/141",
+       "size": 1073741824
+      }
+     },
+     "detail": {
+      "key": "pbs.verified",
+      "args": {
+       "at": "2026-10-28T00:39:03Z",
+       "group": "ct/141",
+       "size": 1073741824
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "status"
+     },
+     "value": {
+      "key": "pbs.when",
+      "args": {
+       "at": "2026-10-28T00:40:10Z",
+       "group": "ct/150",
+       "size": 2147483648
+      }
+     },
+     "detail": {
+      "key": "pbs.verified",
+      "args": {
+       "at": "2026-10-28T00:40:10Z",
+       "group": "ct/150",
+       "size": 2147483648
+      }
+     }
+    }
+   ]
+  },
+  {
+   "area": "servers",
+   "source": "Proxmox",
+   "title": {
+    "key": "section.hosts"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "pve"
+     },
+     "value": {
+      "key": "proxmox.up_for",
+      "args": {
+       "ms": 1054800000.0
+      }
+     },
+     "detail": {
+      "key": "proxmox.host_detail",
+      "args": {
+       "load": 0.58,
+       "model": "N305",
+       "n": 8,
+       "version": "9.2.18"
+      }
+     },
+     "meters": [
+      {
+       "label": {
+        "key": "proxmox.cpu_meter"
+       },
+       "used": 0.56,
+       "total": 8
+      },
+      {
+       "label": {
+        "key": "proxmox.ram_meter"
+       },
+       "used": 22548578304,
+       "total": 33554432000,
+       "tone": "blue"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "area": "servers",
+   "source": "Proxmox",
+   "title": {
+    "key": "proxmox.guests"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "home"
+     },
+     "value": {
+      "key": "proxmox.up_for",
+      "args": {
+       "ms": 1054740000.0
+      }
+     },
+     "detail": {
+      "key": "proxmox.vm",
+      "args": {
+       "id": 100,
+       "n": 2,
+       "gb": 4
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "media"
+     },
+     "value": {
+      "key": "proxmox.up_for",
+      "args": {
+       "ms": 266400000.0
+      }
+     },
+     "detail": {
+      "key": "proxmox.vm",
+      "args": {
+       "id": 110,
+       "n": 4,
+       "gb": 6
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "photos"
+     },
+     "value": {
+      "key": "proxmox.up_for",
+      "args": {
+       "ms": 1054740000.0
+      }
+     },
+     "detail": {
+      "key": "proxmox.vm",
+      "args": {
+       "id": 120,
+       "n": 4,
+       "gb": 8
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "files"
+     },
+     "value": {
+      "key": "proxmox.up_for",
+      "args": {
+       "ms": 1054740000.0
+      }
+     },
+     "detail": {
+      "key": "proxmox.vm",
+      "args": {
+       "id": 130,
+       "n": 2,
+       "gb": 4
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "dns-primary"
+     },
+     "value": {
+      "key": "proxmox.up_for",
+      "args": {
+       "ms": 1054680000.0
+      }
+     },
+     "detail": {
+      "key": "proxmox.container",
+      "args": {
+       "id": 140,
+       "n": 1,
+       "gb": 1
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "dns-standby"
+     },
+     "value": {
+      "key": "proxmox.stopped"
+     },
+     "detail": {
+      "key": "proxmox.container",
+      "args": {
+       "id": 141,
+       "n": 1,
+       "gb": 1
+      }
+     },
+     "tone": "gray"
+    },
+    {
+     "title": {
+      "name": "status"
+     },
+     "value": {
+      "key": "proxmox.up_for",
+      "args": {
+       "ms": 1054680000.0
+      }
+     },
+     "detail": {
+      "key": "proxmox.container",
+      "args": {
+       "id": 150,
+       "n": 1,
+       "gb": 1
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "backup"
+     },
+     "value": {
+      "key": "proxmox.up_for",
+      "args": {
+       "ms": 1054620000.0
+      }
+     },
+     "detail": {
+      "key": "proxmox.vm",
+      "args": {
+       "id": 160,
+       "n": 2,
+       "gb": 4
+      }
+     }
+    }
+   ]
+  },
+  {
+   "area": "servers",
+   "source": "Proxmox",
+   "title": {
+    "key": "proxmox.storage"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "local-zfs"
+     },
+     "value": {
+      "key": "proxmox.bytes_of",
+      "args": {
+       "used": 41875931136,
+       "total": 214748364800
+      }
+     },
+     "meter": {
+      "used": 41875931136,
+      "total": 214748364800
+     }
+    },
+    {
+     "title": {
+      "name": "local"
+     },
+     "value": {
+      "key": "proxmox.bytes_of",
+      "args": {
+       "used": 9663676416,
+       "total": 98784247808
+      }
+     },
+     "meter": {
+      "used": 9663676416,
+      "total": 98784247808
+     }
+    },
+    {
+     "title": {
+      "name": "tank"
+     },
+     "value": {
+      "key": "proxmox.bytes_of",
+      "args": {
+       "used": 2965818318848,
+       "total": 3848290697216
+      }
+     },
+     "meter": {
+      "used": 2965818318848,
+      "total": 3848290697216
+     }
+    },
+    {
+     "title": {
+      "name": "backups"
+     },
+     "value": {
+      "key": "proxmox.bytes_of",
+      "args": {
+       "used": 1236950581248,
+       "total": 3848290697216
+      }
+     },
+     "meter": {
+      "used": 1236950581248,
+      "total": 3848290697216
+     }
+    }
+   ]
+  },
+  {
+   "area": "servers",
+   "source": "Proxmox",
+   "title": {
+    "key": "proxmox.pools"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "rpool"
+     },
+     "value": {
+      "key": "proxmox.bytes_of",
+      "args": {
+       "used": 51539607552,
+       "total": 246960619520
+      }
+     },
+     "detail": {
+      "key": "proxmox.healthy"
+     },
+     "meter": {
+      "used": 51539607552,
+      "total": 246960619520
+     }
+    },
+    {
+     "title": {
+      "name": "tank"
+     },
+     "value": {
+      "key": "proxmox.bytes_of",
+      "args": {
+       "used": 4202768899072,
+       "total": 7696581394432
+      }
+     },
+     "detail": {
+      "key": "proxmox.healthy"
+     },
+     "meter": {
+      "used": 4202768899072,
+      "total": 7696581394432
+     }
+    }
+   ]
+  },
+  {
+   "area": "servers",
+   "source": "Proxmox",
+   "title": {
+    "key": "proxmox.backups"
+   },
+   "rows": [
+    {
+     "title": {
+      "key": "proxmox.last_run"
+     },
+     "value": {
+      "key": "proxmox.done"
+     },
+     "detail": {
+      "key": "proxmox.run_took",
+      "args": {
+       "at": "2026-10-28T00:30:00Z",
+       "ms": 512000,
+       "status": "OK"
+      }
+     },
+     "tone": "green"
+    }
+   ]
+  },
+  {
+   "area": "servers",
+   "source": "Beszel",
+   "title": {
+    "key": "section.hosts"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "media"
+     },
+     "value": {
+      "key": "beszel.up_for",
+      "args": {
+       "ms": 266580000
+      }
+     },
+     "detail": {
+      "key": "beszel.host_detail",
+      "args": {
+       "n": 4,
+       "load": 0.62
+      }
+     },
+     "meters": [
+      {
+       "label": {
+        "key": "beszel.cpu_meter"
+       },
+       "used": 8.6,
+       "total": 100
+      },
+      {
+       "label": {
+        "key": "beszel.ram_meter"
+       },
+       "used": 56.7,
+       "total": 100
+      },
+      {
+       "label": {
+        "key": "beszel.disk_meter"
+       },
+       "used": 18.4,
+       "total": 100
+      }
+     ]
+    },
+    {
+     "title": {
+      "name": "nas"
+     },
+     "value": {
+      "key": "beszel.up_for",
+      "args": {
+       "ms": 1044180000
+      }
+     },
+     "detail": {
+      "key": "beszel.host_detail",
+      "args": {
+       "n": 4,
+       "load": 0.41
+      }
+     },
+     "meters": [
+      {
+       "label": {
+        "key": "beszel.cpu_meter"
+       },
+       "used": 2.9,
+       "total": 100
+      },
+      {
+       "label": {
+        "key": "beszel.ram_meter"
+       },
+       "used": 34.7,
+       "total": 100
+      },
+      {
+       "label": {
+        "key": "beszel.disk_meter"
+       },
+       "used": 71.8,
+       "total": 100
+      }
+     ]
+    },
+    {
+     "title": {
+      "name": "vps"
+     },
+     "value": {
+      "key": "beszel.up_for",
+      "args": {
+       "ms": 3549780000
+      }
+     },
+     "detail": {
+      "key": "beszel.host_detail",
+      "args": {
+       "n": 2,
+       "load": 0.08
+      }
+     },
+     "meters": [
+      {
+       "label": {
+        "key": "beszel.cpu_meter"
+       },
+       "used": 2.4,
+       "total": 100
+      },
+      {
+       "label": {
+        "key": "beszel.ram_meter"
+       },
+       "used": 45.1,
+       "total": 100
+      },
+      {
+       "label": {
+        "key": "beszel.disk_meter"
+       },
+       "used": 34.2,
+       "total": 100
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "area": "servers",
+   "source": "Docker",
+   "title": {
+    "key": "docker.containers"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "bazarr"
+     },
+     "value": {
+      "key": "docker.exited",
+      "args": {
+       "code": 1
+      }
+     },
+     "detail": {
+      "name": "lscr.io/linuxserver/bazarr:1.5.3"
+     },
+     "tone": "red"
+    },
+    {
+     "title": {
+      "name": "gluetun"
+     },
+     "value": {
+      "key": "docker.healthy"
+     },
+     "detail": {
+      "name": "qmcgaw/gluetun:v3.41.3"
+     }
+    },
+    {
+     "title": {
+      "name": "jellyfin"
+     },
+     "value": {
+      "key": "docker.healthy"
+     },
+     "detail": {
+      "name": "jellyfin/jellyfin:10.11.2"
+     }
+    },
+    {
+     "title": {
+      "name": "prowlarr"
+     },
+     "value": {
+      "key": "docker.running"
+     },
+     "detail": {
+      "name": "lscr.io/linuxserver/prowlarr:2.7.0"
+     }
+    },
+    {
+     "title": {
+      "name": "qbittorrent"
+     },
+     "value": {
+      "key": "docker.running"
+     },
+     "detail": {
+      "name": "lscr.io/linuxserver/qbittorrent:5.2.4"
+     }
+    },
+    {
+     "title": {
+      "name": "radarr"
+     },
+     "value": {
+      "key": "docker.running"
+     },
+     "detail": {
+      "name": "lscr.io/linuxserver/radarr:6.4.4"
+     }
+    },
+    {
+     "title": {
+      "name": "recyclarr"
+     },
+     "value": {
+      "key": "docker.exited",
+      "args": {
+       "code": 0
+      }
+     },
+     "detail": {
+      "name": "ghcr.io/recyclarr/recyclarr:8.4.0"
+     },
+     "tone": "gray"
+    },
+    {
+     "title": {
+      "name": "socket-proxy"
+     },
+     "value": {
+      "key": "docker.running"
+     },
+     "detail": {
+      "name": "lscr.io/linuxserver/socket-proxy:3.4.7"
+     }
+    },
+    {
+     "title": {
+      "name": "sonarr"
+     },
+     "value": {
+      "key": "docker.running"
+     },
+     "detail": {
+      "name": "lscr.io/linuxserver/sonarr:4.0.20"
+     }
+    }
+   ]
+  },
+  {
+   "area": "apps",
+   "source": "Radarr",
+   "title": {
+    "key": "radarr.films"
+   },
+   "rows": [
+    {
+     "title": {
+      "key": "servarr.in_library"
+     },
+     "value": {
+      "key": "radarr.films_n",
+      "args": {
+       "n": 412
+      }
+     },
+     "detail": {
+      "key": "radarr.library_detail",
+      "args": {
+       "n": 3,
+       "size": 3186865348608
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "servarr.downloading"
+     },
+     "value": {
+      "key": "radarr.downloading_n",
+      "args": {
+       "n": 1
+      }
+     }
+    }
+   ]
+  },
+  {
+   "area": "apps",
+   "source": "Radarr",
+   "title": {
+    "key": "radarr.coming"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "Nosferatu (1922)"
+     },
+     "value": {
+      "key": "servarr.on",
+      "args": {
+       "at": "2026-10-30T00:00:00Z"
+      }
+     },
+     "detail": {
+      "key": "radarr.to_stream"
+     }
+    },
+    {
+     "title": {
+      "name": "The General (1926)"
+     },
+     "value": {
+      "key": "servarr.on",
+      "args": {
+       "at": "2026-11-02T00:00:00Z"
+      }
+     },
+     "detail": {
+      "key": "radarr.on_disc"
+     }
+    },
+    {
+     "title": {
+      "name": "Metropolis (1927)"
+     },
+     "value": {
+      "key": "servarr.have"
+     },
+     "detail": {
+      "key": "radarr.to_stream"
+     }
+    }
+   ]
+  },
+  {
+   "area": "apps",
+   "source": "Sonarr",
+   "title": {
+    "key": "sonarr.shows"
+   },
+   "rows": [
+    {
+     "title": {
+      "key": "servarr.in_library"
+     },
+     "value": {
+      "key": "sonarr.shows_n",
+      "args": {
+       "n": 38
+      }
+     },
+     "detail": {
+      "key": "sonarr.library_detail",
+      "args": {
+       "n": 1904,
+       "size": 2418925862912,
+       "week": 9
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "servarr.downloading"
+     },
+     "value": {
+      "key": "sonarr.downloading_n",
+      "args": {
+       "n": 2
+      }
+     }
+    }
+   ]
+  },
+  {
+   "area": "apps",
+   "source": "Sonarr",
+   "title": {
+    "key": "sonarr.coming"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "Northern Lines 1\u00d708"
+     },
+     "value": {
+      "key": "servarr.have"
+     },
+     "detail": {
+      "name": "The Last Train"
+     }
+    },
+    {
+     "title": {
+      "name": "The Quiet Valley 2\u00d705"
+     },
+     "value": {
+      "key": "servarr.on",
+      "args": {
+       "at": "2026-10-29T20:00:00Z"
+      }
+     },
+     "detail": {
+      "name": "Low Water"
+     }
+    },
+    {
+     "title": {
+      "name": "Small Hours 4\u00d701"
+     },
+     "value": {
+      "key": "servarr.on",
+      "args": {
+       "at": "2026-11-01T21:00:00Z"
+      }
+     },
+     "detail": {
+      "key": "sonarr.untitled"
+     }
+    }
+   ]
+  },
+  {
+   "area": "apps",
+   "source": "Prowlarr",
+   "title": {
+    "key": "prowlarr.indexers"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "Ferrovia"
+     },
+     "value": {
+      "key": "prowlarr.disabled"
+     },
+     "tone": "gray"
+    },
+    {
+     "title": {
+      "name": "Harbour"
+     },
+     "value": {
+      "key": "prowlarr.enabled"
+     },
+     "detail": {
+      "key": "prowlarr.week",
+      "args": {
+       "n": 988,
+       "grabs": 1,
+       "ms": 340
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "Lantern"
+     },
+     "value": {
+      "key": "prowlarr.enabled"
+     },
+     "detail": {
+      "key": "prowlarr.week",
+      "args": {
+       "n": 1036,
+       "grabs": 3,
+       "ms": 91
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "Nebula"
+     },
+     "value": {
+      "key": "prowlarr.enabled"
+     },
+     "detail": {
+      "key": "prowlarr.week",
+      "args": {
+       "n": 1112,
+       "grabs": 7,
+       "ms": 212
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "Openshelf"
+     },
+     "value": {
+      "key": "prowlarr.failing"
+     },
+     "detail": {
+      "key": "prowlarr.failing_since",
+      "args": {
+       "at": "2026-10-28T03:12:40Z"
+      }
+     },
+     "tone": "red"
+    },
+    {
+     "title": {
+      "name": "Prowlarr"
+     },
+     "value": {
+      "key": "servarr.warning"
+     },
+     "detail": {
+      "name": "Indexers unavailable due to failures: Openshelf"
+     },
+     "tone": "orange"
+    }
+   ]
+  },
+  {
+   "area": "apps",
+   "source": "qBittorrent",
+   "title": {
+    "key": "qbittorrent.torrents"
+   },
+   "rows": [
+    {
+     "title": {
+      "key": "qbittorrent.downloading"
+     },
+     "value": {
+      "key": "qbittorrent.torrents_n",
+      "args": {
+       "n": 2
+      }
+     },
+     "detail": {
+      "key": "qbittorrent.speed",
+      "args": {
+       "n": 3407872
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "qbittorrent.seeding"
+     },
+     "value": {
+      "key": "qbittorrent.torrents_n",
+      "args": {
+       "n": 146
+      }
+     },
+     "detail": {
+      "key": "qbittorrent.speed",
+      "args": {
+       "n": 655360
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "qbittorrent.free"
+     },
+     "value": {
+      "key": "qbittorrent.bytes",
+      "args": {
+       "n": 1843200000000
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "qbittorrent.connection"
+     },
+     "value": {
+      "key": "qbittorrent.connected"
+     }
+    },
+    {
+     "title": {
+      "name": "The Cabinet of Dr. Caligari (1920) 1080p"
+     },
+     "value": {
+      "key": "qbittorrent.missing_files"
+     },
+     "detail": {
+      "name": "/downloads/films"
+     },
+     "tone": "red"
+    }
+   ]
+  },
+  {
+   "area": "apps",
+   "source": "Jellyfin",
+   "title": {
+    "key": "mediaserver.section"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "Kim"
+     },
+     "value": {
+      "name": "Sherlock Jr. (1924)"
+     },
+     "detail": {
+      "key": "mediaserver.paused",
+      "args": {
+       "device": "Living room TV"
+      }
+     },
+     "tone": "gray"
+    },
+    {
+     "title": {
+      "name": "Noor"
+     },
+     "value": {
+      "key": "mediabrowser.episode",
+      "args": {
+       "series": "Harbour Lights",
+       "name": "The Lamp Room"
+      }
+     },
+     "detail": {
+      "key": "mediaserver.transcoding",
+      "args": {
+       "device": "Kitchen tablet"
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "mediabrowser.films"
+     },
+     "value": {
+      "key": "mediabrowser.films_n",
+      "args": {
+       "n": 412
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "mediabrowser.shows"
+     },
+     "value": {
+      "key": "mediabrowser.shows_n",
+      "args": {
+       "n": 38,
+       "episodes": 1906
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "mediabrowser.music"
+     },
+     "value": {
+      "key": "mediabrowser.music_n",
+      "args": {
+       "n": 214,
+       "songs": 2960
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "/mnt/media"
+     },
+     "value": {
+      "key": "jellyfin.free",
+      "args": {
+       "n": 2140000000000
+      }
+     },
+     "meter": {
+      "used": 9860000000000,
+      "total": 12000000000000
+     }
+    },
+    {
+     "title": {
+      "key": "mediabrowser.version"
+     },
+     "value": {
+      "name": "12.4.0"
+     }
+    }
+   ]
+  },
+  {
+   "area": "apps",
+   "source": "Emby",
+   "title": {
+    "key": "mediaserver.section"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "Robin"
+     },
+     "value": {
+      "name": "Sintel"
+     },
+     "detail": {
+      "key": "mediaserver.direct",
+      "args": {
+       "device": "Study laptop"
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "mediabrowser.films"
+     },
+     "value": {
+      "key": "mediabrowser.films_n",
+      "args": {
+       "n": 96
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "mediabrowser.shows"
+     },
+     "value": {
+      "key": "mediabrowser.shows_n",
+      "args": {
+       "n": 12,
+       "episodes": 340
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "mediabrowser.failed_logins"
+     },
+     "value": {
+      "key": "mediabrowser.failed_logins_n",
+      "args": {
+       "n": 2
+      }
+     },
+     "detail": {
+      "name": "Failed Login Attempt from Robin on emby"
+     },
+     "tone": "orange"
+    },
+    {
+     "title": {
+      "key": "mediabrowser.version"
+     },
+     "value": {
+      "name": "4.10.2.0"
+     }
+    }
+   ]
+  },
+  {
+   "area": "apps",
+   "source": "Plex",
+   "title": {
+    "key": "mediaserver.section"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "Noor"
+     },
+     "value": {
+      "name": "Night of the Living Dead (1968)"
+     },
+     "detail": {
+      "key": "mediaserver.direct",
+      "args": {
+       "device": "Bedroom TV"
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "tautulli.bandwidth"
+     },
+     "value": {
+      "key": "tautulli.speed",
+      "args": {
+       "n": 1048576
+      }
+     },
+     "detail": {
+      "key": "tautulli.remote",
+      "args": {
+       "n": 0
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "Films"
+     },
+     "value": {
+      "key": "tautulli.films_n",
+      "args": {
+       "n": 386,
+       "parents": 0,
+       "children": 0
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "Shows"
+     },
+     "value": {
+      "key": "tautulli.shows_n",
+      "args": {
+       "n": 31,
+       "parents": 112,
+       "children": 1520
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "tautulli.plex"
+     },
+     "value": {
+      "key": "tautulli.current"
+     }
+    }
+   ]
+  },
+  {
+   "area": "apps",
+   "source": "Seerr",
+   "title": {
+    "key": "seerr.requests"
+   },
+   "rows": [
+    {
+     "title": {
+      "key": "seerr.requests"
+     },
+     "value": {
+      "key": "seerr.waiting",
+      "args": {
+       "n": 2
+      }
+     },
+     "detail": {
+      "key": "seerr.requests_detail",
+      "args": {
+       "n": 1,
+       "available": 47
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "seerr.version"
+     },
+     "value": {
+      "name": "3.5.1"
+     }
+    }
+   ]
+  },
+  {
+   "area": "apps",
+   "source": "Home Assistant",
+   "title": {
+    "key": "homeassistant.home"
+   },
+   "rows": [
+    {
+     "title": {
+      "key": "homeassistant.version"
+     },
+     "value": {
+      "name": "2026.10.4"
+     }
+    },
+    {
+     "title": {
+      "key": "homeassistant.automations"
+     },
+     "value": {
+      "key": "homeassistant.automations_n",
+      "args": {
+       "n": 24
+      }
+     },
+     "detail": {
+      "key": "homeassistant.automations_detail",
+      "args": {
+       "n": 9,
+       "off": 2
+      }
+     }
+    }
+   ]
+  },
+  {
+   "area": "apps",
+   "source": "Home Assistant",
+   "title": {
+    "key": "homeassistant.unavailable"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "Shed temperature"
+     },
+     "value": {
+      "key": "homeassistant.since",
+      "args": {
+       "at": "2026-10-27T18:02:11Z"
+      }
+     },
+     "detail": {
+      "name": "sensor.shed_temperature"
+     }
+    }
+   ]
+  },
+  {
+   "area": "apps",
+   "source": "Paperless-ngx",
+   "title": {
+    "key": "paperless.documents"
+   },
+   "rows": [
+    {
+     "title": {
+      "key": "paperless.documents"
+     },
+     "value": {
+      "key": "number",
+      "args": {
+       "n": 1284
+      }
+     },
+     "detail": {
+      "key": "paperless.inbox",
+      "args": {
+       "n": 4
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "paperless.space"
+     },
+     "value": {
+      "key": "paperless.free",
+      "args": {
+       "n": 412000000000
+      }
+     },
+     "meter": {
+      "used": 88000000000,
+      "total": 500000000000
+     }
+    },
+    {
+     "title": {
+      "key": "paperless.health"
+     },
+     "value": {
+      "key": "paperless.healthy"
+     },
+     "tone": "green"
+    },
+    {
+     "title": {
+      "key": "paperless.version"
+     },
+     "value": {
+      "name": "3.3.4"
+     }
+    }
+   ]
+  },
+  {
+   "area": "apps",
+   "source": "Nextcloud",
+   "title": {
+    "key": "nextcloud.files"
+   },
+   "rows": [
+    {
+     "title": {
+      "key": "nextcloud.files"
+     },
+     "value": {
+      "key": "number",
+      "args": {
+       "n": 48213
+      }
+     },
+     "detail": {
+      "key": "nextcloud.people",
+      "args": {
+       "n": 3,
+       "active": 2
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "nextcloud.shares"
+     },
+     "value": {
+      "key": "number",
+      "args": {
+       "n": 14
+      }
+     },
+     "detail": {
+      "key": "nextcloud.links",
+      "args": {
+       "n": 5,
+       "open": 1
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "nextcloud.free"
+     },
+     "value": {
+      "key": "nextcloud.bytes",
+      "args": {
+       "n": 1730000000000
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "nextcloud.database"
+     },
+     "value": {
+      "key": "nextcloud.bytes",
+      "args": {
+       "n": 412000000
+      }
+     },
+     "detail": {
+      "name": "pgsql"
+     }
+    },
+    {
+     "title": {
+      "key": "nextcloud.version"
+     },
+     "value": {
+      "name": "35.0.2"
+     }
+    }
+   ]
+  },
+  {
+   "area": "servers",
+   "source": "NUT",
+   "title": {
+    "key": "nut.ups"
+   },
+   "rows": [
+    {
+     "title": {
+      "key": "nut.power"
+     },
+     "value": {
+      "key": "nut.on_mains"
+     },
+     "detail": {
+      "key": "nut.model_in",
+      "args": {
+       "model": "Eco 900",
+       "v": 230
+      }
+     },
+     "tone": "green"
+    },
+    {
+     "title": {
+      "key": "nut.battery"
+     },
+     "value": {
+      "key": "percent",
+      "args": {
+       "n": 100
+      }
+     },
+     "detail": {
+      "key": "nut.runtime_low",
+      "args": {
+       "ms": 2280000,
+       "low": 20
+      }
+     },
+     "meter": {
+      "used": 100,
+      "total": 100,
+      "tone": "green"
+     }
+    },
+    {
+     "title": {
+      "key": "nut.drawing"
+     },
+     "value": {
+      "key": "nut.watts",
+      "args": {
+       "n": 74
+      }
+     },
+     "detail": {
+      "key": "nut.load_of",
+      "args": {
+       "n": 14
+      }
+     }
+    }
+   ]
+  },
+  {
+   "area": "network",
+   "source": "UniFi",
+   "title": {
+    "key": "unifi.internet"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "WAN"
+     },
+     "value": {
+      "key": "unifi.up_for",
+      "args": {
+       "ms": 1036800000
+      }
+     },
+     "detail": {
+      "key": "unifi.wan_detail",
+      "args": {
+       "availability": 99.9,
+       "period": 86400000,
+       "latency": 4
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "WAN2"
+     },
+     "value": {
+      "key": "unifi.down"
+     },
+     "detail": {
+      "key": "unifi.down_since_start"
+     },
+     "tone": "gray"
+    },
+    {
+     "title": {
+      "key": "unifi.speed_test"
+     },
+     "value": {
+      "key": "unifi.speed",
+      "args": {
+       "down": 942,
+       "up": 487
+      }
+     },
+     "detail": {
+      "key": "unifi.speed_detail",
+      "args": {
+       "at": "2026-10-28T03:00:00Z",
+       "ping": 5
+      }
+     }
+    }
+   ]
+  },
+  {
+   "area": "network",
+   "source": "UniFi",
+   "title": {
+    "key": "unifi.devices"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "ap-garden"
+     },
+     "value": {
+      "key": "unifi.interrupted"
+     },
+     "detail": {
+      "key": "unifi.device_detail",
+      "args": {
+       "model": "U6 Mesh",
+       "firmware": "6.7.31"
+      }
+     },
+     "tone": "orange"
+    },
+    {
+     "title": {
+      "name": "ap-hall"
+     },
+     "value": {
+      "key": "unifi.up_for",
+      "args": {
+       "ms": 1036200000
+      }
+     },
+     "detail": {
+      "key": "unifi.device_detail",
+      "args": {
+       "model": "U7 Pro",
+       "firmware": "7.1.68"
+      }
+     },
+     "meters": [
+      {
+       "label": {
+        "key": "unifi.cpu_meter"
+       },
+       "used": 4.2,
+       "total": 100
+      },
+      {
+       "label": {
+        "key": "unifi.ram_meter"
+       },
+       "used": 61.3,
+       "total": 100
+      }
+     ]
+    },
+    {
+     "title": {
+      "name": "ap-loft"
+     },
+     "value": {
+      "key": "unifi.up_for",
+      "args": {
+       "ms": 1036300000
+      }
+     },
+     "detail": {
+      "key": "unifi.device_detail",
+      "args": {
+       "model": "U6 Lite",
+       "firmware": "6.7.31"
+      }
+     },
+     "meters": [
+      {
+       "label": {
+        "key": "unifi.cpu_meter"
+       },
+       "used": 2.8,
+       "total": 100
+      },
+      {
+       "label": {
+        "key": "unifi.ram_meter"
+       },
+       "used": 48.9,
+       "total": 100
+      }
+     ]
+    },
+    {
+     "title": {
+      "name": "gateway"
+     },
+     "value": {
+      "key": "unifi.up_for",
+      "args": {
+       "ms": 1036800000
+      }
+     },
+     "detail": {
+      "key": "unifi.device_detail",
+      "args": {
+       "model": "UCG Ultra",
+       "firmware": "4.4.6"
+      }
+     },
+     "meters": [
+      {
+       "label": {
+        "key": "unifi.cpu_meter"
+       },
+       "used": 17.5,
+       "total": 100
+      },
+      {
+       "label": {
+        "key": "unifi.ram_meter"
+       },
+       "used": 64.2,
+       "total": 100
+      }
+     ]
+    },
+    {
+     "title": {
+      "name": "switch-rack"
+     },
+     "value": {
+      "key": "unifi.up_for",
+      "args": {
+       "ms": 1036500000
+      }
+     },
+     "detail": {
+      "key": "unifi.device_detail",
+      "args": {
+       "model": "USW Pro 24 PoE",
+       "firmware": "7.2.123"
+      }
+     },
+     "meters": [
+      {
+       "label": {
+        "key": "unifi.cpu_meter"
+       },
+       "used": 9.1,
+       "total": 100
+      },
+      {
+       "label": {
+        "key": "unifi.ram_meter"
+       },
+       "used": 41.7,
+       "total": 100
+      }
+     ]
+    },
+    {
+     "title": {
+      "name": "switch-study"
+     },
+     "value": {
+      "key": "unifi.up_for",
+      "args": {
+       "ms": 1036400000
+      }
+     },
+     "detail": {
+      "key": "unifi.device_detail",
+      "args": {
+       "model": "USW Flex Mini",
+       "firmware": "2.1.6"
+      }
+     },
+     "meters": [
+      {
+       "label": {
+        "key": "unifi.cpu_meter"
+       },
+       "used": 3.4,
+       "total": 100
+      },
+      {
+       "label": {
+        "key": "unifi.ram_meter"
+       },
+       "used": 52.8,
+       "total": 100
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "area": "network",
+   "source": "Primary DNS",
+   "title": {
+    "key": "resolver.section"
+   },
+   "rows": [
+    {
+     "title": {
+      "key": "resolver.blocking"
+     },
+     "value": {
+      "key": "resolver.on"
+     },
+     "tone": "green"
+    },
+    {
+     "title": {
+      "key": "resolver.lookups"
+     },
+     "value": {
+      "key": "number",
+      "args": {
+       "n": 642318
+      }
+     },
+     "detail": {
+      "key": "resolver.over",
+      "args": {
+       "ms": 604800000
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "resolver.blocked"
+     },
+     "value": {
+      "key": "percent",
+      "args": {
+       "n": 31.4
+      }
+     },
+     "detail": {
+      "key": "resolver.count",
+      "args": {
+       "n": 201688
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "tls://dns.example.net:853"
+     },
+     "value": {
+      "key": "resolver.answers",
+      "args": {
+       "n": 14210,
+       "ms": 16.9
+      }
+     },
+     "detail": {
+      "key": "resolver.upstream"
+     }
+    },
+    {
+     "title": {
+      "name": "tls://resolver.example.org:853"
+     },
+     "value": {
+      "key": "resolver.answers",
+      "args": {
+       "n": 7084,
+       "ms": 18.2
+      }
+     },
+     "detail": {
+      "key": "resolver.upstream"
+     }
+    },
+    {
+     "title": {
+      "key": "adguard.processing"
+     },
+     "value": {
+      "key": "adguard.ms",
+      "args": {
+       "n": 1.4
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "adguard.version"
+     },
+     "value": {
+      "name": "v0.107.79"
+     }
+    }
+   ]
+  },
+  {
+   "area": "network",
+   "source": "Primary DNS",
+   "title": {
+    "key": "resolver.top_clients"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "living-room-tv.lan"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 112480,
+       "share": 17.5
+      }
+     },
+     "detail": {
+      "name": "192.0.2.21"
+     }
+    },
+    {
+     "title": {
+      "name": "media.lan"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 96215,
+       "share": 15.0
+      }
+     },
+     "detail": {
+      "name": "192.0.2.110"
+     }
+    },
+    {
+     "title": {
+      "name": "kims-phone.lan"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 71904,
+       "share": 11.2
+      }
+     },
+     "detail": {
+      "name": "192.0.2.31"
+     }
+    },
+    {
+     "title": {
+      "name": "noors-laptop.lan"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 58377,
+       "share": 9.1
+      }
+     },
+     "detail": {
+      "name": "192.0.2.32"
+     }
+    },
+    {
+     "title": {
+      "name": "home.lan"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 45120,
+       "share": 7.0
+      }
+     },
+     "detail": {
+      "name": "192.0.2.100"
+     }
+    },
+    {
+     "title": {
+      "name": "192.0.2.47"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 21064,
+       "share": 3.3
+      }
+     }
+    }
+   ]
+  },
+  {
+   "area": "network",
+   "source": "Primary DNS",
+   "title": {
+    "key": "resolver.top_domains"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "time.example.com"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 18342,
+       "share": 2.9
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "photos.example.com"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 16107,
+       "share": 2.5
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "updates.example.org"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 12955,
+       "share": 2.0
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "cdn.example.net"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 10418,
+       "share": 1.6
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "api.example.com"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 9870,
+       "share": 1.5
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "weather.example.org"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 5112,
+       "share": 0.8
+      }
+     }
+    }
+   ]
+  },
+  {
+   "area": "network",
+   "source": "Primary DNS",
+   "title": {
+    "key": "resolver.top_blocked"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "ads.example.com"
+     },
+     "value": {
+      "key": "number",
+      "args": {
+       "n": 58120
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "tracker.example.net"
+     },
+     "value": {
+      "key": "number",
+      "args": {
+       "n": 41377
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "telemetry.example.org"
+     },
+     "value": {
+      "key": "number",
+      "args": {
+       "n": 27904
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "metrics.example.com"
+     },
+     "value": {
+      "key": "number",
+      "args": {
+       "n": 19226
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "pixel.example.net"
+     },
+     "value": {
+      "key": "number",
+      "args": {
+       "n": 6013
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "beacon.example.org"
+     },
+     "value": {
+      "key": "number",
+      "args": {
+       "n": 4870
+      }
+     }
+    }
+   ]
+  },
+  {
+   "area": "network",
+   "source": "Kids' DNS",
+   "title": {
+    "key": "resolver.section"
+   },
+   "rows": [
+    {
+     "title": {
+      "key": "resolver.blocking"
+     },
+     "value": {
+      "key": "resolver.on"
+     },
+     "tone": "green"
+    },
+    {
+     "title": {
+      "key": "resolver.lookups"
+     },
+     "value": {
+      "key": "number",
+      "args": {
+       "n": 12420
+      }
+     },
+     "detail": {
+      "key": "resolver.over",
+      "args": {
+       "ms": 86400000
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "resolver.blocked"
+     },
+     "value": {
+      "key": "percent",
+      "args": {
+       "n": 23.8
+      }
+     },
+     "detail": {
+      "key": "resolver.count",
+      "args": {
+       "n": 2954
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "dns.example.net"
+     },
+     "value": {
+      "key": "resolver.answers",
+      "args": {
+       "n": 6610,
+       "ms": 15.2
+      }
+     },
+     "detail": {
+      "key": "resolver.upstream"
+     }
+    },
+    {
+     "title": {
+      "key": "pihole.blocklists"
+     },
+     "value": {
+      "key": "pihole.domains",
+      "args": {
+       "n": 412880
+      }
+     },
+     "detail": {
+      "key": "pihole.updated",
+      "args": {
+       "at": "2026-10-25T03:12:40Z"
+      }
+     }
+    },
+    {
+     "title": {
+      "key": "pihole.warning"
+     },
+     "detail": {
+      "name": "Rate-limiting 192.0.2.61 for at least 47 seconds"
+     },
+     "tone": "orange"
+    },
+    {
+     "title": {
+      "key": "pihole.image"
+     },
+     "value": {
+      "name": "2026.10.0"
+     }
+    }
+   ]
+  },
+  {
+   "area": "network",
+   "source": "Kids' DNS",
+   "title": {
+    "key": "resolver.top_clients"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "kids-tablet"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 5210,
+       "share": 41.9
+      }
+     },
+     "detail": {
+      "name": "192.0.2.61"
+     }
+    },
+    {
+     "title": {
+      "name": "games-console"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 4380,
+       "share": 35.3
+      }
+     },
+     "detail": {
+      "name": "192.0.2.62"
+     }
+    },
+    {
+     "title": {
+      "name": "homework-laptop"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 2830,
+       "share": 22.8
+      }
+     },
+     "detail": {
+      "name": "192.0.2.63"
+     }
+    }
+   ]
+  },
+  {
+   "area": "network",
+   "source": "Kids' DNS",
+   "title": {
+    "key": "resolver.top_domains"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "videos.example.com"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 3120,
+       "share": 25.1
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "games.example.net"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 2410,
+       "share": 19.4
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "school.example.org"
+     },
+     "value": {
+      "key": "resolver.share",
+      "args": {
+       "n": 1180,
+       "share": 9.5
+      }
+     }
+    }
+   ]
+  },
+  {
+   "area": "network",
+   "source": "Kids' DNS",
+   "title": {
+    "key": "resolver.top_blocked"
+   },
+   "rows": [
+    {
+     "title": {
+      "name": "ads.example.com"
+     },
+     "value": {
+      "key": "number",
+      "args": {
+       "n": 1420
+      }
+     }
+    },
+    {
+     "title": {
+      "name": "chat.example.net"
+     },
+     "value": {
+      "key": "number",
+      "args": {
+       "n": 860
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "charts": [
+  {
+   "area": "network",
+   "title": {
+    "key": "resolver.lookups_per_hour"
+   },
+   "series": [
+    {
+     "label": {
+      "key": "resolver.lookups"
+     },
+     "hours": [
+      2556,
+      2122,
+      1595,
+      1389,
+      1509,
+      1608,
+      2181,
+      3538,
+      4752,
+      4021,
+      3563,
+      3623,
+      3736,
+      3670,
+      3286,
+      3943,
+      4516,
+      4931,
+      5379,
+      5611,
+      5720,
+      4965,
+      3855,
+      2402,
+      2732,
+      2322,
+      1739,
+      1675,
+      1542,
+      1573,
+      2330,
+      4059,
+      4677,
+      4626,
+      4265,
+      3900,
+      4259,
+      4280,
+      3974,
+      4098,
+      4681,
+      5388,
+      5853,
+      6474,
+      5520,
+      5350,
+      3923,
+      2617,
+      2966,
+      1968,
+      1726,
+      1571,
+      1481,
+      1714,
+      2411,
+      3649,
+      4245,
+      4645,
+      3837,
+      3712,
+      3897,
+      3688,
+      3440,
+      3681,
+      4575,
+      5035,
+      5683,
+      6184,
+      5137,
+      5043,
+      3695,
+      2748,
+      3126,
+      2256,
+      1814,
+      1662,
+      1696,
+      1869,
+      2587,
+      3825,
+      4837,
+      4739,
+      4066,
+      4235,
+      4239,
+      4182,
+      3928,
+      4187,
+      5005,
+      5894,
+      6319,
+      6583,
+      5780,
+      5071,
+      4116,
+      2949,
+      3212,
+      2234,
+      1884,
+      1624,
+      1624,
+      1921,
+      2682,
+      3775,
+      5376,
+      4922,
+      4378,
+      3937,
+      4220,
+      4047,
+      4365,
+      4321,
+      4637,
+      6126,
+      6342,
+      6589,
+      6075,
+      5172,
+      4031,
+      3072,
+      2995,
+      2128,
+      1813,
+      1686,
+      1412,
+      1797,
+      2250,
+      3651,
+      4383,
+      4195,
+      3789,
+      3729,
+      4138,
+      4049,
+      3752,
+      4151,
+      4874,
+      5082,
+      5668,
+      6252,
+      5369,
+      4582,
+      4181,
+      2682,
+      3120,
+      2410,
+      1980,
+      1760,
+      1690,
+      1840,
+      2650,
+      4120,
+      5210,
+      4870,
+      4430,
+      4290,
+      4610,
+      4380,
+      4150,
+      4420,
+      5030,
+      5880,
+      6410,
+      6820,
+      6230,
+      5470,
+      4390,
+      2960
+     ]
+    },
+    {
+     "label": {
+      "key": "resolver.blocked"
+     },
+     "hours": [
+      768,
+      690,
+      466,
+      417,
+      424,
+      491,
+      645,
+      1119,
+      1641,
+      1356,
+      1162,
+      1158,
+      1286,
+      1036,
+      1157,
+      1111,
+      1562,
+      1536,
+      1776,
+      1989,
+      1547,
+      1468,
+      1074,
+      709,
+      792,
+      757,
+      595,
+      487,
+      468,
+      437,
+      640,
+      1144,
+      1277,
+      1584,
+      1252,
+      1281,
+      1430,
+      1236,
+      1224,
+      1325,
+      1441,
+      1739,
+      1605,
+      2227,
+      1964,
+      1891,
+      1327,
+      838,
+      850,
+      545,
+      529,
+      448,
+      477,
+      601,
+      703,
+      1166,
+      1220,
+      1642,
+      1249,
+      1191,
+      1220,
+      1063,
+      1208,
+      1143,
+      1614,
+      1693,
+      1971,
+      1832,
+      1668,
+      1619,
+      1011,
+      944,
+      918,
+      688,
+      487,
+      501,
+      469,
+      546,
+      883,
+      1087,
+      1607,
+      1396,
+      1314,
+      1441,
+      1227,
+      1172,
+      1377,
+      1242,
+      1686,
+      1709,
+      2234,
+      2307,
+      1661,
+      1736,
+      1170,
+      1010,
+      870,
+      664,
+      505,
+      558,
+      476,
+      611,
+      904,
+      1097,
+      1771,
+      1604,
+      1397,
+      1151,
+      1263,
+      1282,
+      1484,
+      1204,
+      1529,
+      1682,
+      1843,
+      1794,
+      1682,
+      1683,
+      1425,
+      1060,
+      945,
+      754,
+      485,
+      496,
+      379,
+      570,
+      785,
+      1084,
+      1382,
+      1234,
+      1130,
+      1032,
+      1336,
+      1357,
+      1288,
+      1415,
+      1603,
+      1600,
+      1949,
+      2052,
+      1771,
+      1450,
+      1465,
+      869,
+      874,
+      679,
+      641,
+      503,
+      476,
+      574,
+      815,
+      1192,
+      1590,
+      1684,
+      1248,
+      1231,
+      1256,
+      1277,
+      1156,
+      1585,
+      1500,
+      2111,
+      1805,
+      2396,
+      1966,
+      1817,
+      1447,
+      871
+     ]
+    }
+   ],
+   "adds": true,
+   "source": "Primary DNS"
+  },
+  {
+   "area": "network",
+   "source": "Kids' DNS",
+   "title": {
+    "key": "resolver.lookups_per_hour"
+   },
+   "adds": true,
+   "series": [
+    {
+     "label": {
+      "key": "resolver.lookups"
+     },
+     "hours": [
+      310,
+      220,
+      140,
+      90,
+      60,
+      50,
+      80,
+      260,
+      520,
+      610,
+      480,
+      350,
+      390,
+      420,
+      560,
+      880,
+      1240,
+      1460,
+      1390,
+      1100,
+      720,
+      460,
+      330,
+      280
+     ]
+    },
+    {
+     "label": {
+      "key": "resolver.blocked"
+     },
+     "hours": [
+      60,
+      41,
+      25,
+      14,
+      9,
+      8,
+      13,
+      52,
+      118,
+      140,
+      104,
+      72,
+      81,
+      90,
+      131,
+      214,
+      302,
+      355,
+      330,
+      256,
+      160,
+      98,
+      70,
+      61
+     ]
+    }
+   ]
+  },
+  {
+   "area": "servers",
+   "title": {
+    "key": "chart.processor"
+   },
+   "series": [
+    {
+     "label": {
+      "name": "pve"
+     },
+     "hours": [
+      8.2,
+      8.9,
+      9.8,
+      9.7,
+      9.8,
+      10.0,
+      9.7,
+      9.0,
+      8.5,
+      8.1,
+      6.7,
+      5.9,
+      5.0,
+      4.5,
+      28.9,
+      4.4,
+      3.7,
+      4.4,
+      3.9,
+      5.2,
+      5.4,
+      6.4,
+      7.2,
+      7.6,
+      8.3,
+      9.4,
+      9.4,
+      9.6,
+      10.4,
+      10.2,
+      9.5,
+      9.2,
+      9.0,
+      7.6,
+      6.6,
+      6.1,
+      5.1,
+      4.6,
+      28.8,
+      4.2,
+      4.1,
+      3.8,
+      4.2,
+      4.5,
+      5.9,
+      6.5,
+      7.2,
+      7.5,
+      8.3,
+      9.5,
+      9.4,
+      10.2,
+      10.1,
+      9.6,
+      9.4,
+      9.6,
+      8.4,
+      8.0,
+      7.2,
+      6.1,
+      5.4,
+      5.1,
+      29.5,
+      4.0,
+      3.9,
+      3.9,
+      4.2,
+      4.9,
+      5.2,
+      6.5,
+      6.8,
+      7.6,
+      9.0,
+      8.8,
+      9.6,
+      10.1,
+      10.1,
+      10.4,
+      9.9,
+      9.2,
+      8.1,
+      8.3,
+      6.9,
+      6.1,
+      5.2,
+      4.5,
+      28.9,
+      3.6,
+      4.0,
+      3.8,
+      4.3,
+      4.9,
+      5.0,
+      6.4,
+      6.7,
+      8.1,
+      8.9,
+      9.2,
+      9.6,
+      10.0,
+      10.5,
+      10.5,
+      9.9,
+      9.1,
+      8.5,
+      8.0,
+      6.8,
+      6.5,
+      5.3,
+      4.8,
+      29.3,
+      4.0,
+      4.2,
+      4.3,
+      4.5,
+      4.9,
+      5.3,
+      6.1,
+      7.0,
+      8.1,
+      8.8,
+      8.8,
+      9.5,
+      9.6,
+      10.0,
+      10.4,
+      9.8,
+      8.8,
+      8.8,
+      7.9,
+      7.0,
+      5.7,
+      5.0,
+      4.4,
+      29.6,
+      3.9,
+      3.4,
+      4.3,
+      4.3,
+      4.6,
+      5.3,
+      5.9,
+      6.6,
+      8.1,
+      8.9,
+      9.1,
+      9.8,
+      10.4,
+      9.7,
+      10.5,
+      9.4,
+      9.1,
+      8.2,
+      7.5,
+      6.7,
+      6.0,
+      5.4,
+      4.9,
+      29.3,
+      4.2,
+      4.3,
+      3.7,
+      4.1,
+      4.9,
+      5.1,
+      5.7,
+      7.3,
+      7.8
+     ]
+    }
+   ],
+   "measures": true,
+   "source": "Proxmox"
+  },
+  {
+   "area": "servers",
+   "title": {
+    "key": "chart.memory"
+   },
+   "series": [
+    {
+     "label": {
+      "name": "pve"
+     },
+     "hours": [
+      68.9,
+      70.0,
+      70.2,
+      70.7,
+      70.6,
+      70.8,
+      70.3,
+      69.9,
+      69.5,
+      68.4,
+      67.2,
+      66.1,
+      65.4,
+      63.8,
+      68.1,
+      62.7,
+      63.4,
+      63.1,
+      63.8,
+      64.7,
+      64.4,
+      65.7,
+      66.5,
+      67.8,
+      68.7,
+      70.0,
+      70.9,
+      70.6,
+      70.9,
+      70.4,
+      70.0,
+      69.4,
+      68.5,
+      68.5,
+      66.8,
+      66.2,
+      65.3,
+      63.8,
+      67.5,
+      63.3,
+      62.9,
+      63.3,
+      63.0,
+      64.6,
+      65.6,
+      66.5,
+      67.4,
+      68.2,
+      68.7,
+      69.4,
+      70.4,
+      70.5,
+      71.2,
+      71.4,
+      70.2,
+      69.9,
+      68.7,
+      68.6,
+      67.2,
+      66.1,
+      65.0,
+      63.8,
+      68.1,
+      63.1,
+      63.5,
+      63.4,
+      64.0,
+      63.9,
+      65.2,
+      66.1,
+      66.5,
+      68.5,
+      68.8,
+      69.7,
+      69.9,
+      70.7,
+      70.5,
+      70.6,
+      70.9,
+      69.5,
+      69.3,
+      67.8,
+      67.2,
+      66.3,
+      64.7,
+      63.7,
+      68.0,
+      62.9,
+      63.3,
+      62.8,
+      64.1,
+      64.7,
+      64.7,
+      66.4,
+      66.6,
+      68.5,
+      68.5,
+      69.6,
+      69.9,
+      71.3,
+      70.8,
+      71.0,
+      70.8,
+      69.6,
+      69.2,
+      68.2,
+      67.1,
+      65.7,
+      64.8,
+      64.2,
+      67.9,
+      62.7,
+      63.2,
+      62.6,
+      63.2,
+      63.6,
+      64.5,
+      66.1,
+      67.6,
+      68.5,
+      69.1,
+      70.4,
+      69.9,
+      70.6,
+      70.4,
+      71.0,
+      71.0,
+      69.6,
+      69.1,
+      67.8,
+      66.8,
+      65.5,
+      65.1,
+      64.5,
+      67.9,
+      63.5,
+      63.2,
+      63.2,
+      64.0,
+      64.4,
+      65.2,
+      66.0,
+      67.5,
+      68.2,
+      69.5,
+      69.9,
+      70.1,
+      70.9,
+      71.5,
+      70.4,
+      71.0,
+      70.0,
+      68.9,
+      67.9,
+      67.1,
+      66.4,
+      65.0,
+      63.7,
+      67.4,
+      62.6,
+      63.2,
+      63.5,
+      63.4,
+      64.7,
+      65.5,
+      66.3,
+      67.3,
+      67.6
+     ]
+    }
+   ],
+   "measures": true,
+   "source": "Proxmox"
+  },
+  {
+   "area": "servers",
+   "source": "Beszel",
+   "title": {
+    "key": "chart.processor"
+   },
+   "series": [
+    {
+     "label": {
+      "name": "media"
+     },
+     "hours": [
+      7.4,
+      9.9,
+      14.2,
+      13.8,
+      16.4,
+      19.0,
+      18.5,
+      21.9,
+      23.5,
+      24.8,
+      20.3,
+      20.6,
+      17.9,
+      20.4,
+      17.5,
+      11.3,
+      14.6,
+      12.3,
+      8.6,
+      6.9,
+      3.3,
+      2.1,
+      5.5,
+      3.6,
+      5.8,
+      8.0,
+      8.9,
+      13.8,
+      16.0,
+      20.6,
+      20.5,
+      22.6,
+      22.7,
+      24.0,
+      22.4,
+      20.5,
+      23.3,
+      21.5,
+      18.4,
+      15.2,
+      10.6,
+      7.9,
+      6.4,
+      3.6,
+      6.9,
+      4.4,
+      7.4,
+      5.5,
+      10.4,
+      11.6,
+      8.7,
+      12.3,
+      18.8,
+      18.3,
+      23.2,
+      21.2,
+      20.1,
+      23.8,
+      24.4,
+      20.4,
+      17.9,
+      17.5,
+      19.1,
+      15.5,
+      9.4,
+      8.0,
+      5.2,
+      3.6,
+      7.1,
+      3.1,
+      5.7,
+      5.9,
+      5.8,
+      10.9,
+      9.5,
+      14.9,
+      14.0,
+      18.0,
+      18.6,
+      20.4,
+      25.5,
+      24.8,
+      21.5,
+      24.1,
+      18.6,
+      17.9,
+      18.5,
+      14.9,
+      9.3,
+      12.4,
+      5.9,
+      4.8,
+      6.9,
+      4.0,
+      4.1,
+      3.6,
+      5.2,
+      10.0,
+      10.1,
+      14.6,
+      15.6,
+      18.2,
+      23.1,
+      21.7,
+      23.1,
+      25.2,
+      20.8,
+      19.7,
+      22.8,
+      20.4,
+      14.8,
+      12.1,
+      13.1,
+      12.1,
+      5.8,
+      8.9,
+      7.6,
+      5.6,
+      4.8,
+      3.8,
+      4.9,
+      12.3,
+      10.1,
+      15.2,
+      14.9,
+      20.4,
+      20.9,
+      20.6,
+      20.7,
+      24.3,
+      20.1,
+      20.2,
+      20.7,
+      20.6,
+      17.0,
+      12.7,
+      14.2,
+      7.7,
+      4.7,
+      4.8,
+      5.0,
+      2.4,
+      3.4,
+      5.4,
+      8.1,
+      7.3,
+      10.8,
+      16.3,
+      19.2,
+      19.4,
+      21.5,
+      22.3,
+      20.5,
+      20.2,
+      19.8,
+      24.3,
+      21.6,
+      21.3,
+      13.5,
+      14.8,
+      11.6,
+      10.9,
+      6.5,
+      9.2,
+      2.8,
+      5.3,
+      6.7,
+      8.6
+     ]
+    },
+    {
+     "label": {
+      "name": "nas"
+     },
+     "hours": [
+      4.3,
+      4.6,
+      6.3,
+      6.2,
+      6.2,
+      7.1,
+      9.2,
+      9.8,
+      8.0,
+      10.1,
+      10.3,
+      8.7,
+      8.3,
+      6.6,
+      6.9,
+      6.0,
+      5.5,
+      3.1,
+      5.3,
+      3.4,
+      2.8,
+      3.9,
+      3.3,
+      3.4,
+      4.5,
+      3.2,
+      5.3,
+      5.7,
+      8.1,
+      8.8,
+      7.4,
+      8.5,
+      7.8,
+      8.8,
+      9.8,
+      9.8,
+      8.1,
+      7.0,
+      5.9,
+      6.4,
+      6.5,
+      3.4,
+      4.7,
+      2.0,
+      2.2,
+      2.2,
+      3.7,
+      2.9,
+      3.4,
+      4.9,
+      4.0,
+      6.7,
+      5.6,
+      7.5,
+      7.4,
+      7.7,
+      9.0,
+      8.8,
+      8.5,
+      8.3,
+      8.2,
+      6.5,
+      5.9,
+      6.4,
+      5.6,
+      4.6,
+      4.9,
+      3.7,
+      4.2,
+      2.2,
+      3.8,
+      4.3,
+      5.1,
+      3.9,
+      4.7,
+      7.3,
+      5.9,
+      9.0,
+      9.3,
+      7.5,
+      8.1,
+      9.7,
+      8.2,
+      7.4,
+      9.1,
+      7.3,
+      7.6,
+      4.9,
+      4.9,
+      5.1,
+      2.4,
+      2.5,
+      3.6,
+      4.2,
+      4.5,
+      2.2,
+      3.9,
+      5.3,
+      5.2,
+      6.6,
+      5.8,
+      6.2,
+      6.9,
+      7.2,
+      9.1,
+      9.0,
+      9.1,
+      7.5,
+      7.2,
+      6.6,
+      7.8,
+      7.5,
+      6.5,
+      3.3,
+      2.6,
+      4.8,
+      3.0,
+      3.8,
+      2.6,
+      3.3,
+      3.9,
+      4.3,
+      5.5,
+      4.5,
+      7.4,
+      8.5,
+      7.2,
+      8.5,
+      9.6,
+      8.7,
+      8.0,
+      7.6,
+      8.2,
+      6.0,
+      8.0,
+      6.9,
+      5.8,
+      5.6,
+      4.3,
+      3.1,
+      3.4,
+      3.0,
+      4.6,
+      4.3,
+      3.2,
+      5.7,
+      6.0,
+      6.8,
+      7.7,
+      7.2,
+      9.3,
+      9.7,
+      9.5,
+      9.8,
+      9.7,
+      8.3,
+      8.8,
+      6.2,
+      6.3,
+      5.9,
+      3.8,
+      4.1,
+      4.3,
+      3.8,
+      2.3,
+      4.3,
+      3.6,
+      2.9
+     ]
+    },
+    {
+     "label": {
+      "name": "vps"
+     },
+     "hours": [
+      2.8,
+      3.1,
+      3.4,
+      2.9,
+      4.0,
+      3.4,
+      3.7,
+      4.1,
+      5.3,
+      5.3,
+      3.9,
+      4.0,
+      3.8,
+      3.5,
+      3.2,
+      2.8,
+      2.0,
+      2.4,
+      2.5,
+      1.8,
+      2.2,
+      1.6,
+      0.9,
+      2.2,
+      2.7,
+      1.8,
+      1.7,
+      3.0,
+      3.5,
+      3.9,
+      5.0,
+      4.6,
+      5.1,
+      3.6,
+      4.5,
+      4.9,
+      3.2,
+      2.9,
+      3.9,
+      3.8,
+      1.8,
+      2.5,
+      1.2,
+      2.2,
+      1.8,
+      1.0,
+      1.0,
+      2.2,
+      2.0,
+      2.8,
+      2.4,
+      2.7,
+      4.3,
+      4.1,
+      4.0,
+      4.4,
+      4.9,
+      4.9,
+      5.3,
+      4.1,
+      4.7,
+      4.1,
+      4.1,
+      3.6,
+      3.3,
+      3.0,
+      2.9,
+      2.0,
+      1.6,
+      1.9,
+      2.2,
+      1.5,
+      1.8,
+      1.5,
+      3.1,
+      4.0,
+      3.1,
+      3.1,
+      3.5,
+      4.1,
+      4.0,
+      5.4,
+      3.6,
+      3.9,
+      3.3,
+      4.0,
+      3.9,
+      2.4,
+      1.7,
+      2.2,
+      2.1,
+      2.5,
+      0.6,
+      0.7,
+      0.9,
+      1.1,
+      1.4,
+      2.7,
+      2.8,
+      2.4,
+      2.8,
+      3.3,
+      3.4,
+      4.8,
+      4.1,
+      4.6,
+      5.1,
+      4.3,
+      3.6,
+      4.5,
+      4.2,
+      2.7,
+      2.7,
+      3.2,
+      1.9,
+      1.1,
+      0.7,
+      2.4,
+      2.2,
+      1.5,
+      2.0,
+      2.3,
+      2.2,
+      4.0,
+      3.7,
+      3.2,
+      3.1,
+      4.2,
+      4.2,
+      5.1,
+      4.9,
+      4.5,
+      3.4,
+      3.1,
+      3.0,
+      2.5,
+      3.4,
+      2.3,
+      2.2,
+      2.7,
+      1.1,
+      1.6,
+      0.9,
+      2.2,
+      0.9,
+      2.9,
+      3.3,
+      3.6,
+      2.6,
+      3.3,
+      4.5,
+      3.5,
+      4.4,
+      4.4,
+      5.4,
+      4.5,
+      4.8,
+      3.4,
+      4.0,
+      2.8,
+      3.4,
+      1.4,
+      2.6,
+      1.1,
+      1.6,
+      1.6,
+      0.9,
+      2.4
+     ]
+    }
+   ],
+   "measures": true
+  },
+  {
+   "area": "servers",
+   "source": "Beszel",
+   "title": {
+    "key": "chart.memory"
+   },
+   "series": [
+    {
+     "label": {
+      "name": "media"
+     },
+     "hours": [
+      57.7,
+      58.8,
+      60.6,
+      62.7,
+      62.0,
+      64.7,
+      66.8,
+      67.7,
+      66.5,
+      68.2,
+      68.2,
+      66.5,
+      65.7,
+      63.5,
+      62.9,
+      61.4,
+      57.8,
+      58.6,
+      58.7,
+      57.3,
+      56.1,
+      54.6,
+      56.1,
+      56.1,
+      56.5,
+      59.4,
+      57.8,
+      62.0,
+      60.7,
+      64.4,
+      65.2,
+      65.1,
+      67.6,
+      67.0,
+      67.3,
+      67.9,
+      64.3,
+      62.0,
+      61.8,
+      61.7,
+      58.3,
+      56.7,
+      58.4,
+      56.4,
+      55.0,
+      56.6,
+      54.5,
+      56.5,
+      55.6,
+      57.7,
+      60.7,
+      62.7,
+      64.1,
+      63.5,
+      65.6,
+      65.5,
+      65.3,
+      67.0,
+      68.1,
+      67.6,
+      66.1,
+      65.8,
+      61.7,
+      59.7,
+      59.2,
+      57.1,
+      55.6,
+      55.5,
+      55.7,
+      55.0,
+      54.5,
+      57.2,
+      58.7,
+      57.8,
+      57.7,
+      59.1,
+      64.0,
+      62.2,
+      66.1,
+      66.5,
+      66.0,
+      68.2,
+      64.9,
+      64.7,
+      65.1,
+      62.1,
+      63.9,
+      59.9,
+      58.0,
+      56.2,
+      57.3,
+      55.6,
+      55.7,
+      55.6,
+      56.4,
+      57.6,
+      57.5,
+      56.8,
+      59.3,
+      59.7,
+      60.6,
+      63.9,
+      66.1,
+      64.9,
+      65.9,
+      66.4,
+      67.6,
+      66.3,
+      65.7,
+      65.0,
+      62.1,
+      62.2,
+      61.1,
+      56.3,
+      58.5,
+      56.7,
+      53.7,
+      54.8,
+      55.7,
+      57.4,
+      56.3,
+      58.3,
+      61.0,
+      62.2,
+      64.3,
+      63.9,
+      65.8,
+      65.0,
+      67.7,
+      68.3,
+      67.4,
+      67.1,
+      64.1,
+      65.6,
+      64.5,
+      62.9,
+      59.6,
+      59.2,
+      56.0,
+      57.4,
+      56.6,
+      54.4,
+      53.5,
+      55.6,
+      57.0,
+      59.1,
+      59.4,
+      59.1,
+      63.8,
+      62.3,
+      66.4,
+      64.9,
+      66.1,
+      68.2,
+      65.4,
+      64.8,
+      65.3,
+      64.9,
+      63.9,
+      61.8,
+      61.2,
+      58.0,
+      58.6,
+      54.1,
+      54.1,
+      55.1,
+      54.4,
+      56.7
+     ]
+    },
+    {
+     "label": {
+      "name": "nas"
+     },
+     "hours": [
+      35.7,
+      36.2,
+      37.1,
+      37.7,
+      40.5,
+      40.4,
+      41.4,
+      42.2,
+      43.3,
+      40.6,
+      42.2,
+      42.2,
+      40.1,
+      39.7,
+      37.7,
+      37.1,
+      36.6,
+      34.8,
+      34.4,
+      35.8,
+      34.3,
+      34.0,
+      35.5,
+      34.7,
+      36.7,
+      36.4,
+      37.9,
+      36.7,
+      39.3,
+      40.8,
+      39.5,
+      42.8,
+      40.8,
+      41.9,
+      40.9,
+      41.5,
+      41.2,
+      38.7,
+      40.4,
+      37.8,
+      37.0,
+      36.3,
+      34.8,
+      33.9,
+      34.6,
+      34.2,
+      33.5,
+      35.2,
+      34.6,
+      34.5,
+      36.2,
+      36.6,
+      38.0,
+      40.8,
+      40.5,
+      42.7,
+      42.6,
+      40.7,
+      43.3,
+      42.8,
+      39.5,
+      41.2,
+      38.8,
+      37.9,
+      38.4,
+      35.2,
+      35.2,
+      35.8,
+      34.8,
+      33.9,
+      35.6,
+      35.5,
+      35.5,
+      34.8,
+      37.3,
+      37.9,
+      38.1,
+      38.7,
+      40.9,
+      40.3,
+      41.7,
+      42.5,
+      41.7,
+      40.8,
+      41.1,
+      39.8,
+      39.9,
+      38.1,
+      38.5,
+      37.4,
+      35.9,
+      33.8,
+      33.0,
+      35.2,
+      35.0,
+      34.9,
+      34.7,
+      35.3,
+      37.5,
+      38.2,
+      39.3,
+      40.4,
+      41.6,
+      40.5,
+      41.1,
+      43.4,
+      43.1,
+      42.6,
+      39.4,
+      38.7,
+      38.3,
+      37.8,
+      37.3,
+      34.8,
+      35.3,
+      33.3,
+      32.9,
+      34.5,
+      34.3,
+      34.9,
+      34.8,
+      35.9,
+      36.1,
+      37.5,
+      39.8,
+      41.0,
+      39.6,
+      40.3,
+      42.8,
+      42.4,
+      42.7,
+      40.6,
+      40.6,
+      39.3,
+      40.0,
+      37.6,
+      37.4,
+      37.5,
+      34.6,
+      34.7,
+      34.9,
+      35.3,
+      33.9,
+      34.1,
+      34.0,
+      37.1,
+      35.7,
+      36.7,
+      39.2,
+      40.0,
+      41.4,
+      40.9,
+      42.7,
+      40.7,
+      41.0,
+      42.0,
+      39.6,
+      39.4,
+      39.7,
+      38.6,
+      36.3,
+      34.9,
+      34.7,
+      35.2,
+      33.7,
+      32.9,
+      34.8,
+      34.7
+     ]
+    },
+    {
+     "label": {
+      "name": "vps"
+     },
+     "hours": [
+      45.2,
+      45.6,
+      45.6,
+      46.6,
+      47.5,
+      48.4,
+      48.1,
+      49.1,
+      48.1,
+      48.8,
+      48.9,
+      49.7,
+      49.1,
+      48.3,
+      46.5,
+      46.8,
+      46.9,
+      45.5,
+      45.7,
+      45.2,
+      44.1,
+      46.0,
+      45.7,
+      44.7,
+      45.8,
+      45.6,
+      46.2,
+      47.1,
+      47.1,
+      47.7,
+      48.2,
+      49.1,
+      48.4,
+      48.4,
+      49.4,
+      48.4,
+      49.3,
+      48.1,
+      48.0,
+      46.7,
+      47.1,
+      45.2,
+      44.9,
+      44.5,
+      45.4,
+      45.4,
+      44.4,
+      45.1,
+      46.3,
+      46.2,
+      45.7,
+      46.5,
+      46.8,
+      47.2,
+      48.2,
+      47.9,
+      49.8,
+      48.9,
+      49.0,
+      49.0,
+      48.9,
+      48.6,
+      47.3,
+      46.7,
+      46.3,
+      45.0,
+      45.4,
+      45.7,
+      46.0,
+      45.6,
+      45.4,
+      45.5,
+      44.6,
+      45.7,
+      46.2,
+      47.3,
+      46.7,
+      47.8,
+      48.4,
+      49.3,
+      49.6,
+      49.2,
+      48.2,
+      49.3,
+      49.2,
+      48.1,
+      47.2,
+      47.0,
+      45.8,
+      46.4,
+      46.6,
+      45.3,
+      45.5,
+      45.7,
+      44.5,
+      46.2,
+      45.8,
+      45.4,
+      45.6,
+      46.5,
+      47.7,
+      48.4,
+      48.1,
+      49.6,
+      48.7,
+      48.9,
+      48.2,
+      49.7,
+      47.7,
+      48.8,
+      47.6,
+      47.1,
+      46.6,
+      45.5,
+      46.4,
+      46.3,
+      45.7,
+      45.2,
+      44.3,
+      45.9,
+      45.2,
+      46.8,
+      46.0,
+      47.1,
+      48.2,
+      47.4,
+      48.5,
+      47.9,
+      48.0,
+      48.4,
+      49.9,
+      49.6,
+      48.7,
+      47.6,
+      47.9,
+      47.5,
+      46.2,
+      46.2,
+      46.2,
+      44.3,
+      44.5,
+      44.9,
+      44.4,
+      45.0,
+      45.7,
+      45.3,
+      46.5,
+      46.5,
+      47.7,
+      47.7,
+      48.7,
+      47.8,
+      49.3,
+      48.3,
+      49.9,
+      48.9,
+      48.4,
+      47.8,
+      47.8,
+      47.4,
+      47.0,
+      46.5,
+      45.6,
+      46.3,
+      45.7,
+      45.7,
+      44.9,
+      45.1
+     ]
+    }
+   ],
+   "measures": true
+  }
+ ],
+ "figures": [
+  {
+   "area": "apps",
+   "source": "Immich",
+   "icon": "photos",
+   "label": {
+    "key": "immich.photos"
+   },
+   "value": 26225,
+   "detail": {
+    "key": "immich.this_week",
+    "args": {
+     "n": 53
+    }
+   },
+   "shares": [
+    {
+     "label": {
+      "name": "Kim"
+     },
+     "value": 104183526912,
+     "rows": [
+      {
+       "title": {
+        "key": "immich.photos"
+       },
+       "value": {
+        "key": "number",
+        "args": {
+         "n": 9214
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "immich.videos_title"
+       },
+       "value": {
+        "key": "number",
+        "args": {
+         "n": 402
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "immich.space"
+       },
+       "value": {
+        "key": "immich.bytes",
+        "args": {
+         "n": 104183526912
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "immich.week"
+       },
+       "value": {
+        "key": "immich.plus",
+        "args": {
+         "n": 12
+        }
+       }
+      }
+     ]
+    },
+    {
+     "label": {
+      "name": "Noor"
+     },
+     "value": 131459047424,
+     "rows": [
+      {
+       "title": {
+        "key": "immich.photos"
+       },
+       "value": {
+        "key": "number",
+        "args": {
+         "n": 15873
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "immich.videos_title"
+       },
+       "value": {
+        "key": "number",
+        "args": {
+         "n": 736
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "immich.space"
+       },
+       "value": {
+        "key": "immich.bytes",
+        "args": {
+         "n": 131459047424
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "immich.week"
+       },
+       "value": {
+        "key": "immich.plus",
+        "args": {
+         "n": 41
+        }
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "area": "storage",
+   "source": "Backup Server",
+   "icon": "archive",
+   "label": {
+    "key": "pbs.backups"
+   },
+   "value": 6,
+   "unit": {
+    "key": "pbs.of_guests",
+    "args": {
+     "n": 6
+    }
+   },
+   "detail": {
+    "key": "pbs.when",
+    "args": {
+     "at": "2026-10-28T00:30:00Z"
+    }
+   },
+   "shares": [
+    {
+     "label": {
+      "name": "home"
+     },
+     "value": 1,
+     "tone": "blue",
+     "rows": [
+      {
+       "title": {
+        "key": "pbs.in_night"
+       },
+       "value": {
+        "key": "pbs.when",
+        "args": {
+         "at": "2026-10-28T00:30:00Z"
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "pbs.size"
+       },
+       "value": {
+        "key": "pbs.bytes",
+        "args": {
+         "n": 34359738368
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "pbs.check"
+       },
+       "value": {
+        "key": "pbs.check_ok"
+       }
+      }
+     ]
+    },
+    {
+     "label": {
+      "name": "media"
+     },
+     "value": 1,
+     "tone": "blue",
+     "rows": [
+      {
+       "title": {
+        "key": "pbs.in_night"
+       },
+       "value": {
+        "key": "pbs.when",
+        "args": {
+         "at": "2026-10-28T00:33:21Z"
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "pbs.size"
+       },
+       "value": {
+        "key": "pbs.bytes",
+        "args": {
+         "n": 21474836480
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "pbs.check"
+       },
+       "value": {
+        "key": "pbs.check_ok"
+       }
+      }
+     ]
+    },
+    {
+     "label": {
+      "name": "photos"
+     },
+     "value": 1,
+     "tone": "blue",
+     "rows": [
+      {
+       "title": {
+        "key": "pbs.in_night"
+       },
+       "value": {
+        "key": "pbs.when",
+        "args": {
+         "at": "2026-10-28T00:35:35Z"
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "pbs.size"
+       },
+       "value": {
+        "key": "pbs.bytes",
+        "args": {
+         "n": 42949672960
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "pbs.check"
+       },
+       "value": {
+        "key": "pbs.check_none"
+       }
+      }
+     ]
+    },
+    {
+     "label": {
+      "name": "dns-primary"
+     },
+     "value": 1,
+     "tone": "blue",
+     "rows": [
+      {
+       "title": {
+        "key": "pbs.in_night"
+       },
+       "value": {
+        "key": "pbs.when",
+        "args": {
+         "at": "2026-10-28T00:39:03Z"
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "pbs.size"
+       },
+       "value": {
+        "key": "pbs.bytes",
+        "args": {
+         "n": 1073741824
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "pbs.check"
+       },
+       "value": {
+        "key": "pbs.check_ok"
+       }
+      }
+     ]
+    },
+    {
+     "label": {
+      "name": "dns-standby"
+     },
+     "value": 1,
+     "tone": "blue",
+     "rows": [
+      {
+       "title": {
+        "key": "pbs.in_night"
+       },
+       "value": {
+        "key": "pbs.when",
+        "args": {
+         "at": "2026-10-28T00:39:03Z"
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "pbs.size"
+       },
+       "value": {
+        "key": "pbs.bytes",
+        "args": {
+         "n": 1073741824
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "pbs.check"
+       },
+       "value": {
+        "key": "pbs.check_ok"
+       }
+      }
+     ]
+    },
+    {
+     "label": {
+      "name": "status"
+     },
+     "value": 1,
+     "tone": "blue",
+     "rows": [
+      {
+       "title": {
+        "key": "pbs.in_night"
+       },
+       "value": {
+        "key": "pbs.when",
+        "args": {
+         "at": "2026-10-28T00:40:10Z"
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "pbs.size"
+       },
+       "value": {
+        "key": "pbs.bytes",
+        "args": {
+         "n": 2147483648
+        }
+       }
+      },
+      {
+       "title": {
+        "key": "pbs.check"
+       },
+       "value": {
+        "key": "pbs.check_ok"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "area": "servers",
+   "source": "Proxmox",
+   "icon": "stack",
+   "label": {
+    "key": "proxmox.guests"
+   },
+   "value": 7,
+   "unit": {
+    "key": "proxmox.of_up",
+    "args": {
+     "n": 8
+    }
+   },
+   "detail": {
+    "key": "proxmox.hosts_online",
+    "args": {
+     "online": 1,
+     "n": 1
+    }
+   },
+   "tone": "orange",
+   "adds": true,
+   "meters": [
+    {
+     "label": {
+      "key": "proxmox.cpu_meter"
+     },
+     "used": 0.56,
+     "total": 8
+    },
+    {
+     "label": {
+      "key": "proxmox.ram_meter"
+     },
+     "used": 22548578304,
+     "total": 33554432000,
+     "tone": "blue"
+    }
+   ]
+  },
+  {
+   "area": "servers",
+   "source": "Beszel",
+   "icon": "server",
+   "label": {
+    "key": "beszel.hosts"
+   },
+   "value": 3,
+   "unit": {
+    "key": "beszel.of_up",
+    "args": {
+     "n": 3
+    }
+   },
+   "adds": true,
+   "meters": [
+    {
+     "label": {
+      "key": "beszel.cpu_meter"
+     },
+     "used": 0.51,
+     "total": 10
+    },
+    {
+     "label": {
+      "key": "beszel.ram_meter"
+     },
+     "used": 6.78,
+     "total": 15.3
+    }
+   ]
+  },
+  {
+   "area": "servers",
+   "source": "Docker",
+   "icon": "box",
+   "label": {
+    "key": "docker.containers"
+   },
+   "value": 7,
+   "unit": {
+    "key": "docker.of_running",
+    "args": {
+     "n": 9
+    }
+   },
+   "detail": {
+    "key": "docker.unhealthy_n",
+    "args": {
+     "n": 0
+    }
+   },
+   "tone": "orange",
+   "adds": true
+  },
+  {
+   "area": "apps",
+   "source": "Radarr",
+   "icon": "film",
+   "label": {
+    "key": "radarr.films"
+   },
+   "value": 412,
+   "detail": {
+    "key": "radarr.this_week",
+    "args": {
+     "n": 3
+    }
+   },
+   "unit": {
+    "key": "radarr.unit",
+    "args": {
+     "n": 412
+    }
+   },
+   "join": {
+    "key": "servarr.library"
+   },
+   "part": {
+    "label": {
+     "key": "radarr.films"
+    },
+    "value": 3186865348608,
+    "rows": [
+     {
+      "title": {
+       "key": "servarr.on_disk"
+      },
+      "value": {
+       "key": "servarr.bytes",
+       "args": {
+        "n": 3186865348608
+       }
+      }
+     },
+     {
+      "title": {
+       "key": "servarr.in_library"
+      },
+      "value": {
+       "key": "radarr.films_n",
+       "args": {
+        "n": 412
+       }
+      }
+     },
+     {
+      "title": {
+       "key": "servarr.week"
+      },
+      "value": {
+       "key": "servarr.plus",
+       "args": {
+        "n": 3
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "area": "apps",
+   "source": "Sonarr",
+   "icon": "film",
+   "label": {
+    "key": "sonarr.shows"
+   },
+   "value": 38,
+   "detail": {
+    "key": "sonarr.this_week",
+    "args": {
+     "n": 9
+    }
+   },
+   "unit": {
+    "key": "sonarr.unit",
+    "args": {
+     "n": 38
+    }
+   },
+   "join": {
+    "key": "servarr.library"
+   },
+   "part": {
+    "label": {
+     "key": "sonarr.shows"
+    },
+    "value": 2418925862912,
+    "rows": [
+     {
+      "title": {
+       "key": "servarr.on_disk"
+      },
+      "value": {
+       "key": "servarr.bytes",
+       "args": {
+        "n": 2418925862912
+       }
+      }
+     },
+     {
+      "title": {
+       "key": "servarr.in_library"
+      },
+      "value": {
+       "key": "sonarr.shows_n",
+       "args": {
+        "n": 38
+       }
+      }
+     },
+     {
+      "title": {
+       "key": "sonarr.episodes"
+      },
+      "value": {
+       "key": "number",
+       "args": {
+        "n": 1904
+       }
+      }
+     },
+     {
+      "title": {
+       "key": "servarr.week"
+      },
+      "value": {
+       "key": "servarr.plus",
+       "args": {
+        "n": 9
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "area": "apps",
+   "source": "qBittorrent",
+   "icon": "download",
+   "label": {
+    "key": "qbittorrent.torrents"
+   },
+   "value": 2,
+   "unit": {
+    "key": "qbittorrent.downloading_unit"
+   },
+   "detail": {
+    "key": "qbittorrent.figure_detail",
+    "args": {
+     "n": 146,
+     "down": 3407872
+    }
+   },
+   "tone": "orange",
+   "adds": true
+  },
+  {
+   "area": "apps",
+   "source": "Jellyfin",
+   "icon": "play",
+   "label": {
+    "key": "mediaserver.plays"
+   },
+   "value": 3,
+   "detail": {
+    "key": "mediaserver.playing_now",
+    "args": {
+     "n": 2
+    }
+   },
+   "hours": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    2,
+    1,
+    3,
+    5,
+    4,
+    6,
+    3,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1
+   ],
+   "adds": true
+  },
+  {
+   "area": "apps",
+   "source": "Emby",
+   "icon": "play",
+   "label": {
+    "key": "mediaserver.plays"
+   },
+   "value": 1,
+   "detail": {
+    "key": "mediaserver.playing_now",
+    "args": {
+     "n": 1
+    }
+   },
+   "hours": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    1,
+    2,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1
+   ],
+   "adds": true
+  },
+  {
+   "area": "apps",
+   "source": "Plex",
+   "icon": "play",
+   "label": {
+    "key": "mediaserver.plays"
+   },
+   "value": 2,
+   "detail": {
+    "key": "mediaserver.playing_now",
+    "args": {
+     "n": 1
+    }
+   },
+   "hours": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    2,
+    1,
+    2,
+    3,
+    4,
+    3,
+    2,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1
+   ],
+   "adds": true
+  },
+  {
+   "area": "apps",
+   "source": "Paperless-ngx",
+   "icon": "document",
+   "label": {
+    "key": "paperless.documents"
+   },
+   "value": 1284,
+   "detail": {
+    "key": "paperless.inbox",
+    "args": {
+     "n": 4
+    }
+   }
+  },
+  {
+   "area": "apps",
+   "source": "Nextcloud",
+   "icon": "cloud",
+   "label": {
+    "key": "nextcloud.files"
+   },
+   "value": 48213,
+   "detail": {
+    "key": "nextcloud.active",
+    "args": {
+     "n": 2
+    }
+   }
+  },
+  {
+   "area": "servers",
+   "source": "NUT",
+   "icon": "plug",
+   "label": {
+    "key": "nut.ups"
+   },
+   "value": 74,
+   "unit": {
+    "key": "nut.watts_unit"
+   },
+   "detail": {
+    "key": "nut.on_mains"
+   },
+   "meters": [
+    {
+     "label": {
+      "key": "nut.battery"
+     },
+     "used": 100,
+     "total": 100,
+     "tone": "green"
+    }
+   ]
+  },
+  {
+   "area": "network",
+   "source": "UniFi",
+   "icon": "network",
+   "label": {
+    "key": "unifi.clients"
+   },
+   "value": 42,
+   "detail": {
+    "key": "unifi.devices_online",
+    "args": {
+     "online": 5,
+     "n": 6
+    }
+   },
+   "tone": "orange",
+   "adds": true,
+   "shares": [
+    {
+     "label": {
+      "key": "unifi.wired"
+     },
+     "value": 17
+    },
+    {
+     "label": {
+      "key": "unifi.wireless"
+     },
+     "value": 23
+    },
+    {
+     "label": {
+      "key": "unifi.vpn"
+     },
+     "value": 2
+    }
+   ]
+  },
+  {
+   "area": "network",
+   "source": "Primary DNS",
+   "icon": "shield",
+   "label": {
+    "key": "resolver.dns_lookups"
+   },
+   "value": 41870,
+   "detail": {
+    "key": "resolver.lookups_blocked",
+    "args": {
+     "blocked": 13215
+    }
+   },
+   "hours": [
+    3120,
+    2410,
+    1980,
+    1760,
+    1690,
+    1840,
+    2650,
+    4120,
+    5210,
+    4870,
+    4430,
+    4290,
+    4610,
+    4380,
+    4150,
+    4420,
+    5030,
+    5880,
+    6410,
+    6820,
+    6230,
+    5470,
+    4390,
+    2960
+   ],
+   "adds": true,
+   "within": {
+    "label": {
+     "key": "resolver.blocked"
+    },
+    "hours": [
+     874,
+     679,
+     641,
+     503,
+     476,
+     574,
+     815,
+     1192,
+     1590,
+     1684,
+     1248,
+     1231,
+     1256,
+     1277,
+     1156,
+     1585,
+     1500,
+     2111,
+     1805,
+     2396,
+     1966,
+     1817,
+     1447,
+     871
+    ]
+   }
+  },
+  {
+   "area": "network",
+   "source": "Kids' DNS",
+   "icon": "shield",
+   "label": {
+    "key": "resolver.dns_lookups"
+   },
+   "value": 3410,
+   "detail": {
+    "key": "resolver.lookups_blocked",
+    "args": {
+     "blocked": 812
+    }
+   },
+   "hours": [
+    310,
+    220,
+    140,
+    90,
+    60,
+    50,
+    80,
+    260,
+    520,
+    610,
+    480,
+    350,
+    390,
+    420,
+    560,
+    880,
+    1240,
+    1460,
+    1390,
+    1100,
+    720,
+    460,
+    330,
+    280
+   ],
+   "within": {
+    "label": {
+     "key": "resolver.blocked"
+    },
+    "hours": [
+     60,
+     41,
+     25,
+     14,
+     9,
+     8,
+     13,
+     52,
+     118,
+     140,
+     104,
+     72,
+     81,
+     90,
+     131,
+     214,
+     302,
+     355,
+     330,
+     256,
+     160,
+     98,
+     70,
+     61
+    ]
+   },
+   "adds": true
+  }
+ ],
+ "events": [
+  {
+   "at": "2026-10-28T00:30:00Z",
+   "area": "storage",
+   "source": "Backup Server",
+   "icon": "archive",
+   "text": {
+    "key": "pbs.backed_up",
+    "args": {
+     "n": 6
+    }
+   }
+  },
+  {
+   "at": "2026-10-27T00:30:00Z",
+   "area": "storage",
+   "source": "Backup Server",
+   "icon": "archive",
+   "text": {
+    "key": "pbs.backed_up",
+    "args": {
+     "n": 6
+    }
+   }
+  },
+  {
+   "at": "2026-10-26T00:30:00Z",
+   "area": "storage",
+   "source": "Backup Server",
+   "icon": "archive",
+   "text": {
+    "key": "pbs.backed_up",
+    "args": {
+     "n": 6
+    }
+   }
+  },
+  {
+   "at": "2026-10-25T00:30:00Z",
+   "area": "storage",
+   "source": "Backup Server",
+   "icon": "archive",
+   "text": {
+    "key": "pbs.backed_up",
+    "args": {
+     "n": 5
+    }
+   }
+  },
+  {
+   "at": "2026-10-24T00:30:00Z",
+   "area": "storage",
+   "source": "Backup Server",
+   "icon": "archive",
+   "text": {
+    "key": "pbs.backed_up",
+    "args": {
+     "n": 6
+    }
+   }
+  },
+  {
+   "at": "2026-10-23T00:30:00Z",
+   "area": "storage",
+   "source": "Backup Server",
+   "icon": "archive",
+   "text": {
+    "key": "pbs.backed_up",
+    "args": {
+     "n": 6
+    }
+   }
+  },
+  {
+   "at": "2026-10-22T00:30:00Z",
+   "area": "storage",
+   "source": "Backup Server",
+   "icon": "archive",
+   "text": {
+    "key": "pbs.backed_up",
+    "args": {
+     "n": 6
+    }
+   }
+  },
+  {
+   "at": "2026-10-28T00:30:00Z",
+   "area": "servers",
+   "source": "Proxmox",
+   "icon": "archive",
+   "text": {
+    "key": "proxmox.backup_done",
+    "args": {
+     "at": "2026-10-28T00:30:00Z",
+     "ms": 512000,
+     "status": "OK"
+    }
+   }
+  },
+  {
+   "at": "2026-10-27T00:30:00Z",
+   "area": "servers",
+   "source": "Proxmox",
+   "icon": "archive",
+   "text": {
+    "key": "proxmox.backup_done",
+    "args": {
+     "at": "2026-10-27T00:30:00Z",
+     "ms": 547000,
+     "status": "OK"
+    }
+   }
+  },
+  {
+   "at": "2026-10-26T00:30:00Z",
+   "area": "servers",
+   "source": "Proxmox",
+   "icon": "archive",
+   "text": {
+    "key": "proxmox.backup_done",
+    "args": {
+     "at": "2026-10-26T00:30:00Z",
+     "ms": 498000,
+     "status": "OK"
+    }
+   }
+  },
+  {
+   "at": "2026-10-25T00:30:00Z",
+   "area": "servers",
+   "source": "Proxmox",
+   "icon": "archive",
+   "tone": "orange",
+   "text": {
+    "key": "proxmox.backup_warnings",
+    "args": {
+     "at": "2026-10-25T00:30:00Z",
+     "ms": 1386000,
+     "status": "WARNINGS: 1"
+    }
+   }
+  },
+  {
+   "at": "2026-10-24T00:30:00Z",
+   "area": "servers",
+   "source": "Proxmox",
+   "icon": "archive",
+   "text": {
+    "key": "proxmox.backup_done",
+    "args": {
+     "at": "2026-10-24T00:30:00Z",
+     "ms": 531000,
+     "status": "OK"
+    }
+   }
+  },
+  {
+   "at": "2026-10-23T00:30:00Z",
+   "area": "servers",
+   "source": "Proxmox",
+   "icon": "archive",
+   "text": {
+    "key": "proxmox.backup_done",
+    "args": {
+     "at": "2026-10-23T00:30:00Z",
+     "ms": 506000,
+     "status": "OK"
+    }
+   }
+  },
+  {
+   "at": "2026-10-22T00:30:00Z",
+   "area": "servers",
+   "source": "Proxmox",
+   "icon": "archive",
+   "text": {
+    "key": "proxmox.backup_done",
+    "args": {
+     "at": "2026-10-22T00:30:00Z",
+     "ms": 523000,
+     "status": "OK"
+    }
+   }
+  }
+ ],
+ "updates": [
+  {
+   "name": "Photos: Bump ghcr.io/immich-app/immich-server from v3.3.5 to v3.4.0 in /stacks/photos",
+   "url": "https://github.com/example/homelab/pull/58",
+   "at": "2026-10-28T06:18:00Z"
+  },
+  {
+   "name": "Status: Bump twinproduction/gatus from 5.30.0 to 5.31.1 in /stacks/status",
+   "url": "https://github.com/example/homelab/pull/57",
+   "at": "2026-10-27T07:30:00Z"
+  },
+  {
+   "name": "Update dependency astro to v7.2.1",
+   "url": "https://github.com/example/website/pull/214",
+   "at": "2026-10-24T03:30:00Z"
+  }
+ ],
+ "apps": [
+  {
+   "name": "Photos",
+   "url": "https://photos.example.com",
+   "icon": "immich.svg",
+   "check": "Photos",
+   "description": "The family's photos",
+   "color": "#ED79B5"
+  },
+  {
+   "name": "Films",
+   "url": "https://films.example.com",
+   "icon": "radarr.svg",
+   "check": "Films",
+   "description": "The films, and what's coming",
+   "color": "#FFC230"
+  },
+  {
+   "name": "Shows",
+   "url": "https://shows.example.com",
+   "icon": "sonarr.svg",
+   "check": "Shows",
+   "description": "The shows, and what airs next",
+   "color": "#35C5F4"
+  },
+  {
+   "name": "Requests",
+   "url": "https://requests.example.com",
+   "icon": "seerr.svg",
+   "check": "Requests",
+   "description": "Ask for a film or a show",
+   "color": "#7B61FF"
+  },
+  {
+   "name": "Watch",
+   "url": "https://watch.example.com",
+   "icon": "plex.svg",
+   "check": "Watch",
+   "description": "Films and shows, to watch",
+   "color": "#AA5CC3"
+  },
+  {
+   "name": "Music",
+   "url": "https://music.example.com",
+   "icon": "jellyfin.svg",
+   "check": "Music",
+   "description": "Everyone's music",
+   "color": "#1DB954"
+  },
+  {
+   "name": "Documents",
+   "url": "https://documents.example.com",
+   "icon": "paperless-ngx.svg",
+   "check": "Documents",
+   "description": "Every letter, scanned",
+   "color": "#17541F"
+  },
+  {
+   "name": "Files",
+   "url": "https://cloud.example.com",
+   "icon": "nextcloud.svg",
+   "check": "Files",
+   "description": "Everyone's files",
+   "color": "#0082C9"
+  },
+  {
+   "name": "Home",
+   "url": "https://home.example.com",
+   "icon": "home-assistant.svg",
+   "check": "Home",
+   "description": "The lights and the heating",
+   "color": "#18BCF2"
+  },
+  {
+   "name": "Calendar",
+   "url": "https://dav.example.com",
+   "icon": "radicale.svg",
+   "check": "Calendar",
+   "description": "Calendars and contacts",
+   "color": "#E5484D"
+  }
+ ],
+ "tools": [
+  {
+   "name": "Proxmox",
+   "url": "https://pve.example.com:8006",
+   "icon": "proxmox.svg",
+   "check": "Hypervisor",
+   "description": "The host and its guests",
+   "color": "#E57000"
+  },
+  {
+   "name": "Backup Server",
+   "url": "https://pbs.example.com:8007",
+   "icon": "proxmox-backup-server.svg",
+   "check": "Backup server",
+   "description": "Every guest's backups",
+   "color": "#E57000"
+  },
+  {
+   "name": "Dozzle",
+   "url": "https://logs.example.com",
+   "icon": "dozzle.svg",
+   "description": "Every container's logs",
+   "color": "#FFDD00"
+  }
+ ],
+ "chores": [
+  {
+   "name": "Zigbee2MQTT update",
+   "from": "2026-10-27",
+   "note": "2.6.1 \u2192 2.6.2",
+   "url": "https://home.example.com/config/updates",
+   "source": "Home Assistant"
+  },
+  {
+   "name": "Hall motion battery",
+   "note": "12%",
+   "source": "Home Assistant"
+  },
+  {
+   "name": "calendar",
+   "note": "\u2192 6.2.1",
+   "url": "https://cloud.example.com/settings/apps/updates",
+   "source": "Nextcloud"
+  },
+  {
+   "name": "The General (1926)",
+   "from": "2026-10-27",
+   "note": "Noor",
+   "url": "https://requests.example.com/movie/961",
+   "source": "Seerr"
+  },
+  {
+   "name": "The Twilight Zone (1959)",
+   "from": "2026-10-28",
+   "note": "Kim",
+   "url": "https://requests.example.com/tv/6357",
+   "source": "Seerr"
+  },
+  {
+   "name": "U7 Lite",
+   "note": "00:00:5e:00:53:21",
+   "url": "https://unifi.example.com/network/default/devices",
+   "source": "UniFi"
+  },
+  {
+   "name": "ap-hall",
+   "note": "7.1.68 \u2192",
+   "url": "https://unifi.example.com/network/default/devices",
+   "source": "UniFi"
+  },
+  {
+   "name": "Clean the NAS's dust filters",
+   "source": "Chores",
+   "from": "2026-10-26",
+   "note": "Every six months: marking it done moves it on."
+  },
+  {
+   "name": "Swap the offsite backup disk",
+   "source": "Chores",
+   "from": "2026-10-31",
+   "note": "The one at the office comes home."
+  },
+  {
+   "name": "Label the cables in the rack",
+   "source": "Chores",
+   "note": "No day set: due whenever there's an hour."
+  }
+ ]
+}
