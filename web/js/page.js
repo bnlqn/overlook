@@ -3,7 +3,17 @@
 // makes is here, where Node tests it (ADR 0007); overview.js, area.js and
 // shell.js only write what page() returns.
 
+import { anchor, readme } from "./config.js";
+import { english } from "./text.js";
+
 export const AREAS = ["servers", "network", "storage", "apps"];
+
+/**
+ * The check engines Overlook reads, by their adapters' keys, in the order
+ * the setup page offers them, which the page names to a homelab with none.
+ * The server's tests keep it in step with the adapters.
+ */
+export const CHECK_ENGINES = ["gatus", "uptimekuma", "grafana", "prometheus", "checkmate"];
 
 /** How many results a strip shows: as many as a check engine gives (snapshot.Recent). */
 export const RECENT = 30;
@@ -26,6 +36,8 @@ const DAY = 864e5;
  *   go small, and how many columns they take; tools: each link with its
  *   check and the check's state;
  * - chores: those due, this week's and the next, and the updates;
+ * - checkEngines: with no check engine in the homelab, those Overlook
+ *   reads, each its name and its section of the README;
  * - version: the Overlook that read it, if it says.
  *
  * Texts are the snapshot's own: a message's key and its values, or a name.
@@ -37,9 +49,10 @@ export function page(read, now) {
   const checks = readChecks(snap);
   const silence = silent(snap);
   const areas = AREAS.map((area) => areaOf(area, snap, checks));
+  const engines = checkEngines(snap);
   return {
     now,
-    homelab: homelab(snap, checks, areas, silence, now),
+    homelab: homelab(snap, checks, areas, silence, engines, now),
     problems: checks.filter((c) => c.problem),
     checks,
     areas,
@@ -49,8 +62,22 @@ export function page(read, now) {
     apps: launch(snap.apps, checks),
     tools: snap.tools.map((link) => linked(link, checks)),
     chores: { ...choresBy(snap.chores, now), updates: snap.updates },
+    checkEngines: engines,
     version: snap.version,
   };
+}
+
+/**
+ * With no check engine to read, nothing says what's wrong, so the page
+ * names the check engines Overlook reads, each linking its section of the
+ * README of the Overlook that runs, as the setup page does.
+ */
+function checkEngines(snap) {
+  if (snap.sources.some((s) => s.kind === "checkengine")) return [];
+  return CHECK_ENGINES.map((adapter) => {
+    const key = `setup.adapter.${adapter}`;
+    return { key, url: `${readme(snap.version)}#${anchor(english(key))}` };
+  });
 }
 
 // The snapshot's checks, with their times as dates and their states.
@@ -109,8 +136,9 @@ function named(snap) {
  * an area is down or it has check engines and none answered, degraded with
  * any other problem, one in a check in no area too, unknown with no checks,
  * and up otherwise. The summary is parts, each texts said one after the other.
+ * With no check engine, it first names those Overlook reads, as readable.
  */
-function homelab(snap, checks, areas, silence, now) {
+function homelab(snap, checks, areas, silence, readable, now) {
   const problems = checks.filter((c) => c.problem);
   const judged = areas.filter((a) => a.shown && a.checks.length);
   const silentText = { key: "source.no_answer", args: { names: silence } };
@@ -122,7 +150,10 @@ function homelab(snap, checks, areas, silence, now) {
     const { error } = engines[0];
     return { state: "down", headline: silentText, summary: [[{ key: "source.no_answer_why", args: { error } }]] };
   }
-  if (!checks.length) return { state: "unknown", headline: { key: "status.no_checks" }, summary: silentPart };
+  if (!checks.length) {
+    const how = readable.length ? [[{ key: "status.no_engine", args: { engines: readable } }]] : [];
+    return { state: "unknown", headline: { key: "status.no_checks" }, summary: [...how, ...silentPart] };
+  }
   if (!problems.length) {
     const quiet = quietSince(checks);
     return {
