@@ -27,6 +27,23 @@ A virtual machine or container a host runs. A guest can be a host too, when
 a source reports on it as a whole, as Beszel does for a VM.
 _Avoid_: Workload, instance
 
+**Store**:
+One place the homelab keeps its data, with its room and its health, such as
+a ZFS pool, a Proxmox VE storage or a backup server's datastore. The Storage
+area holds the stores.
+_Avoid_: Pool, volume, datastore, disk (each a source's own word), storage
+(the area)
+
+**Backup**:
+A copy of a guest's or a folder's data, kept to be restored from, such as a
+guest's backup on a backup server.
+_Avoid_: Snapshot (what Overlook reads at one moment), archive
+
+**Backup run**:
+One run that makes backups, such as a night's run of Proxmox VE's backup
+job. The Storage area holds the backup runs.
+_Avoid_: Job (what starts the runs), task
+
 ### What Overlook reads
 
 **Source**:
@@ -38,7 +55,8 @@ _Avoid_: Service, integration, endpoint
 The part of Overlook that reads the sources of one program, such as AdGuard
 Home, and gives back their facts in Overlook's own shapes. Two AdGuard Home
 resolvers are two sources read by one adapter. Each adapter has a fixed home
-area, but a check engine's checks go in every area, and chores go in none.
+area, but a check engine's checks go in every area, stores and backup runs
+go in Storage, and chores go in none.
 _Avoid_: Widget, plugin, integration
 
 **Kind**:

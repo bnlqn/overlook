@@ -1194,12 +1194,12 @@ more homelabs, taking first what most of them run, as
        adapters of step 4 come in. One entity's time took all of Home
        Assistant off the page in
        [#102](https://github.com/bnlqn/overlook/issues/102).
-3. [ ] Storage for every homelab with pools or a backup server: a kind of
-       source for storage, built as a resolver's and a media server's are
-       (ADR 0012), whose parts go in Storage whichever adapter reads them,
-       first Proxmox VE's pools and storage and Proxmox Backup Server's
-       datastore. Two thirds of homelabs run a NAS, and Storage holds only
-       PBS today. It takes a new ADR, since each adapter has one home area.
+3. [ ] Storage for every homelab with pools or a backup server: stores and
+       backup runs go in Storage whichever adapter reads them, each built by
+       one module (ADR 0016). Proxmox VE's pools, storage and backup runs
+       move there from Servers, and Proxmox Backup Server reads its
+       datastore's room as a store. Two thirds of homelabs run a NAS, and
+       Storage holds only PBS today.
 4. [ ] The tools most homelabs run that Overlook can't read yet, each
        recorded from a scratch instance (ADR 0008), one pull request each:
        [Portainer](https://github.com/bnlqn/overlook/issues/74), which a
