@@ -37,6 +37,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/paperless"
 	"github.com/bnlqn/overlook/internal/adapters/pbs"
 	"github.com/bnlqn/overlook/internal/adapters/pihole"
+	"github.com/bnlqn/overlook/internal/adapters/portainer"
 	"github.com/bnlqn/overlook/internal/adapters/prometheus"
 	"github.com/bnlqn/overlook/internal/adapters/prowlarr"
 	"github.com/bnlqn/overlook/internal/adapters/proxmox"
@@ -85,6 +86,7 @@ type Sources struct {
 	Proxmox       []proxmox.Config       `yaml:"proxmox" icon:"proxmox.svg"`
 	Beszel        []beszel.Config        `yaml:"beszel" icon:"beszel.svg"`
 	Docker        []docker.Config        `yaml:"docker" icon:"docker.svg"`
+	Portainer     []portainer.Config     `yaml:"portainer" icon:"portainer.svg"`
 	Radarr        []radarr.Config        `yaml:"radarr" icon:"radarr.svg"`
 	Sonarr        []sonarr.Config        `yaml:"sonarr" icon:"sonarr.svg"`
 	Prowlarr      []prowlarr.Config      `yaml:"prowlarr" icon:"prowlarr.svg"`
@@ -249,6 +251,7 @@ func (c *Config) check() error {
 		add(c, "proxmox", proxmox.Area, "", c.Sources.Proxmox, func(p proxmox.Config) string { return p.Name }, proxmox.Read),
 		add(c, "beszel", beszel.Area, "", c.Sources.Beszel, func(b beszel.Config) string { return b.Name }, beszel.Read),
 		add(c, "docker", docker.Area, "", c.Sources.Docker, func(d docker.Config) string { return d.Name }, docker.Read),
+		add(c, "portainer", portainer.Area, "", c.Sources.Portainer, func(p portainer.Config) string { return p.Name }, portainer.Read),
 		add(c, "radarr", radarr.Area, "", c.Sources.Radarr, func(r radarr.Config) string { return r.Name }, radarr.Read),
 		add(c, "sonarr", sonarr.Area, "", c.Sources.Sonarr, func(s sonarr.Config) string { return s.Name }, sonarr.Read),
 		add(c, "prowlarr", prowlarr.Area, "", c.Sources.Prowlarr, func(p prowlarr.Config) string { return p.Name }, prowlarr.Read),

@@ -1,0 +1,14 @@
+{
+  "portainer.environments": "Environments",
+  "portainer.running": "{running} of {n} running",
+  "portainer.stacks": { "one": "{n} stack", "other": "{n} stacks" },
+  "portainer.unhealthy_stacks": {
+    "one": "{unhealthy} unhealthy · {n} stack",
+    "other": "{unhealthy} unhealthy · {n} stacks"
+  },
+  "portainer.up": "Up",
+  "portainer.down": "Down",
+  "portainer.last_seen": "last seen {at:when}",
+  "portainer.version": "Version",
+  "portainer.newer": "{version} is out"
+}

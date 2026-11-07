@@ -1,0 +1,24 @@
+{
+  "UpdateAvailable": false,
+  "LatestVersion": "",
+  "ServerVersion": "2.45.3",
+  "VersionSupport": "LTS",
+  "ServerEdition": "CE",
+  "DatabaseVersion": "2.45.3",
+  "Build": {
+    "BuildNumber": "41",
+    "ImageTag": "2.45.3-linux-arm64",
+    "NodejsVersion": "v22.23.3",
+    "PnpmVersion": "10.27.0",
+    "WebpackVersion": "5.107.2",
+    "GoVersion": "go1.26.10",
+    "GitCommit": "e5a61af"
+  },
+  "Dependencies": {
+    "DockerVersion": "v28.5.2+incompatible",
+    "HelmVersion": "v4.1.4",
+    "KubectlVersion": "v1.35.1",
+    "ComposeVersion": "v2.40.3"
+  },
+  "Runtime": {}
+}

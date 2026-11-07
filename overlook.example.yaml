@@ -103,6 +103,17 @@ sources:
     - url: http://socket-proxy:2375    # the proxy, over HTTP
       # name: Media                    # with more than one engine, tell them apart
 
+  # Each environment Portainer manages, up or down, its containers and
+  # stacks, and whether a newer Portainer is out. Its containers add up with
+  # Docker's.
+  portainer:
+    - url: https://portainer:9443      # where Overlook reads Portainer
+      key: ${PORTAINER_KEY}            # Overlook's user's access token, from My account
+      # Portainer signs its own certificate, for localhost. Save it, such as
+      # with openssl s_client, say where it is, and name localhost.
+      # ca: /etc/overlook/portainer.pem
+      # server_name: localhost
+
   # The films: how many, how much room, what came this week and what's coming.
   radarr:
     - url: http://radarr:7878          # where Overlook reads Radarr
