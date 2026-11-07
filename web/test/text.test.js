@@ -27,6 +27,19 @@ test("a message escapes its values and writes numbers the viewer's way", () => {
   assert.equal(t("count", { n: 1234.5 }), "1.234,5");
 });
 
+test("a choice of links is each a link, its address escaped, the last after or", () => {
+  setWords({ ...en, pick: "add one, such as {to:choice}", a: "A" }, {}, "en-GB");
+  const to = [
+    { key: "a", url: 'https://a.example.com/?q="x"' },
+    { name: "B & C", url: "https://b.example.com" },
+  ];
+  assert.equal(
+    t("pick", { to }),
+    'add one, such as <a href="https://a.example.com/?q=&quot;x&quot;" target="_blank" rel="noopener">A</a> or ' +
+      '<a href="https://b.example.com" target="_blank" rel="noopener">B &amp; C</a>',
+  );
+});
+
 test("a plural follows the rules of the language its message came from", () => {
   const fr = { problems: { one: "{n} problème", other: "{n} problèmes" } };
   setWords(en, fr, "fr-FR");

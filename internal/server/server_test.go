@@ -8,6 +8,8 @@ import (
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"regexp"
+	"slices"
 	"strings"
 	"testing"
 
@@ -175,6 +177,34 @@ func TestSetupWords(t *testing.T) {
 		if _, err := fs.Stat(web.FS, "icons/"+a.Icon); a.Icon != "" && err != nil {
 			t.Errorf("%s: %v", a.Key, err)
 		}
+	}
+}
+
+// The page names to a homelab with no check engine every check engine the
+// setup page offers, in its order, from a list of its own in page.js.
+func TestPageNamesCheckEngines(t *testing.T) {
+	t.Parallel()
+	adapters, err := config.Adapters()
+	if err != nil {
+		t.Fatal(err)
+	}
+	var want []string
+	for _, a := range adapters {
+		if a.Kind == "checkengine" {
+			want = append(want, a.Key)
+		}
+	}
+	src, err := fs.ReadFile(web.FS, "js/page.js")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var got []string
+	list := regexp.MustCompile(`CHECK_ENGINES = (\[[^\]]*\])`).FindSubmatch(src)
+	if list == nil || json.Unmarshal(list[1], &got) != nil {
+		t.Fatal("page.js has no CHECK_ENGINES list of keys")
+	}
+	if !slices.Equal(got, want) {
+		t.Errorf("page.js names %v, the setup page offers %v", got, want)
 	}
 }
 

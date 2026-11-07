@@ -30,7 +30,8 @@ function draw(m) {
       ? t("area.checks_up", { n: a.checks.length })
       : "";
   const sources = a.silent.length ? t("source.no_answer", { names: a.silent }) : "";
-  document.getElementById("summary").innerHTML = [state, problems, sources].filter(Boolean).join(" · ");
+  const engines = m.checkEngines.length ? t("status.no_engine", { engines: m.checkEngines }) : "";
+  document.getElementById("summary").innerHTML = [state, problems, engines, sources].filter(Boolean).join(" · ");
   document.getElementById("charts").innerHTML = a.charts.map((c) => chart(c, range, m.now)).join("");
   // The sections in the order their sources gave them, each source's
   // together, flowing down two columns of about the same height.

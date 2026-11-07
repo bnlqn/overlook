@@ -177,7 +177,7 @@ async function start() {
   if (setup.unraid) $("restart").innerHTML = t("setup.restart_unraid");
   $("groups").innerHTML = GROUPS.map(
     (g) => `<section class="block">
-      <h2 class="block-title">${groupName(g)}${g === "checkengines" ? `<span class="hint">${t("setup.group.checkengines_hint")}</span>` : ""}</h2>
+      <h2 class="block-title">${groupName(g)}</h2>${g === "checkengines" ? `<p class="block-ask">${t("setup.group.checkengines_ask")}</p>` : ""}
       <div class="adapters">${adapters
         .filter((a) => group(a) === g)
         .map(adapter)

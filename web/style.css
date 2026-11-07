@@ -871,6 +871,20 @@ main {
   font: var(--m-type-body);
   color: var(--m-label-2);
 }
+/* A link in the summary, such as each check engine's where there is none,
+   underlined, since it sits among words. */
+.status p a,
+.head p a {
+  color: var(--m-label-1);
+  text-decoration: underline;
+  text-decoration-color: var(--m-label-3);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s;
+}
+.status p a:hover,
+.head p a:hover {
+  text-decoration-color: currentColor;
+}
 .actions {
   display: flex;
   flex-wrap: wrap;
@@ -2203,9 +2217,14 @@ body.setup {
 body.setup main {
   max-width: 760px;
 }
-/* A group's hint goes under its title where both don't fit. */
+/* The files' hint goes under their title where both don't fit. */
 .setup .block-title {
   flex-wrap: wrap;
+}
+/* What the check engines' group asks first, and why, under its title. */
+.block-ask {
+  margin: -4px 0 12px;
+  color: var(--m-label-2);
 }
 .adapters {
   display: flex;
