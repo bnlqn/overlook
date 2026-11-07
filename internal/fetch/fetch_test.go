@@ -118,6 +118,54 @@ func TestJSON(t *testing.T) {
 // A path is read under the source's address, its own path kept, and one
 // that doesn't begin with / is refused before anything is sent, so that no
 // read, and no key, reaches another host.
+// One item of a list that can't be read is left out, and the rest read,
+// wherever the list is; anything else that can't be read is an error.
+func TestDecode(t *testing.T) {
+	t.Parallel()
+	type check struct {
+		Name    string    `json:"name"`
+		At      time.Time `json:"at"`
+		Results []struct {
+			At time.Time `json:"at"`
+		} `json:"results"`
+	}
+	var v struct {
+		Version int              `json:"version"`
+		Checks  []check          `json:"checks"`
+		Groups  map[string][]int `json:"groups"`
+	}
+	odd := `{
+		"version": 3,
+		"checks": [
+			{"name": "dns", "at": "2026-03-16T16:24:44Z"},
+			{"name": "photos", "at": "2026-03-16 16:24:44"},
+			{"name": "films", "at": "2026-03-16T16:24:44Z", "results": [{"at": "2026-03-16T16:24:44Z"}, {"at": 1773678284}]}
+		],
+		"groups": {"apps": [1, "two", 3]}
+	}`
+	if err := Decode([]byte(odd), &v); err != nil {
+		t.Fatal(err)
+	}
+	if v.Version != 3 || len(v.Checks) != 2 || v.Checks[0].Name != "dns" || v.Checks[1].Name != "films" || len(v.Checks[1].Results) != 1 {
+		t.Errorf("the photos check, and one of the films check's results, left out: %+v", v)
+	}
+	if !slices.Equal(v.Groups["apps"], []int{1, 3}) {
+		t.Errorf("an item of a list in a map left out: %v", v.Groups)
+	}
+
+	// What isn't in a list fails the whole answer.
+	for _, bad := range []string{`{"version": "three"}`, `{"checks": {"name": "dns"}}`, `[`} {
+		if err := Decode([]byte(bad), &v); err == nil {
+			t.Errorf("%s read as %+v", bad, v)
+		}
+	}
+	// An answer that is a list is mended like any other.
+	var list []check
+	if err := Decode([]byte(`[{"at": "noon"}, {"name": "dns"}]`), &list); err != nil || len(list) != 1 || list[0].Name != "dns" {
+		t.Errorf("read %+v, %v", list, err)
+	}
+}
+
 func TestPath(t *testing.T) {
 	t.Parallel()
 	var reached []string
