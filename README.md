@@ -1178,9 +1178,73 @@ file; [CONTRIBUTING.md](CONTRIBUTING.md#translating) says how.
 ## What's next
 
 `v0.5.0` is the newest release, and [the releases](https://github.com/bnlqn/overlook/releases)
-say what each one brought. The road to v0.6 is written from what people
-ask for, and goes here. Until then, the
-[adapters wanted](https://github.com/bnlqn/overlook/issues?q=is%3Aissue%20is%3Aopen%20label%3Aenhancement)
+say what each one brought. The road to v0.6 makes Overlook worth more to
+more homelabs, taking first what most of them run, as
+[selfh.st's 2025 survey](https://selfh.st/survey/2025-results/) counts it:
+
+1. [ ] An owner with no check engine told how to get one: what's wrong
+       comes only from a check engine, so the setup page asks for one
+       first and says why, and the page, where it says No checks, names
+       the check engines Overlook reads and links to them.
+2. [ ] One odd answer costs a row, never its source. A test every adapter
+       runs, in `adaptertest`, bends one item of each list in its recorded
+       answers, such as a time in another format, a null or a field
+       missing, and fails when the adapter then gives back nothing for its
+       source. Then each adapter is fixed until it passes, before the
+       adapters of step 4 come in. One entity's time took all of Home
+       Assistant off the page in
+       [#102](https://github.com/bnlqn/overlook/issues/102).
+3. [ ] Storage for every homelab with pools or a backup server: a kind of
+       source for storage, built as a resolver's and a media server's are
+       (ADR 0012), whose parts go in Storage whichever adapter reads them,
+       first Proxmox VE's pools and storage and Proxmox Backup Server's
+       datastore. Two thirds of homelabs run a NAS, and Storage holds only
+       PBS today. It takes a new ADR, since each adapter has one home area.
+4. [ ] The tools most homelabs run that Overlook can't read yet, each
+       recorded from a scratch instance (ADR 0008), one pull request each:
+       [Portainer](https://github.com/bnlqn/overlook/issues/74), which a
+       third of them run, [Syncthing](https://github.com/bnlqn/overlook/issues/75),
+       and [Gitea and Forgejo](https://github.com/bnlqn/overlook/issues/76).
+5. [ ] Agents read what the page shows through MCP, if the owner turns it
+       on: six tools, one for each part of the page, that read the
+       snapshot and nothing else (ADR 0015).
+6. [ ] A light page for an owner whose system asks for one, the logos
+       chosen for dark tiles still showing on it, and a web manifest, so
+       that the page installs on a phone as an app.
+
+The road to v0.7 then takes Overlook where more homelabs are, and keeps it
+sound as they come:
+
+1. [ ] A Home Assistant add-on, kept here beside Unraid's template, so
+       that Overlook installs inside Home Assistant OS, which three
+       homelabs in ten run, and opens in its sidebar.
+2. [ ] The next tools by how many homelabs run them, each recorded from a
+       scratch instance (ADR 0008), one pull request each, each run by
+       about one homelab in five:
+       [Nginx Proxy Manager](https://github.com/bnlqn/overlook/issues/77),
+       [Audiobookshelf](https://github.com/bnlqn/overlook/issues/78) and
+       [Traefik](https://github.com/bnlqn/overlook/issues/79).
+3. [ ] Two translations or more, each kept by someone who speaks it
+       (ADR 0006), and the page looked at in each, at desktop and phone
+       width, for words longer than English's.
+4. [ ] A check's results readable without colour or a mouse: its last 30
+       said in words, such as 28 of 30 passed and the last one failed at
+       14:02, for a screen reader and the keyboard, and a failed result
+       told from a passed one by more than red and green. Then the page is
+       gone through with a screen reader and in forced colours, and what
+       doesn't read is fixed.
+5. [ ] The setup page asks for a code from the log before its first try,
+       so that no website can have it read an address in the homelab, not
+       even one that points its own name at Overlook's address (amends
+       ADR 0014). SECURITY.md then loses the gap it accepts.
+6. [ ] Each scratch instance recorded again every week, at its source's
+       newest version: a workflow starts it from its compose file, fills
+       and records it with its own scripts, reads what it recorded with the
+       adapter, checks that with `adaptertest.Validate`, and opens an issue
+       when either fails. A source that changes its answers is then found
+       before an owner finds it.
+
+The [adapters wanted](https://github.com/bnlqn/overlook/issues?q=is%3Aissue%20is%3Aopen%20label%3Aenhancement)
 are open as issues: if you run one of them, its issue says what an
 adapter for it takes.
 
