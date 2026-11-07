@@ -2,6 +2,7 @@ package adaptertest
 
 import (
 	"bufio"
+	"cmp"
 	"errors"
 	"fmt"
 	"io"
@@ -26,7 +27,8 @@ import (
 type Source struct {
 	URL string
 
-	tb testing.TB
+	tb     testing.TB
+	strict bool
 	// answers are the recorded answers, by the path they answer, without
 	// its leading /.
 	answers map[string][]*answer
@@ -75,60 +77,7 @@ type answer struct {
 // so that every recorded answer is one the adapter reads.
 func Replay(tb testing.TB, dir string, edits ...string) *Source {
 	tb.Helper()
-	if len(edits)%2 != 0 {
-		tb.Fatal("edits are old and new text, in pairs")
-	}
-	s := &Source{tb: tb, answers: map[string][]*answer{}}
-	changed := make([]bool, len(edits))
-	recorded := os.DirFS(dir)
-	err := fs.WalkDir(recorded, ".", func(name string, d fs.DirEntry, err error) error {
-		ext := path.Ext(name)
-		if err != nil || d.IsDir() || ext != ".json" && ext != ".ics" && ext != ".http" {
-			return err
-		}
-		if i := strings.IndexFunc(name, func(r rune) bool { return !nameOK(r) }); i >= 0 {
-			return fmt.Errorf("%s: Go's modules refuse a %q in a file name: write it as the address escapes it", name, name[i])
-		}
-		b, err := fs.ReadFile(recorded, name)
-		if err != nil {
-			return err
-		}
-		text := string(b)
-		for i := 0; i < len(edits); i += 2 {
-			if strings.Contains(text, edits[i]) {
-				changed[i] = true
-				text = strings.ReplaceAll(text, edits[i], edits[i+1])
-			}
-		}
-		at, base := path.Split(strings.TrimSuffix(name, ext))
-		base, query, _ := strings.Cut(base, "@")
-		pairs, err := url.ParseQuery(query)
-		if err != nil {
-			return fmt.Errorf("%s: %w", name, err)
-		}
-		a := &answer{file: name, body: text, whole: ext == ".http"}
-		for k, vs := range pairs {
-			for _, v := range vs {
-				a.pairs = append(a.pairs, [2]string{k, v})
-			}
-		}
-		if a.whole {
-			if a.status, a.header, a.body, err = whole(text); err != nil {
-				return fmt.Errorf("%s: %w", name, err)
-			}
-		}
-		s.answers[at+base] = append(s.answers[at+base], a)
-		return nil
-	})
-	if err != nil {
-		tb.Fatal(err)
-	}
-	for i := 0; i < len(edits); i += 2 {
-		if !changed[i] {
-			tb.Fatalf("the edit of %q changes no answer", edits[i])
-		}
-	}
-
+	s := source(tb, load(tb, dir, edits), true)
 	server := httptest.NewServer(http.HandlerFunc(s.serve))
 	s.URL = server.URL
 	tb.Cleanup(func() {
@@ -150,6 +99,81 @@ func Replay(tb testing.TB, dir string, edits ...string) *Source {
 			tb.Errorf("%s: an answer nothing read", file)
 		}
 	})
+	return s
+}
+
+// load gives back every answer recorded in dir, by its file's name, with each of
+// edits, given as old and new text, made to it.
+func load(tb testing.TB, dir string, edits []string) map[string]string {
+	tb.Helper()
+	if len(edits)%2 != 0 {
+		tb.Fatal("edits are old and new text, in pairs")
+	}
+	files := map[string]string{}
+	changed := make([]bool, len(edits))
+	answers := os.DirFS(dir)
+	err := fs.WalkDir(answers, ".", func(name string, d fs.DirEntry, err error) error {
+		ext := path.Ext(name)
+		if err != nil || d.IsDir() || ext != ".json" && ext != ".ics" && ext != ".http" {
+			return err
+		}
+		if i := strings.IndexFunc(name, func(r rune) bool { return !nameOK(r) }); i >= 0 {
+			return fmt.Errorf("%s: Go's modules refuse a %q in a file name: write it as the address escapes it", name, name[i])
+		}
+		b, err := fs.ReadFile(answers, name)
+		if err != nil {
+			return err
+		}
+		text := string(b)
+		for i := 0; i < len(edits); i += 2 {
+			if strings.Contains(text, edits[i]) {
+				changed[i] = true
+				text = strings.ReplaceAll(text, edits[i], edits[i+1])
+			}
+		}
+		files[name] = text
+		return nil
+	})
+	if err != nil {
+		tb.Fatal(err)
+	}
+	for i := 0; i < len(edits); i += 2 {
+		if !changed[i] {
+			tb.Fatalf("the edit of %q changes no answer", edits[i])
+		}
+	}
+	return files
+}
+
+// source is a source that answers with files, the answers by their files'
+// names, yet to be served. A strict one, which Replay serves, fails tb on a
+// query with no answer recorded. One that isn't, which plays an odd answer
+// that can lead an adapter to ask with another query, answers such a query
+// with the answer recorded at its path for the fewest pairs.
+func source(tb testing.TB, files map[string]string, strict bool) *Source {
+	tb.Helper()
+	s := &Source{tb: tb, strict: strict, answers: map[string][]*answer{}}
+	for name, text := range files {
+		ext := path.Ext(name)
+		at, base := path.Split(strings.TrimSuffix(name, ext))
+		base, query, _ := strings.Cut(base, "@")
+		pairs, err := url.ParseQuery(query)
+		if err != nil {
+			tb.Fatalf("%s: %v", name, err)
+		}
+		a := &answer{file: name, body: text, whole: ext == ".http"}
+		for k, vs := range pairs {
+			for _, v := range vs {
+				a.pairs = append(a.pairs, [2]string{k, v})
+			}
+		}
+		if a.whole {
+			if a.status, a.header, a.body, err = whole(text); err != nil {
+				tb.Fatalf("%s: %v", name, err)
+			}
+		}
+		s.answers[at+base] = append(s.answers[at+base], a)
+	}
 	return s
 }
 
@@ -206,6 +230,13 @@ func (s *Source) answer(r Request) (*answer, error) {
 		if fits && (best == nil || len(a.pairs) > len(best.pairs)) {
 			best = a
 		}
+	}
+	if best == nil && len(list) > 0 && !s.strict {
+		// An odd answer can lead an adapter to ask with another query,
+		// which the source would answer as it does the ones recorded.
+		best = slices.MinFunc(list, func(a, b *answer) int {
+			return cmp.Or(cmp.Compare(len(a.pairs), len(b.pairs)), strings.Compare(a.file, b.file))
+		})
 	}
 	switch {
 	case best == nil && len(list) > 0:

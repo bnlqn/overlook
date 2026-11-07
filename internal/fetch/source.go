@@ -1,6 +1,7 @@
 package fetch
 
 import (
+	"bytes"
 	"context"
 	"crypto/tls"
 	"crypto/x509"
@@ -10,6 +11,8 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"reflect"
+	"slices"
 	"strings"
 )
 
@@ -101,10 +104,76 @@ func (s Source) JSON(ctx context.Context, path string, v any) error {
 	if err != nil {
 		return err
 	}
-	if err := json.Unmarshal(body, v); err != nil {
+	if err := Decode(body, v); err != nil {
 		return fmt.Errorf("an answer that isn't the JSON expected: %w", err)
 	}
 	return nil
+}
+
+// Decode reads data into v, a pointer, as json.Unmarshal does, but leaves out
+// each item of a list in data that v can't hold, such as one whose time is
+// written in another format, and reads the rest: one odd item costs a row,
+// never its source. Anything else v can't hold is an error. JSON reads every
+// answer with it; an adapter that reads JSON inside an answer, as Tautulli's
+// data, reads that with it too.
+func Decode(data []byte, v any) error {
+	err := json.Unmarshal(data, v)
+	var invalid *json.InvalidUnmarshalError
+	if err == nil || errors.As(err, &invalid) {
+		return err
+	}
+	t := reflect.TypeOf(v).Elem()
+	mended, ok := mend(data, func(b []byte) bool { return json.Unmarshal(b, reflect.New(t).Interface()) == nil })
+	if !ok {
+		return err
+	}
+	// What the first try read is dropped, since an item it read may be one
+	// left out.
+	reflect.ValueOf(v).Elem().SetZero()
+	return json.Unmarshal(mended, v)
+}
+
+// mend gives back data less each item of its lists, however deep, that
+// keeps it from fitting, and whether what's left fits. fits says whether a
+// value fits in data's place, which lets an item be tried on its own, in its
+// place, without knowing the type it's read into.
+func mend(data []byte, fits func([]byte) bool) ([]byte, bool) {
+	if fits(data) {
+		return data, true
+	}
+	var mended any
+	switch data = bytes.TrimSpace(data); {
+	case bytes.HasPrefix(data, []byte("[")):
+		var items []json.RawMessage
+		if json.Unmarshal(data, &items) != nil {
+			return nil, false
+		}
+		kept := []json.RawMessage{}
+		for _, item := range items {
+			if m, ok := mend(item, func(b []byte) bool { return fits(slices.Concat([]byte("["), b, []byte("]"))) }); ok {
+				kept = append(kept, m)
+			}
+		}
+		mended = kept
+	case bytes.HasPrefix(data, []byte("{")):
+		var fields map[string]json.RawMessage
+		if json.Unmarshal(data, &fields) != nil {
+			return nil, false
+		}
+		for k, field := range fields {
+			key, _ := json.Marshal(k)
+			m, ok := mend(field, func(b []byte) bool { return fits(slices.Concat([]byte("{"), key, []byte(":"), b, []byte("}"))) })
+			if !ok {
+				return nil, false
+			}
+			fields[k] = m
+		}
+		mended = fields
+	default:
+		return nil, false
+	}
+	b, err := json.Marshal(mended)
+	return b, err == nil && fits(b)
 }
 
 // Text reads the answer at path as it is, as JSON reads one, asking for

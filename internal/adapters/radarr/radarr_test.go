@@ -7,6 +7,7 @@ import (
 
 	"github.com/bnlqn/overlook/internal/adapters/adaptertest"
 	"github.com/bnlqn/overlook/internal/adapters/servarr"
+	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
 // testdata holds Radarr's answers with every title, path, number and date
@@ -82,4 +83,16 @@ func TestNothingComing(t *testing.T) {
 	if rows := coming(nil, start, start.AddDate(0, 0, 8)); len(rows) != 1 || rows[0].Title.Key != "servarr.coming_none" {
 		t.Errorf("an empty week says so: %+v", rows)
 	}
+}
+
+// An odd item in one of its answers costs a row, never the source.
+func TestBend(t *testing.T) {
+	t.Parallel()
+	adaptertest.Bend(t, "testdata", func(url string) (snapshot.Parts, error) {
+		c := Config{Config: servarr.Config{URL: url, Key: "0123abcd"}}
+		if err := c.Check(); err != nil {
+			return snapshot.Parts{}, err
+		}
+		return Read(context.Background(), c, time.Date(2026, 10, 28, 10, 0, 0, 0, time.UTC))
+	})
 }

@@ -77,7 +77,7 @@ func (c Config) get(ctx context.Context, cmd string, values url.Values, v any) e
 	if answer.Response.Result != "success" {
 		return fmt.Errorf("%s: %s", cmd, cmp.Or(answer.Response.Message, answer.Response.Result))
 	}
-	if err := json.Unmarshal(answer.Response.Data, v); err != nil {
+	if err := fetch.Decode(answer.Response.Data, v); err != nil {
 		return fmt.Errorf("an answer that isn't the JSON expected: %w", err)
 	}
 	return nil

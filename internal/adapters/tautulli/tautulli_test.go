@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/bnlqn/overlook/internal/adapters/adaptertest"
+	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
 // testdata holds answers recorded from a scratch Tautulli 2.18.2 watching a
@@ -122,4 +123,16 @@ func TestConfigCheck(t *testing.T) {
 	if err := (Config{URL: "http://tautulli:8181", Key: "k"}).get(context.Background(), "delete_all_history", nil, nil); err == nil {
 		t.Error("a command that isn't a read was let through")
 	}
+}
+
+// An odd item in one of its answers costs a row, never the source.
+func TestBend(t *testing.T) {
+	t.Parallel()
+	adaptertest.Bend(t, "testdata", func(url string) (snapshot.Parts, error) {
+		c := Config{URL: url, Key: "0123abcd"}
+		if err := c.Check(); err != nil {
+			return snapshot.Parts{}, err
+		}
+		return Read(context.Background(), c, time.Date(2026, 10, 29, 12, 37, 33, 0, time.UTC))
+	})
 }
