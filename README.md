@@ -1182,7 +1182,7 @@ say what each one brought. The road to v0.6 makes Overlook worth more to
 more homelabs, taking first what most of them run, as
 [selfh.st's 2025 survey](https://selfh.st/survey/2025-results/) counts it:
 
-1. [ ] An owner with no check engine told how to get one: what's wrong
+1. [x] An owner with no check engine told how to get one: what's wrong
        comes only from a check engine, so the setup page asks for one
        first and says why, and the page, where it says No checks, names
        the check engines Overlook reads and links to them.

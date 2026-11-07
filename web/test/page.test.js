@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { asIfNow, page } from "../js/page.js";
+import { setWords } from "../js/text.js";
 
 // A demo homelab as page() says it, at the moment it was read.
 const homelab = (name) => {
@@ -296,7 +297,10 @@ test("with no check engine, a silent resolver is named but the homelab isn't dow
   assert.deepEqual(m.homelab, {
     state: "unknown",
     headline: { key: "status.no_checks" },
-    summary: [[{ key: "source.no_answer", args: { names: ["Primary DNS"] } }]],
+    summary: [
+      [{ key: "status.no_engine", args: { engines: m.checkEngines } }],
+      [{ key: "source.no_answer", args: { names: ["Primary DNS"] } }],
+    ],
   });
 });
 
@@ -320,6 +324,31 @@ test("a problem in a check in no area makes the homelab degraded, and the summar
 test("with no checks and nothing silent, the homelab is unknown, not up", () => {
   const m = page(snap([]), NOW);
   assert.deepEqual(m.homelab, { state: "unknown", headline: { key: "status.no_checks" }, summary: [] });
+  assert.deepEqual(m.checkEngines, [], "its check engine has none yet: it needs no other");
+});
+
+test("with no check engine, the page names those Overlook reads, each linking its README section", () => {
+  setWords(JSON.parse(readFileSync(new URL("../i18n/en/page.json", import.meta.url), "utf8")));
+  const m = page(
+    snap([], { sources: [{ name: "Primary DNS", area: "network", kind: "resolver", answered: true }] }),
+    NOW,
+  );
+  const readme = "https://github.com/bnlqn/overlook";
+  assert.deepEqual(m.checkEngines, [
+    { key: "setup.adapter.gatus", url: `${readme}#gatus` },
+    { key: "setup.adapter.uptimekuma", url: `${readme}#uptime-kuma` },
+    { key: "setup.adapter.grafana", url: `${readme}#grafana` },
+    { key: "setup.adapter.prometheus", url: `${readme}#prometheus-and-alertmanager` },
+    { key: "setup.adapter.checkmate", url: `${readme}#checkmate` },
+  ]);
+  assert.deepEqual(m.homelab, {
+    state: "unknown",
+    headline: { key: "status.no_checks" },
+    summary: [[{ key: "status.no_engine", args: { engines: m.checkEngines } }]],
+  });
+  const released = page(snap([], { sources: [], version: "0.5.0" }), NOW);
+  assert.equal(released.checkEngines[0].url, `${readme}/blob/v0.5.0/README.md#gatus`, "a release's, at its tag");
+  for (const name of ["snapshot", "small", "large"]) assert.deepEqual(homelab(name).checkEngines, [], name);
 });
 
 test("an area with no checks is unknown, not up: nothing says whether it works", () => {

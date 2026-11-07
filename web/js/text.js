@@ -130,7 +130,7 @@ export function bytes(n) {
 export const ms = (v) => (v === null || v === undefined ? "" : v < 1 ? t("ms.under") : t("ms", { n: Math.round(v) }));
 
 // The formats a message's {name:format} can ask for.
-// A list is of names as written, areas of the page's areas.
+// A list is of names as written, areas of the page's areas, a choice of links.
 const FORMAT = {
   span,
   when: (d) => when(d, moment),
@@ -141,4 +141,9 @@ const FORMAT = {
   area: (a) => t(`area.${a}`),
   areas: (areas) => list(areas.map((a) => t(`area.${a}`))),
   list: (names) => list(names.map(esc)),
+  // A choice of links, each a text and its address: "a, b or c".
+  choice: (links) =>
+    new Intl.ListFormat(locale, { type: "disjunction" }).format(
+      links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${say(l)}</a>`),
+    ),
 };
