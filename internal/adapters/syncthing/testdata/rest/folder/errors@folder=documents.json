@@ -1,0 +1,11 @@
+{
+  "errors": [
+    {
+      "path": "Taxes/2026.txt",
+      "error": "syncing: finishing: error after failing to make parent directory writable: opening temp file: open /var/syncthing/Documents/Taxes/.syncthing.2026.txt.tmp: permission denied"
+    }
+  ],
+  "folder": "documents",
+  "page": 1,
+  "perpage": 65536
+}

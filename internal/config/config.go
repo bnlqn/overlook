@@ -44,6 +44,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/radarr"
 	"github.com/bnlqn/overlook/internal/adapters/seerr"
 	"github.com/bnlqn/overlook/internal/adapters/sonarr"
+	"github.com/bnlqn/overlook/internal/adapters/syncthing"
 	"github.com/bnlqn/overlook/internal/adapters/tautulli"
 	"github.com/bnlqn/overlook/internal/adapters/unifi"
 	"github.com/bnlqn/overlook/internal/adapters/uptimekuma"
@@ -82,6 +83,7 @@ type Sources struct {
 	GitHub        []github.Config        `yaml:"github" icon:"github.svg"`
 	Immich        []immich.Config        `yaml:"immich" icon:"immich.svg"`
 	PBS           []pbs.Config           `yaml:"pbs" icon:"proxmox-backup-server.svg"`
+	Syncthing     []syncthing.Config     `yaml:"syncthing" icon:"syncthing.svg"`
 	Proxmox       []proxmox.Config       `yaml:"proxmox" icon:"proxmox.svg"`
 	Beszel        []beszel.Config        `yaml:"beszel" icon:"beszel.svg"`
 	Docker        []docker.Config        `yaml:"docker" icon:"docker.svg"`
@@ -246,6 +248,7 @@ func (c *Config) check() error {
 		add(c, "github", "", "", c.Sources.GitHub, func(g github.Config) string { return g.Name }, github.Read),
 		add(c, "immich", immich.Area, "", c.Sources.Immich, func(im immich.Config) string { return im.Name }, immich.Read),
 		add(c, "pbs", pbs.Area, "", c.Sources.PBS, func(b pbs.Config) string { return b.Name }, pbs.Read),
+		add(c, "syncthing", syncthing.Area, "", c.Sources.Syncthing, func(s syncthing.Config) string { return s.Name }, syncthing.Read),
 		add(c, "proxmox", proxmox.Area, "", c.Sources.Proxmox, func(p proxmox.Config) string { return p.Name }, proxmox.Read),
 		add(c, "beszel", beszel.Area, "", c.Sources.Beszel, func(b beszel.Config) string { return b.Name }, beszel.Read),
 		add(c, "docker", docker.Area, "", c.Sources.Docker, func(d docker.Config) string { return d.Name }, docker.Read),

@@ -1,0 +1,18 @@
+{
+  "arch": "arm64",
+  "codename": "Hafnium Hornet",
+  "container": true,
+  "date": "2026-10-20T19:54:38Z",
+  "extra": "",
+  "isBeta": false,
+  "isCandidate": false,
+  "isRelease": true,
+  "longVersion": "syncthing v2.1.7 \"Hafnium Hornet\" (go1.27.3 linux-arm64) docker@github.syncthing.net 2026-10-20 19:54:38 UTC [noupgrade]",
+  "os": "linux",
+  "stamp": "1792526078",
+  "tags": [
+    "noupgrade"
+  ],
+  "user": "docker",
+  "version": "v2.1.7"
+}

@@ -1,0 +1,13 @@
+HTTP/1.1 501 Not Implemented
+Access-Control-Allow-Origin: *
+Cache-Control: max-age=0, no-cache, no-store
+Content-Type: text/plain; charset=utf-8
+Pragma: no-cache
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Syncthing-Id: QZBBGVK-4DHAII5-2G5MPUA-5QA3BXO-2CCATMM-OKU5P6B-DTRLNHU-LZZQVQT
+X-Syncthing-Version: v2.1.7
+X-Xss-Protection: 1; mode=block
+Content-Length: 20
+
+upgrade unsupported

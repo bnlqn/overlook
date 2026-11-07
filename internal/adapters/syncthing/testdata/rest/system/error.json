@@ -1,0 +1,14 @@
+{
+  "errors": [
+    {
+      "level": "ERR",
+      "message": "Failed to create folder root directory (folder.label=Videos folder.id=videos folder.type=sendreceive error=\"mkdir /srv/videos: permission denied\" log.pkg=model)",
+      "when": "2026-11-07T23:29:16.880620593Z"
+    },
+    {
+      "level": "ERR",
+      "message": "Failed initial scan (error=\"folder path missing\" folder.label=Videos folder.id=videos folder.type=sendreceive log.pkg=model)",
+      "when": "2026-11-07T23:29:16.888624385Z"
+    }
+  ]
+}
