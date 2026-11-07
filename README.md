@@ -1186,7 +1186,7 @@ more homelabs, taking first what most of them run, as
        comes only from a check engine, so the setup page asks for one
        first and says why, and the page, where it says No checks, names
        the check engines Overlook reads and links to them.
-2. [ ] One odd answer costs a row, never its source. A test every adapter
+2. [x] One odd answer costs a row, never its source. A test every adapter
        runs, in `adaptertest`, bends one item of each list in its recorded
        answers, such as a time in another format, a null or a field
        missing, and fails when the adapter then gives back nothing for its

@@ -84,3 +84,15 @@ func TestConfigCheck(t *testing.T) {
 		}
 	}
 }
+
+// An odd item in one of its answers costs a row, never the source.
+func TestBend(t *testing.T) {
+	t.Parallel()
+	adaptertest.Bend(t, "testdata", func(url string) (snapshot.Parts, error) {
+		c := Config{URL: url, Page: "homelab", Link: "https://uptime.example.com/"}
+		if err := c.Check(); err != nil {
+			return snapshot.Parts{}, err
+		}
+		return Read(context.Background(), c, time.Time{})
+	})
+}

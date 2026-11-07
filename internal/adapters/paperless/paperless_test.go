@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/bnlqn/overlook/internal/adapters/adaptertest"
+	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
 // testdata holds answers recorded from a scratch Paperless-ngx 3.3.4 (ADR 0008),
@@ -82,4 +83,16 @@ func TestConfigCheck(t *testing.T) {
 			t.Errorf("%+v: want an error with %q, got %v", bad.c, bad.want, err)
 		}
 	}
+}
+
+// An odd item in one of its answers costs a row, never the source.
+func TestBend(t *testing.T) {
+	t.Parallel()
+	adaptertest.Bend(t, "testdata", func(url string) (snapshot.Parts, error) {
+		c := Config{URL: url, Token: "0123abcd"}
+		if err := c.Check(); err != nil {
+			return snapshot.Parts{}, err
+		}
+		return Read(context.Background(), c, time.Time{})
+	})
 }

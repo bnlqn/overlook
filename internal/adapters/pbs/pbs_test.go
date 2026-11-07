@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/bnlqn/overlook/internal/adapters/adaptertest"
+	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
 // recorded is the morning after testdata's last night of backups.
@@ -183,4 +184,16 @@ func TestConfigCheck(t *testing.T) {
 			t.Errorf("%+v: want an error with %q, got %v", bad.c, bad.want, err)
 		}
 	}
+}
+
+// An odd item in one of its answers costs a row, never the source.
+func TestBend(t *testing.T) {
+	t.Parallel()
+	adaptertest.Bend(t, "testdata", func(url string) (snapshot.Parts, error) {
+		c := Config{URL: url, Token: "overlook@pbs!overlook", Secret: "00000000-0000-0000-0000-000000000000", Datastore: "archive"}
+		if err := c.Check(); err != nil {
+			return snapshot.Parts{}, err
+		}
+		return Read(context.Background(), c, recorded)
+	})
 }

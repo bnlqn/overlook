@@ -4,9 +4,11 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"io/fs"
 	"net/url"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"slices"
 	"strings"
 	"testing"
@@ -149,6 +151,37 @@ func TestBendFails(t *testing.T) {
 	} {
 		if err == nil || !bytes.Contains(out, []byte(want)) {
 			t.Errorf("%v, and no %q in:\n%s", err, want, out)
+		}
+	}
+}
+
+// Every adapter whose answers are JSON runs Bend in its test, so that one
+// added later is held to it from the start.
+func TestEveryAdapterBends(t *testing.T) {
+	t.Parallel()
+	answers, err := filepath.Glob("../*/testdata")
+	if err != nil || len(answers) == 0 {
+		t.Fatalf("no adapter's answers: %v", err)
+	}
+	for _, dir := range answers {
+		inJSON := false
+		err := filepath.WalkDir(dir, func(name string, _ fs.DirEntry, err error) error {
+			inJSON = inJSON || filepath.Ext(name) == ".json"
+			return err
+		})
+		if err != nil {
+			t.Fatal(err)
+		}
+		tests, err := filepath.Glob(filepath.Join(filepath.Dir(dir), "*_test.go"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		bends := slices.ContainsFunc(tests, func(name string) bool {
+			b, err := os.ReadFile(name) //nolint:gosec // the repository's own tests
+			return err == nil && bytes.Contains(b, []byte("adaptertest.Bend("))
+		})
+		if inJSON && !bends {
+			t.Errorf("%s: its answers are JSON, and its test doesn't run adaptertest.Bend", filepath.Base(filepath.Dir(dir)))
 		}
 	}
 }

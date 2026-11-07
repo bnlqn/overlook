@@ -182,6 +182,10 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 	}
 	var all []read
 	for _, s := range sites.Data {
+		// A site with no id can't be read at all, so it costs only itself.
+		if s.ID == "" {
+			continue
+		}
 		r, err := readSite(ctx, c, s)
 		if err != nil {
 			return snapshot.Parts{}, err
@@ -213,7 +217,9 @@ func readSite(ctx context.Context, c Config, s site) (read, error) {
 	}
 	r.devices = devices.Data
 	for _, d := range r.devices {
-		if d.State != "ONLINE" {
+		// A device with no id has no statistics to read, and keeps only
+		// its state.
+		if d.State != "ONLINE" || d.ID == "" {
 			continue
 		}
 		var st stats
