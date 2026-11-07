@@ -1,6 +1,7 @@
 // Package server serves the page, the snapshot it's drawn from, the page's
 // English words, and, from the config's folder, the owner's own icons and
-// custom.css; or, while there is no config, the setup page.
+// custom.css, and, if the owner turns it on, MCP for agents; or, while there
+// is no config, the setup page.
 package server
 
 import (
@@ -76,6 +77,18 @@ func New(c config.Config, dir string) (http.Handler, error) {
 		}
 		_, _ = w.Write(css)
 	})
+	if c.MCP {
+		english, err := web.English()
+		if err != nil {
+			return nil, err
+		}
+		mux.Handle("POST /mcp", mcp(reader, english))
+		// Nothing is streamed, so there is no stream to open with GET.
+		mux.HandleFunc("GET /mcp", func(w http.ResponseWriter, _ *http.Request) {
+			w.Header().Set("Allow", http.MethodPost)
+			http.Error(w, "MCP is answered to POST", http.StatusMethodNotAllowed)
+		})
+	}
 	return secure(mux), nil
 }
 

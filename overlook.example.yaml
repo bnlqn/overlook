@@ -254,3 +254,8 @@ tools:
     check: Hypervisor
     description: The host and its guests
     color: "#E57000"
+
+# Agents may read what the page shows through MCP, at /mcp, with no login, as
+# the page has none. The model behind the agent then sees your hosts, names
+# and problems, so it's off until you turn it on.
+# mcp: true
