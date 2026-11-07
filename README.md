@@ -73,7 +73,7 @@ What it can't read, and why, is under [Can't be read](#cant-be-read).
   is what your sources remember.
 - **It never sends a key to the browser.** The server reads every source
   and gives the page a snapshot of what it read, never a key or a source's
-  own answer.
+  own answer, and gives an agent no more, if you [turn MCP on](#agents-through-mcp).
 - **It never asks where to put things.** The page is fixed: your config
   says which sources fill it, never where anything goes. There are no
   widgets to arrange.
@@ -247,6 +247,10 @@ chores from more than one source, each is named by the one it waits in. You
 add, change and mark chores done in your to-do app or from a script, and do
 the others where they wait, never on the page (ADR 0010), and the page
 follows within 30 seconds.
+
+**MCP.** `mcp: true` lets an AI agent read what the page shows, as
+[Agents, through MCP](#agents-through-mcp) says. It's off until you turn
+it on.
 
 **Flags.** `-config` names the config (`overlook.yaml` by default), and
 `.env`, `icons/` and `custom.css` are read beside it; `-listen` is the address to
@@ -1152,6 +1156,46 @@ what is wrong. Keep it on your LAN or behind your VPN, or put it behind
 your reverse proxy's own authentication, such as forward auth to your
 identity provider.
 
+## Agents, through MCP
+
+An AI agent can read what the page shows, if you turn it on. Overlook then
+answers the Model Context Protocol at `/mcp`, at the page's own address,
+with no login, as the page has none, so whoever can open the page can read
+it there too:
+
+```yaml
+# overlook/overlook.yaml
+mcp: true
+```
+
+Restart Overlook, and give your agent that address as an MCP server over
+HTTP, such as `http://overlook.example.com:8080/mcp`. With Claude Code,
+that is
+`claude mcp add --transport http overlook http://overlook.example.com:8080/mcp`.
+
+- **It can only read.** It has six tools, one for each part of the page,
+  and none of them changes anything, in Overlook or in your homelab:
+  `problems` (what's wrong, and whether each source answered), `area` (one
+  area, as its own page shows it), `today` (the figures), `this_week` (the
+  problems and events of the last seven days), `chores` (the chores and
+  the updates) and `apps_and_tools` (each link, with the checks that say
+  whether it answers).
+- **It reads the snapshot and nothing else**: the one the page is drawn
+  from, at most 30 seconds old, never a key or a source's own answer. Each
+  tool returns its part as JSON, each message key with its English words
+  beside it and its values next to them, never a sentence Overlook put
+  together itself.
+- **The model behind the agent sees your homelab**: its hosts, names and
+  problems, wherever that model runs. That is why MCP is off until you
+  turn it on.
+- **A website can't reach it.** It refuses a request from a page in your
+  browser that isn't Overlook's own, so that a site you visit can't read
+  your homelab through you.
+- It speaks MCP's current revision, 2026-07-28, and the three before it,
+  2025-11-25, 2025-06-18 and 2025-03-26, which many agents still speak. It
+  answers each request on its own and whole, with nothing streamed
+  (ADR 0015).
+
 ## Your own look
 
 A `custom.css` beside the config is loaded after the page's own
@@ -1205,7 +1249,7 @@ more homelabs, taking first what most of them run, as
        [Portainer](https://github.com/bnlqn/overlook/issues/74), which a
        third of them run, [Syncthing](https://github.com/bnlqn/overlook/issues/75),
        and [Gitea and Forgejo](https://github.com/bnlqn/overlook/issues/76).
-5. [ ] Agents read what the page shows through MCP, if the owner turns it
+5. [x] Agents read what the page shows through MCP, if the owner turns it
        on: six tools, one for each part of the page, that read the
        snapshot and nothing else (ADR 0015).
 6. [ ] A light page for an owner whose system asks for one, the logos

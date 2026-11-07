@@ -56,6 +56,10 @@ type Config struct {
 	Sources Sources         `yaml:"sources"`
 	Apps    []snapshot.Link `yaml:"apps"`
 	Tools   []snapshot.Link `yaml:"tools"`
+	// MCP says whether agents may read the page through MCP, at /mcp: off
+	// unless the owner turns it on, since it hands the homelab's state to a
+	// model (ADR 0015).
+	MCP bool `yaml:"mcp"`
 
 	// readers are the sources check let through, each with its read.
 	readers []snapshot.Source

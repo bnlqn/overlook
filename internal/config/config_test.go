@@ -42,9 +42,13 @@ apps:
     check: "8080"
     color: "#ED79B5"
     description: ${PHOTOS_ABOUT}
+mcp: true
 `))
 	if err != nil {
 		t.Fatal(err)
+	}
+	if !c.MCP {
+		t.Error("mcp: true left MCP off")
 	}
 	g := c.Sources.Gatus[0]
 	if g.URL != "https://status.example.com" || g.Password != "s3cret" || g.Name != "Gatus" || g.Threshold != 3 {
@@ -225,6 +229,9 @@ func TestExample(t *testing.T) {
 	c, err := Load("../../overlook.example.yaml")
 	if err != nil {
 		t.Fatal(err)
+	}
+	if c.MCP {
+		t.Error("the example turns MCP on, which is the owner's choice (ADR 0015)")
 	}
 	// The example has a source of every adapter, so each says its kind, which
 	// the page asks by (ADR 0012).
