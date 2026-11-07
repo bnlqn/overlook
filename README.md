@@ -56,6 +56,10 @@ What it can't read, and why, is under [Can't be read](#cant-be-read).
   marking it done on the list, never on the page, and a chore is never a
   problem.
 
+The page is light where your system is light, and dark otherwise. On a
+phone, your browser's Add to Home Screen, or Install app, puts it there as
+an app of its own.
+
 ## What it never does
 
 - **It never changes anything.** Overlook sends a source only GET requests,
@@ -78,7 +82,7 @@ What it can't read, and why, is under [Can't be read](#cant-be-read).
   says which sources fill it, never where anything goes. There are no
   widgets to arrange.
 - **It never calls anywhere you didn't name.** No telemetry and no update
-  check; the page's fonts and icons come from Overlook itself.
+  check; the page's fonts, icons and manifest come from Overlook itself.
 
 ## Quick start
 
@@ -1210,8 +1214,11 @@ stylesheet, so it can change any colour, size or font:
 ```
 
 The page's colours, sizes and fonts are the `--m-` properties at the top
-of [`web/style.css`](web/style.css). The page stays one page: custom.css
-changes how it looks, not what it shows.
+of [`web/style.css`](web/style.css): the dark page's, then the light
+page's, under `@media (prefers-color-scheme: light)`. A property your
+custom.css sets changes both; set under the same `@media`, it changes the
+light page only. The page stays one page: custom.css changes how it looks,
+not what it shows.
 
 ## Translating
 
@@ -1252,7 +1259,7 @@ more homelabs, taking first what most of them run, as
 5. [x] Agents read what the page shows through MCP, if the owner turns it
        on: six tools, one for each part of the page, that read the
        snapshot and nothing else (ADR 0015).
-6. [ ] A light page for an owner whose system asks for one, the logos
+6. [x] A light page for an owner whose system asks for one, the logos
        chosen for dark tiles still showing on it, and a web manifest, so
        that the page installs on a phone as an app.
 
