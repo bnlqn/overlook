@@ -216,7 +216,7 @@ func parts(datastore string, r room, backups []backup, now time.Time) snapshot.P
 		}
 		shares[i] = snapshot.Share{Label: rows[i].Title, Value: 1, Tone: tone, Rows: []snapshot.Row{
 			{Title: snapshot.Text{Key: in}, Value: snapshot.Msg("pbs.when", map[string]any{"at": at(b)})},
-			{Title: snapshot.Text{Key: "pbs.size"}, Value: snapshot.Msg("pbs.bytes", map[string]any{"n": b.Size})},
+			{Title: snapshot.Text{Key: "pbs.size"}, Value: snapshot.Bytes(b.Size)},
 			{Title: snapshot.Text{Key: "pbs.check"}, Value: snapshot.Msg(check, nil)},
 		}}
 	}

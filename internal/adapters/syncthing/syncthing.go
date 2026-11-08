@@ -55,11 +55,7 @@ func (c *Config) Check() error {
 		return errors.New("key is missing")
 	}
 	c.Name = cmp.Or(c.Name, "Syncthing")
-	c.Link = cmp.Or(c.Link, c.URL)
-	if err := fetch.CheckURL(c.Link); err != nil {
-		return fmt.Errorf("link %w", err)
-	}
-	return nil
+	return fetch.CheckLink(&c.Link, c.URL)
 }
 
 // folder is one of /rest/config/folders.
@@ -319,12 +315,7 @@ func parts(r read, link string, now time.Time) snapshot.Parts {
 	// Its version, or the newer one out in orange, then its errors, in red
 	// with the newest, until they're cleared.
 	if r.version != "" {
-		row := snapshot.Row{Title: snapshot.Text{Key: "syncthing.version"}, Value: &snapshot.Text{Name: r.version}}
-		if r.newer != "" {
-			row.Value, row.Tone = snapshot.Msg("syncthing.newer", map[string]any{"version": r.newer}), "orange"
-			row.Detail = &snapshot.Text{Name: r.version}
-		}
-		drows = append(drows, row)
+		drows = append(drows, snapshot.VersionRow(r.version, r.newer))
 	}
 	notices := slices.DeleteFunc(slices.Clone(r.notices), func(n notice) bool { return n.Message == "" })
 	if len(notices) > 0 {

@@ -18,8 +18,6 @@
   "syncthing.behind": "{percent}% in sync",
   "syncthing.in_sync_seen": "last seen {at:when} · in sync",
   "syncthing.behind_seen": "last seen {at:when} · {percent}% in sync",
-  "syncthing.version": "Version",
-  "syncthing.newer": "{version} is out",
   "syncthing.errors": "Errors",
   "syncthing.errors_n": { "one": "{n} error", "other": "{n} errors" }
 }

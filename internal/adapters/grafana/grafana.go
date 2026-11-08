@@ -7,7 +7,6 @@ import (
 	"cmp"
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
 	"net/url"
 	"slices"
@@ -49,11 +48,7 @@ func (c *Config) Check() error {
 		return errors.New("token is missing: a service account's, with the Viewer role")
 	}
 	c.Name = cmp.Or(c.Name, "Grafana")
-	c.Link = cmp.Or(c.Link, c.URL)
-	if err := fetch.CheckURL(c.Link); err != nil {
-		return fmt.Errorf("link %w", err)
-	}
-	return snapshot.CheckAreas(c.Areas)
+	return cmp.Or(fetch.CheckLink(&c.Link, c.URL), snapshot.CheckAreas(c.Areas))
 }
 
 // rule is one of Grafana's alert rules, as its Prometheus-like API gives

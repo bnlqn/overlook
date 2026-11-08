@@ -7,7 +7,6 @@ import (
 	"cmp"
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -49,9 +48,8 @@ func (c *Config) Check() error {
 		return errors.New("key is missing")
 	}
 	c.Name = cmp.Or(c.Name, "Seerr")
-	c.Link = cmp.Or(c.Link, c.URL)
-	if err := fetch.CheckURL(c.Link); err != nil {
-		return fmt.Errorf("link %w", err)
+	if err := fetch.CheckLink(&c.Link, c.URL); err != nil {
+		return err
 	}
 	c.titles = &titles{by: map[string]string{}}
 	return nil
@@ -154,7 +152,7 @@ func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 	if issues.Open > 0 {
 		rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "seerr.issues"}, Value: snapshot.Msg("seerr.open", map[string]any{"n": issues.Open}), Tone: "orange"})
 	}
-	version := snapshot.Row{Title: snapshot.Text{Key: "seerr.version"}, Value: &snapshot.Text{Name: status.Version}}
+	version := snapshot.VersionRow(status.Version, "")
 	switch {
 	case status.RestartRequired:
 		version.Value, version.Tone, version.Detail = snapshot.Msg("seerr.restart", nil), "orange", &snapshot.Text{Name: status.Version}

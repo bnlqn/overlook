@@ -2,6 +2,7 @@
 // tooltips, and start(), which reads the snapshot and draws the page from
 // what page() says of it.
 
+import { REPO } from "./config.js";
 import { badge, by, stateIcon, svg, TONE } from "./draw.js";
 import { asIfNow, page } from "./page.js";
 import { drawnAt, esc, loadWords, number, t, translate } from "./text.js";
@@ -23,9 +24,6 @@ export const pageName = (p) => t(p.area ? `area.${p.area}` : "page.overview");
  * invented snapshot.json, as if just read, in place of the server's snapshot.
  */
 const DEMO = document.documentElement.hasAttribute("data-demo");
-
-/** Where Overlook comes from: its repository. */
-const REPO = "https://github.com/bnlqn/overlook";
 
 /** The page showing. */
 export const HERE = PAGES.find((p) => p.area && p.area === location.pathname.split("/").pop()) || PAGES[0];

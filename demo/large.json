@@ -5737,7 +5737,7 @@
         },
         {
           "title": { "key": "qbittorrent.free" },
-          "value": { "key": "qbittorrent.bytes", "args": { "n": 3221225472000 } }
+          "value": { "key": "bytes", "args": { "n": 3221225472000 } }
         },
         {
           "title": { "key": "qbittorrent.connection" },
@@ -5828,7 +5828,7 @@
           "tone": "red"
         },
         {
-          "title": { "key": "mediabrowser.version" },
+          "title": { "key": "version" },
           "value": { "key": "mediabrowser.restart" },
           "detail": { "name": "12.4.0" },
           "tone": "orange"
@@ -5884,7 +5884,7 @@
         },
         {
           "title": { "key": "tautulli.plex" },
-          "value": { "key": "tautulli.newer", "args": { "version": "1.43.6.11200-0a1b2c3d4" } },
+          "value": { "key": "version.newer", "args": { "version": "1.43.6.11200-0a1b2c3d4" } },
           "tone": "orange"
         }
       ]
@@ -5901,7 +5901,7 @@
         },
         { "title": { "key": "seerr.issues" }, "value": { "key": "seerr.open", "args": { "n": 2 } }, "tone": "orange" },
         {
-          "title": { "key": "seerr.version" },
+          "title": { "key": "version" },
           "value": { "key": "seerr.newer" },
           "detail": { "name": "3.5.0" },
           "tone": "orange"
@@ -5913,7 +5913,7 @@
       "source": "Home Assistant",
       "title": { "key": "homeassistant.home" },
       "rows": [
-        { "title": { "key": "homeassistant.version" }, "value": { "name": "2026.10.3" } },
+        { "title": { "key": "version" }, "value": { "name": "2026.10.3" } },
         {
           "title": { "key": "homeassistant.automations" },
           "value": { "key": "homeassistant.automations_n", "args": { "n": 86 } },
@@ -5994,7 +5994,7 @@
           },
           "tone": "red"
         },
-        { "title": { "key": "paperless.version" }, "value": { "name": "3.3.2" } }
+        { "title": { "key": "version" }, "value": { "name": "3.3.2" } }
       ]
     },
     {
@@ -6012,15 +6012,15 @@
           "value": { "key": "number", "args": { "n": 187 } },
           "detail": { "key": "nextcloud.links", "args": { "n": 41, "open": 9 } }
         },
-        { "title": { "key": "nextcloud.free" }, "value": { "key": "nextcloud.bytes", "args": { "n": 2310000000000 } } },
+        { "title": { "key": "nextcloud.free" }, "value": { "key": "bytes", "args": { "n": 2310000000000 } } },
         {
           "title": { "key": "nextcloud.database" },
-          "value": { "key": "nextcloud.bytes", "args": { "n": 2840000000 } },
+          "value": { "key": "bytes", "args": { "n": 2840000000 } },
           "detail": { "name": "pgsql" }
         },
         {
-          "title": { "key": "nextcloud.version" },
-          "value": { "key": "nextcloud.newer", "args": { "version": "35.0.3" } },
+          "title": { "key": "version" },
+          "value": { "key": "version.newer", "args": { "version": "35.0.3" } },
           "detail": { "name": "35.0.2" },
           "tone": "orange"
         }
@@ -6102,7 +6102,7 @@
           "detail": { "key": "resolver.upstream" }
         },
         { "title": { "key": "adguard.processing" }, "value": { "key": "adguard.ms", "args": { "n": 2.9 } } },
-        { "title": { "key": "adguard.version" }, "value": { "name": "v0.107.79" } }
+        { "title": { "key": "version" }, "value": { "name": "v0.107.79" } }
       ]
     },
     {
@@ -6263,7 +6263,7 @@
         },
         {
           "title": { "key": "pihole.image" },
-          "value": { "key": "pihole.newer", "args": { "version": "2026.10.1" } },
+          "value": { "key": "version.newer", "args": { "version": "2026.10.1" } },
           "detail": { "name": "2026.10.0" },
           "tone": "orange"
         }
@@ -6345,7 +6345,7 @@
           "detail": { "key": "resolver.upstream" }
         },
         { "title": { "key": "adguard.processing" }, "value": { "key": "adguard.ms", "args": { "n": 2.3 } } },
-        { "title": { "key": "adguard.version" }, "value": { "name": "v0.107.78" } }
+        { "title": { "key": "version" }, "value": { "name": "v0.107.78" } }
       ]
     },
     {
@@ -6826,7 +6826,7 @@
           "rows": [
             { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 24182 } } },
             { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 1204 } } },
-            { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 318274200000 } } },
+            { "title": { "key": "immich.space" }, "value": { "key": "bytes", "args": { "n": 318274200000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 412 } } }
           ]
         },
@@ -6836,7 +6836,7 @@
           "rows": [
             { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 31877 } } },
             { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 2210 } } },
-            { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 532915700000 } } },
+            { "title": { "key": "immich.space" }, "value": { "key": "bytes", "args": { "n": 532915700000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 386 } } }
           ]
         },
@@ -6846,7 +6846,7 @@
           "rows": [
             { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 8812 } } },
             { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 340 } } },
-            { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 98009200000 } } },
+            { "title": { "key": "immich.space" }, "value": { "key": "bytes", "args": { "n": 98009200000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 41 } } }
           ]
         },
@@ -6856,7 +6856,7 @@
           "rows": [
             { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 14390 } } },
             { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 902 } } },
-            { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 223163000000 } } },
+            { "title": { "key": "immich.space" }, "value": { "key": "bytes", "args": { "n": 223163000000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 77 } } }
           ]
         },
@@ -6866,7 +6866,7 @@
           "rows": [
             { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 3104 } } },
             { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 96 } } },
-            { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 30198400000 } } },
+            { "title": { "key": "immich.space" }, "value": { "key": "bytes", "args": { "n": 30198400000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 0 } } }
           ]
         },
@@ -6876,7 +6876,7 @@
           "rows": [
             { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 19455 } } },
             { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 1610 } } },
-            { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 372785500000 } } },
+            { "title": { "key": "immich.space" }, "value": { "key": "bytes", "args": { "n": 372785500000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 123 } } }
           ]
         },
@@ -6886,7 +6886,7 @@
           "rows": [
             { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 6720 } } },
             { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 455 } } },
-            { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 110362000000 } } },
+            { "title": { "key": "immich.space" }, "value": { "key": "bytes", "args": { "n": 110362000000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 18 } } }
           ]
         },
@@ -6896,7 +6896,7 @@
           "rows": [
             { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 11903 } } },
             { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 734 } } },
-            { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 182390300000 } } },
+            { "title": { "key": "immich.space" }, "value": { "key": "bytes", "args": { "n": 182390300000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 64 } } }
           ]
         },
@@ -6906,7 +6906,7 @@
           "rows": [
             { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 2286 } } },
             { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 51 } } },
-            { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 18654600000 } } },
+            { "title": { "key": "immich.space" }, "value": { "key": "bytes", "args": { "n": 18654600000 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 5 } } }
           ]
         }
@@ -6930,7 +6930,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:31:01Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3923463106 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3923463106 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -6943,7 +6943,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:31:54Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 1093683386 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 1093683386 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -6956,7 +6956,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:33:04Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3801130594 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3801130594 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -6969,7 +6969,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:35:04Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3722914967 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3722914967 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -6982,7 +6982,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:44:25Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 76173545191 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 76173545191 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_none" } }
           ]
         },
@@ -6995,7 +6995,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:45:58Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 4330566488 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 4330566488 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7008,7 +7008,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:48:54Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 51566943751 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 51566943751 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7021,7 +7021,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:50:33Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 2675096206 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 2675096206 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7034,7 +7034,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:52:56Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3470848426 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3470848426 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_none" } }
           ]
         },
@@ -7047,7 +7047,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:54:08Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 1240446800 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 1240446800 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7060,7 +7060,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:56:15Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3686747702 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3686747702 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7073,7 +7073,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:58:18Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3113725341 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3113725341 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7086,7 +7086,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:59:08Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3972765248 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3972765248 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7099,7 +7099,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:01:18Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3832198674 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3832198674 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7112,7 +7112,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:03:33Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 2956502471 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 2956502471 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7125,7 +7125,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:05:51Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 1732705495 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 1732705495 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_none" } }
           ]
         },
@@ -7138,7 +7138,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:11:15Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 196614604522 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 196614604522 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7151,7 +7151,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:12:20Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3239393291 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3239393291 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7164,7 +7164,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:13:03Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 1940797699 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 1940797699 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7177,7 +7177,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:22:58Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 19437165809 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 19437165809 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7190,7 +7190,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:23:26Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3882065499 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3882065499 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7203,7 +7203,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:28:57Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 23520980822 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 23520980822 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_none" } }
           ]
         },
@@ -7216,7 +7216,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:29:47Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 1879439423 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 1879439423 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7229,7 +7229,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:31:08Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3165187409 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3165187409 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7242,7 +7242,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:38:21Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 104334073211 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 104334073211 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7255,7 +7255,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:39:32Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3679157456 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3679157456 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7268,7 +7268,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:43:10Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 15179530313 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 15179530313 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7281,7 +7281,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:44:26Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 2401051403 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 2401051403 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7294,7 +7294,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:46:43Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 4539509122 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 4539509122 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_none" } }
           ]
         },
@@ -7307,7 +7307,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:48:26Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 2432868632 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 2432868632 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7320,7 +7320,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:50:01Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 2064901028 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 2064901028 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7333,7 +7333,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:51:00Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 4052618228 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 4052618228 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7346,7 +7346,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T01:54:26Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 32532126715 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 32532126715 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7359,7 +7359,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T02:03:07Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 55184832582 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 55184832582 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7372,7 +7372,7 @@
               "title": { "key": "pbs.not_in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-19T17:42:00Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 68719476736 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 68719476736 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7385,7 +7385,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T02:09:50Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 69362832180 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 69362832180 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_none" } }
           ]
         },
@@ -7398,7 +7398,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T02:19:30Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 28138430908 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 28138430908 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7411,7 +7411,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T02:23:26Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 41256443486 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 41256443486 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7424,7 +7424,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T02:24:15Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3901055787 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3901055787 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_none" } }
           ]
         },
@@ -7437,7 +7437,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T02:26:05Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 1180930475 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 1180930475 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7450,7 +7450,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T02:27:48Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3738932299 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3738932299 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7463,7 +7463,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T02:29:08Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 754511295 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 754511295 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7476,7 +7476,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T02:30:49Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3014065694 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3014065694 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7489,7 +7489,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T02:33:08Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3267167897 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3267167897 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_none" } }
           ]
         },
@@ -7502,7 +7502,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T02:35:41Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3290517949 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3290517949 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7515,7 +7515,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T02:36:37Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 1795156194 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 1795156194 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7528,7 +7528,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T02:39:17Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3407815240 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3407815240 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         }
@@ -7552,7 +7552,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T03:01:07Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3955112652 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3955112652 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7565,7 +7565,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T03:10:53Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 195167891515 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 195167891515 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7578,7 +7578,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T03:13:24Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 19270634353 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 19270634353 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7591,7 +7591,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T03:21:25Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 24003454638 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 24003454638 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_none" } }
           ]
         },
@@ -7604,7 +7604,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T03:22:54Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 3140381886 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 3140381886 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7617,7 +7617,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T03:32:11Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 101414642181 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 101414642181 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_failed" } }
           ]
         },
@@ -7630,7 +7630,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T03:36:59Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 14746112040 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 14746112040 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7643,7 +7643,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T03:38:35Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 4626315015 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 4626315015 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_none" } }
           ]
         },
@@ -7656,7 +7656,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T03:43:09Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 69650710191 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 69650710191 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -7669,7 +7669,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T03:48:31Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 39990312115 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 39990312115 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         }
@@ -7756,7 +7756,7 @@
         "rows": [
           {
             "title": { "key": "servarr.on_disk" },
-            "value": { "key": "servarr.bytes", "args": { "n": 10775213952204 } }
+            "value": { "key": "bytes", "args": { "n": 10775213952204 } }
           },
           { "title": { "key": "servarr.in_library" }, "value": { "key": "radarr.films_n", "args": { "n": 1240 } } },
           { "title": { "key": "servarr.week" }, "value": { "key": "servarr.plus", "args": { "n": 7 } } }
@@ -7778,7 +7778,7 @@
         "rows": [
           {
             "title": { "key": "servarr.on_disk" },
-            "value": { "key": "servarr.bytes", "args": { "n": 16052869765529 } }
+            "value": { "key": "bytes", "args": { "n": 16052869765529 } }
           },
           { "title": { "key": "servarr.in_library" }, "value": { "key": "sonarr.shows_n", "args": { "n": 214 } } },
           { "title": { "key": "sonarr.episodes" }, "value": { "key": "number", "args": { "n": 9872 } } },

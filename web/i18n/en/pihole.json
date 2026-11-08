@@ -6,6 +6,5 @@
   "pihole.core": "Pi-hole",
   "pihole.ftl": "FTL",
   "pihole.web": "Web interface",
-  "pihole.image": "Pi-hole",
-  "pihole.newer": "{version} is out"
+  "pihole.image": "Pi-hole"
 }

@@ -80,7 +80,7 @@ func TestReadNewer(t *testing.T) {
 	}
 	adaptertest.Validate(t, Area, p)
 	rows := p.Sections[0].Rows
-	if v := rows[len(rows)-1]; v.Value.Key != "portainer.newer" || v.Value.Args["version"] != "2.46.0" ||
+	if v := rows[len(rows)-1]; v.Value.Key != "version.newer" || v.Value.Args["version"] != "2.46.0" ||
 		v.Tone != "orange" || v.Detail.Name != "2.45.3" {
 		t.Errorf("2.46.0 is out, in orange, over 2.45.3: %+v", v)
 	}

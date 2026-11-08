@@ -15,6 +15,5 @@
   "paperless.classifier": "Classifier",
   "paperless.sanity_check": "Sanity check",
 
-  "paperless.failed": "Failed {at:when}",
-  "paperless.version": "Version"
+  "paperless.failed": "Failed {at:when}"
 }

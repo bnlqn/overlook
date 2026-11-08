@@ -32,6 +32,21 @@ func Number[N int | int64](n N) *Text { return Msg("number", map[string]any{"n":
 // Percent is v as a percentage, as a row's value, such as a battery's charge.
 func Percent(v float64) *Text { return Msg("percent", map[string]any{"n": v}) }
 
+// Bytes is n bytes written the viewer's way, as a row's value, such as the
+// room a library takes.
+func Bytes[N int | int64 | float64](n N) *Text { return Msg("bytes", map[string]any{"n": n}) }
+
+// VersionRow is a source's version: the one it runs, or, when newer names one
+// that's out, that one in orange, with the one it runs under it. A source
+// that says more, such as a restart it waits for, changes the row after.
+func VersionRow(running, newer string) Row {
+	r := Row{Title: Text{Key: "version"}, Value: &Text{Name: running}}
+	if newer != "" {
+		r.Value, r.Tone, r.Detail = Msg("version.newer", map[string]any{"version": newer}), "orange", &Text{Name: running}
+	}
+	return r
+}
+
 // Recent is how many results a check engine gives each check, which its
 // strip on the page shows (RECENT in web/js/page.js): half an hour at
 // Gatus's and Uptime Kuma's default minute.

@@ -6,10 +6,7 @@
   "nextcloud.shares": "Shares",
   "nextcloud.links": "{n} by link · {open} without a password",
   "nextcloud.free": "Free space",
-  "nextcloud.bytes": "{n:bytes}",
   "nextcloud.database": "Database",
-  "nextcloud.version": "Version",
-  "nextcloud.newer": "{version} is out",
   "nextcloud.maintenance": "In maintenance",
   "nextcloud.upgrade": "Waiting for its upgrade"
 }

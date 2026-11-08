@@ -153,12 +153,11 @@ func parts(envs []environment, v version) snapshot.Parts {
 
 	// Its version, or the newer one out in orange.
 	if v.Version != "" {
-		row := snapshot.Row{Title: snapshot.Text{Key: "portainer.version"}, Value: &snapshot.Text{Name: v.Version}}
-		if v.Newer && v.Latest != "" {
-			row.Value, row.Tone = snapshot.Msg("portainer.newer", map[string]any{"version": v.Latest}), "orange"
-			row.Detail = &snapshot.Text{Name: v.Version}
+		newer := ""
+		if v.Newer {
+			newer = v.Latest
 		}
-		rows = append(rows, row)
+		rows = append(rows, snapshot.VersionRow(v.Version, newer))
 	}
 
 	p := snapshot.Parts{Sections: []snapshot.Section{{Area: Area, Title: snapshot.Text{Key: "portainer.environments"}, Rows: rows}}}

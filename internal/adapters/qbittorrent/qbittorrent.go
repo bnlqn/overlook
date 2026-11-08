@@ -146,7 +146,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 			Value:  snapshot.Msg("qbittorrent.torrents_n", map[string]any{"n": t.seeding}),
 			Detail: snapshot.Msg("qbittorrent.speed", map[string]any{"n": transfer.Up}),
 		},
-		{Title: snapshot.Text{Key: "qbittorrent.free"}, Value: snapshot.Msg("qbittorrent.bytes", map[string]any{"n": t.free})},
+		{Title: snapshot.Text{Key: "qbittorrent.free"}, Value: snapshot.Bytes(t.free)},
 	}
 	// Whether peers reach it: firewalled, it can still download, from peers
 	// it reaches itself, but slowly.

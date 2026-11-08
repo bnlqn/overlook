@@ -8,7 +8,5 @@
   },
   "portainer.up": "Up",
   "portainer.down": "Down",
-  "portainer.last_seen": "last seen {at:when}",
-  "portainer.version": "Version",
-  "portainer.newer": "{version} is out"
+  "portainer.last_seen": "last seen {at:when}"
 }

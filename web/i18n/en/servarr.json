@@ -2,7 +2,6 @@
   "servarr.library": "Library",
   "servarr.in_library": "In the library",
   "servarr.on_disk": "On disk",
-  "servarr.bytes": "{n:bytes}",
   "servarr.week": "This week",
   "servarr.plus": "+{n}",
   "servarr.downloading": "Downloading",

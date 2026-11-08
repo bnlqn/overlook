@@ -152,7 +152,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		case about.Version:
 			r.Detail = snapshot.Msg("immich.current", nil)
 		default:
-			r.Detail, r.Tone = snapshot.Msg("immich.newer", map[string]any{"version": release.ReleaseVersion}), "orange"
+			r.Detail, r.Tone = snapshot.Msg("version.newer", map[string]any{"version": release.ReleaseVersion}), "orange"
 		}
 		rows = append(rows, r)
 	}
@@ -182,7 +182,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 			rows := []snapshot.Row{
 				{Title: snapshot.Text{Key: "immich.photos"}, Value: snapshot.Number(p.Photos)},
 				{Title: snapshot.Text{Key: "immich.videos_title"}, Value: snapshot.Number(p.Videos)},
-				{Title: snapshot.Text{Key: "immich.space"}, Value: snapshot.Msg("immich.bytes", map[string]any{"n": p.Usage})},
+				{Title: snapshot.Text{Key: "immich.space"}, Value: snapshot.Bytes(p.Usage)},
 			}
 			if week[i] != nil {
 				rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "immich.week"}, Value: snapshot.Msg("immich.plus", map[string]any{"n": *week[i]})})

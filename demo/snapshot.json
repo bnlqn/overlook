@@ -1316,7 +1316,7 @@
         {
           "title": { "name": "Immich" },
           "value": { "name": "v3.3.5" },
-          "detail": { "key": "immich.newer", "args": { "version": "v3.4.0" } },
+          "detail": { "key": "version.newer", "args": { "version": "v3.4.0" } },
           "tone": "orange"
         },
         {
@@ -1472,7 +1472,7 @@
           "value": { "key": "syncthing.connected" },
           "detail": { "key": "syncthing.behind", "args": { "percent": 97 } }
         },
-        { "title": { "key": "syncthing.version" }, "value": { "name": "v2.1.7" } }
+        { "title": { "key": "version" }, "value": { "name": "v2.1.7" } }
       ]
     },
     {
@@ -1707,7 +1707,7 @@
           "detail": { "key": "portainer.unhealthy_stacks", "args": { "unhealthy": 1, "n": 4 } },
           "tone": "orange"
         },
-        { "title": { "key": "portainer.version" }, "value": { "name": "2.45.3" } }
+        { "title": { "key": "version" }, "value": { "name": "2.45.3" } }
       ]
     },
     {
@@ -1832,7 +1832,7 @@
         },
         {
           "title": { "key": "qbittorrent.free" },
-          "value": { "key": "qbittorrent.bytes", "args": { "n": 1843200000000 } }
+          "value": { "key": "bytes", "args": { "n": 1843200000000 } }
         },
         { "title": { "key": "qbittorrent.connection" }, "value": { "key": "qbittorrent.connected" } },
         {
@@ -1873,7 +1873,7 @@
           "value": { "key": "jellyfin.free", "args": { "n": 2140000000000 } },
           "meter": { "used": 9860000000000, "total": 12000000000000 }
         },
-        { "title": { "key": "mediabrowser.version" }, "value": { "name": "12.4.0" } }
+        { "title": { "key": "version" }, "value": { "name": "12.4.0" } }
       ]
     },
     {
@@ -1897,7 +1897,7 @@
           "detail": { "name": "Failed Login Attempt from Robin on emby" },
           "tone": "orange"
         },
-        { "title": { "key": "mediabrowser.version" }, "value": { "name": "4.10.2.0" } }
+        { "title": { "key": "version" }, "value": { "name": "4.10.2.0" } }
       ]
     },
     {
@@ -1936,7 +1936,7 @@
           "value": { "key": "seerr.waiting", "args": { "n": 2 } },
           "detail": { "key": "seerr.requests_detail", "args": { "n": 1, "available": 47 } }
         },
-        { "title": { "key": "seerr.version" }, "value": { "name": "3.5.1" } }
+        { "title": { "key": "version" }, "value": { "name": "3.5.1" } }
       ]
     },
     {
@@ -1944,7 +1944,7 @@
       "source": "Home Assistant",
       "title": { "key": "homeassistant.home" },
       "rows": [
-        { "title": { "key": "homeassistant.version" }, "value": { "name": "2026.10.4" } },
+        { "title": { "key": "version" }, "value": { "name": "2026.10.4" } },
         {
           "title": { "key": "homeassistant.automations" },
           "value": { "key": "homeassistant.automations_n", "args": { "n": 24 } },
@@ -1980,7 +1980,7 @@
           "meter": { "used": 88000000000, "total": 500000000000 }
         },
         { "title": { "key": "paperless.health" }, "value": { "key": "paperless.healthy" }, "tone": "green" },
-        { "title": { "key": "paperless.version" }, "value": { "name": "3.3.4" } }
+        { "title": { "key": "version" }, "value": { "name": "3.3.4" } }
       ]
     },
     {
@@ -1998,13 +1998,13 @@
           "value": { "key": "number", "args": { "n": 14 } },
           "detail": { "key": "nextcloud.links", "args": { "n": 5, "open": 1 } }
         },
-        { "title": { "key": "nextcloud.free" }, "value": { "key": "nextcloud.bytes", "args": { "n": 1730000000000 } } },
+        { "title": { "key": "nextcloud.free" }, "value": { "key": "bytes", "args": { "n": 1730000000000 } } },
         {
           "title": { "key": "nextcloud.database" },
-          "value": { "key": "nextcloud.bytes", "args": { "n": 412000000 } },
+          "value": { "key": "bytes", "args": { "n": 412000000 } },
           "detail": { "name": "pgsql" }
         },
-        { "title": { "key": "nextcloud.version" }, "value": { "name": "35.0.2" } }
+        { "title": { "key": "version" }, "value": { "name": "35.0.2" } }
       ]
     },
     {
@@ -2148,7 +2148,7 @@
           "detail": { "key": "resolver.upstream" }
         },
         { "title": { "key": "adguard.processing" }, "value": { "key": "adguard.ms", "args": { "n": 1.4 } } },
-        { "title": { "key": "adguard.version" }, "value": { "name": "v0.107.79" } }
+        { "title": { "key": "version" }, "value": { "name": "v0.107.79" } }
       ]
     },
     {
@@ -2536,7 +2536,7 @@
           "rows": [
             { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 9214 } } },
             { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 402 } } },
-            { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 104183526912 } } },
+            { "title": { "key": "immich.space" }, "value": { "key": "bytes", "args": { "n": 104183526912 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 12 } } }
           ]
         },
@@ -2546,7 +2546,7 @@
           "rows": [
             { "title": { "key": "immich.photos" }, "value": { "key": "number", "args": { "n": 15873 } } },
             { "title": { "key": "immich.videos_title" }, "value": { "key": "number", "args": { "n": 736 } } },
-            { "title": { "key": "immich.space" }, "value": { "key": "immich.bytes", "args": { "n": 131459047424 } } },
+            { "title": { "key": "immich.space" }, "value": { "key": "bytes", "args": { "n": 131459047424 } } },
             { "title": { "key": "immich.week" }, "value": { "key": "immich.plus", "args": { "n": 41 } } }
           ]
         }
@@ -2570,7 +2570,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:30:00Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 34359738368 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 34359738368 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -2583,7 +2583,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:33:21Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 21474836480 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 21474836480 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -2596,7 +2596,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:35:35Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 42949672960 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 42949672960 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_none" } }
           ]
         },
@@ -2609,7 +2609,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:39:03Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 1073741824 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 1073741824 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -2622,7 +2622,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:39:03Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 1073741824 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 1073741824 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         },
@@ -2635,7 +2635,7 @@
               "title": { "key": "pbs.in_night" },
               "value": { "key": "pbs.when", "args": { "at": "2026-10-28T00:40:10Z" } }
             },
-            { "title": { "key": "pbs.size" }, "value": { "key": "pbs.bytes", "args": { "n": 2147483648 } } },
+            { "title": { "key": "pbs.size" }, "value": { "key": "bytes", "args": { "n": 2147483648 } } },
             { "title": { "key": "pbs.check" }, "value": { "key": "pbs.check_ok" } }
           ]
         }
@@ -2706,7 +2706,7 @@
         "rows": [
           {
             "title": { "key": "servarr.on_disk" },
-            "value": { "key": "servarr.bytes", "args": { "n": 3186865348608 } }
+            "value": { "key": "bytes", "args": { "n": 3186865348608 } }
           },
           { "title": { "key": "servarr.in_library" }, "value": { "key": "radarr.films_n", "args": { "n": 412 } } },
           { "title": { "key": "servarr.week" }, "value": { "key": "servarr.plus", "args": { "n": 3 } } }
@@ -2728,7 +2728,7 @@
         "rows": [
           {
             "title": { "key": "servarr.on_disk" },
-            "value": { "key": "servarr.bytes", "args": { "n": 2418925862912 } }
+            "value": { "key": "bytes", "args": { "n": 2418925862912 } }
           },
           { "title": { "key": "servarr.in_library" }, "value": { "key": "sonarr.shows_n", "args": { "n": 38 } } },
           { "title": { "key": "sonarr.episodes" }, "value": { "key": "number", "args": { "n": 1904 } } },
