@@ -35,7 +35,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, Area, p)
+	adaptertest.Validate(t, Adapter, p)
 	if _, err := Read(context.Background(), c, time.Date(2026, 10, 29, 11, 20, 30, 0, london)); err != nil {
 		t.Fatal(err)
 	}

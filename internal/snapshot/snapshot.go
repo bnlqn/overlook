@@ -78,6 +78,19 @@ type Source struct {
 	Read    func(context.Context, time.Time) (Parts, error)
 }
 
+// Adapter is what an adapter says it is, once, in its own package, for the
+// config, the setup page and its contract test to read: the key of its
+// sources in overlook.yaml, its home area and kind, if it has them, whether
+// it gives stores or backup runs, which go in Storage whatever its home area
+// (ADR 0016), and its read of one source, configured as C.
+type Adapter[C any] struct {
+	Key     string
+	Area    string
+	Kind    string
+	Storage bool
+	Read    func(context.Context, C, time.Time) (Parts, error)
+}
+
 // Reader reads every source into a snapshot when asked and the last is
 // older than fresh, and remembers nothing else (ADR 0004).
 type Reader struct {

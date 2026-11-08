@@ -23,6 +23,9 @@ import (
 // Area is the adapter's home area.
 const Area = "apps"
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "tautulli", Area: Area, Kind: "mediaserver", Read: Read}
+
 // reads are the only commands the adapter sends Tautulli, and each of them
 // reads. Tautulli takes a command that changes something as a GET too, such
 // as delete_all_history, so this list, not the GET-only client, is what

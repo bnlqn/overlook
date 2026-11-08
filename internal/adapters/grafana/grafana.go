@@ -22,6 +22,9 @@ import (
 // week is how far back the state history is read, for this week's problems.
 const week = 7 * 24 * time.Hour
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "grafana", Kind: "checkengine", Read: Read}
+
 // Config is one Grafana, under sources.grafana in overlook.yaml.
 type Config struct {
 	Name string `yaml:"name" setup:"text,optional"`
@@ -196,10 +199,11 @@ func check(ch snapshot.Check, r rule, interval time.Duration, history []change) 
 	nowFailing := r.State == "firing" || r.State == "pending" || r.Health == "nodata" || r.Health == "error"
 	alerting := r.State == "firing" || r.Health == "nodata" || r.Health == "error"
 	var since *time.Time
+	why := ""
 	for _, a := range r.Alerts {
 		if failing(a.State) && (since == nil || a.ActiveAt.Before(*since)) {
 			since = &a.ActiveAt
-			ch.Why = cmp.Or(r.LastError, a.Annotations["summary"])
+			why = cmp.Or(r.LastError, a.Annotations["summary"])
 		}
 	}
 	n := len(stretches) - 1
@@ -209,15 +213,11 @@ func check(ch snapshot.Check, r rule, interval time.Duration, history []change) 
 		stretches[n].To = &at
 	case nowFailing && (n < 0 || stretches[n].To != nil):
 		stretches = append(stretches, snapshot.Stretch{From: *cmp.Or(since, &r.LastEvaluation)})
-		n++
-	}
-	if nowFailing {
-		stretches[n].Alerted = alerting
 	}
 
 	ch.Results = snapshot.Grid(r.LastEvaluation, interval, stretches)
 	if len(ch.Results) == 0 {
-		return snapshot.CheckOf(ch, nil)
+		return snapshot.CheckOf(ch, nil, false)
 	}
 	last := &ch.Results[len(ch.Results)-1]
 	last.OK = !nowFailing
@@ -225,9 +225,7 @@ func check(ch snapshot.Check, r rule, interval time.Duration, history []change) 
 		last.MS = &ms
 	}
 	if nowFailing {
-		last.Why = ch.Why
-	} else {
-		ch.Why = ""
+		last.Why = why
 	}
-	return snapshot.CheckOf(ch, stretches)
+	return snapshot.CheckOf(ch, stretches, alerting)
 }

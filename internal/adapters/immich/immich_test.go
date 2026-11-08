@@ -115,7 +115,7 @@ func read(t *testing.T, dir string) snapshot.Parts {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, Area, p)
+	adaptertest.Validate(t, Adapter, p)
 	return p
 }
 

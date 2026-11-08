@@ -8,11 +8,13 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 	"time"
 
 	"github.com/bnlqn/overlook/internal/adapters/adaptertest"
+	"github.com/bnlqn/overlook/internal/config"
 	"github.com/bnlqn/overlook/internal/snapshot"
 	"github.com/bnlqn/overlook/web"
 )
@@ -23,6 +25,10 @@ import (
 func TestSnapshot(t *testing.T) {
 	t.Parallel()
 	english, err := web.English()
+	if err != nil {
+		t.Fatal(err)
+	}
+	adapters, err := config.Adapters()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -38,6 +44,20 @@ func TestSnapshot(t *testing.T) {
 			// Its parts are every adapter's, so each in its own home area.
 			for _, problem := range adaptertest.Problems(s.Parts, english) {
 				t.Error(problem)
+			}
+
+			// Each source is what its adapter says it is, as the server
+			// gives it: its home area, its kind and whether it gives stores
+			// or backup runs, which the page asks by.
+			for _, src := range s.Sources {
+				i := slices.IndexFunc(adapters, func(a config.Adapter) bool { return a.Key == src.Adapter })
+				if i < 0 {
+					t.Errorf("%s: no adapter is %q", src.Name, src.Adapter)
+					continue
+				}
+				if a := adapters[i]; src.Area != a.Area || src.Kind != a.Kind || src.Storage != a.Storage {
+					t.Errorf("%s: area %q, kind %q, storage %t, but %s says %q, %q, %t", src.Name, src.Area, src.Kind, src.Storage, a.Key, a.Area, a.Kind, a.Storage)
+				}
 			}
 
 			// A check is there by its name, and in its engine when a link

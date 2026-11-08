@@ -31,7 +31,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, Area, p)
+	adaptertest.Validate(t, Adapter, p)
 	sent(t, src.Sent(), "token 0123abcd")
 
 	var names []string
@@ -131,7 +131,7 @@ func TestRows(t *testing.T) {
 	t.Parallel()
 	rows := rows(runners{{Name: "b", Status: "online", Busy: true}, {Name: "a", Status: "active"}, {Name: "c", Status: "online", Disabled: true}})
 	p := snapshot.Parts{Sections: []snapshot.Section{{Area: Area, Title: snapshot.Text{Key: "gitea.runners"}, Rows: rows}}}
-	adaptertest.Validate(t, Area, p)
+	adaptertest.Validate(t, Adapter, p)
 	if rows[0].Value.Key != "gitea.busy" || rows[1].Value.Key != "gitea.busy" || rows[2].Value.Key != "gitea.disabled" {
 		t.Errorf("two running a job, one disabled: %+v", rows)
 	}

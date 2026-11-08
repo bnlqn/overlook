@@ -26,6 +26,9 @@ import (
 // Area is the adapter's home area.
 const Area = "servers"
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "proxmox", Area: Area, Storage: true, Read: Read}
+
 // week is how far back the backup runs are read, for the page's week.
 const week = 7 * 24 * time.Hour
 

@@ -22,6 +22,9 @@ import (
 // Area is the adapter's home area.
 const Area = "storage"
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "pbs", Area: Area, Storage: true, Read: Read}
+
 // night is the longest gap between two backups of one run. Backups further
 // apart are two runs.
 // ponytail: a run whose one guest takes longer than this splits in two;

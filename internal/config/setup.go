@@ -9,13 +9,15 @@ import (
 	"go.yaml.in/yaml/v3"
 )
 
-// Adapter is one adapter as the setup page offers it (ADR 0014): its key in
-// sources, its home area and kind, if it has them, and what it asks of each
-// source.
+// Adapter is one adapter as the setup page offers it (ADR 0014): what its
+// package's snapshot.Adapter says it is, and what it asks of each source.
 type Adapter struct {
 	Key  string `json:"key"`
 	Area string `json:"area,omitempty"`
 	Kind string `json:"kind,omitempty"`
+	// Storage says it gives stores or backup runs (ADR 0016), which the
+	// setup page doesn't ask by, but the demo's test does.
+	Storage bool `json:"storage,omitempty"`
 	// Icon is its logo in web/icons, as its field in Sources names it.
 	Icon string `json:"icon,omitempty"`
 	Asks []Ask  `json:"asks"`

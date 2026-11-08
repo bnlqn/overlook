@@ -20,6 +20,9 @@ import (
 // Area is the adapter's home area.
 const Area = "apps"
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "seerr", Area: Area, Read: Read}
+
 // waiting is the most requests waiting for approval the page lists.
 const waiting = 20
 

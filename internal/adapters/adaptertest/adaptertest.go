@@ -18,32 +18,46 @@ import (
 )
 
 // Validate fails tb with every way the page couldn't draw p, and with every
-// part of p outside area, the home area of the adapter that made p, which is
-// empty for one that has none, such as a check engine.
-func Validate(tb testing.TB, area string, p snapshot.Parts) {
+// part of p that isn't what a, the adapter that made p, says it gives.
+func Validate[C any](tb testing.TB, a snapshot.Adapter[C], p snapshot.Parts) {
 	tb.Helper()
 	english, err := web.English()
 	if err != nil {
 		tb.Fatal(err)
 	}
-	for _, problem := range append(Problems(p, english), strays(area, p)...) {
+	for _, problem := range append(Problems(p, english), strays(a, p)...) {
 		tb.Error(problem)
 	}
 }
 
-// strays lists every part of p outside area, its adapter's home area. A
-// check isn't one: it goes in its own area, or in none. Nor are the parts
-// snapshot.Stores and snapshot.BackupRuns build, known by their tables'
-// keys, which go in Storage whichever adapter reads them (ADR 0016).
-func strays(area string, p snapshot.Parts) []string {
+// strays lists every part of p that isn't what a, the adapter that made it,
+// says it gives. A part goes in a's home area, but a check, which goes in
+// its own area or in none, and the parts snapshot.Stores and
+// snapshot.BackupRuns build, known by their tables' keys, which go in
+// Storage whichever adapter reads them (ADR 0016). Only an adapter that
+// says it gives stores or backup runs may, since the page names it in
+// Storage when it doesn't answer; only a check engine gives checks; and
+// only a resolver or a media server gives its kind's parts (ADR 0012).
+func strays[C any](a snapshot.Adapter[C], p snapshot.Parts) []string {
 	var bad []string
-	home := func(where, key, a string) {
-		want := area
-		if strings.HasPrefix(key, "store.") || strings.HasPrefix(key, "backuprun.") {
+	if len(p.Checks) > 0 && a.Kind != "checkengine" {
+		bad = append(bad, fmt.Sprintf("%d checks, but %s isn't a check engine", len(p.Checks), a.Key))
+	}
+	home := func(where, key, area string) {
+		want := a.Area
+		switch table, _, _ := strings.Cut(key, "."); table {
+		case "store", "backuprun":
 			want = "storage"
+			if !a.Storage {
+				bad = append(bad, fmt.Sprintf("%s %s: a store's or a backup run's, but %s doesn't say it gives them", where, key, a.Key))
+			}
+		case "resolver", "mediaserver":
+			if a.Kind != table {
+				bad = append(bad, fmt.Sprintf("%s %s: a %s's, but %s isn't one", where, key, table, a.Key))
+			}
 		}
-		if a != want {
-			bad = append(bad, fmt.Sprintf("%s %s: in %q, but it goes in %q", where, key, a, want))
+		if area != want {
+			bad = append(bad, fmt.Sprintf("%s %s: in %q, but it goes in %q", where, key, area, want))
 		}
 	}
 	for _, s := range p.Sections {

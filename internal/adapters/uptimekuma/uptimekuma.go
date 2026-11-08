@@ -26,6 +26,9 @@ const (
 	maintenance = 3
 )
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "uptimekuma", Kind: "checkengine", Read: Read}
+
 // Config is one Uptime Kuma, under sources.uptimekuma in overlook.yaml.
 type Config struct {
 	Name string `yaml:"name" setup:"text,optional"`
@@ -143,14 +146,10 @@ func check(ch snapshot.Check, beats []beat) snapshot.Check {
 	}
 
 	// ponytail: the tries again come from the last time it went down, and
-	// one that never did, or tries again more than it did then, has none.
-	// If Uptime Kuma ever serves a monitor's retries to a status page, read
-	// them.
-	if n := len(stretches) - 1; n >= 0 && stretches[n].To == nil {
-		stretches[n].Alerted = beats[len(beats)-1].Status == down
-		if !stretches[n].Alerted && failed >= ch.Threshold {
-			ch.Threshold = 0
-		}
-	}
-	return snapshot.CheckOf(ch, stretches)
+	// one that never did has none, nor one that has failed that often since
+	// without going down. CheckOf counts only the newest Recent results, so
+	// one given more tries again than that keeps its threshold however
+	// often it fails. If Uptime Kuma ever serves a monitor's retries to a
+	// status page, read them.
+	return snapshot.CheckOf(ch, stretches, len(beats) > 0 && beats[len(beats)-1].Status == down)
 }

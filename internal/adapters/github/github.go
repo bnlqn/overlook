@@ -19,6 +19,9 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "github", Read: Read}
+
 // Config is the repositories whose updates the page shows, under
 // sources.github in overlook.yaml.
 type Config struct {

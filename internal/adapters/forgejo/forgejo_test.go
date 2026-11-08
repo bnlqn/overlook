@@ -32,7 +32,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, Area, p)
+	adaptertest.Validate(t, Adapter, p)
 
 	// Only these paths, each one of the gitea adapter's reads, which its
 	// test checks.

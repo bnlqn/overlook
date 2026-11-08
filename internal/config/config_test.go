@@ -7,9 +7,12 @@ import (
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
 func write(t *testing.T, yaml string) string {
@@ -202,34 +205,35 @@ func TestLoadRefuses(t *testing.T) {
 }
 
 func TestExample(t *testing.T) {
-	t.Setenv("GATUS_URL", "http://gatus:8080")
-	t.Setenv("IMMICH_URL", "http://immich:2283")
-	t.Setenv("IMMICH_KEY", "k3y")
-	t.Setenv("PBS_SECRET", "00000000-0000-0000-0000-000000000000")
-	t.Setenv("PROXMOX_SECRET", "00000000-0000-0000-0000-000000000000")
+	// By name, so that two adapters' pull requests add theirs apart.
+	t.Setenv("ADGUARD_PASSWORD", "s3cret")
 	t.Setenv("BESZEL_PASSWORD", "s3cret")
 	t.Setenv("CHECKMATE_PASSWORD", "s3cret")
-	t.Setenv("RADARR_KEY", "0123abcd")
-	t.Setenv("SONARR_KEY", "4567efab")
-	t.Setenv("PROWLARR_KEY", "89abcdef")
-	t.Setenv("PORTAINER_KEY", "ptr_0123abcd")
-	t.Setenv("QBITTORRENT_KEY", "qbt_0123abcd")
-	t.Setenv("SYNCTHING_KEY", "0123abcd")
-	t.Setenv("JELLYFIN_KEY", "0123abcd")
-	t.Setenv("EMBY_KEY", "0123abcd")
-	t.Setenv("HOMEASSISTANT_TOKEN", "0123abcd")
-	t.Setenv("PAPERLESS_TOKEN", "0123abcd")
-	t.Setenv("NEXTCLOUD_TOKEN", "0123abcd")
-	t.Setenv("GITEA_TOKEN", "0123abcd")
-	t.Setenv("FORGEJO_TOKEN", "0123abcd")
-	t.Setenv("GRAFANA_TOKEN", "glsa_0123abcd")
-	t.Setenv("TAUTULLI_KEY", "0123abcd")
-	t.Setenv("SEERR_KEY", "0123abcd")
-	t.Setenv("NUT_HOST", "nut.example.com")
-	t.Setenv("UNIFI_KEY", "0123abcd")
-	t.Setenv("ADGUARD_PASSWORD", "s3cret")
-	t.Setenv("PIHOLE_PASSWORD", "s3cret")
 	t.Setenv("DAV_PASSWORD", "s3cret")
+	t.Setenv("EMBY_KEY", "0123abcd")
+	t.Setenv("FORGEJO_TOKEN", "0123abcd")
+	t.Setenv("GATUS_URL", "http://gatus:8080")
+	t.Setenv("GITEA_TOKEN", "0123abcd")
+	t.Setenv("GRAFANA_TOKEN", "glsa_0123abcd")
+	t.Setenv("HOMEASSISTANT_TOKEN", "0123abcd")
+	t.Setenv("IMMICH_KEY", "k3y")
+	t.Setenv("IMMICH_URL", "http://immich:2283")
+	t.Setenv("JELLYFIN_KEY", "0123abcd")
+	t.Setenv("NEXTCLOUD_TOKEN", "0123abcd")
+	t.Setenv("NUT_HOST", "nut.example.com")
+	t.Setenv("PAPERLESS_TOKEN", "0123abcd")
+	t.Setenv("PBS_SECRET", "00000000-0000-0000-0000-000000000000")
+	t.Setenv("PIHOLE_PASSWORD", "s3cret")
+	t.Setenv("PORTAINER_KEY", "ptr_0123abcd")
+	t.Setenv("PROWLARR_KEY", "89abcdef")
+	t.Setenv("PROXMOX_SECRET", "00000000-0000-0000-0000-000000000000")
+	t.Setenv("QBITTORRENT_KEY", "qbt_0123abcd")
+	t.Setenv("RADARR_KEY", "0123abcd")
+	t.Setenv("SEERR_KEY", "0123abcd")
+	t.Setenv("SONARR_KEY", "4567efab")
+	t.Setenv("SYNCTHING_KEY", "0123abcd")
+	t.Setenv("TAUTULLI_KEY", "0123abcd")
+	t.Setenv("UNIFI_KEY", "0123abcd")
 	c, err := Load("../../overlook.example.yaml")
 	if err != nil {
 		t.Fatal(err)
@@ -237,17 +241,20 @@ func TestExample(t *testing.T) {
 	if c.MCP {
 		t.Error("the example turns MCP on, which is the owner's choice (ADR 0015)")
 	}
-	// The example has a source of every adapter, so each says its kind, which
-	// the page asks by (ADR 0012).
-	kinds := map[string]string{
-		"gatus": "checkengine", "uptimekuma": "checkengine", "grafana": "checkengine", "prometheus": "checkengine", "checkmate": "checkengine",
-		"ical":    "todolist",
-		"adguard": "resolver", "pihole": "resolver",
-		"jellyfin": "mediaserver", "emby": "mediaserver", "tautulli": "mediaserver",
+	// The example has a source of every adapter, and each keeps what its
+	// adapter says it is, which the page asks by.
+	adapters, err := Adapters()
+	if err != nil {
+		t.Fatal(err)
 	}
-	for _, r := range c.Readers() {
-		if r.Kind != kinds[r.Adapter] {
-			t.Errorf("%s, read by %s: kind %q, want %q", r.Name, r.Adapter, r.Kind, kinds[r.Adapter])
+	for _, a := range adapters {
+		i := slices.IndexFunc(c.Readers(), func(r snapshot.Source) bool { return r.Adapter == a.Key })
+		if i < 0 {
+			t.Errorf("no source of %s", a.Key)
+			continue
+		}
+		if r := c.Readers()[i]; r.Area != a.Area || r.Kind != a.Kind || r.Storage != a.Storage {
+			t.Errorf("%s, read by %s: area %q, kind %q, storage %t, want %+v", r.Name, a.Key, r.Area, r.Kind, r.Storage, a)
 		}
 	}
 }

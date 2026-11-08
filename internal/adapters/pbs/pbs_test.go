@@ -38,7 +38,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, Area, p)
+	adaptertest.Validate(t, Adapter, p)
 	for _, r := range src.Sent() {
 		if r.Header.Get("Authorization") != "PBSAPIToken=overlook@pbs!overlook:00000000-0000-0000-0000-000000000000" {
 			t.Errorf("%s: read without the token", r.URL)

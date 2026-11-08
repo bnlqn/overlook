@@ -20,6 +20,9 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "checkmate", Kind: "checkengine", Read: Read}
+
 // Config is one Checkmate, under sources.checkmate in overlook.yaml.
 type Config struct {
 	Name string `yaml:"name" setup:"text,optional"`
@@ -259,20 +262,7 @@ func check(ch snapshot.Check, m monitor, incidents []incident) snapshot.Check {
 			return (s.To == nil || !in.StartTime.After(*s.To)) && (in.EndTime == nil || !in.EndTime.Before(s.From))
 		})
 	}
-	if n := len(stretches) - 1; n >= 0 && stretches[n].To == nil {
-		stretches[n].Alerted = alerting
-	}
-
-	if n := len(ch.Results); n > 0 && !ch.Results[n-1].OK {
-		ch.Why = ch.Results[n-1].Why
-	}
-	// A monitor Checkmate doesn't call down however many checks it failed,
-	// as one put in a maintenance window while it failed, has no threshold
-	// to speak of.
-	if ch = snapshot.CheckOf(ch, stretches); !ch.Problem && ch.Run >= ch.Threshold {
-		ch.Threshold = 0
-	}
-	return ch
+	return snapshot.CheckOf(ch, stretches, alerting)
 }
 
 // covers says whether in was open at t.

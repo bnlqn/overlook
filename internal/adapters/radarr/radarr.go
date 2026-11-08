@@ -18,6 +18,9 @@ import (
 // Area is the adapter's home area.
 const Area = "apps"
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "radarr", Area: Area, Read: Read}
+
 // Config is one Radarr, under sources.radarr in overlook.yaml.
 type Config struct {
 	servarr.Config `yaml:",inline" example:"http://radarr.example.com:7878"`

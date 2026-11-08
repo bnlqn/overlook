@@ -17,6 +17,9 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "gatus", Kind: "checkengine", Read: Read}
+
 // Config is one Gatus, under sources.gatus in overlook.yaml.
 type Config struct {
 	Name string `yaml:"name" setup:"text,optional"`
@@ -122,21 +125,9 @@ func check(e endpoint, c Config) snapshot.Check {
 		}
 		ch.Results = append(ch.Results, res)
 	}
-	// Gatus lists results oldest first: the failures in a row are the newest,
-	// and Gatus alerts once they reach the threshold.
-	run := 0
-	for i := len(ch.Results) - 1; i >= 0 && !ch.Results[i].OK; i-- {
-		run++
-	}
-	if run > 0 {
-		ch.Why = ch.Results[len(ch.Results)-1].Why
-	}
-
 	// Gatus records an event when a check's health turns: UNHEALTHY at its
 	// first failure, HEALTHY at its first pass after. The stretch between
-	// them alerted if it lasted Threshold results, and the one still going
-	// if its failures in a row reach it. A check whose events Gatus didn't
-	// give has a stretch from its first failure in a row.
+	// them alerted if it lasted Threshold results.
 	need := time.Duration(c.Threshold) * interval(ch.Results)
 	var stretches []snapshot.Stretch
 	for _, ev := range e.Events {
@@ -151,13 +142,13 @@ func check(e endpoint, c Config) snapshot.Check {
 			stretches[n].To, stretches[n].Alerted = &at, at.Sub(stretches[n].From) >= need
 		}
 	}
-	if n := len(stretches) - 1; run > 0 && (n < 0 || stretches[n].To != nil) {
-		stretches = append(stretches, snapshot.Stretch{From: ch.Results[len(ch.Results)-run].At})
+	// Gatus lists results oldest first: the failures in a row are the newest,
+	// and Gatus alerts on them once they reach the threshold.
+	run := 0
+	for i := len(ch.Results) - 1; i >= 0 && !ch.Results[i].OK; i-- {
+		run++
 	}
-	if n := len(stretches) - 1; n >= 0 && stretches[n].To == nil {
-		stretches[n].Alerted = run >= c.Threshold
-	}
-	return snapshot.CheckOf(ch, stretches)
+	return snapshot.CheckOf(ch, stretches, run >= c.Threshold)
 }
 
 // why is a failed result's reason: its first error, or its first failed

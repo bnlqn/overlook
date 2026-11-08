@@ -25,6 +25,9 @@ import (
 // Area is the adapter's home area.
 const Area = "storage"
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "syncthing", Area: Area, Read: Read}
+
 // Config is one Syncthing device, under sources.syncthing in overlook.yaml.
 type Config struct {
 	Name string `yaml:"name" setup:"text,optional"`
