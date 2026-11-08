@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: accepted, amended by ADR 0017
 ---
 
 # The page is native modules, tested with Node's own runner and linted with Biome
