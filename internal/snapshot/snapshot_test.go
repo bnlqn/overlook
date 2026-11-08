@@ -3,6 +3,8 @@ package snapshot
 import (
 	"context"
 	"errors"
+	"slices"
+	"strings"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -64,6 +66,42 @@ func TestReader(t *testing.T) {
 	r.Snapshot()
 	if reads.Load() != 1 {
 		t.Errorf("a fresh snapshot was read again: %d reads", reads.Load())
+	}
+}
+
+// A store that is another source's own shows once: the reader leaves it out
+// while a source of that adapter answers, with its section if it was the
+// only row, and keeps it while none does.
+func TestReaderShowsAStoreOnce(t *testing.T) {
+	t.Parallel()
+	pve := Source{Name: "Proxmox", Adapter: "proxmox", Storage: true, Read: func(context.Context, time.Time) (Parts, error) {
+		return Stores{{Name: Text{Name: "rpool"}, Healthy: true}, {Name: Text{Name: "backups"}, Healthy: true, On: "pbs"}}.Parts(), nil
+	}}
+	remote := Source{Name: "Remote", Adapter: "proxmox", Storage: true, Read: func(context.Context, time.Time) (Parts, error) {
+		return Stores{{Name: Text{Name: "offsite"}, Healthy: true, On: "pbs"}}.Parts(), nil
+	}}
+	for _, c := range []struct {
+		pbs  string
+		err  error
+		want []string
+	}{
+		{"answers", nil, []string{"Proxmox: rpool"}},
+		{"doesn't answer", errors.New("timeout"), []string{"Proxmox: rpool backups", "Remote: offsite"}},
+	} {
+		pbs := Source{Name: "Backup Server", Adapter: "pbs", Storage: true, Read: func(context.Context, time.Time) (Parts, error) {
+			return Parts{}, c.err
+		}}
+		var got []string
+		for _, s := range NewReader([]Source{pve, remote, pbs}, nil, nil).Snapshot().Sections {
+			var names []string
+			for _, r := range s.Rows {
+				names = append(names, r.Title.Name)
+			}
+			got = append(got, s.Source+": "+strings.Join(names, " "))
+		}
+		if !slices.Equal(got, c.want) {
+			t.Errorf("while the backup server %s: %q, not %q", c.pbs, got, c.want)
+		}
 	}
 }
 

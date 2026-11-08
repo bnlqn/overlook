@@ -7,11 +7,13 @@ import (
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 	"time"
 
 	"github.com/bnlqn/overlook/internal/adapters/adaptertest"
+	"github.com/bnlqn/overlook/internal/adapters/pbs"
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
@@ -94,6 +96,25 @@ func TestRead(t *testing.T) {
 	}
 	if stores[0].Detail.Key != "store.healthy" || stores[1].Value.Name != "DEGRADED" || stores[1].Tone != "red" || stores[1].Detail.Key != "store.room" {
 		t.Errorf("rpool healthy, tank degraded: %+v", stores)
+	}
+
+	// backups is a storage on a Proxmox Backup Server, so it shows once, as
+	// the backup server's, while Overlook reads that too.
+	answers := func(p snapshot.Parts) func(context.Context, time.Time) (snapshot.Parts, error) {
+		return func(context.Context, time.Time) (snapshot.Parts, error) { return p, nil }
+	}
+	snap := snapshot.NewReader([]snapshot.Source{
+		{Name: "Proxmox", Adapter: Adapter.Key, Read: answers(p)},
+		{Name: "Backup Server", Adapter: pbs.Adapter.Key, Read: answers(snapshot.Parts{})},
+	}, nil, nil).Snapshot()
+	var left []snapshot.Row
+	for _, s := range snap.Sections {
+		if s.Title.Key == "store.section" {
+			left = s.Rows
+		}
+	}
+	if len(left) != 5 || slices.ContainsFunc(left, func(r snapshot.Row) bool { return r.Title.Name == "backups" }) {
+		t.Errorf("the storage on the backup server, left out while it answers: %+v", left)
 	}
 	if run := sections["backuprun.section"].Rows; len(run) != 1 || run[0].Value.Key != "backuprun.done" || run[0].Detail.Args["ms"] != int64(499_000) {
 		t.Errorf("the last run took 8 min 19 s: %+v", run)

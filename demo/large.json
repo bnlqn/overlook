@@ -5212,11 +5212,6 @@
           "meter": { "used": 34524665112166, "total": 47938706971033 }
         },
         {
-          "title": { "name": "backups" },
-          "value": { "key": "store.room", "args": { "used": 10115506975539, "size": 15942918602752 } },
-          "meter": { "used": 10115506975539, "total": 15942918602752 }
-        },
-        {
           "title": { "key": "proxmox.on_node", "args": { "name": "local", "node": "birch" } },
           "value": { "key": "store.room", "args": { "used": 21153673004, "size": 100931731456 } },
           "meter": { "used": 21153673004, "total": 100931731456 }

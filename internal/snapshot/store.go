@@ -21,6 +21,12 @@ type Store struct {
 	// check makes one (ADR 0001).
 	Health  string
 	Healthy bool
+	// On is the adapter whose own source the store is, such as pbs for a
+	// Proxmox VE storage on a backup server's datastore. The reader leaves
+	// it out while a source of that adapter answers, which shows the same
+	// room itself, and keeps it while none does, so that the room is never
+	// lost.
+	On string
 }
 
 // Stores are the stores one source reads.
@@ -36,7 +42,7 @@ func (s Stores) Parts() Parts {
 	}
 	rows := make([]Row, len(s))
 	for i, st := range s {
-		row := Row{Title: st.Name}
+		row := Row{Title: st.Name, on: st.On}
 		var room *Text
 		if st.Size > 0 {
 			room = Msg("store.room", map[string]any{"used": st.Used, "size": st.Size})

@@ -647,8 +647,9 @@ Servers, with each host's processor and memory by the hour over the week
 Proxmox keeps, a line each. The ZFS pools and the storage go in Storage, as
 every source's stores do: how full each is, and each pool's health, in red
 when it isn't ONLINE, as is a storage Proxmox VE can't reach. So do the
-backup runs: each host's last run, and the week each run. Today shows how
-many guests are up.
+backup runs: each host's last run, and the week each run. A storage on a
+Proxmox Backup Server that Overlook reads too shows once, as that server's
+datastore. Today shows how many guests are up.
 
 ```yaml
 sources:
