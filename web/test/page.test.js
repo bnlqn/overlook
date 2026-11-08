@@ -268,6 +268,27 @@ test("the homelab names its silent sources, and an area's page those of its area
   assert.deepEqual(area(m, "network").silent, ["Uptime Kuma"]);
 });
 
+test("a silent source that gives stores or backup runs is named in Storage too, beside its home area", () => {
+  const m = page(
+    snap([check("a", "servers", 0, false)], {
+      sources: [
+        { name: "Gatus", kind: "checkengine", answered: true },
+        { name: "Proxmox", area: "servers", storage: true, answered: false, error: "timeout" },
+        { name: "Backup Server", area: "storage", storage: true, answered: false },
+        { name: "Office UPS", area: "servers", answered: false },
+      ],
+    }),
+    NOW,
+  );
+  assert.deepEqual(area(m, "servers").silent, ["Proxmox", "Office UPS"]);
+  assert.deepEqual(area(m, "storage").silent, ["Proxmox", "Backup Server"]);
+  assert.deepEqual(
+    m.homelab.summary.at(-1),
+    [{ key: "source.no_answer", args: { names: ["Proxmox", "Backup Server", "Office UPS"] } }],
+    "once each on the overview",
+  );
+});
+
 test("with no check engine answering, the homelab is down and says why", () => {
   const m = page(
     snap([], {
@@ -406,7 +427,7 @@ test("two sources of one adapter name their parts; one alone doesn't", () => {
       ],
       figures: [{ area: "network", label: { key: "adguard.today" }, source: "Primary DNS", value: 1 }],
       events: [
-        { at, area: "servers", text: { key: "proxmox.backup_done" }, source: "Proxmox" },
+        { at, area: "storage", text: { key: "backuprun.event_ran_in" }, source: "Proxmox" },
         { at, area: "servers", text: { key: "x" }, source: "Old" },
       ],
       chores: [{ name: "Dust", from: "2026-11-01", source: "Primary DNS" }],
@@ -429,7 +450,7 @@ test("two sources of one adapter name their parts; one alone doesn't", () => {
   assert.equal(m.chores.week[0].by, "Primary DNS");
   assert.deepEqual(
     m.events.items.map((e) => e.about),
-    [[{ key: "area.servers" }], [{ key: "area.servers" }]],
+    [[{ key: "area.storage" }], [{ key: "area.servers" }]],
     "sources that don't say their adapter aren't of one adapter, and Proxmox is alone",
   );
   assert.equal(read.sections[0].by, undefined, "the snapshot's own parts are left as they were");
@@ -725,7 +746,7 @@ test("this week's events are newest first, at most eight, outages and updates am
       }),
     ],
     {
-      events: [{ at: hoursAgo(2), area: "storage", icon: "archive", text: { key: "pbs.backed_up" } }],
+      events: [{ at: hoursAgo(2), area: "storage", icon: "archive", text: { key: "backuprun.event_made" } }],
       updates: [{ at: hoursAgo(1), name: "Photos 3.4" }],
     },
   );
@@ -734,7 +755,7 @@ test("this week's events are newest first, at most eight, outages and updates am
     items.map((e) => [e.text.key, e.mark]),
     [
       ["events.update", { icon: "pr", tone: "green" }],
-      ["pbs.backed_up", { icon: "archive", tone: "blue" }],
+      ["backuprun.event_made", { icon: "archive", tone: "blue" }],
       ["events.back", { state: "up" }],
       ["events.down", { state: "down" }],
     ],
@@ -768,14 +789,14 @@ test("the week runs from midnight six days ago to now, each area's outages cut t
     ],
     {
       events: [
-        { at: at(27, 2), area: "storage", text: { key: "pbs.backed_up" } },
+        { at: at(27, 2), area: "storage", text: { key: "backuprun.event_made" } },
         {
           at: new Date(2026, 9, 27, 2, 30).toISOString(),
           area: "storage",
-          text: { key: "pbs.backed_up" },
+          text: { key: "backuprun.event_made" },
           tone: "red",
         },
-        { at: at(26, 2), area: "storage", text: { key: "pbs.backed_up" } },
+        { at: at(26, 2), area: "storage", text: { key: "backuprun.event_made" } },
       ],
     },
   );
@@ -851,7 +872,7 @@ test("the demo's snapshot moves to now, every time in it, a text's too, and noth
     events: [
       {
         at: "2026-10-28T00:30:00Z",
-        text: { key: "proxmox.backup_done", args: { at: "2026-10-28T00:30:00Z", ms: 512000 } },
+        text: { key: "backuprun.event_ran_in", args: { at: "2026-10-28T00:30:00Z", ms: 512000 } },
       },
     ],
   };

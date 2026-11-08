@@ -1,11 +1,13 @@
 package adaptertest
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 	"time"
 
 	"github.com/bnlqn/overlook/internal/snapshot"
+	"github.com/bnlqn/overlook/web"
 )
 
 func TestProblems(t *testing.T) {
@@ -88,10 +90,73 @@ func TestStrays(t *testing.T) {
 		Figures:  []snapshot.Figure{{Area: "apps", Label: name}},
 		Checks:   []snapshot.Check{{Area: "network"}},
 	}
-	if got := strays("apps", p); len(got) != 1 || !strings.Contains(got[0], `in "network", but its adapter's home area is "apps"`) {
+	if got := strays("apps", p); len(got) != 1 || !strings.Contains(got[0], `in "network", but it goes in "apps"`) {
 		t.Errorf("want the section in another area refused, and not the check: %q", got)
 	}
 	if got := strays("", p); len(got) != 3 {
 		t.Errorf("want every part of an adapter with no home area refused, got %d: %q", len(got), got)
+	}
+
+	// Stores and backup runs go in Storage, whatever the home area.
+	now := time.Now()
+	storage := snapshot.Stores{{Name: name, Healthy: true}}.Parts()
+	runs := snapshot.BackupRuns{{Start: now, Backups: 1}}.Parts(now)
+	storage.Sections = append(storage.Sections, runs.Sections...)
+	storage.Events = runs.Events
+	if got := strays("servers", storage); len(got) != 0 {
+		t.Errorf("want stores and backup runs let into Storage: %q", got)
+	}
+	storage.Sections[0].Area = "servers"
+	if got := strays("servers", storage); len(got) != 1 || !strings.Contains(got[0], `store.section: in "servers", but it goes in "storage"`) {
+		t.Errorf("want a store outside Storage refused, even in the home area: %q", got)
+	}
+}
+
+// Every row and event the stores' and backup runs' modules can build is one
+// the page can draw with the English table, whatever each source can say.
+func TestStorageWords(t *testing.T) {
+	t.Parallel()
+	english, err := web.English()
+	if err != nil {
+		t.Fatal(err)
+	}
+	now := time.Date(2026, 10, 28, 10, 0, 0, 0, time.UTC)
+	stores := snapshot.Stores{
+		{Name: snapshot.Text{Name: "rpool"}, Used: 1, Size: 2, Health: "ONLINE", Healthy: true},
+		{Name: snapshot.Text{Name: "tank"}, Used: 1, Size: 2, Health: "DEGRADED"},
+		{Name: snapshot.Text{Name: "local"}, Used: 1, Size: 2, Healthy: true},
+		{Name: snapshot.Text{Name: "nfs"}, Health: "unknown"},
+		{Name: snapshot.Text{Name: "gone"}},
+		{Name: snapshot.Text{Name: "far"}, Health: "ONLINE", Healthy: true},
+	}
+	p := stores.Parts()
+	var runs snapshot.BackupRuns
+	for i, r := range []snapshot.BackupRun{
+		{Running: true},
+		{},
+		{Backups: 3},
+		{Warnings: true},
+		{Warnings: true, Why: "WARNINGS: 1"},
+		{Failed: true},
+		{Failed: true, Why: "job errors"},
+	} {
+		// Each how, with and without an end, on a host of its own.
+		for _, end := range []time.Duration{0, time.Minute} {
+			r.Host = fmt.Sprint(i, end)
+			r.Start = now.Add(-time.Hour)
+			if end > 0 && !r.Running {
+				r.End = r.Start.Add(end)
+			}
+			runs = append(runs, r)
+		}
+	}
+	q := runs.Parts(now)
+	p.Sections = append(p.Sections, q.Sections...)
+	p.Events = q.Events
+	for _, problem := range append(Problems(p, english), strays("servers", p)...) {
+		t.Error(problem)
+	}
+	if len(p.Events) != len(runs) || len(q.Sections[0].Rows) != len(runs) {
+		t.Errorf("want an event and a row for each run, got %d and %d", len(p.Events), len(q.Sections[0].Rows))
 	}
 }

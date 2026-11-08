@@ -1,0 +1,30 @@
+{
+  "backuprun.section": "Backup runs",
+  "backuprun.last": "Last run",
+  "backuprun.running": "Running",
+  "backuprun.done": "Done",
+  "backuprun.backups": { "one": "{n} backup", "other": "{n} backups" },
+  "backuprun.warnings": "Warnings",
+  "backuprun.failed": "Failed",
+  "backuprun.since": "started {at:when}",
+  "backuprun.at": "{at:when}",
+  "backuprun.at_in": "{at:when}, in {ms:span}",
+  "backuprun.at_why": "{at:when} · {why}",
+  "backuprun.at_in_why": "{at:when}, in {ms:span} · {why}",
+
+  "backuprun.event_running": "<b>The backup run</b> is running",
+  "backuprun.event_ran": "<b>The backup run</b> ran",
+  "backuprun.event_ran_in": "<b>The backup run</b> ran in {ms:span}",
+  "backuprun.event_made": {
+    "one": "<b>The backup run</b> made {n} backup",
+    "other": "<b>The backup run</b> made {n} backups"
+  },
+  "backuprun.event_made_in": {
+    "one": "<b>The backup run</b> made {n} backup in {ms:span}",
+    "other": "<b>The backup run</b> made {n} backups in {ms:span}"
+  },
+  "backuprun.event_warned": "<b>The backup run</b> ran with warnings",
+  "backuprun.event_warned_in": "<b>The backup run</b> ran in {ms:span}, with warnings",
+  "backuprun.event_failed": "<b>The backup run</b> failed",
+  "backuprun.event_failed_why": "<b>The backup run</b> failed: {why}"
+}
