@@ -60,7 +60,7 @@ test("every message the page names is in the English table", () => {
     ...[...sources.matchAll(/(?:group|pageName)\([^)]*"([\w.]+)"\)/g)].map((m) => m[1]),
     // The messages the page names by a variable's value.
     ...AREAS.map((a) => `area.${a}`),
-    ...["up", "degraded", "down", "unknown"].map((s) => `state.${s}`),
+    ...["up", "degraded", "failing", "down", "unknown"].map((s) => `state.${s}`),
     ...["down", "degraded"].flatMap((s) => [`status.areas_${s}`, `status.every_${s}`]),
     // The setup page's groups past the areas; its adapters' and fields'
     // words are checked by the server's tests, which know them.

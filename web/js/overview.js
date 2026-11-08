@@ -8,6 +8,7 @@ import {
   bars,
   by,
   figureMeter,
+  fromSources,
   GREEN,
   HOURS,
   hourStart,
@@ -20,6 +21,7 @@ import {
   sparkline,
   stateIcon,
   strip,
+  summary,
   svg,
   TINT,
   TONE,
@@ -63,7 +65,7 @@ function renderStatus(homelab) {
   $("status").className = `status tone-${TONE[homelab.state]}`;
   $("status-icon").innerHTML = stateIcon(homelab.state);
   $("headline").innerHTML = say(homelab.headline);
-  $("summary").innerHTML = homelab.summary.map((part) => part.map(say).join(" ")).join(" · ");
+  $("summary").innerHTML = summary(homelab.summary);
 }
 
 function renderActions(updates, tools) {
@@ -121,14 +123,11 @@ function renderToday({ tiles, columns }, now) {
       // number starts with it. A tile several figures share is none of their
       // sources': each of the others is named after its number, and every one
       // in the bar. One added up from some of its sources says so.
-      const some =
-        f.lacking.length > 0 &&
-        `<span data-tip="${tip(esc(list(f.lacking)), [], t("figure.gave_none"))}">${t("figure.of_sources", { n: f.sources.length, total: f.sources.length + f.lacking.length })}</span>`;
       const sub = f.wide
         ? ""
         : f.also
           ? list(f.also.map(also))
-          : [f.by && esc(f.by), f.detail && say(f.detail), some].filter(Boolean).join(" · ");
+          : [f.by && esc(f.by), f.detail && say(f.detail), fromSources(f)].filter(Boolean).join(" · ");
       return `<a class="figure-tile${f.wide ? " wide" : ""}${f.tone ? ` tone-${f.tone}` : ""}" href="${f.area}" style="--i:${i}">
       <span class="label">${svg(f.icon)}${say(f.label)}</span>
       <span class="figure">${num(`${f.area}.${i}`, f.value)}${f.unit ? `<small> ${say(f.unit)}</small>` : ""}</span>
@@ -175,37 +174,21 @@ const moment = (r) =>
     ),
   };
 
-// A check's health in the table, by its state.
-const health = (c) =>
-  ({
-    down: word("down"),
-    // With no threshold from its check engine, only the run of failures.
-    degraded: c.threshold
-      ? t("check.failed_n", { run: c.run, threshold: c.threshold })
-      : t("check.failed_run", { n: c.run }),
-    up: word("up"),
-    unknown: t("check.no_results"),
-  })[c.state];
-
 function renderAreas(areas) {
   $("areas-block").hidden = !areas.length;
   $("areas").innerHTML = areas
     .map((a, i) => {
       const p = page(a.area);
-      const fine = a.checks.length - a.problems.length;
-      const ring = `<svg class="pie" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.5"/><circle cx="7" cy="7" r="5.5" pathLength="1" style="stroke-dasharray:${(fine / a.checks.length).toFixed(3)} 1"/></svg>`;
+      const ring = `<svg class="pie" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.5"/><circle cx="7" cy="7" r="5.5" pathLength="1" style="stroke-dasharray:${(a.up / a.checks.length).toFixed(3)} 1"/></svg>`;
       const count = tip(
         t("areas.checks_of", { area: a.area }),
-        [
-          [GREEN, word("up"), number(fine)],
-          ...(a.problems.length ? [[RED, t("problems.title"), number(a.problems.length)]] : []),
-        ],
+        a.counts.map(({ state, n }) => [`var(--m-${TONE[state]})`, word(state), number(n)]),
         a.problems.length ? esc(list(a.problems.map((c) => c.name))) : "",
       );
       const kids = a.checks.map(
         (c) => `<a class="trow kid" href="${esc(c.url)}" target="_blank" rel="noopener">
         <span class="tname">${stateIcon(c.state)}<span>${esc(c.name)}${by(c)}</span></span>
-        <span class="health tone-${TONE[c.state]}">${health(c)}</span>
+        <span class="health tone-${TONE[c.state]}">${c.health ? say(c.health) : word(c.state)}</span>
         <span class="tcount detail">${c.failing ? esc(c.why || "") : ""}</span>
         <span class="tms">${c.failing ? "" : ms(c.ms)}</span>${strip(c.recent)}</a>`,
       );
@@ -213,7 +196,7 @@ function renderAreas(areas) {
       <summary class="trow">
         <span class="tname">${svg("chevron", "ic twist")}<span class="badge" style="--tint:${TINT[a.area]}">${svg(p.icon)}</span><a href="${p.href}">${pageName(p)}</a></span>
         <span class="health tone-${TONE[a.state]}">${stateIcon(a.state)}${word(a.state)}</span>
-        <span class="tcount" data-tip="${count}">${ring}${number(fine)} / ${number(a.checks.length)}</span>
+        <span class="tcount" data-tip="${count}">${ring}${number(a.up)} / ${number(a.checks.length)}</span>
         <span class="tms">${ms(a.ms)}</span>
         ${strip(a.strip.map(moment))}
       </summary>
@@ -290,9 +273,8 @@ function renderApps({ links, compact, columns }) {
   $("apps").classList.toggle("compact", compact);
   $("apps").style.setProperty("--cols", columns);
   $("apps").innerHTML = links
-    .map(({ link: s, check: c, state }, i) => {
+    .map(({ link: s, check: c, state, foot }, i) => {
       const tint = esc(s.color || "var(--m-accent-2)");
-      const foot = !s.check ? t("apps.no_check") : !c || c.failing ? word(state) : ms(c.ms);
       const tips = c
         ? c.recent.map((r) =>
             tip(
@@ -306,7 +288,7 @@ function renderApps({ links, compact, columns }) {
       return `<a class="app" href="${esc(s.url)}" target="_blank" rel="noopener" style="--tint:${tint};--i:${i}"${about}>
       <span class="app-top">${badge(s, "lg")}<span class="dot tone-${TONE[state]}"></span></span>
       <span class="title">${esc(s.name)}</span><span class="detail">${esc(s.description || "")}</span>
-      <span class="app-foot"><span>${foot}</span>${
+      <span class="app-foot"><span>${foot ? say(foot) : ms(c.ms)}</span>${
         c
           ? sparkline(
               c.recent.map((r) => r.ms),
@@ -376,7 +358,7 @@ start((m) => {
   renderProblems(m.problems, m.now);
   renderToday(m.today, m.now);
   renderHours(m.today.tiles, m.now);
-  renderAreas(m.areas.filter((a) => a.shown && a.checks.length));
+  renderAreas(m.areas.filter((a) => a.judged));
   renderEvents(m.events, m.now);
   renderWeek(m.week, m.now);
   renderApps(m.apps);

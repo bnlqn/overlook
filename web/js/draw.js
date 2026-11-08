@@ -46,18 +46,21 @@ export const svg = (name, cls = "ic") =>
   `<svg class="${cls}" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[name] || ICON.pulse}</svg>`;
 
 // A state's glyph: a filled circle with a tick, a half-filled ring, a filled
-// circle with a bang, or a dashed ring.
+// circle with a bang, or a dashed ring. A failing check and a degraded area
+// share the half-filled ring: each works, but not wholly.
+const HALF =
+  '<circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M7 3.5a3.5 3.5 0 0 1 0 7Z" fill="currentColor"/>';
 const STATE_ICON = {
   up: '<circle cx="7" cy="7" r="6" fill="currentColor"/><path d="m4.4 7.2 1.8 1.8 3.5-3.7" style="stroke:var(--m-panel)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
-  degraded:
-    '<circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M7 3.5a3.5 3.5 0 0 1 0 7Z" fill="currentColor"/>',
+  degraded: HALF,
+  failing: HALF,
   down: '<circle cx="7" cy="7" r="6" fill="currentColor"/><path d="M7 3.9v3.6M7 10h.01" style="stroke:var(--m-panel)" stroke-width="1.7" stroke-linecap="round"/>',
   unknown:
     '<circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5" fill="none" stroke-dasharray="2 2.1"/>',
 };
 
 /** Each state's tone. */
-export const TONE = { up: "green", degraded: "orange", down: "red", unknown: "gray" };
+export const TONE = { up: "green", degraded: "orange", failing: "orange", down: "red", unknown: "gray" };
 
 /** A state's glyph, in its tone. */
 export const stateIcon = (state) =>
@@ -152,19 +155,14 @@ export function strip(recent) {
   return `<span class="strip">${ticks.join("")}</span>`;
 }
 
-/** The rows of an area's checks, each linking to its page in its engine. */
+/**
+ * The rows of an area's checks, each linking to its page in its engine: under
+ * its name, what its state doesn't say, then, while it fails, why.
+ */
 export function checkRows(checks) {
   return checks
     .map((c) => {
-      const detail = c.problem
-        ? esc(c.why || "")
-        : c.failing
-          ? c.threshold
-            ? t("check.failed_of", { run: c.run, threshold: c.threshold, why: c.why || "" })
-            : t("check.failed_run_why", { n: c.run, why: c.why || "" })
-          : c.recent.length
-            ? ""
-            : t("check.no_results");
+      const detail = [c.health && say(c.health), c.failing && esc(c.why || "")].filter(Boolean).join(" · ");
       return `<a class="check" href="${esc(c.url)}" target="_blank" rel="noopener">
       ${stateIcon(c.state)}
       <span class="copy"><span class="title">${esc(c.name)}${by(c)}</span>${detail ? `<span class="detail">${detail}</span>` : ""}</span>
@@ -222,6 +220,19 @@ export const more = (rows, keep) =>
 
 /** The source a part came from, after its title, where the page names it. */
 export const by = (p) => (p.by ? `<span class="by"> · ${esc(p.by)}</span>` : "");
+
+/**
+ * A tile or a chart added up from some of its kind's sources: from how many,
+ * those that answered but gave none of it named in its tooltip. From all of
+ * them, nothing.
+ */
+export const fromSources = (p) =>
+  p.lacking.length
+    ? `<span data-tip="${tip(esc(list(p.lacking)), [], t("figure.gave_none"))}">${t("figure.of_sources", { n: p.sources.length, total: p.sources.length + p.lacking.length })}</span>`
+    : "";
+
+/** A summary's parts: each part's texts one after the other, the parts apart. */
+export const summary = (parts) => parts.map((part) => part.map(say).join(" ")).join(" · ");
 
 let uid = 0;
 /**
@@ -501,12 +512,7 @@ export function chart(c, range, now) {
           ),
         `${t("chart.busiest")} ${when(series[0].hours.indexOf(Math.max(...series[0].hours)))}`,
       ];
-  // Added up from some of a kind's sources, it says so when another answered
-  // but gave none.
-  if (c.lacking.length) {
-    const of = t("figure.of_sources", { n: c.sources.length, total: c.sources.length + c.lacking.length });
-    sums.push(`<span data-tip="${tip(esc(list(c.lacking)), [], t("figure.gave_none"))}">${of}</span>`);
-  }
+  if (c.lacking.length) sums.push(fromSources(c));
   const pills =
     all > 24
       ? `<div class="pills">${[24, all]

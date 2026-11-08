@@ -21,6 +21,7 @@
   "area.no_checks": "No checks",
   "area.empty": "Nothing here yet",
   "area.checks_up": { "one": "{n} check up", "other": "{n} checks up" },
+  "area.checks_up_of": { "one": "{up} of {n} check up", "other": "{up} of {n} checks up" },
   "area.checks_hint": "the last 30 results",
 
   "side.areas": "Areas",
@@ -37,6 +38,7 @@
 
   "state.up": "Up",
   "state.degraded": "Degraded",
+  "state.failing": "Failing",
   "state.down": "Down",
   "state.unknown": "Unknown",
 
@@ -64,9 +66,7 @@
   "result.failed": "Failed",
   "check.failed_n": "Failed {run} of {threshold}",
   "check.no_results": "No results yet",
-  "check.failed_of": "Failed {run} of {threshold}: {why}",
   "check.failed_run": { "one": "Failed once", "other": "Failed {n} times in a row" },
-  "check.failed_run_why": { "one": "Failed once: {why}", "other": "Failed {n} times in a row: {why}" },
   "source.no_answer": "{names:list} didn't answer",
   "source.no_answer_why": "{error}. Its own page may say more.",
 

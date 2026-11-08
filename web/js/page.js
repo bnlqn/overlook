@@ -25,16 +25,17 @@ const DAY = 864e5;
  *
  * - homelab: its state, its headline and its summary, as texts;
  * - problems: the checks that are problems;
- * - checks: every check, each with its state;
- * - areas: the four, in the page's order, each with whether it's shown, its
- *   state, its checks and problems, its middle response time, its strip, its
- *   charts, its sections and its silent sources;
+ * - checks: every check, each with its state and what its state doesn't say;
+ * - areas: the four, in the page's order, each with whether it's shown and
+ *   whether its checks judge it, its state, its checks and problems, how many
+ *   are up and how many are in each state, its summary, its middle response
+ *   time, its strip, its charts, its sections and its silent sources;
  * - today: its tiles and how many columns they take;
  * - events: this week's, newest first, and what to say with none;
  * - week: its seven days and each area's outages and events along them;
- * - apps: each link with its check and the check's state, whether the tiles
- *   go small, and how many columns they take; tools: each link with its
- *   check and the check's state;
+ * - apps: each link with its check, the check's state and the foot of its
+ *   tile, whether the tiles go small, and how many columns they take; tools:
+ *   each link with its check and the check's state;
  * - chores: those due, this week's and the next, and the updates;
  * - checkEngines: with no check engine in the homelab, those Overlook
  *   reads, each its name and its section of the README;
@@ -48,8 +49,8 @@ export function page(read, now) {
   const snap = named(read);
   const checks = readChecks(snap);
   const silence = silent(snap);
-  const areas = AREAS.map((area) => areaOf(area, snap, checks));
   const engines = checkEngines(snap);
+  const areas = AREAS.map((area) => areaOf(area, snap, checks, engines));
   return {
     now,
     homelab: homelab(snap, checks, areas, silence, engines, now),
@@ -94,8 +95,24 @@ function readChecks(snap) {
       outages: (c.outages || []).map((o) => ({ check: c, from: new Date(o.from), to: o.to ? new Date(o.to) : null })),
     };
     check.state = checkState(check);
+    check.health = health(check);
     return check;
   });
+}
+
+/**
+ * What a check's state doesn't say by itself: while it's failing, how many
+ * times in a row, against how many make a problem where its check engine
+ * says; with no result yet, that it has none. Up or down, its state's word
+ * says it all, and there's nothing more.
+ */
+function health(c) {
+  if (c.state === "failing") {
+    return c.threshold
+      ? { key: "check.failed_n", args: { run: c.run, threshold: c.threshold } }
+      : { key: "check.failed_run", args: { n: c.run } };
+  }
+  return c.state === "unknown" ? { key: "check.no_results" } : null;
 }
 
 /**
@@ -140,7 +157,7 @@ function named(snap) {
  */
 function homelab(snap, checks, areas, silence, readable, now) {
   const problems = checks.filter((c) => c.problem);
-  const judged = areas.filter((a) => a.shown && a.checks.length);
+  const judged = areas.filter((a) => a.judged);
   const silentText = { key: "source.no_answer", args: { names: silence } };
   const silentPart = silence.length ? [[silentText]] : [];
   // With no check engine answering, nothing says what works, and the first
@@ -218,28 +235,41 @@ function quietSince(checks) {
 }
 
 /**
- * An area: whether it's shown, which it is with anything in it; its state,
+ * An area: whether it's shown, which it is with anything in it, and whether
+ * its checks judge it, which they do when it's shown with any; its state,
  * down when every check in it is a problem, degraded with any, up with none,
- * and unknown with no checks, since nothing says whether it works;
- * its checks and problems; the middle response time of those answering; its
- * strip; its charts, those of several sources added up; its sections; and
- * the sources that didn't answer, its own and those of every area.
+ * and unknown with no checks, since nothing says whether it works; its checks
+ * and problems; how many of its checks are up, and how many are in each
+ * state, those up first, so that a failing check is never counted as up; its
+ * summary; the middle response time of those answering; its strip; its
+ * charts, those of several sources added up; its sections; and the sources
+ * that didn't answer, its own and those of every area.
  */
-function areaOf(area, snap, checks) {
+function areaOf(area, snap, checks, engines) {
   const mine = checks.filter((c) => c.area === area);
   const problems = mine.filter((c) => c.problem);
   const times = mine
     .filter((c) => !c.failing && c.ms !== null)
     .map((c) => c.ms)
     .sort((x, y) => x - y);
+  const shown = [snap.checks, snap.sections, snap.charts, snap.figures, snap.events].some((l) =>
+    l.some((x) => x.area === area),
+  );
+  const counts = CHECK_STATES.map((state) => ({ state, n: mine.filter((c) => c.state === state).length })).filter(
+    (c) => c.n,
+  );
+  const up = mine.filter((c) => c.state === "up").length;
+  const silence = silent(snap, area);
   return {
     area,
-    shown: [snap.checks, snap.sections, snap.charts, snap.figures, snap.events].some((l) =>
-      l.some((x) => x.area === area),
-    ),
+    shown,
+    judged: shown && mine.length > 0,
     state: !mine.length ? "unknown" : !problems.length ? "up" : problems.length === mine.length ? "down" : "degraded",
     checks: mine,
     problems,
+    up,
+    counts,
+    summary: areaSummary(shown, mine, problems, up, engines, silence),
     ms: times.length ? times[times.length >> 1] : null,
     strip: worst(mine),
     charts: joinCharts(snap.charts.filter((c) => c.area === area)).map((c) => ({
@@ -250,8 +280,30 @@ function areaOf(area, snap, checks) {
       ),
     })),
     sections: snap.sections.filter((s) => s.area === area),
-    silent: silent(snap, area),
+    silent: silence,
   };
+}
+
+/**
+ * What an area's own page says of it after its state, as parts, each texts
+ * said one after the other, as the homelab's summary is: with no checks, that
+ * it has none, or nothing at all; with problems, their checks down; else how
+ * many of its checks are up, of how many where some aren't. Then, with no
+ * check engine, those Overlook reads, and the sources that didn't answer.
+ */
+function areaSummary(shown, mine, problems, up, engines, silence) {
+  const said = !mine.length
+    ? { key: shown ? "area.no_checks" : "area.empty" }
+    : problems.length
+      ? { key: "status.checks_down", args: { names: problems.map((c) => c.name) } }
+      : up === mine.length
+        ? { key: "area.checks_up", args: { n: up } }
+        : { key: "area.checks_up_of", args: { up, n: mine.length } };
+  return [
+    [said],
+    ...(engines.length ? [[{ key: "status.no_engine", args: { engines } }]] : []),
+    ...(silence.length ? [[{ key: "source.no_answer", args: { names: silence } }]] : []),
+  ];
 }
 
 /**
@@ -307,10 +359,12 @@ function pace(recent) {
 }
 
 /**
- * A check's state: down when a problem, degraded while failing, up when its
- * last result passed, and unknown with no result yet.
+ * A check's state (CONTEXT.md, Check): down when a problem, failing while it
+ * fails short of one, up when its last result passed, and unknown with no
+ * result yet. An area counts its checks in this order.
  */
-const checkState = (c) => (c.problem ? "down" : c.failing ? "degraded" : c.recent.length ? "up" : "unknown");
+const CHECK_STATES = ["up", "failing", "down", "unknown"];
+const checkState = (c) => (c.problem ? "down" : c.failing ? "failing" : c.recent.length ? "up" : "unknown");
 
 /**
  * The names of the sources that didn't answer: on an area's page, those of
@@ -615,10 +669,17 @@ function launch(apps, checks) {
   };
 }
 
-/** A link with the check that says whether it answers, and that check's state. */
+/**
+ * A link with the check that says whether it answers, that check's state, and
+ * the foot of its tile: with no check named, that it has none; while its
+ * check is missing or failing, its state's word; and while it answers,
+ * nothing, as the page then says how fast it answered.
+ */
 function linked(link, checks) {
   const check = link.check ? linkCheck(link, checks) : undefined;
-  return { link, check, state: check ? check.state : "unknown" };
+  const state = check ? check.state : "unknown";
+  const foot = !link.check ? { key: "apps.no_check" } : !check || check.failing ? { key: `state.${state}` } : null;
+  return { link, check, state, foot };
 }
 
 /**
@@ -627,7 +688,7 @@ function linked(link, checks) {
  * its name, so a check in two engines never hides a problem.
  */
 function linkCheck(link, checks) {
-  const rank = { down: 3, degraded: 2, unknown: 1, up: 0 };
+  const rank = { down: 3, failing: 2, unknown: 1, up: 0 };
   return checks
     .filter((c) => c.name === link.check && (!link.engine || c.source === link.engine))
     .sort((a, b) => rank[b.state] - rank[a.state])[0];

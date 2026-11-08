@@ -64,6 +64,24 @@ test("the demo: one resolver down makes the network degraded, and it's named as 
     ],
   );
   assert.deepEqual(area(m, "network").silent, ["Standby DNS"]);
+  const network = area(m, "network");
+  assert.deepEqual(
+    [network.up, network.counts],
+    [
+      4,
+      [
+        { state: "up", n: 4 },
+        { state: "failing", n: 2 },
+        { state: "down", n: 1 },
+      ],
+    ],
+    "its two failing checks aren't counted as up",
+  );
+  assert.deepEqual(
+    area(m, "apps").summary,
+    [[{ key: "area.checks_up_of", args: { up: 9, n: 10 } }]],
+    "nor is Apps' failing one",
+  );
   const lookups = m.today.tiles.find((f) => f.label.key === "resolver.dns_lookups");
   assert.deepEqual(lookups.sources, ["Primary DNS", "Kids' DNS"], "an AdGuard Home's and a Pi-hole's add up");
   const plays = m.today.tiles.find((f) => f.label.key === "mediaserver.plays");
@@ -124,6 +142,15 @@ test("the large homelab: a problem in every area makes every area degraded", () 
   );
   assert.deepEqual(area(m, "servers").silent, ["Office UPS"], "a UPS is silent on its own area's page");
   assert.deepEqual(area(m, "network").silent, []);
+  assert.deepEqual(
+    area(m, "storage").counts,
+    [
+      { state: "up", n: 16 },
+      { state: "down", n: 1 },
+      { state: "unknown", n: 1 },
+    ],
+    "a check with no result yet isn't counted as up",
+  );
   const lookups = m.today.tiles.find((f) => f.label.key === "resolver.dns_lookups");
   assert.deepEqual(lookups.lacking, ["IoT DNS"], "a resolver that answered but gave no lookups");
   assert.deepEqual(area(m, "network").charts[0].lacking, ["IoT DNS"], "on its chart too");
@@ -160,10 +187,10 @@ test("an area is up with no problem, degraded with one, down when all are", () =
   assert.equal(m.homelab.state, "down", "an area down is the homelab down");
 });
 
-test("a check failing below its threshold is degraded, not a problem", () => {
+test("a check failing below its threshold is failing, not a problem", () => {
   const m = page(snap([check("films", "apps", 1, false, { since: "2026-10-28T09:59:00Z" })]), NOW);
   const [films] = m.checks;
-  assert.equal(films.state, "degraded");
+  assert.equal(films.state, "failing");
   assert.ok(films.failing);
   assert.deepEqual(films.since, new Date("2026-10-28T09:59:00Z"));
   assert.equal(films.ms, 12);
@@ -175,6 +202,76 @@ test("a check with no result yet is unknown, not up", () => {
   const m = page(snap([check("new", "apps", 0, false, { results: [] })]), NOW);
   assert.equal(m.checks[0].state, "unknown");
   assert.equal(area(m, "apps").ms, null);
+});
+
+test("a check says what its state doesn't: its run while failing, its threshold only where its engine gives one", () => {
+  const m = page(
+    snap([
+      check("photos", "apps", 0, false),
+      check("films", "apps", 2, false),
+      check("music", "apps", 2, false, { threshold: 0 }),
+      check("books", "apps", 4, true),
+      check("notes", "apps", 0, false, { results: [] }),
+    ]),
+    NOW,
+  );
+  assert.deepEqual(
+    m.checks.map((c) => [c.name, c.state, c.health]),
+    [
+      ["photos", "up", null],
+      ["films", "failing", { key: "check.failed_n", args: { run: 2, threshold: 3 } }],
+      ["music", "failing", { key: "check.failed_run", args: { n: 2 } }],
+      ["books", "down", null],
+      ["notes", "unknown", { key: "check.no_results" }],
+    ],
+  );
+});
+
+test("an area counts its checks by state, and its page says its problems or how many are up", () => {
+  const m = page(
+    snap(
+      [
+        check("dns1", "network", 0, false),
+        check("dns2", "network", 4, true),
+        check("nas", "storage", 0, false),
+        check("films", "apps", 0, false),
+        check("music", "apps", 1, false),
+        check("books", "apps", 0, false, { results: [] }),
+      ],
+      { sections: [{ area: "servers", source: "Proxmox", title: { key: "proxmox.guests" }, rows: [] }] },
+    ),
+    NOW,
+  );
+  const apps = area(m, "apps");
+  assert.deepEqual(
+    [apps.up, apps.counts],
+    [
+      1,
+      [
+        { state: "up", n: 1 },
+        { state: "failing", n: 1 },
+        { state: "unknown", n: 1 },
+      ],
+    ],
+  );
+  assert.deepEqual(apps.summary, [[{ key: "area.checks_up_of", args: { up: 1, n: 3 } }]]);
+  assert.deepEqual(area(m, "storage").summary, [[{ key: "area.checks_up", args: { n: 1 } }]], "all up");
+  assert.deepEqual(area(m, "network").summary, [[{ key: "status.checks_down", args: { names: ["dns2"] } }]]);
+  assert.deepEqual(area(m, "servers").summary, [[{ key: "area.no_checks" }]], "shown, with no checks");
+  assert.deepEqual(
+    m.areas.filter((a) => a.judged).map((a) => a.area),
+    ["network", "storage", "apps"],
+    "only the areas with checks are judged by them, as on the overview",
+  );
+});
+
+test("an empty area's page says so, then names the check engines and the silent sources", () => {
+  const pihole = { name: "Pi-hole", adapter: "pihole", kind: "resolver", area: "network", answered: false };
+  const m = page(snap([], { sources: [pihole] }), NOW);
+  assert.deepEqual(
+    area(m, "network").summary.map((part) => part.map((s) => s.key)),
+    [["area.empty"], ["status.no_engine"], ["source.no_answer"]],
+  );
 });
 
 test("areas not up are named by state, the worst first; all of them as every area", () => {
@@ -841,6 +938,26 @@ test("a link's check is in the engine it names, or the worst of its name", () =>
   assert.equal(unknown.state, "unknown", "a check no engine has");
   assert.equal(none.check, undefined, "a link with no check");
   assert.deepEqual([m.apps.compact, m.apps.columns], [false, 3]);
+});
+
+test("an app's tile says it has no check, its state while it doesn't answer, and nothing while it does", () => {
+  const read = snap([check("Photos", "apps", 0, false), check("Films", "apps", 1, false)], {
+    apps: [
+      { name: "Photos", check: "Photos" },
+      { name: "Films", check: "Films" },
+      { name: "Books", check: "Books" },
+      { name: "Notes" },
+    ],
+  });
+  assert.deepEqual(
+    page(read, NOW).apps.links.map((l) => [l.link.name, l.foot]),
+    [
+      ["Photos", null],
+      ["Films", { key: "state.failing" }],
+      ["Books", { key: "state.unknown" }],
+      ["Notes", { key: "apps.no_check" }],
+    ],
+  );
 });
 
 test("chores group by the viewer's today: due, with no day too, this week, and the next after it", () => {
