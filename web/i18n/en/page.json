@@ -212,6 +212,7 @@
   "setup.adapter.github": "GitHub",
   "setup.adapter.immich": "Immich",
   "setup.adapter.pbs": "Proxmox Backup Server",
+  "setup.adapter.syncthing": "Syncthing",
   "setup.adapter.proxmox": "Proxmox VE",
   "setup.adapter.beszel": "Beszel",
   "setup.adapter.docker": "Docker",

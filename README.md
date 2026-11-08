@@ -23,8 +23,9 @@ It reads:
   [Docker](#docker), [Portainer](#portainer), [NUT](#nut)
 - **Network**: [UniFi Network](#unifi-network), [AdGuard Home](#adguard-home),
   [Pi-hole](#pi-hole)
-- **Storage**: [Proxmox Backup Server](#proxmox-backup-server), and the
-  pools, storage and backup runs of [Proxmox VE](#proxmox-ve)
+- **Storage**: [Proxmox Backup Server](#proxmox-backup-server),
+  [Syncthing](#syncthing), and the pools, storage and backup runs of
+  [Proxmox VE](#proxmox-ve)
 - **Apps**: [Immich](#immich), [Jellyfin](#jellyfin), [Emby](#emby),
   [Plex, through Tautulli](#plex-through-tautulli), [Radarr](#radarr),
   [Sonarr](#sonarr), [Prowlarr](#prowlarr), [qBittorrent](#qbittorrent),
@@ -594,6 +595,47 @@ How full the datastore is was recorded from a scratch PBS 4.2.9 (ADR 0008),
 until someone who runs one records it from theirs: the compose file and the
 scripts that fill and record it are in the adapter's
 [`testdata`](internal/adapters/pbs/testdata).
+
+### Syncthing
+
+One Syncthing device, in Storage: each folder, up to date with what it
+holds, syncing or out of sync with what it still needs, paused, or in red
+when items failed to sync or the folder stopped, with why; then each other
+device, connected or since when it isn't, and how much of what it shares it
+has; Syncthing's version and whether a newer one is out; and its errors, in
+red, until you clear them in its GUI. Each device asking to connect and
+each folder offered to it is a chore, from the day it asked, done where
+Syncthing asks you to accept or ignore it.
+
+```yaml
+sources:
+  syncthing:
+    - url: http://syncthing:8384        # where Overlook reads its GUI
+      key: ${SYNCTHING_KEY}
+      link: https://sync.example.com    # where the page sends you, if not the same
+```
+
+**Key:** the API key, from Actions, Settings, GUI. It's the only key
+Syncthing has, and it can do anything, but Syncthing changes things only
+with POST, PUT, PATCH and DELETE, and Overlook sends it only with GET
+(ADR 0001). Overlook reads the folders and devices from the config, but
+never the whole config, which holds the GUI's password and the key.
+
+The GUI must listen where Overlook can reach it, as in Syncthing's Docker
+image; a Syncthing installed on its own listens on `127.0.0.1:8384` until
+you set its GUI's listen address to `0.0.0.0:8384`. With its GUI over HTTPS,
+give its certificate, `https-cert.pem` in its config folder, as `ca`, and the
+host's name, which it is for, as `server_name`.
+
+Syncthing's Docker image, and most distributions' packages, are built
+without upgrades, and refuse to say whether a newer one is out, so the page
+shows only the version they run. Overlook reads each folder's state and each
+device's completion with a request of its own.
+
+Recorded from a scratch Syncthing 2.1.7, four devices with invented folders
+(ADR 0008), until someone who runs it records it from theirs: the compose
+file and the scripts that fill and record it are in the adapter's
+[`testdata`](internal/adapters/syncthing/testdata).
 
 ### Proxmox VE
 

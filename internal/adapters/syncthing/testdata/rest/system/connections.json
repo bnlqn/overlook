@@ -1,0 +1,77 @@
+{
+  "connections": {
+    "LRI7FW6-OMLNV6H-63DJWM3-DWUW6Z4-QK7YUKR-SZM7N6G-KF4UWYF-ZW5EFQZ": {
+      "at": "0001-01-01T00:00:00Z",
+      "inBytesTotal": 0,
+      "outBytesTotal": 0,
+      "startedAt": "0001-01-01T00:00:00Z",
+      "connected": false,
+      "paused": false,
+      "clientVersion": "",
+      "address": "",
+      "type": "",
+      "isLocal": false,
+      "crypto": "",
+      "primary": {
+        "at": "0001-01-01T00:00:00Z",
+        "inBytesTotal": 0,
+        "outBytesTotal": 0,
+        "startedAt": "0001-01-01T00:00:00Z",
+        "address": "",
+        "type": "",
+        "isLocal": false,
+        "crypto": ""
+      }
+    },
+    "ZTZ4BJS-EC6VHNS-ZART2WX-MD4RTBE-MHIOZIK-JDUUUSC-6ZGZDSD-V7QXIQJ": {
+      "at": "2026-11-07T23:29:52Z",
+      "inBytesTotal": 2751,
+      "outBytesTotal": 2345,
+      "startedAt": "2026-11-07T23:29:17Z",
+      "connected": true,
+      "paused": false,
+      "clientVersion": "v2.1.7",
+      "address": "172.18.0.4:22000",
+      "type": "tcp-client",
+      "isLocal": true,
+      "crypto": "TLS1.3-TLS_AES_128_GCM_SHA256",
+      "primary": {
+        "at": "2026-11-07T23:29:52Z",
+        "inBytesTotal": 2330,
+        "outBytesTotal": 1600,
+        "startedAt": "2026-11-07T23:29:17Z",
+        "address": "172.18.0.4:22000",
+        "type": "tcp-client",
+        "isLocal": true,
+        "crypto": "TLS1.3-TLS_AES_128_GCM_SHA256"
+      },
+      "secondary": [
+        {
+          "at": "2026-11-07T23:29:52Z",
+          "inBytesTotal": 253,
+          "outBytesTotal": 444,
+          "startedAt": "2026-11-07T23:29:17Z",
+          "address": "172.18.0.4:22000",
+          "type": "tcp-client",
+          "isLocal": true,
+          "crypto": "TLS1.3-TLS_AES_128_GCM_SHA256"
+        },
+        {
+          "at": "2026-11-07T23:29:52Z",
+          "inBytesTotal": 168,
+          "outBytesTotal": 301,
+          "startedAt": "2026-11-07T23:29:22Z",
+          "address": "172.18.0.4:33802",
+          "type": "tcp-server",
+          "isLocal": true,
+          "crypto": "TLS1.3-TLS_AES_128_GCM_SHA256"
+        }
+      ]
+    }
+  },
+  "total": {
+    "at": "2026-11-07T23:29:52Z",
+    "inBytesTotal": 4513,
+    "outBytesTotal": 3502
+  }
+}

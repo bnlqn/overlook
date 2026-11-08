@@ -214,6 +214,7 @@ func TestExample(t *testing.T) {
 	t.Setenv("PROWLARR_KEY", "89abcdef")
 	t.Setenv("PORTAINER_KEY", "ptr_0123abcd")
 	t.Setenv("QBITTORRENT_KEY", "qbt_0123abcd")
+	t.Setenv("SYNCTHING_KEY", "0123abcd")
 	t.Setenv("JELLYFIN_KEY", "0123abcd")
 	t.Setenv("EMBY_KEY", "0123abcd")
 	t.Setenv("HOMEASSISTANT_TOKEN", "0123abcd")

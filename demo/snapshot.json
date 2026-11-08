@@ -9,6 +9,7 @@
     { "name": "GitHub", "adapter": "github", "answered": true },
     { "name": "Immich", "adapter": "immich", "area": "apps", "answered": true },
     { "name": "Backup Server", "adapter": "pbs", "area": "storage", "storage": true, "answered": true },
+    { "name": "Syncthing", "adapter": "syncthing", "area": "storage", "answered": true },
     { "name": "Proxmox", "adapter": "proxmox", "area": "servers", "storage": true, "answered": true },
     { "name": "Beszel", "adapter": "beszel", "area": "servers", "answered": true },
     { "name": "Docker", "adapter": "docker", "area": "servers", "answered": true },
@@ -1419,6 +1420,58 @@
             "args": { "at": "2026-10-28T00:40:10Z", "group": "ct/150", "size": 2147483648 }
           }
         }
+      ]
+    },
+    {
+      "area": "storage",
+      "source": "Syncthing",
+      "title": { "key": "syncthing.folders" },
+      "rows": [
+        {
+          "title": { "name": "Camera roll" },
+          "value": { "key": "syncthing.up_to_date" },
+          "detail": { "key": "syncthing.holds", "args": { "n": 1824, "bytes": 13314398618 } }
+        },
+        {
+          "title": { "name": "Documents" },
+          "value": { "key": "syncthing.failed", "args": { "n": 1 } },
+          "detail": {
+            "key": "syncthing.failed_at",
+            "args": { "path": "Taxes/2026.pdf", "error": "syncing: opening temp file: permission denied" }
+          },
+          "tone": "red"
+        },
+        { "title": { "name": "Music" }, "value": { "key": "syncthing.paused" }, "tone": "gray" },
+        {
+          "title": { "name": "Notes" },
+          "value": { "key": "syncthing.syncing", "args": { "percent": 64 } },
+          "detail": { "key": "syncthing.to_sync", "args": { "n": 12, "bytes": 50331648 } },
+          "tone": "blue"
+        }
+      ]
+    },
+    {
+      "area": "storage",
+      "source": "Syncthing",
+      "title": { "key": "syncthing.devices" },
+      "rows": [
+        {
+          "title": { "name": "laptop" },
+          "value": { "key": "syncthing.connected" },
+          "detail": { "key": "syncthing.in_sync", "args": { "percent": 100 } }
+        },
+        {
+          "title": { "name": "offsite-nas" },
+          "value": { "key": "syncthing.disconnected" },
+          "detail": { "key": "syncthing.behind_seen", "args": { "percent": 88, "at": "2026-10-27T22:10:00Z" } },
+          "tone": "gray"
+        },
+        {
+          "title": { "name": "phone" },
+          "value": { "key": "syncthing.connected" },
+          "detail": { "key": "syncthing.behind", "args": { "percent": 97 } }
+        },
+        { "title": { "key": "syncthing.version" }, "value": { "name": "v2.1.7" } }
       ]
     },
     {
@@ -3052,6 +3105,20 @@
     }
   ],
   "chores": [
+    {
+      "name": "Recipes",
+      "from": "2026-10-27",
+      "note": "laptop",
+      "url": "https://sync.example.com",
+      "source": "Syncthing"
+    },
+    {
+      "name": "tablet",
+      "from": "2026-10-28",
+      "note": "192.0.2.44:22000",
+      "url": "https://sync.example.com",
+      "source": "Syncthing"
+    },
     {
       "name": "Zigbee2MQTT update",
       "from": "2026-10-27",

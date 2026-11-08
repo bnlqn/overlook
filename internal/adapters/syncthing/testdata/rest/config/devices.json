@@ -1,0 +1,71 @@
+[
+  {
+    "deviceID": "LRI7FW6-OMLNV6H-63DJWM3-DWUW6Z4-QK7YUKR-SZM7N6G-KF4UWYF-ZW5EFQZ",
+    "name": "nas",
+    "addresses": [
+      "tcp://nas:22000"
+    ],
+    "compression": "metadata",
+    "certName": "",
+    "introducer": false,
+    "skipIntroductionRemovals": false,
+    "introducedBy": "",
+    "paused": false,
+    "allowedNetworks": [],
+    "autoAcceptFolders": false,
+    "maxSendKbps": 0,
+    "maxRecvKbps": 0,
+    "ignoredFolders": [],
+    "maxRequestKiB": 0,
+    "untrusted": false,
+    "remoteGUIPort": 0,
+    "numConnections": 0,
+    "group": ""
+  },
+  {
+    "deviceID": "QZBBGVK-4DHAII5-2G5MPUA-5QA3BXO-2CCATMM-OKU5P6B-DTRLNHU-LZZQVQT",
+    "name": "home",
+    "addresses": [
+      "dynamic"
+    ],
+    "compression": "metadata",
+    "certName": "",
+    "introducer": false,
+    "skipIntroductionRemovals": false,
+    "introducedBy": "",
+    "paused": false,
+    "allowedNetworks": [],
+    "autoAcceptFolders": false,
+    "maxSendKbps": 0,
+    "maxRecvKbps": 0,
+    "ignoredFolders": [],
+    "maxRequestKiB": 0,
+    "untrusted": false,
+    "remoteGUIPort": 0,
+    "numConnections": 0,
+    "group": ""
+  },
+  {
+    "deviceID": "ZTZ4BJS-EC6VHNS-ZART2WX-MD4RTBE-MHIOZIK-JDUUUSC-6ZGZDSD-V7QXIQJ",
+    "name": "laptop",
+    "addresses": [
+      "tcp://laptop:22000"
+    ],
+    "compression": "metadata",
+    "certName": "",
+    "introducer": false,
+    "skipIntroductionRemovals": false,
+    "introducedBy": "",
+    "paused": false,
+    "allowedNetworks": [],
+    "autoAcceptFolders": false,
+    "maxSendKbps": 0,
+    "maxRecvKbps": 0,
+    "ignoredFolders": [],
+    "maxRequestKiB": 0,
+    "untrusted": false,
+    "remoteGUIPort": 0,
+    "numConnections": 0,
+    "group": ""
+  }
+]

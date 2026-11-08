@@ -79,6 +79,13 @@ sources:
       # ca: /etc/overlook/pbs.pem
       # server_name: pbs.example.com
 
+  # Each folder, up to date or how far behind, each device, connected or not,
+  # and the devices and folders waiting to be accepted, as chores.
+  syncthing:
+    - url: http://syncthing:8384       # where Overlook reads its GUI
+      key: ${SYNCTHING_KEY}            # Actions, Settings, GUI, API Key
+      # link: https://sync.example.com # where the page sends you, if not the same
+
   # The hosts and their guests, storage and ZFS pools, and the backup runs.
   proxmox:
     - url: https://pve.example.com:8006
