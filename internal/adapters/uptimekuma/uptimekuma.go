@@ -8,7 +8,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/url"
 	"strconv"
 	"strings"
@@ -54,11 +53,7 @@ func (c *Config) Check() error {
 		return errors.New("page is missing: the slug of the status page to read, such as homelab")
 	}
 	c.Name = cmp.Or(c.Name, "Uptime Kuma")
-	c.Link = cmp.Or(c.Link, c.URL)
-	if err := fetch.CheckURL(c.Link); err != nil {
-		return fmt.Errorf("link %w", err)
-	}
-	return snapshot.CheckAreas(c.Areas)
+	return cmp.Or(fetch.CheckLink(&c.Link, c.URL), snapshot.CheckAreas(c.Areas))
 }
 
 // beat is one result of a monitor, from the status page's heartbeats.

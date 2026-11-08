@@ -5,7 +5,7 @@
 import { english, t } from "./text.js";
 
 /** Where Overlook comes from: its repository, whose README says the rest. */
-const REPO = "https://github.com/bnlqn/overlook";
+export const REPO = "https://github.com/bnlqn/overlook";
 
 /**
  * The README of the Overlook that runs: a release's, at its tag, or the

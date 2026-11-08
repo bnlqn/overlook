@@ -94,7 +94,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		Detail: &snapshot.Text{Key: "radarr.this_week", Args: map[string]any{"n": week}},
 		Join:   &join,
 		Part: &snapshot.Share{Label: snapshot.Text{Key: "radarr.films"}, Value: float64(size), Rows: []snapshot.Row{
-			{Title: snapshot.Text{Key: "servarr.on_disk"}, Value: &snapshot.Text{Key: "servarr.bytes", Args: map[string]any{"n": size}}},
+			{Title: snapshot.Text{Key: "servarr.on_disk"}, Value: snapshot.Bytes(size)},
 			{Title: snapshot.Text{Key: "servarr.in_library"}, Value: &snapshot.Text{Key: "radarr.films_n", Args: map[string]any{"n": owned}}},
 			{Title: snapshot.Text{Key: "servarr.week"}, Value: &snapshot.Text{Key: "servarr.plus", Args: map[string]any{"n": week}}},
 		}},

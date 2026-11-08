@@ -46,7 +46,7 @@ func TestRead(t *testing.T) {
 	if r := rows[2]; r.Meter == nil || r.Meter.Used != 7213418184704 || r.Meter.Total != 11994126090240 || !said(r.Detail, "immich.space_photos", "usage", int64(164360768300)) {
 		t.Errorf("the disk is 60%% full, 164 GB of it photos: %+v", r)
 	}
-	if r := rows[3]; r.Value.Name != "v3.3.5" || r.Tone != "orange" || !said(r.Detail, "immich.newer", "version", "v3.4.0") {
+	if r := rows[3]; r.Value.Name != "v3.3.5" || r.Tone != "orange" || !said(r.Detail, "version.newer", "version", "v3.4.0") {
 		t.Errorf("v3.4.0 is out: %+v %+v", r, r.Detail)
 	}
 	if r := rows[4]; r.Title.Args["name"] != "thumbnailGeneration" || !said(r.Value, "immich.queued", "n", int64(2+41)) {

@@ -157,7 +157,7 @@ func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 			Detail: &snapshot.Text{Name: t.Result.Message},
 		})
 	}
-	rows = append(rows, snapshot.Row{Title: snapshot.Text{Key: "paperless.version"}, Value: &snapshot.Text{Name: st.Version}})
+	rows = append(rows, snapshot.VersionRow(st.Version, ""))
 
 	// Today: the documents it keeps, and those waiting in the inbox.
 	f := snapshot.Figure{Area: Area, Icon: "document", Label: snapshot.Text{Key: "paperless.documents"}, Value: float64(stats.Total)}

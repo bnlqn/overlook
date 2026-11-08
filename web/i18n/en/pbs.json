@@ -8,7 +8,6 @@
   "pbs.in_night": "In the night's backups",
   "pbs.not_in_night": "Not in the night's backups",
   "pbs.size": "Size",
-  "pbs.bytes": "{n:bytes}",
   "pbs.check": "Checked",
   "pbs.check_ok": "Verified",
   "pbs.check_failed": "Failed",

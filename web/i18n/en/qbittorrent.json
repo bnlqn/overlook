@@ -8,7 +8,6 @@
   "qbittorrent.torrents_n": { "one": "{n} torrent", "other": "{n} torrents" },
   "qbittorrent.speed": "{n:bytes}/s",
   "qbittorrent.free": "Free space",
-  "qbittorrent.bytes": "{n:bytes}",
 
   "qbittorrent.connection": "Connection",
   "qbittorrent.connected": "Connected",

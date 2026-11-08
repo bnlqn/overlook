@@ -1,6 +1,5 @@
 {
   "homeassistant.home": "Home",
-  "homeassistant.version": "Version",
   "homeassistant.safe_mode": "Safe mode",
   "homeassistant.recovery_mode": "Recovery mode",
   "homeassistant.automations": "Automations",

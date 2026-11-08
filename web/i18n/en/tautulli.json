@@ -11,6 +11,5 @@
 
   "tautulli.plex": "Plex",
   "tautulli.current": "Up to date",
-  "tautulli.newer": "{version} is out",
   "tautulli.unreachable": "Tautulli can't reach it"
 }

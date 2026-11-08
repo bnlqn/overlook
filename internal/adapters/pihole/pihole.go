@@ -212,7 +212,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 	for _, p := range parts {
 		row := snapshot.Row{Title: snapshot.Text{Key: p.key}, Value: &snapshot.Text{Name: p.local}}
 		if p.remote != "" && p.remote != p.local {
-			row.Value, row.Tone = snapshot.Msg("pihole.newer", map[string]any{"version": p.remote}), "orange"
+			row.Value, row.Tone = snapshot.Msg("version.newer", map[string]any{"version": p.remote}), "orange"
 			row.Detail = &snapshot.Text{Name: p.local}
 		}
 		r.Rows = append(r.Rows, row)

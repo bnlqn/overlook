@@ -64,7 +64,7 @@ func TestRead(t *testing.T) {
 	if r := rows[7]; r.Title.Name != "Scan Media Library" || r.Tone != "red" || !strings.Contains(r.Detail.Name, "denied") {
 		t.Errorf("the failed scan, with why: %+v", r)
 	}
-	if r := rows[8]; r.Title.Key != "mediabrowser.version" || r.Value.Name != "12.4.0" {
+	if r := rows[8]; r.Title.Key != "version" || r.Value.Name != "12.4.0" {
 		t.Errorf("the version: %+v", r)
 	}
 

@@ -8,7 +8,6 @@ import (
 	"cmp"
 	"context"
 	"errors"
-	"fmt"
 	"maps"
 	"math"
 	"net/http"
@@ -70,11 +69,7 @@ func (c *Config) Check() error {
 		return errors.New("key is missing")
 	}
 	c.Name = cmp.Or(c.Name, "UniFi")
-	c.Link = cmp.Or(c.Link, c.URL)
-	if err := fetch.CheckURL(c.Link); err != nil {
-		return fmt.Errorf("link %w", err)
-	}
-	return nil
+	return fetch.CheckLink(&c.Link, c.URL)
 }
 
 // list is one page of a list the Integration API gives, which counts them

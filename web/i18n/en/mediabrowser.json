@@ -15,6 +15,5 @@
   "mediabrowser.task_failed": "Failed",
   "mediabrowser.task_failed_at": "Last run {at:when}",
 
-  "mediabrowser.version": "Version",
   "mediabrowser.restart": "Restart pending"
 }

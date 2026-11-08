@@ -151,7 +151,7 @@ func resolver(s stats, st status, cl clients, now time.Time) snapshot.Resolver {
 	}
 	r.Rows = []snapshot.Row{
 		{Title: snapshot.Text{Key: "adguard.processing"}, Value: snapshot.Msg("adguard.ms", map[string]any{"n": ms(s.Processing)})},
-		{Title: snapshot.Text{Key: "adguard.version"}, Value: &snapshot.Text{Name: st.Version}},
+		snapshot.VersionRow(st.Version, ""),
 	}
 	return r
 }

@@ -46,11 +46,7 @@ func (c *Config) Check() error {
 		return errors.New("token is missing: serverinfo's, as the README says")
 	}
 	c.Name = cmp.Or(c.Name, "Nextcloud")
-	c.Link = cmp.Or(c.Link, c.URL)
-	if err := fetch.CheckURL(c.Link); err != nil {
-		return fmt.Errorf("link %w", err)
-	}
-	return nil
+	return fetch.CheckLink(&c.Link, c.URL)
 }
 
 // info is serverinfo's answer, with the apps and the update it leaves out
@@ -104,7 +100,7 @@ func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 	if err := c.source.JSON(ctx, "/status.php", &status); err != nil {
 		return snapshot.Parts{}, err
 	}
-	version := snapshot.Row{Title: snapshot.Text{Key: "nextcloud.version"}, Value: &snapshot.Text{Name: status.Version}}
+	version := snapshot.VersionRow(status.Version, "")
 	// In maintenance, or waiting for its upgrade to be finished, Nextcloud
 	// serves nobody, serverinfo included.
 	if status.Maintenance || status.Upgrade {
@@ -132,15 +128,14 @@ func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 			Value:  snapshot.Number(nc.Shares.All),
 			Detail: snapshot.Msg("nextcloud.links", map[string]any{"n": nc.Shares.Links, "open": nc.Shares.LinksNoPassword}),
 		},
-		{Title: snapshot.Text{Key: "nextcloud.free"}, Value: snapshot.Msg("nextcloud.bytes", map[string]any{"n": nc.System.Free})},
+		{Title: snapshot.Text{Key: "nextcloud.free"}, Value: snapshot.Bytes(nc.System.Free)},
 		{
-			Title: snapshot.Text{Key: "nextcloud.database"}, Value: snapshot.Msg("nextcloud.bytes", map[string]any{"n": d.Server.Database.Size}),
+			Title: snapshot.Text{Key: "nextcloud.database"}, Value: snapshot.Bytes(d.Server.Database.Size),
 			Detail: &snapshot.Text{Name: d.Server.Database.Type},
 		},
 	}
 	if u := nc.System.Update; u.Available && u.Version != "" {
-		version.Value, version.Tone = snapshot.Msg("nextcloud.newer", map[string]any{"version": u.Version}), "orange"
-		version.Detail = &snapshot.Text{Name: status.Version}
+		version = snapshot.VersionRow(status.Version, u.Version)
 	}
 	rows = append(rows, version)
 

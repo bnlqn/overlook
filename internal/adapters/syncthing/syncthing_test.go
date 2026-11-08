@@ -117,7 +117,7 @@ func TestReadNewer(t *testing.T) {
 		t.Fatal(err)
 	}
 	adaptertest.Validate(t, Area, p)
-	if v := p.Sections[1].Rows[2]; v.Value.Key != "syncthing.newer" || v.Value.Args["version"] != "v2.1.8" ||
+	if v := p.Sections[1].Rows[2]; v.Value.Key != "version.newer" || v.Value.Args["version"] != "v2.1.8" ||
 		v.Tone != "orange" || v.Detail.Name != "v2.1.7" {
 		t.Errorf("v2.1.8 is out, in orange, over v2.1.7: %+v", v)
 	}

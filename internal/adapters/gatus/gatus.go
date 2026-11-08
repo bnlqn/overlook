@@ -47,9 +47,8 @@ func (c *Config) Check() error {
 		return errors.New("give user and password together, or neither")
 	}
 	c.Name = cmp.Or(c.Name, "Gatus")
-	c.Link = cmp.Or(c.Link, c.URL)
-	if err := fetch.CheckURL(c.Link); err != nil {
-		return fmt.Errorf("link %w", err)
+	if err := fetch.CheckLink(&c.Link, c.URL); err != nil {
+		return err
 	}
 	c.Threshold = cmp.Or(c.Threshold, 3)
 	if c.Threshold < 1 {

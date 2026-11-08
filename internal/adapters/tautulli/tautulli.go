@@ -190,7 +190,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 	if update.Available != nil && status.Connected {
 		plex := snapshot.Row{Title: snapshot.Text{Key: "tautulli.plex"}, Value: snapshot.Msg("tautulli.current", nil)}
 		if *update.Available && update.Version != "" {
-			plex.Value, plex.Tone = snapshot.Msg("tautulli.newer", map[string]any{"version": update.Version}), "orange"
+			plex.Value, plex.Tone = snapshot.Msg("version.newer", map[string]any{"version": update.Version}), "orange"
 		}
 		m.Rows = append(m.Rows, plex)
 	}

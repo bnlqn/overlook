@@ -201,7 +201,7 @@ func Read(ctx context.Context, c Config, now time.Time, log Log, own []snapshot.
 		m.Rows = append(m.Rows, row)
 	}
 
-	version := snapshot.Row{Title: snapshot.Text{Key: "mediabrowser.version"}, Value: &snapshot.Text{Name: sys.Version}}
+	version := snapshot.VersionRow(sys.Version, "")
 	if sys.HasPendingRestart {
 		version.Value, version.Tone = snapshot.Msg("mediabrowser.restart", nil), "orange"
 		version.Detail = &snapshot.Text{Name: sys.Version}

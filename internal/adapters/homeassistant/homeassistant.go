@@ -8,7 +8,6 @@ import (
 	"cmp"
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
 	"slices"
 	"strconv"
@@ -50,11 +49,7 @@ func (c *Config) Check() error {
 		return errors.New("token is missing")
 	}
 	c.Name = cmp.Or(c.Name, "Home Assistant")
-	c.Link = cmp.Or(c.Link, c.URL)
-	if err := fetch.CheckURL(c.Link); err != nil {
-		return fmt.Errorf("link %w", err)
-	}
-	return nil
+	return fetch.CheckLink(&c.Link, c.URL)
 }
 
 // entity is one of /api/states: a light, a sensor, an automation, an
@@ -147,7 +142,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 	}
 	slices.SortFunc(chores, func(a, b snapshot.Chore) int { return cmp.Compare(a.Name, b.Name) })
 
-	version := snapshot.Row{Title: snapshot.Text{Key: "homeassistant.version"}, Value: &snapshot.Text{Name: config.Version}}
+	version := snapshot.VersionRow(config.Version, "")
 	switch {
 	case config.RecoveryMode:
 		version.Value, version.Tone, version.Detail = snapshot.Msg("homeassistant.recovery_mode", nil), "red", &snapshot.Text{Name: config.Version}

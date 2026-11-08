@@ -6,6 +6,7 @@
 package fetch
 
 import (
+	"cmp"
 	"crypto/tls"
 	"crypto/x509"
 	"encoding/base64"
@@ -157,6 +158,16 @@ func CheckURL(rawURL string) error {
 	}
 	if u.User != nil {
 		return errors.New("can't hold a login: a source that needs one takes user and password")
+	}
+	return nil
+}
+
+// CheckLink fills a source's link, where the page sends the owner, with its
+// url when the config gives none, and refuses one CheckURL would.
+func CheckLink(link *string, sourceURL string) error {
+	*link = cmp.Or(*link, sourceURL)
+	if err := CheckURL(*link); err != nil {
+		return fmt.Errorf("link %w", err)
 	}
 	return nil
 }
