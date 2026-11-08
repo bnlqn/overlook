@@ -13,8 +13,8 @@ var Tones = []string{"", "green", "orange", "red", "blue", "gray"}
 //
 // A message's {x} writes Args["x"]: a number the viewer's way, anything else
 // escaped. {x:format} formats it: span and ms take milliseconds, when, day
-// and clock take a time, bytes takes bytes, area takes an area. A message
-// with plurals picks its form by Args["n"].
+// and clock take a time, bytes takes bytes, area takes an area, and adapter
+// an adapter's key. A message with plurals picks its form by Args["n"].
 type Text struct {
 	Key  string         `json:"key,omitempty"`
 	Args map[string]any `json:"args,omitempty"`

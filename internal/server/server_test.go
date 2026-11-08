@@ -14,6 +14,7 @@ import (
 	"testing"
 
 	"github.com/bnlqn/overlook/internal/config"
+	"github.com/bnlqn/overlook/internal/fetch"
 	"github.com/bnlqn/overlook/internal/snapshot"
 	"github.com/bnlqn/overlook/web"
 )
@@ -139,13 +140,72 @@ func TestSetup(t *testing.T) {
 	if code, got := try("http://example.com", body); code != http.StatusOK || got != (tried{Name: "Gatus"}) {
 		t.Errorf("Gatus answered with nothing: %d %+v", code, got)
 	}
-	if _, got := try("http://example.com", `{"adapter":"immich","fields":{"url":"http://immich.example.com"}}`); got.Error != "key is missing" || got.Why != "" {
+	if _, got := try("http://example.com", `{"adapter":"immich","fields":{"url":"http://immich.example.com"}}`); got.Error != "key is missing" || got.Why != nil {
 		t.Errorf("Immich without its key: %+v", got)
 	}
 	gone := httptest.NewServer(nil)
 	gone.Close()
-	if _, got := try("http://example.com", `{"adapter":"gatus","fields":{"url":"`+gone.URL+`"}}`); got.Why != "refused" || got.Name != "Gatus" {
-		t.Errorf("a Gatus that's gone: %+v", got)
+	// httptest listens on 127.0.0.1: in a container, the container itself.
+	if _, got := try("http://example.com", `{"adapter":"gatus","fields":{"url":"`+gone.URL+`"}}`); got.Name != "Gatus" ||
+		got.Why == nil || got.Why.Key != "setup.why.localhost" || got.Why.Args["name"] != "gatus" || got.Why.Args["host"] != "127.0.0.1" {
+		t.Errorf("a Gatus that's gone: %+v %+v", got, got.Why)
+	}
+}
+
+// A try that failed says what to do about it, by its kind, the fields its
+// adapter asks for and the host it was given, in words the page has.
+func TestWhy(t *testing.T) {
+	t.Parallel()
+	english, err := web.English()
+	if err != nil {
+		t.Fatal(err)
+	}
+	plain := config.Adapter{Key: "gatus", Asks: []config.Ask{{Field: "url"}}}
+	asks := config.Adapter{Key: "proxmox", Asks: []config.Ask{{Field: "url"}, {Field: "ca"}, {Field: "server_name"}}}
+	nut := config.Adapter{Key: "nut", Asks: []config.Ask{{Field: "host"}}}
+	at := func(url string) map[string]any { return map[string]any{"url": url} }
+	for _, tc := range []struct {
+		kind      string
+		a         config.Adapter
+		fields    map[string]any
+		key, host string
+	}{
+		{"certificate", asks, at("https://pve.example.com:8006"), "certificate", "pve.example.com"},
+		{"certificate", plain, at("https://gatus.example.com"), "certificate_none", "gatus.example.com"},
+		{"certificate_name", asks, at("https://pve.example.com:8006"), "certificate_name", "pve.example.com"},
+		{"certificate_name", plain, at("https://gatus.example.com"), "certificate_name_none", "gatus.example.com"},
+		{"plain", plain, at("https://gatus.example.com"), "plain", "gatus.example.com"},
+		{"refused", plain, at("http://localhost:8080"), "localhost", "localhost"},
+		{"refused", plain, at("http://127.0.0.2:8080"), "localhost", "127.0.0.2"},
+		{"refused", plain, at("http://[::1]:8080"), "localhost", "::1"},
+		{"refused", nut, map[string]any{"host": "[::1]:3493"}, "localhost", "::1"},
+		{"refused", nut, map[string]any{"host": "localhost"}, "localhost", "localhost"},
+		{"refused", nut, map[string]any{"host": "upsd.example.com:3493"}, "refused", "upsd.example.com"},
+		{"refused", plain, at("http://gatus.example.com"), "refused", "gatus.example.com"},
+		{"no_host", plain, at("http://nas.local"), "local", "nas.local"},
+		{"no_host", plain, at("http://nas.example.com"), "no_host", "nas.example.com"},
+		{"timeout", plain, at("http://nas.local:5000"), "local", "nas.local"},
+		{"timeout", plain, at("http://nas.example.com:5000"), "timeout", "nas.example.com"},
+		{"key", plain, at("https://gatus.example.com"), "key", "gatus.example.com"},
+		{"not_found", plain, at("https://gatus.example.com"), "not_found", "gatus.example.com"},
+	} {
+		got := why(tc.kind, tc.a, tc.fields)
+		if got == nil || got.Key != "setup.why."+tc.key || got.Args["host"] != tc.host || got.Args["name"] != tc.a.Key {
+			t.Errorf("%s at %v: %+v, want setup.why.%s at %s", tc.kind, tc.fields, got, tc.key, tc.host)
+			continue
+		}
+		if _, ok := english[got.Key]; !ok {
+			t.Errorf("%s is missing", got.Key)
+		}
+	}
+	// Every kind fetch tells apart has its words, and no kind has nothing to say.
+	for _, kind := range fetch.Kinds {
+		if why(kind, plain, at("https://gatus.example.com")) == nil {
+			t.Errorf("%s: nothing to say", kind)
+		}
+	}
+	if got := why("", plain, at("https://gatus.example.com")); got != nil {
+		t.Errorf("no kind: %+v", got)
 	}
 }
 

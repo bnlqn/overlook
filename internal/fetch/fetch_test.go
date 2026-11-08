@@ -3,6 +3,7 @@ package fetch
 import (
 	"context"
 	"encoding/pem"
+	"maps"
 	"net"
 	"net/http"
 	"net/http/httptest"
@@ -375,6 +376,14 @@ func TestWhy(t *testing.T) {
 			c.Close()
 		}
 	}()
+	told := map[string]bool{}
+	why := func(what string, err error, want string) {
+		t.Helper()
+		told[want] = true
+		if got := Why(err); got != want {
+			t.Errorf("%s: %q, want %q, from %v", what, got, want, err)
+		}
+	}
 	for _, tc := range []struct{ url, path, want string }{
 		{signed.URL, "", "certificate"},
 		{strings.Replace(refuse.URL, "http:", "https:", 1), "", "plain"},
@@ -386,20 +395,17 @@ func TestWhy(t *testing.T) {
 	} {
 		// No deadline here: a busy machine can take a second over a TLS
 		// handshake, and a deadline would turn its answer into a timeout.
-		err := open(t, Source{URL: tc.url}).JSON(t.Context(), tc.path, new(any))
-		if got := Why(err); got != tc.want {
-			t.Errorf("%s%s: %q, want %q, from %v", tc.url, tc.path, got, tc.want, err)
-		}
+		why(tc.url+tc.path, open(t, Source{URL: tc.url}).JSON(t.Context(), tc.path, new(any)), tc.want)
 	}
 	// A source that never answers is the one case that needs a deadline.
 	ctx, cancel := context.WithTimeout(t.Context(), 300*time.Millisecond)
 	defer cancel()
-	if got := Why(open(t, Source{URL: refuse.URL}).JSON(ctx, "/slow", new(any))); got != "timeout" {
-		t.Errorf("never answers: %q", got)
-	}
+	why("never answers", open(t, Source{URL: refuse.URL}).JSON(ctx, "/slow", new(any)), "timeout")
 	// A certificate for another name: the CA is trusted, the name isn't it.
 	s := open(t, Source{URL: strings.Replace(signed.URL, "127.0.0.1", "localhost", 1), CA: caFile(t, signed)})
-	if got := Why(s.JSON(t.Context(), "", new(any))); got != "certificate_name" {
-		t.Errorf("another name: %q", got)
+	why("another name", s.JSON(t.Context(), "", new(any)), "certificate_name")
+	// Kinds names every kind told apart here, and only those.
+	if kinds := slices.Sorted(maps.Keys(told)); !slices.Equal(kinds, slices.Sorted(slices.Values(Kinds))) {
+		t.Errorf("told apart %q, but Kinds is %q", kinds, Kinds)
 	}
 }

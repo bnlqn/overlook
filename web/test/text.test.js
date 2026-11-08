@@ -40,6 +40,11 @@ test("a choice of links is each a link, its address escaped, the last after or",
   );
 });
 
+test("a message names an adapter by its key, as the setup page names it", () => {
+  setWords({ ...en, "setup.adapter.nut": "NUT", gone: "{name:adapter} refused the key" }, {}, "en");
+  assert.equal(t("gone", { name: "nut" }), "NUT refused the key");
+});
+
 test("a plural follows the rules of the language its message came from", () => {
   const fr = { problems: { one: "{n} problème", other: "{n} problèmes" } };
   setWords(en, fr, "fr-FR");

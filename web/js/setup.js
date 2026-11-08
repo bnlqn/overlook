@@ -6,7 +6,7 @@
 import { anchor, dotenv, readme, yaml } from "./config.js";
 import { badge, stateIcon, svg } from "./draw.js";
 import { AREAS } from "./page.js";
-import { english, esc, list, loadWords, t, translate } from "./text.js";
+import { english, esc, list, loadWords, say, t, translate } from "./text.js";
 
 const GROUPS = ["checkengines", ...AREAS, "chores"];
 const group = (a) => (a.kind === "checkengine" ? "checkengines" : a.area || "chores");
@@ -59,31 +59,11 @@ function found(got) {
   return parts.length ? `${t("setup.answered")} · ${list(parts)}` : t("setup.answered_empty");
 }
 
-// Why a try failed, as what to do about it, with the error as Overlook got
-// it beneath; or the error alone, when it's the config's own, such as "key
-// is missing", or one of no kind the server tells apart.
-function why(a, got, fields) {
-  const host = URL.canParse(fields.url) ? new URL(fields.url).hostname : (fields.host ?? "").split(":")[0];
-  const asks = (field) => a.asks.some((k) => k.field === field);
-  const ca = asks("ca");
-  const named = asks("server_name");
-  const loopback = /^(localhost|127(\.\d+){3}|\[::1\])$/.test(host);
-  const local = host.endsWith(".local");
-  const key = {
-    certificate: ca ? "setup.why.certificate" : "setup.why.certificate_none",
-    certificate_name: named ? "setup.why.certificate_name" : "setup.why.certificate_name_none",
-    plain: "setup.why.plain",
-    refused: loopback ? "setup.why.localhost" : "setup.why.refused",
-    // In a container, a .local name may not fail to be found: its lookup
-    // can wait out the timeout instead.
-    no_host: local ? "setup.why.local" : "setup.why.no_host",
-    timeout: local ? "setup.why.local" : "setup.why.timeout",
-    key: "setup.why.key",
-    not_found: "setup.why.not_found",
-  }[got.why];
-  if (!key) return esc(got.error);
-  return `${t(key, { name: t(`setup.adapter.${a.key}`), host })}<span class="detail">${esc(got.error)}</span>`;
-}
+// Why a try failed, as what to do about it, which the server words, with
+// the error as Overlook got it beneath; or the error alone, when it's the
+// config's own, such as "key is missing", or one of no kind the server
+// tells apart.
+const why = (got) => (got.why ? `${say(got.why)}<span class="detail">${esc(got.error)}</span>` : esc(got.error));
 
 async function tryOne(form) {
   const a = adapters.find((x) => x.key === form.dataset.key);
@@ -94,12 +74,12 @@ async function tryOne(form) {
     const v = form.elements[ask.field].value.trim();
     if (v) fields[ask.field] = ask.list ? v.split(/[\s,]+/).filter(Boolean) : v;
   }
-  const say = (tone, html) => {
+  const tell = (tone, html) => {
     answer.className = `answer ${tone}`;
     answer.innerHTML = html;
   };
   button.disabled = true;
-  say("", t("setup.trying"));
+  tell("", t("setup.trying"));
   let got;
   try {
     const r = await fetch("setup", {
@@ -113,12 +93,12 @@ async function tryOne(form) {
   } finally {
     button.disabled = false;
   }
-  if (!got.name && !got.error) return say("bad", t("overlook.no_answer"));
-  if (got.error) return say("bad", why(a, got, fields));
-  if (added.some((s) => s.name === got.name)) return say("bad", t("setup.same_name", { name: got.name }));
+  if (!got.name && !got.error) return tell("bad", t("overlook.no_answer"));
+  if (got.error) return tell("bad", why(got));
+  if (added.some((s) => s.name === got.name)) return tell("bad", t("setup.same_name", { name: got.name }));
   added.push({ adapter: a.key, name: got.name, fields });
   form.reset();
-  say("good", found(got));
+  tell("good", found(got));
   draw();
 }
 
