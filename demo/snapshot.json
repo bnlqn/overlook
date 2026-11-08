@@ -1602,11 +1602,6 @@
           "title": { "name": "tank" },
           "value": { "key": "store.room", "args": { "used": 2965818318848, "size": 3848290697216 } },
           "meter": { "used": 2965818318848, "total": 3848290697216 }
-        },
-        {
-          "title": { "name": "backups" },
-          "value": { "key": "store.room", "args": { "used": 1236950581248, "size": 3848290697216 } },
-          "meter": { "used": 1236950581248, "total": 3848290697216 }
         }
       ]
     },

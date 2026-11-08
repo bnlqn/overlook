@@ -23,6 +23,7 @@ Decided on 7 November 2026, as the first half of step 3 of the road to v0.6, whe
 - A store's health and a failed backup run are red rows, never problems: only a check makes a problem (ADR 0001).
 - The same night can show twice: as Proxmox VE's backup run, and as the backups the backup server keeps from it. The run says the job ran, the backup server what it holds, and nothing adds the two up.
 - No figure adds stores up, since a Proxmox VE storage on a ZFS pool is the same room twice. One waits until a store can say what it sits on.
+- A store that is another source's own shows once: a Proxmox VE storage on a backup server says so, and is left out while a source of that adapter answers, which shows the same datastore itself. Added on 8 November 2026, when v0.6.0-rc.1 showed one datastore twice in Storage on the maintainer's homelab.
 - A source that gives stores or backup runs and doesn't answer is named in Storage too, beside its home area, so that Storage never loses them without a word.
 - `adaptertest` still checks every other part an adapter gives against its home area, but not its stores and backup runs, just as it doesn't check checks.
 - The stores' and the backup runs' words are in tables of their own, `web/i18n/en/store.json` and `backuprun.json`, as the kinds' are.

@@ -157,6 +157,9 @@ type Row struct {
 	// Meters are drawn under the row side by side, each with its label, as
 	// a figure's are, such as a host's processor and memory.
 	Meters []Meter `json:"meters,omitempty"`
+	// on is a store's On, kept for the reader, which leaves the row out
+	// while a source of that adapter answers.
+	on string
 }
 
 // Meter is how full something is. With no tone it's blue, turning orange

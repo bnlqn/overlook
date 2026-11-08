@@ -78,9 +78,11 @@ type resource struct {
 	MaxCPU   float64 `json:"maxcpu"`
 	MaxMem   int64   `json:"maxmem"`
 	Storage  string  `json:"storage"`
-	Shared   int     `json:"shared"`
-	Disk     int64   `json:"disk"`
-	MaxDisk  int64   `json:"maxdisk"`
+	// PluginType is a storage's type, such as zfspool, dir or pbs.
+	PluginType string `json:"plugintype"`
+	Shared     int    `json:"shared"`
+	Disk       int64  `json:"disk"`
+	MaxDisk    int64  `json:"maxdisk"`
 }
 
 // host is what Proxmox says of one node, from /nodes/{node}/...
@@ -265,7 +267,9 @@ func parts(resources []resource, hosts []*host, nodes int, now time.Time) snapsh
 
 	// The stores: each host's ZFS pools, then the storage, a shared one
 	// once. A storage Proxmox VE can't reach, such as one on an offline
-	// node, is unknown to it, and has no room to show.
+	// node, is unknown to it, and has no room to show. A storage on a
+	// Proxmox Backup Server is that server's datastore, which shows once,
+	// as the backup server's, when Overlook reads it too.
 	var stores snapshot.Stores
 	for _, h := range hosts {
 		for _, z := range h.pools {
@@ -278,6 +282,9 @@ func parts(resources []resource, hosts []*host, nodes int, now time.Time) snapsh
 			continue
 		}
 		st := snapshot.Store{Name: onNode(r.Storage, r.Node), Healthy: r.Status == "available"}
+		if r.PluginType == "pbs" {
+			st.On = "pbs"
+		}
 		if r.Shared == 1 {
 			shared[r.Storage] = true
 			st.Name = snapshot.Text{Name: r.Storage}

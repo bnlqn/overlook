@@ -148,6 +148,17 @@ func (r *Reader) Snapshot() Snapshot {
 		Tools:   append([]Link{}, r.tools...),
 		Version: Version,
 	}
+	// The adapters whose sources answered, so that a store that is one of
+	// their sources' own shows once, as that source's (Store.On).
+	// ponytail: any source of the adapter counts, so a Proxmox VE storage on
+	// a second backup server Overlook doesn't read is left out too; match
+	// the server's address, from Proxmox VE's /storage, if an owner has one.
+	answered := map[string]bool{}
+	for i, src := range r.sources {
+		if errs[i] == nil {
+			answered[src.Adapter] = true
+		}
+	}
 	for i, src := range r.sources {
 		read := SourceRead{Name: src.Name, Adapter: src.Adapter, Area: src.Area, Kind: src.Kind, Storage: src.Storage, Answered: errs[i] == nil}
 		if errs[i] != nil {
@@ -162,6 +173,10 @@ func (r *Reader) Snapshot() Snapshot {
 				snap.Checks = append(snap.Checks, c)
 			}
 			for _, s := range p.Sections {
+				n := len(s.Rows)
+				if s.Rows = slices.DeleteFunc(s.Rows, func(row Row) bool { return answered[row.on] }); n > 0 && len(s.Rows) == 0 {
+					continue
+				}
 				s.Source = src.Name
 				snap.Sections = append(snap.Sections, s)
 			}
