@@ -1,12 +1,12 @@
 ---
-status: proposed
+status: accepted
 ---
 
 # A state is decided in Go and carried in the snapshot
 
 Each check's state, each area's and the homelab's, the sources each area names, and the check that says whether each app or tool answers, and so its state, are decided once, in `internal/snapshot`. The Reader decides them as the last step of every read, and the snapshot carries them: a check is up, failing, down or unknown, and an area and the homelab are up, degraded, down or unknown (CONTEXT.md, State). The page words them and MCP gives them, and neither decides them again. None of these rules needs the moment the page is viewed or its language: only their words do, such as how long the homelab has been quiet, so the words stay in the page (ADR 0006). This follows ADR 0003, the snapshot shaped in Go and drawn in JavaScript, and amends ADR 0007: the page's other decisions stay in `js/page.js`, tested with Node, but the states are tested in Go.
 
-Proposed on 8 November 2026, from an architecture review of that day, for the road to v0.7, as its seventh step, after the overview's and the area page's decisions moved into `page()` the same day. Go already decided whether a check is a problem, and `page.js` decided the states made from it. MCP, built as step 5 of the road to v0.6 (ADR 0015), then copied two of those rules, the sources an area names and the check a link names, and said the area's in its tools' descriptions, and it could not give the homelab's state, the one the page leads with, without copying a third. CONTEXT.md's rule for Degraded had changed twice by then, each time in `page.js` alone.
+Proposed on 8 November 2026, from an architecture review of that day, for the road to v0.7, as its seventh step, once the overview's and the area page's decisions had moved into `page()`. Decided the same day, when it was built. Go already decided whether a check is a problem, and `page.js` decided the states made from it. MCP, built as step 5 of the road to v0.6 (ADR 0015), then copied two of those rules, the sources an area names and the check a link names, and said the area's in its tools' descriptions, and it could not give the homelab's state, the one the page leads with, without copying a third. CONTEXT.md's rule for Degraded had changed twice by then, each time in `page.js` alone.
 
 ## Considered options
 
@@ -26,4 +26,4 @@ Proposed on 8 November 2026, from an architecture review of that day, for the ro
 - CONTRIBUTING's rule becomes: a state, and which checks and sources make it, is decided in `internal/snapshot`, with a Go test; every other decision the page makes goes in `js/page.js`, with a test. A contributor now tells two homes apart, and that sentence says which.
 - A change to how a state is decided is made in one Go function and its test, and in CONTEXT.md, never in the page and MCP both.
 - `snapshot.SourceState`, which says whether a source answered, is renamed `SourceRead`, since a state is how a check, an app, a tool, an area or the homelab is.
-- Once accepted, ADR 0007's status says that this one amends it.
+- ADR 0007's status says that this one amends it.
