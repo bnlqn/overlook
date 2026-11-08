@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"regexp"
 	"slices"
+	"strings"
 	"testing"
 	"time"
 
@@ -31,25 +32,31 @@ func Validate(tb testing.TB, area string, p snapshot.Parts) {
 }
 
 // strays lists every part of p outside area, its adapter's home area. A
-// check isn't one: it goes in its own area, or in none.
+// check isn't one: it goes in its own area, or in none. Nor are the parts
+// snapshot.Stores and snapshot.BackupRuns build, known by their tables'
+// keys, which go in Storage whichever adapter reads them (ADR 0016).
 func strays(area string, p snapshot.Parts) []string {
 	var bad []string
-	home := func(where, a string) {
-		if a != area {
-			bad = append(bad, fmt.Sprintf("%s: in %q, but its adapter's home area is %q", where, a, area))
+	home := func(where, key, a string) {
+		want := area
+		if strings.HasPrefix(key, "store.") || strings.HasPrefix(key, "backuprun.") {
+			want = "storage"
+		}
+		if a != want {
+			bad = append(bad, fmt.Sprintf("%s %s: in %q, but it goes in %q", where, key, a, want))
 		}
 	}
 	for _, s := range p.Sections {
-		home("section "+s.Title.Key, s.Area)
+		home("section", s.Title.Key, s.Area)
 	}
 	for _, c := range p.Charts {
-		home("chart "+c.Title.Key, c.Area)
+		home("chart", c.Title.Key, c.Area)
 	}
 	for _, f := range p.Figures {
-		home("figure "+f.Label.Key, f.Area)
+		home("figure", f.Label.Key, f.Area)
 	}
 	for _, e := range p.Events {
-		home("event "+e.Text.Key, e.Area)
+		home("event", e.Text.Key, e.Area)
 	}
 	return bad
 }

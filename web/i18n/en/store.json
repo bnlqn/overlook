@@ -1,0 +1,6 @@
+{
+  "store.section": "Stores",
+  "store.room": "{used:bytes} of {size:bytes}",
+  "store.healthy": "Healthy",
+  "store.unhealthy": "Unhealthy"
+}

@@ -216,6 +216,7 @@
   "setup.adapter.proxmox": "Proxmox VE",
   "setup.adapter.beszel": "Beszel",
   "setup.adapter.docker": "Docker",
+  "setup.adapter.portainer": "Portainer",
   "setup.adapter.radarr": "Radarr",
   "setup.adapter.sonarr": "Sonarr",
   "setup.adapter.prowlarr": "Prowlarr",

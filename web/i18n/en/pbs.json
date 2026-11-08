@@ -13,6 +13,5 @@
   "pbs.check_ok": "Verified",
   "pbs.check_failed": "Failed",
   "pbs.check_none": "Not yet",
-  "pbs.of_guests": { "one": "of {n} guest", "other": "of {n} guests" },
-  "pbs.backed_up": { "one": "Backed up <b>{n} guest</b>", "other": "Backed up <b>{n} guests</b>" }
+  "pbs.of_guests": { "one": "of {n} guest", "other": "of {n} guests" }
 }
