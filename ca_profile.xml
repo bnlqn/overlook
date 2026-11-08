@@ -1,6 +1,6 @@
 <CommunityApplications>
   <!-- Overlook's profile in Unraid's Community Applications, whose template is unraid/overlook.xml. -->
-  <Profile>Overlook: one page that tells you whether your homelab is fine, read from the tools it already runs, and changing nothing. Ask a question or share an idea in GitHub Discussions, and report a bug in GitHub Issues. Maintained by bnlqn.</Profile>
+  <Profile>Overlook: your whole homelab on one page, laid out for you, read from the tools it already runs, and changing nothing. Ask a question or share an idea in GitHub Discussions, and report a bug in GitHub Issues. Maintained by bnlqn.</Profile>
   <Icon>https://raw.githubusercontent.com/bnlqn/overlook/main/unraid/overlook.png</Icon>
   <WebPage>https://github.com/bnlqn/overlook</WebPage>
   <Forum>https://github.com/bnlqn/overlook/discussions</Forum>
