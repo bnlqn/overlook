@@ -27,8 +27,7 @@ setWords(
     ms: "{n} ms",
     up: "Up",
     percent: "{n}%",
-    "check.failed_of": "Failed {run} of {threshold}: {why}",
-    "check.failed_run_why": { one: "Failed once: {why}", other: "Failed {n} times in a row: {why}" },
+    "check.failed_n": "Failed {run} of {threshold}",
   },
   {},
   "en-GB",
@@ -67,17 +66,17 @@ test("a check's name and failure are escaped", () => {
   assert.doesNotMatch(html, /<script>|<img>|" onclick=/);
 });
 
-test("a failing check says how many failures make a problem, only when its check engine says", () => {
-  const failing = {
-    name: "DNS",
-    url: "https://status.example.com/",
-    failing: true,
-    run: 2,
-    why: "timeout",
-    recent: [],
-  };
-  assert.match(checkRows([{ ...failing, threshold: 3 }]), /Failed 2 of 3: timeout/);
-  assert.match(checkRows([{ ...failing, threshold: 0 }]), /Failed 2 times in a row: timeout/);
+test("a check's row says what its state doesn't, then why while it fails", () => {
+  const row = (c) => checkRows([{ name: "DNS", url: "https://status.example.com/", recent: [], ms: null, ...c }]);
+  const run = { key: "check.failed_n", args: { run: 2, threshold: 3 } };
+  assert.match(row({ state: "failing", failing: true, health: run, why: "timeout" }), /Failed 2 of 3 · timeout/);
+  assert.match(
+    row({ state: "failing", failing: true, health: run, why: "" }),
+    /Failed 2 of 3<\/span>/,
+    "no why, no dot",
+  );
+  assert.match(row({ state: "down", failing: true, health: null, why: "timeout" }), /class="detail">timeout</);
+  assert.doesNotMatch(row({ state: "up", failing: false, health: null, why: "old" }), /class="detail"/);
 });
 
 test("a section draws its place, each row, its value in its tone and its meter", () => {

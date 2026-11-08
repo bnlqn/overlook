@@ -76,7 +76,9 @@ _Avoid_: Monitor, uptime tool
 **Check**:
 One test a check engine repeats on a schedule, each result passing or
 failing, such as a Gatus endpoint, an Uptime Kuma monitor or a Grafana alert
-rule.
+rule. A check is up when its last result passed, failing while it fails and
+its check engine doesn't alert on it, down while it is a problem, and unknown
+with no result yet.
 _Avoid_: Monitor, probe, endpoint
 
 **Stretch**:
@@ -131,6 +133,14 @@ A check that has failed long enough for its check engine to alert on it. It
 lasts exactly as long as the check keeps failing, from its first failure to
 its next pass, and is never dismissed.
 _Avoid_: Alert (the push that announces a problem), incident, issue
+
+**Failing**:
+A check whose results fail while its check engine doesn't alert on it, such
+as one that failed once where three failures make a problem. It becomes a
+problem once its check engine alerts on it, and is up again at its next
+pass. It is the early warning, so the page counts it apart from the checks
+that are up.
+_Avoid_: Degraded (an area's or the homelab's state), warning
 
 **Degraded**:
 An area that still works while it has a problem, such as DNS with one of two
