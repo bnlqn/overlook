@@ -1,0 +1,172 @@
+[
+  {
+    "Id": 1,
+    "Name": "media",
+    "Type": 1,
+    "ContainerEngine": "",
+    "URL": "tcp://media:2375",
+    "GroupId": 1,
+    "PublicURL": "",
+    "TLSConfig": {
+      "TLS": false,
+      "TLSSkipVerify": false
+    },
+    "AzureCredentials": {
+      "ApplicationID": "",
+      "TenantID": "",
+      "AuthenticationKey": ""
+    },
+    "Status": 1,
+    "Snapshots": [
+      {
+        "Time": 1794093240,
+        "DockerVersion": "29.9.3",
+        "Swarm": false,
+        "TotalCPU": 8,
+        "TotalMemory": 8321798144,
+        "ContainerCount": 7,
+        "RunningContainerCount": 5,
+        "StoppedContainerCount": 2,
+        "HealthyContainerCount": 0,
+        "UnhealthyContainerCount": 1,
+        "VolumeCount": 2,
+        "ImageCount": 3,
+        "ServiceCount": 0,
+        "StackCount": 1,
+        "NodeCount": 1,
+        "GpuUseAll": false,
+        "IsPodman": false
+      }
+    ],
+    "EdgeKey": "",
+    "EdgeCheckinInterval": 5,
+    "Kubernetes": {
+      "Configuration": {
+        "UseLoadBalancer": false,
+        "UseServerMetrics": false,
+        "EnableResourceOverCommit": true,
+        "ResourceOverCommitPercentage": 0,
+        "RestrictDefaultNamespace": false,
+        "IngressAvailabilityPerNamespace": false,
+        "AllowNoneIngressClass": false
+      },
+      "Flags": {
+        "IsServerMetricsDetected": false,
+        "IsServerIngressClassDetected": false,
+        "IsServerStorageDetected": false
+      }
+    },
+    "ComposeSyntaxMaxVersion": "3.9",
+    "SecuritySettings": {
+      "allowBindMountsForRegularUsers": false,
+      "allowPrivilegedModeForRegularUsers": false,
+      "allowVolumeBrowserForRegularUsers": false,
+      "allowHostNamespaceForRegularUsers": false,
+      "allowDeviceMappingForRegularUsers": false,
+      "allowStackManagementForRegularUsers": true,
+      "allowContainerCapabilitiesForRegularUsers": false,
+      "allowSysctlSettingForRegularUsers": false,
+      "allowSecurityOptForRegularUsers": false,
+      "enableHostManagementFeatures": false
+    },
+    "LastCheckInDate": 0,
+    "Heartbeat": false,
+    "PostInitMigrations": {
+      "MigrateIngresses": false,
+      "MigrateGPUs": false,
+      "MigrateRegistrySASecrets": false
+    },
+    "Edge": {
+      "AsyncMode": false,
+      "PingInterval": 0,
+      "SnapshotInterval": 0,
+      "CommandInterval": 0
+    },
+    "Agent": {}
+  },
+  {
+    "Id": 2,
+    "Name": "backups",
+    "Type": 1,
+    "ContainerEngine": "",
+    "URL": "tcp://backups:2375",
+    "GroupId": 1,
+    "PublicURL": "",
+    "TLSConfig": {
+      "TLS": false,
+      "TLSSkipVerify": false
+    },
+    "AzureCredentials": {
+      "ApplicationID": "",
+      "TenantID": "",
+      "AuthenticationKey": ""
+    },
+    "Status": 2,
+    "Snapshots": [
+      {
+        "Time": 1794093230,
+        "DockerVersion": "29.9.3",
+        "Swarm": false,
+        "TotalCPU": 8,
+        "TotalMemory": 8321798144,
+        "ContainerCount": 2,
+        "RunningContainerCount": 2,
+        "StoppedContainerCount": 0,
+        "HealthyContainerCount": 0,
+        "UnhealthyContainerCount": 0,
+        "VolumeCount": 0,
+        "ImageCount": 2,
+        "ServiceCount": 0,
+        "StackCount": 0,
+        "NodeCount": 1,
+        "GpuUseAll": false,
+        "IsPodman": false
+      }
+    ],
+    "EdgeKey": "",
+    "EdgeCheckinInterval": 5,
+    "Kubernetes": {
+      "Configuration": {
+        "UseLoadBalancer": false,
+        "UseServerMetrics": false,
+        "EnableResourceOverCommit": true,
+        "ResourceOverCommitPercentage": 0,
+        "RestrictDefaultNamespace": false,
+        "IngressAvailabilityPerNamespace": false,
+        "AllowNoneIngressClass": false
+      },
+      "Flags": {
+        "IsServerMetricsDetected": false,
+        "IsServerIngressClassDetected": false,
+        "IsServerStorageDetected": false
+      }
+    },
+    "ComposeSyntaxMaxVersion": "3.9",
+    "SecuritySettings": {
+      "allowBindMountsForRegularUsers": false,
+      "allowPrivilegedModeForRegularUsers": false,
+      "allowVolumeBrowserForRegularUsers": false,
+      "allowHostNamespaceForRegularUsers": false,
+      "allowDeviceMappingForRegularUsers": false,
+      "allowStackManagementForRegularUsers": true,
+      "allowContainerCapabilitiesForRegularUsers": false,
+      "allowSysctlSettingForRegularUsers": false,
+      "allowSecurityOptForRegularUsers": false,
+      "enableHostManagementFeatures": false
+    },
+    "LastCheckInDate": 0,
+    "Heartbeat": false,
+    "PostInitMigrations": {
+      "MigrateIngresses": false,
+      "MigrateGPUs": false,
+      "MigrateRegistrySASecrets": false
+    },
+    "Edge": {
+      "AsyncMode": false,
+      "PingInterval": 0,
+      "SnapshotInterval": 0,
+      "CommandInterval": 0
+    },
+    "Agent": {}
+  }
+]

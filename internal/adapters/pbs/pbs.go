@@ -1,6 +1,6 @@
-// Package pbs reads Proxmox Backup Server: each guest's newest backup in one
-// datastore, with its size and whether it passed its check, and the nights
-// that made them. Everything it gives goes in Storage.
+// Package pbs reads Proxmox Backup Server: one datastore's room, the nights
+// that made its backups, and each guest's newest backup, with its size and
+// whether it passed its check. Everything it gives goes in Storage.
 package pbs
 
 import (
@@ -86,19 +86,37 @@ type backup struct {
 	} `json:"verification"`
 }
 
-// Read reads the backups in c's datastore.
-func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
-	var answer struct {
-		Data []backup `json:"data"`
-	}
-	if err := c.source.JSON(ctx, "/api2/json/admin/datastore/"+url.PathEscape(c.Datastore)+"/snapshots", &answer); err != nil {
-		return snapshot.Parts{}, err
-	}
-	return parts(answer.Data, now), nil
+// room is the datastore's, in bytes, from /admin/datastore/{store}/status:
+// that of the file system it's on.
+type room struct {
+	Total int64 `json:"total"`
+	Used  int64 `json:"used"`
 }
 
-func parts(backups []backup, now time.Time) snapshot.Parts {
-	var p snapshot.Parts
+// Read reads c's datastore: its room and its backups.
+func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+	path := "/api2/json/admin/datastore/" + url.PathEscape(c.Datastore)
+	var status struct {
+		Data room `json:"data"`
+	}
+	if err := c.source.JSON(ctx, path+"/status", &status); err != nil {
+		return snapshot.Parts{}, err
+	}
+	var snapshots struct {
+		Data []backup `json:"data"`
+	}
+	if err := c.source.JSON(ctx, path+"/snapshots", &snapshots); err != nil {
+		return snapshot.Parts{}, err
+	}
+	return parts(c.Datastore, status.Data, snapshots.Data, now), nil
+}
+
+// parts are the datastore's room as a store, its nights as backup runs,
+// which go in Storage as every source's do (ADR 0016), then its own rows
+// after them: each guest's newest backup.
+func parts(datastore string, r room, backups []backup, now time.Time) snapshot.Parts {
+	// PBS says nothing of a datastore's health.
+	p := snapshot.Stores{{Name: snapshot.Text{Name: datastore}, Used: r.Used, Size: r.Total, Healthy: true}}.Parts()
 	if len(backups) == 0 {
 		return p
 	}
@@ -143,10 +161,11 @@ func parts(backups []backup, now time.Time) snapshot.Parts {
 			rows[i].Value, rows[i].Tone, rows[i].Detail = snapshot.Msg("pbs.failed", nil), "red", snapshot.Msg("pbs.failed_detail", args)
 		}
 	}
-	p.Sections = []snapshot.Section{{Area: Area, Title: snapshot.Text{Key: "pbs.backups"}, Rows: rows}}
 
-	// The nights: the backups made one after another, newest first.
+	// The nights: the backups made one after another, newest first. PBS
+	// knows when each backup started, not when the night ended.
 	var runs [][]backup
+	var nights snapshot.BackupRuns
 	for i, b := range backups {
 		if i == 0 || at(backups[i-1]).Sub(at(b)) > night {
 			runs = append(runs, nil)
@@ -154,15 +173,12 @@ func parts(backups []backup, now time.Time) snapshot.Parts {
 		runs[len(runs)-1] = append(runs[len(runs)-1], b)
 	}
 	for _, r := range runs {
-		start := at(r[len(r)-1])
-		if now.Sub(start) > 7*24*time.Hour {
-			break
-		}
-		p.Events = append(p.Events, snapshot.Event{
-			At: start, Area: Area, Icon: "archive",
-			Text: snapshot.Text{Key: "pbs.backed_up", Args: map[string]any{"n": guests(r)}},
-		})
+		nights = append(nights, snapshot.BackupRun{Start: at(r[len(r)-1]), Backups: len(r)})
 	}
+	n := nights.Parts(now)
+	p.Sections = append(p.Sections, n.Sections...)
+	p.Sections = append(p.Sections, snapshot.Section{Area: Area, Title: snapshot.Text{Key: "pbs.backups"}, Rows: rows})
+	p.Events = n.Events
 
 	// Today: the guests the last night backed up, of all those backed up. The
 	// night is the run with the most guests in the day to the newest backup,

@@ -46,6 +46,10 @@ func TestRoutes(t *testing.T) {
 		"/icons/gatus.svg": "<svg",
 		"/i18n/en.json":    `"title":"Homelab"`,
 		"/i18n/fr.json":    `{}`,
+		// What installs the page on a phone, from Overlook itself, at an
+		// address relative to the page's own.
+		"/manifest.json": `"start_url": "./"`,
+		"/app-icon.png":  "PNG",
 	} {
 		rec := get(t, h, path)
 		if rec.Code != http.StatusOK || !strings.Contains(rec.Body.String(), want) {

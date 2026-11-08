@@ -39,6 +39,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/paperless"
 	"github.com/bnlqn/overlook/internal/adapters/pbs"
 	"github.com/bnlqn/overlook/internal/adapters/pihole"
+	"github.com/bnlqn/overlook/internal/adapters/portainer"
 	"github.com/bnlqn/overlook/internal/adapters/prometheus"
 	"github.com/bnlqn/overlook/internal/adapters/prowlarr"
 	"github.com/bnlqn/overlook/internal/adapters/proxmox"
@@ -46,6 +47,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/radarr"
 	"github.com/bnlqn/overlook/internal/adapters/seerr"
 	"github.com/bnlqn/overlook/internal/adapters/sonarr"
+	"github.com/bnlqn/overlook/internal/adapters/syncthing"
 	"github.com/bnlqn/overlook/internal/adapters/tautulli"
 	"github.com/bnlqn/overlook/internal/adapters/unifi"
 	"github.com/bnlqn/overlook/internal/adapters/uptimekuma"
@@ -84,9 +86,11 @@ type Sources struct {
 	GitHub        []github.Config        `yaml:"github" icon:"github.svg"`
 	Immich        []immich.Config        `yaml:"immich" icon:"immich.svg"`
 	PBS           []pbs.Config           `yaml:"pbs" icon:"proxmox-backup-server.svg"`
+	Syncthing     []syncthing.Config     `yaml:"syncthing" icon:"syncthing.svg"`
 	Proxmox       []proxmox.Config       `yaml:"proxmox" icon:"proxmox.svg"`
 	Beszel        []beszel.Config        `yaml:"beszel" icon:"beszel.svg"`
 	Docker        []docker.Config        `yaml:"docker" icon:"docker.svg"`
+	Portainer     []portainer.Config     `yaml:"portainer" icon:"portainer.svg"`
 	Radarr        []radarr.Config        `yaml:"radarr" icon:"radarr.svg"`
 	Sonarr        []sonarr.Config        `yaml:"sonarr" icon:"sonarr.svg"`
 	Prowlarr      []prowlarr.Config      `yaml:"prowlarr" icon:"prowlarr.svg"`
@@ -112,12 +116,13 @@ type Sources struct {
 func (c Config) Readers() []snapshot.Source { return c.readers }
 
 // add checks the sources under sources.<key>, which list holds, and keeps
-// each with its adapter's read, and its home area and kind, if it has them.
+// each with its adapter's read, its home area and kind, if it has them, and
+// whether it gives stores or backup runs, which go in Storage (ADR 0016).
 // Each source's name must be its own.
 func add[C any, P interface {
 	*C
 	Check() error
-}](c *Config, key, area, kind string, list []C, name func(C) string, read func(context.Context, C, time.Time) (snapshot.Parts, error)) error {
+}](c *Config, key, area, kind string, storage bool, list []C, name func(C) string, read func(context.Context, C, time.Time) (snapshot.Parts, error)) error {
 	c.adapters = append(c.adapters, Adapter{Key: key, Area: area, Kind: kind, config: reflect.TypeFor[C]()})
 	for i := range list {
 		if err := P(&list[i]).Check(); err != nil {
@@ -127,7 +132,7 @@ func add[C any, P interface {
 		if slices.ContainsFunc(c.readers, func(s snapshot.Source) bool { return s.Name == n }) {
 			return fmt.Errorf("sources.%s[%d]: another source is named %s: give each a name", key, i, n)
 		}
-		c.readers = append(c.readers, snapshot.Source{Name: n, Adapter: key, Area: area, Kind: kind, Read: func(ctx context.Context, now time.Time) (snapshot.Parts, error) { return read(ctx, src, now) }})
+		c.readers = append(c.readers, snapshot.Source{Name: n, Adapter: key, Area: area, Kind: kind, Storage: storage, Read: func(ctx context.Context, now time.Time) (snapshot.Parts, error) { return read(ctx, src, now) }})
 	}
 	return nil
 }
@@ -242,35 +247,37 @@ func interpolate(n *yaml.Node, env map[string]string) error {
 func (c *Config) check() error {
 	// The first refusal, in the order of Sources.
 	if err := cmp.Or(
-		add(c, "gatus", "", "checkengine", c.Sources.Gatus, func(g gatus.Config) string { return g.Name }, gatus.Read),
-		add(c, "uptimekuma", "", "checkengine", c.Sources.UptimeKuma, func(u uptimekuma.Config) string { return u.Name }, uptimekuma.Read),
-		add(c, "grafana", "", "checkengine", c.Sources.Grafana, func(g grafana.Config) string { return g.Name }, grafana.Read),
-		add(c, "prometheus", "", "checkengine", c.Sources.Prometheus, func(p prometheus.Config) string { return p.Name }, prometheus.Read),
-		add(c, "checkmate", "", "checkengine", c.Sources.Checkmate, func(m checkmate.Config) string { return m.Name }, checkmate.Read),
-		add(c, "github", "", "", c.Sources.GitHub, func(g github.Config) string { return g.Name }, github.Read),
-		add(c, "immich", immich.Area, "", c.Sources.Immich, func(im immich.Config) string { return im.Name }, immich.Read),
-		add(c, "pbs", pbs.Area, "", c.Sources.PBS, func(b pbs.Config) string { return b.Name }, pbs.Read),
-		add(c, "proxmox", proxmox.Area, "", c.Sources.Proxmox, func(p proxmox.Config) string { return p.Name }, proxmox.Read),
-		add(c, "beszel", beszel.Area, "", c.Sources.Beszel, func(b beszel.Config) string { return b.Name }, beszel.Read),
-		add(c, "docker", docker.Area, "", c.Sources.Docker, func(d docker.Config) string { return d.Name }, docker.Read),
-		add(c, "radarr", radarr.Area, "", c.Sources.Radarr, func(r radarr.Config) string { return r.Name }, radarr.Read),
-		add(c, "sonarr", sonarr.Area, "", c.Sources.Sonarr, func(s sonarr.Config) string { return s.Name }, sonarr.Read),
-		add(c, "prowlarr", prowlarr.Area, "", c.Sources.Prowlarr, func(p prowlarr.Config) string { return p.Name }, prowlarr.Read),
-		add(c, "qbittorrent", qbittorrent.Area, "", c.Sources.QBittorrent, func(q qbittorrent.Config) string { return q.Name }, qbittorrent.Read),
-		add(c, "jellyfin", jellyfin.Area, "mediaserver", c.Sources.Jellyfin, func(j jellyfin.Config) string { return j.Name }, jellyfin.Read),
-		add(c, "emby", emby.Area, "mediaserver", c.Sources.Emby, func(e emby.Config) string { return e.Name }, emby.Read),
-		add(c, "tautulli", tautulli.Area, "mediaserver", c.Sources.Tautulli, func(t tautulli.Config) string { return t.Name }, tautulli.Read),
-		add(c, "seerr", seerr.Area, "", c.Sources.Seerr, func(s seerr.Config) string { return s.Name }, seerr.Read),
-		add(c, "homeassistant", homeassistant.Area, "", c.Sources.HomeAssistant, func(h homeassistant.Config) string { return h.Name }, homeassistant.Read),
-		add(c, "paperless", paperless.Area, "", c.Sources.Paperless, func(p paperless.Config) string { return p.Name }, paperless.Read),
-		add(c, "nextcloud", nextcloud.Area, "", c.Sources.Nextcloud, func(n nextcloud.Config) string { return n.Name }, nextcloud.Read),
-		add(c, "gitea", gitea.Area, "", c.Sources.Gitea, func(g gitea.Config) string { return g.Name }, gitea.Read),
-		add(c, "forgejo", forgejo.Area, "", c.Sources.Forgejo, func(f forgejo.Config) string { return f.Name }, forgejo.Read),
-		add(c, "nut", nut.Area, "", c.Sources.NUT, func(n nut.Config) string { return n.Name }, nut.Read),
-		add(c, "unifi", unifi.Area, "", c.Sources.UniFi, func(u unifi.Config) string { return u.Name }, unifi.Read),
-		add(c, "adguard", adguard.Area, "resolver", c.Sources.AdGuard, func(a adguard.Config) string { return a.Name }, adguard.Read),
-		add(c, "pihole", pihole.Area, "resolver", c.Sources.PiHole, func(p pihole.Config) string { return p.Name }, pihole.Read),
-		add(c, "ical", "", "todolist", c.Sources.Ical, func(i ical.Config) string { return i.Name }, ical.Read),
+		add(c, "gatus", "", "checkengine", false, c.Sources.Gatus, func(g gatus.Config) string { return g.Name }, gatus.Read),
+		add(c, "uptimekuma", "", "checkengine", false, c.Sources.UptimeKuma, func(u uptimekuma.Config) string { return u.Name }, uptimekuma.Read),
+		add(c, "grafana", "", "checkengine", false, c.Sources.Grafana, func(g grafana.Config) string { return g.Name }, grafana.Read),
+		add(c, "prometheus", "", "checkengine", false, c.Sources.Prometheus, func(p prometheus.Config) string { return p.Name }, prometheus.Read),
+		add(c, "checkmate", "", "checkengine", false, c.Sources.Checkmate, func(m checkmate.Config) string { return m.Name }, checkmate.Read),
+		add(c, "github", "", "", false, c.Sources.GitHub, func(g github.Config) string { return g.Name }, github.Read),
+		add(c, "immich", immich.Area, "", false, c.Sources.Immich, func(im immich.Config) string { return im.Name }, immich.Read),
+		add(c, "pbs", pbs.Area, "", true, c.Sources.PBS, func(b pbs.Config) string { return b.Name }, pbs.Read),
+		add(c, "syncthing", syncthing.Area, "", false, c.Sources.Syncthing, func(s syncthing.Config) string { return s.Name }, syncthing.Read),
+		add(c, "proxmox", proxmox.Area, "", true, c.Sources.Proxmox, func(p proxmox.Config) string { return p.Name }, proxmox.Read),
+		add(c, "beszel", beszel.Area, "", false, c.Sources.Beszel, func(b beszel.Config) string { return b.Name }, beszel.Read),
+		add(c, "docker", docker.Area, "", false, c.Sources.Docker, func(d docker.Config) string { return d.Name }, docker.Read),
+		add(c, "portainer", portainer.Area, "", false, c.Sources.Portainer, func(p portainer.Config) string { return p.Name }, portainer.Read),
+		add(c, "radarr", radarr.Area, "", false, c.Sources.Radarr, func(r radarr.Config) string { return r.Name }, radarr.Read),
+		add(c, "sonarr", sonarr.Area, "", false, c.Sources.Sonarr, func(s sonarr.Config) string { return s.Name }, sonarr.Read),
+		add(c, "prowlarr", prowlarr.Area, "", false, c.Sources.Prowlarr, func(p prowlarr.Config) string { return p.Name }, prowlarr.Read),
+		add(c, "qbittorrent", qbittorrent.Area, "", false, c.Sources.QBittorrent, func(q qbittorrent.Config) string { return q.Name }, qbittorrent.Read),
+		add(c, "jellyfin", jellyfin.Area, "mediaserver", false, c.Sources.Jellyfin, func(j jellyfin.Config) string { return j.Name }, jellyfin.Read),
+		add(c, "emby", emby.Area, "mediaserver", false, c.Sources.Emby, func(e emby.Config) string { return e.Name }, emby.Read),
+		add(c, "tautulli", tautulli.Area, "mediaserver", false, c.Sources.Tautulli, func(t tautulli.Config) string { return t.Name }, tautulli.Read),
+		add(c, "seerr", seerr.Area, "", false, c.Sources.Seerr, func(s seerr.Config) string { return s.Name }, seerr.Read),
+		add(c, "homeassistant", homeassistant.Area, "", false, c.Sources.HomeAssistant, func(h homeassistant.Config) string { return h.Name }, homeassistant.Read),
+		add(c, "paperless", paperless.Area, "", false, c.Sources.Paperless, func(p paperless.Config) string { return p.Name }, paperless.Read),
+		add(c, "nextcloud", nextcloud.Area, "", false, c.Sources.Nextcloud, func(n nextcloud.Config) string { return n.Name }, nextcloud.Read),
+		add(c, "gitea", gitea.Area, "", false, c.Sources.Gitea, func(g gitea.Config) string { return g.Name }, gitea.Read),
+		add(c, "forgejo", forgejo.Area, "", false, c.Sources.Forgejo, func(f forgejo.Config) string { return f.Name }, forgejo.Read),
+		add(c, "nut", nut.Area, "", false, c.Sources.NUT, func(n nut.Config) string { return n.Name }, nut.Read),
+		add(c, "unifi", unifi.Area, "", false, c.Sources.UniFi, func(u unifi.Config) string { return u.Name }, unifi.Read),
+		add(c, "adguard", adguard.Area, "resolver", false, c.Sources.AdGuard, func(a adguard.Config) string { return a.Name }, adguard.Read),
+		add(c, "pihole", pihole.Area, "resolver", false, c.Sources.PiHole, func(p pihole.Config) string { return p.Name }, pihole.Read),
+		add(c, "ical", "", "todolist", false, c.Sources.Ical, func(i ical.Config) string { return i.Name }, ical.Read),
 	); err != nil {
 		return err
 	}

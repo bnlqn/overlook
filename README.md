@@ -20,10 +20,12 @@ It reads:
   [Grafana](#grafana), [Prometheus and Alertmanager](#prometheus-and-alertmanager),
   [Checkmate](#checkmate)
 - **Servers**: [Proxmox VE](#proxmox-ve), [Beszel](#beszel),
-  [Docker](#docker), [NUT](#nut)
+  [Docker](#docker), [Portainer](#portainer), [NUT](#nut)
 - **Network**: [UniFi Network](#unifi-network), [AdGuard Home](#adguard-home),
   [Pi-hole](#pi-hole)
-- **Storage**: [Proxmox Backup Server](#proxmox-backup-server)
+- **Storage**: [Proxmox Backup Server](#proxmox-backup-server),
+  [Syncthing](#syncthing), and the pools, storage and backup runs of
+  [Proxmox VE](#proxmox-ve)
 - **Apps**: [Immich](#immich), [Jellyfin](#jellyfin), [Emby](#emby),
   [Plex, through Tautulli](#plex-through-tautulli), [Radarr](#radarr),
   [Sonarr](#sonarr), [Prowlarr](#prowlarr), [qBittorrent](#qbittorrent),
@@ -57,6 +59,10 @@ What it can't read, and why, is under [Can't be read](#cant-be-read).
   marking it done on the list, never on the page, and a chore is never a
   problem.
 
+The page is light where your system is light, and dark otherwise. On a
+phone, your browser's Add to Home Screen, or Install app, puts it there as
+an app of its own.
+
 ## What it never does
 
 - **It never changes anything.** Overlook sends a source only GET requests,
@@ -80,7 +86,7 @@ What it can't read, and why, is under [Can't be read](#cant-be-read).
   says which sources fill it, never where anything goes. There are no
   widgets to arrange.
 - **It never calls anywhere you didn't name.** No telemetry and no update
-  check; the page's fonts and icons come from Overlook itself.
+  check; the page's fonts, icons and manifest come from Overlook itself.
 
 ## Quick start
 
@@ -205,9 +211,12 @@ What each adapter reads, its config and the least key it needs are under
 **Areas.** The page has four, always the same: Servers, Network, Storage
 and Apps, and an area with nothing in it isn't shown. Each adapter puts
 its parts in its own area, such as Proxmox VE in Servers and AdGuard Home
-in Network. A check goes in the area its group in the check engine is
-named after, or the one the config gives that group, as in Gatus's
-`areas:`. A check in no area still counts, and its problems still show.
+in Network, but stores and backup runs go in Storage whichever adapter
+reads them, such as Proxmox VE's ZFS pools and its nights' backups, each
+looking the same whatever its source. A check goes in the area its group
+in the check engine is named after, or the one the config gives that
+group, as in Gatus's `areas:`. A check in no area still counts, and its
+problems still show.
 
 **Apps and tools.** Apps are what the homelab hosts for the people who use
 it; tools are what you run it with. Both are links on the page, in the
@@ -543,11 +552,13 @@ What each person uploaded needs Immich 3 or later; an older one leaves it out.
 
 ### Proxmox Backup Server
 
-Each guest's newest backup in one datastore, in Storage: when it was made,
-its size, and whether it passed its check, named by its notes, which
-Proxmox VE fills with the guest's name. Today shows how many guests the
-last night backed up, each guest blue where it did, and the week each
-night's backups. The last night is
+One datastore, in Storage: how full it is, its nights as backup runs, and
+each guest's newest backup in it, with when it was made, its size, and
+whether it passed its check, named by its notes, which Proxmox VE fills
+with the guest's name. A night is the backups made one after another, so
+PBS says when it started and how many backups it made, but not when it
+ended. Today shows how many guests the last night backed up, each guest
+blue where it did, and the week each night's backup run. The last night is
 the run with the most guests in the day to the newest backup, so a guest
 backed up by hand after it doesn't hide it.
 
@@ -573,7 +584,8 @@ proxmox-backup-manager user generate-token overlook@pbs overlook
 proxmox-backup-manager acl update /datastore/backups DatastoreAudit --auth-id 'overlook@pbs!overlook'
 ```
 
-The third command prints the token's secret.
+The third command prints the token's secret. The same role reads how full
+the datastore is.
 
 **Certificate:** PBS signs its own, for its own name. Copy
 `/etc/proxmox-backup/proxy.pem` from the server beside Overlook and name it
@@ -581,12 +593,62 @@ as `ca`. If the `url` reaches PBS by an address its certificate doesn't
 name, give the name it does as `server_name`. As for Proxmox VE, there is
 no way to skip the check.
 
+The backups were recorded from a PBS 4, with every name and number made up.
+How full the datastore is was recorded from a scratch PBS 4.2.9 (ADR 0008),
+until someone who runs one records it from theirs: the compose file and the
+scripts that fill and record it are in the adapter's
+[`testdata`](internal/adapters/pbs/testdata).
+
+### Syncthing
+
+One Syncthing device, in Storage: each folder, up to date with what it
+holds, syncing or out of sync with what it still needs, paused, or in red
+when items failed to sync or the folder stopped, with why; then each other
+device, connected or since when it isn't, and how much of what it shares it
+has; Syncthing's version and whether a newer one is out; and its errors, in
+red, until you clear them in its GUI. Each device asking to connect and
+each folder offered to it is a chore, from the day it asked, done where
+Syncthing asks you to accept or ignore it.
+
+```yaml
+sources:
+  syncthing:
+    - url: http://syncthing:8384        # where Overlook reads its GUI
+      key: ${SYNCTHING_KEY}
+      link: https://sync.example.com    # where the page sends you, if not the same
+```
+
+**Key:** the API key, from Actions, Settings, GUI. It's the only key
+Syncthing has, and it can do anything, but Syncthing changes things only
+with POST, PUT, PATCH and DELETE, and Overlook sends it only with GET
+(ADR 0001). Overlook reads the folders and devices from the config, but
+never the whole config, which holds the GUI's password and the key.
+
+The GUI must listen where Overlook can reach it, as in Syncthing's Docker
+image; a Syncthing installed on its own listens on `127.0.0.1:8384` until
+you set its GUI's listen address to `0.0.0.0:8384`. With its GUI over HTTPS,
+give its certificate, `https-cert.pem` in its config folder, as `ca`, and the
+host's name, which it is for, as `server_name`.
+
+Syncthing's Docker image, and most distributions' packages, are built
+without upgrades, and refuse to say whether a newer one is out, so the page
+shows only the version they run. Overlook reads each folder's state and each
+device's completion with a request of its own.
+
+Recorded from a scratch Syncthing 2.1.7, four devices with invented folders
+(ADR 0008), until someone who runs it records it from theirs: the compose
+file and the scripts that fill and record it are in the adapter's
+[`testdata`](internal/adapters/syncthing/testdata).
+
 ### Proxmox VE
 
-Each host's processor, memory, uptime and version, the guests, the storage,
-the ZFS pools and the last backup run, in Servers, with each host's
-processor and memory by the hour over the week Proxmox keeps, a line each.
-Today shows how many guests are up, and the week each backup run.
+Each host's processor, memory, uptime and version, and the guests, in
+Servers, with each host's processor and memory by the hour over the week
+Proxmox keeps, a line each. The ZFS pools and the storage go in Storage, as
+every source's stores do: how full each is, and each pool's health, in red
+when it isn't ONLINE, as is a storage Proxmox VE can't reach. So do the
+backup runs: each host's last run, and the week each run. Today shows how
+many guests are up.
 
 ```yaml
 sources:
@@ -865,6 +927,51 @@ services:
 
 Overlook reads only the list of containers, never a container's own
 details, which hold its environment and so its keys.
+
+### Portainer
+
+Each environment Portainer manages, in Servers: down in red, with when
+Portainer last saw it, or its containers running, of all, in orange while
+one fails its health check, and its stacks, whoever started them; then
+Portainer's version, and whether a newer one is out. Today's containers add
+up with every Docker engine's, and those of an environment that's down
+don't count.
+
+```yaml
+sources:
+  portainer:
+    - url: https://portainer:9443      # where Overlook reads Portainer
+      key: ${PORTAINER_KEY}
+      ca: /etc/overlook/portainer.pem  # Portainer's own certificate
+      server_name: localhost           # the name it's for
+```
+
+**Key:** an access token of a user of Overlook's own. As an administrator,
+add the user in Users, not as an administrator, and give it only the
+environments to show, in each one's Manage access; then log in as it, and
+add the token in My account, Access tokens. The token never expires.
+Portainer CE has no role that only reads, so that user could change
+containers in those environments; what keeps it harmless is that Overlook
+sends only GET requests (ADR 0001). On Portainer Business, give it the
+role **Read-only user**. Overlook reads only the list of environments and
+Portainer's version, never a container through Portainer, whose answer
+holds its environment and so its keys.
+
+**Certificate:** Portainer signs its own, on port 9443, for `localhost`.
+Save it with
+`openssl s_client -connect portainer.example.com:9443 </dev/null | openssl x509 >portainer.pem`,
+give it as `ca` and name `localhost` as `server_name`. With a certificate of
+your own, or Portainer over HTTP on port 9000, you need neither.
+
+The counts come from the snapshot Portainer takes of each environment,
+every five minutes unless you changed it in Settings, so a container can
+take that long to count. An Edge agent's environment is up while the agent
+calls Portainer. A Kubernetes environment shows only whether it's up.
+
+Recorded from a scratch Portainer CE 2.45.3 managing two Docker engines with
+invented containers (ADR 0008), until someone who runs one records it from
+theirs: the compose file and the scripts that fill and record it are in the
+adapter's [`testdata`](internal/adapters/portainer/testdata).
 
 ### Prowlarr
 
@@ -1280,8 +1387,11 @@ stylesheet, so it can change any colour, size or font:
 ```
 
 The page's colours, sizes and fonts are the `--m-` properties at the top
-of [`web/style.css`](web/style.css). The page stays one page: custom.css
-changes how it looks, not what it shows.
+of [`web/style.css`](web/style.css): the dark page's, then the light
+page's, under `@media (prefers-color-scheme: light)`. A property your
+custom.css sets changes both; set under the same `@media`, it changes the
+light page only. The page stays one page: custom.css changes how it looks,
+not what it shows.
 
 ## Translating
 
@@ -1308,12 +1418,12 @@ more homelabs, taking first what most of them run, as
        adapters of step 4 come in. One entity's time took all of Home
        Assistant off the page in
        [#102](https://github.com/bnlqn/overlook/issues/102).
-3. [ ] Storage for every homelab with pools or a backup server: stores and
+3. [x] Storage for every homelab with pools or a backup server: stores and
        backup runs go in Storage whichever adapter reads them, each built by
        one module (ADR 0016). Proxmox VE's pools, storage and backup runs
-       move there from Servers, and Proxmox Backup Server reads its
+       moved there from Servers, and Proxmox Backup Server reads its
        datastore's room as a store. Two thirds of homelabs run a NAS, and
-       Storage holds only PBS today.
+       Storage held only PBS before.
 4. [x] The tools most homelabs run that Overlook can't read yet, each
        recorded from a scratch instance (ADR 0008), one pull request each:
        [Portainer](https://github.com/bnlqn/overlook/issues/74), which a
@@ -1322,7 +1432,7 @@ more homelabs, taking first what most of them run, as
 5. [x] Agents read what the page shows through MCP, if the owner turns it
        on: six tools, one for each part of the page, that read the
        snapshot and nothing else (ADR 0015).
-6. [ ] A light page for an owner whose system asks for one, the logos
+6. [x] A light page for an owner whose system asks for one, the logos
        chosen for dark tiles still showing on it, and a web manifest, so
        that the page installs on a phone as an app.
 

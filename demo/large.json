@@ -7,10 +7,10 @@
     { "name": "Prometheus", "adapter": "prometheus", "kind": "checkengine", "answered": true },
     { "name": "GitHub", "adapter": "github", "answered": true },
     { "name": "Immich", "adapter": "immich", "area": "apps", "answered": true },
-    { "name": "Backup Server", "adapter": "pbs", "area": "storage", "answered": true },
-    { "name": "Offsite Backups", "adapter": "pbs", "area": "storage", "answered": true },
-    { "name": "Cluster", "adapter": "proxmox", "area": "servers", "answered": true },
-    { "name": "Vault", "adapter": "proxmox", "area": "servers", "answered": true },
+    { "name": "Backup Server", "adapter": "pbs", "area": "storage", "storage": true, "answered": true },
+    { "name": "Offsite Backups", "adapter": "pbs", "area": "storage", "storage": true, "answered": true },
+    { "name": "Cluster", "adapter": "proxmox", "area": "servers", "storage": true, "answered": true },
+    { "name": "Vault", "adapter": "proxmox", "area": "servers", "storage": true, "answered": true },
     { "name": "Beszel", "adapter": "beszel", "area": "servers", "answered": true },
     { "name": "Docker", "adapter": "docker", "area": "servers", "answered": true },
     { "name": "Media", "adapter": "docker", "area": "servers", "answered": true },
@@ -4152,6 +4152,31 @@
     {
       "area": "storage",
       "source": "Backup Server",
+      "title": { "key": "store.section" },
+      "rows": [
+        {
+          "title": { "name": "backups" },
+          "value": { "key": "store.room", "args": { "used": 10115506975539, "size": 15942918602752 } },
+          "meter": { "used": 10115506975539, "total": 15942918602752 }
+        }
+      ]
+    },
+    {
+      "area": "storage",
+      "source": "Backup Server",
+      "title": { "key": "backuprun.section" },
+      "rows": [
+        {
+          "title": { "key": "backuprun.last" },
+          "value": { "key": "backuprun.backups", "args": { "at": "2026-10-28T00:31:01Z", "n": 46 } },
+          "detail": { "key": "backuprun.at", "args": { "at": "2026-10-28T00:31:01Z" } },
+          "tone": "green"
+        }
+      ]
+    },
+    {
+      "area": "storage",
+      "source": "Backup Server",
       "title": { "key": "pbs.backups" },
       "rows": [
         {
@@ -4676,6 +4701,31 @@
     {
       "area": "storage",
       "source": "Offsite Backups",
+      "title": { "key": "store.section" },
+      "rows": [
+        {
+          "title": { "name": "offsite" },
+          "value": { "key": "store.room", "args": { "used": 4617089843200, "size": 8001563222016 } },
+          "meter": { "used": 4617089843200, "total": 8001563222016 }
+        }
+      ]
+    },
+    {
+      "area": "storage",
+      "source": "Offsite Backups",
+      "title": { "key": "backuprun.section" },
+      "rows": [
+        {
+          "title": { "key": "backuprun.last" },
+          "value": { "key": "backuprun.backups", "args": { "at": "2026-10-28T03:01:07Z", "n": 10 } },
+          "detail": { "key": "backuprun.at", "args": { "at": "2026-10-28T03:01:07Z" } },
+          "tone": "green"
+        }
+      ]
+    },
+    {
+      "area": "storage",
+      "source": "Offsite Backups",
       "title": { "key": "pbs.backups" },
       "rows": [
         {
@@ -5023,122 +5073,109 @@
       ]
     },
     {
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
-      "title": { "key": "proxmox.storage" },
+      "title": { "key": "store.section" },
       "rows": [
         {
+          "title": { "key": "proxmox.on_node", "args": { "name": "rpool", "node": "alder" } },
+          "value": { "key": "store.room", "args": { "used": 210453397504, "size": 989989961728 } },
+          "detail": { "key": "store.healthy" },
+          "meter": { "used": 210453397504, "total": 989989961728 }
+        },
+        {
+          "title": { "key": "proxmox.on_node", "args": { "name": "rpool", "node": "birch" } },
+          "value": { "key": "store.room", "args": { "used": 366145961984, "size": 989989961728 } },
+          "detail": { "key": "store.healthy" },
+          "meter": { "used": 366145961984, "total": 989989961728 }
+        },
+        {
+          "title": { "key": "proxmox.on_node", "args": { "name": "rpool", "node": "cedar" } },
+          "value": { "key": "store.room", "args": { "used": 309237645312, "size": 989989961728 } },
+          "detail": { "key": "store.healthy" },
+          "meter": { "used": 309237645312, "total": 989989961728 }
+        },
+        {
+          "title": { "key": "proxmox.on_node", "args": { "name": "fast", "node": "cedar" } },
+          "value": { "key": "store.room", "args": { "used": 1550311395164, "size": 1990116046274 } },
+          "detail": { "key": "store.healthy" },
+          "meter": { "used": 1550311395164, "total": 1990116046274 }
+        },
+        {
           "title": { "key": "proxmox.on_node", "args": { "name": "local", "node": "alder" } },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 18965170754, "total": 100931731456 } },
+          "value": { "key": "store.room", "args": { "used": 18965170754, "size": 100931731456 } },
           "meter": { "used": 18965170754, "total": 100931731456 }
         },
         {
           "title": { "key": "proxmox.on_node", "args": { "name": "local-zfs", "node": "alder" } },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 184173188794, "total": 923417968640 } },
+          "value": { "key": "store.room", "args": { "used": 184173188794, "size": 923417968640 } },
           "meter": { "used": 184173188794, "total": 923417968640 }
         },
         {
           "title": { "name": "nas-nfs" },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 34524665112166, "total": 47938706971033 } },
+          "value": { "key": "store.room", "args": { "used": 34524665112166, "size": 47938706971033 } },
           "meter": { "used": 34524665112166, "total": 47938706971033 }
         },
         {
           "title": { "name": "backups" },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 10115506975539, "total": 15942918602752 } },
+          "value": { "key": "store.room", "args": { "used": 10115506975539, "size": 15942918602752 } },
           "meter": { "used": 10115506975539, "total": 15942918602752 }
         },
         {
           "title": { "key": "proxmox.on_node", "args": { "name": "local", "node": "birch" } },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 21153673004, "total": 100931731456 } },
+          "value": { "key": "store.room", "args": { "used": 21153673004, "size": 100931731456 } },
           "meter": { "used": 21153673004, "total": 100931731456 }
         },
         {
           "title": { "key": "proxmox.on_node", "args": { "name": "local-zfs", "node": "birch" } },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 216337480941, "total": 923417968640 } },
+          "value": { "key": "store.room", "args": { "used": 216337480941, "size": 923417968640 } },
           "meter": { "used": 216337480941, "total": 923417968640 }
         },
         {
           "title": { "key": "proxmox.on_node", "args": { "name": "local", "node": "cedar" } },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 14838866241, "total": 100931731456 } },
+          "value": { "key": "store.room", "args": { "used": 14838866241, "size": 100931731456 } },
           "meter": { "used": 14838866241, "total": 100931731456 }
         },
         {
           "title": { "key": "proxmox.on_node", "args": { "name": "local-zfs", "node": "cedar" } },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 210920913001, "total": 923417968640 } },
+          "value": { "key": "store.room", "args": { "used": 210920913001, "size": 923417968640 } },
           "meter": { "used": 210920913001, "total": 923417968640 }
         },
         {
           "title": { "key": "proxmox.on_node", "args": { "name": "local", "node": "damson" } },
           "value": { "name": "unknown" },
-          "tone": "gray"
+          "tone": "red"
         },
         {
           "title": { "key": "proxmox.on_node", "args": { "name": "local-zfs", "node": "damson" } },
           "value": { "name": "unknown" },
-          "tone": "gray"
+          "tone": "red"
         }
       ]
     },
     {
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
-      "title": { "key": "proxmox.pools" },
-      "rows": [
-        {
-          "title": { "key": "proxmox.on_node", "args": { "name": "rpool", "node": "alder" } },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 210453397504, "total": 989989961728 } },
-          "detail": { "key": "proxmox.healthy" },
-          "meter": { "used": 210453397504, "total": 989989961728 }
-        },
-        {
-          "title": { "key": "proxmox.on_node", "args": { "name": "rpool", "node": "birch" } },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 366145961984, "total": 989989961728 } },
-          "detail": { "key": "proxmox.healthy" },
-          "meter": { "used": 366145961984, "total": 989989961728 }
-        },
-        {
-          "title": { "key": "proxmox.on_node", "args": { "name": "rpool", "node": "cedar" } },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 309237645312, "total": 989989961728 } },
-          "detail": { "key": "proxmox.healthy" },
-          "meter": { "used": 309237645312, "total": 989989961728 }
-        },
-        {
-          "title": { "key": "proxmox.on_node", "args": { "name": "fast", "node": "cedar" } },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 1550311395164, "total": 1990116046274 } },
-          "detail": { "key": "proxmox.healthy" },
-          "meter": { "used": 1550311395164, "total": 1990116046274 }
-        }
-      ]
-    },
-    {
-      "area": "servers",
-      "source": "Cluster",
-      "title": { "key": "proxmox.backups" },
+      "title": { "key": "backuprun.section" },
       "rows": [
         {
           "title": { "name": "alder" },
-          "value": { "key": "proxmox.done" },
-          "detail": {
-            "key": "proxmox.run_took",
-            "args": { "at": "2026-10-28T00:30:00Z", "ms": 607000, "status": "OK" }
-          },
+          "value": { "key": "backuprun.done" },
+          "detail": { "key": "backuprun.at_in", "args": { "at": "2026-10-28T00:30:00Z", "ms": 607000 } },
           "tone": "green"
         },
         {
           "title": { "name": "birch" },
-          "value": { "key": "proxmox.done" },
-          "detail": {
-            "key": "proxmox.run_took",
-            "args": { "at": "2026-10-28T00:30:00Z", "ms": 1258000, "status": "OK" }
-          },
+          "value": { "key": "backuprun.done" },
+          "detail": { "key": "backuprun.at_in", "args": { "at": "2026-10-28T00:30:00Z", "ms": 1258000 } },
           "tone": "green"
         },
         {
           "title": { "name": "cedar" },
-          "value": { "key": "proxmox.warnings" },
+          "value": { "key": "backuprun.warnings" },
           "detail": {
-            "key": "proxmox.run_why",
-            "args": { "at": "2026-10-28T00:30:00Z", "ms": 1804000, "status": "WARNINGS: 2" }
+            "key": "backuprun.at_in_why",
+            "args": { "at": "2026-10-28T00:30:00Z", "ms": 1804000, "why": "WARNINGS: 2" }
           },
           "tone": "orange"
         }
@@ -5212,59 +5249,49 @@
       ]
     },
     {
-      "area": "servers",
+      "area": "storage",
       "source": "Vault",
-      "title": { "key": "proxmox.storage" },
-      "rows": [
-        {
-          "title": { "name": "local" },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 15032385536, "total": 100931731456 } },
-          "meter": { "used": 15032385536, "total": 100931731456 }
-        },
-        {
-          "title": { "name": "local-zfs" },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 227633266688, "total": 461708984320 } },
-          "meter": { "used": 227633266688, "total": 461708984320 }
-        },
-        {
-          "title": { "name": "tank" },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 39142613948825, "total": 47938706971033 } },
-          "meter": { "used": 39142613948825, "total": 47938706971033 }
-        }
-      ]
-    },
-    {
-      "area": "servers",
-      "source": "Vault",
-      "title": { "key": "proxmox.pools" },
+      "title": { "key": "store.section" },
       "rows": [
         {
           "title": { "name": "rpool" },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 242665652224, "total": 498216206336 } },
-          "detail": { "key": "proxmox.healthy" },
+          "value": { "key": "store.room", "args": { "used": 242665652224, "size": 498216206336 } },
+          "detail": { "key": "store.healthy" },
           "meter": { "used": 242665652224, "total": 498216206336 }
         },
         {
           "title": { "name": "tank" },
           "value": { "name": "DEGRADED" },
-          "detail": { "key": "proxmox.bytes_of", "args": { "used": 39692369762713, "total": 47938706971033 } },
+          "detail": { "key": "store.room", "args": { "used": 39692369762713, "size": 47938706971033 } },
           "tone": "red",
           "meter": { "used": 39692369762713, "total": 47938706971033 }
+        },
+        {
+          "title": { "name": "local" },
+          "value": { "key": "store.room", "args": { "used": 15032385536, "size": 100931731456 } },
+          "meter": { "used": 15032385536, "total": 100931731456 }
+        },
+        {
+          "title": { "name": "local-zfs" },
+          "value": { "key": "store.room", "args": { "used": 227633266688, "size": 461708984320 } },
+          "meter": { "used": 227633266688, "total": 461708984320 }
+        },
+        {
+          "title": { "name": "tank" },
+          "value": { "key": "store.room", "args": { "used": 39142613948825, "size": 47938706971033 } },
+          "meter": { "used": 39142613948825, "total": 47938706971033 }
         }
       ]
     },
     {
-      "area": "servers",
+      "area": "storage",
       "source": "Vault",
-      "title": { "key": "proxmox.backups" },
+      "title": { "key": "backuprun.section" },
       "rows": [
         {
-          "title": { "key": "proxmox.last_run" },
-          "value": { "key": "proxmox.done" },
-          "detail": {
-            "key": "proxmox.run_took",
-            "args": { "at": "2026-10-28T01:15:00Z", "ms": 2439000, "status": "OK" }
-          },
+          "title": { "key": "backuprun.last" },
+          "value": { "key": "backuprun.done" },
+          "detail": { "key": "backuprun.at_in", "args": { "at": "2026-10-28T01:15:00Z", "ms": 2439000 } },
           "tone": "green"
         }
       ]
@@ -7865,302 +7892,302 @@
       "area": "storage",
       "source": "Backup Server",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 46 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-28T00:31:01Z", "n": 46 } }
     },
     {
       "at": "2026-10-27T00:30:55Z",
       "area": "storage",
       "source": "Backup Server",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 46 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-27T00:30:55Z", "n": 46 } }
     },
     {
       "at": "2026-10-26T00:30:43Z",
       "area": "storage",
       "source": "Backup Server",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 46 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-26T00:30:43Z", "n": 46 } }
     },
     {
       "at": "2026-10-25T00:30:31Z",
       "area": "storage",
       "source": "Backup Server",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 46 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-25T00:30:31Z", "n": 46 } }
     },
     {
       "at": "2026-10-24T00:32:31Z",
       "area": "storage",
       "source": "Backup Server",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 46 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-24T00:32:31Z", "n": 46 } }
     },
     {
       "at": "2026-10-23T00:30:46Z",
       "area": "storage",
       "source": "Backup Server",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 46 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-23T00:30:46Z", "n": 46 } }
     },
     {
       "at": "2026-10-22T00:31:09Z",
       "area": "storage",
       "source": "Backup Server",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 46 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-22T00:31:09Z", "n": 46 } }
     },
     {
       "at": "2026-10-28T03:01:07Z",
       "area": "storage",
       "source": "Offsite Backups",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 10 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-28T03:01:07Z", "n": 10 } }
     },
     {
       "at": "2026-10-27T03:01:46Z",
       "area": "storage",
       "source": "Offsite Backups",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 10 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-27T03:01:46Z", "n": 10 } }
     },
     {
       "at": "2026-10-26T03:00:45Z",
       "area": "storage",
       "source": "Offsite Backups",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 10 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-26T03:00:45Z", "n": 10 } }
     },
     {
       "at": "2026-10-25T03:01:56Z",
       "area": "storage",
       "source": "Offsite Backups",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 10 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-25T03:01:56Z", "n": 10 } }
     },
     {
       "at": "2026-10-24T03:02:11Z",
       "area": "storage",
       "source": "Offsite Backups",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 10 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-24T03:02:11Z", "n": 10 } }
     },
     {
       "at": "2026-10-23T03:02:31Z",
       "area": "storage",
       "source": "Offsite Backups",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 10 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-23T03:02:31Z", "n": 10 } }
     },
     {
       "at": "2026-10-22T03:00:54Z",
       "area": "storage",
       "source": "Offsite Backups",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 10 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-22T03:00:54Z", "n": 10 } }
     },
     {
       "at": "2026-10-28T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-28T00:30:00Z", "ms": 607000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-28T00:30:00Z", "ms": 607000 } }
     },
     {
       "at": "2026-10-27T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-27T00:30:00Z", "ms": 556000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-27T00:30:00Z", "ms": 556000 } }
     },
     {
       "at": "2026-10-26T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-26T00:30:00Z", "ms": 653000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-26T00:30:00Z", "ms": 653000 } }
     },
     {
       "at": "2026-10-25T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-25T00:30:00Z", "ms": 559000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-25T00:30:00Z", "ms": 559000 } }
     },
     {
       "at": "2026-10-24T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-24T00:30:00Z", "ms": 622000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-24T00:30:00Z", "ms": 622000 } }
     },
     {
       "at": "2026-10-23T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-23T00:30:00Z", "ms": 654000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-23T00:30:00Z", "ms": 654000 } }
     },
     {
       "at": "2026-10-22T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-22T00:30:00Z", "ms": 705000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-22T00:30:00Z", "ms": 705000 } }
     },
     {
       "at": "2026-10-28T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-28T00:30:00Z", "ms": 1258000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-28T00:30:00Z", "ms": 1258000 } }
     },
     {
       "at": "2026-10-27T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-27T00:30:00Z", "ms": 1278000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-27T00:30:00Z", "ms": 1278000 } }
     },
     {
       "at": "2026-10-26T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-26T00:30:00Z", "ms": 1477000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-26T00:30:00Z", "ms": 1477000 } }
     },
     {
       "at": "2026-10-25T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
       "tone": "red",
       "text": {
-        "key": "proxmox.backup_failed",
-        "args": { "at": "2026-10-25T00:30:00Z", "ms": 1366000, "status": "job errors" }
+        "key": "backuprun.event_failed_why",
+        "args": { "at": "2026-10-25T00:30:00Z", "ms": 1366000, "why": "job errors" }
       }
     },
     {
       "at": "2026-10-24T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-24T00:30:00Z", "ms": 1400000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-24T00:30:00Z", "ms": 1400000 } }
     },
     {
       "at": "2026-10-23T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-23T00:30:00Z", "ms": 1133000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-23T00:30:00Z", "ms": 1133000 } }
     },
     {
       "at": "2026-10-22T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-22T00:30:00Z", "ms": 1476000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-22T00:30:00Z", "ms": 1476000 } }
     },
     {
       "at": "2026-10-28T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
       "tone": "orange",
       "text": {
-        "key": "proxmox.backup_warnings",
-        "args": { "at": "2026-10-28T00:30:00Z", "ms": 1804000, "status": "WARNINGS: 2" }
+        "key": "backuprun.event_warned_in",
+        "args": { "at": "2026-10-28T00:30:00Z", "ms": 1804000, "why": "WARNINGS: 2" }
       }
     },
     {
       "at": "2026-10-27T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-27T00:30:00Z", "ms": 814000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-27T00:30:00Z", "ms": 814000 } }
     },
     {
       "at": "2026-10-26T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-26T00:30:00Z", "ms": 944000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-26T00:30:00Z", "ms": 944000 } }
     },
     {
       "at": "2026-10-25T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-25T00:30:00Z", "ms": 918000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-25T00:30:00Z", "ms": 918000 } }
     },
     {
       "at": "2026-10-24T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-24T00:30:00Z", "ms": 910000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-24T00:30:00Z", "ms": 910000 } }
     },
     {
       "at": "2026-10-23T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-23T00:30:00Z", "ms": 816000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-23T00:30:00Z", "ms": 816000 } }
     },
     {
       "at": "2026-10-22T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Cluster",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-22T00:30:00Z", "ms": 888000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-22T00:30:00Z", "ms": 888000 } }
     },
     {
       "at": "2026-10-28T01:15:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Vault",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-28T01:15:00Z", "ms": 2439000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-28T01:15:00Z", "ms": 2439000 } }
     },
     {
       "at": "2026-10-27T01:15:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Vault",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-27T01:15:00Z", "ms": 3079000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-27T01:15:00Z", "ms": 3079000 } }
     },
     {
       "at": "2026-10-26T01:15:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Vault",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-26T01:15:00Z", "ms": 2730000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-26T01:15:00Z", "ms": 2730000 } }
     },
     {
       "at": "2026-10-25T01:15:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Vault",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-25T01:15:00Z", "ms": 2647000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-25T01:15:00Z", "ms": 2647000 } }
     },
     {
       "at": "2026-10-24T01:15:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Vault",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-24T01:15:00Z", "ms": 2877000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-24T01:15:00Z", "ms": 2877000 } }
     },
     {
       "at": "2026-10-23T01:15:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Vault",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-23T01:15:00Z", "ms": 2756000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-23T01:15:00Z", "ms": 2756000 } }
     },
     {
       "at": "2026-10-22T01:15:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Vault",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-22T01:15:00Z", "ms": 2544000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-22T01:15:00Z", "ms": 2544000 } }
     },
     {
       "at": "2026-10-28T07:41:00Z",

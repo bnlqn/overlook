@@ -58,8 +58,12 @@ type SourceState struct {
 	// or mediaserver (ADR 0012). The page asks by it: it names a source that
 	// answered but gave none of what others of its kind add up, and the
 	// homelab is down when it has check engines and none answered.
-	Kind     string `json:"kind,omitempty"`
-	Answered bool   `json:"answered"`
+	Kind string `json:"kind,omitempty"`
+	// Storage says it gives stores or backup runs, which go in Storage
+	// whatever its home area (ADR 0016): the page names it there too when
+	// it didn't answer.
+	Storage  bool `json:"storage,omitempty"`
+	Answered bool `json:"answered"`
 	// Error is short and never holds the source's URL (see fetch.Source).
 	Error string `json:"error,omitempty"`
 }
@@ -70,6 +74,7 @@ type Source struct {
 	Adapter string
 	Area    string
 	Kind    string
+	Storage bool
 	Read    func(context.Context, time.Time) (Parts, error)
 }
 
@@ -126,7 +131,7 @@ func (r *Reader) Snapshot() Snapshot {
 		Version: Version,
 	}
 	for i, src := range r.sources {
-		state := SourceState{Name: src.Name, Adapter: src.Adapter, Area: src.Area, Kind: src.Kind, Answered: errs[i] == nil}
+		state := SourceState{Name: src.Name, Adapter: src.Adapter, Area: src.Area, Kind: src.Kind, Storage: src.Storage, Answered: errs[i] == nil}
 		if errs[i] != nil {
 			state.Error = errs[i].Error()
 			slog.Warn("a source didn't answer", "source", src.Name, "error", errs[i])

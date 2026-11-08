@@ -1,6 +1,7 @@
 /* Overlook's look: dark surfaces, hairlines, 13 px type and a colour for each
-   state. The page sits in a panel beside the sidebar. Dark only. Inter is
-   served from fonts/ (its licence, the OFL, beside it). An owner's own
+   state. The page sits in a panel beside the sidebar. It is light where the
+   owner's system asks for light, from the second set of colours below. Inter
+   is served from fonts/ (its licence, the OFL, beside it). An owner's own
    custom.css comes after this file and may change any of it. */
 @font-face {
   font-family: "Inter Variable";
@@ -37,7 +38,9 @@
   --m-label: #f7f8f8;
   --m-label-1: #d0d6e0;
   --m-label-2: #8a8f98;
-  --m-label-3: #62666d;
+  /* The faintest words, such as a hint, still 4.5:1 on the raised surface,
+     as WCAG's AA asks of text. */
+  --m-label-3: #7e838b;
   --m-border: rgba(255, 255, 255, 0.08);
   --m-separator: rgba(255, 255, 255, 0.05);
   --m-fill-gray: rgba(255, 255, 255, 0.06);
@@ -54,6 +57,16 @@
   --m-red-text: #f07070;
   --m-gray: #62666d;
   --m-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  /* What hovers, tracks and the hour under the pointer are shaded with, over
+     any surface: white on the dark page, black on the light one. */
+  --m-ink: #fff;
+  /* A result that passed, before the newest, which is the full green. */
+  --m-passed: color-mix(in srgb, var(--m-green) 55%, transparent);
+  /* Each area's colour, for its tile and its row in the week. */
+  --m-servers: #7170ff;
+  --m-network: #4ea7fc;
+  --m-storage: #f2994a;
+  --m-apps: #f06595;
 
   /* The colours that tell apart the parts of one thing, such as each
      person's photos, in this order, which a tile may start anywhere in:
@@ -70,6 +83,48 @@
   --m-series-6: #b07a3a;
   --m-series-7: #c160c9;
   --m-series-8: #199e70;
+}
+/* The light page, for an owner whose system asks for one: dark words on
+   light surfaces, the card the lightest, as it is on the dark page, and
+   each colour a step darker, to keep its contrast. Words are 4.5:1 or more
+   on every surface they sit on, the sidebar too, and a state's colour or an
+   area's 3:1, as WCAG's AA asks; the series pass the same validator on the
+   white card unchanged. The logos keep their dark tiles. */
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+    --m-bg: #f4f5f8;
+    --m-panel: #fbfbfc;
+    --m-card-fill: #fff;
+    --m-raised: #fff;
+    --m-label: #17181c;
+    --m-label-1: #3a3d44;
+    --m-label-2: #585c64;
+    --m-label-3: #696e78;
+    --m-border: rgba(0, 0, 0, 0.09);
+    --m-separator: rgba(0, 0, 0, 0.06);
+    --m-fill-gray: rgba(0, 0, 0, 0.06);
+    --m-fill-hover: rgba(0, 0, 0, 0.035);
+    --m-fill-pressed: rgba(0, 0, 0, 0.07);
+    --m-accent-2: #5856e8;
+    --m-blue: #2383e8;
+    --m-blue-text: #0a6bd0;
+    --m-green: #33935f;
+    --m-green-text: #2a7a53;
+    --m-orange: #b8860b;
+    --m-orange-text: #876708;
+    --m-red: #e5484d;
+    --m-red-text: #c62a2f;
+    --m-gray: #80858e;
+    --m-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    --m-ink: #000;
+    /* Paler would fade into the white card. */
+    --m-passed: color-mix(in srgb, var(--m-green) 90%, transparent);
+    --m-servers: #605ff5;
+    --m-network: #0b74de;
+    --m-storage: #bc600e;
+    --m-apps: #d6246a;
+  }
 }
 
 * {
@@ -290,7 +345,8 @@ span[class^="tone-"] {
   border-radius: 9px;
   display: grid;
   place-items: center;
-  background: var(--m-red);
+  /* A deeper red than a dot's, for white figures at 4.5:1. */
+  background: color-mix(in srgb, var(--m-red) 85%, #000);
   color: #fff;
   font: 590 11px / 1 var(--m-font);
 }
@@ -431,7 +487,8 @@ span[class^="tone-"] {
   padding: 4px 6px;
   border-radius: 5px;
   background: color-mix(in srgb, var(--m-accent-2) 18%, transparent);
-  color: var(--m-accent-2);
+  /* The accent, a little nearer the words', to read at 4.5:1 on its tint. */
+  color: color-mix(in srgb, var(--m-accent-2) 80%, var(--m-label));
 }
 .demo-short {
   display: none;
@@ -679,7 +736,9 @@ main {
   height: calc(var(--size) * 0.62);
 }
 
-/* An app's or a tool's own logo, on a dark tile. */
+/* An app's or a tool's own logo, on a dark tile, on the light page too,
+   since the logos are chosen to show on dark (CONTRIBUTING.md), and so are
+   an owner's own. */
 .app-icon {
   --size: 22px;
   display: inline-grid;
@@ -689,6 +748,8 @@ main {
   flex: none;
   border-radius: 6px;
   overflow: hidden;
+  /* The glyph a link with no logo gets, light on the dark tile. */
+  color: #d0d6e0;
   background: linear-gradient(180deg, #232428, #18191b);
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.08),
@@ -702,12 +763,18 @@ main {
 .app-icon.xs {
   --size: 16px;
   border-radius: 4px;
-  background: none;
-  box-shadow: none;
 }
-.app-icon.xs img {
-  width: 100%;
-  height: 100%;
+/* The smallest, in the sidebar and on the setup page, has the dark page
+   itself for its tile. */
+@media not all and (prefers-color-scheme: light) {
+  .app-icon.xs {
+    background: none;
+    box-shadow: none;
+  }
+  .app-icon.xs img {
+    width: 100%;
+    height: 100%;
+  }
 }
 .app-icon.sm {
   --size: 18px;
@@ -729,9 +796,9 @@ main {
   max-width: 280px;
   padding: 8px 10px;
   border-radius: 8px;
-  background: rgba(28, 29, 32, 0.96);
+  background: color-mix(in srgb, var(--m-raised) 96%, transparent);
   border: 1px solid var(--m-border);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+  box-shadow: var(--m-shadow);
   backdrop-filter: blur(12px);
   font: var(--m-type-footnote);
   color: var(--m-label-1);
@@ -900,7 +967,7 @@ main {
   border: 0;
   border-radius: 8px;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.05);
+  background: color-mix(in srgb, var(--m-ink) 5%, transparent);
   box-shadow: inset 0 0 0 0.5px var(--m-border);
   font: 510 12px / 1 var(--m-font);
   color: var(--m-label-1);
@@ -912,7 +979,7 @@ main {
   color: var(--m-label-2);
 }
 .action:hover {
-  background: rgba(255, 255, 255, 0.09);
+  background: color-mix(in srgb, var(--m-ink) 9%, transparent);
   color: var(--m-label);
 }
 .action.strong {
@@ -997,7 +1064,7 @@ main {
     background-color 0.2s;
 }
 .figure-tile:hover {
-  border-color: rgba(255, 255, 255, 0.14);
+  border-color: color-mix(in srgb, var(--m-ink) 14%, transparent);
 }
 .figure-tile .label {
   display: flex;
@@ -1103,7 +1170,7 @@ main {
   transition: fill 0.1s;
 }
 .spark .hit:hover {
-  fill: rgba(255, 255, 255, 0.09);
+  fill: color-mix(in srgb, var(--m-ink) 9%, transparent);
 }
 /* A figure's shares: one bar, each part as wide as its share, in its colour.
    With many, such as a backup's guests, they sit closer. */
@@ -1235,7 +1302,7 @@ main {
   color: var(--m-label);
 }
 .pills button[aria-pressed="true"] {
-  background: rgba(255, 255, 255, 0.08);
+  background: color-mix(in srgb, var(--m-ink) 8%, transparent);
   box-shadow: inset 0 0 0 0.5px var(--m-border);
   color: var(--m-label);
 }
@@ -1323,7 +1390,7 @@ main {
   touch-action: pan-y;
 }
 .hour-chart .band {
-  fill: rgba(255, 255, 255, 0.02);
+  fill: color-mix(in srgb, var(--m-ink) 2%, transparent);
 }
 .hour-chart .stroke {
   fill: none;
@@ -1337,7 +1404,7 @@ main {
   opacity: 0.6;
 }
 .hour-chart .cur {
-  stroke: rgba(255, 255, 255, 0.28);
+  stroke: color-mix(in srgb, var(--m-ink) 28%, transparent);
   vector-effect: non-scaling-stroke;
   opacity: 0;
 }
@@ -1345,7 +1412,7 @@ main {
   opacity: 1;
 }
 .hour-chart .col:hover .hit {
-  fill: rgba(255, 255, 255, 0.03);
+  fill: color-mix(in srgb, var(--m-ink) 3%, transparent);
 }
 /* The areas: rows that unfold into their checks. */
 .table {
@@ -1501,7 +1568,7 @@ main {
   transition: transform 0.15s var(--m-ease);
 }
 .strip i.ok {
-  background: color-mix(in srgb, var(--m-green) 55%, transparent);
+  background: var(--m-passed);
 }
 .strip i.bad {
   background: var(--m-red);
@@ -1509,11 +1576,7 @@ main {
 /* An area's moment when only some of its checks failed: red as tall as
    their share, and never so little that it can't be seen. */
 .strip i.part {
-  background: linear-gradient(
-    to top,
-    color-mix(in srgb, var(--m-green) 55%, transparent) calc(100% - max(4px, var(--bad) * 100%)),
-    var(--m-red) 0
-  );
+  background: linear-gradient(to top, var(--m-passed) calc(100% - max(4px, var(--bad) * 100%)), var(--m-red) 0);
 }
 .strip i:last-child.ok {
   background: var(--m-green);
@@ -1647,11 +1710,11 @@ main {
   border-radius: 5px;
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.03) 0%,
-    color-mix(in srgb, var(--tint) 14%, rgba(255, 255, 255, 0.03)) 65%,
+    color-mix(in srgb, var(--m-ink) 3%, transparent) 0%,
+    color-mix(in srgb, var(--tint) 14%, color-mix(in srgb, var(--m-ink) 3%, transparent)) 65%,
     color-mix(in srgb, var(--tint) 38%, transparent) 100%
   );
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m-ink) 5%, transparent);
   transform-origin: left;
 }
 @media (max-width: 600px) {
@@ -1813,7 +1876,7 @@ main {
   gap: 8px;
   height: 36px;
   padding: 0 14px;
-  background: rgba(255, 255, 255, 0.02);
+  background: color-mix(in srgb, var(--m-ink) 2%, transparent);
   font: var(--m-type-headline);
   color: var(--m-label-1);
 }

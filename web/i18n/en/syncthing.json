@@ -1,0 +1,25 @@
+{
+  "syncthing.folders": "Folders",
+  "syncthing.up_to_date": "Up to date",
+  "syncthing.holds": { "one": "{n} file · {bytes:bytes}", "other": "{n} files · {bytes:bytes}" },
+  "syncthing.syncing": "Syncing, {percent}%",
+  "syncthing.out_of_sync": "Out of sync, {percent}%",
+  "syncthing.to_sync": { "one": "{n} item to sync · {bytes:bytes}", "other": "{n} items to sync · {bytes:bytes}" },
+  "syncthing.failed": { "one": "{n} item failed", "other": "{n} items failed" },
+  "syncthing.failed_at": "{path}: {error}",
+  "syncthing.stopped": "Stopped",
+  "syncthing.paused": "Paused",
+
+  "syncthing.devices": "Devices",
+  "syncthing.connected": "Connected",
+  "syncthing.disconnected": "Disconnected",
+  "syncthing.never_connected": "Never connected",
+  "syncthing.in_sync": "In sync",
+  "syncthing.behind": "{percent}% in sync",
+  "syncthing.in_sync_seen": "last seen {at:when} · in sync",
+  "syncthing.behind_seen": "last seen {at:when} · {percent}% in sync",
+  "syncthing.version": "Version",
+  "syncthing.newer": "{version} is out",
+  "syncthing.errors": "Errors",
+  "syncthing.errors_n": { "one": "{n} error", "other": "{n} errors" }
+}

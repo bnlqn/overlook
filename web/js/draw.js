@@ -66,12 +66,21 @@ export const stateIcon = (state) =>
 /** A state's word. */
 export const word = (state) => t(`state.${state}`);
 
-/** The colours of a result that passed and one that failed. */
-export const GREEN = "#4CB782";
-export const RED = "#EB5757";
+/**
+ * The colours of a result that passed and one that failed, from style.css,
+ * so that they change with the page's light or dark look, as every colour
+ * here does.
+ */
+export const GREEN = "var(--m-green)";
+export const RED = "var(--m-red)";
 
-/** Each area's colour, for its tile, its figures, its charts and its row in the week. */
-export const TINT = { servers: "#7170FF", network: "#4EA7FC", storage: "#F2994A", apps: "#F06595" };
+/** Each area's colour, for its tile and its row in the week. */
+export const TINT = {
+  servers: "var(--m-servers)",
+  network: "var(--m-network)",
+  storage: "var(--m-storage)",
+  apps: "var(--m-apps)",
+};
 
 /**
  * The colour of what a figure or a chart counts by the hour: the page's
@@ -97,7 +106,7 @@ const iconSrc = (icon) => (/^(https?:)?\/\//.test(icon) ? icon : `icons/${icon}`
 
 /** An app's or a tool's logo on its tile; size is xs, sm, md or lg. */
 export const badge = (s, size = "md") =>
-  `<span class="app-icon ${size}" style="--tint:${esc(s.color || "#7170FF")}">${
+  `<span class="app-icon ${size}">${
     s.icon ? `<img src="${esc(iconSrc(s.icon))}" alt="" decoding="async">` : svg("apps")
   }</span>`;
 

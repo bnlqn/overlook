@@ -126,18 +126,25 @@ func parts(all []container) snapshot.Parts {
 		rows = append(rows, row)
 	}
 
-	// Today: the containers running, which adds up with another engine's.
+	return snapshot.Parts{
+		Sections: []snapshot.Section{{Area: Area, Title: snapshot.Text{Key: "docker.containers"}, Rows: rows}},
+		Figures:  []snapshot.Figure{Containers(running, len(all), unhealthy, wrong)},
+	}
+}
+
+// Containers is today's figure for the containers running, of all, with
+// those unhealthy, orange when something went wrong. It adds up with every
+// other engine's, whichever adapter reads it, such as Portainer's, so each of
+// them builds its figure here.
+func Containers(running, all, unhealthy int, wrong bool) snapshot.Figure {
 	f := snapshot.Figure{
 		Area: Area, Icon: "box", Label: snapshot.Text{Key: "docker.containers"}, Value: float64(running),
-		Unit:   snapshot.Msg("docker.of_running", map[string]any{"n": len(all)}),
+		Unit:   snapshot.Msg("docker.of_running", map[string]any{"n": all}),
 		Detail: snapshot.Msg("docker.unhealthy_n", map[string]any{"n": unhealthy}),
 		Adds:   true,
 	}
 	if wrong {
 		f.Tone = "orange"
 	}
-	return snapshot.Parts{
-		Sections: []snapshot.Section{{Area: Area, Title: snapshot.Text{Key: "docker.containers"}, Rows: rows}},
-		Figures:  []snapshot.Figure{f},
-	}
+	return f
 }

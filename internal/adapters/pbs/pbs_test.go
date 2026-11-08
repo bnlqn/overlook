@@ -2,7 +2,6 @@ package pbs
 
 import (
 	"context"
-	"encoding/json"
 	"encoding/pem"
 	"fmt"
 	"net/http"
@@ -20,12 +19,14 @@ import (
 // recorded is the morning after testdata's last night of backups.
 var recorded = time.Date(2026, 10, 28, 10, 0, 0, 0, time.UTC)
 
-// testdata holds an answer recorded from a Proxmox Backup Server 4 with its
-// names and numbers invented: four VMs backed up each night at 00:30 UTC to
-// 28 October 2026, two of them again by hand on the 27th, one on the 26th,
-// and a container last on the 19th. Only two of the four made it on the
-// 24th. Verification is invented in its documented shape: the recorded
-// backups hadn't been checked yet.
+// testdata holds the backups recorded from a Proxmox Backup Server 4 with
+// their names and numbers invented: four VMs backed up each night at 00:30
+// UTC to 28 October 2026, two of them again by hand on the 27th, one on the
+// 26th, and a container last on the 19th. Only two of the four made it on
+// the 24th. Verification is invented in its documented shape: the recorded
+// backups hadn't been checked yet. The datastore's room was recorded from
+// the scratch PBS 4.2.9 of compose.yaml, its datastore on 1 GiB with 600 MB
+// in it (ADR 0008).
 func TestRead(t *testing.T) {
 	t.Parallel()
 	src := adaptertest.Replay(t, "testdata")
@@ -44,9 +45,18 @@ func TestRead(t *testing.T) {
 		}
 	}
 
-	rows := p.Sections[0].Rows
-	if len(p.Sections) != 1 || len(rows) != 5 {
-		t.Fatalf("each guest's newest backup: %+v", p.Sections)
+	if len(p.Sections) != 3 || p.Sections[0].Title.Key != "store.section" || p.Sections[1].Title.Key != "backuprun.section" {
+		t.Fatalf("the datastore, the nights, then each guest's newest backup: %+v", p.Sections)
+	}
+	if s := p.Sections[0].Rows; len(s) != 1 || s[0].Title.Name != "archive" || s[0].Value.Args["used"] != int64(600_334_336) || s[0].Value.Args["size"] != int64(1<<30) || s[0].Tone != "" {
+		t.Errorf("the datastore's room, as a store: %+v", s)
+	}
+	if r := p.Sections[1].Rows; len(r) != 1 || r[0].Title.Key != "backuprun.last" || r[0].Value.Args["n"] != 4 || r[0].Detail.Key != "backuprun.at" || r[0].Detail.Args["at"] != time.Date(2026, 10, 28, 0, 30, 0, 0, time.UTC) {
+		t.Errorf("last night made 4 backups, its end unknown: %+v", r)
+	}
+	rows := p.Sections[2].Rows
+	if p.Sections[2].Title.Key != "pbs.backups" || len(rows) != 5 {
+		t.Fatalf("each guest's newest backup: %+v", p.Sections[2])
 	}
 	names := []string{}
 	for _, r := range rows {
@@ -82,22 +92,15 @@ func TestRead(t *testing.T) {
 
 	// The week to 10:00 on the 28th: the nights from the 22nd, a run by
 	// hand on the 27th and one guest's on the 26th; the 21st's is older.
-	raw, err := os.ReadFile("testdata/api2/json/admin/datastore/archive/snapshots.json")
-	if err != nil {
-		t.Fatal(err)
-	}
-	var all struct {
-		Data []backup `json:"data"`
-	}
-	if err := json.Unmarshal(raw, &all); err != nil {
-		t.Fatal(err)
-	}
 	var runs []any
-	for _, e := range parts(all.Data, recorded).Events {
+	for _, e := range p.Events {
 		runs = append(runs, e.Text.Args["n"])
 	}
 	if got := fmt.Sprint(runs); got != "[4 2 4 1 4 4 2 4 4]" {
-		t.Errorf("the week's runs, newest first, by the guests each backed up: %s", got)
+		t.Errorf("the week's runs, newest first, by the backups each made: %s", got)
+	}
+	if p := parts("archive", room{Total: 100, Used: 1}, nil, recorded); len(p.Sections) != 1 || len(p.Events) != 0 || len(p.Figures) != 0 {
+		t.Errorf("a datastore with no backups yet still shows its room: %+v", p)
 	}
 }
 
@@ -113,7 +116,7 @@ func TestTodayIsTheNight(t *testing.T) {
 		backups = append(backups, backup{Type: "vm", ID: id, Time: start.Add(time.Duration(i) * 3 * time.Minute).Unix()})
 	}
 	backups = append(backups, backup{Type: "vm", ID: "130", Time: time.Date(2026, 10, 27, 17, 16, 0, 0, time.UTC).Unix()})
-	if f := parts(backups, now).Figures[0]; f.Value != 4 || f.Unit.Args["n"] != 4 || f.Detail.Args["at"] != start {
+	if f := parts("archive", room{}, backups, now).Figures[0]; f.Value != 4 || f.Unit.Args["n"] != 4 || f.Detail.Args["at"] != start {
 		t.Errorf("the night backed up 4 of 4 guests, before gate by hand: %+v", f)
 	}
 
@@ -121,7 +124,7 @@ func TestTodayIsTheNight(t *testing.T) {
 	// backups by hand, and Today shows the newest.
 	byHand := time.Date(2026, 10, 28, 9, 0, 0, 0, time.UTC)
 	backups = append(backups, backup{Type: "vm", ID: "100", Time: byHand.Unix()})
-	if f := parts(backups, now).Figures[0]; f.Value != 1 || f.Detail.Args["at"] != byHand {
+	if f := parts("archive", room{}, backups, now).Figures[0]; f.Value != 1 || f.Detail.Args["at"] != byHand {
 		t.Errorf("house by hand, a day after the night: %+v", f)
 	}
 }
@@ -130,7 +133,11 @@ func TestTodayIsTheNight(t *testing.T) {
 // another address, trusting that certificate and checking that name.
 func TestCertificate(t *testing.T) {
 	t.Parallel()
-	s := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+	s := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasSuffix(r.URL.Path, "/status") {
+			_, _ = w.Write([]byte(`{"data": {}}`))
+			return
+		}
 		_, _ = w.Write([]byte(`{"data": []}`))
 	}))
 	t.Cleanup(s.Close)

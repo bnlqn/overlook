@@ -107,8 +107,11 @@ var tools = []tool{
 				"checks":   where(s.Checks, func(c snapshot.Check) bool { return c.Area == area }),
 				"charts":   where(s.Charts, func(c snapshot.Chart) bool { return c.Area == area }),
 				"sections": where(s.Sections, func(x snapshot.Section) bool { return x.Area == area }),
-				// Its own sources, and those of every area, such as a check engine.
-				"sources": where(s.Sources, func(x snapshot.SourceState) bool { return x.Area == area || x.Area == "" }),
+				// Its own sources, those of every area, such as a check engine,
+				// and in Storage those that give stores or backup runs (ADR 0016).
+				"sources": where(s.Sources, func(x snapshot.SourceState) bool {
+					return x.Area == area || x.Area == "" || x.Storage && area == "storage"
+				}),
 			}, nil
 		},
 	},
