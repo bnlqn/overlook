@@ -1,0 +1,35 @@
+{
+  "runners": [
+    {
+      "id": 2,
+      "name": "rack-runner",
+      "status": "online",
+      "busy": false,
+      "disabled": false,
+      "ephemeral": false,
+      "labels": [
+        {
+          "id": 0,
+          "name": "host",
+          "type": "custom"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "spare-runner",
+      "status": "offline",
+      "busy": false,
+      "disabled": false,
+      "ephemeral": false,
+      "labels": [
+        {
+          "id": 0,
+          "name": "host",
+          "type": "custom"
+        }
+      ]
+    }
+  ],
+  "total_count": 2
+}

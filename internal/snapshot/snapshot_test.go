@@ -22,18 +22,22 @@ func TestReader(t *testing.T) {
 			Figures:  []Figure{{Area: "network"}},
 			Events:   []Event{{Area: "network"}},
 			Chores:   []Chore{{Name: "Dust"}},
+			Updates:  []Update{{Name: "older", At: time.Unix(100, 0)}},
 		}, nil
 	}}
 	down := Source{Name: "Down", Adapter: "adguard", Read: func(context.Context, time.Time) (Parts, error) {
 		return Parts{Checks: []Check{{Key: "lost"}}}, errors.New("timeout")
 	}}
-	r := NewReader([]Source{up, down}, nil, []Link{{Name: "Gatus"}})
+	forge := Source{Name: "Forge", Adapter: "gitea", Read: func(context.Context, time.Time) (Parts, error) {
+		return Parts{Updates: []Update{{Name: "newer", At: time.Unix(200, 0)}}}, nil
+	}}
+	r := NewReader([]Source{up, down, forge}, nil, []Link{{Name: "Gatus"}})
 
 	snap := r.Snapshot()
 	if given.IsZero() || !given.Equal(snap.At) {
 		t.Errorf("a source is read at the snapshot's moment: %v, not %v", given, snap.At)
 	}
-	if len(snap.Sources) != 2 || !snap.Sources[0].Answered || snap.Sources[1].Answered || snap.Sources[1].Error != "timeout" {
+	if len(snap.Sources) != 3 || !snap.Sources[0].Answered || snap.Sources[1].Answered || snap.Sources[1].Error != "timeout" {
 		t.Errorf("a source that doesn't answer is marked so: %+v", snap.Sources)
 	}
 	if len(snap.Checks) != 1 || snap.Checks[0].Key != "a" {
@@ -41,6 +45,9 @@ func TestReader(t *testing.T) {
 	}
 	if snap.Apps == nil || snap.Sections == nil || len(snap.Tools) != 1 {
 		t.Errorf("lists are empty, never null: %+v", snap)
+	}
+	if len(snap.Updates) != 2 || snap.Updates[0].Name != "newer" {
+		t.Errorf("the updates are newest first, whichever source they wait in: %+v", snap.Updates)
 	}
 	if len(snap.Chores) != 1 || snap.Chores[0].Name != "Dust" || snap.Chores[0].Source != "Up" {
 		t.Errorf("a source's chores are the snapshot's: %+v", snap.Chores)

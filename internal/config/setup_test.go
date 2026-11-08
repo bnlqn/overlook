@@ -12,7 +12,7 @@ func TestAdapters(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(adapters) != 27 || adapters[0].Key != "gatus" || adapters[0].Kind != "checkengine" {
+	if len(adapters) != 29 || adapters[0].Key != "gatus" || adapters[0].Kind != "checkengine" {
 		t.Fatalf("every adapter, in the order of Sources: %+v", adapters)
 	}
 	for _, a := range adapters {

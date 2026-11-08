@@ -1,0 +1,30 @@
+[
+  {
+    "id": 2,
+    "uuid": "f6761417-337d-43b2-a561-2b433a7e1984",
+    "owner_id": 0,
+    "repo_id": 0,
+    "name": "rack-runner",
+    "status": "idle",
+    "version": "v13.2.1",
+    "labels": [
+      "host"
+    ],
+    "description": "",
+    "ephemeral": false
+  },
+  {
+    "id": 1,
+    "uuid": "03e9cb99-c90d-4bbe-a693-32fe9ff92981",
+    "owner_id": 0,
+    "repo_id": 0,
+    "name": "spare-runner",
+    "status": "offline",
+    "version": "v13.2.1",
+    "labels": [
+      "host"
+    ],
+    "description": "",
+    "ephemeral": false
+  }
+]
