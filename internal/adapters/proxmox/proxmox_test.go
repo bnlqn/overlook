@@ -45,8 +45,8 @@ func TestRead(t *testing.T) {
 	for _, s := range p.Sections {
 		sections[s.Title.Key] = s
 	}
-	if len(p.Sections) != 5 || len(sections) != 5 {
-		t.Fatalf("the hosts, the guests, storage, pools and backups: %+v", p.Sections)
+	if len(p.Sections) != 4 || len(sections) != 4 {
+		t.Fatalf("the hosts and the guests, then the stores and the backup runs: %+v", p.Sections)
 	}
 	hosts := sections[snapshot.HostsSection.Key].Rows
 	if len(hosts) != 1 {
@@ -87,15 +87,15 @@ func TestRead(t *testing.T) {
 		t.Errorf("a VM, stopped: %+v", g)
 	}
 
-	storage := sections["proxmox.storage"].Rows
-	if len(storage) != 4 || storage[3].Title.Name != "backups" || storage[3].Meter == nil {
-		t.Errorf("every storage, with how full: %+v", storage)
+	// The pools first, then every storage, with how full.
+	stores := sections["store.section"].Rows
+	if len(stores) != 6 || stores[5].Title.Name != "backups" || stores[5].Meter == nil || stores[5].Tone != "" {
+		t.Errorf("two pools and four storages, each with how full: %+v", stores)
 	}
-	pools := sections["proxmox.pools"].Rows
-	if pools[0].Detail.Key != "proxmox.healthy" || pools[1].Value.Name != "DEGRADED" || pools[1].Tone != "red" || pools[1].Detail.Key != "proxmox.bytes_of" {
-		t.Errorf("rpool healthy, tank degraded: %+v", pools)
+	if stores[0].Detail.Key != "store.healthy" || stores[1].Value.Name != "DEGRADED" || stores[1].Tone != "red" || stores[1].Detail.Key != "store.room" {
+		t.Errorf("rpool healthy, tank degraded: %+v", stores)
 	}
-	if run := sections["proxmox.backups"].Rows; len(run) != 1 || run[0].Value.Key != "proxmox.done" || run[0].Detail.Args["ms"] != int64(499_000) {
+	if run := sections["backuprun.section"].Rows; len(run) != 1 || run[0].Value.Key != "backuprun.done" || run[0].Detail.Args["ms"] != int64(499_000) {
 		t.Errorf("the last run took 8 min 19 s: %+v", run)
 	}
 
@@ -106,7 +106,7 @@ func TestRead(t *testing.T) {
 	for _, e := range p.Events {
 		tones[e.Text.Key] = e.Tone
 	}
-	if tones["proxmox.backup_warnings"] != "orange" || tones["proxmox.backup_failed"] != "red" || p.Events[0].At != time.Date(2026, 10, 28, 0, 30, 0, 0, time.UTC) {
+	if tones["backuprun.event_warned_in"] != "orange" || tones["backuprun.event_failed_why"] != "red" || p.Events[0].At != time.Date(2026, 10, 28, 0, 30, 0, 0, time.UTC) || p.Events[0].Area != "storage" {
 		t.Errorf("the runs, newest first, in their tones: %+v", p.Events)
 	}
 
@@ -137,6 +137,7 @@ func TestCluster(t *testing.T) {
 		{Type: "storage", Node: "nova", Storage: "local", Status: "available", MaxDisk: 100},
 		{Type: "storage", Node: "nova", Storage: "backups", Shared: 1, Status: "available", MaxDisk: 100},
 		{Type: "storage", Node: "vega", Storage: "backups", Shared: 1, Status: "unknown"},
+		{Type: "storage", Node: "vega", Storage: "local", Status: "unknown"},
 	}, []*host{h}, 2, recorded)
 	adaptertest.Validate(t, Area, p)
 
@@ -146,11 +147,15 @@ func TestCluster(t *testing.T) {
 	if p.Sections[1].Rows[0].Title.Args["node"] != "nova" {
 		t.Errorf("a guest by its node: %+v", p.Sections[1])
 	}
-	if s := p.Sections[2].Rows; len(s) != 2 || s[0].Title.Key != "proxmox.on_node" || s[1].Title.Name != "backups" {
-		t.Errorf("a shared storage once, without its node: %+v", s)
+	s := p.Sections[2].Rows
+	if len(s) != 4 || s[0].Title.Args["name"] != "rpool" || s[1].Title.Key != "proxmox.on_node" || s[2].Title.Name != "backups" {
+		t.Errorf("the pool by its node, then a shared storage once, without its node: %+v", s)
 	}
-	if run := p.Sections[4].Rows[0]; run.Title.Name != "nova" || run.Value.Key != "proxmox.running" {
-		t.Errorf("a run still going: %+v", run)
+	if s[3].Title.Args["node"] != "vega" || s[3].Value.Name != "unknown" || s[3].Tone != "red" || s[3].Meter != nil {
+		t.Errorf("a storage on the offline node, unknown to Proxmox VE: %+v", s[3])
+	}
+	if run := p.Sections[3].Rows[0]; run.Title.Name != "nova" || run.Value.Key != "backuprun.running" {
+		t.Errorf("a run still going, by its node: %+v", run)
 	}
 	if f := p.Figures[0]; f.Detail.Key != "proxmox.hosts_online" || f.Detail.Args["online"] != 1 {
 		t.Errorf("1 of 2 hosts online: %+v", f.Detail)

@@ -314,10 +314,14 @@ const checkState = (c) => (c.problem ? "down" : c.failing ? "degraded" : c.recen
 
 /**
  * The names of the sources that didn't answer: on an area's page, those of
- * its area and those of every area, such as a check engine.
+ * its area, those of every area, such as a check engine, and in Storage
+ * those that give stores or backup runs, whatever their home area, so that
+ * Storage never loses them without a word (ADR 0016).
  */
 const silent = (snap, area) =>
-  snap.sources.filter((s) => !s.answered && (!area || !s.area || s.area === area)).map((s) => s.name);
+  snap.sources
+    .filter((s) => !s.answered && (!area || !s.area || s.area === area || (s.storage && area === "storage")))
+    .map((s) => s.name);
 
 /**
  * The sources of the same kind as those a part adds up that answered but gave

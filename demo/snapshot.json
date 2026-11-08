@@ -8,8 +8,8 @@
     { "name": "Checkmate", "adapter": "checkmate", "kind": "checkengine", "answered": true },
     { "name": "GitHub", "adapter": "github", "answered": true },
     { "name": "Immich", "adapter": "immich", "area": "apps", "answered": true },
-    { "name": "Backup Server", "adapter": "pbs", "area": "storage", "answered": true },
-    { "name": "Proxmox", "adapter": "proxmox", "area": "servers", "answered": true },
+    { "name": "Backup Server", "adapter": "pbs", "area": "storage", "storage": true, "answered": true },
+    { "name": "Proxmox", "adapter": "proxmox", "area": "servers", "storage": true, "answered": true },
     { "name": "Beszel", "adapter": "beszel", "area": "servers", "answered": true },
     { "name": "Docker", "adapter": "docker", "area": "servers", "answered": true },
     { "name": "Portainer", "adapter": "portainer", "area": "servers", "answered": true },
@@ -1326,6 +1326,31 @@
     {
       "area": "storage",
       "source": "Backup Server",
+      "title": { "key": "store.section" },
+      "rows": [
+        {
+          "title": { "name": "backups" },
+          "value": { "key": "store.room", "args": { "used": 1236950581248, "size": 3848290697216 } },
+          "meter": { "used": 1236950581248, "total": 3848290697216 }
+        }
+      ]
+    },
+    {
+      "area": "storage",
+      "source": "Backup Server",
+      "title": { "key": "backuprun.section" },
+      "rows": [
+        {
+          "title": { "key": "backuprun.last" },
+          "value": { "key": "backuprun.backups", "args": { "at": "2026-10-28T00:30:00Z", "n": 6 } },
+          "detail": { "key": "backuprun.at", "args": { "at": "2026-10-28T00:30:00Z" } },
+          "tone": "green"
+        }
+      ]
+    },
+    {
+      "area": "storage",
+      "source": "Backup Server",
       "title": { "key": "pbs.backups" },
       "rows": [
         {
@@ -1464,63 +1489,53 @@
       ]
     },
     {
-      "area": "servers",
+      "area": "storage",
       "source": "Proxmox",
-      "title": { "key": "proxmox.storage" },
+      "title": { "key": "store.section" },
       "rows": [
         {
+          "title": { "name": "rpool" },
+          "value": { "key": "store.room", "args": { "used": 51539607552, "size": 246960619520 } },
+          "detail": { "key": "store.healthy" },
+          "meter": { "used": 51539607552, "total": 246960619520 }
+        },
+        {
+          "title": { "name": "tank" },
+          "value": { "key": "store.room", "args": { "used": 4202768899072, "size": 7696581394432 } },
+          "detail": { "key": "store.healthy" },
+          "meter": { "used": 4202768899072, "total": 7696581394432 }
+        },
+        {
           "title": { "name": "local-zfs" },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 41875931136, "total": 214748364800 } },
+          "value": { "key": "store.room", "args": { "used": 41875931136, "size": 214748364800 } },
           "meter": { "used": 41875931136, "total": 214748364800 }
         },
         {
           "title": { "name": "local" },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 9663676416, "total": 98784247808 } },
+          "value": { "key": "store.room", "args": { "used": 9663676416, "size": 98784247808 } },
           "meter": { "used": 9663676416, "total": 98784247808 }
         },
         {
           "title": { "name": "tank" },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 2965818318848, "total": 3848290697216 } },
+          "value": { "key": "store.room", "args": { "used": 2965818318848, "size": 3848290697216 } },
           "meter": { "used": 2965818318848, "total": 3848290697216 }
         },
         {
           "title": { "name": "backups" },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 1236950581248, "total": 3848290697216 } },
+          "value": { "key": "store.room", "args": { "used": 1236950581248, "size": 3848290697216 } },
           "meter": { "used": 1236950581248, "total": 3848290697216 }
         }
       ]
     },
     {
-      "area": "servers",
+      "area": "storage",
       "source": "Proxmox",
-      "title": { "key": "proxmox.pools" },
+      "title": { "key": "backuprun.section" },
       "rows": [
         {
-          "title": { "name": "rpool" },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 51539607552, "total": 246960619520 } },
-          "detail": { "key": "proxmox.healthy" },
-          "meter": { "used": 51539607552, "total": 246960619520 }
-        },
-        {
-          "title": { "name": "tank" },
-          "value": { "key": "proxmox.bytes_of", "args": { "used": 4202768899072, "total": 7696581394432 } },
-          "detail": { "key": "proxmox.healthy" },
-          "meter": { "used": 4202768899072, "total": 7696581394432 }
-        }
-      ]
-    },
-    {
-      "area": "servers",
-      "source": "Proxmox",
-      "title": { "key": "proxmox.backups" },
-      "rows": [
-        {
-          "title": { "key": "proxmox.last_run" },
-          "value": { "key": "proxmox.done" },
-          "detail": {
-            "key": "proxmox.run_took",
-            "args": { "at": "2026-10-28T00:30:00Z", "ms": 512000, "status": "OK" }
-          },
+          "title": { "key": "backuprun.last" },
+          "value": { "key": "backuprun.done" },
+          "detail": { "key": "backuprun.at_in", "args": { "at": "2026-10-28T00:30:00Z", "ms": 512000 } },
           "tone": "green"
         }
       ]
@@ -2786,102 +2801,102 @@
       "area": "storage",
       "source": "Backup Server",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-28T00:30:00Z", "n": 6 } }
     },
     {
       "at": "2026-10-27T00:30:00Z",
       "area": "storage",
       "source": "Backup Server",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-27T00:30:00Z", "n": 6 } }
     },
     {
       "at": "2026-10-26T00:30:00Z",
       "area": "storage",
       "source": "Backup Server",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-26T00:30:00Z", "n": 6 } }
     },
     {
       "at": "2026-10-25T00:30:00Z",
       "area": "storage",
       "source": "Backup Server",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 5 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-25T00:30:00Z", "n": 5 } }
     },
     {
       "at": "2026-10-24T00:30:00Z",
       "area": "storage",
       "source": "Backup Server",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-24T00:30:00Z", "n": 6 } }
     },
     {
       "at": "2026-10-23T00:30:00Z",
       "area": "storage",
       "source": "Backup Server",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-23T00:30:00Z", "n": 6 } }
     },
     {
       "at": "2026-10-22T00:30:00Z",
       "area": "storage",
       "source": "Backup Server",
       "icon": "archive",
-      "text": { "key": "pbs.backed_up", "args": { "n": 6 } }
+      "text": { "key": "backuprun.event_made", "args": { "at": "2026-10-22T00:30:00Z", "n": 6 } }
     },
     {
       "at": "2026-10-28T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Proxmox",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-28T00:30:00Z", "ms": 512000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-28T00:30:00Z", "ms": 512000 } }
     },
     {
       "at": "2026-10-27T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Proxmox",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-27T00:30:00Z", "ms": 547000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-27T00:30:00Z", "ms": 547000 } }
     },
     {
       "at": "2026-10-26T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Proxmox",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-26T00:30:00Z", "ms": 498000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-26T00:30:00Z", "ms": 498000 } }
     },
     {
       "at": "2026-10-25T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Proxmox",
       "icon": "archive",
       "tone": "orange",
       "text": {
-        "key": "proxmox.backup_warnings",
-        "args": { "at": "2026-10-25T00:30:00Z", "ms": 1386000, "status": "WARNINGS: 1" }
+        "key": "backuprun.event_warned_in",
+        "args": { "at": "2026-10-25T00:30:00Z", "ms": 1386000, "why": "WARNINGS: 1" }
       }
     },
     {
       "at": "2026-10-24T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Proxmox",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-24T00:30:00Z", "ms": 531000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-24T00:30:00Z", "ms": 531000 } }
     },
     {
       "at": "2026-10-23T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Proxmox",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-23T00:30:00Z", "ms": 506000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-23T00:30:00Z", "ms": 506000 } }
     },
     {
       "at": "2026-10-22T00:30:00Z",
-      "area": "servers",
+      "area": "storage",
       "source": "Proxmox",
       "icon": "archive",
-      "text": { "key": "proxmox.backup_done", "args": { "at": "2026-10-22T00:30:00Z", "ms": 523000, "status": "OK" } }
+      "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-22T00:30:00Z", "ms": 523000 } }
     }
   ],
   "updates": [

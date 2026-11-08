@@ -1,0 +1,37 @@
+# A scratch Proxmox Backup Server to record its datastore's room from
+# (ADR 0008). The rest of testdata was recorded from a real one, so only the
+# room comes from here: record.sh reads the datastore's status, and nothing
+# else. PBS has no image of its own, so this one installs it from Proxmox's
+# repository, checking its keyring against the SHA-256 Proxmox publishes.
+# The datastore lives on a tmpfs of 1 GB, so that its room is invented, and
+# fill.sh puts an invented backup in it.
+#
+#   docker compose -f compose.yaml up -d --build && ./fill.sh && ./record.sh
+#   docker compose -f compose.yaml down -v
+services:
+  pbs:
+    platform: linux/amd64
+    build:
+      dockerfile_inline: |
+        FROM debian:13.7
+        RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates curl \
+          && curl -fsSL https://enterprise.proxmox.com/debian/proxmox-archive-keyring-trixie.gpg \
+            -o /usr/share/keyrings/proxmox-archive-keyring.gpg \
+          && echo "136673be77aba35dcce385b28737689ad64fd785a797e57897589aed08db6e45  /usr/share/keyrings/proxmox-archive-keyring.gpg" | sha256sum -c \
+          && printf 'Types: deb\nURIs: http://download.proxmox.com/debian/pbs\nSuites: trixie\nComponents: pbs-no-subscription\nSigned-By: /usr/share/keyrings/proxmox-archive-keyring.gpg\n' \
+            >/etc/apt/sources.list.d/proxmox.sources \
+          && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            proxmox-backup-server=4.2.9-1 proxmox-backup-client
+    ports: ["127.0.0.1:8007:8007"]
+    # PBS keeps its shared memory on a tmpfs, and runs its proxy as backup.
+    tmpfs:
+      - /run
+      - /datastore:size=1g
+    command:
+      - sh
+      - -c
+      - |
+        mkdir -p /run/proxmox-backup && chown backup:backup /run/proxmox-backup /datastore
+        /usr/lib/x86_64-linux-gnu/proxmox-backup/proxmox-backup-api &
+        sleep 5
+        exec setpriv --reuid=backup --regid=backup --init-groups /usr/lib/x86_64-linux-gnu/proxmox-backup/proxmox-backup-proxy

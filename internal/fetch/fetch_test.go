@@ -381,16 +381,21 @@ func TestWhy(t *testing.T) {
 		{"https://" + junk.Addr().String(), "", "plain"},
 		{gone.URL, "", "refused"},
 		{"http://overlook.invalid", "", "no_host"},
-		{refuse.URL, "/slow", "timeout"},
 		{refuse.URL, "/key", "key"},
 		{refuse.URL, "/none", "not_found"},
 	} {
-		ctx, cancel := context.WithTimeout(t.Context(), 300*time.Millisecond)
-		err := open(t, Source{URL: tc.url}).JSON(ctx, tc.path, new(any))
-		cancel()
+		// No deadline here: a busy machine can take a second over a TLS
+		// handshake, and a deadline would turn its answer into a timeout.
+		err := open(t, Source{URL: tc.url}).JSON(t.Context(), tc.path, new(any))
 		if got := Why(err); got != tc.want {
 			t.Errorf("%s%s: %q, want %q, from %v", tc.url, tc.path, got, tc.want, err)
 		}
+	}
+	// A source that never answers is the one case that needs a deadline.
+	ctx, cancel := context.WithTimeout(t.Context(), 300*time.Millisecond)
+	defer cancel()
+	if got := Why(open(t, Source{URL: refuse.URL}).JSON(ctx, "/slow", new(any))); got != "timeout" {
+		t.Errorf("never answers: %q", got)
 	}
 	// A certificate for another name: the CA is trusted, the name isn't it.
 	s := open(t, Source{URL: strings.Replace(signed.URL, "127.0.0.1", "localhost", 1), CA: caFile(t, signed)})

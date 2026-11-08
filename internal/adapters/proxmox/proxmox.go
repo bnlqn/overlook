@@ -1,6 +1,7 @@
 // Package proxmox reads Proxmox VE: each host's processor, memory and
-// versions, the guests, the storage and ZFS pools, and the backup runs.
-// Everything it gives goes in Servers.
+// versions and the guests, which go in Servers, and the ZFS pools, the
+// storage and the backup runs, which go in Storage as every source's stores
+// and backup runs do (ADR 0016).
 package proxmox
 
 import (
@@ -259,85 +260,58 @@ func parts(resources []resource, hosts []*host, nodes int, now time.Time) snapsh
 		p.Sections = append(p.Sections, snapshot.Section{Area: Area, Title: snapshot.Text{Key: "proxmox.guests"}, Rows: rows})
 	}
 
-	// The storage, a shared one once.
-	rows = []snapshot.Row{}
+	// The stores: each host's ZFS pools, then the storage, a shared one
+	// once. A storage Proxmox VE can't reach, such as one on an offline
+	// node, is unknown to it, and has no room to show.
+	var stores snapshot.Stores
+	for _, h := range hosts {
+		for _, z := range h.pools {
+			stores = append(stores, snapshot.Store{Name: onNode(z.Name, h.name), Used: z.Alloc, Size: z.Size, Health: z.Health, Healthy: z.Health == "ONLINE"})
+		}
+	}
 	shared := map[string]bool{}
 	for _, r := range resources {
 		if r.Type != "storage" || shared[r.Storage] {
 			continue
 		}
-		row := snapshot.Row{Title: onNode(r.Storage, r.Node)}
+		st := snapshot.Store{Name: onNode(r.Storage, r.Node), Healthy: r.Status == "available"}
 		if r.Shared == 1 {
 			shared[r.Storage] = true
-			row.Title = snapshot.Text{Name: r.Storage}
+			st.Name = snapshot.Text{Name: r.Storage}
 		}
-		if r.Status == "available" && r.MaxDisk > 0 {
-			row.Value = snapshot.Msg("proxmox.bytes_of", map[string]any{"used": r.Disk, "total": r.MaxDisk})
-			row.Meter = &snapshot.Meter{Used: float64(r.Disk), Total: float64(r.MaxDisk)}
+		if st.Healthy {
+			st.Used, st.Size = r.Disk, r.MaxDisk
 		} else {
-			row.Value, row.Tone = &snapshot.Text{Name: r.Status}, "gray"
+			st.Health = r.Status
 		}
-		rows = append(rows, row)
+		stores = append(stores, st)
 	}
-	if len(rows) > 0 {
-		p.Sections = append(p.Sections, snapshot.Section{Area: Area, Title: snapshot.Text{Key: "proxmox.storage"}, Rows: rows})
-	}
+	p.Sections = append(p.Sections, stores.Parts().Sections...)
 
-	// The ZFS pools: how full each is, and its health.
-	rows = []snapshot.Row{}
+	// The backup runs, each node's by its name in a cluster. A run still
+	// going has no end; one that ended says OK, WARNINGS: and how many, or
+	// its error.
+	var runs snapshot.BackupRuns
 	for _, h := range hosts {
-		for _, z := range h.pools {
-			space := snapshot.Text{Key: "proxmox.bytes_of", Args: map[string]any{"used": z.Alloc, "total": z.Size}}
-			row := snapshot.Row{Title: onNode(z.Name, h.name), Value: &space, Detail: snapshot.Msg("proxmox.healthy", nil)}
-			if z.Health != "ONLINE" {
-				row.Value, row.Tone, row.Detail = &snapshot.Text{Name: z.Health}, "red", &space
-			}
-			if z.Size > 0 {
-				row.Meter = &snapshot.Meter{Used: float64(z.Alloc), Total: float64(z.Size)}
-			}
-			rows = append(rows, row)
-		}
-	}
-	if len(rows) > 0 {
-		p.Sections = append(p.Sections, snapshot.Section{Area: Area, Title: snapshot.Text{Key: "proxmox.pools"}, Rows: rows})
-	}
-
-	// The backup runs: each node's newest in Backups, and the week's as
-	// events.
-	rows = []snapshot.Row{}
-	for _, h := range hosts {
-		slices.SortFunc(h.runs, func(a, b task) int { return cmp.Compare(b.Start, a.Start) })
-		for i, t := range h.runs {
-			start := time.Unix(t.Start, 0).UTC()
-			took := map[string]any{"at": start, "ms": (t.End - t.Start) * 1000, "status": t.Status}
-			e := snapshot.Event{At: start, Area: Area, Icon: "archive"}
-			row := snapshot.Row{Title: snapshot.Text{Key: "proxmox.last_run"}, Detail: snapshot.Msg("proxmox.run_took", took)}
+		for _, t := range h.runs {
+			run := snapshot.BackupRun{Start: time.Unix(t.Start, 0).UTC(), Running: t.End == 0}
 			if cluster {
-				row.Title = snapshot.Text{Name: h.name}
+				run.Host = h.name
 			}
-			switch {
-			case t.End == 0:
-				e.Text = snapshot.Text{Key: "proxmox.backup_running"}
-				row.Value, row.Tone, row.Detail = snapshot.Msg("proxmox.running", nil), "blue", snapshot.Msg("proxmox.run_since", took)
-			case t.Status == "OK":
-				e.Text = snapshot.Text{Key: "proxmox.backup_done", Args: took}
-				row.Value, row.Tone = snapshot.Msg("proxmox.done", nil), "green"
-			case strings.HasPrefix(t.Status, "WARNINGS"):
-				e.Text, e.Tone = snapshot.Text{Key: "proxmox.backup_warnings", Args: took}, "orange"
-				row.Value, row.Tone, row.Detail = snapshot.Msg("proxmox.warnings", nil), "orange", snapshot.Msg("proxmox.run_why", took)
-			default:
-				e.Text, e.Tone = snapshot.Text{Key: "proxmox.backup_failed", Args: took}, "red"
-				row.Value, row.Tone, row.Detail = snapshot.Msg("proxmox.failed", nil), "red", snapshot.Msg("proxmox.run_why", took)
+			if !run.Running {
+				run.End = time.Unix(t.End, 0).UTC()
+				run.Warnings = strings.HasPrefix(t.Status, "WARNINGS")
+				run.Failed = t.Status != "OK" && !run.Warnings
+				if t.Status != "OK" {
+					run.Why = t.Status
+				}
 			}
-			p.Events = append(p.Events, e)
-			if i == 0 {
-				rows = append(rows, row)
-			}
+			runs = append(runs, run)
 		}
 	}
-	if len(rows) > 0 {
-		p.Sections = append(p.Sections, snapshot.Section{Area: Area, Title: snapshot.Text{Key: "proxmox.backups"}, Rows: rows})
-	}
+	made := runs.Parts(now)
+	p.Sections = append(p.Sections, made.Sections...)
+	p.Events = made.Events
 
 	// Today: the guests up, the hosts online, and how busy and how full the
 	// hosts are. It adds up with another Proxmox's, guests on two hosts being

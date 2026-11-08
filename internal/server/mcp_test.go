@@ -77,7 +77,10 @@ func homelab(t *testing.T) http.Handler {
 		Chores:  []snapshot.Chore{{Name: "Change the UPS battery", From: "2026-11-09"}},
 	}
 	reader := snapshot.NewReader(
-		[]snapshot.Source{{Name: "Gatus", Adapter: "gatus", Kind: "checkengine", Read: func(context.Context, time.Time) (snapshot.Parts, error) { return parts, nil }}},
+		[]snapshot.Source{
+			{Name: "Gatus", Adapter: "gatus", Kind: "checkengine", Read: func(context.Context, time.Time) (snapshot.Parts, error) { return parts, nil }},
+			{Name: "PVE", Adapter: "proxmox", Area: "servers", Storage: true, Read: func(context.Context, time.Time) (snapshot.Parts, error) { return snapshot.Parts{}, nil }},
+		},
 		[]snapshot.Link{{Name: "Photos", URL: "https://photos.example.com", Check: "Photos"}, {Name: "Home", URL: "https://ha.example.com"}},
 		[]snapshot.Link{{Name: "Proxmox", URL: "https://pve.example.com:8006", Check: "Hypervisor"}},
 	)
@@ -184,8 +187,14 @@ func TestMCPTools(t *testing.T) {
 	if strings.Contains(text, "Photos") || strings.Contains(text, "proxmox.guests") {
 		t.Errorf("area network holds another area's parts: %s", text)
 	}
-	if text := call(`{"area":"servers"}`).Result.Content[0].Text; !strings.Contains(text, `{"key":"proxmox.stopped","words":"Stopped"}`) || !strings.Contains(text, `{"name":"vm-media"}`) {
+	if text := call(`{"area":"servers"}`).Result.Content[0].Text; !strings.Contains(text, `{"key":"proxmox.stopped","words":"Stopped"}`) || !strings.Contains(text, `{"name":"vm-media"}`) || !strings.Contains(text, `"name":"PVE"`) {
 		t.Errorf("area servers: %s", text)
+	}
+	if text := call(`{"area":"storage"}`).Result.Content[0].Text; !strings.Contains(text, `"name":"PVE"`) {
+		t.Errorf("area storage: no Proxmox VE, which gives stores, in %s", text)
+	}
+	if text := call(`{"area":"apps"}`).Result.Content[0].Text; strings.Contains(text, `"PVE"`) {
+		t.Errorf("area apps holds Proxmox VE: %s", text)
 	}
 	for _, args := range []string{`{}`, `{"area":"attic"}`, `{"area":"network","since":"monday"}`} {
 		if got := call(args); !got.Result.IsError {

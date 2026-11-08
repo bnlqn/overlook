@@ -23,7 +23,8 @@ It reads:
   [Docker](#docker), [Portainer](#portainer), [NUT](#nut)
 - **Network**: [UniFi Network](#unifi-network), [AdGuard Home](#adguard-home),
   [Pi-hole](#pi-hole)
-- **Storage**: [Proxmox Backup Server](#proxmox-backup-server)
+- **Storage**: [Proxmox Backup Server](#proxmox-backup-server), and the
+  pools, storage and backup runs of [Proxmox VE](#proxmox-ve)
 - **Apps**: [Immich](#immich), [Jellyfin](#jellyfin), [Emby](#emby),
   [Plex, through Tautulli](#plex-through-tautulli), [Radarr](#radarr),
   [Sonarr](#sonarr), [Prowlarr](#prowlarr), [qBittorrent](#qbittorrent),
@@ -56,6 +57,10 @@ What it can't read, and why, is under [Can't be read](#cant-be-read).
   marking it done on the list, never on the page, and a chore is never a
   problem.
 
+The page is light where your system is light, and dark otherwise. On a
+phone, your browser's Add to Home Screen, or Install app, puts it there as
+an app of its own.
+
 ## What it never does
 
 - **It never changes anything.** Overlook sends a source only GET requests,
@@ -78,7 +83,7 @@ What it can't read, and why, is under [Can't be read](#cant-be-read).
   says which sources fill it, never where anything goes. There are no
   widgets to arrange.
 - **It never calls anywhere you didn't name.** No telemetry and no update
-  check; the page's fonts and icons come from Overlook itself.
+  check; the page's fonts, icons and manifest come from Overlook itself.
 
 ## Quick start
 
@@ -203,9 +208,12 @@ What each adapter reads, its config and the least key it needs are under
 **Areas.** The page has four, always the same: Servers, Network, Storage
 and Apps, and an area with nothing in it isn't shown. Each adapter puts
 its parts in its own area, such as Proxmox VE in Servers and AdGuard Home
-in Network. A check goes in the area its group in the check engine is
-named after, or the one the config gives that group, as in Gatus's
-`areas:`. A check in no area still counts, and its problems still show.
+in Network, but stores and backup runs go in Storage whichever adapter
+reads them, such as Proxmox VE's ZFS pools and its nights' backups, each
+looking the same whatever its source. A check goes in the area its group
+in the check engine is named after, or the one the config gives that
+group, as in Gatus's `areas:`. A check in no area still counts, and its
+problems still show.
 
 **Apps and tools.** Apps are what the homelab hosts for the people who use
 it; tools are what you run it with. Both are links on the page, in the
@@ -540,11 +548,13 @@ What each person uploaded needs Immich 3 or later; an older one leaves it out.
 
 ### Proxmox Backup Server
 
-Each guest's newest backup in one datastore, in Storage: when it was made,
-its size, and whether it passed its check, named by its notes, which
-Proxmox VE fills with the guest's name. Today shows how many guests the
-last night backed up, each guest blue where it did, and the week each
-night's backups. The last night is
+One datastore, in Storage: how full it is, its nights as backup runs, and
+each guest's newest backup in it, with when it was made, its size, and
+whether it passed its check, named by its notes, which Proxmox VE fills
+with the guest's name. A night is the backups made one after another, so
+PBS says when it started and how many backups it made, but not when it
+ended. Today shows how many guests the last night backed up, each guest
+blue where it did, and the week each night's backup run. The last night is
 the run with the most guests in the day to the newest backup, so a guest
 backed up by hand after it doesn't hide it.
 
@@ -570,7 +580,8 @@ proxmox-backup-manager user generate-token overlook@pbs overlook
 proxmox-backup-manager acl update /datastore/backups DatastoreAudit --auth-id 'overlook@pbs!overlook'
 ```
 
-The third command prints the token's secret.
+The third command prints the token's secret. The same role reads how full
+the datastore is.
 
 **Certificate:** PBS signs its own, for its own name. Copy
 `/etc/proxmox-backup/proxy.pem` from the server beside Overlook and name it
@@ -578,12 +589,21 @@ as `ca`. If the `url` reaches PBS by an address its certificate doesn't
 name, give the name it does as `server_name`. As for Proxmox VE, there is
 no way to skip the check.
 
+The backups were recorded from a PBS 4, with every name and number made up.
+How full the datastore is was recorded from a scratch PBS 4.2.9 (ADR 0008),
+until someone who runs one records it from theirs: the compose file and the
+scripts that fill and record it are in the adapter's
+[`testdata`](internal/adapters/pbs/testdata).
+
 ### Proxmox VE
 
-Each host's processor, memory, uptime and version, the guests, the storage,
-the ZFS pools and the last backup run, in Servers, with each host's
-processor and memory by the hour over the week Proxmox keeps, a line each.
-Today shows how many guests are up, and the week each backup run.
+Each host's processor, memory, uptime and version, and the guests, in
+Servers, with each host's processor and memory by the hour over the week
+Proxmox keeps, a line each. The ZFS pools and the storage go in Storage, as
+every source's stores do: how full each is, and each pool's health, in red
+when it isn't ONLINE, as is a storage Proxmox VE can't reach. So do the
+backup runs: each host's last run, and the week each run. Today shows how
+many guests are up.
 
 ```yaml
 sources:
@@ -1255,8 +1275,11 @@ stylesheet, so it can change any colour, size or font:
 ```
 
 The page's colours, sizes and fonts are the `--m-` properties at the top
-of [`web/style.css`](web/style.css). The page stays one page: custom.css
-changes how it looks, not what it shows.
+of [`web/style.css`](web/style.css): the dark page's, then the light
+page's, under `@media (prefers-color-scheme: light)`. A property your
+custom.css sets changes both; set under the same `@media`, it changes the
+light page only. The page stays one page: custom.css changes how it looks,
+not what it shows.
 
 ## Translating
 
@@ -1283,12 +1306,12 @@ more homelabs, taking first what most of them run, as
        adapters of step 4 come in. One entity's time took all of Home
        Assistant off the page in
        [#102](https://github.com/bnlqn/overlook/issues/102).
-3. [ ] Storage for every homelab with pools or a backup server: stores and
+3. [x] Storage for every homelab with pools or a backup server: stores and
        backup runs go in Storage whichever adapter reads them, each built by
        one module (ADR 0016). Proxmox VE's pools, storage and backup runs
-       move there from Servers, and Proxmox Backup Server reads its
+       moved there from Servers, and Proxmox Backup Server reads its
        datastore's room as a store. Two thirds of homelabs run a NAS, and
-       Storage holds only PBS today.
+       Storage held only PBS before.
 4. [ ] The tools most homelabs run that Overlook can't read yet, each
        recorded from a scratch instance (ADR 0008), one pull request each:
        [Portainer](https://github.com/bnlqn/overlook/issues/74), which a
@@ -1297,7 +1320,7 @@ more homelabs, taking first what most of them run, as
 5. [x] Agents read what the page shows through MCP, if the owner turns it
        on: six tools, one for each part of the page, that read the
        snapshot and nothing else (ADR 0015).
-6. [ ] A light page for an owner whose system asks for one, the logos
+6. [x] A light page for an owner whose system asks for one, the logos
        chosen for dark tiles still showing on it, and a web manifest, so
        that the page installs on a phone as an app.
 
