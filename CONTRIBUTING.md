@@ -33,7 +33,7 @@ To see the page with every adapter's parts in it, run the demo, which draws it f
 go run ./demo -serve localhost:8000
 ```
 
-and open <http://localhost:8000>. The demo serves two more homelabs, each from an invented snapshot of its own: a small one, at <http://localhost:8000/small/>, and a large one, at the most the page is made for, at <http://localhost:8000/large/>. Every change to the page is looked at with all three. To see it read your own sources, give the server a config with only those, starting from `overlook.example.yaml`:
+and open <http://localhost:8000>. The demo serves two more homelabs, each from an invented snapshot of its own: a small one, at <http://localhost:8000/small/>, and a large one, at the most the page is made for, at <http://localhost:8000/large/>. Every change to the page is looked at with all three, in the light page and the dark one: the page follows the system's appearance, which a browser's developer tools can also set, as Chrome's Rendering panel does. To see it read your own sources, give the server a config with only those, starting from `overlook.example.yaml`:
 
 ```bash
 go run ./cmd/overlook -config path/to/overlook.yaml
@@ -71,7 +71,7 @@ One adapter per pull request, with:
 5. **Its config**, in `overlook.example.yaml`, and the least key it needs, in its section of the README. On its `Config`, a `setup:` tag marks each field the setup page asks for, the ones a source can't be read without and `name`: `text`, `key` for a key or a password, which goes to `.env`, or `list`, then `,optional` if a source can be read without it; an `example:` tag gives an invented value, such as its usual address (ADR 0014). Its name on the setup page, `setup.adapter.<key>` in `web/i18n/en/page.json`, is its README section's heading, which the page links to, and its logo there is the `icon:` tag on its field in `Sources`.
 6. **Its author**, in `.github/CODEOWNERS`, beside its folder and its words, unless that's the maintainer, whom the file's first line already names for everything.
 7. **Its parts in the demo**, `demo/snapshot.json`, after the parts of the adapters before it in `check`, with names and numbers made up. The demo's test fails until a word of the adapter's is there.
-8. **Its logo**, in `web/icons/`, named after the program, such as `adguard-home.svg`, for an owner to name in a link's `icon:`. Take it unchanged from [homarr-labs/dashboard-icons](https://github.com/homarr-labs/dashboard-icons) when it has one, and say in the pull request when it hasn't. Where it comes in a dark and a light version, take the one that shows on the page's dark tiles, as `github.svg` is its `github-light.svg`. Check that it is the program's own logo, and that it holds no script, no event handler and nothing it loads or links to outside itself. An adapter that reads a format, such as iCalendar, brings the logos of the programs that serve it.
+8. **Its logo**, in `web/icons/`, named after the program, such as `adguard-home.svg`, for an owner to name in a link's `icon:`. Take it unchanged from [homarr-labs/dashboard-icons](https://github.com/homarr-labs/dashboard-icons) when it has one, and say in the pull request when it hasn't. Where it comes in a dark and a light version, take the one that shows on the page's dark tiles, which stay dark on the light page too, as `github.svg` is its `github-light.svg`. Check that it is the program's own logo, and that it holds no script, no event handler and nothing it loads or links to outside itself. An adapter that reads a format, such as iCalendar, brings the logos of the programs that serve it.
 
 ## Translating
 
@@ -85,7 +85,7 @@ A decision that is hard to reverse, surprising to a newcomer and the result of a
 
 - Keep each to one change, and describe what it changes and why.
 - `make check` passes.
-- A change to the page is looked at with the demo's three homelabs, and comes with screenshots at desktop and phone width.
+- A change to the page is looked at with the demo's three homelabs, light and dark, and comes with screenshots at desktop and phone width.
 - Commit messages are a plain sentence, then a body that says why.
 
 By contributing, you agree that your contribution is licensed under the project's [MIT licence](LICENSE).

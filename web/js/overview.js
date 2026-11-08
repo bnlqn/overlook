@@ -291,7 +291,7 @@ function renderApps({ links, compact, columns }) {
   $("apps").style.setProperty("--cols", columns);
   $("apps").innerHTML = links
     .map(({ link: s, check: c, state }, i) => {
-      const tint = esc(s.color || "#7170FF");
+      const tint = esc(s.color || "var(--m-accent-2)");
       const foot = !s.check ? t("apps.no_check") : !c || c.failing ? word(state) : ms(c.ms);
       const tips = c
         ? c.recent.map((r) =>
