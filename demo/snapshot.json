@@ -25,6 +25,7 @@
     { "name": "Home Assistant", "adapter": "homeassistant", "area": "apps", "answered": true },
     { "name": "Paperless-ngx", "adapter": "paperless", "area": "apps", "answered": true },
     { "name": "Nextcloud", "adapter": "nextcloud", "area": "apps", "answered": true },
+    { "name": "Gitea", "adapter": "gitea", "area": "apps", "answered": true },
     { "name": "NUT", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "UniFi", "adapter": "unifi", "area": "network", "answered": true },
     { "name": "Primary DNS", "adapter": "adguard", "area": "network", "kind": "resolver", "answered": true },
@@ -2007,6 +2008,15 @@
       ]
     },
     {
+      "area": "apps",
+      "source": "Gitea",
+      "title": { "key": "gitea.runners" },
+      "rows": [
+        { "title": { "name": "build-runner" }, "value": { "key": "gitea.online" } },
+        { "title": { "name": "pi-runner" }, "value": { "key": "gitea.offline" }, "tone": "red" }
+      ]
+    },
+    {
       "area": "servers",
       "source": "NUT",
       "title": { "key": "nut.ups" },
@@ -2950,6 +2960,17 @@
       "source": "Proxmox",
       "icon": "archive",
       "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-22T00:30:00Z", "ms": 523000 } }
+    },
+    {
+      "at": "2026-10-27T19:12:00Z",
+      "area": "apps",
+      "source": "Gitea",
+      "icon": "pr",
+      "tone": "red",
+      "text": {
+        "key": "gitea.run_failed",
+        "args": { "workflow": "lint.yaml", "repo": "example/stacks", "title": "Give the photos stack its own network" }
+      }
     }
   ],
   "updates": [
@@ -2957,6 +2978,11 @@
       "name": "Photos: Bump ghcr.io/immich-app/immich-server from v3.3.5 to v3.4.0 in /stacks/photos",
       "url": "https://github.com/example/homelab/pull/58",
       "at": "2026-10-28T06:18:00Z"
+    },
+    {
+      "name": "chore(deps): update ghcr.io/paperless-ngx/paperless-ngx docker tag to v3.3.5",
+      "url": "https://git.example.com/example/stacks/pulls/12",
+      "at": "2026-10-27T21:00:00Z"
     },
     {
       "name": "Status: Bump twinproduction/gatus from 5.30.0 to 5.31.1 in /stacks/status",

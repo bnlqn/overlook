@@ -25,7 +25,9 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/checkmate"
 	"github.com/bnlqn/overlook/internal/adapters/docker"
 	"github.com/bnlqn/overlook/internal/adapters/emby"
+	"github.com/bnlqn/overlook/internal/adapters/forgejo"
 	"github.com/bnlqn/overlook/internal/adapters/gatus"
+	"github.com/bnlqn/overlook/internal/adapters/gitea"
 	"github.com/bnlqn/overlook/internal/adapters/github"
 	"github.com/bnlqn/overlook/internal/adapters/grafana"
 	"github.com/bnlqn/overlook/internal/adapters/homeassistant"
@@ -100,6 +102,8 @@ type Sources struct {
 	HomeAssistant []homeassistant.Config `yaml:"homeassistant" icon:"home-assistant.svg"`
 	Paperless     []paperless.Config     `yaml:"paperless" icon:"paperless-ngx.svg"`
 	Nextcloud     []nextcloud.Config     `yaml:"nextcloud" icon:"nextcloud.svg"`
+	Gitea         []gitea.Config         `yaml:"gitea" icon:"gitea.svg"`
+	Forgejo       []forgejo.Config       `yaml:"forgejo" icon:"forgejo.svg"`
 	NUT           []nut.Config           `yaml:"nut" icon:"network-ups-tools.svg"`
 	UniFi         []unifi.Config         `yaml:"unifi" icon:"unifi.png"`
 	AdGuard       []adguard.Config       `yaml:"adguard" icon:"adguard-home.svg"`
@@ -267,6 +271,8 @@ func (c *Config) check() error {
 		add(c, "homeassistant", homeassistant.Area, "", false, c.Sources.HomeAssistant, func(h homeassistant.Config) string { return h.Name }, homeassistant.Read),
 		add(c, "paperless", paperless.Area, "", false, c.Sources.Paperless, func(p paperless.Config) string { return p.Name }, paperless.Read),
 		add(c, "nextcloud", nextcloud.Area, "", false, c.Sources.Nextcloud, func(n nextcloud.Config) string { return n.Name }, nextcloud.Read),
+		add(c, "gitea", gitea.Area, "", false, c.Sources.Gitea, func(g gitea.Config) string { return g.Name }, gitea.Read),
+		add(c, "forgejo", forgejo.Area, "", false, c.Sources.Forgejo, func(f forgejo.Config) string { return f.Name }, forgejo.Read),
 		add(c, "nut", nut.Area, "", false, c.Sources.NUT, func(n nut.Config) string { return n.Name }, nut.Read),
 		add(c, "unifi", unifi.Area, "", false, c.Sources.UniFi, func(u unifi.Config) string { return u.Name }, unifi.Read),
 		add(c, "adguard", adguard.Area, "resolver", false, c.Sources.AdGuard, func(a adguard.Config) string { return a.Name }, adguard.Read),

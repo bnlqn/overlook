@@ -220,6 +220,8 @@ func TestExample(t *testing.T) {
 	t.Setenv("HOMEASSISTANT_TOKEN", "0123abcd")
 	t.Setenv("PAPERLESS_TOKEN", "0123abcd")
 	t.Setenv("NEXTCLOUD_TOKEN", "0123abcd")
+	t.Setenv("GITEA_TOKEN", "0123abcd")
+	t.Setenv("FORGEJO_TOKEN", "0123abcd")
 	t.Setenv("GRAFANA_TOKEN", "glsa_0123abcd")
 	t.Setenv("TAUTULLI_KEY", "0123abcd")
 	t.Setenv("SEERR_KEY", "0123abcd")

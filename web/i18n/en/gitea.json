@@ -1,0 +1,8 @@
+{
+  "gitea.runners": "Runners",
+  "gitea.online": "Online",
+  "gitea.busy": "Running a job",
+  "gitea.disabled": "Disabled",
+  "gitea.offline": "Offline",
+  "gitea.run_failed": "{workflow} failed in {repo}: {title}"
+}

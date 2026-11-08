@@ -167,6 +167,9 @@ func (r *Reader) Snapshot() Snapshot {
 		}
 		snap.Sources = append(snap.Sources, state)
 	}
+	// The updates waiting, newest first, whichever source they wait in, such
+	// as GitHub or Gitea.
+	slices.SortStableFunc(snap.Updates, func(a, b Update) int { return b.At.Compare(a.At) })
 	r.warn(snap.Checks)
 	r.last = snap
 	return snap

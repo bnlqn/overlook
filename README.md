@@ -30,7 +30,8 @@ It reads:
   [Plex, through Tautulli](#plex-through-tautulli), [Radarr](#radarr),
   [Sonarr](#sonarr), [Prowlarr](#prowlarr), [qBittorrent](#qbittorrent),
   [Seerr](#seerr), [Home Assistant](#home-assistant),
-  [Paperless-ngx](#paperless-ngx), [Nextcloud](#nextcloud)
+  [Paperless-ngx](#paperless-ngx), [Nextcloud](#nextcloud), [Gitea](#gitea),
+  [Forgejo](#forgejo)
 - **Chores**: [GitHub](#github), [iCalendar to-do lists](#icalendar-to-do-list)
 
 What it can't read, and why, is under [Can't be read](#cant-be-read).
@@ -70,8 +71,9 @@ an app of its own.
   reads with refuses every other request. Some keys it holds could do
   anything (AdGuard Home has no read-only users, and Radarr's and Sonarr's
   keys are admin keys), and this is what keeps them harmless. Tautulli
-  changes things on GET too, so its adapter sends only the commands that
-  read, from a list its test checks (ADR 0011).
+  changes things on GET too, and Gitea and Forgejo for a few paths, so
+  their adapters send only the commands and paths that read, from a list
+  their tests check (ADR 0011).
 - **It never runs a check or sends an alert.** Your check engine does both.
 - **It remembers nothing.** No database and no volume: it reads every
   source when the page asks, at most every 30 seconds, so an Overlook
@@ -244,7 +246,8 @@ same name in `icons/` beside the config wins over one of them.
 
 **Chores** are what you do while nothing is broken: the ones you keep on a
 to-do list, which the [iCalendar](#icalendar-to-do-list) source reads; the
-updates waiting for your merge, which the [GitHub](#github) source reads;
+updates waiting for your merge, which the [GitHub](#github),
+[Gitea](#gitea) and [Forgejo](#forgejo) sources read;
 the updates waiting to be installed, which the
 [Home Assistant](#home-assistant), [Nextcloud](#nextcloud) and
 [UniFi](#unifi-network) sources read, the batteries to change, from Home
@@ -1217,6 +1220,73 @@ Recorded from a scratch Nextcloud 35.0.2 with invented people and files
 file and the scripts that fill and record it are in the adapter's
 [`testdata`](internal/adapters/nextcloud/testdata).
 
+### Gitea
+
+The updates waiting, as GitHub's are: the open pull requests Renovate
+opened on the repositories you list, chores, never problems. Then, with an
+administrator's token, the Actions runners, on the Apps page, in red when
+one is offline; and each run that failed this week on those repositories,
+in red among the week's events, by its workflow, its repository and the
+commit or pull request that started it.
+
+```yaml
+sources:
+  gitea:
+    - url: http://gitea:3000             # where Overlook reads Gitea
+      repos: [example/homelab, example/website]
+      token: ${GITEA_TOKEN}              # for the runners and private repositories
+      # bots: [renovate]                 # whose pull requests are updates
+```
+
+**Key:** an access token of an administrator, since only one can read the
+runners, from Settings, Applications, with only two scopes, both that read:
+**read:repository** and **read:admin**. It never expires. Without a token,
+Overlook reads public repositories only, and no runners.
+
+Gitea and Forgejo take a few GETs that change something, as Tautulli does:
+Forgejo answers one with a runner's registration token, making one if there
+is none, even for a token that only reads, and anyone with it can register
+a runner of their own, which then runs the jobs and sees their secrets. So
+the GET-only client can't keep this key harmless on its own: what does is
+that the adapter sends only three paths, each of which reads, from one list
+in its code that its test checks (ADR 0011).
+
+Renovate on Gitea runs as a user you made for it: name that user in `bots`
+unless it's `renovate`. Overlook reads the first 50 open pull requests and
+the first 50 failed runs of each repository, with a request of its own for
+each.
+
+Recorded from a scratch Gitea 28.3.0 with two act_runner 0.6.1 runners and
+invented repositories and pull requests (ADR 0008), until someone who runs
+one records it from theirs: the compose file and the scripts that fill and
+record it are in the adapter's [`testdata`](internal/adapters/gitea/testdata).
+
+### Forgejo
+
+As [Gitea](#gitea), which Forgejo was forked from and which it still
+answers like: the updates waiting, as GitHub's are; the Actions runners,
+in red when one is offline; and the runs that failed this week.
+
+```yaml
+sources:
+  forgejo:
+    - url: http://forgejo:3000           # where Overlook reads Forgejo
+      repos: [example/homelab]
+      token: ${FORGEJO_TOKEN}            # for the runners and private repositories
+      # bots: [renovate]                 # whose pull requests are updates
+```
+
+**Key:** as Gitea's: an administrator's access token, from Settings,
+Applications, with only **read:repository** and **read:admin**. Forgejo
+answers a GET for a runner's registration token, which is why the adapter
+sends only the paths on its list (ADR 0011).
+
+Recorded from a scratch Forgejo 17.0.1 with two Forgejo Runner 13.2.1
+runners, filled as Gitea's is (ADR 0008), until someone who runs one
+records it from theirs: the compose file and the scripts that fill and
+record it are in the adapter's
+[`testdata`](internal/adapters/forgejo/testdata).
+
 ### Can't be read
 
 These tools can't be read the way Overlook reads, with GET (ADR 0001), one
@@ -1354,7 +1424,7 @@ more homelabs, taking first what most of them run, as
        moved there from Servers, and Proxmox Backup Server reads its
        datastore's room as a store. Two thirds of homelabs run a NAS, and
        Storage held only PBS before.
-4. [ ] The tools most homelabs run that Overlook can't read yet, each
+4. [x] The tools most homelabs run that Overlook can't read yet, each
        recorded from a scratch instance (ADR 0008), one pull request each:
        [Portainer](https://github.com/bnlqn/overlook/issues/74), which a
        third of them run, [Syncthing](https://github.com/bnlqn/overlook/issues/75),

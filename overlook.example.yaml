@@ -189,6 +189,20 @@ sources:
       token: ${NEXTCLOUD_TOKEN}        # serverinfo's token, as the README says
       # link: https://cloud.example.com # where the page sends you, if not the same
 
+  # The updates waiting, as GitHub's, then the Actions runners and the runs
+  # that failed this week. A token reads only what the README says (ADR 0011).
+  gitea:
+    - url: http://gitea:3000           # where Overlook reads Gitea
+      repos: [example/homelab, example/website]
+      token: ${GITEA_TOKEN}            # an admin's, read:repository and read:admin
+      # bots: [renovate]               # whose pull requests are updates
+
+  # Forgejo, as Gitea.
+  forgejo:
+    - url: http://forgejo:3000         # where Overlook reads Forgejo
+      repos: [example/homelab]
+      token: ${FORGEJO_TOKEN}          # an admin's, read:repository and read:admin
+
   # A UPS, read from NUT's upsd: its power, its battery and what it draws.
   nut:
     - host: ${NUT_HOST}                # where upsd listens, such as nut.example.com or nut.example.com:3493

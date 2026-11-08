@@ -24,6 +24,7 @@
     { "name": "Home Assistant", "adapter": "homeassistant", "area": "apps", "answered": true },
     { "name": "Paperless-ngx", "adapter": "paperless", "area": "apps", "answered": true },
     { "name": "Nextcloud", "adapter": "nextcloud", "area": "apps", "answered": true },
+    { "name": "Forgejo", "adapter": "forgejo", "area": "apps", "answered": true },
     { "name": "Rack UPS", "adapter": "nut", "area": "servers", "answered": true },
     { "name": "Office UPS", "adapter": "nut", "area": "servers", "answered": false, "error": "timeout" },
     { "name": "Primary DNS", "adapter": "adguard", "area": "network", "kind": "resolver", "answered": true },
@@ -6026,6 +6027,26 @@
       ]
     },
     {
+      "area": "apps",
+      "source": "Forgejo",
+      "title": { "key": "gitea.runners" },
+      "rows": [
+        {
+          "title": { "name": "amd64-runner" },
+          "value": { "key": "gitea.busy" },
+          "detail": { "name": "v13.2.1" },
+          "tone": "blue"
+        },
+        { "title": { "name": "arm64-runner" }, "value": { "key": "gitea.online" }, "detail": { "name": "v13.2.1" } },
+        {
+          "title": { "name": "gpu-runner" },
+          "value": { "key": "gitea.offline" },
+          "detail": { "name": "v12.6.0" },
+          "tone": "red"
+        }
+      ]
+    },
+    {
       "area": "servers",
       "source": "Rack UPS",
       "title": { "key": "nut.ups" },
@@ -8167,6 +8188,32 @@
       "source": "Vault",
       "icon": "archive",
       "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-22T01:15:00Z", "ms": 2544000 } }
+    },
+    {
+      "at": "2026-10-28T07:41:00Z",
+      "area": "apps",
+      "source": "Forgejo",
+      "icon": "pr",
+      "tone": "red",
+      "text": {
+        "key": "gitea.run_failed",
+        "args": { "workflow": "build.yaml", "repo": "family/recipes", "title": "Add the bread recipes" }
+      }
+    },
+    {
+      "at": "2026-10-25T16:03:00Z",
+      "area": "apps",
+      "source": "Forgejo",
+      "icon": "pr",
+      "tone": "red",
+      "text": {
+        "key": "gitea.run_failed",
+        "args": {
+          "workflow": "deploy.yaml",
+          "repo": "homelab/stacks",
+          "title": "fix(deps): update dependency traefik to v3.7.2"
+        }
+      }
     }
   ],
   "updates": [

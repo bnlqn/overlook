@@ -228,6 +228,8 @@
   "setup.adapter.homeassistant": "Home Assistant",
   "setup.adapter.paperless": "Paperless-ngx",
   "setup.adapter.nextcloud": "Nextcloud",
+  "setup.adapter.gitea": "Gitea",
+  "setup.adapter.forgejo": "Forgejo",
   "setup.adapter.nut": "NUT",
   "setup.adapter.unifi": "UniFi Network",
   "setup.adapter.adguard": "AdGuard Home",
