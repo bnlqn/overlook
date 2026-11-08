@@ -23,6 +23,9 @@ import (
 // Area is the adapter's home area.
 const Area = "apps"
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "nextcloud", Area: Area, Read: Read}
+
 // Config is one Nextcloud, under sources.nextcloud in overlook.yaml.
 type Config struct {
 	Name string `yaml:"name" setup:"text,optional"`

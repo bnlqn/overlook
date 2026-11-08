@@ -72,9 +72,12 @@ type Config struct {
 }
 
 // Sources are the sources to read, by adapter: each adapter's own config.
-// An adapter's key is written twice, in its tag and in its add line, on
-// purpose: the strict decoder needs a field for it, and reading the key
-// from the tag would take reflection, which no compiler checks. Its icon:
+// An adapter's key is written twice, in its tag and in its package's
+// Adapter, on purpose: the strict decoder needs a field for it, whose key
+// is its tag, and decoding sources: by the adapters' keys instead would
+// take reflection, or lose yaml's own errors, since a yaml node doesn't
+// decode strictly. TestSources, in setup_test.go, holds each field's tag,
+// type and place to its adapter's. Its icon:
 // tag is its logo on the setup page, a file in web/icons that the server's
 // test checks; an iCalendar list, served by many programs, has none.
 type Sources struct {
@@ -115,26 +118,47 @@ type Sources struct {
 // them.
 func (c Config) Readers() []snapshot.Source { return c.readers }
 
-// add checks the sources under sources.<key>, which list holds, and keeps
-// each with its adapter's read, its home area and kind, if it has them, and
-// whether it gives stores or backup runs, which go in Storage (ADR 0016).
-// Each source's name must be its own.
+// add checks the sources under sources.<a.Key>, which list holds, and keeps
+// each with a's read and what a says it is. Each source's name must be its
+// own.
 func add[C any, P interface {
 	*C
 	Check() error
-}](c *Config, key, area, kind string, storage bool, list []C, name func(C) string, read func(context.Context, C, time.Time) (snapshot.Parts, error)) error {
-	c.adapters = append(c.adapters, Adapter{Key: key, Area: area, Kind: kind, config: reflect.TypeFor[C]()})
+}](c *Config, a snapshot.Adapter[C], list []C) error {
+	c.adapters = append(c.adapters, Adapter{Key: a.Key, Area: a.Area, Kind: a.Kind, Storage: a.Storage, config: reflect.TypeFor[C]()})
 	for i := range list {
 		if err := P(&list[i]).Check(); err != nil {
-			return fmt.Errorf("sources.%s[%d]: %w", key, i, err)
+			return fmt.Errorf("sources.%s[%d]: %w", a.Key, i, err)
 		}
-		src, n := list[i], name(list[i])
+		src, n := list[i], name(reflect.ValueOf(list[i]))
 		if slices.ContainsFunc(c.readers, func(s snapshot.Source) bool { return s.Name == n }) {
-			return fmt.Errorf("sources.%s[%d]: another source is named %s: give each a name", key, i, n)
+			return fmt.Errorf("sources.%s[%d]: another source is named %s: give each a name", a.Key, i, n)
 		}
-		c.readers = append(c.readers, snapshot.Source{Name: n, Adapter: key, Area: area, Kind: kind, Storage: storage, Read: func(ctx context.Context, now time.Time) (snapshot.Parts, error) { return read(ctx, src, now) }})
+		c.readers = append(c.readers, snapshot.Source{Name: n, Adapter: a.Key, Area: a.Area, Kind: a.Kind, Storage: a.Storage, Read: func(ctx context.Context, now time.Time) (snapshot.Parts, error) { return a.Read(ctx, src, now) }})
 	}
 	return nil
+}
+
+// name is the name of the source configured as v, once its Check has filled
+// the default: its field tagged yaml:"name", or that of the inline config
+// that holds it, as servarr.Config does for Radarr. It is found by its tag,
+// as the setup page finds every field it asks for, because it is the same
+// field in every adapter's config, where TestName, in setup_test.go, reads
+// it.
+func name(v reflect.Value) string {
+	for i := range v.NumField() {
+		f := v.Type().Field(i)
+		if f.Anonymous && f.Type.Kind() == reflect.Struct {
+			if n := name(v.Field(i)); n != "" {
+				return n
+			}
+			continue
+		}
+		if strings.Split(f.Tag.Get("yaml"), ",")[0] == "name" {
+			return v.Field(i).String()
+		}
+	}
+	return ""
 }
 
 var (
@@ -245,39 +269,41 @@ func interpolate(n *yaml.Node, env map[string]string) error {
 
 // check fills the defaults and refuses what can't work.
 func (c *Config) check() error {
-	// The first refusal, in the order of Sources.
+	// The first refusal, in the order of Sources, which is the page's: each
+	// area's sections, figures and events come in it, and the setup page
+	// offers the adapters in it.
 	if err := cmp.Or(
-		add(c, "gatus", "", "checkengine", false, c.Sources.Gatus, func(g gatus.Config) string { return g.Name }, gatus.Read),
-		add(c, "uptimekuma", "", "checkengine", false, c.Sources.UptimeKuma, func(u uptimekuma.Config) string { return u.Name }, uptimekuma.Read),
-		add(c, "grafana", "", "checkengine", false, c.Sources.Grafana, func(g grafana.Config) string { return g.Name }, grafana.Read),
-		add(c, "prometheus", "", "checkengine", false, c.Sources.Prometheus, func(p prometheus.Config) string { return p.Name }, prometheus.Read),
-		add(c, "checkmate", "", "checkengine", false, c.Sources.Checkmate, func(m checkmate.Config) string { return m.Name }, checkmate.Read),
-		add(c, "github", "", "", false, c.Sources.GitHub, func(g github.Config) string { return g.Name }, github.Read),
-		add(c, "immich", immich.Area, "", false, c.Sources.Immich, func(im immich.Config) string { return im.Name }, immich.Read),
-		add(c, "pbs", pbs.Area, "", true, c.Sources.PBS, func(b pbs.Config) string { return b.Name }, pbs.Read),
-		add(c, "syncthing", syncthing.Area, "", false, c.Sources.Syncthing, func(s syncthing.Config) string { return s.Name }, syncthing.Read),
-		add(c, "proxmox", proxmox.Area, "", true, c.Sources.Proxmox, func(p proxmox.Config) string { return p.Name }, proxmox.Read),
-		add(c, "beszel", beszel.Area, "", false, c.Sources.Beszel, func(b beszel.Config) string { return b.Name }, beszel.Read),
-		add(c, "docker", docker.Area, "", false, c.Sources.Docker, func(d docker.Config) string { return d.Name }, docker.Read),
-		add(c, "portainer", portainer.Area, "", false, c.Sources.Portainer, func(p portainer.Config) string { return p.Name }, portainer.Read),
-		add(c, "radarr", radarr.Area, "", false, c.Sources.Radarr, func(r radarr.Config) string { return r.Name }, radarr.Read),
-		add(c, "sonarr", sonarr.Area, "", false, c.Sources.Sonarr, func(s sonarr.Config) string { return s.Name }, sonarr.Read),
-		add(c, "prowlarr", prowlarr.Area, "", false, c.Sources.Prowlarr, func(p prowlarr.Config) string { return p.Name }, prowlarr.Read),
-		add(c, "qbittorrent", qbittorrent.Area, "", false, c.Sources.QBittorrent, func(q qbittorrent.Config) string { return q.Name }, qbittorrent.Read),
-		add(c, "jellyfin", jellyfin.Area, "mediaserver", false, c.Sources.Jellyfin, func(j jellyfin.Config) string { return j.Name }, jellyfin.Read),
-		add(c, "emby", emby.Area, "mediaserver", false, c.Sources.Emby, func(e emby.Config) string { return e.Name }, emby.Read),
-		add(c, "tautulli", tautulli.Area, "mediaserver", false, c.Sources.Tautulli, func(t tautulli.Config) string { return t.Name }, tautulli.Read),
-		add(c, "seerr", seerr.Area, "", false, c.Sources.Seerr, func(s seerr.Config) string { return s.Name }, seerr.Read),
-		add(c, "homeassistant", homeassistant.Area, "", false, c.Sources.HomeAssistant, func(h homeassistant.Config) string { return h.Name }, homeassistant.Read),
-		add(c, "paperless", paperless.Area, "", false, c.Sources.Paperless, func(p paperless.Config) string { return p.Name }, paperless.Read),
-		add(c, "nextcloud", nextcloud.Area, "", false, c.Sources.Nextcloud, func(n nextcloud.Config) string { return n.Name }, nextcloud.Read),
-		add(c, "gitea", gitea.Area, "", false, c.Sources.Gitea, func(g gitea.Config) string { return g.Name }, gitea.Read),
-		add(c, "forgejo", forgejo.Area, "", false, c.Sources.Forgejo, func(f forgejo.Config) string { return f.Name }, forgejo.Read),
-		add(c, "nut", nut.Area, "", false, c.Sources.NUT, func(n nut.Config) string { return n.Name }, nut.Read),
-		add(c, "unifi", unifi.Area, "", false, c.Sources.UniFi, func(u unifi.Config) string { return u.Name }, unifi.Read),
-		add(c, "adguard", adguard.Area, "resolver", false, c.Sources.AdGuard, func(a adguard.Config) string { return a.Name }, adguard.Read),
-		add(c, "pihole", pihole.Area, "resolver", false, c.Sources.PiHole, func(p pihole.Config) string { return p.Name }, pihole.Read),
-		add(c, "ical", "", "todolist", false, c.Sources.Ical, func(i ical.Config) string { return i.Name }, ical.Read),
+		add(c, gatus.Adapter, c.Sources.Gatus),
+		add(c, uptimekuma.Adapter, c.Sources.UptimeKuma),
+		add(c, grafana.Adapter, c.Sources.Grafana),
+		add(c, prometheus.Adapter, c.Sources.Prometheus),
+		add(c, checkmate.Adapter, c.Sources.Checkmate),
+		add(c, github.Adapter, c.Sources.GitHub),
+		add(c, immich.Adapter, c.Sources.Immich),
+		add(c, pbs.Adapter, c.Sources.PBS),
+		add(c, syncthing.Adapter, c.Sources.Syncthing),
+		add(c, proxmox.Adapter, c.Sources.Proxmox),
+		add(c, beszel.Adapter, c.Sources.Beszel),
+		add(c, docker.Adapter, c.Sources.Docker),
+		add(c, portainer.Adapter, c.Sources.Portainer),
+		add(c, radarr.Adapter, c.Sources.Radarr),
+		add(c, sonarr.Adapter, c.Sources.Sonarr),
+		add(c, prowlarr.Adapter, c.Sources.Prowlarr),
+		add(c, qbittorrent.Adapter, c.Sources.QBittorrent),
+		add(c, jellyfin.Adapter, c.Sources.Jellyfin),
+		add(c, emby.Adapter, c.Sources.Emby),
+		add(c, tautulli.Adapter, c.Sources.Tautulli),
+		add(c, seerr.Adapter, c.Sources.Seerr),
+		add(c, homeassistant.Adapter, c.Sources.HomeAssistant),
+		add(c, paperless.Adapter, c.Sources.Paperless),
+		add(c, nextcloud.Adapter, c.Sources.Nextcloud),
+		add(c, gitea.Adapter, c.Sources.Gitea),
+		add(c, forgejo.Adapter, c.Sources.Forgejo),
+		add(c, nut.Adapter, c.Sources.NUT),
+		add(c, unifi.Adapter, c.Sources.UniFi),
+		add(c, adguard.Adapter, c.Sources.AdGuard),
+		add(c, pihole.Adapter, c.Sources.PiHole),
+		add(c, ical.Adapter, c.Sources.Ical),
 	); err != nil {
 		return err
 	}

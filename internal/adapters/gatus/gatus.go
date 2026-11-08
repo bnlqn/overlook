@@ -17,6 +17,9 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "gatus", Kind: "checkengine", Read: Read}
+
 // Config is one Gatus, under sources.gatus in overlook.yaml.
 type Config struct {
 	Name string `yaml:"name" setup:"text,optional"`

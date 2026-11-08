@@ -20,6 +20,9 @@ import (
 	"github.com/bnlqn/overlook/internal/snapshot"
 )
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "checkmate", Kind: "checkengine", Read: Read}
+
 // Config is one Checkmate, under sources.checkmate in overlook.yaml.
 type Config struct {
 	Name string `yaml:"name" setup:"text,optional"`

@@ -24,6 +24,9 @@ import (
 // Area is the adapter's home area.
 const Area = "network"
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "unifi", Area: Area, Read: Read}
+
 // integration is where the console serves the Network application's
 // documented API. older is where it serves the API before it, which nothing
 // documents, but which alone says how the WANs are and whether the

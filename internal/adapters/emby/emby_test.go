@@ -29,7 +29,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, Area, p)
+	adaptertest.Validate(t, Adapter, p)
 	for _, r := range src.Sent() {
 		if r.Header.Get("X-Emby-Token") != "0123abcd" {
 			t.Errorf("%s: read without the key", r.URL)

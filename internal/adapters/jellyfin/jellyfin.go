@@ -15,6 +15,9 @@ import (
 // Area is the adapter's home area.
 const Area = mediabrowser.Area
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "jellyfin", Area: Area, Kind: "mediaserver", Read: Read}
+
 // Config is one Jellyfin, under sources.jellyfin in overlook.yaml.
 type Config struct {
 	mediabrowser.Config `yaml:",inline" example:"http://jellyfin.example.com:8096"`

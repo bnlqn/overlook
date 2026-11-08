@@ -85,30 +85,54 @@ func TestProblems(t *testing.T) {
 func TestStrays(t *testing.T) {
 	t.Parallel()
 	name := snapshot.Text{Name: "x"}
+	apps := snapshot.Adapter[struct{}]{Key: "attic", Area: "apps"}
 	p := snapshot.Parts{
 		Sections: []snapshot.Section{{Area: "apps", Title: name}, {Area: "network", Title: name}},
 		Figures:  []snapshot.Figure{{Area: "apps", Label: name}},
-		Checks:   []snapshot.Check{{Area: "network"}},
 	}
-	if got := strays("apps", p); len(got) != 1 || !strings.Contains(got[0], `in "network", but it goes in "apps"`) {
-		t.Errorf("want the section in another area refused, and not the check: %q", got)
+	if got := strays(apps, p); len(got) != 1 || !strings.Contains(got[0], `in "network", but it goes in "apps"`) {
+		t.Errorf("want the section in another area refused: %q", got)
 	}
-	if got := strays("", p); len(got) != 3 {
+	if got := strays(snapshot.Adapter[struct{}]{Key: "attic"}, p); len(got) != 3 {
 		t.Errorf("want every part of an adapter with no home area refused, got %d: %q", len(got), got)
 	}
 
-	// Stores and backup runs go in Storage, whatever the home area.
+	// Only a check engine gives checks, which go in their own areas.
+	checks := snapshot.Parts{Checks: []snapshot.Check{{Area: "network"}, {}}}
+	if got := strays(snapshot.Adapter[struct{}]{Key: "gatus", Kind: "checkengine"}, checks); len(got) != 0 {
+		t.Errorf("want a check engine's checks let into their areas: %q", got)
+	}
+	if got := strays(apps, checks); len(got) != 1 || !strings.Contains(got[0], "2 checks, but attic isn't a check engine") {
+		t.Errorf("want checks from an adapter that isn't a check engine refused: %q", got)
+	}
+
+	// Stores and backup runs go in Storage, whatever the home area, from an
+	// adapter that says it gives them.
 	now := time.Now()
 	storage := snapshot.Stores{{Name: name, Healthy: true}}.Parts()
 	runs := snapshot.BackupRuns{{Start: now, Backups: 1}}.Parts(now)
 	storage.Sections = append(storage.Sections, runs.Sections...)
 	storage.Events = runs.Events
-	if got := strays("servers", storage); len(got) != 0 {
+	servers := snapshot.Adapter[struct{}]{Key: "proxmox", Area: "servers", Storage: true}
+	if got := strays(servers, storage); len(got) != 0 {
 		t.Errorf("want stores and backup runs let into Storage: %q", got)
 	}
+	if got := strays(snapshot.Adapter[struct{}]{Key: "attic", Area: "servers"}, storage); len(got) != len(storage.Sections)+len(storage.Events) || !strings.Contains(got[0], "attic doesn't say it gives them") {
+		t.Errorf("want each store and backup run refused from an adapter that doesn't say it gives them: %q", got)
+	}
 	storage.Sections[0].Area = "servers"
-	if got := strays("servers", storage); len(got) != 1 || !strings.Contains(got[0], `store.section: in "servers", but it goes in "storage"`) {
+	if got := strays(servers, storage); len(got) != 1 || !strings.Contains(got[0], `store.section: in "servers", but it goes in "storage"`) {
 		t.Errorf("want a store outside Storage refused, even in the home area: %q", got)
+	}
+
+	// Only a resolver gives a resolver's parts, and only a media server a
+	// media server's.
+	lookups := snapshot.Parts{Figures: []snapshot.Figure{{Area: "network", Label: snapshot.Text{Key: "resolver.dns_lookups"}}}}
+	if got := strays(snapshot.Adapter[struct{}]{Key: "adguard", Area: "network", Kind: "resolver"}, lookups); len(got) != 0 {
+		t.Errorf("want a resolver's lookups let in: %q", got)
+	}
+	if got := strays(snapshot.Adapter[struct{}]{Key: "unifi", Area: "network"}, lookups); len(got) != 1 || !strings.Contains(got[0], "a resolver's, but unifi isn't one") {
+		t.Errorf("want a resolver's part refused from an adapter that isn't one: %q", got)
 	}
 }
 
@@ -153,7 +177,7 @@ func TestStorageWords(t *testing.T) {
 	q := runs.Parts(now)
 	p.Sections = append(p.Sections, q.Sections...)
 	p.Events = q.Events
-	for _, problem := range append(Problems(p, english), strays("servers", p)...) {
+	for _, problem := range append(Problems(p, english), strays(snapshot.Adapter[struct{}]{Key: "proxmox", Area: "servers", Storage: true}, p)...) {
 		t.Error(problem)
 	}
 	if len(p.Events) != len(runs) || len(q.Sections[0].Rows) != len(runs) {

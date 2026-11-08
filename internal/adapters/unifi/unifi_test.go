@@ -31,7 +31,7 @@ func replay(t *testing.T, edits ...string) snapshot.Parts {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, Area, p)
+	adaptertest.Validate(t, Adapter, p)
 	for _, r := range src.Sent() {
 		if r.Header.Get("X-Api-Key") != "0123abcd" {
 			t.Errorf("%s: read without the key", r.URL)
@@ -170,7 +170,7 @@ func TestPartsSitesAndStates(t *testing.T) {
 			devices: []device{{ID: "2", Name: "ap-loft", Model: "U6 Mesh", State: "CONNECTION_INTERRUPTED"}, {ID: "3", Name: "sw", State: "SOMETHING_NEW"}},
 		},
 	}, nil, nil, "https://unifi.example.com", recorded)
-	adaptertest.Validate(t, Area, p)
+	adaptertest.Validate(t, Adapter, p)
 
 	var titles []string
 	for _, s := range p.Sections {

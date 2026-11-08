@@ -54,14 +54,17 @@ _Avoid_: Service, integration, endpoint
 **Adapter**:
 The part of Overlook that reads the sources of one program, such as AdGuard
 Home, and gives back their facts in Overlook's own shapes. Two AdGuard Home
-resolvers are two sources read by one adapter. Each adapter has a fixed home
-area, but a check engine's checks go in every area, stores and backup runs
-go in Storage, and chores go in none.
+resolvers are two sources read by one adapter. Each adapter has at most one
+home area, fixed, and none when its parts go in every area or in none, as a
+check engine's and GitHub's do. A check engine's checks go in every area,
+stores and backup runs go in Storage, and chores go in none.
 _Avoid_: Widget, plugin, integration
 
 **Kind**:
 What a source is for, whichever adapter reads it: a check engine, a to-do
-list, a resolver or a media server. A source has at most one.
+list, a resolver or a media server. A source has at most one, its adapter's:
+a program that is two things, such as Nextcloud and its to-do lists, is read
+by two adapters.
 _Avoid_: Type, category, role
 
 **Check engine**:

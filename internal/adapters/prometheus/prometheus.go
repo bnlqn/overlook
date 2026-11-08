@@ -27,6 +27,9 @@ import (
 // shows on the week, read the week at the rules' interval.
 const weekStep = 5 * time.Minute
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "prometheus", Kind: "checkengine", Read: Read}
+
 // Config is one Prometheus, under sources.prometheus in overlook.yaml.
 type Config struct {
 	Name string `yaml:"name" setup:"text,optional"`
