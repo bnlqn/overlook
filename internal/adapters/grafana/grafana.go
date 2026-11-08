@@ -22,6 +22,9 @@ import (
 // week is how far back the state history is read, for this week's problems.
 const week = 7 * 24 * time.Hour
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "grafana", Kind: "checkengine", Read: Read}
+
 // Config is one Grafana, under sources.grafana in overlook.yaml.
 type Config struct {
 	Name string `yaml:"name" setup:"text,optional"`

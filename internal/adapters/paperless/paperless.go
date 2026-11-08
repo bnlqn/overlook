@@ -17,6 +17,9 @@ import (
 // Area is the adapter's home area.
 const Area = "apps"
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "paperless", Area: Area, Read: Read}
+
 // version is the version of Paperless-ngx's API whose answers the adapter
 // reads, asked for by name so that a newer default doesn't change them.
 const version = "10"

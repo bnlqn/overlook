@@ -21,6 +21,9 @@ import (
 // Area is the adapter's home area.
 const Area = "apps"
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "homeassistant", Area: Area, Read: Read}
+
 // low is the charge, in percent, below which a battery is a chore.
 const low = 20
 

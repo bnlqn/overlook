@@ -26,7 +26,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, Area, p)
+	adaptertest.Validate(t, Adapter, p)
 	for _, r := range src.Sent() {
 		if r.Header.Get("X-Api-Key") != "ptr_example" {
 			t.Errorf("%s: read without the key", r.URL)
@@ -78,7 +78,7 @@ func TestReadNewer(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, Area, p)
+	adaptertest.Validate(t, Adapter, p)
 	rows := p.Sections[0].Rows
 	if v := rows[len(rows)-1]; v.Value.Key != "version.newer" || v.Value.Args["version"] != "2.46.0" ||
 		v.Tone != "orange" || v.Detail.Name != "2.45.3" {
@@ -94,7 +94,7 @@ func TestParts(t *testing.T) {
 	k8s := environment{Name: "cluster", Type: 6, Status: 2}
 
 	p := parts([]environment{edge, k8s}, version{Version: "2.45.3"})
-	adaptertest.Validate(t, Area, p)
+	adaptertest.Validate(t, Adapter, p)
 	rows := p.Sections[0].Rows
 	if rows[1].Title.Name != "garage" || rows[1].Value.Key != "portainer.down" {
 		t.Errorf("an Edge agent that stopped calling is down: %+v", rows[1])
@@ -109,7 +109,7 @@ func TestParts(t *testing.T) {
 	edge.Heartbeat = true
 	k8s.Status = 1
 	p = parts([]environment{edge, k8s}, version{Version: "2.45.3"})
-	adaptertest.Validate(t, Area, p)
+	adaptertest.Validate(t, Adapter, p)
 	rows = p.Sections[0].Rows
 	if rows[1].Value.Args["running"] != 3 || rows[1].Detail.Key != "portainer.stacks" || rows[1].Tone != "" {
 		t.Errorf("an Edge agent that calls is up, 3 running, 2 stacks: %+v", rows[1])

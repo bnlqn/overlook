@@ -37,7 +37,7 @@ func read(t *testing.T, edits ...string) (map[string]snapshot.Check, []adapterte
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, "", p)
+	adaptertest.Validate(t, Adapter, p)
 	by := map[string]snapshot.Check{}
 	for _, ch := range p.Checks {
 		by[ch.Name] = ch

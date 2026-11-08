@@ -21,6 +21,9 @@ import (
 // Area is the adapter's home area.
 const Area = "servers"
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "portainer", Area: Area, Read: Read}
+
 // Config is one Portainer, under sources.portainer in overlook.yaml.
 type Config struct {
 	Name string `yaml:"name" setup:"text,optional"`

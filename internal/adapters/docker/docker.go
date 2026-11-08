@@ -19,6 +19,9 @@ import (
 // Area is the adapter's home area.
 const Area = "servers"
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "docker", Area: Area, Read: Read}
+
 // api is the version of Docker's API read, which Docker 25 and later speak:
 // asking for it keeps the answer's shape whatever the engine's version.
 const api = "/v1.44"

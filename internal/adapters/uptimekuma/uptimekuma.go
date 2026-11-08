@@ -26,6 +26,9 @@ const (
 	maintenance = 3
 )
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "uptimekuma", Kind: "checkengine", Read: Read}
+
 // Config is one Uptime Kuma, under sources.uptimekuma in overlook.yaml.
 type Config struct {
 	Name string `yaml:"name" setup:"text,optional"`

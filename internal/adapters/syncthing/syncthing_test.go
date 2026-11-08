@@ -31,7 +31,7 @@ func TestRead(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, Area, p)
+	adaptertest.Validate(t, Adapter, p)
 	for _, r := range src.Sent() {
 		if r.Header.Get("X-Api-Key") != "0123abcd" {
 			t.Errorf("%s: read without the key", r.URL)
@@ -116,7 +116,7 @@ func TestReadNewer(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	adaptertest.Validate(t, Area, p)
+	adaptertest.Validate(t, Adapter, p)
 	if v := p.Sections[1].Rows[2]; v.Value.Key != "version.newer" || v.Value.Args["version"] != "v2.1.8" ||
 		v.Tone != "orange" || v.Detail.Name != "v2.1.7" {
 		t.Errorf("v2.1.8 is out, in orange, over v2.1.7: %+v", v)
@@ -139,7 +139,7 @@ func TestParts(t *testing.T) {
 		}{"ABCDEFG-HIJKLMN": {}},
 	}
 	p := parts(r, "http://syncthing.example.com:8384", recorded)
-	adaptertest.Validate(t, Area, p)
+	adaptertest.Validate(t, Adapter, p)
 	rows := p.Sections[0].Rows
 	if rows[0].Value.Key != "syncthing.out_of_sync" || rows[0].Value.Args["percent"] != 99.0 || rows[0].Tone != "orange" {
 		t.Errorf("a byte short is 99%%, out of sync: %+v", rows[0])

@@ -27,6 +27,9 @@ import (
 // Area is the adapter's home area.
 const Area = "apps"
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "gitea", Area: Area, Read: Read}
+
 // reads are the only paths the adapter sends Gitea or Forgejo, each of
 // which reads. Their APIs take a GET that changes something too: Forgejo
 // answers one with a runner's registration token, making one if there's

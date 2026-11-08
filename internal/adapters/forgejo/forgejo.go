@@ -14,6 +14,9 @@ import (
 // Area is the adapter's home area.
 const Area = gitea.Area
 
+// Adapter says what this adapter is, for the config and its test.
+var Adapter = snapshot.Adapter[Config]{Key: "forgejo", Area: Area, Read: Read}
+
 // Config is one Forgejo, under sources.forgejo in overlook.yaml.
 type Config struct {
 	gitea.Config `yaml:",inline" example:"http://forgejo.example.com:3000"`
