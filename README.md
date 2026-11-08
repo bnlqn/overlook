@@ -10,7 +10,9 @@ Your whole homelab on one page, laid out for you.
 
 What's wrong, how each area of the homelab is, and what it did today and
 this week, on a page that is the same for every homelab. Overlook reads
-the tools you already run and changes nothing.
+the tools you already run and changes nothing. If you
+[turn on MCP](#agents-through-mcp), your AI agent can ask it what the page
+shows, and can't change anything either.
 [See the demo](https://bnlqn.github.io/overlook/), drawn from a homelab
 that doesn't exist.
 
