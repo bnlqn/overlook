@@ -212,6 +212,7 @@ func TestExample(t *testing.T) {
 	t.Setenv("RADARR_KEY", "0123abcd")
 	t.Setenv("SONARR_KEY", "4567efab")
 	t.Setenv("PROWLARR_KEY", "89abcdef")
+	t.Setenv("PORTAINER_KEY", "ptr_0123abcd")
 	t.Setenv("QBITTORRENT_KEY", "qbt_0123abcd")
 	t.Setenv("JELLYFIN_KEY", "0123abcd")
 	t.Setenv("EMBY_KEY", "0123abcd")

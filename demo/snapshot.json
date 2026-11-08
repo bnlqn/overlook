@@ -12,6 +12,7 @@
     { "name": "Proxmox", "adapter": "proxmox", "area": "servers", "storage": true, "answered": true },
     { "name": "Beszel", "adapter": "beszel", "area": "servers", "answered": true },
     { "name": "Docker", "adapter": "docker", "area": "servers", "answered": true },
+    { "name": "Portainer", "adapter": "portainer", "area": "servers", "answered": true },
     { "name": "Radarr", "adapter": "radarr", "area": "apps", "answered": true },
     { "name": "Sonarr", "adapter": "sonarr", "area": "apps", "answered": true },
     { "name": "Prowlarr", "adapter": "prowlarr", "area": "apps", "answered": true },
@@ -1631,6 +1632,31 @@
       ]
     },
     {
+      "area": "servers",
+      "source": "Portainer",
+      "title": { "key": "portainer.environments" },
+      "rows": [
+        {
+          "title": { "name": "cloud-vps" },
+          "value": { "key": "portainer.running", "args": { "running": 6, "n": 6 } },
+          "detail": { "key": "portainer.stacks", "args": { "n": 2 } }
+        },
+        {
+          "title": { "name": "garage-pi" },
+          "value": { "key": "portainer.down" },
+          "detail": { "key": "portainer.last_seen", "args": { "at": "2026-10-28T08:55:00Z" } },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "nas" },
+          "value": { "key": "portainer.running", "args": { "running": 12, "n": 14 } },
+          "detail": { "key": "portainer.unhealthy_stacks", "args": { "unhealthy": 1, "n": 4 } },
+          "tone": "orange"
+        },
+        { "title": { "key": "portainer.version" }, "value": { "name": "2.45.3" } }
+      ]
+    },
+    {
       "area": "apps",
       "source": "Radarr",
       "title": { "key": "radarr.films" },
@@ -2588,6 +2614,17 @@
       "value": 7,
       "unit": { "key": "docker.of_running", "args": { "n": 9 } },
       "detail": { "key": "docker.unhealthy_n", "args": { "n": 0 } },
+      "tone": "orange",
+      "adds": true
+    },
+    {
+      "area": "servers",
+      "source": "Portainer",
+      "icon": "box",
+      "label": { "key": "docker.containers" },
+      "value": 18,
+      "unit": { "key": "docker.of_running", "args": { "n": 20 } },
+      "detail": { "key": "docker.unhealthy_n", "args": { "n": 1 } },
       "tone": "orange",
       "adds": true
     },

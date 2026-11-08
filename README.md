@@ -20,7 +20,7 @@ It reads:
   [Grafana](#grafana), [Prometheus and Alertmanager](#prometheus-and-alertmanager),
   [Checkmate](#checkmate)
 - **Servers**: [Proxmox VE](#proxmox-ve), [Beszel](#beszel),
-  [Docker](#docker), [NUT](#nut)
+  [Docker](#docker), [Portainer](#portainer), [NUT](#nut)
 - **Network**: [UniFi Network](#unifi-network), [AdGuard Home](#adguard-home),
   [Pi-hole](#pi-hole)
 - **Storage**: [Proxmox Backup Server](#proxmox-backup-server), and the
@@ -882,6 +882,51 @@ services:
 
 Overlook reads only the list of containers, never a container's own
 details, which hold its environment and so its keys.
+
+### Portainer
+
+Each environment Portainer manages, in Servers: down in red, with when
+Portainer last saw it, or its containers running, of all, in orange while
+one fails its health check, and its stacks, whoever started them; then
+Portainer's version, and whether a newer one is out. Today's containers add
+up with every Docker engine's, and those of an environment that's down
+don't count.
+
+```yaml
+sources:
+  portainer:
+    - url: https://portainer:9443      # where Overlook reads Portainer
+      key: ${PORTAINER_KEY}
+      ca: /etc/overlook/portainer.pem  # Portainer's own certificate
+      server_name: localhost           # the name it's for
+```
+
+**Key:** an access token of a user of Overlook's own. As an administrator,
+add the user in Users, not as an administrator, and give it only the
+environments to show, in each one's Manage access; then log in as it, and
+add the token in My account, Access tokens. The token never expires.
+Portainer CE has no role that only reads, so that user could change
+containers in those environments; what keeps it harmless is that Overlook
+sends only GET requests (ADR 0001). On Portainer Business, give it the
+role **Read-only user**. Overlook reads only the list of environments and
+Portainer's version, never a container through Portainer, whose answer
+holds its environment and so its keys.
+
+**Certificate:** Portainer signs its own, on port 9443, for `localhost`.
+Save it with
+`openssl s_client -connect portainer.example.com:9443 </dev/null | openssl x509 >portainer.pem`,
+give it as `ca` and name `localhost` as `server_name`. With a certificate of
+your own, or Portainer over HTTP on port 9000, you need neither.
+
+The counts come from the snapshot Portainer takes of each environment,
+every five minutes unless you changed it in Settings, so a container can
+take that long to count. An Edge agent's environment is up while the agent
+calls Portainer. A Kubernetes environment shows only whether it's up.
+
+Recorded from a scratch Portainer CE 2.45.3 managing two Docker engines with
+invented containers (ADR 0008), until someone who runs one records it from
+theirs: the compose file and the scripts that fill and record it are in the
+adapter's [`testdata`](internal/adapters/portainer/testdata).
 
 ### Prowlarr
 
