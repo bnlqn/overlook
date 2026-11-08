@@ -146,7 +146,8 @@ export function bytes(n) {
 export const ms = (v) => (v === null || v === undefined ? "" : v < 1 ? t("ms.under") : t("ms", { n: Math.round(v) }));
 
 // The formats a message's {name:format} can ask for.
-// A list is of names as written, areas of the page's areas, a choice of links.
+// A list is of names as written, areas of the page's areas, a choice of links;
+// an adapter is its key, named as the setup page names it.
 const FORMAT = {
   span,
   when: (d) => when(d, moment),
@@ -155,6 +156,7 @@ const FORMAT = {
   bytes,
   ms,
   area: (a) => t(`area.${a}`),
+  adapter: (key) => t(`setup.adapter.${key}`),
   areas: (areas) => list(areas.map((a) => t(`area.${a}`))),
   list: (names) => list(names.map(esc)),
   // A choice of links, each a text and its address: "a, b or c".

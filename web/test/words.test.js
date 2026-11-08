@@ -62,14 +62,10 @@ test("every message the page names is in the English table", () => {
     ...AREAS.map((a) => `area.${a}`),
     ...["up", "degraded", "failing", "down", "unknown"].map((s) => `state.${s}`),
     ...["down", "degraded"].flatMap((s) => [`status.areas_${s}`, `status.every_${s}`]),
-    // The setup page's groups past the areas; its adapters' and fields'
-    // words are checked by the server's tests, which know them.
+    // The setup page's groups past the areas; its adapters', fields' and
+    // failures' words are checked by the server's tests, which know them.
     "setup.group.checkengines",
     "setup.group.chores",
-    ...["certificate", "certificate_none", "certificate_name", "certificate_name_none", "plain", "refused"].map(
-      (w) => `setup.why.${w}`,
-    ),
-    ...["localhost", "no_host", "local", "timeout", "key", "not_found"].map((w) => `setup.why.${w}`),
   ];
   assert.ok(named.length > 50, `only ${named.length} messages found: is the pattern still right?`);
   for (const key of ["result.failed", "page.overview", "shares.others"]) {

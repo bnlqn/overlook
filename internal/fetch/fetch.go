@@ -90,6 +90,10 @@ func do(hc *http.Client, req *http.Request) (http.Header, []byte, error) {
 // errTimeout is a source that didn't answer in time.
 var errTimeout = errors.New("timeout")
 
+// Kinds are the kinds of failure Why tells apart, each of which the setup
+// page has words for, as the server's test checks.
+var Kinds = []string{"certificate", "certificate_name", "plain", "refused", "no_host", "timeout", "key", "not_found"}
+
 // Why says what kind of failure err is, so that the setup page can say what
 // to do about it (ADR 0014): certificate, for one signed by a CA the system
 // doesn't trust; certificate_name, for one for another name; plain, for an
