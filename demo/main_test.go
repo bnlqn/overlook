@@ -8,6 +8,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"reflect"
 	"slices"
 	"strings"
 	"testing"
@@ -20,8 +21,10 @@ import (
 )
 
 // Each invented snapshot is the contract between the server and the page
-// (ADR 0003): it is the server's shapes, with no field they lack, and the page
-// can draw every part of it, as it can every adapter's.
+// (ADR 0003): it is the server's shapes, with no field they lack, the page
+// can draw every part of it, as it can every adapter's, and its states are
+// those Go decides from its facts, which the page's tests read as they are
+// (ADR 0017).
 func TestSnapshot(t *testing.T) {
 	t.Parallel()
 	english, err := web.English()
@@ -44,6 +47,21 @@ func TestSnapshot(t *testing.T) {
 			// Its parts are every adapter's, so each in its own home area.
 			for _, problem := range adaptertest.Problems(s.Parts, english) {
 				t.Error(problem)
+			}
+
+			decided := snapshot.Decide(s)
+			for i, c := range s.Checks {
+				if c.State != decided.Checks[i].State {
+					t.Errorf("%s is %q, but Go decides %q", c.Name, c.State, decided.Checks[i].State)
+				}
+			}
+			for i, l := range slices.Concat(s.Apps, s.Tools) {
+				if d := slices.Concat(decided.Apps, decided.Tools)[i]; l.State != d.State || l.Engine != d.Engine {
+					t.Errorf("%s is %q in %q, but Go decides %q in %q", l.Name, l.State, l.Engine, d.State, d.Engine)
+				}
+			}
+			if !reflect.DeepEqual(s.Areas, decided.Areas) || s.Homelab != decided.Homelab {
+				t.Errorf("areas %+v and homelab %+v, but Go decides %+v and %+v", s.Areas, s.Homelab, decided.Areas, decided.Homelab)
 			}
 
 			// Each source is what its adapter says it is, as the server
@@ -97,13 +115,7 @@ func TestSnapshotShowsEverything(t *testing.T) {
 	if len(s.Checks) == 0 || len(s.Updates) == 0 || len(s.Apps) == 0 || len(s.Tools) == 0 || len(s.Chores) == 0 {
 		t.Error("no checks, updates, apps, tools or chores")
 	}
-	degraded := false
-	for _, c := range s.Checks {
-		for _, other := range s.Checks {
-			degraded = degraded || c.Problem && other.Area == c.Area && !other.Problem
-		}
-	}
-	if !degraded {
+	if !slices.ContainsFunc(s.Areas, func(a snapshot.Area) bool { return a.State == "degraded" }) {
 		t.Error("no problem in an area that still works")
 	}
 	silent := false

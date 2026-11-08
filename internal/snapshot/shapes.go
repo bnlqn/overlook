@@ -74,6 +74,8 @@ type Check struct {
 	// Why, Since and Outages are CheckOf's to fill in.
 	Run     int  `json:"run"`
 	Problem bool `json:"problem"`
+	// State is Decide's to fill in: up, failing, down or unknown.
+	State string `json:"state"`
 	// Why is the newest result's failure, as the check engine words it.
 	Why string `json:"why,omitempty"`
 	// Since is when the run of failures started, if the check engine
@@ -260,8 +262,12 @@ type Link struct {
 	// Check is the name of the check that says whether it answers.
 	Check string `yaml:"check" json:"check,omitempty"`
 	// Engine is the check engine the check is in, when the config names it
-	// as Engine/Check, for a name two check engines share.
-	Engine      string `yaml:"-" json:"engine,omitempty"`
+	// as Engine/Check, for a name two check engines share; in the snapshot,
+	// the one whose check decided its state.
+	Engine string `yaml:"-" json:"engine,omitempty"`
+	// State is the state of that check, which Decide fills in: up, failing,
+	// down or unknown, and unknown with none.
+	State       string `yaml:"-" json:"state"`
 	Description string `yaml:"description" json:"description,omitempty"`
 	// Color tints its tile, as #rgb or #rrggbb.
 	Color string `yaml:"color" json:"color,omitempty"`

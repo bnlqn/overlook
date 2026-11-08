@@ -43,6 +43,12 @@ const instructions = "Overlook reads the tools a homelab already runs and shows 
 	"A text with a key has its English words beside it, and its args fill their {placeholders}: " +
 	"{x:span} and {x:ms} take milliseconds; {x:when}, {x:day} and {x:clock} a time; {x:bytes} bytes; " +
 	"and words with one and other forms pick theirs by n. A text with only a name is that name. " +
+	"Each check, app, tool and area, and the homelab, has a state, decided as the page shows it. " +
+	"A check is up when its last result passed, failing while it fails short of a problem, down while it is a problem, " +
+	"and unknown with no result yet. An app or a tool has the state of the check that says whether it answers, " +
+	"in the check engine its engine names. An area or the homelab is up with no problem, degraded while it still works " +
+	"with one, down when it doesn't work, and unknown with no checks, since nothing says whether it works; " +
+	"the homelab is down with no checks when no check engine answered. " +
 	"Overlook only reads: it changes nothing in the homelab."
 
 // info names Overlook to a client.
@@ -68,14 +74,16 @@ var tools = []tool{
 	{
 		Name:  "problems",
 		Title: "What's wrong",
-		Description: "What is wrong in the homelab: its problems, each a check that has failed long enough for its " +
-			"check engine to alert on it, from its first failure to its next pass; and every source Overlook reads, " +
-			"with whether it answered. With check engines and none answering, nothing says what works.",
+		Description: "What is wrong in the homelab: its state and each area's, which the page leads with; its problems, " +
+			"each a check that has failed long enough for its check engine to alert on it, from its first failure to " +
+			"its next pass; and every source Overlook reads, with whether it answered.",
 		InputSchema: noArgs,
 		Annotations: readOnly,
 		read: func(s snapshot.Snapshot, _ map[string]any) (any, error) {
 			return map[string]any{
 				"at":       s.At,
+				"homelab":  s.Homelab,
+				"areas":    s.Areas,
 				"problems": where(s.Checks, func(c snapshot.Check) bool { return c.Problem }),
 				"sources":  s.Sources,
 			}, nil
@@ -84,9 +92,9 @@ var tools = []tool{
 	{
 		Name:  "area",
 		Title: "An area",
-		Description: "One area of the homelab, as its own page shows it: its checks and their last results, its " +
-			"charts by the hour, the sections its sources add, such as a host's guests, and the sources that fill it. " +
-			"An area is down when every check in it is a problem, degraded with some, up with none, and unknown with no checks.",
+		Description: "One area of the homelab, as its own page shows it: its state, its checks and their last results, " +
+			"its charts by the hour, the sections its sources add, such as a host's guests, and the sources it names, " +
+			"with whether each answered.",
 		InputSchema: map[string]any{
 			"type": "object",
 			"properties": map[string]any{
@@ -101,17 +109,15 @@ var tools = []tool{
 			if !slices.Contains(snapshot.Areas, area) {
 				return nil, errors.New("area is one of servers, network, storage and apps")
 			}
+			decided := s.Areas[slices.Index(snapshot.Areas, area)]
 			return map[string]any{
 				"at":       s.At,
 				"area":     area,
+				"state":    decided.State,
 				"checks":   where(s.Checks, func(c snapshot.Check) bool { return c.Area == area }),
 				"charts":   where(s.Charts, func(c snapshot.Chart) bool { return c.Area == area }),
 				"sections": where(s.Sections, func(x snapshot.Section) bool { return x.Area == area }),
-				// Its own sources, those of every area, such as a check engine,
-				// and in Storage those that give stores or backup runs (ADR 0016).
-				"sources": where(s.Sources, func(x snapshot.SourceState) bool {
-					return x.Area == area || x.Area == "" || x.Storage && area == "storage"
-				}),
+				"sources":  where(s.Sources, func(x snapshot.SourceRead) bool { return slices.Contains(decided.Sources, x.Name) }),
 			}, nil
 		},
 	},
@@ -168,8 +174,7 @@ var tools = []tool{
 		Name:  "apps_and_tools",
 		Title: "The apps and tools",
 		Description: "The apps the homelab hosts for the people who use it, such as the photos or the films, and " +
-			"the tools the owner runs it with, each a link with the checks that say whether it answers: the one its " +
-			"config names, or every check of its name, the worst of which counts.",
+			"the tools the owner runs it with, each a link with its state, and the check that says whether it answers.",
 		InputSchema: noArgs,
 		Annotations: readOnly,
 		read: func(s snapshot.Snapshot, _ map[string]any) (any, error) {
@@ -178,18 +183,22 @@ var tools = []tool{
 	},
 }
 
-// link is an app or a tool with the checks that say whether it answers.
+// link is an app or a tool, as the page shows it: the link, with its state and
+// the check engine whose check decided it, and that check, if there is one.
 type link struct {
-	snapshot.Link
-	Checks []snapshot.Check `json:"checks"`
+	Link  snapshot.Link   `json:"link"`
+	Check *snapshot.Check `json:"check,omitempty"`
 }
 
 func linked(links []snapshot.Link, checks []snapshot.Check) []link {
 	out := []link{}
 	for _, l := range links {
-		out = append(out, link{l, where(checks, func(c snapshot.Check) bool {
-			return l.Check != "" && c.Name == l.Check && (l.Engine == "" || c.Source == l.Engine)
-		})})
+		i := slices.IndexFunc(checks, func(c snapshot.Check) bool { return l.Check != "" && c.Name == l.Check && c.Source == l.Engine })
+		var check *snapshot.Check
+		if i >= 0 {
+			check = &checks[i]
+		}
+		out = append(out, link{l, check})
 	}
 	return out
 }

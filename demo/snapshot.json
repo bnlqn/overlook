@@ -50,6 +50,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 4.506 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 4.188 },
@@ -93,6 +94,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 8.181 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 7.392 },
@@ -136,6 +138,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 16.203 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 13.169 },
@@ -180,6 +183,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 2.46 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 2.768 },
@@ -223,6 +227,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 1.108 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 1.111 },
@@ -266,6 +271,7 @@
       "threshold": 3,
       "run": 26,
       "problem": true,
+      "state": "down",
       "why": "read udp: i/o timeout",
       "since": "2026-10-28T09:04:40Z",
       "results": [
@@ -312,6 +318,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 2.928 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 3.27 },
@@ -356,6 +363,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T04:39:40Z", "ms": 307.188 },
         { "ok": true, "at": "2026-10-28T04:49:40Z", "ms": 250.067 },
@@ -399,6 +407,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 43.872 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 46.81 },
@@ -442,6 +451,7 @@
       "threshold": 3,
       "run": 1,
       "problem": false,
+      "state": "failing",
       "why": "[STATUS] (502) == 200",
       "since": "2026-10-28T09:29:40Z",
       "results": [
@@ -487,6 +497,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 49.236 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 61.368 },
@@ -530,6 +541,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 101.185 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 109.626 },
@@ -573,6 +585,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 54.278 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 53.563 },
@@ -616,6 +629,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 43.769 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 38.247 },
@@ -659,6 +673,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 146.522 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 173.326 },
@@ -702,6 +717,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 240.454 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 290.103 },
@@ -745,6 +761,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 22.705 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 20.695 },
@@ -788,6 +805,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 19.622 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 21.037 },
@@ -830,6 +848,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 112.943 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 106.399 },
@@ -871,6 +890,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 232 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 221 },
@@ -913,6 +933,7 @@
       "threshold": 1,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:00Z", "ms": null },
         { "ok": true, "at": "2026-10-28T09:01:00Z", "ms": null },
@@ -955,6 +976,7 @@
       "threshold": 1,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:00Z", "ms": null },
         { "ok": true, "at": "2026-10-28T09:01:00Z", "ms": null },
@@ -997,6 +1019,7 @@
       "threshold": 6,
       "run": 3,
       "problem": false,
+      "state": "failing",
       "why": "Packet loss is over 5%",
       "since": "2026-10-28T09:27:00Z",
       "results": [
@@ -1041,6 +1064,7 @@
       "threshold": 1,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:15:00Z", "ms": null },
         { "ok": true, "at": "2026-10-28T09:15:30Z", "ms": null },
@@ -1083,6 +1107,7 @@
       "threshold": 1,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:15:00Z", "ms": null },
         { "ok": true, "at": "2026-10-28T09:15:30Z", "ms": null },
@@ -1125,6 +1150,7 @@
       "threshold": 0,
       "run": 30,
       "problem": false,
+      "state": "failing",
       "why": "Renewal is running this week",
       "since": "2026-10-28T06:00:00Z",
       "results": [
@@ -1169,6 +1195,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:12Z", "ms": 1004 },
         { "ok": true, "at": "2026-10-28T09:01:12Z", "ms": 1003 },
@@ -1212,6 +1239,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:41Z", "ms": 1006 },
         { "ok": true, "at": "2026-10-28T09:01:41Z", "ms": 1009 },
@@ -1256,6 +1284,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:27Z", "ms": 2 },
         { "ok": true, "at": "2026-10-28T09:01:27Z", "ms": 3 },
@@ -3001,6 +3030,8 @@
       "url": "https://photos.example.com",
       "icon": "immich.svg",
       "check": "Photos",
+      "engine": "Gatus",
+      "state": "up",
       "description": "The family's photos",
       "color": "#ED79B5"
     },
@@ -3009,6 +3040,8 @@
       "url": "https://films.example.com",
       "icon": "radarr.svg",
       "check": "Films",
+      "engine": "Gatus",
+      "state": "failing",
       "description": "The films, and what's coming",
       "color": "#FFC230"
     },
@@ -3017,6 +3050,8 @@
       "url": "https://shows.example.com",
       "icon": "sonarr.svg",
       "check": "Shows",
+      "engine": "Gatus",
+      "state": "up",
       "description": "The shows, and what airs next",
       "color": "#35C5F4"
     },
@@ -3025,6 +3060,8 @@
       "url": "https://requests.example.com",
       "icon": "seerr.svg",
       "check": "Requests",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Ask for a film or a show",
       "color": "#7B61FF"
     },
@@ -3033,6 +3070,8 @@
       "url": "https://watch.example.com",
       "icon": "plex.svg",
       "check": "Watch",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Films and shows, to watch",
       "color": "#AA5CC3"
     },
@@ -3041,6 +3080,8 @@
       "url": "https://music.example.com",
       "icon": "jellyfin.svg",
       "check": "Music",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Everyone's music",
       "color": "#1DB954"
     },
@@ -3049,6 +3090,8 @@
       "url": "https://documents.example.com",
       "icon": "paperless-ngx.svg",
       "check": "Documents",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Every letter, scanned",
       "color": "#17541F"
     },
@@ -3057,6 +3100,8 @@
       "url": "https://cloud.example.com",
       "icon": "nextcloud.svg",
       "check": "Files",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Everyone's files",
       "color": "#0082C9"
     },
@@ -3065,6 +3110,8 @@
       "url": "https://home.example.com",
       "icon": "home-assistant.svg",
       "check": "Home",
+      "engine": "Gatus",
+      "state": "up",
       "description": "The lights and the heating",
       "color": "#18BCF2"
     },
@@ -3073,6 +3120,8 @@
       "url": "https://dav.example.com",
       "icon": "radicale.svg",
       "check": "Calendar",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Calendars and contacts",
       "color": "#E5484D"
     }
@@ -3082,6 +3131,7 @@
       "name": "Gatus",
       "url": "https://status.example.com",
       "icon": "gatus.svg",
+      "state": "unknown",
       "description": "Every check and its history",
       "color": "#3CAD4B"
     },
@@ -3089,6 +3139,7 @@
       "name": "Uptime Kuma",
       "url": "https://uptime.example.com",
       "icon": "uptime-kuma.svg",
+      "state": "unknown",
       "description": "What the internet sees",
       "color": "#5CDD8B"
     },
@@ -3096,6 +3147,7 @@
       "name": "Grafana",
       "url": "https://grafana.example.com",
       "icon": "grafana.svg",
+      "state": "unknown",
       "description": "Dashboards and alert rules",
       "color": "#F46800"
     },
@@ -3103,6 +3155,7 @@
       "name": "Checkmate",
       "url": "https://checkmate.example.com",
       "icon": "checkmate.svg",
+      "state": "unknown",
       "description": "The agents and their thresholds",
       "color": "#13715B"
     },
@@ -3111,6 +3164,8 @@
       "url": "https://pve.example.com:8006",
       "icon": "proxmox.svg",
       "check": "Hypervisor",
+      "engine": "Gatus",
+      "state": "up",
       "description": "The host and its guests",
       "color": "#E57000"
     },
@@ -3119,6 +3174,8 @@
       "url": "https://pbs.example.com:8007",
       "icon": "proxmox-backup-server.svg",
       "check": "Backup server",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Every guest's backups",
       "color": "#E57000"
     },
@@ -3126,6 +3183,7 @@
       "name": "Dozzle",
       "url": "https://logs.example.com",
       "icon": "dozzle.svg",
+      "state": "unknown",
       "description": "Every container's logs",
       "color": "#FFDD00"
     }
@@ -3202,5 +3260,85 @@
       "source": "Chores",
       "note": "No day set: due whenever there's an hour."
     }
-  ]
+  ],
+  "areas": [
+    {
+      "area": "servers",
+      "state": "up",
+      "sources": [
+        "Gatus",
+        "Uptime Kuma",
+        "Grafana",
+        "Prometheus",
+        "Checkmate",
+        "GitHub",
+        "Proxmox",
+        "Beszel",
+        "Docker",
+        "Portainer",
+        "NUT",
+        "Chores"
+      ]
+    },
+    {
+      "area": "network",
+      "state": "degraded",
+      "sources": [
+        "Gatus",
+        "Uptime Kuma",
+        "Grafana",
+        "Prometheus",
+        "Checkmate",
+        "GitHub",
+        "UniFi",
+        "Primary DNS",
+        "Standby DNS",
+        "Kids' DNS",
+        "Chores"
+      ]
+    },
+    {
+      "area": "storage",
+      "state": "up",
+      "sources": [
+        "Gatus",
+        "Uptime Kuma",
+        "Grafana",
+        "Prometheus",
+        "Checkmate",
+        "GitHub",
+        "Backup Server",
+        "Syncthing",
+        "Proxmox",
+        "Chores"
+      ]
+    },
+    {
+      "area": "apps",
+      "state": "up",
+      "sources": [
+        "Gatus",
+        "Uptime Kuma",
+        "Grafana",
+        "Prometheus",
+        "Checkmate",
+        "GitHub",
+        "Immich",
+        "Radarr",
+        "Sonarr",
+        "Prowlarr",
+        "qBittorrent",
+        "Jellyfin",
+        "Emby",
+        "Plex",
+        "Seerr",
+        "Home Assistant",
+        "Paperless-ngx",
+        "Nextcloud",
+        "Gitea",
+        "Chores"
+      ]
+    }
+  ],
+  "homelab": { "state": "degraded" }
 }

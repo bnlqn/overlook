@@ -58,6 +58,9 @@ func TestReader(t *testing.T) {
 	if snap.Sources[0].Adapter != "adguard" || snap.Sources[1].Adapter != "adguard" || snap.Sources[0].Area != "network" {
 		t.Errorf("each source says its adapter, answered or not: %+v", snap.Sources)
 	}
+	if snap.Checks[0].State != "unknown" || len(snap.Areas) != len(Areas) || snap.Homelab.State != "up" || snap.Tools[0].State != "unknown" {
+		t.Errorf("the states are decided as the read's last step: %+v %+v %+v", snap.Checks, snap.Areas, snap.Homelab)
+	}
 	r.Snapshot()
 	if reads.Load() != 1 {
 		t.Errorf("a fresh snapshot was read again: %d reads", reads.Load())
