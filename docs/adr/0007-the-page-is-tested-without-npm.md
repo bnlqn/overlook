@@ -18,4 +18,4 @@ Decided on 28 October 2026, when the page came over from the author's homelab, u
 ## Consequences
 
 - The checks are `make check`: `go vet`, golangci-lint, Biome, `go test -race`, `node --test` and govulncheck. CONTRIBUTING.md names each tool's version.
-- A module that touches the DOM at its top level can't be tested in Node. Only `shell.js`, `overview.js` and `area.js` may, and they hold no logic worth a test.
+- A module that touches the DOM at its top level can't be tested in Node. Only `shell.js`, `overview.js`, `area.js` and `setup.js` may. What the page says of the snapshot is decided in `page.js`, and what ⌘K's typed letters match in `text.js`, each with a test; the rest of those four is looked at in a browser.

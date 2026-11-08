@@ -1,5 +1,6 @@
 // The page's words (ADR 0006), and how it writes numbers, times, sizes and
 // spans: English, under the viewer's language wherever a translation has it.
+// And whether the letters typed into ⌘K match a name.
 
 let words = { en: {}, mine: {} };
 let locale = "en";
@@ -64,6 +65,21 @@ export const english = (key) => words.en[key] ?? key;
 
 /** A snapshot's text: a message, or a name as written. */
 export const say = (x) => (x.key ? t(x.key, x.args) : esc(x.name));
+
+/**
+ * Whether the letters typed are in the words, in order but not always side
+ * by side, as ⌘K finds "Proxmox VE" for "pxv". Case and accents don't count,
+ * nothing typed matches every word, and a word missing is left out. The
+ * words are as written, never escaped, so the markup a page draws them in
+ * can't match.
+ */
+export function matches(typed, ...words) {
+  const plain = (s) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
+  const want = [...plain(typed.trim())];
+  let i = 0;
+  for (const ch of plain(words.filter(Boolean).join(" "))) if (ch === want[i]) i++;
+  return i === want.length;
+}
 
 /** Fills each element with a data-t attribute with that message. */
 export function translate(root) {
