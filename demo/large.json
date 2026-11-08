@@ -43,6 +43,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:32Z", "ms": 1.063 },
         { "ok": true, "at": "2026-10-28T09:01:32Z", "ms": 0.98 },
@@ -86,6 +87,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:38Z", "ms": 2.929 },
         { "ok": true, "at": "2026-10-28T09:01:38Z", "ms": 2.494 },
@@ -130,6 +132,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:37Z", "ms": 0.512 },
         { "ok": true, "at": "2026-10-28T09:01:37Z", "ms": 0.487 },
@@ -173,6 +176,7 @@
       "threshold": 3,
       "run": 30,
       "problem": true,
+      "state": "down",
       "why": "[CONNECTED] == true",
       "since": "2026-10-28T06:12:00Z",
       "results": [
@@ -219,6 +223,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:32Z", "ms": 0.684 },
         { "ok": true, "at": "2026-10-28T09:01:32Z", "ms": 0.667 },
@@ -262,6 +267,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:38Z", "ms": 1.167 },
         { "ok": true, "at": "2026-10-28T09:01:38Z", "ms": 1.007 },
@@ -305,6 +311,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:38Z", "ms": 30.315 },
         { "ok": true, "at": "2026-10-28T09:01:38Z", "ms": 39.832 },
@@ -348,6 +355,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:39Z", "ms": 117.604 },
         { "ok": true, "at": "2026-10-28T09:01:39Z", "ms": 113.831 },
@@ -391,6 +399,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:32Z", "ms": 0.748 },
         { "ok": true, "at": "2026-10-28T09:01:32Z", "ms": 0.665 },
@@ -434,6 +443,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:31Z", "ms": 2.426 },
         { "ok": true, "at": "2026-10-28T09:01:31Z", "ms": 1.908 },
@@ -477,6 +487,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:31Z", "ms": 2.296 },
         { "ok": true, "at": "2026-10-28T09:01:31Z", "ms": 1.946 },
@@ -520,6 +531,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:36Z", "ms": 3.224 },
         { "ok": true, "at": "2026-10-28T09:01:36Z", "ms": 3.593 },
@@ -563,6 +575,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:34Z", "ms": 89.049 },
         { "ok": true, "at": "2026-10-28T09:01:34Z", "ms": 76.993 },
@@ -606,6 +619,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:37Z", "ms": 79.187 },
         { "ok": true, "at": "2026-10-28T09:01:37Z", "ms": 93.78 },
@@ -649,6 +663,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:18:33Z", "ms": 2.586 },
         { "ok": true, "at": "2026-10-28T09:19:33Z", "ms": 3.404 },
@@ -674,6 +689,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:39Z", "ms": 54.19 },
         { "ok": true, "at": "2026-10-28T09:01:39Z", "ms": 65.803 },
@@ -717,6 +733,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:15:07Z", "ms": 147.91 },
         { "ok": true, "at": "2026-10-28T09:15:37Z", "ms": 126.808 },
@@ -761,6 +778,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T07:03:10Z", "ms": 100.315 },
         { "ok": true, "at": "2026-10-28T07:08:10Z", "ms": 110.879 },
@@ -804,6 +822,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:39Z", "ms": 3.211 },
         { "ok": true, "at": "2026-10-28T09:01:39Z", "ms": 2.547 },
@@ -847,6 +866,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:36Z", "ms": 2.058 },
         { "ok": true, "at": "2026-10-28T09:01:36Z", "ms": 2.215 },
@@ -890,6 +910,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:33Z", "ms": 0.574 },
         { "ok": true, "at": "2026-10-28T09:01:33Z", "ms": 0.648 },
@@ -933,6 +954,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:38Z", "ms": 2.67 },
         { "ok": true, "at": "2026-10-28T09:01:38Z", "ms": 2.068 },
@@ -976,6 +998,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:31Z", "ms": 1.909 },
         { "ok": true, "at": "2026-10-28T09:01:31Z", "ms": 1.888 },
@@ -1019,6 +1042,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:34Z", "ms": 0.576 },
         { "ok": true, "at": "2026-10-28T09:01:34Z", "ms": 0.574 },
@@ -1062,6 +1086,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:36Z", "ms": 2.341 },
         { "ok": true, "at": "2026-10-28T09:01:36Z", "ms": 2.765 },
@@ -1106,6 +1131,7 @@
       "threshold": 3,
       "run": 30,
       "problem": true,
+      "state": "down",
       "why": "[CONNECTED] == true",
       "since": "2026-10-28T08:52:00Z",
       "results": [
@@ -1152,6 +1178,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 3.292 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 3.161 },
@@ -1196,6 +1223,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:38Z", "ms": 0.939 },
         { "ok": true, "at": "2026-10-28T09:01:38Z", "ms": 0.926 },
@@ -1239,6 +1267,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:36Z", "ms": 2.813 },
         { "ok": true, "at": "2026-10-28T09:01:36Z", "ms": 2.642 },
@@ -1282,6 +1311,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:32Z", "ms": 2.708 },
         { "ok": true, "at": "2026-10-28T09:01:32Z", "ms": 2.566 },
@@ -1325,6 +1355,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:31Z", "ms": 1.993 },
         { "ok": true, "at": "2026-10-28T09:01:31Z", "ms": 1.774 },
@@ -1368,6 +1399,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:37Z", "ms": 17.285 },
         { "ok": true, "at": "2026-10-28T09:01:37Z", "ms": 18.856 },
@@ -1412,6 +1444,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:39Z", "ms": 3.637 },
         { "ok": true, "at": "2026-10-28T09:01:39Z", "ms": 3.186 },
@@ -1455,6 +1488,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T08:31:08Z", "ms": 31.565 },
         { "ok": true, "at": "2026-10-28T08:33:08Z", "ms": 37.457 },
@@ -1498,6 +1532,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:33Z", "ms": 26.2 },
         { "ok": true, "at": "2026-10-28T09:01:33Z", "ms": 26.334 },
@@ -1542,6 +1577,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:31Z", "ms": 2.728 },
         { "ok": true, "at": "2026-10-28T09:01:31Z", "ms": 2.976 },
@@ -1585,6 +1621,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 2.526 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 2.374 },
@@ -1628,6 +1665,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:36Z", "ms": 1.994 },
         { "ok": true, "at": "2026-10-28T09:01:36Z", "ms": 1.938 },
@@ -1671,6 +1709,7 @@
       "threshold": 3,
       "run": 30,
       "problem": true,
+      "state": "down",
       "why": "[STATUS] (503) == 200",
       "since": "2026-10-27T03:10:00Z",
       "results": [
@@ -1717,6 +1756,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T07:03:43Z", "ms": 43.363 },
         { "ok": true, "at": "2026-10-28T07:08:43Z", "ms": 37.702 },
@@ -1760,6 +1800,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T07:03:21Z", "ms": 82.18 },
         { "ok": true, "at": "2026-10-28T07:08:21Z", "ms": 97.364 },
@@ -1803,6 +1844,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:38Z", "ms": 84.291 },
         { "ok": true, "at": "2026-10-28T09:01:38Z", "ms": 72.035 },
@@ -1846,6 +1888,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:38Z", "ms": 3.537 },
         { "ok": true, "at": "2026-10-28T09:01:38Z", "ms": 3.501 },
@@ -1889,6 +1932,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:35Z", "ms": 2.584 },
         { "ok": true, "at": "2026-10-28T09:01:35Z", "ms": 2.75 },
@@ -1932,6 +1976,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:33Z", "ms": 120.244 },
         { "ok": true, "at": "2026-10-28T09:01:33Z", "ms": 93.586 },
@@ -1975,6 +2020,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T07:04:29Z", "ms": 62.058 },
         { "ok": true, "at": "2026-10-28T07:09:29Z", "ms": 68.18 },
@@ -2018,6 +2064,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T04:35:51Z", "ms": 110.862 },
         { "ok": true, "at": "2026-10-28T04:45:51Z", "ms": 122.561 },
@@ -2061,6 +2108,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "unknown",
       "results": [],
       "watched": "2026-10-28T09:26:00Z"
     },
@@ -2073,6 +2121,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:34Z", "ms": 47.52 },
         { "ok": true, "at": "2026-10-28T09:01:34Z", "ms": 49.187 },
@@ -2117,6 +2166,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:33Z", "ms": 345.369 },
         { "ok": true, "at": "2026-10-28T09:01:33Z", "ms": 405.532 },
@@ -2160,6 +2210,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 137.136 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 109.216 },
@@ -2203,6 +2254,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:34Z", "ms": 133.616 },
         { "ok": true, "at": "2026-10-28T09:01:34Z", "ms": 126.852 },
@@ -2246,6 +2298,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:38Z", "ms": 81.394 },
         { "ok": true, "at": "2026-10-28T09:01:38Z", "ms": 109.529 },
@@ -2289,6 +2342,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 82.968 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 80.151 },
@@ -2332,6 +2386,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:40Z", "ms": 126.029 },
         { "ok": true, "at": "2026-10-28T09:01:40Z", "ms": 100.029 },
@@ -2375,6 +2430,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:35Z", "ms": 125.198 },
         { "ok": true, "at": "2026-10-28T09:01:35Z", "ms": 161.294 },
@@ -2418,6 +2474,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:31Z", "ms": 53.457 },
         { "ok": true, "at": "2026-10-28T09:01:31Z", "ms": 38.336 },
@@ -2461,6 +2518,7 @@
       "threshold": 3,
       "run": 29,
       "problem": true,
+      "state": "down",
       "why": "[STATUS] (502) == 200",
       "since": "2026-10-28T09:01:00Z",
       "results": [
@@ -2507,6 +2565,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:32Z", "ms": 57.092 },
         { "ok": true, "at": "2026-10-28T09:01:32Z", "ms": 50.697 },
@@ -2550,6 +2609,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:32Z", "ms": 56.562 },
         { "ok": true, "at": "2026-10-28T09:01:32Z", "ms": 55.88 },
@@ -2593,6 +2653,7 @@
       "threshold": 3,
       "run": 1,
       "problem": false,
+      "state": "failing",
       "why": "[RESPONSE_TIME] (1204) < 1000",
       "since": "2026-10-28T09:29:35Z",
       "results": [
@@ -2638,6 +2699,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:32Z", "ms": 198.749 },
         { "ok": true, "at": "2026-10-28T09:01:32Z", "ms": 225.07 },
@@ -2681,6 +2743,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:39Z", "ms": 119.231 },
         { "ok": true, "at": "2026-10-28T09:01:39Z", "ms": 105.947 },
@@ -2724,6 +2787,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:38Z", "ms": 51.694 },
         { "ok": true, "at": "2026-10-28T09:01:38Z", "ms": 57.517 },
@@ -2767,6 +2831,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:36Z", "ms": 241.882 },
         { "ok": true, "at": "2026-10-28T09:01:36Z", "ms": 346.029 },
@@ -2810,6 +2875,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:33Z", "ms": 94.568 },
         { "ok": true, "at": "2026-10-28T09:01:33Z", "ms": 89.377 },
@@ -2853,6 +2919,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:35Z", "ms": 44.355 },
         { "ok": true, "at": "2026-10-28T09:01:35Z", "ms": 49.948 },
@@ -2896,6 +2963,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:37Z", "ms": 79.113 },
         { "ok": true, "at": "2026-10-28T09:01:37Z", "ms": 66.932 },
@@ -2939,6 +3007,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:35Z", "ms": 24.726 },
         { "ok": true, "at": "2026-10-28T09:01:35Z", "ms": 19.763 },
@@ -2983,6 +3052,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:38Z", "ms": 5.713 },
         { "ok": true, "at": "2026-10-28T09:01:38Z", "ms": 5.462 },
@@ -3026,6 +3096,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:31Z", "ms": 80.415 },
         { "ok": true, "at": "2026-10-28T09:01:31Z", "ms": 96.737 },
@@ -3069,6 +3140,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:31Z", "ms": 24.394 },
         { "ok": true, "at": "2026-10-28T09:01:31Z", "ms": 25.929 },
@@ -3112,6 +3184,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:32Z", "ms": 143.942 },
         { "ok": true, "at": "2026-10-28T09:01:32Z", "ms": 156.689 },
@@ -3155,6 +3228,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:39Z", "ms": 28.207 },
         { "ok": true, "at": "2026-10-28T09:01:39Z", "ms": 30.419 },
@@ -3198,6 +3272,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T08:31:13Z", "ms": 123.779 },
         { "ok": true, "at": "2026-10-28T08:33:13Z", "ms": 121.32 },
@@ -3240,6 +3315,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T08:31:18Z", "ms": 114.098 },
         { "ok": true, "at": "2026-10-28T08:33:18Z", "ms": 136.54 },
@@ -3282,6 +3358,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T08:31:18Z", "ms": 95.315 },
         { "ok": true, "at": "2026-10-28T08:33:18Z", "ms": 104.698 },
@@ -3324,6 +3401,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T08:31:15Z", "ms": 62.166 },
         { "ok": true, "at": "2026-10-28T08:33:15Z", "ms": 73.824 },
@@ -3365,6 +3443,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T08:31:17Z", "ms": 41.927 },
         { "ok": true, "at": "2026-10-28T08:33:17Z", "ms": 44.508 },
@@ -3406,6 +3485,7 @@
       "threshold": 3,
       "run": 2,
       "problem": false,
+      "state": "failing",
       "since": "2026-10-28T09:27:13Z",
       "results": [
         { "ok": true, "at": "2026-10-28T08:31:13Z", "ms": 167.223 },
@@ -3449,6 +3529,7 @@
       "threshold": 1,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:00Z", "ms": null },
         { "ok": true, "at": "2026-10-28T09:01:00Z", "ms": null },
@@ -3492,6 +3573,7 @@
       "threshold": 1,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:00Z", "ms": null },
         { "ok": true, "at": "2026-10-28T09:01:00Z", "ms": null },
@@ -3534,6 +3616,7 @@
       "threshold": 1,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:00Z", "ms": null },
         { "ok": true, "at": "2026-10-28T09:01:00Z", "ms": null },
@@ -3576,6 +3659,7 @@
       "threshold": 1,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:00Z", "ms": null },
         { "ok": true, "at": "2026-10-28T09:01:00Z", "ms": null },
@@ -3618,6 +3702,7 @@
       "threshold": 6,
       "run": 4,
       "problem": false,
+      "state": "failing",
       "why": "Packet loss is over 5%",
       "since": "2026-10-28T09:26:00Z",
       "results": [
@@ -3662,6 +3747,7 @@
       "threshold": 1,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:00Z", "ms": null },
         { "ok": true, "at": "2026-10-28T09:01:00Z", "ms": null },
@@ -3704,6 +3790,7 @@
       "threshold": 1,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:00Z", "ms": null },
         { "ok": true, "at": "2026-10-28T09:01:00Z", "ms": null },
@@ -3746,6 +3833,7 @@
       "threshold": 1,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:00Z", "ms": null },
         { "ok": true, "at": "2026-10-28T09:01:00Z", "ms": null },
@@ -3788,6 +3876,7 @@
       "threshold": 1,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:15:00Z", "ms": null },
         { "ok": true, "at": "2026-10-28T09:15:30Z", "ms": null },
@@ -3831,6 +3920,7 @@
       "threshold": 1,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:15:00Z", "ms": null },
         { "ok": true, "at": "2026-10-28T09:15:30Z", "ms": null },
@@ -3873,6 +3963,7 @@
       "threshold": 1,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:15:00Z", "ms": null },
         { "ok": true, "at": "2026-10-28T09:15:30Z", "ms": null },
@@ -3915,6 +4006,7 @@
       "threshold": 1,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:15:00Z", "ms": null },
         { "ok": true, "at": "2026-10-28T09:15:30Z", "ms": null },
@@ -3957,6 +4049,7 @@
       "threshold": 0,
       "run": 30,
       "problem": false,
+      "state": "failing",
       "why": "Renewal is running this week",
       "since": "2026-10-28T06:00:00Z",
       "results": [
@@ -4001,6 +4094,7 @@
       "threshold": 1,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:15:00Z", "ms": null },
         { "ok": true, "at": "2026-10-28T09:15:30Z", "ms": null },
@@ -4043,6 +4137,7 @@
       "threshold": 1,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:15:00Z", "ms": null },
         { "ok": true, "at": "2026-10-28T09:15:30Z", "ms": null },
@@ -8285,6 +8380,7 @@
       "icon": "immich.svg",
       "check": "Photos",
       "engine": "Gatus",
+      "state": "up",
       "description": "The family's photos",
       "color": "#ED79B5"
     },
@@ -8293,6 +8389,8 @@
       "url": "https://films.example.com",
       "icon": "radarr.svg",
       "check": "Films",
+      "engine": "Gatus",
+      "state": "up",
       "description": "The films, and what's coming",
       "color": "#FFC230"
     },
@@ -8301,6 +8399,8 @@
       "url": "https://films-4k.example.com",
       "icon": "radarr.svg",
       "check": "Films 4K",
+      "engine": "Gatus",
+      "state": "up",
       "description": "The films, in 4K",
       "color": "#FFC230"
     },
@@ -8309,6 +8409,8 @@
       "url": "https://shows.example.com",
       "icon": "sonarr.svg",
       "check": "Shows",
+      "engine": "Gatus",
+      "state": "up",
       "description": "The shows, and what airs next",
       "color": "#35C5F4"
     },
@@ -8317,6 +8419,8 @@
       "url": "https://anime.example.com",
       "icon": "sonarr.svg",
       "check": "Anime",
+      "engine": "Gatus",
+      "state": "up",
       "description": "The anime, and what airs next",
       "color": "#35C5F4"
     },
@@ -8325,6 +8429,8 @@
       "url": "https://requests.example.com",
       "icon": "seerr.svg",
       "check": "Requests",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Ask for a film or a show",
       "color": "#7B61FF"
     },
@@ -8333,6 +8439,8 @@
       "url": "https://watch.example.com",
       "icon": "plex.svg",
       "check": "Watch",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Films and shows, to watch",
       "color": "#AA5CC3"
     },
@@ -8341,6 +8449,8 @@
       "url": "https://music.example.com",
       "icon": "jellyfin.svg",
       "check": "Music",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Everyone's music",
       "color": "#1DB954"
     },
@@ -8349,6 +8459,8 @@
       "url": "https://books.example.com",
       "icon": "jellyfin.svg",
       "check": "Books",
+      "engine": "Gatus",
+      "state": "down",
       "description": "The e-books",
       "color": "#C88E4E"
     },
@@ -8356,6 +8468,8 @@
       "name": "Audiobooks",
       "url": "https://audiobooks.example.com",
       "check": "Audiobooks",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Books, read aloud",
       "color": "#F2994A"
     },
@@ -8363,6 +8477,8 @@
       "name": "Podcasts",
       "url": "https://podcasts.example.com",
       "check": "Podcasts",
+      "engine": "Gatus",
+      "state": "up",
       "description": "The podcasts, downloaded",
       "color": "#9B59B6"
     },
@@ -8370,6 +8486,8 @@
       "name": "Recipes",
       "url": "https://recipes.example.com",
       "check": "Recipes",
+      "engine": "Gatus",
+      "state": "failing",
       "description": "What's for dinner",
       "color": "#E67E22"
     },
@@ -8378,6 +8496,8 @@
       "url": "https://documents.example.com",
       "icon": "paperless-ngx.svg",
       "check": "Documents",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Every letter, scanned",
       "color": "#17541F"
     },
@@ -8385,6 +8505,8 @@
       "name": "Notes",
       "url": "https://notes.example.com",
       "check": "Notes",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Shared notes",
       "color": "#F7D046"
     },
@@ -8392,6 +8514,8 @@
       "name": "Passwords",
       "url": "https://passwords.example.com",
       "check": "Passwords",
+      "engine": "Gatus",
+      "state": "up",
       "description": "The family's passwords",
       "color": "#175DDC"
     },
@@ -8400,6 +8524,8 @@
       "url": "https://files.example.com",
       "icon": "nextcloud.svg",
       "check": "Files",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Everyone's files",
       "color": "#0082C9"
     },
@@ -8407,14 +8533,26 @@
       "name": "Wiki",
       "url": "https://wiki.example.com",
       "check": "Wiki",
+      "engine": "Gatus",
+      "state": "up",
       "description": "How the house works",
       "color": "#1976D2"
     },
-    { "name": "Git", "url": "https://git.example.com", "check": "Git", "description": "The code", "color": "#609926" },
+    {
+      "name": "Git",
+      "url": "https://git.example.com",
+      "check": "Git",
+      "engine": "Gatus",
+      "state": "up",
+      "description": "The code",
+      "color": "#609926"
+    },
     {
       "name": "Chat",
       "url": "https://chat.example.com",
       "check": "Chat",
+      "engine": "Gatus",
+      "state": "up",
       "description": "The family's chat",
       "color": "#0DBD8B"
     },
@@ -8423,6 +8561,8 @@
       "url": "https://home.example.com",
       "icon": "home-assistant.svg",
       "check": "Home",
+      "engine": "Gatus",
+      "state": "up",
       "description": "The lights and the heating",
       "color": "#18BCF2"
     },
@@ -8431,6 +8571,8 @@
       "url": "https://dav.example.com",
       "icon": "radicale.svg",
       "check": "Calendar",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Calendars and contacts",
       "color": "#E5484D"
     },
@@ -8438,6 +8580,8 @@
       "name": "Budget",
       "url": "https://budget.example.com",
       "check": "Budget",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Where the money goes",
       "color": "#8E44AD"
     },
@@ -8445,6 +8589,8 @@
       "name": "Bookmarks",
       "url": "https://bookmarks.example.com",
       "check": "Bookmarks",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Links worth keeping",
       "color": "#2C3E50"
     },
@@ -8453,12 +8599,15 @@
       "url": "https://login.example.com",
       "icon": "pocket-id.svg",
       "check": "Login",
+      "engine": "Gatus",
+      "state": "up",
       "description": "One login for every app",
       "color": "#5865F2"
     },
     {
       "name": "Kids' corner",
       "url": "https://kids.example.com",
+      "state": "unknown",
       "description": "Films and games for the children",
       "color": "#FF6B6B"
     }
@@ -8468,6 +8617,7 @@
       "name": "Gatus",
       "url": "https://status.example.com",
       "icon": "gatus.svg",
+      "state": "unknown",
       "description": "Every check and its history",
       "color": "#3CAD4B"
     },
@@ -8475,6 +8625,7 @@
       "name": "Uptime Kuma",
       "url": "https://uptime.example.com",
       "icon": "uptime-kuma.svg",
+      "state": "unknown",
       "description": "What the internet sees",
       "color": "#5CDD8B"
     },
@@ -8482,6 +8633,7 @@
       "name": "Grafana",
       "url": "https://grafana.example.com",
       "icon": "grafana.svg",
+      "state": "unknown",
       "description": "Dashboards and alert rules",
       "color": "#F46800"
     },
@@ -8490,6 +8642,8 @@
       "url": "https://pve.example.com:8006",
       "icon": "proxmox.svg",
       "check": "Proxmox cluster",
+      "engine": "Gatus",
+      "state": "up",
       "description": "The cluster and its guests",
       "color": "#E57000"
     },
@@ -8498,6 +8652,8 @@
       "url": "https://vault.example.com:8006",
       "icon": "proxmox.svg",
       "check": "Elm",
+      "engine": "Gatus",
+      "state": "up",
       "description": "The storage host",
       "color": "#E57000"
     },
@@ -8506,6 +8662,8 @@
       "url": "https://edge.example.com:8006",
       "icon": "proxmox.svg",
       "check": "Fir",
+      "engine": "Gatus",
+      "state": "up",
       "description": "The edge host",
       "color": "#E57000"
     },
@@ -8514,6 +8672,8 @@
       "url": "https://pbs.example.com:8007",
       "icon": "proxmox-backup-server.svg",
       "check": "Backup server",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Every guest's backups",
       "color": "#E57000"
     },
@@ -8522,6 +8682,8 @@
       "url": "https://offsite.example.com:8007",
       "icon": "proxmox-backup-server.svg",
       "check": "Offsite backup server",
+      "engine": "Gatus",
+      "state": "up",
       "description": "The copies away from home",
       "color": "#E57000"
     },
@@ -8529,6 +8691,7 @@
       "name": "Dozzle",
       "url": "https://logs.example.com",
       "icon": "dozzle.svg",
+      "state": "unknown",
       "description": "Every container's logs",
       "color": "#FFDD00"
     },
@@ -8536,6 +8699,7 @@
       "name": "Beszel",
       "url": "https://beszel.example.com",
       "icon": "beszel.svg",
+      "state": "unknown",
       "description": "Every host's history",
       "color": "#2563EB"
     },
@@ -8543,6 +8707,7 @@
       "name": "Downloads",
       "url": "https://downloads.example.com",
       "icon": "qbittorrent.svg",
+      "state": "unknown",
       "description": "What's downloading",
       "color": "#3F87D9"
     }
@@ -8659,5 +8824,86 @@
     },
     { "name": "Check the rack's fans", "source": "Rack", "from": "2026-11-09" },
     { "name": "Tidy the patch panel", "source": "Rack", "note": "Rack list: whenever." }
-  ]
+  ],
+  "areas": [
+    {
+      "area": "servers",
+      "state": "degraded",
+      "sources": [
+        "Gatus",
+        "Uptime Kuma",
+        "Grafana",
+        "Prometheus",
+        "GitHub",
+        "Cluster",
+        "Vault",
+        "Beszel",
+        "Docker",
+        "Media",
+        "Rack UPS",
+        "Office UPS",
+        "Chores",
+        "Rack"
+      ]
+    },
+    {
+      "area": "network",
+      "state": "degraded",
+      "sources": [
+        "Gatus",
+        "Uptime Kuma",
+        "Grafana",
+        "Prometheus",
+        "GitHub",
+        "Primary DNS",
+        "Secondary DNS",
+        "IoT DNS",
+        "Chores",
+        "Rack"
+      ]
+    },
+    {
+      "area": "storage",
+      "state": "degraded",
+      "sources": [
+        "Gatus",
+        "Uptime Kuma",
+        "Grafana",
+        "Prometheus",
+        "GitHub",
+        "Backup Server",
+        "Offsite Backups",
+        "Cluster",
+        "Vault",
+        "Chores",
+        "Rack"
+      ]
+    },
+    {
+      "area": "apps",
+      "state": "degraded",
+      "sources": [
+        "Gatus",
+        "Uptime Kuma",
+        "Grafana",
+        "Prometheus",
+        "GitHub",
+        "Immich",
+        "Radarr",
+        "Sonarr",
+        "Prowlarr",
+        "qBittorrent",
+        "Jellyfin",
+        "Plex",
+        "Seerr",
+        "Home Assistant",
+        "Paperless-ngx",
+        "Nextcloud",
+        "Forgejo",
+        "Chores",
+        "Rack"
+      ]
+    }
+  ],
+  "homelab": { "state": "degraded" }
 }

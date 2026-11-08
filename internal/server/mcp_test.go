@@ -147,11 +147,19 @@ func TestMCPTools(t *testing.T) {
 	t.Parallel()
 	h := homelab(t)
 	for tool, want := range map[string][]string{
-		"problems":       {`"name":"Standby DNS"`, `"answered":true`},
-		"today":          {`{"args":{"blocked":9007199254740993},"key":"resolver.lookups_blocked","words":"{blocked} blocked"}`, `"value":48210`},
-		"this_week":      {`"check":"Photos"`, `"key":"pbs.backups","words":"Backups"`},
-		"chores":         {`"from":"2026-11-09","name":"Change the UPS battery"`, `"name":"Bump Immich to 2.3"`},
-		"apps_and_tools": {`"check":"Photos","checks":[{"area":"apps","key":"apps_photos"`, `"checks":[],"name":"Home"`, `"check":"Hypervisor","checks":[],"name":"Proxmox"`},
+		"problems": {
+			`"homelab":{"state":"down"}`, `{"area":"network","sources":["Gatus"],"state":"down"}`,
+			`"name":"Standby DNS"`, `"state":"down"`, `"answered":true`,
+		},
+		"today":     {`{"args":{"blocked":9007199254740993},"key":"resolver.lookups_blocked","words":"{blocked} blocked"}`, `"value":48210`},
+		"this_week": {`"check":"Photos"`, `"key":"pbs.backups","words":"Backups"`},
+		"chores":    {`"from":"2026-11-09","name":"Change the UPS battery"`, `"name":"Bump Immich to 2.3"`},
+		"apps_and_tools": {
+			`{"check":{"area":"apps","key":"apps_photos","name":"Photos"`,
+			`"link":{"check":"Photos","engine":"Gatus","name":"Photos","state":"up"`,
+			`{"link":{"name":"Home","state":"unknown","url":"https://ha.example.com"}}`,
+			`{"link":{"check":"Hypervisor","name":"Proxmox","state":"unknown","url":"https://pve.example.com:8006"}}`,
+		},
 	} {
 		body, headers := modern("tools/call", tool)
 		got := ask(t, h, body, headers...)
@@ -179,7 +187,7 @@ func TestMCPTools(t *testing.T) {
 		return ask(t, h, `{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"area","arguments":`+args+`}}`, "MCP-Protocol-Version", "2025-11-25")
 	}
 	text := call(`{"area":"network"}`).Result.Content[0].Text
-	for _, w := range []string{`"area":"network"`, `"name":"Standby DNS"`, `"key":"resolver.lookups_per_hour","words":"Lookups per hour"`, `"name":"Gatus"`} {
+	for _, w := range []string{`"area":"network"`, `"state":"down"`, `"name":"Standby DNS"`, `"key":"resolver.lookups_per_hour","words":"Lookups per hour"`, `"name":"Gatus"`} {
 		if !strings.Contains(text, w) {
 			t.Errorf("area network: no %s in %s", w, text)
 		}

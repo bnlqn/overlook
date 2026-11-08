@@ -1,10 +1,12 @@
 // What the page says, through page() alone: the demo's three homelabs as
-// they are, then small invented snapshots for what none of them shows.
+// they are, then small invented snapshots for what none of them shows. Go
+// decides each state and tests how (ADR 0017), so these snapshots carry the
+// states they're given, and these tests test what the page says of them.
 
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
-import { asIfNow, page } from "../js/page.js";
+import { AREAS, asIfNow, page } from "../js/page.js";
 import { setWords } from "../js/text.js";
 
 // A demo homelab as page() says it, at the moment it was read.
@@ -15,16 +17,26 @@ const homelab = (name) => {
 
 const NOW = Date.parse("2026-10-28T10:00:00Z");
 
-const check = (key, area, run, problem, more = {}) => ({
+// A check of Gatus in state, with facts that fit it: up with its last result
+// passing, failing once, down three times in a row, a problem, and unknown
+// with no result.
+const check = (key, area, state, more = {}) => ({
   key,
   name: key,
   area,
-  run,
-  problem,
+  source: "Gatus",
+  run: { failing: 1, down: 3 }[state] || 0,
+  problem: state === "down",
+  state,
   threshold: 3,
-  results: [{ ok: run === 0, at: "2026-10-28T09:59:00Z", ms: 12 }],
+  results: state === "unknown" ? [] : [{ ok: state === "up", at: "2026-10-28T09:59:00Z", ms: 12 }],
   ...more,
 });
+
+// The four areas as the snapshot carries them: each in the state states gives
+// it, or unknown, and naming the sources names gives it, or the check engine.
+const areas = (states = {}, names = {}) =>
+  AREAS.map((area) => ({ area, state: states[area] || "unknown", sources: names[area] || ["Gatus"] }));
 
 const snap = (checks, more = {}) => ({
   checks,
@@ -37,6 +49,8 @@ const snap = (checks, more = {}) => ({
   tools: [],
   chores: [],
   sources: [{ name: "Gatus", adapter: "gatus", kind: "checkengine", answered: true }],
+  areas: areas(),
+  homelab: { state: "unknown" },
   ...more,
 });
 
@@ -172,46 +186,48 @@ test("the demo's snapshots are left as they were read", () => {
 
 // ── The homelab and its areas ────────────────────────────────────────────
 
-test("an area is up with no problem, degraded with one, down when all are", () => {
+test("each check, area and the homelab is in the state the snapshot carries", () => {
   const m = page(
-    snap([check("dns1", "network", 0, false), check("dns2", "network", 4, true), check("nas", "storage", 3, true)]),
+    snap([check("dns1", "network", "up"), check("dns2", "network", "down"), check("nas", "storage", "down")], {
+      areas: areas({ network: "degraded", storage: "down" }),
+      homelab: { state: "down" },
+    }),
     NOW,
   );
-  assert.equal(area(m, "network").state, "degraded");
-  assert.equal(area(m, "storage").state, "down");
   assert.deepEqual(
     m.checks.map((c) => c.state),
     ["up", "down", "down"],
   );
+  assert.deepEqual(
+    m.areas.map((a) => a.state),
+    ["unknown", "degraded", "down", "unknown"],
+  );
+  assert.equal(m.homelab.state, "down");
   assert.deepEqual(names(area(m, "network").problems), ["dns2"]);
-  assert.equal(m.homelab.state, "down", "an area down is the homelab down");
 });
 
-test("a check failing below its threshold is failing, not a problem", () => {
-  const m = page(snap([check("films", "apps", 1, false, { since: "2026-10-28T09:59:00Z" })]), NOW);
+test("a failing check keeps when it started failing and its time, and isn't a problem", () => {
+  const m = page(snap([check("films", "apps", "failing", { since: "2026-10-28T09:59:00Z" })]), NOW);
   const [films] = m.checks;
-  assert.equal(films.state, "failing");
   assert.ok(films.failing);
   assert.deepEqual(films.since, new Date("2026-10-28T09:59:00Z"));
   assert.equal(films.ms, 12);
-  assert.equal(m.homelab.state, "up");
   assert.deepEqual(m.problems, []);
 });
 
-test("a check with no result yet is unknown, not up", () => {
-  const m = page(snap([check("new", "apps", 0, false, { results: [] })]), NOW);
-  assert.equal(m.checks[0].state, "unknown");
+test("a check with no result yet has no time", () => {
+  const m = page(snap([check("new", "apps", "unknown")]), NOW);
   assert.equal(area(m, "apps").ms, null);
 });
 
 test("a check says what its state doesn't: its run while failing, its threshold only where its engine gives one", () => {
   const m = page(
     snap([
-      check("photos", "apps", 0, false),
-      check("films", "apps", 2, false),
-      check("music", "apps", 2, false, { threshold: 0 }),
-      check("books", "apps", 4, true),
-      check("notes", "apps", 0, false, { results: [] }),
+      check("photos", "apps", "up"),
+      check("films", "apps", "failing", { run: 2 }),
+      check("music", "apps", "failing", { run: 2, threshold: 0 }),
+      check("books", "apps", "down", { run: 4 }),
+      check("notes", "apps", "unknown"),
     ]),
     NOW,
   );
@@ -231,12 +247,12 @@ test("an area counts its checks by state, and its page says its problems or how 
   const m = page(
     snap(
       [
-        check("dns1", "network", 0, false),
-        check("dns2", "network", 4, true),
-        check("nas", "storage", 0, false),
-        check("films", "apps", 0, false),
-        check("music", "apps", 1, false),
-        check("books", "apps", 0, false, { results: [] }),
+        check("dns1", "network", "up"),
+        check("dns2", "network", "down"),
+        check("nas", "storage", "up"),
+        check("films", "apps", "up"),
+        check("music", "apps", "failing"),
+        check("books", "apps", "unknown"),
       ],
       { sections: [{ area: "servers", source: "Proxmox", title: { key: "proxmox.guests" }, rows: [] }] },
     ),
@@ -267,7 +283,7 @@ test("an area counts its checks by state, and its page says its problems or how 
 
 test("an empty area's page says so, then names the check engines and the silent sources", () => {
   const pihole = { name: "Pi-hole", adapter: "pihole", kind: "resolver", area: "network", answered: false };
-  const m = page(snap([], { sources: [pihole] }), NOW);
+  const m = page(snap([], { sources: [pihole], areas: areas({}, { network: ["Pi-hole"] }) }), NOW);
   assert.deepEqual(
     area(m, "network").summary.map((part) => part.map((s) => s.key)),
     [["area.empty"], ["status.no_engine"], ["source.no_answer"]],
@@ -276,21 +292,33 @@ test("an empty area's page says so, then names the check engines and the silent 
 
 test("areas not up are named by state, the worst first; all of them as every area", () => {
   const m = page(
-    snap([
-      check("web", "servers", 0, false),
-      check("db", "servers", 3, true),
-      check("dns", "network", 3, true),
-      check("nas", "storage", 0, false),
-      check("films", "apps", 3, true),
-      check("shows", "apps", 0, false),
-    ]),
+    snap(
+      [
+        check("web", "servers", "up"),
+        check("db", "servers", "down"),
+        check("dns", "network", "down"),
+        check("nas", "storage", "up"),
+        check("films", "apps", "down"),
+        check("shows", "apps", "up"),
+      ],
+      {
+        areas: areas({ servers: "degraded", network: "down", storage: "up", apps: "degraded" }),
+        homelab: { state: "down" },
+      },
+    ),
     NOW,
   );
   assert.deepEqual(m.homelab.summary, [
     [{ key: "status.areas_down", args: { areas: ["network"] } }],
     [{ key: "status.areas_degraded", args: { areas: ["servers", "apps"] } }],
   ]);
-  const every = page(snap([check("dns", "network", 3, true), check("nas", "storage", 3, true)]), NOW);
+  const every = page(
+    snap([check("dns", "network", "down"), check("nas", "storage", "down")], {
+      areas: areas({ network: "down", storage: "down" }),
+      homelab: { state: "down" },
+    }),
+    NOW,
+  );
   assert.deepEqual(every.homelab.summary, [[{ key: "status.every_down" }]]);
 });
 
@@ -298,7 +326,7 @@ test("an area's strip lines its checks up by time, at the pace of the most frequ
   // A check every minute and one every ten, each with its last thirty
   // results, the slow one failing once two hours ago and once ten minutes ago.
   const every = (key, minutes, failedAt = []) =>
-    check(key, "storage", 0, false, {
+    check(key, "storage", "up", {
       results: Array.from({ length: 30 }, (_, i) => {
         const ago = (29 - i) * minutes;
         return { ok: !failedAt.includes(ago), at: new Date(NOW - ago * 60e3).toISOString(), ms: 1, why: "slow" };
@@ -327,37 +355,43 @@ test("an area's strip lines its checks up by time, at the pace of the most frequ
 });
 
 test("the middle response time is of the checks answering", () => {
-  const timed = (key, ms, run = 0) =>
-    check(key, "apps", run, false, { results: [{ ok: !run, at: "2026-10-28T09:59:00Z", ms }] });
-  const m = page(snap([timed("a", 30), timed("b", 10), timed("c", 20), timed("d", 5000, 1)]), NOW);
+  const timed = (key, ms, state = "up") =>
+    check(key, "apps", state, { results: [{ ok: state === "up", at: "2026-10-28T09:59:00Z", ms }] });
+  const m = page(snap([timed("a", 30), timed("b", 10), timed("c", 20), timed("d", 5000, "failing")]), NOW);
   assert.equal(area(m, "apps").ms, 20, "a failing check's time isn't an answer");
 });
 
 test("the quiet runs from the last problem's end, or from when the engine started watching", () => {
   const watched = "2026-10-20T08:00:00Z";
   const ended = "2026-10-27T14:20:00Z";
-  const calm = page(snap([check("a", "servers", 0, false, { watched })]), NOW);
+  const up = { areas: areas({ servers: "up" }), homelab: { state: "up" } };
+  const calm = page(snap([check("a", "servers", "up", { watched })], up), NOW);
   assert.deepEqual(calm.homelab.summary[0], [{ key: "status.quiet_since", args: { at: new Date(watched) } }]);
   const once = page(
-    snap([check("a", "servers", 0, false, { watched, outages: [{ from: "2026-10-27T14:00:00Z", to: ended }] })]),
+    snap([check("a", "servers", "up", { watched, outages: [{ from: "2026-10-27T14:00:00Z", to: ended }] })], up),
     NOW,
   );
   assert.deepEqual(once.homelab.summary[0], [{ key: "status.quiet_for", args: { ms: NOW - Date.parse(ended) } }]);
 });
 
-test("the homelab names its silent sources, and an area's page those of its area and every area", () => {
+test("the homelab names every silent source, and an area's page those of the sources it names", () => {
+  const every = ["Gatus", "Uptime Kuma"];
   const m = page(
-    snap([check("a", "servers", 0, false)], {
+    snap([check("a", "servers", "up")], {
       sources: [
         { name: "Gatus", kind: "checkengine", answered: true },
         { name: "Uptime Kuma", kind: "checkengine", answered: false, error: "timeout" },
         { name: "Office UPS", area: "servers", answered: false },
         { name: "IoT DNS", area: "network", kind: "resolver", answered: true },
       ],
+      areas: areas(
+        { servers: "up" },
+        { servers: [...every, "Office UPS"], network: [...every, "IoT DNS"], storage: every, apps: every },
+      ),
+      homelab: { state: "up" },
     }),
     NOW,
   );
-  assert.equal(m.homelab.state, "up", "one check engine answering is enough");
   assert.deepEqual(m.homelab.summary.at(-1), [
     { key: "source.no_answer", args: { names: ["Uptime Kuma", "Office UPS"] } },
   ]);
@@ -365,15 +399,20 @@ test("the homelab names its silent sources, and an area's page those of its area
   assert.deepEqual(area(m, "network").silent, ["Uptime Kuma"]);
 });
 
-test("a silent source that gives stores or backup runs is named in Storage too, beside its home area", () => {
+test("a silent source two areas name is named on each one's page, and once on the overview", () => {
   const m = page(
-    snap([check("a", "servers", 0, false)], {
+    snap([check("a", "servers", "up")], {
       sources: [
         { name: "Gatus", kind: "checkengine", answered: true },
         { name: "Proxmox", area: "servers", storage: true, answered: false, error: "timeout" },
         { name: "Backup Server", area: "storage", storage: true, answered: false },
         { name: "Office UPS", area: "servers", answered: false },
       ],
+      areas: areas(
+        { servers: "up" },
+        { servers: ["Gatus", "Proxmox", "Office UPS"], storage: ["Gatus", "Proxmox", "Backup Server"] },
+      ),
+      homelab: { state: "up" },
     }),
     NOW,
   );
@@ -386,17 +425,17 @@ test("a silent source that gives stores or backup runs is named in Storage too, 
   );
 });
 
-test("with no check engine answering, the homelab is down and says why", () => {
+test("down with no checks, the homelab says that no check engine answered, and why", () => {
   const m = page(
     snap([], {
       sources: [
         { name: "Primary DNS", area: "network", kind: "resolver", answered: false, error: "timeout" },
         { name: "Gatus", kind: "checkengine", answered: false, error: "connection refused" },
       ],
+      homelab: { state: "down" },
     }),
     NOW,
   );
-  assert.equal(m.homelab.state, "down");
   assert.deepEqual(m.homelab.headline, { key: "source.no_answer", args: { names: ["Primary DNS", "Gatus"] } });
   assert.deepEqual(
     m.homelab.summary,
@@ -405,7 +444,7 @@ test("with no check engine answering, the homelab is down and says why", () => {
   );
 });
 
-test("with no check engine, a silent resolver is named but the homelab isn't down", () => {
+test("unknown with no check engine, the homelab names those Overlook reads, then the silent sources", () => {
   const m = page(
     snap([], {
       sources: [{ name: "Primary DNS", area: "network", kind: "resolver", answered: false, error: "timeout" }],
@@ -422,12 +461,20 @@ test("with no check engine, a silent resolver is named but the homelab isn't dow
   });
 });
 
-test("a problem in a check in no area makes the homelab degraded, and the summary names it", () => {
-  const mail = check("Mail", "", 3, true);
-  const alone = page(snap([check("web", "servers", 0, false), mail]), NOW);
-  assert.equal(alone.homelab.state, "degraded");
+test("the homelab's summary names a problem in a check in no area, after the areas", () => {
+  const mail = check("Mail", "", "down");
+  const alone = page(
+    snap([check("web", "servers", "up"), mail], { areas: areas({ servers: "up" }), homelab: { state: "degraded" } }),
+    NOW,
+  );
   assert.deepEqual(alone.homelab.summary, [[{ key: "status.checks_down", args: { names: ["Mail"] } }]]);
-  const beside = page(snap([check("web", "servers", 0, false), check("dns", "network", 3, true), mail]), NOW);
+  const beside = page(
+    snap([check("web", "servers", "up"), check("dns", "network", "down"), mail], {
+      areas: areas({ servers: "up", network: "down" }),
+      homelab: { state: "down" },
+    }),
+    NOW,
+  );
   assert.deepEqual(
     beside.homelab.summary,
     [
@@ -436,10 +483,9 @@ test("a problem in a check in no area makes the homelab degraded, and the summar
     ],
     "after the areas",
   );
-  assert.equal(beside.homelab.state, "down", "an area down is still the homelab down");
 });
 
-test("with no checks and nothing silent, the homelab is unknown, not up", () => {
+test("unknown with nothing silent, the homelab says it has no checks, and with a check engine no more", () => {
   const m = page(snap([]), NOW);
   assert.deepEqual(m.homelab, { state: "unknown", headline: { key: "status.no_checks" }, summary: [] });
   assert.deepEqual(m.checkEngines, [], "its check engine has none yet: it needs no other");
@@ -469,22 +515,23 @@ test("with no check engine, the page names those Overlook reads, each linking it
   for (const name of ["snapshot", "small", "large"]) assert.deepEqual(homelab(name).checkEngines, [], name);
 });
 
-test("an area with no checks is unknown, not up: nothing says whether it works", () => {
+test("an area shown with no checks isn't counted among those its checks judge", () => {
   const m = page(
-    snap([check("web", "servers", 0, false)], {
+    snap([check("web", "servers", "up")], {
       sections: [{ area: "storage", title: { key: "x" }, rows: [] }],
+      areas: areas({ servers: "up" }),
+      homelab: { state: "up" },
     }),
     NOW,
   );
   const storage = area(m, "storage");
-  assert.deepEqual([storage.shown, storage.state], [true, "unknown"]);
-  assert.equal(m.homelab.state, "up", "and it says nothing of the homelab");
-  assert.deepEqual(m.homelab.summary.at(-1)[1], { key: "status.areas", args: { n: 1 } }, "nor counts as checked");
+  assert.deepEqual([storage.shown, storage.judged], [true, false]);
+  assert.deepEqual(m.homelab.summary.at(-1)[1], { key: "status.areas", args: { n: 1 } });
 });
 
 test("an area with nothing in it isn't shown", () => {
   const m = page(
-    snap([check("a", "servers", 0, false), check("b", "", 0, false)], {
+    snap([check("a", "servers", "up"), check("b", "", "up")], {
       sections: [{ area: "storage", title: { key: "x" }, rows: [] }],
     }),
     NOW,
@@ -501,9 +548,9 @@ test("two sources of one adapter name their parts; one alone doesn't", () => {
   const at = "2026-10-28T08:00:00Z";
   const read = snap(
     [
-      { ...check("Photos", "apps", 0, false), source: "Gatus" },
-      { ...check("Photos", "apps", 0, false), source: "Gatus Outside" },
-      { ...check("Films", "apps", 0, false), source: "Gatus" },
+      { ...check("Photos", "apps", "up"), source: "Gatus" },
+      { ...check("Photos", "apps", "up"), source: "Gatus Outside" },
+      { ...check("Films", "apps", "up"), source: "Gatus" },
     ],
     {
       sources: [
@@ -835,7 +882,7 @@ test("this week's events are newest first, at most eight, outages and updates am
   const hoursAgo = (h) => new Date(NOW - h * 3600e3).toISOString();
   const read = snap(
     [
-      check("dns", "network", 0, false, {
+      check("dns", "network", "up", {
         outages: [
           { from: hoursAgo(30), to: hoursAgo(29) },
           { from: hoursAgo(24 * 9), to: hoursAgo(24 * 8) },
@@ -879,10 +926,10 @@ test("the week runs from midnight six days ago to now, each area's outages cut t
   const at = (d, h) => new Date(2026, 9, d, h).toISOString();
   const read = snap(
     [
-      check("nas", "storage", 3, true, {
+      check("nas", "storage", "down", {
         outages: [{ from: at(20, 0), to: at(23, 0) }, { from: at(28, 11) }],
       }),
-      check("web", "servers", 0, false, { outages: [{ from: at(10, 0), to: at(11, 0) }] }),
+      check("web", "servers", "up", { outages: [{ from: at(10, 0), to: at(11, 0) }] }),
     ],
     {
       events: [
@@ -922,31 +969,32 @@ test("the week runs from midnight six days ago to now, each area's outages cut t
 
 // ── The apps, the tools and the chores ───────────────────────────────────
 
-test("a link's check is in the engine it names, or the worst of its name", () => {
-  const photos = (source, problem) => ({ ...check("Photos", "apps", problem ? 3 : 0, problem), source });
-  const read = snap([photos("Gatus", false), photos("Gatus Outside", true)], {
-    apps: [{ name: "Photos", check: "Photos" }, { name: "Films", check: "Films" }, { name: "Notes" }],
-    tools: [{ name: "Gatus", check: "Photos", engine: "Gatus" }],
+test("a link's check is the one of its name in the check engine the snapshot names, in its state", () => {
+  const photos = (source, state) => ({ ...check("Photos", "apps", state), source });
+  const read = snap([photos("Gatus", "up"), photos("Gatus Outside", "down")], {
+    apps: [
+      { name: "Photos", check: "Photos", engine: "Gatus Outside", state: "down" },
+      { name: "Films", check: "Films", state: "unknown" },
+      { name: "Notes", state: "unknown" },
+    ],
+    tools: [{ name: "Gatus", check: "Photos", engine: "Gatus", state: "up" }],
   });
   const m = page(read, NOW);
-  const [either, unknown, none] = m.apps.links;
-  assert.equal(either.check.source, "Gatus Outside", "a problem in either shows");
-  assert.equal(either.state, "down");
-  assert.equal(m.tools[0].check.source, "Gatus");
-  assert.equal(m.tools[0].state, "up");
-  assert.equal(unknown.check, undefined);
-  assert.equal(unknown.state, "unknown", "a check no engine has");
-  assert.equal(none.check, undefined, "a link with no check");
+  const [outside, unknown, none] = m.apps.links;
+  assert.deepEqual([outside.check.source, outside.state], ["Gatus Outside", "down"]);
+  assert.deepEqual([m.tools[0].check.source, m.tools[0].state], ["Gatus", "up"]);
+  assert.deepEqual([unknown.check, unknown.state], [undefined, "unknown"], "a check no check engine has");
+  assert.deepEqual([none.check, none.state], [undefined, "unknown"], "a link with no check");
   assert.deepEqual([m.apps.compact, m.apps.columns], [false, 3]);
 });
 
 test("an app's tile says it has no check, its state while it doesn't answer, and nothing while it does", () => {
-  const read = snap([check("Photos", "apps", 0, false), check("Films", "apps", 1, false)], {
+  const read = snap([check("Photos", "apps", "up"), check("Films", "apps", "failing")], {
     apps: [
-      { name: "Photos", check: "Photos" },
-      { name: "Films", check: "Films" },
-      { name: "Books", check: "Books" },
-      { name: "Notes" },
+      { name: "Photos", check: "Photos", engine: "Gatus", state: "up" },
+      { name: "Films", check: "Films", engine: "Gatus", state: "failing" },
+      { name: "Books", check: "Books", state: "unknown" },
+      { name: "Notes", state: "unknown" },
     ],
   });
   assert.deepEqual(

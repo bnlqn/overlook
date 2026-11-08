@@ -31,21 +31,26 @@ var Version = func() string {
 	return strings.TrimPrefix(info.Main.Version, "v")
 }()
 
-// Snapshot is every source's parts as read at one moment, and the config's
-// links. A source that didn't answer is marked so and gives no
-// parts.
+// Snapshot is every source's parts as read at one moment, the config's
+// links, and the state of each check, app, tool, area and the homelab,
+// decided from them (ADR 0017). A source that didn't answer is marked so and
+// gives no parts.
 type Snapshot struct {
-	At      time.Time     `json:"at"`
-	Sources []SourceState `json:"sources"`
+	At      time.Time    `json:"at"`
+	Sources []SourceRead `json:"sources"`
 	Parts
 	Apps  []Link `json:"apps"`
 	Tools []Link `json:"tools"`
+	// Areas are the four, in the page's order.
+	Areas   []Area  `json:"areas"`
+	Homelab Homelab `json:"homelab"`
 	// Version is the Overlook that read it, which the page names at its foot.
 	Version string `json:"version,omitempty"`
 }
 
-// SourceState says whether a source answered the last read.
-type SourceState struct {
+// SourceRead is a source as the last read found it: what it is, and whether
+// it answered.
+type SourceRead struct {
 	Name string `json:"name"`
 	// Adapter is the adapter that reads it, such as adguard: with another
 	// source of the same, the page names each one's parts.
@@ -137,16 +142,16 @@ func (r *Reader) Snapshot() Snapshot {
 	// Empty lists, never null, so the page needn't tell them apart.
 	snap := Snapshot{
 		At:      now,
-		Sources: make([]SourceState, 0, len(r.sources)),
+		Sources: make([]SourceRead, 0, len(r.sources)),
 		Parts:   Parts{Checks: []Check{}, Sections: []Section{}, Charts: []Chart{}, Figures: []Figure{}, Events: []Event{}, Updates: []Update{}, Chores: []Chore{}},
 		Apps:    append([]Link{}, r.apps...),
 		Tools:   append([]Link{}, r.tools...),
 		Version: Version,
 	}
 	for i, src := range r.sources {
-		state := SourceState{Name: src.Name, Adapter: src.Adapter, Area: src.Area, Kind: src.Kind, Storage: src.Storage, Answered: errs[i] == nil}
+		read := SourceRead{Name: src.Name, Adapter: src.Adapter, Area: src.Area, Kind: src.Kind, Storage: src.Storage, Answered: errs[i] == nil}
 		if errs[i] != nil {
-			state.Error = errs[i].Error()
+			read.Error = errs[i].Error()
 			slog.Warn("a source didn't answer", "source", src.Name, "error", errs[i])
 		} else {
 			// Each part is named by its source, so two of one adapter can
@@ -178,25 +183,30 @@ func (r *Reader) Snapshot() Snapshot {
 				snap.Chores = append(snap.Chores, c)
 			}
 		}
-		snap.Sources = append(snap.Sources, state)
+		snap.Sources = append(snap.Sources, read)
 	}
 	// The updates waiting, newest first, whichever source they wait in, such
 	// as GitHub or Gitea.
 	slices.SortStableFunc(snap.Updates, func(a, b Update) int { return b.At.Compare(a.At) })
-	r.warn(snap.Checks)
+	snap = Decide(snap)
+	r.warn(snap)
 	r.last = snap
 	return snap
 }
 
 // warn logs, once each, a link whose check's name two check engines share
-// and which doesn't say which: the page shows the worse of them.
-func (r *Reader) warn(checks []Check) {
-	for _, l := range append(r.apps, r.tools...) {
+// and which doesn't say which: the page shows the worst of them, the one in
+// the check engine snap names for the link.
+func (r *Reader) warn(snap Snapshot) {
+	// The snapshot's links are the config's, in the same order, with the
+	// check engine Decide chose.
+	decided := append(slices.Clone(snap.Apps), snap.Tools...)
+	for i, l := range append(slices.Clone(r.apps), r.tools...) {
 		if l.Check == "" || l.Engine != "" || r.warned[l.Name] {
 			continue
 		}
 		var engines []string
-		for _, c := range checks {
+		for _, c := range snap.Checks {
 			if c.Name == l.Check && !slices.Contains(engines, c.Source) {
 				engines = append(engines, c.Source)
 			}
@@ -206,8 +216,8 @@ func (r *Reader) warn(checks []Check) {
 				r.warned = map[string]bool{}
 			}
 			r.warned[l.Name] = true
-			slog.Warn("a check of this name is in more than one check engine, so the page shows the worse: name one, as engine/check",
-				"link", l.Name, "check", l.Check, "engines", engines)
+			slog.Warn("a check of this name is in more than one check engine, so the page shows the worst: name one, as engine/check",
+				"link", l.Name, "check", l.Check, "engines", engines, "shows", decided[i].Engine)
 		}
 	}
 }

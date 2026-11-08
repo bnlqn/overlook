@@ -48,13 +48,13 @@ and open <http://localhost:8080>.
 | `cmd/overlook` | the binary: flags, the server's start and its graceful stop |
 | `internal/config` | `overlook.yaml`: strict loading, `${VAR}`s and `.env`, every adapter's config, and what the setup page asks of each (ADR 0014) |
 | `internal/fetch` | the only way to read a source: a `fetch.Source` for each, which sends GET requests under its address and a login where it offers no other way in, and NUT's LIST VAR, nothing else (ADR 0001, ADR 0009, ADR 0013) |
-| `internal/snapshot` | the shapes every adapter gives back, what every resolver and media server shows whichever adapter reads it (ADR 0012), how every store and backup run shows in Storage (ADR 0016), and the reader that builds a snapshot on demand (ADR 0004) |
+| `internal/snapshot` | the shapes every adapter gives back, what every resolver and media server shows whichever adapter reads it (ADR 0012), how every store and backup run shows in Storage (ADR 0016), the reader that builds a snapshot on demand (ADR 0004), and the state of each check, app, tool, area and the homelab, which it decides as its last step (ADR 0017) |
 | `internal/adapters/<name>` | one adapter each, with its recorded answers in `testdata/` |
 | `internal/adapters/adaptertest` | the contract test every adapter passes |
 | `internal/server` | the routes, the setup page's and its try's while there is no config, and the headers every answer carries |
-| `web` | the page, embedded in the binary: HTML, `style.css`, the modules in `js/`, their tests in `test/`, the words in `i18n/`. A decision the page makes goes in `js/page.js`, and ⌘K's match in `js/text.js`, each with a test; `overview.js`, `area.js` and `shell.js` only write what those return, and `shell.js` keeps the keys, focus and tooltips. `setup.html` and `setup.js` are the setup page, and `config.js` the files it hands back |
+| `web` | the page, embedded in the binary: HTML, `style.css`, the modules in `js/`, their tests in `test/`, the words in `i18n/`. A state, and which checks and sources make it, is decided in `internal/snapshot`, with a Go test (ADR 0017); every other decision the page makes goes in `js/page.js`, and ⌘K's match in `js/text.js`, each with a test. `overview.js`, `area.js` and `shell.js` only write what those return, and `shell.js` keeps the keys, focus and tooltips. `setup.html` and `setup.js` are the setup page, and `config.js` the files it hands back |
 | `unraid` | the template for Unraid's Community Applications and its icon; `ca_profile.xml`, at the root, where the listing looks for it, is the listing's profile |
-| `demo` | the demo: an invented snapshot with every adapter's parts, a small and a large homelab beside it, the contract the server and the page keep (ADR 0003), and what writes the page from them for GitHub Pages |
+| `demo` | the demo: an invented snapshot with every adapter's parts, a small and a large homelab beside it, each with the states Go decides from its facts, which its test checks, the contract the server and the page keep (ADR 0003), and what writes the page from them for GitHub Pages |
 
 ## Adding an adapter
 

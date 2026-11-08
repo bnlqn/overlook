@@ -11,6 +11,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:39Z", "ms": 112.721 },
         { "ok": true, "at": "2026-10-28T09:01:39Z", "ms": 119.949 },
@@ -54,6 +55,7 @@
       "threshold": 3,
       "run": 0,
       "problem": false,
+      "state": "up",
       "results": [
         { "ok": true, "at": "2026-10-28T09:00:32Z", "ms": 120.181 },
         { "ok": true, "at": "2026-10-28T09:01:32Z", "ms": 112.177 },
@@ -100,6 +102,8 @@
       "url": "https://photos.example.com",
       "icon": "immich.svg",
       "check": "Photos",
+      "engine": "Gatus",
+      "state": "up",
       "description": "Our photos",
       "color": "#ED79B5"
     },
@@ -108,10 +112,19 @@
       "url": "https://home.example.com",
       "icon": "home-assistant.svg",
       "check": "Home",
+      "engine": "Gatus",
+      "state": "up",
       "description": "The lights and the heating",
       "color": "#18BCF2"
     }
   ],
   "tools": [],
-  "chores": []
+  "chores": [],
+  "areas": [
+    { "area": "servers", "state": "unknown", "sources": ["Gatus"] },
+    { "area": "network", "state": "unknown", "sources": ["Gatus"] },
+    { "area": "storage", "state": "unknown", "sources": ["Gatus"] },
+    { "area": "apps", "state": "up", "sources": ["Gatus"] }
+  ],
+  "homelab": { "state": "up" }
 }

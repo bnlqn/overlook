@@ -1352,11 +1352,12 @@ that is
 
 - **It can only read.** It has six tools, one for each part of the page,
   and none of them changes anything, in Overlook or in your homelab:
-  `problems` (what's wrong, and whether each source answered), `area` (one
-  area, as its own page shows it), `today` (the figures), `this_week` (the
-  problems and events of the last seven days), `chores` (the chores and
-  the updates) and `apps_and_tools` (each link, with the checks that say
-  whether it answers).
+  `problems` (what's wrong, the homelab's state and each area's, and
+  whether each source answered), `area` (one area and its state, as its
+  own page shows it), `today` (the figures), `this_week` (the problems and
+  events of the last seven days), `chores` (the chores and the updates)
+  and `apps_and_tools` (each link, its state and the check that says
+  whether it answers). Every state is the one the page shows.
 - **It reads the snapshot and nothing else**: the one the page is drawn
   from, at most 30 seconds old, never a key or a source's own answer. Each
   tool returns its part as JSON, each message key with its English words
@@ -1467,6 +1468,11 @@ sound as they come:
        adapter, checks that with `adaptertest.Validate`, and opens an issue
        when either fails. A source that changes its answers is then found
        before an owner finds it.
+7. [x] Each state decided once and carried in the snapshot: each check's,
+       app's, tool's, area's and the homelab's. The page words them and
+       MCP gives them, so an agent learns the state the page leads with,
+       and a change to how a state is decided is made in one place, never
+       in the page and MCP both (ADR 0017).
 
 The [adapters wanted](https://github.com/bnlqn/overlook/issues?q=is%3Aissue%20is%3Aopen%20label%3Aenhancement)
 are open as issues: if you run one of them, its issue says what an

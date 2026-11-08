@@ -105,9 +105,10 @@ plays, such as Jellyfin, Emby, or Plex through Tautulli. Their plays add up.
 _Avoid_: Streaming server, Plex (for all of them)
 
 **Snapshot**:
-Every source's facts as Overlook read them at one moment. The page is drawn
-from it.
-_Avoid_: State, cache
+Every source's facts as Overlook read them at one moment, and the state of
+each check, app, tool, area and the homelab, decided from them. The page is
+drawn from it.
+_Avoid_: State (how a check, an area or the homelab is), cache
 
 ### What the page shows
 
@@ -150,6 +151,15 @@ it works. The homelab is down when an area is down or it has check engines
 and none answered, degraded with any other problem, one in a check in no
 area too, unknown with no checks, and up otherwise.
 _Avoid_: Warning, partial outage
+
+**State**:
+How a check, an app, a tool, an area or the homelab is: up, down or
+unknown, or in between, failing for a check and degraded for an area or the
+homelab. A check's is under Check, and an area's and the homelab's under
+Degraded. An app or a tool has the state of the check that says whether it
+answers: the worst, where check engines share its name, and unknown with
+none.
+_Avoid_: Status, health
 
 **Quiet**:
 The time since the homelab's last problem ended.
