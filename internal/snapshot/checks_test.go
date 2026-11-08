@@ -32,10 +32,14 @@ func TestCheckOf(t *testing.T) {
 		name      string
 		results   string
 		stretches []Stretch
+		alerting  bool
 		run       int
 		since     *time.Time
 		problem   bool
 		outages   []Outage
+		// noThreshold is a threshold of 3 dropped, as reached without a
+		// problem.
+		noThreshold bool
 	}{
 		{name: "passing, with nothing remembered", results: "+++"},
 		{
@@ -45,14 +49,19 @@ func TestCheckOf(t *testing.T) {
 		},
 		{
 			name: "a problem since its first failure, its outage from the same moment", results: "+---",
-			stretches: []Stretch{{From: minute(1), Alerted: true}},
-			run:       3, since: at(1), problem: true,
+			stretches: []Stretch{{From: minute(1)}}, alerting: true,
+			run: 3, since: at(1), problem: true,
 			outages: []Outage{{From: minute(1)}},
 		},
 		{
-			name: "firing but silenced, so no problem, and no outage that ends now", results: "+---",
+			name: "failing past its threshold without an alert, as silenced: no problem, no outage that ends now, no threshold", results: "+---",
 			stretches: []Stretch{{From: minute(1)}},
-			run:       3, since: at(1),
+			run:       3, since: at(1), noThreshold: true,
+		},
+		{
+			name: "marked alerted by the check engine, which doesn't alert now: no problem", results: "++--",
+			stretches: []Stretch{{From: minute(2), Alerted: true}},
+			run:       2, since: at(2),
 		},
 		{
 			name: "a past problem kept, a past blip dropped", results: "+++",
@@ -72,12 +81,22 @@ func TestCheckOf(t *testing.T) {
 			run: 2, since: at(2),
 		},
 		{
+			name: "alerting now, though the engine remembers nothing: a problem since the first failure in a row", results: "++--",
+			alerting: true,
+			run:      2, since: at(2), problem: true,
+			outages: []Outage{{From: minute(2)}},
+		},
+		{
 			name: "no results, though the engine says failing: nothing", results: "",
-			stretches: []Stretch{{From: minute(0), Alerted: true}},
+			stretches: []Stretch{{From: minute(0), Alerted: true}}, alerting: true,
 		},
 	} {
-		ch := CheckOf(Check{Threshold: 3, Results: results(c.results)}, c.stretches)
-		if ch.Run != c.run || ch.Problem != c.problem || ch.Threshold != 3 {
+		ch := CheckOf(Check{Threshold: 3, Results: results(c.results)}, c.stretches, c.alerting)
+		threshold := 3
+		if c.noThreshold {
+			threshold = 0
+		}
+		if ch.Run != c.run || ch.Problem != c.problem || ch.Threshold != threshold {
 			t.Errorf("%s: run %d, problem %v, threshold %d", c.name, ch.Run, ch.Problem, ch.Threshold)
 		}
 		if (ch.Since == nil) != (c.since == nil) || ch.Since != nil && !ch.Since.Equal(*c.since) {
@@ -92,11 +111,34 @@ func TestCheckOf(t *testing.T) {
 	}
 }
 
+// Why is the newest result's while a check fails, whatever the check engine
+// said before, and nothing otherwise.
+func TestCheckOfWhy(t *testing.T) {
+	t.Parallel()
+	for _, c := range []struct {
+		name, results, why string
+	}{
+		{name: "failing", results: "+--", why: "timed out at 10:02"},
+		{name: "passing", results: "--+"},
+		{name: "never run", results: ""},
+	} {
+		rs := results(c.results)
+		for i := range rs {
+			if !rs[i].OK {
+				rs[i].Why = "timed out at " + rs[i].At.Format("15:04")
+			}
+		}
+		if ch := CheckOf(Check{Why: "an old reason", Results: rs}, nil, false); ch.Why != c.why {
+			t.Errorf("%s: why %q, want %q", c.name, ch.Why, c.why)
+		}
+	}
+}
+
 // A check engine that keeps more results than the page shows gives the
 // newest, oldest first.
 func TestCheckOfKeepsTheNewest(t *testing.T) {
 	t.Parallel()
-	ch := CheckOf(Check{Results: results("----------++++++++++++++++++++++++++++++")}, nil)
+	ch := CheckOf(Check{Results: results("----------++++++++++++++++++++++++++++++")}, nil, false)
 	if len(ch.Results) != Recent || !ch.Results[0].At.Equal(minute(10)) || ch.Run != 0 {
 		t.Errorf("the newest %d, from 10:10: %d from %v, run %d", Recent, len(ch.Results), ch.Results[0].At, ch.Run)
 	}

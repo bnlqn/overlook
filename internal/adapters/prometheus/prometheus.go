@@ -186,11 +186,11 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 			if r.Type != "" && r.Type != "alerting" {
 				continue
 			}
-			why, quiet := silenced[r.Name]
+			why, suppressed := silenced[r.Name]
 			checks = append(checks, check(snapshot.Check{
 				Key: g.Name + "/" + r.Name, Name: r.Name, Area: snapshot.AreaOf(g.Name, c.Areas),
 				URL: strings.TrimSuffix(c.Link, "/") + "/alerts?" + url.Values{"search": {r.Name}}.Encode(),
-			}, r, last, interval, failing[interval][r.Name], stretchesOf(failingWeek[r.Name], firing[r.Name]), quiet, why))
+			}, r, last, interval, failing[interval][r.Name], stretchesOf(failingWeek[r.Name], firing[r.Name]), suppressed, why))
 		}
 	}
 	return snapshot.Parts{Checks: checks}, nil
@@ -202,9 +202,9 @@ type silence struct {
 	Comment string `json:"comment"`
 }
 
-// silenced is, for each alert name all of whose alerts Alertmanager keeps
-// quiet, by a silence or as inhibited by another, why, as the silence's
-// comment words it. With no Alertmanager, none is.
+// silenced is, for each alert name all of whose alerts Alertmanager
+// suppresses, by a silence or as inhibited by another, why, as the
+// silence's comment words it. With no Alertmanager, none is.
 func (c Config) silenced(ctx context.Context) (map[string]string, error) {
 	out := map[string]string{}
 	if c.Alertmanager == "" {
@@ -267,16 +267,16 @@ func stretchesOf(failing, firing []float64) []snapshot.Stretch {
 // check is ch as a rule's state, its recent alerts and its week make it: its
 // last results, failing where an alert of it was pending or firing then, and
 // the stretches it failed this week, the one still going from when its
-// first alert went pending. A rule Alertmanager keeps quiet still fails,
-// with why it's quiet, but its stretch now hasn't alerted: Alertmanager
-// sends no alert for it, and it has no threshold to reach.
+// first alert went pending. A rule Alertmanager suppresses still fails,
+// with why it's suppressed, but its stretch now hasn't alerted:
+// Alertmanager sends no alert for it, and it has no threshold to reach.
 //
-// ponytail: a stretch Alertmanager kept quiet before now has alerted, as
+// ponytail: a stretch Alertmanager suppressed before now has alerted, as
 // Overlook reads only the silences now. If that shows on the week, read the
 // silences that ended too.
-func check(ch snapshot.Check, r rule, last time.Time, interval time.Duration, recent []float64, week []snapshot.Stretch, quiet bool, why string) snapshot.Check {
+func check(ch snapshot.Check, r rule, last time.Time, interval time.Duration, recent []float64, week []snapshot.Stretch, suppressed bool, why string) snapshot.Check {
 	ch.Threshold = snapshot.ThresholdOf(time.Duration(r.Duration*float64(time.Second)), interval)
-	if quiet {
+	if suppressed {
 		ch.Threshold = 0
 	}
 	// Each sample of the last evaluations is the evaluation nearest it.
@@ -288,7 +288,7 @@ func check(ch snapshot.Check, r rule, last time.Time, interval time.Duration, re
 	}
 	ch.Results = snapshot.Grid(last, interval, evaluations)
 	if len(ch.Results) == 0 {
-		return snapshot.CheckOf(ch, nil)
+		return snapshot.CheckOf(ch, nil, false)
 	}
 	// Its last result is its state now, whatever the series has caught.
 	now := &ch.Results[len(ch.Results)-1]
@@ -297,20 +297,19 @@ func check(ch snapshot.Check, r rule, last time.Time, interval time.Duration, re
 		now.MS = &ms
 	}
 	if now.OK {
-		return snapshot.CheckOf(ch, week)
+		return snapshot.CheckOf(ch, week, false)
 	}
 
 	var since *time.Time
 	for _, a := range r.Alerts {
 		if (a.State == "pending" || a.State == "firing") && (since == nil || a.ActiveAt.Before(*since)) {
 			since = &a.ActiveAt
-			ch.Why = cmp.Or(a.Annotations["summary"], r.Annotations["summary"], r.LastError)
+			now.Why = cmp.Or(a.Annotations["summary"], r.Annotations["summary"], r.LastError)
 		}
 	}
-	if quiet && why != "" {
-		ch.Why = why
+	if suppressed && why != "" {
+		now.Why = why
 	}
-	now.Why = ch.Why
 	// The week's stretch that started within five minutes of this one is
 	// this one, as the week can tell; one that started before ends where
 	// this one starts.
@@ -321,5 +320,5 @@ func check(ch snapshot.Check, r rule, last time.Time, interval time.Duration, re
 	if n := len(week) - 1; n >= 0 && week[n].To.After(from) {
 		week[n].To = &from
 	}
-	return snapshot.CheckOf(ch, append(week, snapshot.Stretch{From: from, Alerted: r.State == "firing" && !quiet}))
+	return snapshot.CheckOf(ch, append(week, snapshot.Stretch{From: from}), r.State == "firing" && !suppressed)
 }

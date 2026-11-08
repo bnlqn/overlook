@@ -5,24 +5,31 @@ import (
 	"time"
 )
 
-// Stretch is a run of failures as a check engine remembers it: from the
-// check's first failure to its next pass, with no end while it's still
-// going, and whether the check engine alerted on it. One still going has
-// alerted only if the check engine alerts on it now.
+// Stretch is the time a check keeps failing, as its check engine remembers
+// it (CONTEXT.md, Stretch): from its first failure to its next pass, with no
+// end while it's still going, and whether the check engine alerted on it.
 type Stretch struct {
 	From    time.Time
 	To      *time.Time
 	Alerted bool
 }
 
-// CheckOf is ch as its results and the stretches its check engine
-// remembers, oldest first, make it: its newest Recent results, its failures
-// in a row, since when, whether it's a problem, and its outages, which are
-// the stretches that alerted (CONTEXT.md, Problem). Its newest result is
-// how it is now, whatever the stretches say last: a stretch still going
-// ends at a newest result that passes, and one starts at the first of the
-// failures in a row when none is going.
-func CheckOf(ch Check, stretches []Stretch) Check {
+// CheckOf is ch as its results, the stretches its check engine remembers,
+// oldest first, and whether the check engine alerts on it now make it: its
+// newest Recent results, its failures in a row, since when, whether it's a
+// problem, why, and its outages, which are the stretches that alerted
+// (CONTEXT.md, Problem). How a check engine remembers its past varies from
+// one to the next, so the stretches before now are its own to work out; how
+// the check is now doesn't, so CheckOf works it out for all of them.
+//
+// Its newest result is how it is now, whatever the stretches say last: a
+// stretch still going ends at a newest result that passes, and one starts
+// at the first of the failures in a row when none is going. While it fails,
+// the stretch still going has alerted only if alerting says so, whatever
+// the check engine set, and why is the newest result's. A threshold its
+// failures in a row reached without a problem isn't the check engine's, so
+// it's 0.
+func CheckOf(ch Check, stretches []Stretch, alerting bool) Check {
 	ch.Results = append([]Result{}, ch.Results[max(0, len(ch.Results)-Recent):]...)
 	ch.Run = 0
 	for i := len(ch.Results) - 1; i >= 0 && !ch.Results[i].OK; i-- {
@@ -42,15 +49,19 @@ func CheckOf(ch Check, stretches []Stretch) Check {
 		stretches = append(stretches, Stretch{From: ch.Results[len(ch.Results)-ch.Run].At})
 	}
 
-	ch.Since, ch.Problem, ch.Outages = nil, false, nil
+	ch.Since, ch.Problem, ch.Why, ch.Outages = nil, false, "", nil
 	if ch.Run > 0 {
-		now := stretches[len(stretches)-1]
-		ch.Since, ch.Problem = &now.From, now.Alerted
+		now := &stretches[len(stretches)-1]
+		now.Alerted = alerting
+		ch.Since, ch.Problem, ch.Why = &now.From, alerting, ch.Results[len(ch.Results)-1].Why
 	}
 	for _, s := range stretches {
 		if s.Alerted && (s.To == nil || s.To.After(s.From)) {
 			ch.Outages = append(ch.Outages, Outage{From: s.From, To: s.To})
 		}
+	}
+	if !ch.Problem && ch.Run >= ch.Threshold {
+		ch.Threshold = 0
 	}
 	return ch
 }

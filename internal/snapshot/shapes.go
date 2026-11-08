@@ -66,10 +66,12 @@ type Check struct {
 	// URL is the check's own page in the check engine.
 	URL string `json:"url"`
 	// Threshold is how many failures in a row make a problem: the same
-	// number as the check engine's alerts, or 0 if it doesn't say.
+	// number as the check engine's alerts, or 0 if it doesn't say, or if
+	// the failures in a row reached it without a problem, which CheckOf
+	// sees to.
 	Threshold int `json:"threshold"`
 	// Run is the failures in a row, up to the newest result. It, Problem,
-	// Since and Outages are CheckOf's to fill in.
+	// Why, Since and Outages are CheckOf's to fill in.
 	Run     int  `json:"run"`
 	Problem bool `json:"problem"`
 	// Why is the newest result's failure, as the check engine words it.
