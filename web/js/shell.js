@@ -5,7 +5,7 @@
 import { REPO } from "./config.js";
 import { badge, by, stateIcon, svg, TONE } from "./draw.js";
 import { asIfNow, page } from "./page.js";
-import { drawnAt, esc, loadWords, number, t, translate } from "./text.js";
+import { drawnAt, esc, loadWords, matches, number, t, translate } from "./text.js";
 
 /** The pages, in the sidebar's order; key goes after G to jump there. */
 export const PAGES = [
@@ -130,18 +130,15 @@ function palette() {
   document.body.append(box);
   const input = box.querySelector("input");
   const results = box.querySelector(".pal-list");
-  const fuzzy = (q, s) => {
-    let i = 0;
-    for (const ch of s) if (ch === q[i]) i++;
-    return i === q.length;
-  };
   const pages = () => PAGES.filter((p) => !p.area || last?.areas.find((a) => a.area === p.area).shown);
+  // Each entry as HTML, and the words it's found by, as written.
   const link =
     (group) =>
     ({ link: s }) => ({
       group,
       name: esc(s.name),
       what: esc(s.description || ""),
+      words: [s.name, s.description],
       glyph: badge(s, "sm"),
       href: s.url,
       out: true,
@@ -150,26 +147,30 @@ function palette() {
     ...pages().map((p) => ({
       group: t("palette.go"),
       name: pageName(p),
+      words: [pageName(p)],
       glyph: svg(p.icon),
       href: p.href,
       hint: `<kbd>G</kbd><kbd>${p.key.toUpperCase()}</kbd>`,
     })),
     ...(last ? last.apps.links : []).map(link(t("side.apps"))),
     ...(last ? last.tools : []).map(link(t("side.tools"))),
-    ...(last ? last.checks : []).map((c) => ({
-      group: t("palette.checks"),
-      name: esc(c.name) + by(c),
-      what: c.area ? t(`area.${c.area}`) : "",
-      glyph: stateIcon(c.state),
-      href: c.url,
-      out: true,
-    })),
+    ...(last ? last.checks : []).map((c) => {
+      const area = c.area ? t(`area.${c.area}`) : "";
+      return {
+        group: t("palette.checks"),
+        name: esc(c.name) + by(c),
+        what: area,
+        words: [c.name, c.by, area],
+        glyph: stateIcon(c.state),
+        href: c.url,
+        out: true,
+      };
+    }),
   ];
   let items = [];
   let at = 0;
   const draw = () => {
-    const q = input.value.trim().toLowerCase();
-    items = everything().filter((i) => fuzzy(q, `${i.name} ${i.what || ""}`.toLowerCase()));
+    items = everything().filter((i) => matches(input.value, ...i.words));
     at = Math.max(0, Math.min(at, items.length - 1));
     const rows = items.map(
       (i, n) =>

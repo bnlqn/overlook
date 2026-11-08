@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { ago, bytes, drawnAt, ms, say, setWords, span, t, when } from "../js/text.js";
+import { ago, bytes, drawnAt, matches, ms, say, setWords, span, t, when } from "../js/text.js";
 
 const en = {
   "span.minutes": "{n} min",
@@ -59,6 +59,18 @@ test("a snapshot's text is a message, or a name as written", () => {
   setWords(en, {}, "en");
   assert.equal(say({ key: "problems", args: { n: 1 } }), "1 problem");
   assert.equal(say({ name: "web & <db>" }), "web &amp; &lt;db&gt;");
+});
+
+test("⌘K matches the letters typed, in order, whatever their case and accents", () => {
+  assert.ok(matches("pxv", "Proxmox VE"));
+  assert.ok(!matches("xp", "Proxmox VE"));
+  assert.ok(matches("PROX", "proxmox"));
+  assert.ok(matches("medias", "Médias"));
+  assert.ok(matches("dnsnet", "DNS", undefined, "Network"), "across the words, a missing one left out");
+  assert.ok(matches("  ", "DNS"), "nothing typed matches every word");
+  // The words are as written: the markup that names a check's source, a
+  // <span class="by">, is the page's and never matches.
+  assert.ok(!matches("span", "DNS", "gatus"));
 });
 
 test("spans, sizes and response times", () => {
