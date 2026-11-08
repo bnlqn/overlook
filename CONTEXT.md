@@ -79,6 +79,13 @@ failing, such as a Gatus endpoint, an Uptime Kuma monitor or a Grafana alert
 rule.
 _Avoid_: Monitor, probe, endpoint
 
+**Stretch**:
+The time a check keeps failing, from its first failure to its next pass, as
+its check engine remembers it, and whether the check engine alerted on it.
+A stretch it alerted on is a problem; the one still going has alerted only
+if the check engine alerts on the check now.
+_Avoid_: Incident (Checkmate's word), downtime
+
 **To-do list**:
 A source that keeps the chores the owner writes down, such as a list on
 Radicale or Nextcloud. Overlook never marks a chore done itself.
@@ -135,7 +142,7 @@ area too, unknown with no checks, and up otherwise.
 _Avoid_: Warning, partial outage
 
 **Quiet**:
-The stretch since the homelab's last problem ended.
+The time since the homelab's last problem ended.
 _Avoid_: Uptime, streak
 
 **Section**:
