@@ -66,6 +66,8 @@ test("every message the page names is in the English table", () => {
     // failures' words are checked by the server's tests, which know them.
     "setup.group.checkengines",
     "setup.group.chores",
+    // The setup code's field, drawn as the adapters' are.
+    "setup.field.code",
   ];
   assert.ok(named.length > 50, `only ${named.length} messages found: is the pattern still right?`);
   for (const key of ["result.failed", "page.overview", "shares.others"]) {

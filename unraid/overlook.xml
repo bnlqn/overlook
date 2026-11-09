@@ -14,7 +14,7 @@
   <Support>https://github.com/bnlqn/overlook/discussions</Support>
   <Project>https://github.com/bnlqn/overlook</Project>
   <ReadMe>https://raw.githubusercontent.com/bnlqn/overlook/main/README.md</ReadMe>
-  <Overview>Your whole homelab on one page, laid out for you: what is wrong, how each area of it is, and what it did today and this week, read from the tools it already runs, such as Gatus, Proxmox, AdGuard Home or Jellyfin. Overlook only reads, and changes nothing. With mcp: true in overlook.yaml, your AI agent can ask it what the page shows, and can't change anything either. Opened with no config, it shows its setup page: pick the tools you run, try each one, and save the two files it hands back in its config folder.</Overview>
+  <Overview>Your whole homelab on one page, laid out for you: what is wrong, how each area of it is, and what it did today and this week, read from the tools it already runs, such as Gatus, Proxmox, AdGuard Home or Jellyfin. Overlook only reads, and changes nothing. With mcp: true in overlook.yaml, your AI agent can ask it what the page shows, and can't change anything either. Opened with no config, it shows its setup page: give it the code from its log, pick the tools you run, try each one, and save the two files it hands back in its config folder.</Overview>
   <Category>Tools:System Network:Management</Category>
   <ExtraSearchTerms>homelab status overview gatus uptime-kuma proxmox adguard pihole jellyfin mcp</ExtraSearchTerms>
   <WebUI>http://[IP]:[PORT:8080]/</WebUI>

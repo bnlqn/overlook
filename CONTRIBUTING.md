@@ -39,7 +39,7 @@ and open <http://localhost:8000>. The demo serves two more homelabs, each from a
 go run ./cmd/overlook -config path/to/overlook.yaml
 ```
 
-and open <http://localhost:8080>.
+and open <http://localhost:8080>. Give it a config that isn't there, in a folder of its own, and it serves the setup page instead, with the code the setup page asks for in its log (ADR 0018).
 
 ## Where things are
 
