@@ -64,6 +64,21 @@
 
   "result.passed": "Passed",
   "result.failed": "Failed",
+  "results.all": { "one": "Its one result passed", "other": "All {n} results passed" },
+  "results.newest_failed": {
+    "one": "Its one result failed, at {at:clock}",
+    "other": "{passed} of {n} results passed, and the last one failed at {at:clock}"
+  },
+  "results.last_failed": "{passed} of {n} results passed, and the last failure was at {at:clock}",
+  "results.area_all": {
+    "one": "Its checks all passed the one time",
+    "other": "Its checks all passed the last {n} times"
+  },
+  "results.area_newest_failed": {
+    "one": "At {at:clock}, {names:list} failed",
+    "other": "Its checks all passed {passed} of the last {n} times, and at {at:clock} {names:list} failed"
+  },
+  "results.area_last_failed": "Its checks all passed {passed} of the last {n} times, and {names:list} last failed at {at:clock}",
   "check.failed_n": "Failed {run} of {threshold}",
   "check.no_results": "No results yet",
   "check.failed_run": { "one": "Failed once", "other": "Failed {n} times in a row" },
@@ -146,7 +161,14 @@
   "chores.next": "Nothing to do this week. Next: {name}, from {at:day}.",
 
   "setup.title": "Set up Overlook",
-  "setup.intro": "Overlook has no config yet. Pick the tools your homelab runs, try each one, then save the two files this page puts together.",
+  "setup.intro": "Overlook has no config yet. Give it the code from its log, pick the tools your homelab runs, try each one, then save the two files this page puts together.",
+  "setup.code": "The code from the log",
+  "setup.code_ask": "Overlook wrote a code in its log as it started, so that only someone who can read its log can set it up. <code>docker compose logs overlook</code> shows it.",
+  "setup.code_ask_unraid": "Overlook wrote a code in its log as it started, so that only someone who can read its log can set it up. On Unraid's Docker page, click Overlook's icon, then <b>Logs</b>.",
+  "setup.code_ask_homeassistant": "Overlook wrote a code in its log as it started, so that only someone who can read its log can set it up. On Overlook's page in Settings, Apps, it's under <b>Log</b>.",
+  "setup.code_go": "Continue",
+  "setup.code_wrong": "That isn't the code in Overlook's log. It makes a new one each time it starts, so give the newest.",
+  "setup.code_again": "Overlook has started again, with a new code: give the one now in its log.",
   "setup.group.checkengines": "Check engines",
   "setup.group.checkengines_ask": "Start with one. Problems come only from a check engine, which runs your checks and sends your alerts: without one, the page can't say what's wrong.",
   "setup.group.chores": "Chores",
@@ -186,11 +208,13 @@
   "setup.env_note": "The keys <code>overlook.yaml</code> names. Keep this file out of git.",
   "setup.restart": "Save both files in the folder mounted at <code>/etc/overlook</code>, named <code>overlook.yaml</code> and <code>.env</code>, then restart Overlook, such as with <code>docker compose restart</code>. Once Overlook is back, this page turns into the page.",
   "setup.restart_unraid": "Save both files in Overlook's config folder, <code>/mnt/user/appdata/overlook</code> unless you changed it on its form, named <code>overlook.yaml</code> and <code>.env</code>: from Unraid's terminal, the <b>&gt;_</b> at the top, such as with <code>nano /mnt/user/appdata/overlook/overlook.yaml</code>. Then restart Overlook on the Docker page. Once it's back, this page turns into the page.",
+  "setup.restart_homeassistant": "Save both files in Overlook's folder, the one in <code>app_configs</code> whose name ends in <code>_overlook</code>, named <code>overlook.yaml</code> and <code>.env</code>: such as with Home Assistant's Samba share app, or its Terminal &amp; SSH app, under <code>/app_configs</code>. Then restart Overlook on its page in Settings, Apps. Once it's back, this page turns into the page.",
   "setup.away": "Overlook isn't answering. If it doesn't come back, its log says why.",
   "setup.yaml.head": "Overlook's config, from its setup page. Each source's README section says what else it takes.",
   "setup.yaml.links": "# The apps and tools the page links to go here, each a name and an address:\n# apps:\n#   - name: Photos\n#     url: https://photos.example.com\n# tools:\n#   - name: Proxmox\n#     url: https://pve.example.com:8006",
   "setup.env.head": "Overlook's keys, which overlook.yaml names. Keep this file out of git.",
 
+  "setup.field.code": "Code",
   "setup.field.name": "Name",
   "setup.field.url": "Address",
   "setup.field.host": "Address",
@@ -227,6 +251,7 @@
   "setup.adapter.jellyfin": "Jellyfin",
   "setup.adapter.emby": "Emby",
   "setup.adapter.tautulli": "Plex, through Tautulli",
+  "setup.adapter.audiobookshelf": "Audiobookshelf",
   "setup.adapter.seerr": "Seerr",
   "setup.adapter.homeassistant": "Home Assistant",
   "setup.adapter.paperless": "Paperless-ngx",
@@ -237,5 +262,7 @@
   "setup.adapter.unifi": "UniFi Network",
   "setup.adapter.adguard": "AdGuard Home",
   "setup.adapter.pihole": "Pi-hole",
+  "setup.adapter.npm": "Nginx Proxy Manager",
+  "setup.adapter.traefik": "Traefik",
   "setup.adapter.ical": "iCalendar to-do list"
 }

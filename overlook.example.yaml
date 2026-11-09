@@ -162,6 +162,12 @@ sources:
     - url: http://tautulli:8181        # where Overlook reads Tautulli, directly, not through a proxy
       key: ${TAUTULLI_KEY}             # Settings, Web Interface, API key
 
+  # The audiobooks and podcasts: who listens now, each library and the items
+  # gone from it, the episodes waiting to download, and today's listening.
+  audiobookshelf:
+    - url: http://audiobookshelf       # where Overlook reads Audiobookshelf
+      key: ${AUDIOBOOKSHELF_KEY}       # Settings, API Keys: an admin of its own's, as the README says
+
   # The requests for films and shows: those waiting for your approval are
   # chores, and the problems people reported show.
   seerr:
@@ -237,6 +243,21 @@ sources:
     - name: Kids' DNS
       url: http://pihole.example.com   # where Overlook reads Pi-hole's web interface
       password: ${PIHOLE_PASSWORD}     # an app password, from Settings, Web interface / API
+
+  # Nginx Proxy Manager's hosts and streams, in red when nginx refused one,
+  # and the certificates they serve, a chore within 30 days of their end.
+  npm:
+    - url: http://npm.example.com:81   # where Overlook reads its admin
+      user: overlook@example.com       # its user's email: not an admin, with View on hosts and streams
+      password: ${NPM_PASSWORD}
+
+  # Traefik: its routers, services and middlewares in error or warned of,
+  # the servers its health checks find down, and its certificates, those
+  # that expire within 30 days as chores.
+  traefik:
+    - url: https://traefik.example.com # where Overlook reads its API, under /api
+      user: overlook                   # the login of a basicAuth middleware in front of it, if there is one
+      password: ${TRAEFIK_PASSWORD}
 
   # The chores you keep on a to-do list: mark one done there, in any CalDAV
   # app, and the page follows. A to-do with no due date is due now.

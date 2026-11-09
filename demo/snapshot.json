@@ -21,6 +21,7 @@
     { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "kind": "mediaserver", "answered": true },
     { "name": "Emby", "adapter": "emby", "area": "apps", "kind": "mediaserver", "answered": true },
     { "name": "Plex", "adapter": "tautulli", "area": "apps", "kind": "mediaserver", "answered": true },
+    { "name": "Audiobookshelf", "adapter": "audiobookshelf", "area": "apps", "answered": true },
     { "name": "Seerr", "adapter": "seerr", "area": "apps", "answered": true },
     { "name": "Home Assistant", "adapter": "homeassistant", "area": "apps", "answered": true },
     { "name": "Paperless-ngx", "adapter": "paperless", "area": "apps", "answered": true },
@@ -38,6 +39,8 @@
       "error": "timeout"
     },
     { "name": "Kids' DNS", "adapter": "pihole", "area": "network", "kind": "resolver", "answered": true },
+    { "name": "Nginx Proxy Manager", "adapter": "npm", "area": "network", "answered": true },
+    { "name": "Traefik", "adapter": "traefik", "area": "network", "answered": true },
     { "name": "Chores", "adapter": "ical", "kind": "todolist", "answered": true }
   ],
   "checks": [
@@ -1881,7 +1884,7 @@
         {
           "title": { "name": "Noor" },
           "value": { "key": "mediabrowser.episode", "args": { "series": "Harbour Lights", "name": "The Lamp Room" } },
-          "detail": { "key": "mediaserver.transcoding", "args": { "device": "Kitchen tablet" } }
+          "detail": { "key": "mediaserver.transcoding", "args": { "device": "Apple iPad" } }
         },
         { "title": { "key": "mediabrowser.films" }, "value": { "key": "mediabrowser.films_n", "args": { "n": 412 } } },
         {
@@ -1948,6 +1951,34 @@
           "value": { "key": "tautulli.shows_n", "args": { "n": 31, "parents": 112, "children": 1520 } }
         },
         { "title": { "key": "tautulli.plex" }, "value": { "key": "tautulli.current" } }
+      ]
+    },
+    {
+      "area": "apps",
+      "source": "Audiobookshelf",
+      "title": { "key": "audiobookshelf.title" },
+      "rows": [
+        {
+          "title": { "name": "Kim" },
+          "value": { "name": "The Hound of the Baskervilles" },
+          "detail": { "name": "Fairphone FP5" }
+        },
+        {
+          "title": { "name": "Audiobooks" },
+          "value": { "key": "audiobookshelf.books", "args": { "n": 214 } },
+          "detail": { "key": "audiobookshelf.issues", "args": { "n": 2 } },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "Podcasts" },
+          "value": { "key": "audiobookshelf.podcasts", "args": { "n": 9 } },
+          "detail": { "key": "audiobookshelf.episodes", "args": { "n": 412, "length": 1029600000, "size": 9800000000 } }
+        },
+        {
+          "title": { "name": "Soldering at Night" },
+          "value": { "key": "audiobookshelf.to_download", "args": { "n": 2 } },
+          "detail": { "key": "audiobookshelf.downloading", "args": { "title": "Flux, and Why" } }
+        }
       ]
     },
     {
@@ -2337,6 +2368,156 @@
       "rows": [
         { "title": { "name": "ads.example.com" }, "value": { "key": "number", "args": { "n": 1420 } } },
         { "title": { "name": "chat.example.net" }, "value": { "key": "number", "args": { "n": 860 } } }
+      ]
+    },
+    {
+      "area": "network",
+      "source": "Nginx Proxy Manager",
+      "title": { "key": "npm.domains" },
+      "rows": [
+        {
+          "title": { "name": "cloud.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.20.14:80" }
+        },
+        {
+          "title": { "name": "dash.example.com" },
+          "value": { "key": "npm.refused" },
+          "tone": "red",
+          "detail": { "name": "unknown directive \"proxy_read_timout\" in /data/nginx/proxy_host/9.conf:37" }
+        },
+        {
+          "title": { "name": "docs.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.20.15:8000" }
+        },
+        {
+          "title": { "name": "films.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "cinema.example.com · → http://10.0.20.12:8096" }
+        },
+        {
+          "title": { "name": "git.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.20.16:3000" }
+        },
+        {
+          "title": { "name": "home.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.20.13:8123" }
+        },
+        { "title": { "name": "old.example.com" }, "value": { "key": "npm.dead" } },
+        {
+          "title": { "name": "photos.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.20.11:2283" }
+        },
+        {
+          "title": { "name": "wiki.example.com" },
+          "value": { "key": "npm.disabled" },
+          "tone": "gray",
+          "detail": { "name": "→ http://10.0.20.17:3000" }
+        },
+        {
+          "title": { "name": "www.example.com" },
+          "value": { "key": "npm.redirect", "args": { "code": "301" } },
+          "detail": { "name": "→ https://example.com" }
+        },
+        { "title": { "key": "version" }, "value": { "name": "v2.16.0" } }
+      ]
+    },
+    {
+      "area": "network",
+      "source": "Nginx Proxy Manager",
+      "title": { "key": "npm.streams" },
+      "rows": [
+        {
+          "title": { "key": "npm.port", "args": { "port": "2222" } },
+          "value": { "key": "npm.tcp" },
+          "detail": { "name": "→ 10.0.20.16:22" }
+        }
+      ]
+    },
+    {
+      "area": "network",
+      "source": "Nginx Proxy Manager",
+      "title": { "key": "npm.certificates" },
+      "rows": [
+        {
+          "title": { "name": "*.example.com, example.com" },
+          "value": { "key": "npm.expires", "args": { "ms": 1555200000 } },
+          "tone": "orange",
+          "detail": { "key": "npm.letsencrypt" }
+        },
+        {
+          "title": { "name": "Films" },
+          "value": { "key": "npm.expires", "args": { "ms": 17280000000 } },
+          "detail": { "key": "npm.custom", "args": { "domains": "films.example.com" } }
+        }
+      ]
+    },
+    {
+      "area": "network",
+      "source": "Traefik",
+      "title": { "key": "traefik.routing" },
+      "rows": [
+        { "title": { "key": "traefik.routers" }, "value": { "key": "number", "args": { "n": 18 } }, "tone": "red" },
+        { "title": { "key": "traefik.services" }, "value": { "key": "number", "args": { "n": 16 } } },
+        { "title": { "key": "traefik.middlewares" }, "value": { "key": "number", "args": { "n": 5 } }, "tone": "red" },
+        {
+          "title": { "name": "notes@docker" },
+          "value": { "key": "traefik.router_disabled" },
+          "detail": { "name": "middleware \"authelia@docker\" does not exist" },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "printer@file" },
+          "value": { "key": "traefik.router_disabled" },
+          "detail": { "name": "cannot parse CIDRs [192.168.1.0/33]: invalid CIDR address: 192.168.1.0/33" },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "wiki@file" },
+          "value": { "key": "traefik.router_warning" },
+          "detail": { "name": "entryPoint \"web-old\" doesn't exist" },
+          "tone": "orange"
+        },
+        {
+          "title": { "name": "lan-only@file" },
+          "value": { "key": "traefik.middleware_disabled" },
+          "detail": { "name": "cannot parse CIDRs [192.168.1.0/33]: invalid CIDR address: 192.168.1.0/33" },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "films@docker" },
+          "value": { "key": "traefik.servers_down", "args": { "down": 1, "n": 2 } },
+          "detail": { "name": "http://192.0.2.32:8096" },
+          "tone": "red"
+        },
+        { "title": { "name": "photos@docker" }, "value": { "key": "traefik.servers_up", "args": { "n": 1 } } }
+      ]
+    },
+    {
+      "area": "network",
+      "source": "Traefik",
+      "title": { "key": "traefik.certificates" },
+      "rows": [
+        {
+          "title": { "name": "nas.example.com" },
+          "value": { "key": "traefik.expires", "args": { "ms": 777600000 } },
+          "detail": { "key": "traefik.issued_by", "args": { "issuer": "nas.example.com" } },
+          "tone": "orange"
+        },
+        {
+          "title": { "name": "*.example.com" },
+          "value": { "key": "traefik.expires", "args": { "ms": 5356800000 } },
+          "detail": { "key": "traefik.issued_by", "args": { "issuer": "R11" } }
+        },
+        {
+          "title": { "name": "printer.example.com" },
+          "value": { "key": "traefik.expires", "args": { "ms": 25920000000 } },
+          "detail": { "key": "traefik.issued_by", "args": { "issuer": "printer.example.com" } }
+        }
       ]
     }
   ],
@@ -2803,6 +2984,41 @@
     },
     {
       "area": "apps",
+      "source": "Audiobookshelf",
+      "icon": "play",
+      "label": { "key": "audiobookshelf.listened" },
+      "value": 95,
+      "unit": { "key": "audiobookshelf.minutes" },
+      "detail": { "key": "audiobookshelf.listening_now", "args": { "n": 1 } },
+      "shares": [
+        {
+          "label": { "name": "Kim" },
+          "value": 65,
+          "rows": [
+            {
+              "title": { "name": "The Hound of the Baskervilles" },
+              "value": { "key": "audiobookshelf.span", "args": { "ms": 3000000 } }
+            },
+            {
+              "title": { "name": "Pride and Prejudice" },
+              "value": { "key": "audiobookshelf.span", "args": { "ms": 900000 } }
+            }
+          ]
+        },
+        {
+          "label": { "name": "Noor" },
+          "value": 30,
+          "rows": [
+            {
+              "title": { "name": "Leeks in November" },
+              "value": { "key": "audiobookshelf.span", "args": { "ms": 1800000 } }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "area": "apps",
       "source": "Paperless-ngx",
       "icon": "document",
       "label": { "key": "paperless.documents" },
@@ -3181,6 +3397,14 @@
       "state": "unknown",
       "description": "Every container's logs",
       "color": "#FFDD00"
+    },
+    {
+      "name": "Traefik",
+      "url": "https://traefik.example.com/dashboard/",
+      "icon": "traefik-proxy.svg",
+      "state": "unknown",
+      "description": "The routers and their certificates",
+      "color": "#24A1C1"
     }
   ],
   "chores": [
@@ -3239,6 +3463,20 @@
       "source": "UniFi"
     },
     {
+      "name": "*.example.com, example.com",
+      "from": "2026-10-16",
+      "note": "2026-11-15",
+      "url": "https://npm.example.com/certificates",
+      "source": "Nginx Proxy Manager"
+    },
+    {
+      "name": "nas.example.com",
+      "from": "2026-10-07",
+      "note": "2026-11-06",
+      "url": "https://traefik.example.com/dashboard/",
+      "source": "Traefik"
+    },
+    {
       "name": "Clean the NAS's dust filters",
       "source": "Chores",
       "from": "2026-10-26",
@@ -3289,6 +3527,8 @@
         "Primary DNS",
         "Standby DNS",
         "Kids' DNS",
+        "Nginx Proxy Manager",
+        "Traefik",
         "Chores"
       ]
     },
@@ -3326,6 +3566,7 @@
         "Jellyfin",
         "Emby",
         "Plex",
+        "Audiobookshelf",
         "Seerr",
         "Home Assistant",
         "Paperless-ngx",

@@ -1,0 +1,31 @@
+[
+  {
+    "basicAuth": {
+      "users": []
+    },
+    "status": "enabled",
+    "usedBy": [
+      "dashboard@file"
+    ],
+    "name": "auth@file",
+    "provider": "file",
+    "type": "basicauth"
+  },
+  {
+    "ipAllowList": {
+      "sourceRange": [
+        "192.168.1.0/33"
+      ]
+    },
+    "error": [
+      "cannot parse CIDRs [192.168.1.0/33]: parsing CIDR trusted IPs <nil>: invalid CIDR address: 192.168.1.0/33"
+    ],
+    "status": "disabled",
+    "usedBy": [
+      "printer@file"
+    ],
+    "name": "lan-only@file",
+    "provider": "file",
+    "type": "ipallowlist"
+  }
+]

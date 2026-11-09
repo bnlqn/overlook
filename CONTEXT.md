@@ -124,6 +124,12 @@ What Overlook shows in place of the page while it has no config: it asks
 which sources to read, tries each once, and hands back the config to save.
 _Avoid_: Wizard, onboarding, installer
 
+**Setup code**:
+What Overlook writes in its log as it starts without a config, a new one
+each start, and the setup page asks for before it tries any source, so that
+only someone who can read the log can set Overlook up.
+_Avoid_: Password, token, key, PIN
+
 **Area**:
 One of the four fixed parts of a homelab: Servers, Network, Storage and Apps.
 An area with nothing in it isn't shown.
@@ -196,8 +202,8 @@ _Avoid_: Activity, log entry
 Something the owner does while nothing is broken: one they keep on a to-do
 list, an update waiting to be merged or to be installed from inside its tool,
 a battery to change, a device waiting to be adopted into the tool that
-runs it, or a request waiting for approval, such as a film someone asked
-for in Seerr.
+runs it, a request waiting for approval, such as a film someone asked
+for in Seerr, or a certificate to renew.
 It is done in the source it waits in, never on the page, and is never a
 problem.
 _Avoid_: Todo, task, clear (for done)

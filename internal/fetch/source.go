@@ -201,7 +201,7 @@ func (s Source) read(ctx context.Context, path, accept string) ([]byte, error) {
 		return nil, err
 	}
 	body, err := s.get(ctx, at, accept, sent)
-	if refused(err) {
+	if s.session.refused(err) {
 		if sent, err = s.session.header(ctx, sent); err != nil {
 			return nil, err
 		}

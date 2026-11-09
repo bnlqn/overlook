@@ -1,6 +1,7 @@
 package fetch
 
 import (
+	"cmp"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -15,10 +16,11 @@ import (
 
 // source is a fake source that lets a client in only after a login, as
 // Pi-hole does. It counts logins and anything else that reaches it, refuses
-// every other method and path, and forgets its session when told to.
+// every other method and path, and forgets its session when told to. It
+// refuses a read without its session with refuse, or a 401.
 type source struct {
 	*httptest.Server
-	logins, redirects, others atomic.Int32
+	logins, redirects, others, refuse atomic.Int32
 
 	mu  sync.Mutex
 	sid string
@@ -52,7 +54,7 @@ func newSource(t *testing.T, start func(http.Handler) *httptest.Server) *source 
 			in := s.sid != "" && r.Header.Get("X-FTL-SID") == s.sid
 			s.mu.Unlock()
 			if !in {
-				http.Error(w, `{"error": "unauthorized"}`, http.StatusUnauthorized)
+				http.Error(w, `{"error": "unauthorized"}`, cmp.Or(int(s.refuse.Load()), http.StatusUnauthorized))
 				return
 			}
 			_, _ = w.Write([]byte(`{"n": 4}`))
@@ -121,6 +123,34 @@ func TestSession(t *testing.T) {
 	}
 	if n := src.others.Load(); n != 0 {
 		t.Errorf("%d other requests reached the source", n)
+	}
+}
+
+// A source that refuses a lapsed session with a status of its own, as Nginx
+// Proxy Manager answers a 400, is logged in again when its login names that
+// status, and only then.
+func TestSessionLapsed(t *testing.T) {
+	t.Parallel()
+	src := newSource(t, httptest.NewServer)
+	src.refuse.Store(http.StatusBadRequest)
+	login := pihole("s3cret")
+	login.Lapsed = http.StatusBadRequest
+	s := open(t, Source{URL: src.URL, Login: login})
+	readAll(t, s, 4)
+	src.forget()
+	readAll(t, s, 4)
+	if n := src.logins.Load(); n != 2 {
+		t.Errorf("reads after the session lapsed logged in %d times in all, want twice", n)
+	}
+
+	plain := open(t, Source{URL: src.URL, Login: pihole("s3cret")})
+	readAll(t, plain, 1)
+	src.forget()
+	if err := plain.JSON(t.Context(), "/api/stats", new(struct{})); err == nil || !strings.Contains(err.Error(), "HTTP 400") {
+		t.Errorf("a 400 its login doesn't name is an error, got %v", err)
+	}
+	if n := src.logins.Load(); n != 3 {
+		t.Errorf("a 400 its login doesn't name logged in again: %d logins in all, want 3", n)
 	}
 }
 

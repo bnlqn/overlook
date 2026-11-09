@@ -161,6 +161,16 @@ button {
   outline-offset: 1px;
   border-radius: 6px;
 }
+/* Words a screen reader says that the page shows another way, such as by a
+   glyph's shape or a strip of results: out of sight, never out of the page. */
+.spoken {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 kbd {
   display: inline-grid;
   place-items: center;
@@ -326,12 +336,13 @@ span[class^="tone-"] {
 .nav:hover {
   background: var(--m-fill-hover);
 }
-.nav.here {
+/* The page showing, which a screen reader is told too. */
+.nav[aria-current="page"] {
   background: var(--m-fill-pressed);
   color: var(--m-label);
   box-shadow: inset 0 0 0 0.5px var(--m-separator);
 }
-.nav.here > .ic {
+.nav[aria-current="page"] > .ic {
   color: var(--m-label);
 }
 .nav .dot {
@@ -1550,7 +1561,9 @@ main {
   font: var(--m-type-body);
 }
 
-/* The last results, one tick each: the newest at the right, breathing. */
+/* The last results, one tick each: the newest at the right, breathing. One
+   that failed stands taller than one that passed, so that the two differ by
+   shape as well as colour. */
 .strip {
   display: flex;
   gap: 2px;
@@ -1562,7 +1575,7 @@ main {
   flex: 1;
   max-width: 5px;
   min-width: 2px;
-  height: 14px;
+  height: 10px;
   border-radius: 2px;
   background: var(--m-fill-gray);
   transition: transform 0.15s var(--m-ease);
@@ -1571,6 +1584,7 @@ main {
   background: var(--m-passed);
 }
 .strip i.bad {
+  height: 18px;
   background: var(--m-red);
 }
 /* An area's moment when only some of its checks failed: red as tall as
@@ -1783,9 +1797,6 @@ main {
 .launch.compact .app-top {
   margin-bottom: 6px;
 }
-.launch.compact .app .detail {
-  display: none;
-}
 .launch.compact .app-foot {
   margin-top: 4px;
 }
@@ -1870,11 +1881,13 @@ main {
   background: var(--m-card-fill);
   overflow: hidden;
 }
+/* Each group's title is a heading, for a screen reader to move between. */
 .group-head {
   display: flex;
   align-items: center;
   gap: 8px;
   height: 36px;
+  margin: 0;
   padding: 0 14px;
   background: color-mix(in srgb, var(--m-ink) 2%, transparent);
   font: var(--m-type-headline);
@@ -2123,7 +2136,11 @@ a.chore:hover {
   .check {
     grid-template-columns: auto minmax(0, 1fr) 56px;
   }
+  /* Their words are still spoken. */
   .check .strip {
+    display: contents;
+  }
+  .check .strip i {
     display: none;
   }
   /* At this width the checks draw no results, so their title doesn't name
@@ -2232,6 +2249,90 @@ main > :nth-child(n + 6) {
 .boot .spark .line {
   animation: draw 1.1s var(--m-ease) both 0.3s;
 }
+/* In forced colours the page's colours give way to the few the owner picked,
+   which leave a background unpainted. What says how a check, an area or a
+   week went by colour alone is painted in theirs, a failure in their
+   highlight and in a shape of its own: a tall tick, a square dot, a filled
+   diamond. Charts and shares keep their own colours, as many as they need
+   to tell their parts apart. */
+@media (forced-colors: active) {
+  .strip i,
+  .dot,
+  .meter,
+  .tl-track,
+  .hour-chart,
+  .legend,
+  .shares,
+  .parts {
+    forced-color-adjust: none;
+  }
+  .strip i {
+    background: transparent;
+  }
+  .strip i.ok,
+  .strip i:last-child.ok {
+    background: CanvasText;
+  }
+  .strip i.bad,
+  .strip i.part {
+    background: Highlight;
+  }
+  /* A dot takes its state glyph's shape: filled for up, half filled, a
+     square for down, or, unknown or with no check, a faint ring. */
+  .dot {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px GrayText;
+  }
+  .dot.tone-green {
+    background: CanvasText;
+    box-shadow: none;
+  }
+  .dot.tone-orange {
+    background: linear-gradient(90deg, CanvasText 50%, transparent 0);
+    box-shadow: inset 0 0 0 1.5px CanvasText;
+  }
+  .dot.tone-red {
+    border-radius: 1px;
+    background: Highlight;
+    box-shadow: none;
+  }
+  .meter {
+    background: Canvas;
+    box-shadow: inset 0 0 0 1px GrayText;
+  }
+  .meter > span {
+    background: CanvasText;
+  }
+  .meter.tone-orange > span,
+  .meter.tone-red > span {
+    background: Highlight;
+  }
+  .tl-bar {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px GrayText;
+  }
+  .tl-out,
+  .tl-out.now {
+    background: Highlight;
+    box-shadow: none;
+  }
+  .tl-ms {
+    background: Canvas;
+    box-shadow: inset 0 0 0 1.5px CanvasText;
+  }
+  .tl-ms.bad {
+    background: Highlight;
+    box-shadow: inset 0 0 0 1.5px Highlight;
+  }
+  /* What is picked, the page showing or a chart's hours, is outlined, as
+     its shade is gone. */
+  .nav[aria-current="page"]:not(:focus-visible),
+  .pills button[aria-pressed="true"]:not(:focus-visible) {
+    outline: 1px solid CanvasText;
+    outline-offset: -1px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -2288,6 +2389,10 @@ body.setup main {
 .block-ask {
   margin: -4px 0 12px;
   color: var(--m-label-2);
+}
+/* The setup code's form is a card of its own, with nothing above it. */
+.asks.code {
+  border-top: 0;
 }
 .adapters {
   display: flex;
@@ -2473,6 +2578,7 @@ body.setup main {
   color: var(--m-orange-text);
 }
 .restart code,
+.block-ask code,
 .file-note code {
   font: 12px var(--m-mono);
   color: var(--m-label-1);

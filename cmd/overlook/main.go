@@ -78,8 +78,11 @@ func run() error {
 // config that is there but wrong stops Overlook, and says why.
 func open(path string) (http.Handler, int, error) {
 	if _, err := os.Stat(path); errors.Is(err, fs.ErrNotExist) {
-		slog.Info("no config, so the page is the setup page until there is one", "config", path)
-		h, err := server.Setup()
+		// The setup page asks for the code before it tries a source, so that
+		// only someone who can read this log can have Overlook read with it.
+		code := server.Code()
+		slog.Info("no config, so the page is the setup page until there is one, and asks for this code", "config", path, "code", code)
+		h, err := server.Setup(code)
 		return h, 0, err
 	}
 	c, err := config.Load(path)

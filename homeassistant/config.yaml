@@ -1,0 +1,28 @@
+# Overlook as a Home Assistant app, which Home Assistant called an add-on
+# until 2026, kept here beside Unraid's template (ADR 0019). It runs the
+# released image, at the version below, which a release brings up once its
+# image is on GHCR (CONTRIBUTING.md), and opens in Home Assistant's sidebar
+# through ingress. Its config is the owner's own overlook.yaml and .env, in
+# the folder Home Assistant gives the app, mounted read-only where the image
+# reads it: Overlook writes nothing (ADR 0004).
+name: Overlook
+version: "0.7.0"
+slug: overlook
+description: Your whole homelab on one page, laid out for you.
+url: https://github.com/bnlqn/overlook
+arch:
+  - aarch64
+  - amd64
+image: ghcr.io/bnlqn/overlook
+# Overlook is the only process in its image, and stops itself on SIGTERM.
+init: false
+ingress: true
+ingress_port: 8080
+panel_icon: mdi:binoculars
+map:
+  - type: app_config
+    path: /etc/overlook
+# Closed until the owner opens it, for MCP or a browser outside Home
+# Assistant, since Overlook answers it with no login.
+ports:
+  8080/tcp: null

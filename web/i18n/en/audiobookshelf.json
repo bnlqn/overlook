@@ -1,0 +1,17 @@
+{
+  "audiobookshelf.title": "Audiobooks",
+  "audiobookshelf.books": { "one": "{n} book", "other": "{n} books" },
+  "audiobookshelf.podcasts": { "one": "{n} podcast", "other": "{n} podcasts" },
+  "audiobookshelf.length": "{length:span} · {size:bytes}",
+  "audiobookshelf.episodes": {
+    "one": "{n} episode · {length:span} · {size:bytes}",
+    "other": "{n} episodes · {length:span} · {size:bytes}"
+  },
+  "audiobookshelf.issues": "{n} missing or unreadable",
+  "audiobookshelf.to_download": { "one": "{n} episode to download", "other": "{n} episodes to download" },
+  "audiobookshelf.downloading": "Downloading {title}",
+  "audiobookshelf.listened": "Listened",
+  "audiobookshelf.minutes": "min",
+  "audiobookshelf.listening_now": "{n} listening now",
+  "audiobookshelf.span": "{ms:span}"
+}

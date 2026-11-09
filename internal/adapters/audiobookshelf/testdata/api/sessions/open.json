@@ -1,0 +1,82 @@
+{
+  "sessions": [
+    {
+      "id": "1da3624c-f9b1-4b5e-9f5d-ea5a49bb2d3a",
+      "userId": "ea96fc36-9548-46bd-81bd-7c3d89603abb",
+      "libraryId": "7a7630c3-9b66-4a1b-9d71-41c44d94e9fd",
+      "libraryItemId": "ef263366-0686-464c-9790-24e6db81493c",
+      "bookId": "a4f1c680-43c9-4a30-a858-b127abab0002",
+      "episodeId": null,
+      "mediaType": "book",
+      "displayTitle": "Frankenstein",
+      "displayAuthor": "Mary Shelley",
+      "coverPath": null,
+      "duration": 30600,
+      "playMethod": 0,
+      "mediaPlayer": "exoplayer",
+      "deviceInfo": {
+        "id": "afceb419-dc8c-4269-8858-578bee7eb290",
+        "userId": "ea96fc36-9548-46bd-81bd-7c3d89603abb",
+        "deviceId": "kim-phone",
+        "clientVersion": "2.37.2",
+        "manufacturer": "Fairphone",
+        "model": "FP5",
+        "sdkVersion": "",
+        "clientName": "Abs Android",
+        "deviceName": "Fairphone FP5"
+      },
+      "serverVersion": "2.37.2",
+      "date": "2026-11-09",
+      "dayOfWeek": "Monday",
+      "timeListening": 600,
+      "startTime": 0,
+      "currentTime": 600,
+      "startedAt": 1794256595439,
+      "updatedAt": 1794256595462,
+      "user": {
+        "id": "ea96fc36-9548-46bd-81bd-7c3d89603abb",
+        "username": "kim"
+      }
+    },
+    {
+      "id": "21984c6d-a384-4d57-a09e-e550a443c37c",
+      "userId": "a9e4486f-d4f2-4207-bbe7-f716d81a7faa",
+      "libraryId": "7a7630c3-9b66-4a1b-9d71-41c44d94e9fd",
+      "libraryItemId": "ef548804-0b10-433d-9c5a-68a91e8a0f84",
+      "bookId": "a4eb5111-d190-4c6e-b165-80944d0993c4",
+      "episodeId": null,
+      "mediaType": "book",
+      "displayTitle": "The Time Machine",
+      "displayAuthor": "H. G. Wells",
+      "coverPath": null,
+      "duration": 12600,
+      "playMethod": 0,
+      "mediaPlayer": "html5",
+      "deviceInfo": {
+        "id": "79c7cf0a-12e0-436e-931b-de51bb09fbb0",
+        "userId": "a9e4486f-d4f2-4207-bbe7-f716d81a7faa",
+        "deviceId": "owner-browser",
+        "browserName": "Firefox",
+        "browserVersion": "140.0",
+        "osName": "Linux",
+        "osVersion": "x86_64",
+        "clientVersion": "2.37.2",
+        "clientName": "Abs Web",
+        "deviceName": "Linux x86_64 Firefox"
+      },
+      "serverVersion": "2.37.2",
+      "date": "2026-11-09",
+      "dayOfWeek": "Monday",
+      "timeListening": 300,
+      "startTime": 0,
+      "currentTime": 300,
+      "startedAt": 1794256595541,
+      "updatedAt": 1794256595564,
+      "user": {
+        "id": "a9e4486f-d4f2-4207-bbe7-f716d81a7faa",
+        "username": "owner"
+      }
+    }
+  ],
+  "shareSessions": []
+}

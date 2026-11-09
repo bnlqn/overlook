@@ -243,6 +243,58 @@ test("a check says what its state doesn't: its run while failing, its threshold 
   );
 });
 
+test("a check's strip says how many of its results passed, and when the last failed", () => {
+  // Results a minute apart up to 09:59, failing at the minutes given.
+  const results = (n, failedAt = []) =>
+    Array.from({ length: n }, (_, i) => ({
+      ok: !failedAt.includes(59 - (n - 1 - i)),
+      at: `2026-10-28T09:${String(59 - (n - 1 - i)).padStart(2, "0")}:00Z`,
+      ms: 1,
+    }));
+  const m = page(
+    snap([
+      check("photos", "apps", "up", { results: results(30) }),
+      check("films", "apps", "up", { results: results(30, [40, 41]) }),
+      check("music", "apps", "down", { results: results(30, [57, 58, 59]) }),
+      check("books", "apps", "up", { results: results(1) }),
+      check("notes", "apps", "failing", { results: results(1, [59]) }),
+      check("new", "apps", "unknown"),
+    ]),
+    NOW,
+  );
+  const at = (minute) => new Date(`2026-10-28T09:${minute}:00Z`);
+  assert.deepEqual(
+    m.checks.map((c) => [c.name, c.lately]),
+    [
+      ["photos", { key: "results.all", args: { n: 30 } }],
+      ["films", { key: "results.last_failed", args: { n: 30, passed: 28, at: at(41) } }],
+      ["music", { key: "results.newest_failed", args: { n: 30, passed: 27, at: at(59) } }],
+      ["books", { key: "results.all", args: { n: 1 } }],
+      ["notes", { key: "results.newest_failed", args: { n: 1, passed: 0, at: at(59) } }],
+      ["new", null],
+    ],
+  );
+});
+
+test("an area's strip says how often all its checks passed, and which failed last and when", () => {
+  const at = (minute) => `2026-10-28T09:${minute}:00Z`;
+  const two = (key, failedAt) =>
+    check(key, "network", "up", {
+      results: [58, 59].map((minute) => ({ ok: minute !== failedAt, at: at(minute), ms: 1 })),
+    });
+  const lately = (...checks) => area(page(snap(checks), NOW), "network").lately;
+  assert.deepEqual(lately(two("dns1"), two("dns2")), { key: "results.area_all", args: { n: 2 } });
+  assert.deepEqual(lately(two("dns1", 58), two("dns2", 58)), {
+    key: "results.area_last_failed",
+    args: { n: 2, passed: 1, at: new Date(at(58)), names: ["dns1", "dns2"] },
+  });
+  assert.deepEqual(lately(two("dns1"), two("dns2", 59)), {
+    key: "results.area_newest_failed",
+    args: { n: 2, passed: 1, at: new Date(at(59)), names: ["dns2"] },
+  });
+  assert.equal(lately(check("new", "network", "unknown")), null, "with no result, nothing");
+});
+
 test("an area counts its checks by state, and its page says its problems or how many are up", () => {
   const m = page(
     snap(

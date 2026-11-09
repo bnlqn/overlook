@@ -6,6 +6,8 @@ package server
 
 import (
 	"context"
+	"crypto/rand"
+	"crypto/subtle"
 	"encoding/json"
 	"errors"
 	"io/fs"
@@ -28,9 +30,11 @@ import (
 
 // policy keeps the page to its own scripts, styles and requests, so that a
 // name a source sends can never run as code. Icons may come from anywhere;
-// style attributes carry the page's per-element colours and delays.
+// style attributes carry the page's per-element colours and delays. Only a
+// page at Overlook's own address may frame it, as Home Assistant's does, its
+// sidebar showing Overlook from Home Assistant's address (ADR 0019).
 const policy = "default-src 'self'; script-src 'self'; style-src 'self'; style-src-attr 'unsafe-inline'; " +
-	"img-src * data:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+	"img-src * data:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'self'"
 
 // language is a translation's file name: its language's code.
 var language = regexp.MustCompile(`^[a-z]{2,3}\.json$`)
@@ -94,9 +98,18 @@ func New(c config.Config, dir string) (http.Handler, error) {
 	return secure(mux), nil
 }
 
+// Code makes a setup code (ADR 0018): twelve characters of base32, which
+// leaves out 0, 1 and 8, so that none is taken for O, I or B, in three
+// groups of four.
+func Code() string {
+	c := rand.Text()[:12]
+	return c[:4] + "-" + c[4:8] + "-" + c[8:]
+}
+
 // Setup serves the setup page, while there is no config (ADR 0014): the
-// page's own files, what to ask of each adapter's sources, and a try of one.
-func Setup() (http.Handler, error) {
+// page's own files, what to ask of each adapter's sources, and a try of one
+// for whoever gives code, the setup code from the log (ADR 0018).
+func Setup(code string) (http.Handler, error) {
 	words, err := words()
 	if err != nil {
 		return nil, err
@@ -107,11 +120,13 @@ func Setup() (http.Handler, error) {
 	}
 	// The version, so that the page links the README of the Overlook that
 	// runs, and whether it runs on Unraid, which sets HOST_OS in every
-	// container, so that it says where to save the files there.
+	// container, or in Home Assistant, which gives every app a
+	// SUPERVISOR_TOKEN, so that it says where to save the files there.
 	asks, err := json.Marshal(map[string]any{
-		"version":  snapshot.Version,
-		"unraid":   strings.EqualFold(os.Getenv("HOST_OS"), "unraid"),
-		"adapters": adapters,
+		"version":       snapshot.Version,
+		"unraid":        strings.EqualFold(os.Getenv("HOST_OS"), "unraid"),
+		"homeassistant": os.Getenv("SUPERVISOR_TOKEN") != "",
+		"adapters":      adapters,
 	})
 	if err != nil {
 		return nil, err
@@ -126,7 +141,7 @@ func Setup() (http.Handler, error) {
 		w.Header().Set("Content-Type", "application/json")
 		_, _ = w.Write(asks)
 	})
-	mux.HandleFunc("POST /setup", try(adapters))
+	mux.HandleFunc("POST /setup", try(adapters, code))
 	return secure(mux), nil
 }
 
@@ -147,22 +162,35 @@ type tried struct {
 }
 
 // try reads one source, as the setup page gives it, once. Only the page
-// itself may ask: a website its owner visits would otherwise have Overlook
-// read their network for it. ponytail: the Origin check doesn't stop DNS
-// rebinding, which ADR 0014 accepts while there is no config; a code from
-// the log would close it, if this page ever stays up for long.
-func try(adapters []config.Adapter) http.HandlerFunc {
+// itself may ask, and only with the setup code: a website its owner visits
+// would otherwise have Overlook read their network for it. The Origin check
+// stops one that is only itself; the code stops one that points its own
+// name at Overlook's address (DNS rebinding), since it can't read the log.
+// The code alone, with no source, is how the page asks whether it's right.
+func try(adapters []config.Adapter, code string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if origin, err := url.Parse(r.Header.Get("Origin")); err != nil || origin.Host != r.Host {
 			http.Error(w, "only Overlook's own setup page may try a source", http.StatusForbidden)
 			return
 		}
 		var source struct {
+			Code    string         `json:"code"`
 			Adapter string         `json:"adapter"`
 			Fields  map[string]any `json:"fields"`
 		}
 		if err := json.NewDecoder(http.MaxBytesReader(w, r.Body, 64<<10)).Decode(&source); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		if subtle.ConstantTimeCompare(typed(source.Code), typed(code)) != 1 {
+			// 401 tells the page to ask for the code again. HTTP has it name
+			// a challenge, one no browser knows, so none asks for a login.
+			w.Header().Set("WWW-Authenticate", "Setup-Code")
+			http.Error(w, "that isn't the setup code in Overlook's log", http.StatusUnauthorized)
+			return
+		}
+		if source.Adapter == "" {
+			w.WriteHeader(http.StatusNoContent)
 			return
 		}
 		var out tried
@@ -198,6 +226,12 @@ func try(adapters []config.Adapter) http.HandlerFunc {
 			slog.Warn("sending a try", "error", err)
 		}
 	}
+}
+
+// typed is a setup code as it may be typed: in either case, with or without
+// its dashes, and with spaces around or between its groups.
+func typed(code string) []byte {
+	return []byte(strings.ToUpper(strings.Join(strings.Fields(strings.ReplaceAll(code, "-", " ")), "")))
 }
 
 // why is what the setup page says to do about a try that failed, by its

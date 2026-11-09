@@ -1,0 +1,63 @@
+{
+  "results": [
+    {
+      "id": "2913916a-d61a-4e0f-ac4d-4be5bdbd3b87",
+      "ino": "730892",
+      "oldLibraryItemId": null,
+      "libraryId": "7a7630c3-9b66-4a1b-9d71-41c44d94e9fd",
+      "folderId": "1820a5cf-564c-4499-a05f-f322ad13451f",
+      "path": "/audiobooks/Lewis Carroll/Alice's Adventures in Wonderland",
+      "relPath": "Lewis Carroll/Alice's Adventures in Wonderland",
+      "isFile": false,
+      "mtimeMs": 1794256590206,
+      "ctimeMs": 1794256590215,
+      "birthtimeMs": 1794256590201,
+      "addedAt": 1794256590750,
+      "updatedAt": 1794256592743,
+      "isMissing": true,
+      "isInvalid": false,
+      "mediaType": "book",
+      "media": {
+        "id": "b61b8094-d783-490b-abc5-27d48b1717ec",
+        "metadata": {
+          "title": "Alice's Adventures in Wonderland",
+          "titleIgnorePrefix": "Alice's Adventures in Wonderland",
+          "subtitle": null,
+          "authorName": "Lewis Carroll",
+          "authorNameLF": "Carroll, Lewis",
+          "narratorName": "",
+          "seriesName": "",
+          "genres": [],
+          "publishedYear": null,
+          "publishedDate": null,
+          "publisher": null,
+          "description": null,
+          "isbn": null,
+          "asin": null,
+          "language": null,
+          "explicit": false,
+          "abridged": false
+        },
+        "coverPath": null,
+        "tags": [],
+        "numTracks": 5,
+        "numAudioFiles": 5,
+        "numChapters": 5,
+        "duration": 9000,
+        "size": 9002025
+      },
+      "numFiles": 5,
+      "size": 9002025
+    }
+  ],
+  "total": 1,
+  "limit": 1,
+  "page": 0,
+  "sortDesc": false,
+  "filterBy": "issues",
+  "mediaType": "book",
+  "minified": true,
+  "collapseseries": false,
+  "include": "",
+  "offset": 0
+}

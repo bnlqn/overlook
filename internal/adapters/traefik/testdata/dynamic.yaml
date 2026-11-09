@@ -1,0 +1,77 @@
+# The scratch Traefik's invented routers, services and middlewares
+# (compose.yaml): photos and blog work, though blog names an entry point
+# that doesn't exist; films has a health check and a second server that
+# isn't there; wiki names a middleware that doesn't exist; printer's
+# middleware allows a range that isn't one; and shop weighs a service that
+# doesn't exist. The certificates are fill.sh's.
+http:
+  routers:
+    dashboard:
+      rule: Host(`traefik.example.com`)
+      entryPoints: [web]
+      service: api@internal
+      middlewares: [auth]
+    photos:
+      rule: Host(`photos.example.com`)
+      entryPoints: [websecure]
+      service: photos
+      tls: {}
+    films:
+      rule: Host(`films.example.com`)
+      entryPoints: [websecure]
+      service: films
+      tls: {}
+    wiki:
+      rule: Host(`wiki.example.com`)
+      entryPoints: [web]
+      service: wiki
+      middlewares: [sso]
+    blog:
+      rule: Host(`blog.example.com`)
+      entryPoints: [web, old-web]
+      service: blog
+    printer:
+      rule: Host(`printer.example.com`)
+      entryPoints: [web]
+      service: printer
+      middlewares: [lan-only]
+    shop:
+      rule: Host(`shop.example.com`)
+      entryPoints: [web]
+      service: shop
+  middlewares:
+    auth:
+      basicAuth:
+        # overlook, with the password scratch-instance-only-not-a-password.
+        users: ["overlook:$2y$05$c/crsG8eg5w/em9NtbHL4ugEwAf9gTjT2HQXxQFzI/l6v8lqmLTYq"]
+    lan-only:
+      ipAllowList:
+        sourceRange: ["192.168.1.0/33"]
+  services:
+    photos:
+      loadBalancer:
+        servers: [{url: "http://photos"}]
+        healthCheck: {path: /health, interval: 5s, timeout: 2s}
+    films:
+      loadBalancer:
+        servers: [{url: "http://films"}, {url: "http://films-standby"}]
+        healthCheck: {path: /health, interval: 5s, timeout: 2s}
+    wiki:
+      loadBalancer:
+        servers: [{url: "http://wiki"}]
+    blog:
+      loadBalancer:
+        servers: [{url: "http://blog"}]
+    printer:
+      loadBalancer:
+        servers: [{url: "http://printer"}]
+    shop:
+      weighted:
+        services: [{name: shop-blue, weight: 3}, {name: shop-green, weight: 1}]
+    shop-blue:
+      loadBalancer:
+        servers: [{url: "http://shop-blue"}]
+tls:
+  certificates:
+    - {certFile: /certs/photos.pem, keyFile: /certs/photos.key}
+    - {certFile: /certs/films.pem, keyFile: /certs/films.key}
