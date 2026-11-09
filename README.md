@@ -24,7 +24,7 @@ It reads:
 - **Servers**: [Proxmox VE](#proxmox-ve), [Beszel](#beszel),
   [Docker](#docker), [Portainer](#portainer), [NUT](#nut)
 - **Network**: [UniFi Network](#unifi-network), [AdGuard Home](#adguard-home),
-  [Pi-hole](#pi-hole)
+  [Pi-hole](#pi-hole), [Nginx Proxy Manager](#nginx-proxy-manager)
 - **Storage**: [Proxmox Backup Server](#proxmox-backup-server),
   [Syncthing](#syncthing), and the pools, storage and backup runs of
   [Proxmox VE](#proxmox-ve)
@@ -867,6 +867,51 @@ Recorded from a scratch Pi-hole 2026.10 with invented clients and domains
 (ADR 0008), until someone who runs one records it from theirs: the compose
 file and the scripts that fill and record it are in the adapter's
 [`testdata`](internal/adapters/pihole/testdata).
+
+### Nginx Proxy Manager
+
+One Nginx Proxy Manager, in Network: each proxy host, redirection, 404 host
+and stream, with where it sends what it receives, grey while it's disabled,
+and in red when nginx refused its config, with what nginx said, since
+Nginx Proxy Manager then serves nothing for it; and its version and whether
+a newer one is out. Then the certificates they serve, the one that ends
+first first, in orange within 30 days of its end, and red once it has
+ended. A certificate within 30 days is a chore too, done in Nginx Proxy
+Manager's Certificates: one from Let's Encrypt is renewed from 30 days
+before its end, so one still within them isn't renewing.
+
+```yaml
+sources:
+  npm:
+    - url: http://npm:81                # where Overlook reads its admin
+      user: overlook@example.com        # its user's email
+      password: ${NPM_PASSWORD}
+      link: https://npm.example.com     # where the page sends you, if not the same
+```
+
+**Key:** a login, as `user` and `password`, since Nginx Proxy Manager has
+no API keys. Overlook logs in with one POST, keeps the token in memory and
+sends it with each GET, logging in again once it lapses, after a day
+(ADR 0009). The least it needs is a user of its own: in Users, add one
+without Administrator, then, in its Permissions, give it All Items under
+Item Visibility, so that it sees the hosts you made, and View Only on Proxy
+Hosts, Redirection Hosts, 404 Hosts and Streams. Leave Certificates and
+Access Lists hidden: each host brings the name and end of the certificate
+it serves, while Nginx Proxy Manager's list of certificates gives whoever
+may view it the private key of every certificate you uploaded. Overlook
+can't answer a second factor, so give its user none.
+
+Nginx Proxy Manager doesn't check whether what a host sends to answers, so
+a host pointing at nothing looks like any other: your check engine says
+whether it answers. A stream pointing at a name that doesn't resolve is
+refused by nginx, and shows in red. A certificate no host serves is left
+out. Nginx Proxy Manager asks GitHub whether a newer one is out, and when it
+can't, the page shows no version.
+
+Recorded from a scratch Nginx Proxy Manager 2.16.0 with invented hosts and
+self-signed certificates (ADR 0008), until someone who runs one records it
+from theirs: the compose file and the scripts that fill and record it are
+in the adapter's [`testdata`](internal/adapters/npm/testdata).
 
 ### Beszel
 
