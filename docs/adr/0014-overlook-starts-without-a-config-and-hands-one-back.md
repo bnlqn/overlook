@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: accepted, amended by ADR 0018
 ---
 
 # Overlook starts without a config and hands one back

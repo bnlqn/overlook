@@ -1,0 +1,20 @@
+{
+  "npm.domains": "Domains",
+  "npm.proxy": "Proxy",
+  "npm.redirect": "Redirect {code}",
+  "npm.dead": "404",
+
+  "npm.streams": "Streams",
+  "npm.port": "Port {port}",
+  "npm.tcp": "TCP",
+  "npm.udp": "UDP",
+  "npm.tcp_udp": "TCP and UDP",
+  "npm.disabled": "Disabled",
+  "npm.refused": "Refused by nginx",
+
+  "npm.certificates": "Certificates",
+  "npm.expires": "Expires in {ms:span}",
+  "npm.expired": "Expired {ms:span} ago",
+  "npm.letsencrypt": "Let's Encrypt",
+  "npm.custom": "{domains} · Custom"
+}

@@ -16,14 +16,17 @@ every key of its config, is in
    filled in.
 2. Find Overlook in the store, install it, turn on **Show in sidebar**, and
    start it.
-3. Open it from the sidebar. With no config yet, it shows its setup page.
+3. Open it from the sidebar. With no config yet, it shows its setup page,
+   which asks first for the code Overlook wrote in its log as it started:
+   the app's **Log** tab shows it.
 
 ## Setting it up
 
-On the setup page, pick the tools your homelab runs, give each its address
-and key, and try it. From the sources that answered, the setup page puts
-together two files, `overlook.yaml` and the `.env` that holds their keys.
-Overlook writes nothing, so you save them:
+On the setup page, give it the code from the app's **Log** tab, then pick
+the tools your homelab runs, give each its address and key, and try it.
+From the sources that answered, the setup page puts together two files,
+`overlook.yaml` and the `.env` that holds their keys. Overlook writes
+nothing, so you save them:
 
 - **Where:** in Overlook's own folder, which Home Assistant keeps in
   `app_configs`, named after this repository and the app, such as

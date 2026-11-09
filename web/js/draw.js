@@ -62,9 +62,14 @@ const STATE_ICON = {
 /** Each state's tone. */
 export const TONE = { up: "green", degraded: "orange", failing: "orange", down: "red", unknown: "gray" };
 
-/** A state's glyph, in its tone. */
-export const stateIcon = (state) =>
-  `<svg class="si tone-${TONE[state]}" viewBox="0 0 14 14" aria-hidden="true">${STATE_ICON[state]}</svg>`;
+/**
+ * A state's glyph, in its tone. Where no word beside it says the state, it
+ * is spoken: a screen reader says the word its shape shows.
+ */
+export const stateIcon = (state, spoken = false) =>
+  `<svg class="si tone-${TONE[state]}" viewBox="0 0 14 14" aria-hidden="true">${STATE_ICON[state]}</svg>${
+    spoken ? `<span class="spoken">${word(state)}</span>` : ""
+  }`;
 
 /** A state's word. */
 export const word = (state) => t(`state.${state}`);
@@ -139,10 +144,13 @@ export function tip(title, rows = [], note = "") {
 }
 
 /**
- * The last RECENT results as ticks, oldest first: green, red, or empty where
- * there's no result yet. A result may bring its own tooltip.
+ * The last RECENT results as ticks, oldest first: a short green one for a
+ * result that passed, a tall red one for one that failed, so that they
+ * differ by more than colour, or an empty one where there's no result yet.
+ * A result may bring its own tooltip. What they say in words, lately, is
+ * spoken, and shown when the keyboard reaches the row.
  */
-export function strip(recent) {
+export function strip(recent, lately = null) {
   const pad = Array(Math.max(0, RECENT - recent.length)).fill(null);
   const ticks = [...pad, ...recent.slice(-RECENT)].map((r) => {
     if (!r) return "<i></i>";
@@ -152,7 +160,8 @@ export function strip(recent) {
     const part = !r.ok && r.bad < 1 ? ` part" style="--bad:${r.bad.toFixed(3)}` : "";
     return `<i class="${r.ok ? "ok" : "bad"}${part}" data-tip="${tp}"></i>`;
   });
-  return `<span class="strip">${ticks.join("")}</span>`;
+  const said = lately ? `<span class="spoken">${say(lately)}</span>` : "";
+  return `<span class="strip">${said}${ticks.join("")}</span>`;
 }
 
 /**
@@ -164,9 +173,9 @@ export function checkRows(checks) {
     .map((c) => {
       const detail = [c.health && say(c.health), c.failing && esc(c.why || "")].filter(Boolean).join(" · ");
       return `<a class="check" href="${esc(c.url)}" target="_blank" rel="noopener">
-      ${stateIcon(c.state)}
+      ${stateIcon(c.state, true)}
       <span class="copy"><span class="title">${esc(c.name)}${by(c)}</span>${detail ? `<span class="detail">${detail}</span>` : ""}</span>
-      ${strip(c.recent)}<span class="value">${c.failing ? "" : ms(c.ms)}</span></a>`;
+      ${strip(c.recent, c.lately)}<span class="value">${c.failing ? "" : ms(c.ms)}</span></a>`;
     })
     .join("");
 }
@@ -306,6 +315,10 @@ export const legend = (series, colours) =>
 // Where a chart's scale lines go: the bottom, its quarters or halves, the top.
 const gridOf = (max, steps) => Array.from({ length: steps + 1 }, (_, k) => (max * k) / steps);
 
+// A chart by the hour is drawn for the eye: its scale, its hours and its
+// tooltips say nothing to a screen reader, which hears what the figure or the
+// card's line above it says of the hours instead.
+
 /**
  * The last day by the hour as bars, oldest first, ending with this hour, in
  * the colours its legend has: the whole of each, and each part within it
@@ -330,7 +343,7 @@ export function bars(series, colours, now) {
     (v) =>
       `<i class="line" style="bottom:${pct(v)}"></i><span class="scale" style="bottom:${pct(v)}">${scaleNumber(v)}</span>`,
   );
-  return `<div class="hour-chart"><div class="plot">${grid.join("")}<div class="cols">${cols.join("")}</div></div><div class="axis">${marks.join("")}</div></div>`;
+  return `<div class="hour-chart" aria-hidden="true"><div class="plot">${grid.join("")}<div class="cols">${cols.join("")}</div></div><div class="axis">${marks.join("")}</div></div>`;
 }
 
 let charts = 0;
@@ -377,7 +390,7 @@ export function areas(series, colours, sources, now) {
     (v) =>
       `<i class="line" style="bottom:${((100 * v) / max).toFixed(2)}%"></i><span class="scale" style="bottom:${((100 * v) / max).toFixed(2)}%">${scaleNumber(v)}</span>`,
   );
-  return `<div class="hour-chart areas${long ? " long" : ""}"><div class="plot">${grid.join("")}
+  return `<div class="hour-chart areas${long ? " long" : ""}" aria-hidden="true"><div class="plot">${grid.join("")}
     <svg viewBox="0 0 ${n} 100" preserveAspectRatio="none" aria-hidden="true"><defs>${defs}</defs>${bands}<g class="series">${fills}${lines}</g>${cols}</svg>
   </div><div class="axis">${marks.join("")}</div></div>`;
 }
@@ -472,7 +485,7 @@ export function lines(series, colours, now) {
     (v) =>
       `<i class="line" style="bottom:${v}%"></i><span class="scale" style="bottom:${v}%">${t("percent", { n: v })}</span>`,
   );
-  return `<div class="hour-chart areas lines${long ? " long" : ""}"><div class="plot">${grid.join("")}
+  return `<div class="hour-chart areas lines${long ? " long" : ""}" aria-hidden="true"><div class="plot">${grid.join("")}
     <svg viewBox="0 0 ${n} 100" preserveAspectRatio="none" aria-hidden="true">${bands}<g class="series">${strokes}</g>${cols}</svg>
   </div><div class="axis">${marks.join("")}</div></div>`;
 }

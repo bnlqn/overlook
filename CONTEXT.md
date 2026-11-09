@@ -124,6 +124,12 @@ What Overlook shows in place of the page while it has no config: it asks
 which sources to read, tries each once, and hands back the config to save.
 _Avoid_: Wizard, onboarding, installer
 
+**Setup code**:
+What Overlook writes in its log as it starts without a config, a new one
+each start, and the setup page asks for before it tries any source, so that
+only someone who can read the log can set Overlook up.
+_Avoid_: Password, token, key, PIN
+
 **Area**:
 One of the four fixed parts of a homelab: Servers, Network, Storage and Apps.
 An area with nothing in it isn't shown.
