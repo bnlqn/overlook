@@ -43,7 +43,7 @@ dockers_v2:
     platforms: [linux/amd64, linux/arm64]
     labels: &about
       org.opencontainers.image.title: Overlook
-      org.opencontainers.image.description: One page that tells you whether your homelab is fine.
+      org.opencontainers.image.description: Your whole homelab on one page, laid out for you.
       org.opencontainers.image.source: https://github.com/bnlqn/overlook
       org.opencontainers.image.licenses: MIT
       org.opencontainers.image.version: "{{ .Version }}"

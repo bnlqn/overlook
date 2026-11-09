@@ -4,13 +4,15 @@
 [![Release](https://img.shields.io/github/v/release/bnlqn/overlook)](https://github.com/bnlqn/overlook/releases/latest)
 [![Licence](https://img.shields.io/github/license/bnlqn/overlook)](LICENSE)
 
-One page that tells you whether your homelab is fine.
+Your whole homelab on one page, laid out for you.
 
 [![The overview of a homelab that doesn't exist: one problem, Standby DNS down, so Network is degraded; today's figures; and each area's checks](docs/overview.png)](https://bnlqn.github.io/overlook/)
 
 What's wrong, how each area of the homelab is, and what it did today and
-this week, on one page that is the same for every homelab. Overlook reads
-the tools you already run and changes nothing.
+this week, on a page that is the same for every homelab. Overlook reads
+the tools you already run and changes nothing. If you
+[turn on MCP](#agents-through-mcp), your AI agent can ask it what the page
+shows, and can't change anything either.
 [See the demo](https://bnlqn.github.io/overlook/), drawn from a homelab
 that doesn't exist.
 
