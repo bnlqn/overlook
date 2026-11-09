@@ -195,6 +195,16 @@ gives it `TZ` itself. Its WebUI opens the setup page, which says how to
 save the two files on Unraid. To link the Unraid server itself in the
 sidebar, as a tool, give it `icon: unraid.svg`, which Overlook ships.
 
+On Home Assistant OS, Overlook installs as an app, which Home Assistant
+called an add-on until 2026, and opens in its sidebar: in Settings, Apps,
+App store, add `https://github.com/bnlqn/overlook` to its repositories,
+install Overlook, and open it from the sidebar, which shows the setup page.
+Its config folder is the one Home Assistant gives it in `app_configs`,
+mounted read-only, and Home Assistant gives it `TZ` itself.
+[The app's documentation](homeassistant/DOCS.md), on its Documentation tab
+too, says how to save the two files there, and how to open Overlook outside
+the sidebar, such as for MCP.
+
 ## Configuring
 
 [`overlook.example.yaml`](overlook.example.yaml) shows every source with
@@ -1415,7 +1425,7 @@ say what each one brought. The road to v0.7 takes Overlook where more
 homelabs are, as [selfh.st's 2025 survey](https://selfh.st/survey/2025-results/)
 counts them, and keeps it sound as they come:
 
-1. [ ] A Home Assistant add-on, kept here beside Unraid's template, so
+1. [x] A Home Assistant add-on, kept here beside Unraid's template, so
        that Overlook installs inside Home Assistant OS, which three
        homelabs in ten run, and opens in its sidebar.
 2. [ ] The next tools by how many homelabs run them, each recorded from a

@@ -1,0 +1,5 @@
+# What Home Assistant's app store reads when it is given this repository's
+# address: Overlook's app is in homeassistant/ (ADR 0019).
+name: Overlook
+url: https://github.com/bnlqn/overlook
+maintainer: bnlqn
