@@ -1,0 +1,200 @@
+[
+  {
+    "status": "enabled",
+    "usedBy": [
+      "dashboard@file"
+    ],
+    "name": "api@internal",
+    "provider": "internal"
+  },
+  {
+    "loadBalancer": {
+      "servers": [
+        {
+          "url": "http://blog"
+        }
+      ],
+      "strategy": "wrr",
+      "passHostHeader": true,
+      "responseForwarding": {
+        "flushInterval": "100ms"
+      }
+    },
+    "status": "enabled",
+    "usedBy": [
+      "blog@file"
+    ],
+    "name": "blog@file",
+    "provider": "file",
+    "type": "loadbalancer",
+    "serverStatus": {
+      "http://blog": "UP"
+    }
+  },
+  {
+    "status": "enabled",
+    "name": "dashboard@internal",
+    "provider": "internal"
+  },
+  {
+    "loadBalancer": {
+      "servers": [
+        {
+          "url": "http://films"
+        },
+        {
+          "url": "http://films-standby"
+        }
+      ],
+      "strategy": "wrr",
+      "healthCheck": {
+        "mode": "http",
+        "path": "/health",
+        "interval": "5s",
+        "timeout": "2s",
+        "followRedirects": true
+      },
+      "passHostHeader": true,
+      "responseForwarding": {
+        "flushInterval": "100ms"
+      }
+    },
+    "status": "enabled",
+    "usedBy": [
+      "films@file"
+    ],
+    "name": "films@file",
+    "provider": "file",
+    "type": "loadbalancer",
+    "serverStatus": {
+      "http://films": "UP",
+      "http://films-standby": "DOWN"
+    }
+  },
+  {
+    "status": "enabled",
+    "name": "noop@internal",
+    "provider": "internal"
+  },
+  {
+    "loadBalancer": {
+      "servers": [
+        {
+          "url": "http://photos"
+        }
+      ],
+      "strategy": "wrr",
+      "healthCheck": {
+        "mode": "http",
+        "path": "/health",
+        "interval": "5s",
+        "timeout": "2s",
+        "followRedirects": true
+      },
+      "passHostHeader": true,
+      "responseForwarding": {
+        "flushInterval": "100ms"
+      }
+    },
+    "status": "enabled",
+    "usedBy": [
+      "photos@file"
+    ],
+    "name": "photos@file",
+    "provider": "file",
+    "type": "loadbalancer",
+    "serverStatus": {
+      "http://photos": "UP"
+    }
+  },
+  {
+    "loadBalancer": {
+      "servers": [
+        {
+          "url": "http://printer"
+        }
+      ],
+      "strategy": "wrr",
+      "passHostHeader": true,
+      "responseForwarding": {
+        "flushInterval": "100ms"
+      }
+    },
+    "status": "enabled",
+    "usedBy": [
+      "printer@file"
+    ],
+    "name": "printer@file",
+    "provider": "file",
+    "type": "loadbalancer",
+    "serverStatus": {
+      "http://printer": "UP"
+    }
+  },
+  {
+    "loadBalancer": {
+      "servers": [
+        {
+          "url": "http://shop-blue"
+        }
+      ],
+      "strategy": "wrr",
+      "passHostHeader": true,
+      "responseForwarding": {
+        "flushInterval": "100ms"
+      }
+    },
+    "status": "enabled",
+    "name": "shop-blue@file",
+    "provider": "file",
+    "type": "loadbalancer"
+  },
+  {
+    "weighted": {
+      "services": [
+        {
+          "name": "shop-blue",
+          "weight": 3
+        },
+        {
+          "name": "shop-green",
+          "weight": 1
+        }
+      ]
+    },
+    "error": [
+      "building HTTP service \"shop-green\": the service \"shop-green@file\" does not exist"
+    ],
+    "status": "disabled",
+    "usedBy": [
+      "shop@file"
+    ],
+    "name": "shop@file",
+    "provider": "file",
+    "type": "weighted"
+  },
+  {
+    "loadBalancer": {
+      "servers": [
+        {
+          "url": "http://wiki"
+        }
+      ],
+      "strategy": "wrr",
+      "passHostHeader": true,
+      "responseForwarding": {
+        "flushInterval": "100ms"
+      }
+    },
+    "status": "enabled",
+    "usedBy": [
+      "wiki@file"
+    ],
+    "name": "wiki@file",
+    "provider": "file",
+    "type": "loadbalancer",
+    "serverStatus": {
+      "http://wiki": "UP"
+    }
+  }
+]

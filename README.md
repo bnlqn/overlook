@@ -24,7 +24,8 @@ It reads:
 - **Servers**: [Proxmox VE](#proxmox-ve), [Beszel](#beszel),
   [Docker](#docker), [Portainer](#portainer), [NUT](#nut)
 - **Network**: [UniFi Network](#unifi-network), [AdGuard Home](#adguard-home),
-  [Pi-hole](#pi-hole), [Nginx Proxy Manager](#nginx-proxy-manager)
+  [Pi-hole](#pi-hole), [Nginx Proxy Manager](#nginx-proxy-manager),
+  [Traefik](#traefik)
 - **Storage**: [Proxmox Backup Server](#proxmox-backup-server),
   [Syncthing](#syncthing), and the pools, storage and backup runs of
   [Proxmox VE](#proxmox-ve)
@@ -56,8 +57,8 @@ What it can't read, and why, is under [Can't be read](#cant-be-read).
   answers.
 - **The chores**: the ones on your to-do list that are due or come this
   week, the updates waiting for your merge or to be installed, the
-  batteries to change, the devices waiting to be adopted and the requests
-  waiting for your approval. You do a chore where it waits, such as
+  batteries to change, the devices waiting to be adopted, the requests
+  waiting for your approval and the certificates to renew. You do a chore where it waits, such as
   marking it done on the list, never on the page, and a chore is never a
   problem.
 
@@ -933,6 +934,45 @@ Recorded from a scratch Nginx Proxy Manager 2.16.0 with invented hosts and
 self-signed certificates (ADR 0008), until someone who runs one records it
 from theirs: the compose file and the scripts that fill and record it are
 in the adapter's [`testdata`](internal/adapters/npm/testdata).
+
+### Traefik
+
+One Traefik, in Network, read from its API. First how many HTTP routers,
+services and middlewares it has, each count in red while one of them is in
+error and in orange while Traefik warns about one; then each it holds in
+error or warns about, with what Traefik says of it, such as a middleware
+that doesn't exist; then each service whose servers it checks, actively or
+by the requests it sends, with its servers all up, or in red with the ones
+down. Then its certificates, by when each expires, sooner first, in orange
+within 30 days and in red once expired. A certificate within 30 days is a
+chore, from the day it came within them. Traefik renews a 90-day
+certificate from Let's Encrypt, as theirs are by default, 30 days before it
+expires, so that one is a chore only once its renewal fails; one you gave
+Traefik yourself is yours to renew.
+
+```yaml
+sources:
+  traefik:
+    - url: https://traefik.example.com # where Overlook reads its API, under /api
+      user: overlook                   # the login of a basicAuth middleware in front of it, if there is one
+      password: ${TRAEFIK_PASSWORD}
+```
+
+**Key:** none of Traefik's own. Its API only reads, so Overlook reads it as
+you serve it: open, as `api.insecure` serves it on port 8080, or through the
+router you gave `api@internal`, behind a basicAuth middleware, whose login
+you give as `user` and `password`. Give Overlook a user of its own among
+that middleware's `users`.
+
+It needs Traefik 3.7 or later, whose API added the certificates. It reads
+the HTTP routers, services and middlewares, not the TCP or UDP ones, each
+list whole in one request.
+
+Recorded from a scratch Traefik 3.7.17 with invented routers and
+self-signed certificates (ADR 0008), until someone who runs it records it
+from theirs: the compose file, its routers and the scripts that fill and
+record it are in the adapter's
+[`testdata`](internal/adapters/traefik/testdata).
 
 ### Beszel
 

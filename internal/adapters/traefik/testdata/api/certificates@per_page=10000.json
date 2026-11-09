@@ -1,0 +1,38 @@
+[
+  {
+    "name": "36fe76c0c710e9edf76906454d047fa9a2b06bcabfa14f8a5de93ef360dde165",
+    "sans": [
+      "films.example.com"
+    ],
+    "notAfter": "2026-11-19T20:28:56Z",
+    "notBefore": "2026-11-09T20:28:56Z",
+    "serialNumber": "337905354519662181825423100405616075360093076622",
+    "commonName": "films.example.com",
+    "issuerCN": "films.example.com",
+    "version": "v3",
+    "keyType": "ECDSA",
+    "keySize": 256,
+    "signatureAlgorithm": "ECDSA-SHA256",
+    "certFingerprint": "36fe76c0c710e9edf76906454d047fa9a2b06bcabfa14f8a5de93ef360dde165",
+    "publicKeyFingerprint": "a8809857b47139123fd8609522eae42f31326aa69447bddb82888235cc90b037",
+    "status": "warning"
+  },
+  {
+    "name": "2cb4d4089bde08414472ea4e94725b23108d5f46173fd0c6bd20fdc516dd516c",
+    "sans": [
+      "photos.example.com"
+    ],
+    "notAfter": "2027-11-09T20:28:56Z",
+    "notBefore": "2026-11-09T20:28:56Z",
+    "serialNumber": "128856242111438348014690631119075144716260597243",
+    "commonName": "photos.example.com",
+    "issuerCN": "photos.example.com",
+    "version": "v3",
+    "keyType": "ECDSA",
+    "keySize": 256,
+    "signatureAlgorithm": "ECDSA-SHA256",
+    "certFingerprint": "2cb4d4089bde08414472ea4e94725b23108d5f46173fd0c6bd20fdc516dd516c",
+    "publicKeyFingerprint": "52fec67014b4e2d4b0db663b28879c7f9c0ba796f57d113baff58360c99ed4dd",
+    "status": "enabled"
+  }
+]

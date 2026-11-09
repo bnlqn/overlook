@@ -234,6 +234,7 @@ func TestExample(t *testing.T) {
 	t.Setenv("SONARR_KEY", "4567efab")
 	t.Setenv("SYNCTHING_KEY", "0123abcd")
 	t.Setenv("TAUTULLI_KEY", "0123abcd")
+	t.Setenv("TRAEFIK_PASSWORD", "s3cret")
 	t.Setenv("UNIFI_KEY", "0123abcd")
 	c, err := Load("../../overlook.example.yaml")
 	if err != nil {

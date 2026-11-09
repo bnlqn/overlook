@@ -50,6 +50,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/sonarr"
 	"github.com/bnlqn/overlook/internal/adapters/syncthing"
 	"github.com/bnlqn/overlook/internal/adapters/tautulli"
+	"github.com/bnlqn/overlook/internal/adapters/traefik"
 	"github.com/bnlqn/overlook/internal/adapters/unifi"
 	"github.com/bnlqn/overlook/internal/adapters/uptimekuma"
 	"github.com/bnlqn/overlook/internal/fetch"
@@ -113,6 +114,7 @@ type Sources struct {
 	AdGuard       []adguard.Config       `yaml:"adguard" icon:"adguard-home.svg"`
 	PiHole        []pihole.Config        `yaml:"pihole" icon:"pi-hole.svg"`
 	NPM           []npm.Config           `yaml:"npm" icon:"nginx-proxy-manager.svg"`
+	Traefik       []traefik.Config       `yaml:"traefik" icon:"traefik-proxy.svg"`
 	Ical          []ical.Config          `yaml:"ical"`
 }
 
@@ -306,6 +308,7 @@ func (c *Config) check() error {
 		add(c, adguard.Adapter, c.Sources.AdGuard),
 		add(c, pihole.Adapter, c.Sources.PiHole),
 		add(c, npm.Adapter, c.Sources.NPM),
+		add(c, traefik.Adapter, c.Sources.Traefik),
 		add(c, ical.Adapter, c.Sources.Ical),
 	); err != nil {
 		return err

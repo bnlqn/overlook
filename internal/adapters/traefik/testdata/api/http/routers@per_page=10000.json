@@ -1,0 +1,177 @@
+[
+  {
+    "entryPoints": [
+      "web",
+      "old-web"
+    ],
+    "service": "blog",
+    "rule": "Host(`blog.example.com`)",
+    "priority": 24,
+    "observability": {
+      "accessLogs": true,
+      "metrics": true,
+      "tracing": true,
+      "traceVerbosity": "minimal"
+    },
+    "error": [
+      "entryPoint \"old-web\" doesn't exist"
+    ],
+    "status": "warning",
+    "using": [
+      "web"
+    ],
+    "name": "blog@file",
+    "provider": "file",
+    "priorityStr": "24"
+  },
+  {
+    "entryPoints": [
+      "web"
+    ],
+    "middlewares": [
+      "auth@file"
+    ],
+    "service": "api@internal",
+    "rule": "Host(`traefik.example.com`)",
+    "priority": 27,
+    "observability": {
+      "accessLogs": true,
+      "metrics": true,
+      "tracing": true,
+      "traceVerbosity": "minimal"
+    },
+    "status": "enabled",
+    "using": [
+      "web"
+    ],
+    "name": "dashboard@file",
+    "provider": "file",
+    "priorityStr": "27"
+  },
+  {
+    "entryPoints": [
+      "websecure"
+    ],
+    "service": "films",
+    "rule": "Host(`films.example.com`)",
+    "priority": 25,
+    "tls": {
+      "options": "default"
+    },
+    "observability": {
+      "accessLogs": true,
+      "metrics": true,
+      "tracing": true,
+      "traceVerbosity": "minimal"
+    },
+    "status": "enabled",
+    "using": [
+      "websecure"
+    ],
+    "name": "films@file",
+    "provider": "file",
+    "priorityStr": "25"
+  },
+  {
+    "entryPoints": [
+      "websecure"
+    ],
+    "service": "photos",
+    "rule": "Host(`photos.example.com`)",
+    "priority": 26,
+    "tls": {
+      "options": "default"
+    },
+    "observability": {
+      "accessLogs": true,
+      "metrics": true,
+      "tracing": true,
+      "traceVerbosity": "minimal"
+    },
+    "status": "enabled",
+    "using": [
+      "websecure"
+    ],
+    "name": "photos@file",
+    "provider": "file",
+    "priorityStr": "26"
+  },
+  {
+    "entryPoints": [
+      "web"
+    ],
+    "middlewares": [
+      "lan-only@file"
+    ],
+    "service": "printer",
+    "rule": "Host(`printer.example.com`)",
+    "priority": 27,
+    "observability": {
+      "accessLogs": true,
+      "metrics": true,
+      "tracing": true,
+      "traceVerbosity": "minimal"
+    },
+    "error": [
+      "cannot parse CIDRs [192.168.1.0/33]: parsing CIDR trusted IPs <nil>: invalid CIDR address: 192.168.1.0/33"
+    ],
+    "status": "disabled",
+    "using": [
+      "web"
+    ],
+    "name": "printer@file",
+    "provider": "file",
+    "priorityStr": "27"
+  },
+  {
+    "entryPoints": [
+      "web"
+    ],
+    "service": "shop",
+    "rule": "Host(`shop.example.com`)",
+    "priority": 24,
+    "observability": {
+      "accessLogs": true,
+      "metrics": true,
+      "tracing": true,
+      "traceVerbosity": "minimal"
+    },
+    "error": [
+      "building HTTP service \"shop-green\": the service \"shop-green@file\" does not exist"
+    ],
+    "status": "disabled",
+    "using": [
+      "web"
+    ],
+    "name": "shop@file",
+    "provider": "file",
+    "priorityStr": "24"
+  },
+  {
+    "entryPoints": [
+      "web"
+    ],
+    "middlewares": [
+      "sso@file"
+    ],
+    "service": "wiki",
+    "rule": "Host(`wiki.example.com`)",
+    "priority": 24,
+    "observability": {
+      "accessLogs": true,
+      "metrics": true,
+      "tracing": true,
+      "traceVerbosity": "minimal"
+    },
+    "error": [
+      "middleware \"sso@file\" does not exist"
+    ],
+    "status": "disabled",
+    "using": [
+      "web"
+    ],
+    "name": "wiki@file",
+    "provider": "file",
+    "priorityStr": "24"
+  }
+]

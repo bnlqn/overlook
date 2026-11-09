@@ -202,8 +202,8 @@ _Avoid_: Activity, log entry
 Something the owner does while nothing is broken: one they keep on a to-do
 list, an update waiting to be merged or to be installed from inside its tool,
 a battery to change, a device waiting to be adopted into the tool that
-runs it, or a request waiting for approval, such as a film someone asked
-for in Seerr.
+runs it, a request waiting for approval, such as a film someone asked
+for in Seerr, or a certificate to renew.
 It is done in the source it waits in, never on the page, and is never a
 problem.
 _Avoid_: Todo, task, clear (for done)

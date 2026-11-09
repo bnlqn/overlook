@@ -245,6 +245,14 @@ sources:
       user: overlook@example.com       # its user's email: not an admin, with View on hosts and streams
       password: ${NPM_PASSWORD}
 
+  # Traefik: its routers, services and middlewares in error or warned of,
+  # the servers its health checks find down, and its certificates, those
+  # that expire within 30 days as chores.
+  traefik:
+    - url: https://traefik.example.com # where Overlook reads its API, under /api
+      user: overlook                   # the login of a basicAuth middleware in front of it, if there is one
+      password: ${TRAEFIK_PASSWORD}
+
   # The chores you keep on a to-do list: mark one done there, in any CalDAV
   # app, and the page follows. A to-do with no due date is due now.
   ical:
