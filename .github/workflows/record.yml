@@ -12,6 +12,8 @@ on:
   schedule:
     - cron: "23 4 * * 1" # Mondays, early
   workflow_dispatch:
+  push: # TEMPORARY, to run it on the branch before review
+    branches: [claude/weekly-recording-92be70]
 
 permissions:
   contents: read
@@ -96,7 +98,7 @@ jobs:
 
   report:
     needs: [find, record]
-    if: failure()
+    if: failure() && github.event_name != 'push' # TEMPORARY guard
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
