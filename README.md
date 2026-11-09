@@ -104,7 +104,7 @@ compose.yaml
 # compose.yaml
 services:
   overlook:
-    image: ghcr.io/bnlqn/overlook:0.5
+    image: ghcr.io/bnlqn/overlook:0.6
     restart: unless-stopped
     ports:
       - "8080:8080"
@@ -171,8 +171,8 @@ PROXMOX_SECRET=00000000-0000-0000-0000-000000000000
   so save the files soon.
 - **`TZ`** says when today starts, for today's figures. Any zone works: the
   zone database is inside the binary.
-- **The image** is `ghcr.io/bnlqn/overlook`, for amd64 and arm64: `0.5` for
-  the newest 0.5 release, or a version such as `0.5.0`. It holds the
+- **The image** is `ghcr.io/bnlqn/overlook`, for amd64 and arm64: `0.6` for
+  the newest 0.6 release, or a version such as `0.6.0`. It holds the
   binary and the CA certificates it checks HTTPS sources with, and nothing
   else.
 
@@ -1410,43 +1410,10 @@ file; [CONTRIBUTING.md](CONTRIBUTING.md#translating) says how.
 
 ## What's next
 
-`v0.5.0` is the newest release, and [the releases](https://github.com/bnlqn/overlook/releases)
-say what each one brought. The road to v0.6 makes Overlook worth more to
-more homelabs, taking first what most of them run, as
-[selfh.st's 2025 survey](https://selfh.st/survey/2025-results/) counts it:
-
-1. [x] An owner with no check engine told how to get one: what's wrong
-       comes only from a check engine, so the setup page asks for one
-       first and says why, and the page, where it says No checks, names
-       the check engines Overlook reads and links to them.
-2. [x] One odd answer costs a row, never its source. A test every adapter
-       runs, in `adaptertest`, bends one item of each list in its recorded
-       answers, such as a time in another format, a null or a field
-       missing, and fails when the adapter then gives back nothing for its
-       source. Then each adapter is fixed until it passes, before the
-       adapters of step 4 come in. One entity's time took all of Home
-       Assistant off the page in
-       [#102](https://github.com/bnlqn/overlook/issues/102).
-3. [x] Storage for every homelab with pools or a backup server: stores and
-       backup runs go in Storage whichever adapter reads them, each built by
-       one module (ADR 0016). Proxmox VE's pools, storage and backup runs
-       moved there from Servers, and Proxmox Backup Server reads its
-       datastore's room as a store. Two thirds of homelabs run a NAS, and
-       Storage held only PBS before.
-4. [x] The tools most homelabs run that Overlook can't read yet, each
-       recorded from a scratch instance (ADR 0008), one pull request each:
-       [Portainer](https://github.com/bnlqn/overlook/issues/74), which a
-       third of them run, [Syncthing](https://github.com/bnlqn/overlook/issues/75),
-       and [Gitea and Forgejo](https://github.com/bnlqn/overlook/issues/76).
-5. [x] Agents read what the page shows through MCP, if the owner turns it
-       on: six tools, one for each part of the page, that read the
-       snapshot and nothing else (ADR 0015).
-6. [x] A light page for an owner whose system asks for one, the logos
-       chosen for dark tiles still showing on it, and a web manifest, so
-       that the page installs on a phone as an app.
-
-The road to v0.7 then takes Overlook where more homelabs are, and keeps it
-sound as they come:
+`v0.6.0` is the newest release, and [the releases](https://github.com/bnlqn/overlook/releases)
+say what each one brought. The road to v0.7 takes Overlook where more
+homelabs are, as [selfh.st's 2025 survey](https://selfh.st/survey/2025-results/)
+counts them, and keeps it sound as they come:
 
 1. [ ] A Home Assistant add-on, kept here beside Unraid's template, so
        that Overlook installs inside Home Assistant OS, which three
