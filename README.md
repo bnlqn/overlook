@@ -1558,7 +1558,7 @@ counts them, and keeps it sound as they come:
 1. [x] A Home Assistant add-on, kept here beside Unraid's template, so
        that Overlook installs inside Home Assistant OS, which three
        homelabs in ten run, and opens in its sidebar.
-2. [ ] The next tools by how many homelabs run them, each recorded from a
+2. [x] The next tools by how many homelabs run them, each recorded from a
        scratch instance (ADR 0008), one pull request each, each run by
        about one homelab in five:
        [Nginx Proxy Manager](https://github.com/bnlqn/overlook/issues/77),
