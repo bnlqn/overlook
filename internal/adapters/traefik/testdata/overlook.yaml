@@ -1,0 +1,7 @@
+# The config the weekly recording reads this scratch instance's answers
+# with, served again at ${URL} (internal/config/scratch_test.go).
+sources:
+  traefik:
+    - url: ${URL}
+      user: overlook
+      password: scratch-instance-only-not-a-password
