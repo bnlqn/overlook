@@ -22,7 +22,7 @@ services:
       mongodb:
         condition: service_healthy
   mongodb:
-    image: mongo:8.0
+    image: mongo:8.0 # pinned: Checkmate's database, not the source
     command: ["mongod", "--quiet", "--bind_ip_all"]
     healthcheck:
       test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/27017"]

@@ -13,12 +13,12 @@ services:
     volumes:
       - data:/data
   media:
-    image: docker:29.9.3-dind
+    image: docker:29.9.3-dind # pinned: an engine Portainer reads, not the source
     privileged: true
     environment:
       DOCKER_TLS_CERTDIR: "" # plain TCP on 2375, inside this network only
   backups:
-    image: docker:29.9.3-dind
+    image: docker:29.9.3-dind # pinned: an engine Portainer reads, not the source
     privileged: true
     environment:
       DOCKER_TLS_CERTDIR: ""

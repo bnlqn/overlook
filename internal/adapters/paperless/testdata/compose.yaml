@@ -6,7 +6,7 @@
 #   docker compose -f compose.yaml down -v
 services:
   broker:
-    image: redis:8.10.3
+    image: redis:8.10.3 # pinned: Paperless-ngx's broker, not the source
   paperless:
     image: ghcr.io/paperless-ngx/paperless-ngx:3.3.4
     depends_on: [broker]
