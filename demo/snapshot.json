@@ -38,6 +38,7 @@
       "error": "timeout"
     },
     { "name": "Kids' DNS", "adapter": "pihole", "area": "network", "kind": "resolver", "answered": true },
+    { "name": "Traefik", "adapter": "traefik", "area": "network", "answered": true },
     { "name": "Chores", "adapter": "ical", "kind": "todolist", "answered": true }
   ],
   "checks": [
@@ -2338,6 +2339,70 @@
         { "title": { "name": "ads.example.com" }, "value": { "key": "number", "args": { "n": 1420 } } },
         { "title": { "name": "chat.example.net" }, "value": { "key": "number", "args": { "n": 860 } } }
       ]
+    },
+    {
+      "area": "network",
+      "source": "Traefik",
+      "title": { "key": "traefik.routing" },
+      "rows": [
+        { "title": { "key": "traefik.routers" }, "value": { "key": "number", "args": { "n": 18 } }, "tone": "red" },
+        { "title": { "key": "traefik.services" }, "value": { "key": "number", "args": { "n": 16 } } },
+        { "title": { "key": "traefik.middlewares" }, "value": { "key": "number", "args": { "n": 5 } }, "tone": "red" },
+        {
+          "title": { "name": "notes@docker" },
+          "value": { "key": "traefik.router_disabled" },
+          "detail": { "name": "middleware \"authelia@docker\" does not exist" },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "printer@file" },
+          "value": { "key": "traefik.router_disabled" },
+          "detail": { "name": "cannot parse CIDRs [192.168.1.0/33]: invalid CIDR address: 192.168.1.0/33" },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "wiki@file" },
+          "value": { "key": "traefik.router_warning" },
+          "detail": { "name": "entryPoint \"web-old\" doesn't exist" },
+          "tone": "orange"
+        },
+        {
+          "title": { "name": "lan-only@file" },
+          "value": { "key": "traefik.middleware_disabled" },
+          "detail": { "name": "cannot parse CIDRs [192.168.1.0/33]: invalid CIDR address: 192.168.1.0/33" },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "films@docker" },
+          "value": { "key": "traefik.servers_down", "args": { "down": 1, "n": 2 } },
+          "detail": { "name": "http://192.0.2.32:8096" },
+          "tone": "red"
+        },
+        { "title": { "name": "photos@docker" }, "value": { "key": "traefik.servers_up", "args": { "n": 1 } } }
+      ]
+    },
+    {
+      "area": "network",
+      "source": "Traefik",
+      "title": { "key": "traefik.certificates" },
+      "rows": [
+        {
+          "title": { "name": "nas.example.com" },
+          "value": { "key": "traefik.expires", "args": { "ms": 777600000 } },
+          "detail": { "key": "traefik.issued_by", "args": { "issuer": "nas.example.com" } },
+          "tone": "orange"
+        },
+        {
+          "title": { "name": "*.example.com" },
+          "value": { "key": "traefik.expires", "args": { "ms": 5356800000 } },
+          "detail": { "key": "traefik.issued_by", "args": { "issuer": "R11" } }
+        },
+        {
+          "title": { "name": "printer.example.com" },
+          "value": { "key": "traefik.expires", "args": { "ms": 25920000000 } },
+          "detail": { "key": "traefik.issued_by", "args": { "issuer": "printer.example.com" } }
+        }
+      ]
     }
   ],
   "charts": [
@@ -3181,6 +3246,14 @@
       "state": "unknown",
       "description": "Every container's logs",
       "color": "#FFDD00"
+    },
+    {
+      "name": "Traefik",
+      "url": "https://traefik.example.com/dashboard/",
+      "icon": "traefik-proxy.svg",
+      "state": "unknown",
+      "description": "The routers and their certificates",
+      "color": "#24A1C1"
     }
   ],
   "chores": [
@@ -3239,6 +3312,13 @@
       "source": "UniFi"
     },
     {
+      "name": "nas.example.com",
+      "from": "2026-10-07",
+      "note": "2026-11-06",
+      "url": "https://traefik.example.com/dashboard/",
+      "source": "Traefik"
+    },
+    {
       "name": "Clean the NAS's dust filters",
       "source": "Chores",
       "from": "2026-10-26",
@@ -3289,6 +3369,7 @@
         "Primary DNS",
         "Standby DNS",
         "Kids' DNS",
+        "Traefik",
         "Chores"
       ]
     },

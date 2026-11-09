@@ -237,5 +237,6 @@
   "setup.adapter.unifi": "UniFi Network",
   "setup.adapter.adguard": "AdGuard Home",
   "setup.adapter.pihole": "Pi-hole",
+  "setup.adapter.traefik": "Traefik",
   "setup.adapter.ical": "iCalendar to-do list"
 }
