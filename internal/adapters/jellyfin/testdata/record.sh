@@ -14,4 +14,4 @@ get /System/Info/Storage
 get /Sessions activeWithinSeconds=960
 get /Items/Counts
 get /ScheduledTasks isHidden=false
-get /System/ActivityLog/Entries "minDate=$(date -u -v-1d +%Y-%m-%dT%H:%M:%SZ)"
+get /System/ActivityLog/Entries "minDate=$(jq -rn "now - 86400 | todate")"

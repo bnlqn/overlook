@@ -1437,7 +1437,7 @@ counts them, and keeps it sound as they come:
        so that no website can have it read an address in the homelab, not
        even one that points its own name at Overlook's address (amends
        ADR 0014). SECURITY.md then loses the gap it accepts.
-6. [ ] Each scratch instance recorded again every week, at its source's
+6. [x] Each scratch instance recorded again every week, at its source's
        newest version: a workflow starts it from its compose file, fills
        and records it with its own scripts, reads what it recorded with the
        adapter, checks that with `adaptertest.Validate`, and opens an issue

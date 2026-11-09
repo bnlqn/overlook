@@ -64,15 +64,17 @@ jobs:
         with:
           node-version: 22.12.0
       # Each image at the newest release shaped like its pin, such as
-      # 17.0.1's newest x.y.z, so never a release candidate. One marked
-      # "# pinned", a dependency rather than the source, stays as it is.
+      # 17.0.1's newest x.y.z, so never a release candidate, or at the tag its
+      # line names as "# newest: <tag>", for a source whose betas look like
+      # releases. One marked "# pinned", a dependency rather than the
+      # source, stays as it is.
       - name: Take the newest version
         run: |
-          grep -E '^ +image: ' compose.yaml | grep -v '# pinned' | awk '{print $2}' | sort -u |
-            while read -r image; do
+          sed -nE '/# pinned/!s/^ +image: ([^ #]+)( *# newest: ([^ ]+))?.*/\1 \3/p' compose.yaml | sort -u |
+            while read -r image newest; do
               repo=${image%:*} pin=${image##*:}
               shape="^$(sed -E 's/\./\\./g; s/[0-9]+/[0-9]+/g' <<<"$pin")\$"
-              newest=$(skopeo list-tags "docker://$repo" | jq -r '.Tags[]' | grep -E "$shape" | sort -V | tail -n 1)
+              newest=${newest:-$(skopeo list-tags "docker://$repo" | jq -r '.Tags[]' | grep -E "$shape" | sort -V | tail -n 1)}
               echo "$repo: $newest, pinned at $pin"
               sed -i "s|image: $image|image: $repo:$newest|" compose.yaml
             done

@@ -13,6 +13,6 @@ get() { curl -sf "http://localhost:8181/api/v2?apikey=$key&cmd=$1${2:+&$2}" | jq
 get get_activity
 get server_status
 get get_libraries
-get get_history "after=$(date -u -v-2d +%Y-%m-%d)&length=1000"
+get get_history "after=$(jq -rn "now - 2 * 86400 | strftime(\"%Y-%m-%d\")")&length=1000"
 get get_pms_update
 date -u +%Y-%m-%dT%H:%M:%SZ
