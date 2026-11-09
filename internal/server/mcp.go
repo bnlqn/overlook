@@ -318,9 +318,10 @@ type request struct {
 func mcp(reader *snapshot.Reader, words map[string]any) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// A website its owner visits mustn't read the homelab through their
-		// browser; an agent sends no Origin. ponytail: as with the setup
-		// page's try, a website that points its own name at Overlook's
-		// address passes, and then reads what /snapshot already gives it.
+		// browser; an agent sends no Origin. ponytail: a website that points
+		// its own name at Overlook's address passes, which the setup page's
+		// try stops with its code (ADR 0018), and then reads what /snapshot
+		// already gives it.
 		// The names Overlook answers to, given in the config, would close
 		// that, the day /mcp reads more than /snapshot does.
 		if origin := r.Header.Get("Origin"); origin != "" {

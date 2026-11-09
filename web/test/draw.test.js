@@ -14,6 +14,7 @@ import {
   section,
   seriesColours,
   shares,
+  stateIcon,
   strip,
   tip,
 } from "../js/draw.js";
@@ -28,6 +29,10 @@ setWords(
     up: "Up",
     percent: "{n}%",
     "check.failed_n": "Failed {run} of {threshold}",
+    "state.up": "Up",
+    "state.down": "Down",
+    "state.failing": "Failing",
+    "results.last_failed": "{passed} of {n} results passed, and the last failure was at {at:clock}",
   },
   {},
   "en-GB",
@@ -42,6 +47,27 @@ test("a strip always shows RECENT ticks, empty where there's no result yet", () 
   const html = strip([{ ok: false, at: new Date(2026, 9, 28, 10, 0), ms: null, why: "timeout" }]);
   assert.equal(html.match(/<i[ >]/g).length, RECENT);
   assert.equal(html.match(/class="bad"/g).length, 1);
+  assert.doesNotMatch(html, /spoken/, "with nothing to say, nothing spoken");
+});
+
+test("a strip speaks what it says in words, before its ticks", () => {
+  const recent = [
+    { ok: false, at: new Date(2026, 9, 28, 9, 58), ms: null },
+    { ok: true, at: new Date(2026, 9, 28, 9, 59), ms: 1 },
+  ];
+  const lately = { key: "results.last_failed", args: { n: 2, passed: 1, at: recent[0].at } };
+  assert.match(
+    strip(recent, lately),
+    /^<span class="strip"><span class="spoken">1 of 2 results passed, and the last failure was at 09:58<\/span><i>/,
+  );
+});
+
+test("a check's state is spoken where its glyph alone shows it", () => {
+  const row = (c) =>
+    checkRows([{ name: "DNS", url: "https://status.example.com/", recent: [], ms: null, lately: null, ...c }]);
+  assert.match(row({ state: "down", failing: true, why: "timeout" }), /<\/svg><span class="spoken">Down<\/span>/);
+  assert.match(row({ state: "up", failing: false }), /<span class="spoken">Up<\/span>/);
+  assert.doesNotMatch(stateIcon("up"), /spoken/, "beside its word, the glyph says nothing");
 });
 
 test("a logo is a file in icons/ or a URL, its colour and address escaped", () => {

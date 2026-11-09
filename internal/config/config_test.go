@@ -220,6 +220,7 @@ func TestExample(t *testing.T) {
 	t.Setenv("IMMICH_URL", "http://immich:2283")
 	t.Setenv("JELLYFIN_KEY", "0123abcd")
 	t.Setenv("NEXTCLOUD_TOKEN", "0123abcd")
+	t.Setenv("NPM_PASSWORD", "s3cret")
 	t.Setenv("NUT_HOST", "nut.example.com")
 	t.Setenv("PAPERLESS_TOKEN", "0123abcd")
 	t.Setenv("PBS_SECRET", "00000000-0000-0000-0000-000000000000")

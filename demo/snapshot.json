@@ -38,6 +38,7 @@
       "error": "timeout"
     },
     { "name": "Kids' DNS", "adapter": "pihole", "area": "network", "kind": "resolver", "answered": true },
+    { "name": "Nginx Proxy Manager", "adapter": "npm", "area": "network", "answered": true },
     { "name": "Traefik", "adapter": "traefik", "area": "network", "answered": true },
     { "name": "Chores", "adapter": "ical", "kind": "todolist", "answered": true }
   ],
@@ -2342,6 +2343,92 @@
     },
     {
       "area": "network",
+      "source": "Nginx Proxy Manager",
+      "title": { "key": "npm.domains" },
+      "rows": [
+        {
+          "title": { "name": "cloud.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.20.14:80" }
+        },
+        {
+          "title": { "name": "dash.example.com" },
+          "value": { "key": "npm.refused" },
+          "tone": "red",
+          "detail": { "name": "unknown directive \"proxy_read_timout\" in /data/nginx/proxy_host/9.conf:37" }
+        },
+        {
+          "title": { "name": "docs.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.20.15:8000" }
+        },
+        {
+          "title": { "name": "films.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "cinema.example.com · → http://10.0.20.12:8096" }
+        },
+        {
+          "title": { "name": "git.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.20.16:3000" }
+        },
+        {
+          "title": { "name": "home.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.20.13:8123" }
+        },
+        { "title": { "name": "old.example.com" }, "value": { "key": "npm.dead" } },
+        {
+          "title": { "name": "photos.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.20.11:2283" }
+        },
+        {
+          "title": { "name": "wiki.example.com" },
+          "value": { "key": "npm.disabled" },
+          "tone": "gray",
+          "detail": { "name": "→ http://10.0.20.17:3000" }
+        },
+        {
+          "title": { "name": "www.example.com" },
+          "value": { "key": "npm.redirect", "args": { "code": "301" } },
+          "detail": { "name": "→ https://example.com" }
+        },
+        { "title": { "key": "version" }, "value": { "name": "v2.16.0" } }
+      ]
+    },
+    {
+      "area": "network",
+      "source": "Nginx Proxy Manager",
+      "title": { "key": "npm.streams" },
+      "rows": [
+        {
+          "title": { "key": "npm.port", "args": { "port": "2222" } },
+          "value": { "key": "npm.tcp" },
+          "detail": { "name": "→ 10.0.20.16:22" }
+        }
+      ]
+    },
+    {
+      "area": "network",
+      "source": "Nginx Proxy Manager",
+      "title": { "key": "npm.certificates" },
+      "rows": [
+        {
+          "title": { "name": "*.example.com, example.com" },
+          "value": { "key": "npm.expires", "args": { "ms": 1555200000 } },
+          "tone": "orange",
+          "detail": { "key": "npm.letsencrypt" }
+        },
+        {
+          "title": { "name": "Films" },
+          "value": { "key": "npm.expires", "args": { "ms": 17280000000 } },
+          "detail": { "key": "npm.custom", "args": { "domains": "films.example.com" } }
+        }
+      ]
+    },
+    {
+      "area": "network",
       "source": "Traefik",
       "title": { "key": "traefik.routing" },
       "rows": [
@@ -3312,6 +3399,13 @@
       "source": "UniFi"
     },
     {
+      "name": "*.example.com, example.com",
+      "from": "2026-10-16",
+      "note": "2026-11-15",
+      "url": "https://npm.example.com/certificates",
+      "source": "Nginx Proxy Manager"
+    },
+    {
       "name": "nas.example.com",
       "from": "2026-10-07",
       "note": "2026-11-06",
@@ -3369,6 +3463,7 @@
         "Primary DNS",
         "Standby DNS",
         "Kids' DNS",
+        "Nginx Proxy Manager",
         "Traefik",
         "Chores"
       ]

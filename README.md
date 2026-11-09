@@ -24,7 +24,8 @@ It reads:
 - **Servers**: [Proxmox VE](#proxmox-ve), [Beszel](#beszel),
   [Docker](#docker), [Portainer](#portainer), [NUT](#nut)
 - **Network**: [UniFi Network](#unifi-network), [AdGuard Home](#adguard-home),
-  [Pi-hole](#pi-hole), [Traefik](#traefik)
+  [Pi-hole](#pi-hole), [Nginx Proxy Manager](#nginx-proxy-manager),
+  [Traefik](#traefik)
 - **Storage**: [Proxmox Backup Server](#proxmox-backup-server),
   [Syncthing](#syncthing), and the pools, storage and backup runs of
   [Proxmox VE](#proxmox-ve)
@@ -64,6 +65,12 @@ What it can't read, and why, is under [Can't be read](#cant-be-read).
 The page is light where your system is light, and dark otherwise. On a
 phone, your browser's Add to Home Screen, or Install app, puts it there as
 an app of its own.
+
+It reads without colour or a mouse too. A failed result stands taller than
+a passed one, in forced colours as well. A screen reader says each state
+that a glyph or a dot shows, and a check's last results in words, such as
+28 of 30 passed and the last one failed at 14:02, which the keyboard shows
+on each row it reaches.
 
 ## What it never does
 
@@ -118,8 +125,11 @@ services:
 ```
 
 Then `docker compose up -d`, and open port 8080 of that host. With no
-config yet, Overlook shows its setup page: pick the tools your homelab
-runs, give each its address and key, and try it. From the sources that
+config yet, Overlook shows its setup page. It asks first for the code
+Overlook wrote in its log as it started, which
+`docker compose logs overlook` shows, so that only someone who can read
+the log can set it up. Then pick the tools your homelab runs, give each
+its address and key, and try it. From the sources that
 answered, the setup page puts together two files, `overlook.yaml` and the
 `.env` that holds their keys. Save both in `overlook/`, then
 `docker compose restart`, and the setup page, still open, turns into the
@@ -166,9 +176,9 @@ PROXMOX_SECRET=00000000-0000-0000-0000-000000000000
   `sudo chown 65532 overlook/.env && sudo chmod 600 overlook/.env`.
 - **The setup page is there only while there is no `overlook.yaml`.** A
   config that is there but wrong, an empty one too, stops Overlook, and
-  says why. While the setup page is up, anyone who can open it can have
-  Overlook read an address they type, as [SECURITY.md](SECURITY.md) says,
-  so save the files soon.
+  says why. While the setup page is up, it reads an address only for
+  someone who gives it the code from the log, a new one each time Overlook
+  starts, as [SECURITY.md](SECURITY.md) says.
 - **`TZ`** says when today starts, for today's figures. Any zone works: the
   zone database is inside the binary.
 - **The image** is `ghcr.io/bnlqn/overlook`, for amd64 and arm64: `0.6` for
@@ -185,15 +195,16 @@ overlook -config /etc/overlook/overlook.yaml -listen :8080
 ```
 
 It reads `.env` beside the config there too, and shows the setup page until
-the config exists.
+the config exists, with the code it asks for in the log, on standard error.
 
 On Unraid, install Overlook from the Apps tab, where
 [its listing](https://ca.unraid.net/apps/overlook-0zkg6r11kddp7t) is:
 search for Overlook, and apply its template. Its config folder is
 `/mnt/user/appdata/overlook`, it runs locked down as above, and Unraid
-gives it `TZ` itself. Its WebUI opens the setup page, which says how to
-save the two files on Unraid. To link the Unraid server itself in the
-sidebar, as a tool, give it `icon: unraid.svg`, which Overlook ships.
+gives it `TZ` itself. Its WebUI opens the setup page, which says where
+Unraid shows the code from the log, and how to save the two files there.
+To link the Unraid server itself in the sidebar, as a tool, give it
+`icon: unraid.svg`, which Overlook ships.
 
 ## Configuring
 
@@ -868,6 +879,51 @@ Recorded from a scratch Pi-hole 2026.10 with invented clients and domains
 file and the scripts that fill and record it are in the adapter's
 [`testdata`](internal/adapters/pihole/testdata).
 
+### Nginx Proxy Manager
+
+One Nginx Proxy Manager, in Network: each proxy host, redirection, 404 host
+and stream, with where it sends what it receives, grey while it's disabled,
+and in red when nginx refused its config, with what nginx said, since
+Nginx Proxy Manager then serves nothing for it; and its version and whether
+a newer one is out. Then the certificates they serve, the one that ends
+first first, in orange within 30 days of its end, and red once it has
+ended. A certificate within 30 days is a chore too, done in Nginx Proxy
+Manager's Certificates: one from Let's Encrypt is renewed from 30 days
+before its end, so one still within them isn't renewing.
+
+```yaml
+sources:
+  npm:
+    - url: http://npm:81                # where Overlook reads its admin
+      user: overlook@example.com        # its user's email
+      password: ${NPM_PASSWORD}
+      link: https://npm.example.com     # where the page sends you, if not the same
+```
+
+**Key:** a login, as `user` and `password`, since Nginx Proxy Manager has
+no API keys. Overlook logs in with one POST, keeps the token in memory and
+sends it with each GET, logging in again once it lapses, after a day
+(ADR 0009). The least it needs is a user of its own: in Users, add one
+without Administrator, then, in its Permissions, give it All Items under
+Item Visibility, so that it sees the hosts you made, and View Only on Proxy
+Hosts, Redirection Hosts, 404 Hosts and Streams. Leave Certificates and
+Access Lists hidden: each host brings the name and end of the certificate
+it serves, while Nginx Proxy Manager's list of certificates gives whoever
+may view it the private key of every certificate you uploaded. Overlook
+can't answer a second factor, so give its user none.
+
+Nginx Proxy Manager doesn't check whether what a host sends to answers, so
+a host pointing at nothing looks like any other: your check engine says
+whether it answers. A stream pointing at a name that doesn't resolve is
+refused by nginx, and shows in red. A certificate no host serves is left
+out. Nginx Proxy Manager asks GitHub whether a newer one is out, and when it
+can't, the page shows no version.
+
+Recorded from a scratch Nginx Proxy Manager 2.16.0 with invented hosts and
+self-signed certificates (ADR 0008), until someone who runs one records it
+from theirs: the compose file and the scripts that fill and record it are
+in the adapter's [`testdata`](internal/adapters/npm/testdata).
+
 ### Traefik
 
 One Traefik, in Network, read from its API. First how many HTTP routers,
@@ -1466,13 +1522,13 @@ counts them, and keeps it sound as they come:
 3. [ ] Two translations or more, each kept by someone who speaks it
        (ADR 0006), and the page looked at in each, at desktop and phone
        width, for words longer than English's.
-4. [ ] A check's results readable without colour or a mouse: its last 30
+4. [x] A check's results readable without colour or a mouse: its last 30
        said in words, such as 28 of 30 passed and the last one failed at
        14:02, for a screen reader and the keyboard, and a failed result
        told from a passed one by more than red and green. Then the page is
        gone through with a screen reader and in forced colours, and what
        doesn't read is fixed.
-5. [ ] The setup page asks for a code from the log before its first try,
+5. [x] The setup page asks for a code from the log before its first try,
        so that no website can have it read an address in the homelab, not
        even one that points its own name at Overlook's address (amends
        ADR 0014). SECURITY.md then loses the gap it accepts.

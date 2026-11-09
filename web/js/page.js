@@ -26,11 +26,13 @@ const DAY = 864e5;
  *
  * - homelab: its state, its headline and its summary, as texts;
  * - problems: the checks that are problems;
- * - checks: every check, each with its state and what its state doesn't say;
+ * - checks: every check, each with its state, what its state doesn't say,
+ *   and what its strip says in words;
  * - areas: the four, in the page's order, each with whether it's shown and
  *   whether its checks judge it, its state, its checks and problems, how many
  *   are up and how many are in each state, its summary, its middle response
- *   time, its strip, its charts, its sections and its silent sources;
+ *   time, its strip and what it says in words, its charts, its sections and
+ *   its silent sources;
  * - today: its tiles and how many columns they take;
  * - events: this week's, newest first, and what to say with none;
  * - week: its seven days and each area's outages and events along them;
@@ -96,6 +98,7 @@ function readChecks(snap) {
       outages: (c.outages || []).map((o) => ({ check: c, from: new Date(o.from), to: o.to ? new Date(o.to) : null })),
     };
     check.health = health(check);
+    check.lately = lately(recent);
     return check;
   });
 }
@@ -113,6 +116,26 @@ function health(c) {
       : { key: "check.failed_run", args: { n: c.run } };
   }
   return c.state === "unknown" ? { key: "check.no_results" } : null;
+}
+
+/**
+ * What a strip says in words, for a screen reader and the keyboard, since
+ * its marks say it by shape and colour: how many of a check's results
+ * passed, or of an area's ticks all its checks did, and, when one failed,
+ * when the last did, the newest or one before it, and in an area's, which
+ * checks. With no result, nothing: its state says so.
+ */
+function lately(marks, area = false) {
+  const had = marks.filter(Boolean).slice(-RECENT);
+  if (!had.length) return null;
+  const n = had.length;
+  const last = had.findLast((m) => !m.ok);
+  if (!last) return area ? { key: "results.area_all", args: { n } } : { key: "results.all", args: { n } };
+  const args = { n, passed: had.filter((m) => m.ok).length, at: last.at };
+  const newest = last === had[n - 1];
+  if (!area) return newest ? { key: "results.newest_failed", args } : { key: "results.last_failed", args };
+  args.names = last.failed.map((f) => f.check.name);
+  return newest ? { key: "results.area_newest_failed", args } : { key: "results.area_last_failed", args };
 }
 
 /**
@@ -240,7 +263,8 @@ function quietSince(checks) {
  * the snapshot carries it; its checks and problems; how many of its checks
  * are up, and how many are in each state, those up first, so that a failing
  * check is never counted as up; its summary; the middle response time of
- * those answering; its strip; its charts, those of several sources added up;
+ * those answering; its strip, and what it says in words; its charts, those
+ * of several sources added up;
  * its sections; and the sources the snapshot says it names that didn't
  * answer.
  */
@@ -260,6 +284,7 @@ function areaOf(area, snap, checks, engines) {
   );
   const up = mine.filter((c) => c.state === "up").length;
   const silence = silent(snap, decided.sources);
+  const strip = worst(mine);
   return {
     area,
     shown,
@@ -271,7 +296,8 @@ function areaOf(area, snap, checks, engines) {
     counts,
     summary: areaSummary(shown, mine, problems, up, engines, silence),
     ms: times.length ? times[times.length >> 1] : null,
-    strip: worst(mine),
+    strip,
+    lately: lately(strip, true),
     charts: joinCharts(snap.charts.filter((c) => c.area === area)).map((c) => ({
       ...c,
       lacking: missing(

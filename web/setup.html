@@ -1,8 +1,9 @@
 <!doctype html>
 <!--
   The setup page (CONTEXT.md), served in place of the page while Overlook
-  has no config (ADR 0014): the sources to read, each tried once, and the
-  two files to save. Drawn by js/setup.js, its words from i18n/.
+  has no config (ADR 0014): the setup code from the log (ADR 0018), then
+  the sources to read, each tried once, and the two files to save. Drawn by
+  js/setup.js, its words from i18n/.
 -->
 <html lang="en">
 <head>
@@ -26,7 +27,18 @@
     </div>
   </section>
 
-  <div id="groups"></div>
+  <section class="block" id="code">
+    <h2 class="block-title" data-t="setup.code"></h2>
+    <p class="block-ask" id="code-ask" data-t="setup.code_ask"></p>
+    <form class="card asks code" id="code-form">
+      <div class="asks-foot">
+        <button class="action strong" type="submit"><span data-t="setup.code_go"></span></button>
+        <p class="answer" role="status"></p>
+      </div>
+    </form>
+  </section>
+
+  <div id="groups" hidden></div>
 
   <section class="block" id="files" hidden>
     <h2 class="block-title"><span data-t="setup.files"></span><span class="hint" data-t="setup.files_hint"></span></h2>
