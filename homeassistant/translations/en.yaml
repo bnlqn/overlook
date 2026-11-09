@@ -1,0 +1,5 @@
+network:
+  8080/tcp: >-
+    The page, and MCP if overlook.yaml turns it on, for a browser or an agent
+    outside Home Assistant, with no login. Leave it empty to open Overlook
+    only from Home Assistant's sidebar.

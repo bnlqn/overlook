@@ -56,7 +56,9 @@ func TestRoutes(t *testing.T) {
 		if rec.Code != http.StatusOK || !strings.Contains(rec.Body.String(), want) {
 			t.Errorf("%s: %d, want %q", path, rec.Code, want)
 		}
-		if csp := rec.Header().Get("Content-Security-Policy"); !strings.Contains(csp, "script-src 'self';") {
+		// Its own scripts only, and framed only from its own address, as Home
+		// Assistant's sidebar frames it (ADR 0019).
+		if csp := rec.Header().Get("Content-Security-Policy"); !strings.Contains(csp, "script-src 'self';") || !strings.HasSuffix(csp, "frame-ancestors 'self'") {
 			t.Errorf("%s: no policy: %q", path, csp)
 		}
 	}
@@ -318,6 +320,22 @@ func TestSetupOnUnraid(t *testing.T) {
 		var got struct{ Unraid bool }
 		if err := json.Unmarshal(get(t, h, "/setup").Body.Bytes(), &got); err != nil || got.Unraid != want {
 			t.Errorf("HOST_OS %q: unraid %v, want %v (%v)", host, got.Unraid, want, err)
+		}
+	}
+}
+
+// In Home Assistant, which gives every app a SUPERVISOR_TOKEN, the setup
+// page says where to save the files there.
+func TestSetupInHomeAssistant(t *testing.T) {
+	for token, want := range map[string]bool{"0123456789abcdef": true, "": false} {
+		t.Setenv("SUPERVISOR_TOKEN", token)
+		h, err := Setup(Code())
+		if err != nil {
+			t.Fatal(err)
+		}
+		var got struct{ HomeAssistant bool }
+		if err := json.Unmarshal(get(t, h, "/setup").Body.Bytes(), &got); err != nil || got.HomeAssistant != want {
+			t.Errorf("SUPERVISOR_TOKEN %q: homeassistant %v, want %v (%v)", token, got.HomeAssistant, want, err)
 		}
 	}
 }

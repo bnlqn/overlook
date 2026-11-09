@@ -25,7 +25,7 @@ Then:
 make check
 ```
 
-That runs every check a pull request passes, in the order CI does: `go vet`, golangci-lint, Biome, the Go tests with the race detector, the page's tests, and govulncheck. `make fmt` formats everything the way the linters expect.
+That runs every check a pull request passes, in the order CI does: `go vet`, golangci-lint, Biome, the Go tests with the race detector, the page's tests, and govulncheck. `make fmt` formats everything the way the linters expect. CI also runs Home Assistant's own linter, [frenck/action-app-linter](https://github.com/frenck/action-app-linter), on the app in `homeassistant/`.
 
 To see the page with every adapter's parts in it, run the demo, which draws it from an invented snapshot and reads no source:
 
@@ -54,6 +54,7 @@ and open <http://localhost:8080>. Give it a config that isn't there, in a folder
 | `internal/server` | the routes, the setup page's and its try's while there is no config, and the headers every answer carries |
 | `web` | the page, embedded in the binary: HTML, `style.css`, the modules in `js/`, their tests in `test/`, the words in `i18n/`. A state, and which checks and sources make it, is decided in `internal/snapshot`, with a Go test (ADR 0017); every other decision the page makes goes in `js/page.js`, and ⌘K's match in `js/text.js`, each with a test. `overview.js`, `area.js` and `shell.js` only write what those return, and `shell.js` keeps the keys, focus and tooltips. `setup.html` and `setup.js` are the setup page, and `config.js` the files it hands back |
 | `unraid` | the template for Unraid's Community Applications and its icon; `ca_profile.xml`, at the root, where the listing looks for it, is the listing's profile |
+| `homeassistant` | the Home Assistant app (ADR 0019): `config.yaml`, which names the image and its version, and what Home Assistant shows of it, `README.md` in its store, `DOCS.md` on its Documentation tab, `CHANGELOG.md`, `icon.png` and the port's words in `translations/`; `repository.yaml`, at the root, where Home Assistant's app store looks for it, names the repository |
 | `demo` | the demo: an invented snapshot with every adapter's parts, a small and a large homelab beside it, each with the states Go decides from its facts, which its test checks, the contract the server and the page keep (ADR 0003), and what writes the page from them for GitHub Pages |
 
 ## Adding an adapter
@@ -96,11 +97,12 @@ The maintainer tags a commit of `main` as `v` and its version, such as `v0.1.0`,
 
 Versions follow [Semantic Versioning](https://semver.org) to the letter. A fix is a patch, such as `v0.3.1`. Anything new, such as an adapter, is a minor version, such as `v0.4.0`, never a patch. A change that breaks what worked, such as a config key or one of the page's promises, is a major version from 1.0 on; until then it is a minor one, and its notes say so first.
 
-Each release goes in three steps:
+Each release goes in four steps:
 
-1. **A pull request** brings every file that names a version up to the new one: the image in the README's quick start and its line on the image, the README's road under What's next, the commands in SECURITY.md, and any proposed ADR written for the next road. Unraid's template, in `unraid/`, follows `latest` and names no version, so its owners get each release as an update: a release that breaks a config says so first in its notes, as above.
+1. **A pull request** brings every file that names a version up to the new one: the image in the README's quick start and its line on the image, the README's road under What's next, the commands in SECURITY.md, and any proposed ADR written for the next road. Unraid's template, in `unraid/`, follows `latest` and names no version, so its owners get each release as an update: a release that breaks a config says so first in its notes, as above. Home Assistant's app names its version, and comes last.
 2. **The tag**, on `main` once that pull request is merged, annotated as `Overlook v0.4.0, which …`, saying what it brings.
 3. **The notes**: once the release is published, they go above GitHub's list of what was merged: what's new, how to upgrade, with anything that breaks first, and how to check the build (SECURITY.md).
+4. **The app**: once the image is on GHCR, a pull request brings `version` in `homeassistant/config.yaml` up to the release, such as `"0.4.0"`. Home Assistant pulls the image tagged with that version and offers it as an update once it changes, so it must never name an image that isn't there yet. A release candidate never goes there.
 
 To try a release without publishing anything, with Docker running:
 

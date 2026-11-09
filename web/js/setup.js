@@ -201,6 +201,10 @@ async function start() {
     $("code-ask").innerHTML = t("setup.code_ask_unraid");
     $("restart").innerHTML = t("setup.restart_unraid");
   }
+  if (setup.homeassistant) {
+    $("code-ask").innerHTML = t("setup.code_ask_homeassistant");
+    $("restart").innerHTML = t("setup.restart_homeassistant");
+  }
   $("groups").innerHTML = GROUPS.map(
     (g) => `<section class="block">
       <h2 class="block-title">${groupName(g)}</h2>${g === "checkengines" ? `<p class="block-ask">${t("setup.group.checkengines_ask")}</p>` : ""}
