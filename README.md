@@ -65,6 +65,12 @@ The page is light where your system is light, and dark otherwise. On a
 phone, your browser's Add to Home Screen, or Install app, puts it there as
 an app of its own.
 
+It reads without colour or a mouse too. A failed result stands taller than
+a passed one, in forced colours as well. A screen reader says each state
+that a glyph or a dot shows, and a check's last results in words, such as
+28 of 30 passed and the last one failed at 14:02, which the keyboard shows
+on each row it reaches.
+
 ## What it never does
 
 - **It never changes anything.** Overlook sends a source only GET requests,
@@ -1427,7 +1433,7 @@ counts them, and keeps it sound as they come:
 3. [ ] Two translations or more, each kept by someone who speaks it
        (ADR 0006), and the page looked at in each, at desktop and phone
        width, for words longer than English's.
-4. [ ] A check's results readable without colour or a mouse: its last 30
+4. [x] A check's results readable without colour or a mouse: its last 30
        said in words, such as 28 of 30 passed and the last one failed at
        14:02, for a screen reader and the keyboard, and a failed result
        told from a passed one by more than red and green. Then the page is

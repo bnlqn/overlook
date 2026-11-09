@@ -64,6 +64,21 @@
 
   "result.passed": "Passed",
   "result.failed": "Failed",
+  "results.all": { "one": "Its one result passed", "other": "All {n} results passed" },
+  "results.newest_failed": {
+    "one": "Its one result failed, at {at:clock}",
+    "other": "{passed} of {n} results passed, and the last one failed at {at:clock}"
+  },
+  "results.last_failed": "{passed} of {n} results passed, and the last failure was at {at:clock}",
+  "results.area_all": {
+    "one": "Its checks all passed the one time",
+    "other": "Its checks all passed the last {n} times"
+  },
+  "results.area_newest_failed": {
+    "one": "At {at:clock}, {names:list} failed",
+    "other": "Its checks all passed {passed} of the last {n} times, and at {at:clock} {names:list} failed"
+  },
+  "results.area_last_failed": "Its checks all passed {passed} of the last {n} times, and {names:list} last failed at {at:clock}",
   "check.failed_n": "Failed {run} of {threshold}",
   "check.no_results": "No results yet",
   "check.failed_run": { "one": "Failed once", "other": "Failed {n} times in a row" },

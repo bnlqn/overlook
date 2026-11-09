@@ -187,18 +187,18 @@ function renderAreas(areas) {
       );
       const kids = a.checks.map(
         (c) => `<a class="trow kid" href="${esc(c.url)}" target="_blank" rel="noopener">
-        <span class="tname">${stateIcon(c.state)}<span>${esc(c.name)}${by(c)}</span></span>
+        <span class="tname">${stateIcon(c.state, Boolean(c.health))}<span>${esc(c.name)}${by(c)}</span></span>
         <span class="health tone-${TONE[c.state]}">${c.health ? say(c.health) : word(c.state)}</span>
         <span class="tcount detail">${c.failing ? esc(c.why || "") : ""}</span>
-        <span class="tms">${c.failing ? "" : ms(c.ms)}</span>${strip(c.recent)}</a>`,
+        <span class="tms">${c.failing ? "" : ms(c.ms)}</span>${strip(c.recent, c.lately)}</a>`,
       );
       return `<details class="area" data-area="${a.area}" style="--i:${i}"${unfolded.has(a.area) ? " open" : ""}>
       <summary class="trow">
         <span class="tname">${svg("chevron", "ic twist")}<span class="badge" style="--tint:${TINT[a.area]}">${svg(p.icon)}</span><a href="${p.href}">${pageName(p)}</a></span>
         <span class="health tone-${TONE[a.state]}">${stateIcon(a.state)}${word(a.state)}</span>
-        <span class="tcount" data-tip="${count}">${ring}${number(a.up)} / ${number(a.checks.length)}</span>
+        <span class="tcount" data-tip="${count}">${ring}<span aria-hidden="true">${number(a.up)} / ${number(a.checks.length)}</span><span class="spoken">${t("area.checks_up_of", { up: a.up, n: a.checks.length })}</span></span>
         <span class="tms">${ms(a.ms)}</span>
-        ${strip(a.strip.map(moment))}
+        ${strip(a.strip.map(moment), a.lately)}
       </summary>
       <div class="tkids">${kids.join("")}</div>
     </details>`;
@@ -256,11 +256,23 @@ function renderWeek({ days, rows }, now) {
             );
       return `<span class="tl-ms${bad ? " bad" : ""}${events.length > 1 ? " many" : ""}" style="left:${at(left)}" data-tip="${tp}"></span>`;
     });
+    // What the row draws, in words for a screen reader: its problems and
+    // how long they lasted, then how many events it had.
+    const events = row.events.reduce((n, e) => n + e.events.length, 0);
+    const said = [
+      row.outages.length
+        ? `${t("week.problems", { n: row.outages.length })} · ${t("week.in_all", { ms: row.down })}`
+        : t("week.no_problems"),
+      ...(events ? [t("week.events", { n: events })] : []),
+    ];
     return `<div class="tl-row" style="--i:${i};--tint:${TINT[row.area]}">
       <span class="tl-label">${svg(page(row.area).icon)}${t(`area.${row.area}`)}</span>
-      <span class="tl-track"><span class="tl-bar" data-tip="${summary}"></span>${outages.join("")}${diamonds.join("")}</span></div>`;
+      <span class="tl-track"><span class="spoken">${said.join(" · ")}</span><span class="tl-bar" data-tip="${summary}"></span>${outages.join("")}${diamonds.join("")}</span></div>`;
   });
-  $("week").innerHTML = `<div class="tl-row tl-head"><span></span><span class="tl-track">${head.join("")}</span></div>
+  // The days along the top say nothing without the rows drawn under them,
+  // so a screen reader leaves them out.
+  $("week").innerHTML =
+    `<div class="tl-row tl-head" aria-hidden="true"><span></span><span class="tl-track">${head.join("")}</span></div>
     <div class="tl-grid">${days.map((d) => `<i style="left:${at(d.left)}"></i>`).join("")}</div>${lines.join("")}`;
 }
 
@@ -269,7 +281,7 @@ function renderWeek({ days, rows }, now) {
 function renderApps({ links, compact, columns }) {
   $("apps-block").hidden = !links.length;
   // Small tiles show the logo, the name, the dot and the time, the
-  // description in the tooltip.
+  // description in the tooltip, and still spoken.
   $("apps").classList.toggle("compact", compact);
   $("apps").style.setProperty("--cols", columns);
   $("apps").innerHTML = links
@@ -287,7 +299,7 @@ function renderApps({ links, compact, columns }) {
       const about = compact && s.description ? ` data-tip="${tip(esc(s.name), [], esc(s.description))}"` : "";
       return `<a class="app" href="${esc(s.url)}" target="_blank" rel="noopener" style="--tint:${tint};--i:${i}"${about}>
       <span class="app-top">${badge(s, "lg")}<span class="dot tone-${TONE[state]}"></span></span>
-      <span class="title">${esc(s.name)}</span><span class="detail">${esc(s.description || "")}</span>
+      <span class="title">${esc(s.name)}</span><span class="${compact ? "spoken" : "detail"}">${esc(s.description || "")}</span>
       <span class="app-foot"><span>${foot ? say(foot) : ms(c.ms)}</span>${
         c
           ? sparkline(
@@ -335,7 +347,7 @@ function renderChores({ updates, due, week, next }, now) {
     groups
       .map(
         ([mark, name, rows]) => `<div class="group">
-    <div class="group-head">${mark}<span>${name}</span><span class="n">${number(rows.length)}</span></div>${more(rows, 5)}</div>`,
+    <h3 class="group-head">${mark}<span>${name}</span><span class="n">${number(rows.length)}</span></h3>${more(rows, 5)}</div>`,
       )
       .join("") ||
     // With nothing waiting, due or this week, the block shows only for a chore
