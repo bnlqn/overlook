@@ -24,7 +24,8 @@ It reads:
 - **Servers**: [Proxmox VE](#proxmox-ve), [Beszel](#beszel),
   [Docker](#docker), [Portainer](#portainer), [NUT](#nut)
 - **Network**: [UniFi Network](#unifi-network), [AdGuard Home](#adguard-home),
-  [Pi-hole](#pi-hole)
+  [Pi-hole](#pi-hole), [Nginx Proxy Manager](#nginx-proxy-manager),
+  [Traefik](#traefik)
 - **Storage**: [Proxmox Backup Server](#proxmox-backup-server),
   [Syncthing](#syncthing), and the pools, storage and backup runs of
   [Proxmox VE](#proxmox-ve)
@@ -57,14 +58,20 @@ What it can't read, and why, is under [Can't be read](#cant-be-read).
   answers.
 - **The chores**: the ones on your to-do list that are due or come this
   week, the updates waiting for your merge or to be installed, the
-  batteries to change, the devices waiting to be adopted and the requests
-  waiting for your approval. You do a chore where it waits, such as
+  batteries to change, the devices waiting to be adopted, the requests
+  waiting for your approval and the certificates to renew. You do a chore where it waits, such as
   marking it done on the list, never on the page, and a chore is never a
   problem.
 
 The page is light where your system is light, and dark otherwise. On a
 phone, your browser's Add to Home Screen, or Install app, puts it there as
 an app of its own.
+
+It reads without colour or a mouse too. A failed result stands taller than
+a passed one, in forced colours as well. A screen reader says each state
+that a glyph or a dot shows, and a check's last results in words, such as
+28 of 30 passed and the last one failed at 14:02, which the keyboard shows
+on each row it reaches.
 
 ## What it never does
 
@@ -119,8 +126,11 @@ services:
 ```
 
 Then `docker compose up -d`, and open port 8080 of that host. With no
-config yet, Overlook shows its setup page: pick the tools your homelab
-runs, give each its address and key, and try it. From the sources that
+config yet, Overlook shows its setup page. It asks first for the code
+Overlook wrote in its log as it started, which
+`docker compose logs overlook` shows, so that only someone who can read
+the log can set it up. Then pick the tools your homelab runs, give each
+its address and key, and try it. From the sources that
 answered, the setup page puts together two files, `overlook.yaml` and the
 `.env` that holds their keys. Save both in `overlook/`, then
 `docker compose restart`, and the setup page, still open, turns into the
@@ -167,9 +177,9 @@ PROXMOX_SECRET=00000000-0000-0000-0000-000000000000
   `sudo chown 65532 overlook/.env && sudo chmod 600 overlook/.env`.
 - **The setup page is there only while there is no `overlook.yaml`.** A
   config that is there but wrong, an empty one too, stops Overlook, and
-  says why. While the setup page is up, anyone who can open it can have
-  Overlook read an address they type, as [SECURITY.md](SECURITY.md) says,
-  so save the files soon.
+  says why. While the setup page is up, it reads an address only for
+  someone who gives it the code from the log, a new one each time Overlook
+  starts, as [SECURITY.md](SECURITY.md) says.
 - **`TZ`** says when today starts, for today's figures. Any zone works: the
   zone database is inside the binary.
 - **The image** is `ghcr.io/bnlqn/overlook`, for amd64 and arm64: `0.6` for
@@ -186,15 +196,27 @@ overlook -config /etc/overlook/overlook.yaml -listen :8080
 ```
 
 It reads `.env` beside the config there too, and shows the setup page until
-the config exists.
+the config exists, with the code it asks for in the log, on standard error.
 
 On Unraid, install Overlook from the Apps tab, where
 [its listing](https://ca.unraid.net/apps/overlook-0zkg6r11kddp7t) is:
 search for Overlook, and apply its template. Its config folder is
 `/mnt/user/appdata/overlook`, it runs locked down as above, and Unraid
-gives it `TZ` itself. Its WebUI opens the setup page, which says how to
-save the two files on Unraid. To link the Unraid server itself in the
-sidebar, as a tool, give it `icon: unraid.svg`, which Overlook ships.
+gives it `TZ` itself. Its WebUI opens the setup page, which says where
+Unraid shows the code from the log, and how to save the two files there.
+To link the Unraid server itself in the sidebar, as a tool, give it
+`icon: unraid.svg`, which Overlook ships.
+
+On Home Assistant OS, Overlook installs as an app, which Home Assistant
+called an add-on until 2026, and opens in its sidebar: in Settings, Apps,
+App store, add `https://github.com/bnlqn/overlook` to its repositories,
+install Overlook, and open it from the sidebar, which shows the setup page:
+the code it asks for is on the app's Log tab.
+Its config folder is the one Home Assistant gives it in `app_configs`,
+mounted read-only, and Home Assistant gives it `TZ` itself.
+[The app's documentation](homeassistant/DOCS.md), on its Documentation tab
+too, says how to save the two files there, and how to open Overlook outside
+the sidebar, such as for MCP.
 
 ## Configuring
 
@@ -869,6 +891,90 @@ Recorded from a scratch Pi-hole 2026.10 with invented clients and domains
 file and the scripts that fill and record it are in the adapter's
 [`testdata`](internal/adapters/pihole/testdata).
 
+### Nginx Proxy Manager
+
+One Nginx Proxy Manager, in Network: each proxy host, redirection, 404 host
+and stream, with where it sends what it receives, grey while it's disabled,
+and in red when nginx refused its config, with what nginx said, since
+Nginx Proxy Manager then serves nothing for it; and its version and whether
+a newer one is out. Then the certificates they serve, the one that ends
+first first, in orange within 30 days of its end, and red once it has
+ended. A certificate within 30 days is a chore too, done in Nginx Proxy
+Manager's Certificates: one from Let's Encrypt is renewed from 30 days
+before its end, so one still within them isn't renewing.
+
+```yaml
+sources:
+  npm:
+    - url: http://npm:81                # where Overlook reads its admin
+      user: overlook@example.com        # its user's email
+      password: ${NPM_PASSWORD}
+      link: https://npm.example.com     # where the page sends you, if not the same
+```
+
+**Key:** a login, as `user` and `password`, since Nginx Proxy Manager has
+no API keys. Overlook logs in with one POST, keeps the token in memory and
+sends it with each GET, logging in again once it lapses, after a day
+(ADR 0009). The least it needs is a user of its own: in Users, add one
+without Administrator, then, in its Permissions, give it All Items under
+Item Visibility, so that it sees the hosts you made, and View Only on Proxy
+Hosts, Redirection Hosts, 404 Hosts and Streams. Leave Certificates and
+Access Lists hidden: each host brings the name and end of the certificate
+it serves, while Nginx Proxy Manager's list of certificates gives whoever
+may view it the private key of every certificate you uploaded. Overlook
+can't answer a second factor, so give its user none.
+
+Nginx Proxy Manager doesn't check whether what a host sends to answers, so
+a host pointing at nothing looks like any other: your check engine says
+whether it answers. A stream pointing at a name that doesn't resolve is
+refused by nginx, and shows in red. A certificate no host serves is left
+out. Nginx Proxy Manager asks GitHub whether a newer one is out, and when it
+can't, the page shows no version.
+
+Recorded from a scratch Nginx Proxy Manager 2.16.0 with invented hosts and
+self-signed certificates (ADR 0008), until someone who runs one records it
+from theirs: the compose file and the scripts that fill and record it are
+in the adapter's [`testdata`](internal/adapters/npm/testdata).
+
+### Traefik
+
+One Traefik, in Network, read from its API. First how many HTTP routers,
+services and middlewares it has, each count in red while one of them is in
+error and in orange while Traefik warns about one; then each it holds in
+error or warns about, with what Traefik says of it, such as a middleware
+that doesn't exist; then each service whose servers it checks, actively or
+by the requests it sends, with its servers all up, or in red with the ones
+down. Then its certificates, by when each expires, sooner first, in orange
+within 30 days and in red once expired. A certificate within 30 days is a
+chore, from the day it came within them. Traefik renews a 90-day
+certificate from Let's Encrypt, as theirs are by default, 30 days before it
+expires, so that one is a chore only once its renewal fails; one you gave
+Traefik yourself is yours to renew.
+
+```yaml
+sources:
+  traefik:
+    - url: https://traefik.example.com # where Overlook reads its API, under /api
+      user: overlook                   # the login of a basicAuth middleware in front of it, if there is one
+      password: ${TRAEFIK_PASSWORD}
+```
+
+**Key:** none of Traefik's own. Its API only reads, so Overlook reads it as
+you serve it: open, as `api.insecure` serves it on port 8080, or through the
+router you gave `api@internal`, behind a basicAuth middleware, whose login
+you give as `user` and `password`. Give Overlook a user of its own among
+that middleware's `users`.
+
+It needs Traefik 3.7 or later, whose API added the certificates. It reads
+the HTTP routers, services and middlewares, not the TCP or UDP ones, each
+list whole in one request.
+
+Recorded from a scratch Traefik 3.7.17 with invented routers and
+self-signed certificates (ADR 0008), until someone who runs it records it
+from theirs: the compose file, its routers and the scripts that fill and
+record it are in the adapter's
+[`testdata`](internal/adapters/traefik/testdata).
+
 ### Beszel
 
 Each system Beszel's agents report on, as a host, in Servers: how long it
@@ -1449,7 +1555,7 @@ say what each one brought. The road to v0.7 takes Overlook where more
 homelabs are, as [selfh.st's 2025 survey](https://selfh.st/survey/2025-results/)
 counts them, and keeps it sound as they come:
 
-1. [ ] A Home Assistant add-on, kept here beside Unraid's template, so
+1. [x] A Home Assistant add-on, kept here beside Unraid's template, so
        that Overlook installs inside Home Assistant OS, which three
        homelabs in ten run, and opens in its sidebar.
 2. [ ] The next tools by how many homelabs run them, each recorded from a
@@ -1461,13 +1567,13 @@ counts them, and keeps it sound as they come:
 3. [ ] Two translations or more, each kept by someone who speaks it
        (ADR 0006), and the page looked at in each, at desktop and phone
        width, for words longer than English's.
-4. [ ] A check's results readable without colour or a mouse: its last 30
+4. [x] A check's results readable without colour or a mouse: its last 30
        said in words, such as 28 of 30 passed and the last one failed at
        14:02, for a screen reader and the keyboard, and a failed result
        told from a passed one by more than red and green. Then the page is
        gone through with a screen reader and in forced colours, and what
        doesn't read is fixed.
-5. [ ] The setup page asks for a code from the log before its first try,
+5. [x] The setup page asks for a code from the log before its first try,
        so that no website can have it read an address in the homelab, not
        even one that points its own name at Overlook's address (amends
        ADR 0014). SECURITY.md then loses the gap it accepts.

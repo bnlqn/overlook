@@ -1,0 +1,19 @@
+{
+  "traefik.routing": "Routing",
+  "traefik.routers": "Routers",
+  "traefik.services": "Services",
+  "traefik.middlewares": "Middlewares",
+  "traefik.router_disabled": "Router in error",
+  "traefik.router_warning": "Router with a warning",
+  "traefik.service_disabled": "Service in error",
+  "traefik.service_warning": "Service with a warning",
+  "traefik.middleware_disabled": "Middleware in error",
+  "traefik.middleware_warning": "Middleware with a warning",
+  "traefik.servers_up": { "one": "{n} server up", "other": "All {n} servers up" },
+  "traefik.servers_down": { "one": "{down} of {n} server down", "other": "{down} of {n} servers down" },
+
+  "traefik.certificates": "Certificates",
+  "traefik.expires": "Expires in {ms:span}",
+  "traefik.expired": "Expired {ms:span} ago",
+  "traefik.issued_by": "issued by {issuer}"
+}

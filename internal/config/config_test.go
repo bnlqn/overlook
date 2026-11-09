@@ -222,6 +222,7 @@ func TestExample(t *testing.T) {
 	t.Setenv("IMMICH_URL", "http://immich:2283")
 	t.Setenv("JELLYFIN_KEY", "0123abcd")
 	t.Setenv("NEXTCLOUD_TOKEN", "0123abcd")
+	t.Setenv("NPM_PASSWORD", "s3cret")
 	t.Setenv("NUT_HOST", "nut.example.com")
 	t.Setenv("PAPERLESS_TOKEN", "0123abcd")
 	t.Setenv("PBS_SECRET", "00000000-0000-0000-0000-000000000000")
@@ -235,6 +236,7 @@ func TestExample(t *testing.T) {
 	t.Setenv("SONARR_KEY", "4567efab")
 	t.Setenv("SYNCTHING_KEY", "0123abcd")
 	t.Setenv("TAUTULLI_KEY", "0123abcd")
+	t.Setenv("TRAEFIK_PASSWORD", "s3cret")
 	t.Setenv("UNIFI_KEY", "0123abcd")
 	c, err := Load("../../overlook.example.yaml")
 	if err != nil {

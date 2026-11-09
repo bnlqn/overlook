@@ -31,6 +31,8 @@
     { "name": "Primary DNS", "adapter": "adguard", "area": "network", "kind": "resolver", "answered": true },
     { "name": "Secondary DNS", "adapter": "pihole", "area": "network", "kind": "resolver", "answered": true },
     { "name": "IoT DNS", "adapter": "adguard", "area": "network", "kind": "resolver", "answered": true },
+    { "name": "Nginx Proxy Manager", "adapter": "npm", "area": "network", "answered": true },
+    { "name": "Reverse proxy", "adapter": "traefik", "area": "network", "answered": true },
     { "name": "Chores", "adapter": "ical", "kind": "todolist", "answered": true },
     { "name": "Rack", "adapter": "ical", "kind": "todolist", "answered": true }
   ],
@@ -6571,6 +6573,330 @@
         { "title": { "name": "metrics.example.com" }, "value": { "key": "number", "args": { "n": 99801 } } },
         { "title": { "name": "beacon.example.org" }, "value": { "key": "number", "args": { "n": 49900 } } }
       ]
+    },
+    {
+      "area": "network",
+      "source": "Nginx Proxy Manager",
+      "title": { "key": "npm.domains" },
+      "rows": [
+        {
+          "title": { "name": "audiobooks.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.21:13378" }
+        },
+        {
+          "title": { "name": "auth.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.5:9091" }
+        },
+        {
+          "title": { "name": "bitwarden.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.6:8080" }
+        },
+        {
+          "title": { "name": "blog.example.com" },
+          "value": { "key": "npm.redirect", "args": { "code": "301" } },
+          "detail": { "name": "→ https://www.example.com/blog" }
+        },
+        {
+          "title": { "name": "books.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.22:8083" }
+        },
+        {
+          "title": { "name": "cloud.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.14:80" }
+        },
+        {
+          "title": { "name": "code.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ https://10.0.30.30:8443" }
+        },
+        {
+          "title": { "name": "dash.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.4:3000" }
+        },
+        {
+          "title": { "name": "docs.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.15:8000" }
+        },
+        {
+          "title": { "name": "films.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "cinema.example.com · → http://10.0.30.12:8096" }
+        },
+        {
+          "title": { "name": "git.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.16:3000" }
+        },
+        {
+          "title": { "name": "grafana.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.40:3000" }
+        },
+        {
+          "title": { "name": "home.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.13:8123" }
+        },
+        {
+          "title": { "name": "jellyseerr.example.com" },
+          "value": { "key": "npm.refused" },
+          "tone": "red",
+          "detail": { "name": "host not found in upstream \"seerr\" in /data/nginx/proxy_host/13.conf:42" }
+        },
+        {
+          "title": { "name": "mail.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ https://10.0.30.7:443" }
+        },
+        {
+          "title": { "name": "music.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.23:4533" }
+        },
+        {
+          "title": { "name": "notes.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.24:3010" }
+        },
+        { "title": { "name": "old.example.com" }, "value": { "key": "npm.dead" } },
+        {
+          "title": { "name": "photos.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.11:2283" }
+        },
+        {
+          "title": { "name": "plex.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.19:32400" }
+        },
+        {
+          "title": { "name": "prowlarr.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.31:9696" }
+        },
+        {
+          "title": { "name": "radarr.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.32:7878" }
+        },
+        {
+          "title": { "name": "recipes.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.25:9000" }
+        },
+        {
+          "title": { "name": "rss.example.com" },
+          "value": { "key": "npm.refused" },
+          "tone": "red",
+          "detail": { "name": "\"proxy_pass\" directive is duplicate in /data/nginx/proxy_host/22.conf:58" }
+        },
+        {
+          "title": { "name": "sonarr.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.33:8989" }
+        },
+        {
+          "title": { "name": "status.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.41:8080" }
+        },
+        {
+          "title": { "name": "torrent.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.34:8080" }
+        },
+        {
+          "title": { "name": "vault.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ https://10.0.30.8:8200" }
+        },
+        {
+          "title": { "name": "wiki.example.com" },
+          "value": { "key": "npm.proxy" },
+          "detail": { "name": "→ http://10.0.30.27:3000" }
+        },
+        {
+          "title": { "name": "www.example.com" },
+          "value": { "key": "npm.redirect", "args": { "code": "302" } },
+          "detail": { "name": "→ https://example.com" }
+        },
+        {
+          "title": { "name": "zigbee.example.com" },
+          "value": { "key": "npm.disabled" },
+          "tone": "gray",
+          "detail": { "name": "→ http://10.0.30.50:8080" }
+        },
+        {
+          "title": { "key": "version" },
+          "value": { "key": "version.newer", "args": { "version": "v2.16.1" } },
+          "tone": "orange",
+          "detail": { "name": "v2.16.0" }
+        }
+      ]
+    },
+    {
+      "area": "network",
+      "source": "Nginx Proxy Manager",
+      "title": { "key": "npm.streams" },
+      "rows": [
+        {
+          "title": { "key": "npm.port", "args": { "port": "2222" } },
+          "value": { "key": "npm.tcp" },
+          "detail": { "name": "→ 10.0.30.16:22" }
+        },
+        {
+          "title": { "key": "npm.port", "args": { "port": "25565" } },
+          "value": { "key": "npm.tcp" },
+          "detail": { "name": "→ 10.0.30.60:25565" }
+        },
+        {
+          "title": { "key": "npm.port", "args": { "port": "51820" } },
+          "value": { "key": "npm.udp" },
+          "detail": { "name": "→ 10.0.10.1:51820" }
+        }
+      ]
+    },
+    {
+      "area": "network",
+      "source": "Nginx Proxy Manager",
+      "title": { "key": "npm.certificates" },
+      "rows": [
+        {
+          "title": { "name": "Old VPN" },
+          "value": { "key": "npm.expired", "args": { "ms": 1036800000 } },
+          "tone": "red",
+          "detail": { "key": "npm.custom", "args": { "domains": "vpn.example.com" } }
+        },
+        {
+          "title": { "name": "Printer" },
+          "value": { "key": "npm.expires", "args": { "ms": 518400000 } },
+          "tone": "orange",
+          "detail": { "key": "npm.custom", "args": { "domains": "printer.example.com" } }
+        },
+        {
+          "title": { "name": "*.example.com, example.com" },
+          "value": { "key": "npm.expires", "args": { "ms": 5529600000 } },
+          "detail": { "key": "npm.letsencrypt" }
+        },
+        {
+          "title": { "name": "*.home.example.com" },
+          "value": { "key": "npm.expires", "args": { "ms": 6480000000 } },
+          "detail": { "key": "npm.letsencrypt" }
+        }
+      ]
+    },
+    {
+      "area": "network",
+      "source": "Reverse proxy",
+      "title": { "key": "traefik.routing" },
+      "rows": [
+        { "title": { "key": "traefik.routers" }, "value": { "key": "number", "args": { "n": 64 } }, "tone": "red" },
+        { "title": { "key": "traefik.services" }, "value": { "key": "number", "args": { "n": 61 } }, "tone": "red" },
+        { "title": { "key": "traefik.middlewares" }, "value": { "key": "number", "args": { "n": 14 } }, "tone": "red" },
+        {
+          "title": { "name": "grafana@docker" },
+          "value": { "key": "traefik.router_disabled" },
+          "detail": { "name": "middleware \"authentik@docker\" does not exist" },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "ha@file" },
+          "value": { "key": "traefik.router_warning" },
+          "detail": { "name": "entryPoint \"websecure-v6\" doesn't exist" },
+          "tone": "orange"
+        },
+        {
+          "title": { "name": "minio-console@docker" },
+          "value": { "key": "traefik.router_disabled" },
+          "detail": { "name": "the service \"minio-console@docker\" does not exist" },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "plex@file" },
+          "value": { "key": "traefik.router_disabled" },
+          "detail": { "name": "cannot parse CIDRs [10.20.0.0/33]: invalid CIDR address: 10.20.0.0/33" },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "mirror@file" },
+          "value": { "key": "traefik.service_disabled" },
+          "detail": { "name": "building HTTP service \"mirror-b\": the service \"mirror-b@file\" does not exist" },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "lan@file" },
+          "value": { "key": "traefik.middleware_disabled" },
+          "detail": { "name": "cannot parse CIDRs [10.20.0.0/33]: invalid CIDR address: 10.20.0.0/33" },
+          "tone": "red"
+        },
+        { "title": { "name": "immich@docker" }, "value": { "key": "traefik.servers_up", "args": { "n": 2 } } },
+        {
+          "title": { "name": "jellyfin@docker" },
+          "value": { "key": "traefik.servers_down", "args": { "down": 1, "n": 3 } },
+          "detail": { "name": "http://192.0.2.43:8096" },
+          "tone": "red"
+        },
+        { "title": { "name": "nextcloud@docker" }, "value": { "key": "traefik.servers_up", "args": { "n": 2 } } },
+        { "title": { "name": "paperless@docker" }, "value": { "key": "traefik.servers_up", "args": { "n": 1 } } },
+        { "title": { "name": "vaultwarden@docker" }, "value": { "key": "traefik.servers_up", "args": { "n": 2 } } },
+        { "title": { "name": "wiki@docker" }, "value": { "key": "traefik.servers_up", "args": { "n": 1 } } }
+      ]
+    },
+    {
+      "area": "network",
+      "source": "Reverse proxy",
+      "title": { "key": "traefik.certificates" },
+      "rows": [
+        {
+          "title": { "name": "printer.example.com" },
+          "value": { "key": "traefik.expired", "args": { "ms": 172800000 } },
+          "detail": { "key": "traefik.issued_by", "args": { "issuer": "printer.example.com" } },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "*.home.example.com" },
+          "value": { "key": "traefik.expires", "args": { "ms": 1036800000 } },
+          "detail": { "key": "traefik.issued_by", "args": { "issuer": "R11" } },
+          "tone": "orange"
+        },
+        {
+          "title": { "name": "auth.example.com" },
+          "value": { "key": "traefik.expires", "args": { "ms": 3542400000 } },
+          "detail": { "key": "traefik.issued_by", "args": { "issuer": "R10" } }
+        },
+        {
+          "title": { "name": "*.example.com" },
+          "value": { "key": "traefik.expires", "args": { "ms": 5011200000 } },
+          "detail": { "key": "traefik.issued_by", "args": { "issuer": "E6" } }
+        },
+        {
+          "title": { "name": "git.example.com" },
+          "value": { "key": "traefik.expires", "args": { "ms": 5443200000 } },
+          "detail": { "key": "traefik.issued_by", "args": { "issuer": "E5" } }
+        },
+        {
+          "title": { "name": "status.example.com" },
+          "value": { "key": "traefik.expires", "args": { "ms": 6652800000 } },
+          "detail": { "key": "traefik.issued_by", "args": { "issuer": "R10" } }
+        },
+        {
+          "title": { "name": "nas.example.com" },
+          "value": { "key": "traefik.expires", "args": { "ms": 18316800000 } },
+          "detail": { "key": "traefik.issued_by", "args": { "issuer": "nas.example.com" } }
+        },
+        {
+          "title": { "name": "ups.example.com" },
+          "value": { "key": "traefik.expires", "args": { "ms": 94608000000 } },
+          "detail": { "key": "traefik.issued_by", "args": { "issuer": "ups.example.com" } }
+        }
+      ]
     }
   ],
   "charts": [
@@ -8807,6 +9133,16 @@
       "state": "unknown",
       "description": "What's downloading",
       "color": "#3F87D9"
+    },
+    {
+      "name": "Reverse proxy",
+      "url": "https://traefik.example.com/dashboard/",
+      "icon": "traefik-proxy.svg",
+      "check": "Reverse proxy",
+      "engine": "Gatus",
+      "state": "up",
+      "description": "Every router and certificate",
+      "color": "#24A1C1"
     }
   ],
   "chores": [
@@ -8878,6 +9214,34 @@
       "note": "Lena",
       "url": "https://requests.example.com/tv/6357",
       "source": "Seerr"
+    },
+    {
+      "name": "printer.example.com",
+      "from": "2026-09-26",
+      "note": "2026-10-26",
+      "url": "https://traefik.example.com/dashboard/",
+      "source": "Reverse proxy"
+    },
+    {
+      "name": "*.home.example.com",
+      "from": "2026-10-10",
+      "note": "2026-11-09",
+      "url": "https://traefik.example.com/dashboard/",
+      "source": "Reverse proxy"
+    },
+    {
+      "name": "Old VPN",
+      "from": "2026-09-16",
+      "note": "vpn.example.com · 2026-10-16",
+      "url": "https://npm.example.com/certificates",
+      "source": "Nginx Proxy Manager"
+    },
+    {
+      "name": "Printer",
+      "from": "2026-10-04",
+      "note": "printer.example.com · 2026-11-03",
+      "url": "https://npm.example.com/certificates",
+      "source": "Nginx Proxy Manager"
     },
     {
       "name": "Replace the faulted disk in tank",
@@ -8955,6 +9319,8 @@
         "Primary DNS",
         "Secondary DNS",
         "IoT DNS",
+        "Nginx Proxy Manager",
+        "Reverse proxy",
         "Chores",
         "Rack"
       ]

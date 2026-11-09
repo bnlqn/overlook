@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "created_on": "2026-11-09 20:36:55",
+    "modified_on": "2026-11-09 20:36:55",
+    "owner_user_id": 1,
+    "incoming_port": 2222,
+    "forwarding_host": "git.example.com",
+    "forwarding_port": 22,
+    "tcp_forwarding": true,
+    "udp_forwarding": false,
+    "meta": {
+      "nginx_online": false,
+      "nginx_err": "nginx: [emerg] host not found in upstream \"git.example.com\" in /data/nginx/stream/1.conf:10\nnginx: configuration file /etc/nginx/nginx.conf test failed\n"
+    },
+    "enabled": true,
+    "certificate_id": 0,
+    "certificate": null
+  },
+  {
+    "id": 2,
+    "created_on": "2026-11-09 20:36:55",
+    "modified_on": "2026-11-09 20:36:55",
+    "owner_user_id": 1,
+    "incoming_port": 51820,
+    "forwarding_host": "10.0.10.1",
+    "forwarding_port": 51820,
+    "tcp_forwarding": false,
+    "udp_forwarding": true,
+    "meta": {
+      "nginx_online": true,
+      "nginx_err": null
+    },
+    "enabled": true,
+    "certificate_id": 0,
+    "certificate": null
+  }
+]

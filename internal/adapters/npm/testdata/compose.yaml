@@ -1,0 +1,23 @@
+# A scratch Nginx Proxy Manager to record from (ADR 0008): fill.sh makes
+# Overlook's user, invented hosts and streams, and uploads two self-signed
+# certificates, then record.sh logs in once and reads what Overlook reads.
+#
+#   docker compose -f compose.yaml up -d --wait && ./fill.sh && ./record.sh
+#   docker compose -f compose.yaml down -v
+name: overlook-npm
+services:
+  npm:
+    image: jc21/nginx-proxy-manager:2.16.0
+    ports: ["127.0.0.1:8181:81"]
+    environment:
+      INITIAL_ADMIN_EMAIL: owner@example.com
+      INITIAL_ADMIN_PASSWORD: Owner-password-1
+      DISABLE_IPV6: "true"
+    volumes: [data:/data, letsencrypt:/etc/letsencrypt]
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:81/api/"]
+      interval: 5s
+      retries: 30
+volumes:
+  data:
+  letsencrypt:
