@@ -1,0 +1,85 @@
+{
+  "libraries": [
+    {
+      "id": "7a7630c3-9b66-4a1b-9d71-41c44d94e9fd",
+      "name": "Audiobooks",
+      "folders": [
+        {
+          "id": "1820a5cf-564c-4499-a05f-f322ad13451f",
+          "fullPath": "/audiobooks",
+          "libraryId": "7a7630c3-9b66-4a1b-9d71-41c44d94e9fd",
+          "addedAt": 1794256590380
+        }
+      ],
+      "displayOrder": 1,
+      "icon": "database",
+      "mediaType": "book",
+      "provider": "google",
+      "settings": {
+        "coverAspectRatio": 1,
+        "disableWatcher": false,
+        "autoScanCronExpression": null,
+        "skipMatchingMediaWithAsin": true,
+        "skipMatchingMediaWithIsbn": true,
+        "audiobooksOnly": false,
+        "epubsAllowScriptedContent": false,
+        "hideSingleBookSeries": false,
+        "onlyShowLaterBooksInContinueSeries": false,
+        "metadataPrecedence": [
+          "folderStructure",
+          "audioMetatags",
+          "nfoFile",
+          "txtFiles",
+          "opfFile",
+          "absMetadata"
+        ],
+        "markAsFinishedPercentComplete": null,
+        "markAsFinishedTimeRemaining": 10
+      },
+      "lastScan": 1794256592747,
+      "lastScanVersion": "2.37.2",
+      "createdAt": 1794256590375,
+      "lastUpdate": 1794256592748,
+      "stats": {
+        "totalSize": 142231995,
+        "totalDuration": 142200,
+        "numAudioFiles": 79,
+        "totalItems": 6
+      }
+    },
+    {
+      "id": "1c7ce09d-e45c-45b1-ba9c-7de1983401b4",
+      "name": "Podcasts",
+      "folders": [
+        {
+          "id": "a33b3aaf-f191-4918-a7dc-382e7e2d40cf",
+          "fullPath": "/podcasts",
+          "libraryId": "1c7ce09d-e45c-45b1-ba9c-7de1983401b4",
+          "addedAt": 1794256590413
+        }
+      ],
+      "displayOrder": 2,
+      "icon": "database",
+      "mediaType": "podcast",
+      "provider": "google",
+      "settings": {
+        "coverAspectRatio": 1,
+        "disableWatcher": false,
+        "autoScanCronExpression": null,
+        "podcastSearchRegion": "gb",
+        "markAsFinishedPercentComplete": null,
+        "markAsFinishedTimeRemaining": 10
+      },
+      "lastScan": 1794256590736,
+      "lastScanVersion": "2.37.2",
+      "createdAt": 1794256590410,
+      "lastUpdate": 1794256590736,
+      "stats": {
+        "totalDuration": 10800,
+        "numAudioFiles": 6,
+        "totalItems": 2,
+        "totalSize": 10802430
+      }
+    }
+  ]
+}

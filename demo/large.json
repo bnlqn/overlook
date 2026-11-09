@@ -20,6 +20,7 @@
     { "name": "qBittorrent", "adapter": "qbittorrent", "area": "apps", "answered": true },
     { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "kind": "mediaserver", "answered": true },
     { "name": "Plex", "adapter": "tautulli", "area": "apps", "kind": "mediaserver", "answered": true },
+    { "name": "Audiobookshelf", "adapter": "audiobookshelf", "area": "apps", "answered": true },
     { "name": "Seerr", "adapter": "seerr", "area": "apps", "answered": true },
     { "name": "Home Assistant", "adapter": "homeassistant", "area": "apps", "answered": true },
     { "name": "Paperless-ngx", "adapter": "paperless", "area": "apps", "answered": true },
@@ -5938,7 +5939,7 @@
         {
           "title": { "name": "Kim" },
           "value": { "name": "Harbour Lights - The Lamp Room" },
-          "detail": { "key": "mediaserver.direct", "args": { "device": "Kitchen tablet" } }
+          "detail": { "key": "mediaserver.direct", "args": { "device": "Apple iPad" } }
         },
         {
           "title": { "name": "Noor" },
@@ -5976,6 +5977,49 @@
           "title": { "key": "tautulli.plex" },
           "value": { "key": "version.newer", "args": { "version": "1.43.6.11200-0a1b2c3d4" } },
           "tone": "orange"
+        }
+      ]
+    },
+    {
+      "area": "apps",
+      "source": "Audiobookshelf",
+      "title": { "key": "audiobookshelf.title" },
+      "rows": [
+        {
+          "title": { "name": "Ari" },
+          "value": { "name": "Desoldering Braid" },
+          "detail": { "name": "Linux x86_64 Firefox" }
+        },
+        { "title": { "name": "Lena" }, "value": { "name": "Middlemarch" }, "detail": { "name": "Google Pixel 9" } },
+        {
+          "title": { "name": "Theo" },
+          "value": { "name": "The Time Machine" },
+          "detail": { "name": "Apple iPad" }
+        },
+        {
+          "title": { "name": "Audiobooks" },
+          "value": { "key": "audiobookshelf.books", "args": { "n": 1460 } },
+          "detail": {
+            "key": "audiobookshelf.length",
+            "args": { "n": 15890, "length": 52560000000, "size": 412000000000 }
+          }
+        },
+        {
+          "title": { "name": "Podcasts" },
+          "value": { "key": "audiobookshelf.podcasts", "args": { "n": 24 } },
+          "detail": {
+            "key": "audiobookshelf.episodes",
+            "args": { "n": 3180, "length": 7956000000, "size": 76500000000 }
+          }
+        },
+        {
+          "title": { "name": "Soldering at Night" },
+          "value": { "key": "audiobookshelf.to_download", "args": { "n": 3 } },
+          "detail": { "key": "audiobookshelf.downloading", "args": { "title": "Flux, and Why" } }
+        },
+        {
+          "title": { "name": "The Allotment Hour" },
+          "value": { "key": "audiobookshelf.to_download", "args": { "n": 1 } }
         }
       ]
     },
@@ -7910,6 +7954,62 @@
     },
     {
       "area": "apps",
+      "source": "Audiobookshelf",
+      "icon": "play",
+      "label": { "key": "audiobookshelf.listened" },
+      "value": 340,
+      "unit": { "key": "audiobookshelf.minutes" },
+      "detail": { "key": "audiobookshelf.listening_now", "args": { "n": 3 } },
+      "shares": [
+        {
+          "label": { "name": "Ari" },
+          "value": 65,
+          "rows": [
+            {
+              "title": { "name": "Cold Joints" },
+              "value": { "key": "audiobookshelf.span", "args": { "ms": 2700000 } }
+            },
+            {
+              "title": { "name": "Desoldering Braid" },
+              "value": { "key": "audiobookshelf.span", "args": { "ms": 1200000 } }
+            }
+          ]
+        },
+        {
+          "label": { "name": "Lena" },
+          "value": 120,
+          "rows": [
+            { "title": { "name": "Middlemarch" }, "value": { "key": "audiobookshelf.span", "args": { "ms": 7200000 } } }
+          ]
+        },
+        {
+          "label": { "name": "Mia" },
+          "value": 55,
+          "rows": [
+            {
+              "title": { "name": "Frankenstein" },
+              "value": { "key": "audiobookshelf.span", "args": { "ms": 3300000 } }
+            }
+          ]
+        },
+        {
+          "label": { "name": "Theo" },
+          "value": 100,
+          "rows": [
+            {
+              "title": { "name": "The Time Machine" },
+              "value": { "key": "audiobookshelf.span", "args": { "ms": 4200000 } }
+            },
+            {
+              "title": { "name": "Around the World in Eighty Days" },
+              "value": { "key": "audiobookshelf.span", "args": { "ms": 1800000 } }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "area": "apps",
       "source": "Paperless-ngx",
       "icon": "document",
       "label": { "key": "paperless.documents" },
@@ -8462,6 +8562,7 @@
     {
       "name": "Audiobooks",
       "url": "https://audiobooks.example.com",
+      "icon": "audiobookshelf.svg",
       "check": "Audiobooks",
       "engine": "Gatus",
       "state": "up",
@@ -8471,6 +8572,7 @@
     {
       "name": "Podcasts",
       "url": "https://podcasts.example.com",
+      "icon": "audiobookshelf.svg",
       "check": "Podcasts",
       "engine": "Gatus",
       "state": "up",
@@ -8890,6 +8992,7 @@
         "qBittorrent",
         "Jellyfin",
         "Plex",
+        "Audiobookshelf",
         "Seerr",
         "Home Assistant",
         "Paperless-ngx",

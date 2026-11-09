@@ -21,6 +21,7 @@ import (
 	"go.yaml.in/yaml/v3"
 
 	"github.com/bnlqn/overlook/internal/adapters/adguard"
+	"github.com/bnlqn/overlook/internal/adapters/audiobookshelf"
 	"github.com/bnlqn/overlook/internal/adapters/beszel"
 	"github.com/bnlqn/overlook/internal/adapters/checkmate"
 	"github.com/bnlqn/overlook/internal/adapters/docker"
@@ -81,37 +82,38 @@ type Config struct {
 // tag is its logo on the setup page, a file in web/icons that the server's
 // test checks; an iCalendar list, served by many programs, has none.
 type Sources struct {
-	Gatus         []gatus.Config         `yaml:"gatus" icon:"gatus.svg"`
-	UptimeKuma    []uptimekuma.Config    `yaml:"uptimekuma" icon:"uptime-kuma.svg"`
-	Grafana       []grafana.Config       `yaml:"grafana" icon:"grafana.svg"`
-	Prometheus    []prometheus.Config    `yaml:"prometheus" icon:"prometheus.svg"`
-	Checkmate     []checkmate.Config     `yaml:"checkmate" icon:"checkmate.svg"`
-	GitHub        []github.Config        `yaml:"github" icon:"github.svg"`
-	Immich        []immich.Config        `yaml:"immich" icon:"immich.svg"`
-	PBS           []pbs.Config           `yaml:"pbs" icon:"proxmox-backup-server.svg"`
-	Syncthing     []syncthing.Config     `yaml:"syncthing" icon:"syncthing.svg"`
-	Proxmox       []proxmox.Config       `yaml:"proxmox" icon:"proxmox.svg"`
-	Beszel        []beszel.Config        `yaml:"beszel" icon:"beszel.svg"`
-	Docker        []docker.Config        `yaml:"docker" icon:"docker.svg"`
-	Portainer     []portainer.Config     `yaml:"portainer" icon:"portainer.svg"`
-	Radarr        []radarr.Config        `yaml:"radarr" icon:"radarr.svg"`
-	Sonarr        []sonarr.Config        `yaml:"sonarr" icon:"sonarr.svg"`
-	Prowlarr      []prowlarr.Config      `yaml:"prowlarr" icon:"prowlarr.svg"`
-	QBittorrent   []qbittorrent.Config   `yaml:"qbittorrent" icon:"qbittorrent.svg"`
-	Jellyfin      []jellyfin.Config      `yaml:"jellyfin" icon:"jellyfin.svg"`
-	Emby          []emby.Config          `yaml:"emby" icon:"emby.svg"`
-	Tautulli      []tautulli.Config      `yaml:"tautulli" icon:"tautulli.svg"`
-	Seerr         []seerr.Config         `yaml:"seerr" icon:"seerr.svg"`
-	HomeAssistant []homeassistant.Config `yaml:"homeassistant" icon:"home-assistant.svg"`
-	Paperless     []paperless.Config     `yaml:"paperless" icon:"paperless-ngx.svg"`
-	Nextcloud     []nextcloud.Config     `yaml:"nextcloud" icon:"nextcloud.svg"`
-	Gitea         []gitea.Config         `yaml:"gitea" icon:"gitea.svg"`
-	Forgejo       []forgejo.Config       `yaml:"forgejo" icon:"forgejo.svg"`
-	NUT           []nut.Config           `yaml:"nut" icon:"network-ups-tools.svg"`
-	UniFi         []unifi.Config         `yaml:"unifi" icon:"unifi.png"`
-	AdGuard       []adguard.Config       `yaml:"adguard" icon:"adguard-home.svg"`
-	PiHole        []pihole.Config        `yaml:"pihole" icon:"pi-hole.svg"`
-	Ical          []ical.Config          `yaml:"ical"`
+	Gatus          []gatus.Config          `yaml:"gatus" icon:"gatus.svg"`
+	UptimeKuma     []uptimekuma.Config     `yaml:"uptimekuma" icon:"uptime-kuma.svg"`
+	Grafana        []grafana.Config        `yaml:"grafana" icon:"grafana.svg"`
+	Prometheus     []prometheus.Config     `yaml:"prometheus" icon:"prometheus.svg"`
+	Checkmate      []checkmate.Config      `yaml:"checkmate" icon:"checkmate.svg"`
+	GitHub         []github.Config         `yaml:"github" icon:"github.svg"`
+	Immich         []immich.Config         `yaml:"immich" icon:"immich.svg"`
+	PBS            []pbs.Config            `yaml:"pbs" icon:"proxmox-backup-server.svg"`
+	Syncthing      []syncthing.Config      `yaml:"syncthing" icon:"syncthing.svg"`
+	Proxmox        []proxmox.Config        `yaml:"proxmox" icon:"proxmox.svg"`
+	Beszel         []beszel.Config         `yaml:"beszel" icon:"beszel.svg"`
+	Docker         []docker.Config         `yaml:"docker" icon:"docker.svg"`
+	Portainer      []portainer.Config      `yaml:"portainer" icon:"portainer.svg"`
+	Radarr         []radarr.Config         `yaml:"radarr" icon:"radarr.svg"`
+	Sonarr         []sonarr.Config         `yaml:"sonarr" icon:"sonarr.svg"`
+	Prowlarr       []prowlarr.Config       `yaml:"prowlarr" icon:"prowlarr.svg"`
+	QBittorrent    []qbittorrent.Config    `yaml:"qbittorrent" icon:"qbittorrent.svg"`
+	Jellyfin       []jellyfin.Config       `yaml:"jellyfin" icon:"jellyfin.svg"`
+	Emby           []emby.Config           `yaml:"emby" icon:"emby.svg"`
+	Tautulli       []tautulli.Config       `yaml:"tautulli" icon:"tautulli.svg"`
+	Audiobookshelf []audiobookshelf.Config `yaml:"audiobookshelf" icon:"audiobookshelf.svg"`
+	Seerr          []seerr.Config          `yaml:"seerr" icon:"seerr.svg"`
+	HomeAssistant  []homeassistant.Config  `yaml:"homeassistant" icon:"home-assistant.svg"`
+	Paperless      []paperless.Config      `yaml:"paperless" icon:"paperless-ngx.svg"`
+	Nextcloud      []nextcloud.Config      `yaml:"nextcloud" icon:"nextcloud.svg"`
+	Gitea          []gitea.Config          `yaml:"gitea" icon:"gitea.svg"`
+	Forgejo        []forgejo.Config        `yaml:"forgejo" icon:"forgejo.svg"`
+	NUT            []nut.Config            `yaml:"nut" icon:"network-ups-tools.svg"`
+	UniFi          []unifi.Config          `yaml:"unifi" icon:"unifi.png"`
+	AdGuard        []adguard.Config        `yaml:"adguard" icon:"adguard-home.svg"`
+	PiHole         []pihole.Config         `yaml:"pihole" icon:"pi-hole.svg"`
+	Ical           []ical.Config           `yaml:"ical"`
 }
 
 // Readers are the sources, each with its adapter's read, as Load checked
@@ -293,6 +295,7 @@ func (c *Config) check() error {
 		add(c, jellyfin.Adapter, c.Sources.Jellyfin),
 		add(c, emby.Adapter, c.Sources.Emby),
 		add(c, tautulli.Adapter, c.Sources.Tautulli),
+		add(c, audiobookshelf.Adapter, c.Sources.Audiobookshelf),
 		add(c, seerr.Adapter, c.Sources.Seerr),
 		add(c, homeassistant.Adapter, c.Sources.HomeAssistant),
 		add(c, paperless.Adapter, c.Sources.Paperless),

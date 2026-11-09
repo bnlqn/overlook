@@ -162,6 +162,12 @@ sources:
     - url: http://tautulli:8181        # where Overlook reads Tautulli, directly, not through a proxy
       key: ${TAUTULLI_KEY}             # Settings, Web Interface, API key
 
+  # The audiobooks and podcasts: who listens now, each library and the items
+  # gone from it, the episodes waiting to download, and today's listening.
+  audiobookshelf:
+    - url: http://audiobookshelf       # where Overlook reads Audiobookshelf
+      key: ${AUDIOBOOKSHELF_KEY}       # Settings, API Keys: an admin of its own's, as the README says
+
   # The requests for films and shows: those waiting for your approval are
   # chores, and the problems people reported show.
   seerr:

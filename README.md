@@ -29,7 +29,8 @@ It reads:
   [Syncthing](#syncthing), and the pools, storage and backup runs of
   [Proxmox VE](#proxmox-ve)
 - **Apps**: [Immich](#immich), [Jellyfin](#jellyfin), [Emby](#emby),
-  [Plex, through Tautulli](#plex-through-tautulli), [Radarr](#radarr),
+  [Plex, through Tautulli](#plex-through-tautulli),
+  [Audiobookshelf](#audiobookshelf), [Radarr](#radarr),
   [Sonarr](#sonarr), [Prowlarr](#prowlarr), [qBittorrent](#qbittorrent),
   [Seerr](#seerr), [Home Assistant](#home-assistant),
   [Paperless-ngx](#paperless-ngx), [Nextcloud](#nextcloud), [Gitea](#gitea),
@@ -1100,6 +1101,39 @@ Recorded from a scratch Tautulli 2.18 watching a scratch Plex 1.43, with
 invented films and plays (ADR 0008), until someone who runs one records it
 from theirs: the compose file and the scripts that fill and record it are
 in the adapter's [`testdata`](internal/adapters/tautulli/testdata).
+
+### Audiobookshelf
+
+The audiobooks and podcasts, on the Apps page: who listens now, to what
+and on which device; each library, by its books or its podcasts and
+episodes, their hours and the room they take, in red with the items gone
+from the disk or that it can't read; and each podcast's episodes waiting to
+download, with the one downloading. Today shows the minutes listened since
+midnight, and each person's share, with what they listened to.
+
+```yaml
+sources:
+  audiobookshelf:
+    - url: http://audiobookshelf # where Overlook reads Audiobookshelf
+      key: ${AUDIOBOOKSHELF_KEY}
+```
+
+**Key:** an API key, from Settings, API Keys, made by an admin for a user
+of Overlook's own, of the admin type, with no expiry. Only an admin's key
+reads who listens, and it can change Audiobookshelf **even through a GET**:
+a few of its GETs change things, such as one that restores a backup, so the
+GET-only client can't keep this key harmless. What does is that the adapter
+sends only five paths, each of which reads, from one list in its code that
+its test checks (ADR 0011).
+
+A session counts on the day it last played, whole, and the hundred newest
+sessions are read, which hold a day's for a household.
+
+Recorded from a scratch Audiobookshelf 2.37.2 with public-domain books
+read as silence, invented podcasts and invented people (ADR 0008), until
+someone who runs one records it from theirs: the compose file and the
+scripts that fill and record it are in the adapter's
+[`testdata`](internal/adapters/audiobookshelf/testdata).
 
 ### Seerr
 
