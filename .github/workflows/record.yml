@@ -84,6 +84,9 @@ jobs:
       # adapter reads is only what record.sh recorded this week. record.sh
       # prints the moment it recorded at, where its answers depend on it.
       - name: Fill and record it
+        # Less than the job's, so that an instance that never answers still
+        # leaves its logs.
+        timeout-minutes: 30
         run: |
           find . -type f \( -name '*.json' -o -name '*.ics' -o -name '*.http' \) -delete
           if [ -f fill.mjs ]; then node fill.mjs; else key=$(./fill.sh); fi
