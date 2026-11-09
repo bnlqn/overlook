@@ -28,6 +28,7 @@ func TestLoad(t *testing.T) {
 	t.Setenv("GATUS_PASSWORD", "s3cret")
 	t.Setenv("IMMICH_KEY", "k3y")
 	t.Setenv("ADGUARD_PASSWORD", "s3cret")
+	t.Setenv("AUDIOBOOKSHELF_KEY", "0123abcd")
 	t.Setenv("PHOTOS_ABOUT", "photos: # all of them")
 	c, err := Load(write(t, `
 sources:
@@ -207,6 +208,7 @@ func TestLoadRefuses(t *testing.T) {
 func TestExample(t *testing.T) {
 	// By name, so that two adapters' pull requests add theirs apart.
 	t.Setenv("ADGUARD_PASSWORD", "s3cret")
+	t.Setenv("AUDIOBOOKSHELF_KEY", "0123abcd")
 	t.Setenv("BESZEL_PASSWORD", "s3cret")
 	t.Setenv("CHECKMATE_PASSWORD", "s3cret")
 	t.Setenv("DAV_PASSWORD", "s3cret")

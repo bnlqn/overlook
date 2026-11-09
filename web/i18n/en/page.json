@@ -251,6 +251,7 @@
   "setup.adapter.jellyfin": "Jellyfin",
   "setup.adapter.emby": "Emby",
   "setup.adapter.tautulli": "Plex, through Tautulli",
+  "setup.adapter.audiobookshelf": "Audiobookshelf",
   "setup.adapter.seerr": "Seerr",
   "setup.adapter.homeassistant": "Home Assistant",
   "setup.adapter.paperless": "Paperless-ngx",

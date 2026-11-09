@@ -21,6 +21,7 @@
     { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "kind": "mediaserver", "answered": true },
     { "name": "Emby", "adapter": "emby", "area": "apps", "kind": "mediaserver", "answered": true },
     { "name": "Plex", "adapter": "tautulli", "area": "apps", "kind": "mediaserver", "answered": true },
+    { "name": "Audiobookshelf", "adapter": "audiobookshelf", "area": "apps", "answered": true },
     { "name": "Seerr", "adapter": "seerr", "area": "apps", "answered": true },
     { "name": "Home Assistant", "adapter": "homeassistant", "area": "apps", "answered": true },
     { "name": "Paperless-ngx", "adapter": "paperless", "area": "apps", "answered": true },
@@ -1883,7 +1884,7 @@
         {
           "title": { "name": "Noor" },
           "value": { "key": "mediabrowser.episode", "args": { "series": "Harbour Lights", "name": "The Lamp Room" } },
-          "detail": { "key": "mediaserver.transcoding", "args": { "device": "Kitchen tablet" } }
+          "detail": { "key": "mediaserver.transcoding", "args": { "device": "Apple iPad" } }
         },
         { "title": { "key": "mediabrowser.films" }, "value": { "key": "mediabrowser.films_n", "args": { "n": 412 } } },
         {
@@ -1950,6 +1951,34 @@
           "value": { "key": "tautulli.shows_n", "args": { "n": 31, "parents": 112, "children": 1520 } }
         },
         { "title": { "key": "tautulli.plex" }, "value": { "key": "tautulli.current" } }
+      ]
+    },
+    {
+      "area": "apps",
+      "source": "Audiobookshelf",
+      "title": { "key": "audiobookshelf.title" },
+      "rows": [
+        {
+          "title": { "name": "Kim" },
+          "value": { "name": "The Hound of the Baskervilles" },
+          "detail": { "name": "Fairphone FP5" }
+        },
+        {
+          "title": { "name": "Audiobooks" },
+          "value": { "key": "audiobookshelf.books", "args": { "n": 214 } },
+          "detail": { "key": "audiobookshelf.issues", "args": { "n": 2 } },
+          "tone": "red"
+        },
+        {
+          "title": { "name": "Podcasts" },
+          "value": { "key": "audiobookshelf.podcasts", "args": { "n": 9 } },
+          "detail": { "key": "audiobookshelf.episodes", "args": { "n": 412, "length": 1029600000, "size": 9800000000 } }
+        },
+        {
+          "title": { "name": "Soldering at Night" },
+          "value": { "key": "audiobookshelf.to_download", "args": { "n": 2 } },
+          "detail": { "key": "audiobookshelf.downloading", "args": { "title": "Flux, and Why" } }
+        }
       ]
     },
     {
@@ -2955,6 +2984,41 @@
     },
     {
       "area": "apps",
+      "source": "Audiobookshelf",
+      "icon": "play",
+      "label": { "key": "audiobookshelf.listened" },
+      "value": 95,
+      "unit": { "key": "audiobookshelf.minutes" },
+      "detail": { "key": "audiobookshelf.listening_now", "args": { "n": 1 } },
+      "shares": [
+        {
+          "label": { "name": "Kim" },
+          "value": 65,
+          "rows": [
+            {
+              "title": { "name": "The Hound of the Baskervilles" },
+              "value": { "key": "audiobookshelf.span", "args": { "ms": 3000000 } }
+            },
+            {
+              "title": { "name": "Pride and Prejudice" },
+              "value": { "key": "audiobookshelf.span", "args": { "ms": 900000 } }
+            }
+          ]
+        },
+        {
+          "label": { "name": "Noor" },
+          "value": 30,
+          "rows": [
+            {
+              "title": { "name": "Leeks in November" },
+              "value": { "key": "audiobookshelf.span", "args": { "ms": 1800000 } }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "area": "apps",
       "source": "Paperless-ngx",
       "icon": "document",
       "label": { "key": "paperless.documents" },
@@ -3502,6 +3566,7 @@
         "Jellyfin",
         "Emby",
         "Plex",
+        "Audiobookshelf",
         "Seerr",
         "Home Assistant",
         "Paperless-ngx",
