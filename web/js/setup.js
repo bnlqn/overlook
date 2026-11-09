@@ -155,6 +155,7 @@ async function start() {
   adapters = setup.adapters;
   base = readme(setup.version);
   if (setup.unraid) $("restart").innerHTML = t("setup.restart_unraid");
+  if (setup.homeassistant) $("restart").innerHTML = t("setup.restart_homeassistant");
   $("groups").innerHTML = GROUPS.map(
     (g) => `<section class="block">
       <h2 class="block-title">${groupName(g)}</h2>${g === "checkengines" ? `<p class="block-ask">${t("setup.group.checkengines_ask")}</p>` : ""}

@@ -28,9 +28,11 @@ import (
 
 // policy keeps the page to its own scripts, styles and requests, so that a
 // name a source sends can never run as code. Icons may come from anywhere;
-// style attributes carry the page's per-element colours and delays.
+// style attributes carry the page's per-element colours and delays. Only a
+// page at Overlook's own address may frame it, as Home Assistant's does, its
+// sidebar showing Overlook from Home Assistant's address (ADR 0019).
 const policy = "default-src 'self'; script-src 'self'; style-src 'self'; style-src-attr 'unsafe-inline'; " +
-	"img-src * data:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+	"img-src * data:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'self'"
 
 // language is a translation's file name: its language's code.
 var language = regexp.MustCompile(`^[a-z]{2,3}\.json$`)
@@ -107,11 +109,13 @@ func Setup() (http.Handler, error) {
 	}
 	// The version, so that the page links the README of the Overlook that
 	// runs, and whether it runs on Unraid, which sets HOST_OS in every
-	// container, so that it says where to save the files there.
+	// container, or in Home Assistant, which gives every app a
+	// SUPERVISOR_TOKEN, so that it says where to save the files there.
 	asks, err := json.Marshal(map[string]any{
-		"version":  snapshot.Version,
-		"unraid":   strings.EqualFold(os.Getenv("HOST_OS"), "unraid"),
-		"adapters": adapters,
+		"version":       snapshot.Version,
+		"unraid":        strings.EqualFold(os.Getenv("HOST_OS"), "unraid"),
+		"homeassistant": os.Getenv("SUPERVISOR_TOKEN") != "",
+		"adapters":      adapters,
 	})
 	if err != nil {
 		return nil, err
