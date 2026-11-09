@@ -16,9 +16,13 @@
 <meta name="theme-color" content="#101112">
 <title></title>
 <link rel="icon" href="icon.svg">
-<!-- app-icon.png is icon.svg on a square of its own, 512 px, for a phone to
-     round or cut. Both are named in the manifest, which installs the page. -->
-<link rel="apple-touch-icon" href="app-icon.png">
+<!-- apple-touch-icon.png is icon.svg on a square of its own, 512 px, for a
+     phone to round or cut. Both are named in the manifest, which installs
+     the page. An iPhone adds the page to its home screen without the
+     browser's cookies, so behind a login it can't read this link, and asks
+     for the icon by that name at the root, which the owner lets through the
+     login (README, No login). -->
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="custom.css">
