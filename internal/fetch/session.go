@@ -19,12 +19,15 @@ import (
 // object, such as {"password": "…"}, or as a form, such as
 // username=…&password=…, as qBittorrent takes them. Take reads the session
 // from the login's answer, its header and body, and returns the header that
-// sends it with each GET, such as X-FTL-SID.
+// sends it with each GET, such as X-FTL-SID. Lapsed is the status the source
+// refuses a lapsed session with, if not a 401 or a 403, as Nginx Proxy
+// Manager answers a token past its day with a 400.
 type Login struct {
 	Path        string
 	Credentials map[string]string
 	Form        bool
 	Take        func(http.Header, []byte) (http.Header, error)
+	Lapsed      int
 }
 
 // session keeps the session a login gives in memory (ADR 0004), and gives it
@@ -41,11 +44,12 @@ type session struct {
 	sent http.Header
 }
 
-// refused says whether err is a source refusing a session: a 401, or a 403,
-// which is how qBittorrent refuses one.
-func refused(err error) bool {
-	var s status
-	return errors.As(err, &s) && (s == http.StatusUnauthorized || s == http.StatusForbidden)
+// refused says whether err is the source refusing the session: a 401, a 403,
+// which is how qBittorrent refuses one, or the login's Lapsed.
+func (s *session) refused(err error) bool {
+	var st status
+	return errors.As(err, &st) &&
+		(st == http.StatusUnauthorized || st == http.StatusForbidden || (s.login.Lapsed != 0 && int(st) == s.login.Lapsed))
 }
 
 // header returns the header that sends the session, logging in if there is

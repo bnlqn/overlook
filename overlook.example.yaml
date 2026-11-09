@@ -238,6 +238,13 @@ sources:
       url: http://pihole.example.com   # where Overlook reads Pi-hole's web interface
       password: ${PIHOLE_PASSWORD}     # an app password, from Settings, Web interface / API
 
+  # Nginx Proxy Manager's hosts and streams, in red when nginx refused one,
+  # and the certificates they serve, a chore within 30 days of their end.
+  npm:
+    - url: http://npm.example.com:81   # where Overlook reads its admin
+      user: overlook@example.com       # its user's email: not an admin, with View on hosts and streams
+      password: ${NPM_PASSWORD}
+
   # The chores you keep on a to-do list: mark one done there, in any CalDAV
   # app, and the page follows. A to-do with no due date is due now.
   ical:

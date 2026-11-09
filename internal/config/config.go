@@ -35,6 +35,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/immich"
 	"github.com/bnlqn/overlook/internal/adapters/jellyfin"
 	"github.com/bnlqn/overlook/internal/adapters/nextcloud"
+	"github.com/bnlqn/overlook/internal/adapters/npm"
 	"github.com/bnlqn/overlook/internal/adapters/nut"
 	"github.com/bnlqn/overlook/internal/adapters/paperless"
 	"github.com/bnlqn/overlook/internal/adapters/pbs"
@@ -111,6 +112,7 @@ type Sources struct {
 	UniFi         []unifi.Config         `yaml:"unifi" icon:"unifi.png"`
 	AdGuard       []adguard.Config       `yaml:"adguard" icon:"adguard-home.svg"`
 	PiHole        []pihole.Config        `yaml:"pihole" icon:"pi-hole.svg"`
+	NPM           []npm.Config           `yaml:"npm" icon:"nginx-proxy-manager.svg"`
 	Ical          []ical.Config          `yaml:"ical"`
 }
 
@@ -303,6 +305,7 @@ func (c *Config) check() error {
 		add(c, unifi.Adapter, c.Sources.UniFi),
 		add(c, adguard.Adapter, c.Sources.AdGuard),
 		add(c, pihole.Adapter, c.Sources.PiHole),
+		add(c, npm.Adapter, c.Sources.NPM),
 		add(c, ical.Adapter, c.Sources.Ical),
 	); err != nil {
 		return err
