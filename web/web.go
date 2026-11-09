@@ -10,7 +10,7 @@ import (
 	"path"
 )
 
-//go:embed *.html icon.svg app-icon.png manifest.json style.css js i18n icons fonts
+//go:embed *.html icon.svg apple-touch-icon.png manifest.json style.css js i18n icons fonts
 var files embed.FS
 
 // FS holds the page's files, as served.

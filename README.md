@@ -1336,6 +1336,11 @@ what is wrong. Keep it on your LAN or behind your VPN, or put it behind
 your reverse proxy's own authentication, such as forward auth to your
 identity provider.
 
+Behind a login, let `/apple-touch-icon.png` through it, and only that: an
+iPhone adds the page to its home screen without your login, so it asks
+for the icon there, and shows a letter if it gets the login page instead.
+It is Overlook's logo and nothing more.
+
 ## Agents, through MCP
 
 An AI agent can read what the page shows, if you turn it on. Overlook then
