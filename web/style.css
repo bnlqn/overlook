@@ -2289,6 +2289,10 @@ body.setup main {
   margin: -4px 0 12px;
   color: var(--m-label-2);
 }
+/* The setup code's form is a card of its own, with nothing above it. */
+.asks.code {
+  border-top: 0;
+}
 .adapters {
   display: flex;
   flex-direction: column;
@@ -2473,6 +2477,7 @@ body.setup main {
   color: var(--m-orange-text);
 }
 .restart code,
+.block-ask code,
 .file-note code {
   font: 12px var(--m-mono);
   color: var(--m-label-1);

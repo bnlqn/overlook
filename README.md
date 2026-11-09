@@ -118,8 +118,11 @@ services:
 ```
 
 Then `docker compose up -d`, and open port 8080 of that host. With no
-config yet, Overlook shows its setup page: pick the tools your homelab
-runs, give each its address and key, and try it. From the sources that
+config yet, Overlook shows its setup page. It asks first for the code
+Overlook wrote in its log as it started, which
+`docker compose logs overlook` shows, so that only someone who can read
+the log can set it up. Then pick the tools your homelab runs, give each
+its address and key, and try it. From the sources that
 answered, the setup page puts together two files, `overlook.yaml` and the
 `.env` that holds their keys. Save both in `overlook/`, then
 `docker compose restart`, and the setup page, still open, turns into the
@@ -166,9 +169,9 @@ PROXMOX_SECRET=00000000-0000-0000-0000-000000000000
   `sudo chown 65532 overlook/.env && sudo chmod 600 overlook/.env`.
 - **The setup page is there only while there is no `overlook.yaml`.** A
   config that is there but wrong, an empty one too, stops Overlook, and
-  says why. While the setup page is up, anyone who can open it can have
-  Overlook read an address they type, as [SECURITY.md](SECURITY.md) says,
-  so save the files soon.
+  says why. While the setup page is up, it reads an address only for
+  someone who gives it the code from the log, a new one each time Overlook
+  starts, as [SECURITY.md](SECURITY.md) says.
 - **`TZ`** says when today starts, for today's figures. Any zone works: the
   zone database is inside the binary.
 - **The image** is `ghcr.io/bnlqn/overlook`, for amd64 and arm64: `0.6` for
@@ -185,15 +188,16 @@ overlook -config /etc/overlook/overlook.yaml -listen :8080
 ```
 
 It reads `.env` beside the config there too, and shows the setup page until
-the config exists.
+the config exists, with the code it asks for in the log, on standard error.
 
 On Unraid, install Overlook from the Apps tab, where
 [its listing](https://ca.unraid.net/apps/overlook-0zkg6r11kddp7t) is:
 search for Overlook, and apply its template. Its config folder is
 `/mnt/user/appdata/overlook`, it runs locked down as above, and Unraid
-gives it `TZ` itself. Its WebUI opens the setup page, which says how to
-save the two files on Unraid. To link the Unraid server itself in the
-sidebar, as a tool, give it `icon: unraid.svg`, which Overlook ships.
+gives it `TZ` itself. Its WebUI opens the setup page, which says where
+Unraid shows the code from the log, and how to save the two files there.
+To link the Unraid server itself in the sidebar, as a tool, give it
+`icon: unraid.svg`, which Overlook ships.
 
 ## Configuring
 
@@ -1433,7 +1437,7 @@ counts them, and keeps it sound as they come:
        told from a passed one by more than red and green. Then the page is
        gone through with a screen reader and in forced colours, and what
        doesn't read is fixed.
-5. [ ] The setup page asks for a code from the log before its first try,
+5. [x] The setup page asks for a code from the log before its first try,
        so that no website can have it read an address in the homelab, not
        even one that points its own name at Overlook's address (amends
        ADR 0014). SECURITY.md then loses the gap it accepts.

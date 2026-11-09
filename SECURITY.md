@@ -9,9 +9,9 @@ Overlook holds a key for every source it reads, and some of those keys can do an
 
 A way to break any of these is a vulnerability.
 
-While there is no config, Overlook serves the setup page in place of the page (ADR 0014), and it can be asked to read an address with a key, both typed into it, and say what it found, counted, or why it found nothing. It never sends the key back: the files it hands over are put together in the browser. It refuses a request whose `Origin` isn't its own, so an ordinary website can't ask it through its owner's browser. It knows of one way around that, DNS rebinding, a site pointing its own name at Overlook's address, and accepts it for as long as the config isn't saved: so save it soon, and don't leave a new Overlook without one on a network others share.
+While there is no config, Overlook serves the setup page in place of the page (ADR 0014), and it can be asked to read an address with a key, both typed into it, and say what it found, counted, or why it found nothing. It never sends the key back: the files it hands over are put together in the browser. It asks first for the setup code it wrote in its log as it started, a new one each start, and refuses a request without it, or whose `Origin` isn't its own (ADR 0018). So only someone who can read its log can have it read: a website can't, through its owner's browser, not even one that points its own name at Overlook's address (DNS rebinding).
 
-With `mcp: true`, Overlook answers MCP at `/mcp`, with no login, as the page has none, and its tools read only the snapshot the page is drawn from. It refuses a request whose `Origin` isn't its own, so a website can't read the homelab through its owner's browser. DNS rebinding gets around that here too, and is accepted: it reads no more than `/snapshot` already gives it.
+With `mcp: true`, Overlook answers MCP at `/mcp`, with no login, as the page has none, and its tools read only the snapshot the page is drawn from. It refuses a request whose `Origin` isn't its own, so a website can't read the homelab through its owner's browser. A website that points its own name at Overlook's address, DNS rebinding, gets around that, and here it is accepted: it reads no more than `/snapshot` already gives it.
 
 ## Checking a release
 

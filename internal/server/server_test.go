@@ -98,7 +98,8 @@ func TestSnapshot(t *testing.T) {
 
 func TestSetup(t *testing.T) {
 	t.Parallel()
-	h, err := Setup()
+	const code = "K7QM-X3RD-NW5P"
+	h, err := Setup(code)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -120,7 +121,7 @@ func TestSetup(t *testing.T) {
 
 	gatus := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) { fmt.Fprint(w, "[]") }))
 	t.Cleanup(gatus.Close)
-	try := func(origin, body string) (int, tried) {
+	try := func(origin, body string) (*httptest.ResponseRecorder, tried) {
 		req := httptest.NewRequestWithContext(t.Context(), http.MethodPost, "/setup", strings.NewReader(body))
 		if origin != "" {
 			req.Header.Set("Origin", origin)
@@ -129,26 +130,59 @@ func TestSetup(t *testing.T) {
 		h.ServeHTTP(rec, req)
 		var got tried
 		_ = json.Unmarshal(rec.Body.Bytes(), &got)
-		return rec.Code, got
+		return rec, got
 	}
-	body := `{"adapter":"gatus","fields":{"url":"` + gatus.URL + `"}}`
+	const own = "http://example.com"
+	source := `"adapter":"gatus","fields":{"url":"` + gatus.URL + `"}`
+	body := `{"code":"` + code + `",` + source + `}`
+	// Another Origin is refused, even with the code.
 	for _, origin := range []string{"", "https://elsewhere.example.com", "null"} {
-		if code, _ := try(origin, body); code != http.StatusForbidden {
-			t.Errorf("Origin %q: %d, want refused", origin, code)
+		if rec, _ := try(origin, body); rec.Code != http.StatusForbidden {
+			t.Errorf("Origin %q: %d, want refused", origin, rec.Code)
 		}
 	}
-	if code, got := try("http://example.com", body); code != http.StatusOK || got != (tried{Name: "Gatus"}) {
-		t.Errorf("Gatus answered with nothing: %d %+v", code, got)
+	// So is a try without the code, or with another, before anything is
+	// read: a website that points its own name at Overlook passes the
+	// Origin check, but can't read the log.
+	for _, b := range []string{
+		`{` + source + `}`, `{"code":"",` + source + `}`, `{"code":"K7QM-X3RD-NW5Q",` + source + `}`,
+		`{"code":"K7QM-X3RD",` + source + `}`, `{"code":"K7QM-X3RD-NW5PA",` + source + `}`,
+	} {
+		if rec, got := try(own, b); rec.Code != http.StatusUnauthorized || rec.Header().Get("WWW-Authenticate") != "Setup-Code" || got.Name != "" {
+			t.Errorf("%s: %d %q %+v, want refused", b, rec.Code, rec.Header().Get("WWW-Authenticate"), got)
+		}
 	}
-	if _, got := try("http://example.com", `{"adapter":"immich","fields":{"url":"http://immich.example.com"}}`); got.Error != "key is missing" || got.Why != nil {
+	// The code alone is how the page asks whether it's right.
+	if rec, _ := try(own, `{"code":"`+code+`"}`); rec.Code != http.StatusNoContent {
+		t.Errorf("the code alone: %d, want taken", rec.Code)
+	}
+	// The code is taken however it's typed: in either case, with or without
+	// its dashes, and with spaces.
+	for _, typed := range []string{code, "k7qmx3rdnw5p", " K7QM x3rd NW5P "} {
+		if rec, got := try(own, `{"code":"`+typed+`",`+source+`}`); rec.Code != http.StatusOK || got != (tried{Name: "Gatus"}) {
+			t.Errorf("Gatus with %q answered with nothing: %d %+v", typed, rec.Code, got)
+		}
+	}
+	if _, got := try(own, `{"code":"`+code+`","adapter":"immich","fields":{"url":"http://immich.example.com"}}`); got.Error != "key is missing" || got.Why != nil {
 		t.Errorf("Immich without its key: %+v", got)
 	}
 	gone := httptest.NewServer(nil)
 	gone.Close()
 	// httptest listens on 127.0.0.1: in a container, the container itself.
-	if _, got := try("http://example.com", `{"adapter":"gatus","fields":{"url":"`+gone.URL+`"}}`); got.Name != "Gatus" ||
+	if _, got := try(own, `{"code":"`+code+`","adapter":"gatus","fields":{"url":"`+gone.URL+`"}}`); got.Name != "Gatus" ||
 		got.Why == nil || got.Why.Key != "setup.why.localhost" || got.Why.Args["name"] != "gatus" || got.Why.Args["host"] != "127.0.0.1" {
 		t.Errorf("a Gatus that's gone: %+v %+v", got, got.Why)
+	}
+}
+
+// A setup code is twelve characters of base32 in three groups of four, and
+// a new one each time.
+func TestCode(t *testing.T) {
+	t.Parallel()
+	shape := regexp.MustCompile(`^[A-Z2-7]{4}-[A-Z2-7]{4}-[A-Z2-7]{4}$`)
+	a, b := Code(), Code()
+	if !shape.MatchString(a) || !shape.MatchString(b) || a == b {
+		t.Errorf("codes %q and %q", a, b)
 	}
 }
 
@@ -277,7 +311,7 @@ func TestPageNamesCheckEngines(t *testing.T) {
 func TestSetupOnUnraid(t *testing.T) {
 	for host, want := range map[string]bool{"unRAID": true, "Unraid": true, "": false} {
 		t.Setenv("HOST_OS", host)
-		h, err := Setup()
+		h, err := Setup(Code())
 		if err != nil {
 			t.Fatal(err)
 		}

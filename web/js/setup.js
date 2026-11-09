@@ -1,7 +1,8 @@
-// The setup page (ADR 0014): every adapter, grouped as the README lists
-// them, each with the fields its sources need; each source tried once
-// through Overlook, and those that answered put into the two files to save.
-// Keys stay in this tab's memory and nowhere else: a reload starts again.
+// The setup page (ADR 0014): first the setup code from Overlook's log (ADR
+// 0018), then every adapter, grouped as the README lists them, each with the
+// fields its sources need; each source tried once through Overlook, and
+// those that answered put into the two files to save. The code and the keys
+// stay in this tab's memory and nowhere else: a reload starts again.
 
 import { anchor, dotenv, readme, yaml } from "./config.js";
 import { badge, stateIcon, svg } from "./draw.js";
@@ -19,6 +20,46 @@ const added = [];
 let adapters = [];
 // The README of the Overlook that runs, which each adapter links.
 let base = "";
+// The setup code, once Overlook has taken it, sent with every try.
+let code = "";
+
+const post = (body) =>
+  fetch("setup", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+
+// Shows the code's form, saying why, in place of the adapters; or, with no
+// reason, the adapters, once Overlook has taken the code.
+function ask(why) {
+  const form = $("code-form");
+  const answer = form.querySelector(".answer");
+  answer.className = "answer bad";
+  answer.innerHTML = why ?? "";
+  $("code").hidden = why === undefined;
+  $("groups").hidden = why !== undefined;
+  if (why === undefined) $("groups").querySelector("summary").focus();
+  else form.elements.code.focus();
+}
+
+// Asks Overlook whether the code typed is the one in its log: the code
+// alone, with no source, which it answers with nothing when it is.
+async function takeCode(form) {
+  const button = form.querySelector("button");
+  const typed = form.elements.code.value.trim();
+  button.disabled = true;
+  let r;
+  try {
+    r = await post({ code: typed });
+  } catch {
+    r = undefined;
+  } finally {
+    button.disabled = false;
+  }
+  if (r?.ok) {
+    code = typed;
+    form.reset();
+    return ask();
+  }
+  ask(r?.status === 401 ? t("setup.code_wrong") : r ? esc((await r.text()).trim()) : t("overlook.no_answer"));
+}
 
 // One field of a source to type.
 function field(ask) {
@@ -82,16 +123,17 @@ async function tryOne(form) {
   tell("", t("setup.trying"));
   let got;
   try {
-    const r = await fetch("setup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ adapter: a.key, fields }),
-    });
-    got = r.ok ? await r.json() : { error: (await r.text()).trim() };
+    const r = await post({ code, adapter: a.key, fields });
+    // Overlook has started again, with a new code, since this tab took one.
+    got = r.status === 401 ? { code: false } : r.ok ? await r.json() : { error: (await r.text()).trim() };
   } catch {
     got = {};
   } finally {
     button.disabled = false;
+  }
+  if (got.code === false) {
+    tell("", "");
+    return ask(t("setup.code_again"));
   }
   if (!got.name && !got.error) return tell("bad", t("overlook.no_answer"));
   if (got.error) return tell("bad", why(got));
@@ -151,10 +193,14 @@ async function start() {
   translate(document);
   document.title = t("setup.title");
   $("status-icon").innerHTML = svg("mark", "ic si");
+  $("code-form").insertAdjacentHTML("afterbegin", field({ field: "code" }));
   const setup = await fetch("setup").then((r) => r.json());
   adapters = setup.adapters;
   base = readme(setup.version);
-  if (setup.unraid) $("restart").innerHTML = t("setup.restart_unraid");
+  if (setup.unraid) {
+    $("code-ask").innerHTML = t("setup.code_ask_unraid");
+    $("restart").innerHTML = t("setup.restart_unraid");
+  }
   $("groups").innerHTML = GROUPS.map(
     (g) => `<section class="block">
       <h2 class="block-title">${groupName(g)}</h2>${g === "checkengines" ? `<p class="block-ask">${t("setup.group.checkengines_ask")}</p>` : ""}
@@ -166,7 +212,8 @@ async function start() {
   ).join("");
   document.addEventListener("submit", (e) => {
     e.preventDefault();
-    tryOne(e.target);
+    if (e.target.id === "code-form") takeCode(e.target);
+    else tryOne(e.target);
   });
   document.addEventListener("click", (e) => {
     const b = e.target.closest("button");

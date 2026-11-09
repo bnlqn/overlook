@@ -146,7 +146,13 @@
   "chores.next": "Nothing to do this week. Next: {name}, from {at:day}.",
 
   "setup.title": "Set up Overlook",
-  "setup.intro": "Overlook has no config yet. Pick the tools your homelab runs, try each one, then save the two files this page puts together.",
+  "setup.intro": "Overlook has no config yet. Give it the code from its log, pick the tools your homelab runs, try each one, then save the two files this page puts together.",
+  "setup.code": "The code from the log",
+  "setup.code_ask": "Overlook wrote a code in its log as it started, so that only someone who can read its log can set it up. <code>docker compose logs overlook</code> shows it.",
+  "setup.code_ask_unraid": "Overlook wrote a code in its log as it started, so that only someone who can read its log can set it up. On Unraid's Docker page, click Overlook's icon, then <b>Logs</b>.",
+  "setup.code_go": "Continue",
+  "setup.code_wrong": "That isn't the code in Overlook's log. It makes a new one each time it starts, so give the newest.",
+  "setup.code_again": "Overlook has started again, with a new code: give the one now in its log.",
   "setup.group.checkengines": "Check engines",
   "setup.group.checkengines_ask": "Start with one. Problems come only from a check engine, which runs your checks and sends your alerts: without one, the page can't say what's wrong.",
   "setup.group.chores": "Chores",
@@ -191,6 +197,7 @@
   "setup.yaml.links": "# The apps and tools the page links to go here, each a name and an address:\n# apps:\n#   - name: Photos\n#     url: https://photos.example.com\n# tools:\n#   - name: Proxmox\n#     url: https://pve.example.com:8006",
   "setup.env.head": "Overlook's keys, which overlook.yaml names. Keep this file out of git.",
 
+  "setup.field.code": "Code",
   "setup.field.name": "Name",
   "setup.field.url": "Address",
   "setup.field.host": "Address",
