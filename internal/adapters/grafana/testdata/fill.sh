@@ -9,6 +9,8 @@
 set -eu
 g=http://localhost:3000
 api() { curl -sf -u owner:owner-password -H "Content-Type: application/json" -H "X-Disable-Provenance: true" -X "$1" "$g/api$2" -d "$3"; }
+# It sets up its database on its first start, which takes a while.
+until curl -sf -u owner:owner-password "$g/api/user" >/dev/null; do sleep 2; done
 
 ds=$(api POST /datasources '{"name":"Test data","type":"grafana-testdata-datasource","access":"proxy"}' | jq -r .datasource.uid)
 folder() { api POST /folders "{\"title\":\"$1\"}" | jq -r .uid; }
