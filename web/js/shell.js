@@ -3,7 +3,7 @@
 // what page() says of it.
 
 import { REPO } from "./config.js";
-import { badge, by, stateIcon, svg, TONE } from "./draw.js";
+import { badge, by, stateIcon, svg, TONE, word } from "./draw.js";
 import { asIfNow, page } from "./page.js";
 import { drawnAt, esc, loadWords, matches, number, t, translate } from "./text.js";
 
@@ -36,7 +36,7 @@ function shell() {
     `<details class="sec" id="${id}" open hidden><summary>${t(name)}${svg("caret", "ic caret")}</summary><div></div></details>`;
   const areas = PAGES.filter((p) => p.area).map(
     (p) =>
-      `<a class="nav${p === HERE ? " here" : ""}" href="${p.href}" data-area="${p.area}" hidden>${svg(p.icon)}<span>${pageName(p)}</span><i class="dot"></i></a>`,
+      `<a class="nav" href="${p.href}"${p === HERE ? ' aria-current="page"' : ""} data-area="${p.area}" hidden>${svg(p.icon)}<span>${pageName(p)}</span><i class="dot"></i></a>`,
   );
   document.documentElement.classList.add("boot");
   document.body.insertAdjacentHTML(
@@ -47,7 +47,7 @@ function shell() {
         <button class="icon-btn" type="button" data-palette aria-label="${t("search.label")}">${svg("search")}</button>
       </div>
       <nav>
-        <a class="nav${HERE === PAGES[0] ? " here" : ""}" href="./">${svg("pulse")}<span>${pageName(PAGES[0])}</span><span class="count" id="problem-count" hidden></span></a>
+        <a class="nav" href="./"${HERE === PAGES[0] ? ' aria-current="page"' : ""}>${svg("pulse")}<span>${pageName(PAGES[0])}</span><span class="count" id="problem-count" hidden></span></a>
         <details class="sec" open><summary>${t("side.areas")}${svg("caret", "ic caret")}</summary>${areas.join("")}</details>
         ${group("side-apps", "side.apps")}
         ${group("side-tools", "side.tools")}
@@ -88,14 +88,19 @@ function shell() {
 
 // The sidebar from what the page says: the areas shown, their dots, the
 // count of problems, and the apps and tools, a dot for each with a check.
+// A dot's state is spoken, as the count's problems are.
 function paintShell(m) {
   for (const a of document.querySelectorAll(".side [data-area]")) {
     const area = m.areas.find((x) => x.area === a.dataset.area);
     a.hidden = !area.shown;
-    a.querySelector(".dot").className = `dot tone-${TONE[area.state]}`;
+    const dot = a.querySelector(".dot");
+    dot.className = `dot tone-${TONE[area.state]}`;
+    dot.innerHTML = `<span class="spoken">${word(area.state)}</span>`;
   }
   const link = ({ link: s, state }) => `<a class="nav" href="${esc(s.url)}" target="_blank" rel="noopener">
-    ${badge(s, "xs")}<span>${esc(s.name)}</span><i class="dot tone-${s.check ? TONE[state] : ""}"></i></a>`;
+    ${badge(s, "xs")}<span>${esc(s.name)}</span><i class="dot tone-${s.check ? TONE[state] : ""}">${
+      s.check ? `<span class="spoken">${word(state)}</span>` : ""
+    }</i></a>`;
   for (const [id, links] of [
     ["side-apps", m.apps.links],
     ["side-tools", m.tools],
@@ -110,7 +115,7 @@ function paintShell(m) {
   const count = document.getElementById("problem-count");
   const n = m.problems.length;
   count.hidden = !n;
-  count.textContent = number(n);
+  count.innerHTML = `<span aria-hidden="true">${number(n)}</span><span class="spoken">${t("status.problems", { n })}</span>`;
   // The words say which of them is the link, Overlook's name; it goes to
   // the repository.
   const foot = document.getElementById("powered");
@@ -124,8 +129,10 @@ function paintShell(m) {
 function palette() {
   const box = document.createElement("dialog");
   box.className = "palette";
-  box.innerHTML = `<div class="pal-in">${svg("search")}<input id="palette-q" type="text" placeholder="${t("palette.placeholder")}" autocomplete="off" spellcheck="false"></div>
-    <div class="pal-list" role="listbox"></div>
+  // The box is a combobox: the focus stays where the owner types, and a
+  // screen reader is told which entry the arrows pick.
+  box.innerHTML = `<div class="pal-in">${svg("search")}<input id="palette-q" type="text" role="combobox" aria-expanded="true" aria-controls="palette-list" aria-autocomplete="list" placeholder="${t("palette.placeholder")}" autocomplete="off" spellcheck="false"></div>
+    <div class="pal-list" id="palette-list" role="listbox"></div>
     <footer><span><kbd>↑</kbd><kbd>↓</kbd> ${t("palette.move")}</span><span><kbd>↵</kbd> ${t("palette.open")}</span><span><kbd>esc</kbd> ${t("palette.close")}</span></footer>`;
   document.body.append(box);
   const input = box.querySelector("input");
@@ -161,7 +168,7 @@ function palette() {
         name: esc(c.name) + by(c),
         what: area,
         words: [c.name, c.by, area],
-        glyph: stateIcon(c.state),
+        glyph: stateIcon(c.state, true),
         href: c.url,
         out: true,
       };
@@ -175,12 +182,14 @@ function palette() {
     const rows = items.map(
       (i, n) =>
         (i.group !== items[n - 1]?.group ? `<p class="pal-group">${i.group}</p>` : "") +
-        `<a class="pal-item${n === at ? " on" : ""}" href="${esc(i.href)}" data-n="${n}" role="option" ${i.out ? 'target="_blank" rel="noopener"' : ""}>
+        `<a class="pal-item${n === at ? " on" : ""}" href="${esc(i.href)}" data-n="${n}" id="pal-${n}" role="option" aria-selected="${n === at}" ${i.out ? 'target="_blank" rel="noopener"' : ""}>
         ${i.glyph}<span class="title">${i.name}</span>${i.what ? `<span class="detail">${i.what}</span>` : ""}
         <span class="pal-hint">${i.hint || (i.out ? svg("out") : "")}</span></a>`,
     );
     results.innerHTML = rows.join("") || `<p class="pal-empty">${t("palette.nothing")}</p>`;
     results.querySelector(".on")?.scrollIntoView({ block: "nearest" });
+    if (items.length) input.setAttribute("aria-activedescendant", `pal-${at}`);
+    else input.removeAttribute("aria-activedescendant");
   };
   const open = () => {
     input.value = "";
@@ -251,7 +260,9 @@ function palette() {
 }
 
 // Anything with data-tip shows it under the pointer, or under a finger while
-// it presses.
+// it presses. What the keyboard reaches shows its own, or else what its
+// strip says in words, under it, so that a strip's results can be read
+// without a mouse.
 function tooltips() {
   const pop = document.createElement("div");
   pop.className = "tip-pop";
@@ -259,35 +270,70 @@ function tooltips() {
   pop.hidden = true;
   document.body.append(pop);
   let on = null;
+  // The element the keyboard reached, while it shows its tooltip.
+  let focused = null;
+  const hide = () => {
+    on = focused = null;
+    pop.hidden = true;
+  };
+  // Over the point (x, y), or under it with no room above.
+  const place = (x, y, below = y + 20) => {
+    const w = pop.offsetWidth;
+    const h = pop.offsetHeight;
+    pop.style.transform = `translate(${Math.min(Math.max(8, x - w / 2), innerWidth - w - 8)}px, ${y - h - 14 < 8 ? below : y - h - 14}px)`;
+  };
   const show = (e) => {
     const el = e.target.closest?.("[data-tip]");
     if (el !== on) {
       on = el;
+      focused = null;
       pop.hidden = !el;
       if (el) pop.innerHTML = el.dataset.tip;
     }
-    if (!el) return;
-    const w = pop.offsetWidth;
-    const h = pop.offsetHeight;
-    const x = Math.min(Math.max(8, e.clientX - w / 2), innerWidth - w - 8);
-    pop.style.transform = `translate(${x}px, ${e.clientY - h - 14 < 8 ? e.clientY + 20 : e.clientY - h - 14}px)`;
+    if (el) place(e.clientX, e.clientY);
+  };
+  // Over the strip, or with none drawn, as on a phone, over the element.
+  const placeFocused = () => {
+    let r = (focused.dataset.tip ? focused : focused.querySelector(".strip")).getBoundingClientRect();
+    if (!r.width) r = focused.getBoundingClientRect();
+    place(r.left + r.width / 2, r.top, r.bottom + 8);
   };
   document.addEventListener("pointermove", show);
   document.addEventListener("pointerdown", show);
   document.addEventListener("pointerout", (e) => {
-    if (!e.relatedTarget) {
-      on = null;
-      pop.hidden = true;
-    }
+    if (!e.relatedTarget && !focused) hide();
   });
-  addEventListener(
-    "scroll",
-    () => {
-      on = null;
-      pop.hidden = true;
-    },
-    { passive: true },
-  );
+  document.addEventListener("focusin", (e) => {
+    const el = e.target;
+    const said = el.matches(":focus-visible") && (el.dataset.tip || el.querySelector(".strip > .spoken")?.innerHTML);
+    if (!said) return hide();
+    on = null;
+    focused = el;
+    pop.innerHTML = said;
+    pop.hidden = false;
+    placeFocused();
+  });
+  document.addEventListener("focusout", () => focused && hide());
+  // Moving the focus scrolls the page to it, so a focused tooltip follows.
+  addEventListener("scroll", () => (focused ? placeFocused() : hide()), { passive: true });
+}
+
+/**
+ * Where the keyboard is, as the way to it from the page's root, for drawing
+ * the page again to replace what it was on: what it returns moves the focus
+ * to whatever is there then, of the same kind, so that a new snapshot every
+ * minute never sends the keyboard back to the top.
+ */
+function whereFocused() {
+  const was = document.activeElement;
+  if (!was || was === document.body) return null;
+  const way = [];
+  for (let el = was; el.parentElement; el = el.parentElement) way.unshift([...el.parentElement.children].indexOf(el));
+  return () => {
+    if (document.contains(was)) return;
+    const now = way.reduce((el, i) => el?.children[i], document.documentElement);
+    if (now?.tagName === was.tagName) now.focus({ preventScroll: true });
+  };
 }
 
 /**
@@ -315,8 +361,10 @@ export async function start(draw) {
       document.getElementById("refreshed").innerHTML = m ? t("updated", { at: now }) : t("overlook.no_answer");
       if (!m) return;
       last = m;
+      const place = whereFocused();
       paintShell(m);
       draw(m);
+      place?.();
     } finally {
       document.body.classList.remove("loading");
       const ring = document.querySelector(".ring circle:last-child");
