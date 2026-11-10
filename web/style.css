@@ -1660,7 +1660,7 @@ main {
 }
 .tl-row {
   display: grid;
-  grid-template-columns: var(--label) minmax(0, 1fr);
+  grid-template-columns: max(var(--label), var(--fit, 0px)) minmax(0, 1fr);
   gap: 12px;
   align-items: center;
   height: 30px;
@@ -1696,7 +1696,7 @@ main {
   position: absolute;
   top: 34px;
   bottom: 0;
-  left: calc(28px + var(--label));
+  left: calc(28px + max(var(--label), var(--fit, 0px)));
   right: 16px;
   pointer-events: none;
 }
@@ -1710,6 +1710,7 @@ main {
   display: flex;
   align-items: center;
   gap: 7px;
+  white-space: nowrap;
   font: var(--m-type-footnote-strong);
   color: var(--m-label-1);
 }
@@ -1937,8 +1938,14 @@ a.chore:hover {
 }
 
 @media (max-width: 760px) {
+  /* A state as long as German's "30-mal in Folge fehlgeschlagen" wraps
+     rather than cut off the name beside it. */
   .trow {
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) fit-content(50%);
+  }
+  .trow > .health {
+    justify-content: flex-end;
+    text-align: right;
   }
   .trow > :nth-child(3),
   .trow > :nth-child(4),

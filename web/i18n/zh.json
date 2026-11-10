@@ -1,0 +1,753 @@
+{
+  "title": "家庭实验室",
+  "loading": "加载中…",
+  "updated": "更新于{at:clock}",
+  "overlook.no_answer": "Overlook未响应",
+  "menu": "菜单",
+  "refresh": "刷新",
+  "search": "搜索",
+  "search.label": "搜索（⌘K）",
+  "powered": "由<a>Overlook</a>驱动",
+  "powered.version": "由<a>Overlook</a>驱动（{version}）",
+  "demo": "演示",
+  "demo.repo": "GitHub上的Overlook",
+  "demo.repo.short": "GitHub",
+  "page.overview": "概览",
+  "area.servers": "服务器",
+  "area.network": "网络",
+  "area.storage": "存储",
+  "area.apps": "应用",
+  "area.no_checks": "没有检查",
+  "area.empty": "这里还没有内容",
+  "area.checks_up": {
+    "other": "{n}项检查正常"
+  },
+  "area.checks_up_of": {
+    "other": "{n}项检查中{up}项正常"
+  },
+  "area.checks_hint": "最近30次结果",
+  "side.areas": "区域",
+  "side.apps": "应用",
+  "side.tools": "工具",
+  "palette.placeholder": "前往页面、应用、工具或检查…",
+  "palette.go": "前往",
+  "palette.checks": "检查",
+  "palette.nothing": "没有找到匹配项。",
+  "palette.move": "切换",
+  "palette.open": "打开",
+  "palette.close": "关闭",
+  "state.up": "正常",
+  "state.degraded": "降级",
+  "state.failing": "异常",
+  "state.down": "故障",
+  "state.unknown": "未知",
+  "span.minutes": "{n}分钟",
+  "span.hours": "{n}小时",
+  "span.days": {
+    "other": "{n}天"
+  },
+  "ago": "{ms:span}前",
+  "ago.now": "刚刚",
+  "when.today": "今天 {at:clock}",
+  "when.yesterday": "昨天 {at:clock}",
+  "ms": "{n} ms",
+  "ms.under": "&lt;1 ms",
+  "number": "{n}",
+  "percent": "{n}%",
+  "bytes": "{n:bytes}",
+  "version": "版本",
+  "version.newer": "{version}已发布",
+  "shares.others": {
+    "other": "其余{n}个"
+  },
+  "figure.of_sources": "来自{total}个数据源中的{n}个",
+  "figure.gave_none": "已响应，但未提供此项",
+  "more.show": "再显示{n}项",
+  "more.fewer": "收起",
+  "result.passed": "通过",
+  "result.failed": "失败",
+  "results.all": {
+    "other": "最近{n}次结果没有失败"
+  },
+  "results.newest_failed": {
+    "other": "最近{n}次结果通过{passed}次，最新一次于{at:clock}失败"
+  },
+  "results.last_failed": "最近{n}次结果通过{passed}次，上次失败于{at:clock}",
+  "results.area_all": {
+    "other": "最近{n}次各项检查均通过"
+  },
+  "results.area_newest_failed": {
+    "other": "最近{n}次中有{passed}次各项检查均通过，{names:list}于{at:clock}失败"
+  },
+  "results.area_last_failed": "最近{n}次中有{passed}次各项检查均通过，{names:list}上次失败于{at:clock}",
+  "check.failed_n": "失败{run}/{threshold}次",
+  "check.no_results": "暂无结果",
+  "check.failed_run": {
+    "other": "最近{n}次结果失败"
+  },
+  "source.no_answer": "{names:list}未响应",
+  "source.no_answer_why": "{error}。它自己的页面可能有更多信息。",
+  "status.reading": "正在读取检查",
+  "status.up": "一切正常",
+  "status.no_checks": "没有检查",
+  "status.no_engine": "问题只来自检查引擎，而配置中没有：请添加一个，例如{engines:choice}",
+  "status.problems": {
+    "other": "{n}个问题"
+  },
+  "status.areas_down": "{areas:areas}故障",
+  "status.areas_degraded": "{areas:areas}降级",
+  "status.every_down": "所有区域故障",
+  "status.every_degraded": "所有区域降级",
+  "status.checks_down": "{names:list}故障",
+  "status.quiet_since": "自{at:day}起无问题",
+  "status.quiet_for": "已{ms:span}无问题",
+  "status.checks": {
+    "other": "{n}项检查"
+  },
+  "status.areas": {
+    "other": "覆盖{n}个区域"
+  },
+  "actions.merge": {
+    "other": "合并{n}个更新"
+  },
+  "actions.everything": "其余全部",
+  "problems.title": "问题",
+  "problem.since": "{at:clock}起故障，已持续{ms:span}",
+  "problem.open": "在{source}中打开",
+  "today.title": "今天",
+  "chart.by_hour": "逐小时",
+  "chart.so_far": "本小时至今",
+  "chart.day": "24小时",
+  "chart.all": "{ms:span}",
+  "chart.busiest": "高峰",
+  "chart.highest": "最高",
+  "chart.processor": "处理器",
+  "chart.memory": "内存",
+  "section.hosts": "主机",
+  "section.certificates": "证书",
+  "areas.title": "区域",
+  "areas.hint": "各区域的检查，最近30次结果",
+  "areas.name": "名称",
+  "areas.health": "状态",
+  "areas.checks": "检查",
+  "areas.response": "响应",
+  "areas.results": "结果",
+  "areas.checks_of": "{area:area}的检查",
+  "areas.failed": "失败",
+  "areas.all_passed": {
+    "other": "{n}项检查通过"
+  },
+  "week.title": "本周",
+  "week.hint": "红色为问题，菱形为事件",
+  "week.area": "{area:area}本周情况",
+  "week.problems": {
+    "other": "{n}个问题"
+  },
+  "week.in_all": "共{ms:span}",
+  "week.no_problems": "没有问题",
+  "week.was_down": "曾故障",
+  "week.down": "故障中",
+  "week.for": "已持续{ms:span}",
+  "week.from": "开始",
+  "week.events": {
+    "other": "{n}个事件"
+  },
+  "week.back": "恢复",
+  "events.title": "本周事件",
+  "events.down": "<b>{name}</b>发生故障",
+  "events.back": "<b>{name}</b>在{ms:span}后恢复",
+  "events.update": "<b>{name}</b>等待你合并",
+  "events.update_meta": "更新",
+  "events.quiet": "平静的一周：没有任何故障。",
+  "apps.no_check": "无检查",
+  "apps.answered": "响应用时",
+  "apps.failed_after": "失败用时",
+  "chores.title": "待办",
+  "chores.merge": "等待你合并",
+  "chores.update": "一项更新",
+  "chores.due": "到期",
+  "chores.week": "本周",
+  "chores.next": "本周无事可做。下一项：{name}，{at:day}起。",
+  "setup.title": "设置Overlook",
+  "setup.intro": "Overlook还没有配置。请输入其日志中的设置码，选择你的家庭实验室中运行的工具，逐一测试，然后保存此页面生成的两个文件。",
+  "setup.code": "日志中的设置码",
+  "setup.code_ask": "Overlook启动时在日志中写入了一个设置码，这样只有能查看其日志的人才能设置它。可通过<code>docker compose logs overlook</code>查看。",
+  "setup.code_ask_unraid": "Overlook启动时在日志中写入了一个设置码，这样只有能查看其日志的人才能设置它。在Unraid的Docker页面点击Overlook的图标，然后点击<b>Logs</b>（日志）。",
+  "setup.code_ask_homeassistant": "Overlook启动时在日志中写入了一个设置码，这样只有能查看其日志的人才能设置它。在“设置 > 应用”中打开Overlook，在<b>日志</b>里就能看到。",
+  "setup.code_go": "继续",
+  "setup.code_wrong": "这不是Overlook日志中的设置码。它每次启动都会生成新的设置码，请输入最新的那个。",
+  "setup.code_again": "Overlook已重新启动，设置码已更换：请输入日志中当前的设置码。",
+  "setup.group.checkengines": "检查引擎",
+  "setup.group.checkengines_ask": "先添加一个。问题只来自检查引擎，它负责运行你的检查并发送告警：没有它，页面就无法告诉你哪里出了问题。",
+  "setup.group.chores": "待办",
+  "setup.optional": "可选",
+  "setup.try": "测试",
+  "setup.trying": "正在测试…",
+  "setup.readme": "所需的最小权限密钥",
+  "setup.drop": "移除",
+  "setup.same_name": "已有另一个数据源名为{name}：请为每个数据源取不同的名称",
+  "setup.why.certificate": "它的证书由Overlook不信任的CA签发。请将该CA复制到配置文件夹，并在“CA文件”中填写其路径：它的README章节会说明是哪个文件。",
+  "setup.why.certificate_none": "它的证书由Overlook不信任的CA签发。请填写它的http://地址，或为它配置系统信任的证书。",
+  "setup.why.certificate_name": "它的证书是签发给另一个名称的。请在“证书名称”中填写该名称，或通过该名称访问它。",
+  "setup.why.certificate_name_none": "它的证书是签发给另一个名称的：请通过该名称访问它。",
+  "setup.why.plain": "它用的是HTTP而不是HTTPS：请填写以http://开头的地址。",
+  "setup.why.refused": "该地址和端口上没有任何响应。",
+  "setup.why.localhost": "如果Overlook运行在容器中，{host}指的是容器本身：请填写运行{name:adapter}的机器的地址。",
+  "setup.why.no_host": "Overlook找不到该名称的机器。",
+  "setup.why.local": "Overlook无法解析.local名称：请填写运行{name:adapter}的机器的地址。",
+  "setup.why.timeout": "10秒内无响应：{name:adapter}是否位于Overlook可访问的网络中？",
+  "setup.why.key": "{name:adapter}拒绝了该密钥或登录信息。其README章节说明了该创建哪一种。",
+  "setup.why.not_found": "该地址有响应，但不是{name:adapter}：请检查端口，如果它位于某个路径下，也请检查路径。",
+  "setup.answered": "已响应",
+  "setup.answered_empty": "已响应，但暂无可显示的内容",
+  "setup.found.checks": {
+    "other": "{n}项检查"
+  },
+  "setup.found.problems": {
+    "other": "{n}个问题"
+  },
+  "setup.found.sections": {
+    "other": "{n}个列表"
+  },
+  "setup.found.charts": {
+    "other": "{n}张图表"
+  },
+  "setup.found.figures": {
+    "other": "{n}个数值"
+  },
+  "setup.found.events": {
+    "other": "{n}个事件"
+  },
+  "setup.found.chores": {
+    "other": "{n}项待办"
+  },
+  "setup.files": "你的配置",
+  "setup.files_hint": "已响应的数据源",
+  "setup.copy": "复制",
+  "setup.copied": "已复制",
+  "setup.selected": "已选中：按⌘C或Ctrl+C复制",
+  "setup.download": "下载",
+  "setup.env_note": "<code>overlook.yaml</code>引用的密钥。请勿将此文件提交到git。",
+  "setup.restart": "将两个文件保存到挂载于<code>/etc/overlook</code>的文件夹中，分别命名为<code>overlook.yaml</code>和<code>.env</code>，然后重启Overlook，例如使用<code>docker compose restart</code>。Overlook恢复运行后，此页面就会变成正式页面。",
+  "setup.restart_unraid": "将两个文件保存到Overlook的配置文件夹，即<code>/mnt/user/appdata/overlook</code>（除非你在其表单中改过），分别命名为<code>overlook.yaml</code>和<code>.env</code>：可在Unraid的终端（顶部的<b>&gt;_</b>）中操作，例如使用<code>nano /mnt/user/appdata/overlook/overlook.yaml</code>。然后在Docker页面重启Overlook。它恢复运行后，此页面就会变成正式页面。",
+  "setup.restart_homeassistant": "将两个文件保存到Overlook的文件夹，即<code>app_configs</code>中名称以<code>_overlook</code>结尾的那个，分别命名为<code>overlook.yaml</code>和<code>.env</code>：例如通过Home Assistant的Samba share应用或Terminal &amp; SSH应用，在<code>/app_configs</code>下操作。然后在“设置 > 应用”中打开Overlook并重启它。它恢复运行后，此页面就会变成正式页面。",
+  "setup.away": "Overlook未响应。如果它没有恢复，其日志会说明原因。",
+  "setup.yaml.head": "Overlook的配置，由其设置页面生成。每个数据源的README章节说明了它还需要哪些设置。",
+  "setup.yaml.links": "# 页面链接的应用和工具写在这里，每个包含名称和地址：\n# apps:\n#   - name: 照片\n#     url: https://photos.example.com\n# tools:\n#   - name: Proxmox\n#     url: https://pve.example.com:8006",
+  "setup.env.head": "Overlook的密钥，由overlook.yaml引用。请勿将此文件提交到git。",
+  "setup.field.code": "设置码",
+  "setup.field.name": "名称",
+  "setup.field.url": "地址",
+  "setup.field.host": "地址",
+  "setup.field.user": "用户名",
+  "setup.field.password": "密码",
+  "setup.field.key": "API密钥",
+  "setup.field.token": "令牌",
+  "setup.field.secret": "令牌密钥",
+  "setup.field.page": "状态页",
+  "setup.field.alertmanager": "Alertmanager地址",
+  "setup.field.repos": "仓库",
+  "setup.field.datastore": "数据存储",
+  "setup.field.ca": "CA文件",
+  "setup.field.server_name": "证书名称",
+  "setup.field.ups": "UPS",
+  "setup.adapter.gatus": "Gatus",
+  "setup.adapter.uptimekuma": "Uptime Kuma",
+  "setup.adapter.grafana": "Grafana",
+  "setup.adapter.prometheus": "Prometheus和Alertmanager",
+  "setup.adapter.checkmate": "Checkmate",
+  "setup.adapter.github": "GitHub",
+  "setup.adapter.immich": "Immich",
+  "setup.adapter.pbs": "Proxmox Backup Server",
+  "setup.adapter.syncthing": "Syncthing",
+  "setup.adapter.proxmox": "Proxmox VE",
+  "setup.adapter.beszel": "Beszel",
+  "setup.adapter.docker": "Docker",
+  "setup.adapter.portainer": "Portainer",
+  "setup.adapter.radarr": "Radarr",
+  "setup.adapter.sonarr": "Sonarr",
+  "setup.adapter.prowlarr": "Prowlarr",
+  "setup.adapter.qbittorrent": "qBittorrent",
+  "setup.adapter.jellyfin": "Jellyfin",
+  "setup.adapter.emby": "Emby",
+  "setup.adapter.tautulli": "Plex（通过Tautulli）",
+  "setup.adapter.audiobookshelf": "Audiobookshelf",
+  "setup.adapter.seerr": "Seerr",
+  "setup.adapter.homeassistant": "Home Assistant",
+  "setup.adapter.paperless": "Paperless-ngx",
+  "setup.adapter.nextcloud": "Nextcloud",
+  "setup.adapter.gitea": "Gitea",
+  "setup.adapter.forgejo": "Forgejo",
+  "setup.adapter.nut": "NUT",
+  "setup.adapter.unifi": "UniFi Network",
+  "setup.adapter.adguard": "AdGuard Home",
+  "setup.adapter.pihole": "Pi-hole",
+  "setup.adapter.npm": "Nginx Proxy Manager",
+  "setup.adapter.traefik": "Traefik",
+  "setup.adapter.ical": "iCalendar待办清单",
+  "adguard.processing": "处理时间",
+  "adguard.ms": "{n} ms",
+  "audiobookshelf.title": "有声书",
+  "audiobookshelf.books": {
+    "other": "{n}本书"
+  },
+  "audiobookshelf.podcasts": {
+    "other": "{n}个播客"
+  },
+  "audiobookshelf.length": "{length:span} · {size:bytes}",
+  "audiobookshelf.episodes": {
+    "other": "{n}集 · {length:span} · {size:bytes}"
+  },
+  "audiobookshelf.issues": "{n}个缺失或无法读取",
+  "audiobookshelf.to_download": {
+    "other": "{n}集待下载"
+  },
+  "audiobookshelf.downloading": "正在下载：{title}",
+  "audiobookshelf.listened": "已收听",
+  "audiobookshelf.minutes": "分钟",
+  "audiobookshelf.listening_now": "{n}人正在收听",
+  "audiobookshelf.span": "{ms:span}",
+  "backuprun.section": "备份任务",
+  "backuprun.last": "上次运行",
+  "backuprun.running": "运行中",
+  "backuprun.done": "已完成",
+  "backuprun.backups": {
+    "other": "{n}个备份"
+  },
+  "backuprun.warnings": "有警告",
+  "backuprun.failed": "失败",
+  "backuprun.since": "开始于{at:when}",
+  "backuprun.at": "{at:when}",
+  "backuprun.at_in": "{at:when}，用时{ms:span}",
+  "backuprun.at_why": "{at:when} · {why}",
+  "backuprun.at_in_why": "{at:when}，用时{ms:span} · {why}",
+  "backuprun.event_running": "<b>备份任务</b>正在运行",
+  "backuprun.event_ran": "<b>备份任务</b>已完成",
+  "backuprun.event_ran_in": "<b>备份任务</b>已完成，用时{ms:span}",
+  "backuprun.event_made": {
+    "other": "<b>备份任务</b>创建了{n}个备份"
+  },
+  "backuprun.event_made_in": {
+    "other": "<b>备份任务</b>用时{ms:span}创建了{n}个备份"
+  },
+  "backuprun.event_warned": "<b>备份任务</b>已完成，但有警告",
+  "backuprun.event_warned_in": "<b>备份任务</b>已完成，用时{ms:span}，但有警告",
+  "backuprun.event_failed": "<b>备份任务</b>失败",
+  "backuprun.event_failed_why": "<b>备份任务</b>失败：{why}",
+  "beszel.hosts": "主机",
+  "beszel.of_up": "/ {n} 在线",
+  "beszel.up_for": "已运行{ms:span}",
+  "beszel.host_detail": {
+    "other": "{n}线程 · 负载{load}"
+  },
+  "beszel.cpu_meter": "CPU",
+  "beszel.ram_meter": "内存",
+  "beszel.disk_meter": "磁盘",
+  "beszel.down": "故障",
+  "beszel.down_since": "自{at:when}起",
+  "beszel.paused": "已暂停",
+  "beszel.pending": "尚未连接",
+  "docker.containers": "容器",
+  "docker.of_running": "/ {n} 运行中",
+  "docker.unhealthy_n": "{n}个不健康",
+  "docker.running": "运行中",
+  "docker.healthy": "健康",
+  "docker.unhealthy": "不健康",
+  "docker.starting": "启动中",
+  "docker.exited": "已退出（{code}）",
+  "docker.restarting": "重启中",
+  "docker.dead": "已失效",
+  "docker.paused": "已暂停",
+  "docker.created": "未启动",
+  "gitea.runners": "Runner",
+  "gitea.online": "在线",
+  "gitea.busy": "正在运行作业",
+  "gitea.disabled": "已禁用",
+  "gitea.offline": "离线",
+  "gitea.run_failed": "{workflow}在{repo}中失败：{title}",
+  "homeassistant.home": "家",
+  "homeassistant.safe_mode": "安全模式",
+  "homeassistant.recovery_mode": "恢复模式",
+  "homeassistant.automations": "自动化",
+  "homeassistant.automations_n": {
+    "other": "{n}个自动化"
+  },
+  "homeassistant.automations_detail": "今天运行了{n}个 · {off}个已关闭",
+  "homeassistant.broken": "已损坏",
+  "homeassistant.broken_detail": "Home Assistant无法加载的自动化，永远不会运行",
+  "homeassistant.unavailable": "不可用的设备",
+  "homeassistant.since": "自{at:when}起",
+  "immich.photos": "照片",
+  "immich.this_week": "本周+{n}",
+  "immich.videos": {
+    "other": "{n}个视频"
+  },
+  "immich.person": "照片{photos} · 视频{videos} · {usage:bytes}",
+  "immich.videos_title": "视频",
+  "immich.week": "本周",
+  "immich.plus": "+{n}",
+  "immich.space": "空间",
+  "immich.space_used": "{used:bytes} / {size:bytes}",
+  "immich.space_photos": "其中照片和视频占{usage:bytes}",
+  "immich.current": "已是最新",
+  "immich.jobs": "任务",
+  "immich.jobs_of": "任务：{name}",
+  "immich.queued": "{n}个排队中",
+  "immich.idle": "空闲",
+  "immich.nothing_waiting": "无排队任务",
+  "jellyfin.free": "剩余{n:bytes}",
+  "mediabrowser.episode": "{series}：{name}",
+  "mediabrowser.films": "电影",
+  "mediabrowser.films_n": {
+    "other": "{n}部电影"
+  },
+  "mediabrowser.shows": "剧集",
+  "mediabrowser.shows_n": {
+    "other": "{n}部剧集 · {episodes}集"
+  },
+  "mediabrowser.music": "音乐",
+  "mediabrowser.music_n": {
+    "other": "{n}张专辑 · {songs}首歌曲"
+  },
+  "mediabrowser.books": "书籍",
+  "mediabrowser.books_n": {
+    "other": "{n}本书"
+  },
+  "mediabrowser.failed_logins": "登录失败",
+  "mediabrowser.failed_logins_n": {
+    "other": "过去一天{n}次"
+  },
+  "mediabrowser.task_failed": "失败",
+  "mediabrowser.task_failed_at": "上次运行于{at:when}",
+  "mediabrowser.restart": "等待重启",
+  "mediaserver.plays": "播放次数",
+  "mediaserver.playing_now": "{n}个正在播放",
+  "mediaserver.section": "媒体",
+  "mediaserver.direct": "{device} · 直接播放",
+  "mediaserver.transcoding": "{device} · 转码",
+  "mediaserver.paused": "{device} · 已暂停",
+  "mediaserver.playing": "正在播放",
+  "mediaserver.nothing": "无",
+  "nextcloud.files": "文件",
+  "nextcloud.active": {
+    "other": "今天{n}人活跃"
+  },
+  "nextcloud.people": {
+    "other": "{n}人 · 今天{active}人活跃"
+  },
+  "nextcloud.shares": "共享",
+  "nextcloud.links": "{n}个链接共享 · {open}个无密码",
+  "nextcloud.free": "可用空间",
+  "nextcloud.database": "数据库",
+  "nextcloud.maintenance": "维护中",
+  "nextcloud.upgrade": "等待升级",
+  "npm.domains": "域名",
+  "npm.proxy": "代理",
+  "npm.redirect": "重定向{code}",
+  "npm.dead": "404",
+  "npm.streams": "数据流",
+  "npm.port": "端口{port}",
+  "npm.tcp": "TCP",
+  "npm.udp": "UDP",
+  "npm.tcp_udp": "TCP和UDP",
+  "npm.disabled": "已禁用",
+  "npm.refused": "被nginx拒绝",
+  "npm.expires": "{ms:span}后过期",
+  "npm.expired": "已过期{ms:span}",
+  "npm.letsencrypt": "Let's Encrypt",
+  "npm.custom": "{domains} · 自定义",
+  "nut.ups": "UPS",
+  "nut.power": "电源",
+  "nut.on_mains": "市电供电",
+  "nut.on_battery": "电池供电",
+  "nut.model_in": "{model} · 输入{v} V",
+  "nut.in": "输入{v} V",
+  "nut.battery": "电池",
+  "nut.runtime": "当前负载下可续航{ms:span}",
+  "nut.runtime_low": "当前负载下可续航{ms:span}；电量{low}%时关机",
+  "nut.drawing": "功耗",
+  "nut.watts": "{n} W",
+  "nut.watts_unit": "W",
+  "nut.load": "负载",
+  "nut.load_of": "额定容量的{n}%",
+  "paperless.documents": "文档",
+  "paperless.inbox": "收件箱中{n}份",
+  "paperless.space": "空间",
+  "paperless.free": "剩余{n:bytes}",
+  "paperless.health": "健康状况",
+  "paperless.healthy": "各部分均正常",
+  "paperless.warning": "警告",
+  "paperless.error": "错误",
+  "paperless.database": "数据库",
+  "paperless.redis": "Redis",
+  "paperless.celery": "任务队列",
+  "paperless.index": "搜索索引",
+  "paperless.classifier": "分类器",
+  "paperless.sanity_check": "健全性检查",
+  "paperless.failed": "失败于{at:when}",
+  "pbs.backups": "备份",
+  "pbs.when": "{at:when}",
+  "pbs.verified": "{group} · {size:bytes} · 已验证",
+  "pbs.unverified": "{group} · {size:bytes} · 尚未验证",
+  "pbs.failed": "验证失败",
+  "pbs.failed_detail": "{group} · {size:bytes} · {at:when}",
+  "pbs.in_night": "已纳入当晚备份",
+  "pbs.not_in_night": "未纳入当晚备份",
+  "pbs.size": "大小",
+  "pbs.check": "验证",
+  "pbs.check_ok": "已验证",
+  "pbs.check_failed": "失败",
+  "pbs.check_none": "暂无",
+  "pbs.of_guests": {
+    "other": "/ {n}个客户机"
+  },
+  "pihole.blocklists": "拦截列表",
+  "pihole.domains": {
+    "other": "{n}个域名"
+  },
+  "pihole.updated": "更新于{at:when}",
+  "pihole.warning": "警告",
+  "pihole.core": "Pi-hole",
+  "pihole.ftl": "FTL",
+  "pihole.web": "Web界面",
+  "pihole.image": "Pi-hole",
+  "portainer.environments": "环境",
+  "portainer.running": "{running}/{n}个运行中",
+  "portainer.stacks": {
+    "other": "{n}个堆栈"
+  },
+  "portainer.unhealthy_stacks": {
+    "other": "{unhealthy}个不健康 · {n}个堆栈"
+  },
+  "portainer.up": "正常",
+  "portainer.down": "故障",
+  "portainer.last_seen": "上次在线于{at:when}",
+  "prowlarr.indexers": "索引器",
+  "prowlarr.enabled": "已启用",
+  "prowlarr.disabled": "已禁用",
+  "prowlarr.failing": "异常",
+  "prowlarr.failing_since": "自{at:when}起异常",
+  "prowlarr.week": {
+    "other": "本周{n}次查询 · 抓取{grabs}个 · {ms:ms}"
+  },
+  "proxmox.host_detail": {
+    "other": "{model} · {n}线程 · 负载{load} · Proxmox VE {version}"
+  },
+  "proxmox.offline": "离线",
+  "proxmox.on_node": "{name}（{node}）",
+  "proxmox.guests": "客户机",
+  "proxmox.vm": {
+    "other": "虚拟机{id} · {n}核 · {gb} GB"
+  },
+  "proxmox.container": {
+    "other": "容器{id} · {n}核 · {gb} GB"
+  },
+  "proxmox.up_for": "已运行{ms:span}",
+  "proxmox.stopped": "已停止",
+  "proxmox.of_up": "/ {n} 运行中",
+  "proxmox.hosts_online": {
+    "other": "{online}/{n}台主机在线"
+  },
+  "proxmox.cpu_meter": "CPU",
+  "proxmox.ram_meter": "内存",
+  "qbittorrent.torrents": "种子",
+  "qbittorrent.downloading_unit": "下载中",
+  "qbittorrent.figure_detail": "{n}个做种 · 下载{down:bytes}/s",
+  "qbittorrent.downloading": "下载中",
+  "qbittorrent.seeding": "做种中",
+  "qbittorrent.torrents_n": {
+    "other": "{n}个种子"
+  },
+  "qbittorrent.speed": "{n:bytes}/s",
+  "qbittorrent.free": "可用空间",
+  "qbittorrent.connection": "连接",
+  "qbittorrent.connected": "已连接",
+  "qbittorrent.firewalled": "受防火墙限制",
+  "qbittorrent.firewalled_detail": "其他节点无法连入，只能由它连出",
+  "qbittorrent.disconnected": "已断开",
+  "qbittorrent.error": "错误",
+  "qbittorrent.missing_files": "文件缺失",
+  "radarr.films": "电影",
+  "radarr.this_week": "本周+{n}",
+  "radarr.unit": {
+    "other": "部"
+  },
+  "radarr.films_n": {
+    "other": "{n}部电影"
+  },
+  "radarr.library_detail": "{size:bytes} · 本周+{n}",
+  "radarr.downloading_n": {
+    "other": "{n}部电影"
+  },
+  "radarr.coming": "即将发行的电影",
+  "radarr.to_stream": "数字版",
+  "radarr.on_disc": "光盘版",
+  "resolver.dns_lookups": "DNS查询",
+  "resolver.lookups_blocked": "已拦截{blocked}",
+  "resolver.lookups_per_hour": "每小时查询数",
+  "resolver.lookups": "查询",
+  "resolver.blocked": "已拦截",
+  "resolver.section": "解析器",
+  "resolver.blocking": "拦截",
+  "resolver.on": "开启",
+  "resolver.paused": "已暂停",
+  "resolver.back_in": "{ms:span}后恢复",
+  "resolver.off": "关闭",
+  "resolver.over": "过去{ms:span}",
+  "resolver.count": {
+    "other": "{n}次查询"
+  },
+  "resolver.upstream": "上游",
+  "resolver.answers": "{n} · {ms} ms",
+  "resolver.top_clients": "热门客户端",
+  "resolver.top_domains": "热门域名",
+  "resolver.top_blocked": "拦截最多的域名",
+  "resolver.share": "{n} · {share}%",
+  "resolver.nothing_yet": "暂无",
+  "seerr.requests": "请求",
+  "seerr.waiting": {
+    "other": "{n}个待你处理"
+  },
+  "seerr.requests_detail": "{n}个处理中 · {available}个已可用",
+  "seerr.issues": "已报告的问题",
+  "seerr.open": {
+    "other": "{n}个未解决"
+  },
+  "seerr.newer": "有新版本",
+  "seerr.restart": "等待重启",
+  "servarr.library": "媒体库",
+  "servarr.in_library": "媒体库中",
+  "servarr.on_disk": "磁盘占用",
+  "servarr.week": "本周",
+  "servarr.plus": "+{n}",
+  "servarr.downloading": "下载中",
+  "servarr.nothing": "无",
+  "servarr.warning": "警告",
+  "servarr.error": "错误",
+  "servarr.coming_none": "未来7天没有新内容",
+  "servarr.on": "{at:day}",
+  "servarr.have": "已入库",
+  "sonarr.shows": "剧集",
+  "sonarr.this_week": {
+    "other": "本周+{n}集"
+  },
+  "sonarr.unit": {
+    "other": "部"
+  },
+  "sonarr.episodes": "集数",
+  "sonarr.shows_n": {
+    "other": "{n}部剧集"
+  },
+  "sonarr.library_detail": {
+    "other": "{n}集 · {size:bytes} · 本周+{week}"
+  },
+  "sonarr.downloading_n": {
+    "other": "{n}集"
+  },
+  "sonarr.coming": "即将播出的剧集",
+  "sonarr.untitled": "未命名",
+  "store.section": "存储池",
+  "store.room": "{used:bytes} / {size:bytes}",
+  "store.healthy": "健康",
+  "store.unhealthy": "不健康",
+  "syncthing.folders": "文件夹",
+  "syncthing.up_to_date": "已是最新",
+  "syncthing.holds": {
+    "other": "{n}个文件 · {bytes:bytes}"
+  },
+  "syncthing.syncing": "同步中，{percent}%",
+  "syncthing.out_of_sync": "未同步，{percent}%",
+  "syncthing.to_sync": {
+    "other": "{n}项待同步 · {bytes:bytes}"
+  },
+  "syncthing.failed": {
+    "other": "{n}项失败"
+  },
+  "syncthing.failed_at": "{path}：{error}",
+  "syncthing.stopped": "已停止",
+  "syncthing.paused": "已暂停",
+  "syncthing.devices": "设备",
+  "syncthing.connected": "已连接",
+  "syncthing.disconnected": "已断开",
+  "syncthing.never_connected": "从未连接",
+  "syncthing.in_sync": "已同步",
+  "syncthing.behind": "已同步{percent}%",
+  "syncthing.in_sync_seen": "上次在线于{at:when} · 已同步",
+  "syncthing.behind_seen": "上次在线于{at:when} · 已同步{percent}%",
+  "syncthing.errors": "错误",
+  "syncthing.errors_n": {
+    "other": "{n}个错误"
+  },
+  "tautulli.bandwidth": "串流",
+  "tautulli.speed": "{n:bytes}/s",
+  "tautulli.remote": "其中{n:bytes}/s传往远程播放器",
+  "tautulli.films_n": {
+    "other": "{n}部电影"
+  },
+  "tautulli.shows_n": {
+    "other": "{n}部剧集 · {children}集"
+  },
+  "tautulli.music_n": {
+    "other": "{n}位艺人 · {children}首曲目"
+  },
+  "tautulli.photos_n": {
+    "other": "{n}张照片"
+  },
+  "tautulli.items_n": {
+    "other": "{n}项"
+  },
+  "tautulli.plex": "Plex",
+  "tautulli.current": "已是最新",
+  "tautulli.unreachable": "Tautulli无法访问它",
+  "traefik.routing": "路由",
+  "traefik.routers": "路由器",
+  "traefik.services": "服务",
+  "traefik.middlewares": "中间件",
+  "traefik.router_disabled": "路由器出错",
+  "traefik.router_warning": "路由器有警告",
+  "traefik.service_disabled": "服务出错",
+  "traefik.service_warning": "服务有警告",
+  "traefik.middleware_disabled": "中间件出错",
+  "traefik.middleware_warning": "中间件有警告",
+  "traefik.servers_up": {
+    "other": "{n}台服务器正常"
+  },
+  "traefik.servers_down": {
+    "other": "{n}台服务器中{down}台故障"
+  },
+  "traefik.expires": "{ms:span}后过期",
+  "traefik.expired": "已过期{ms:span}",
+  "traefik.issued_by": "由{issuer}签发",
+  "unifi.clients": "客户端",
+  "unifi.devices_online": {
+    "other": "{online}/{n}台设备在线"
+  },
+  "unifi.wired": "有线",
+  "unifi.wireless": "无线",
+  "unifi.vpn": "VPN",
+  "unifi.internet": "互联网",
+  "unifi.internet_at": "{site}的互联网",
+  "unifi.wan_detail": "过去{period:span}在线率{availability}% · {latency:ms}",
+  "unifi.wan_availability": "过去{period:span}在线率{availability}%",
+  "unifi.down": "故障",
+  "unifi.down_since": "自{at:when}起",
+  "unifi.down_since_start": "自网关启动起",
+  "unifi.speed_test": "测速",
+  "unifi.speed": "↓ {down} ↑ {up} Mbit/s",
+  "unifi.speed_detail": "{at:when} · {ping:ms}",
+  "unifi.devices": "设备",
+  "unifi.devices_at": "{site}的设备",
+  "unifi.device_detail": "{model} · {firmware}",
+  "unifi.up_for": "已运行{ms:span}",
+  "unifi.cpu_meter": "CPU",
+  "unifi.ram_meter": "内存",
+  "unifi.interrupted": "连接中断",
+  "unifi.isolated": "已隔离",
+  "unifi.wrong_topology": "5G拓扑错误",
+  "unifi.offline": "离线",
+  "unifi.updating": "更新中",
+  "unifi.getting_ready": "准备中",
+  "unifi.adopting": "采用中",
+  "unifi.pending": "等待采用",
+  "unifi.deleting": "移除中"
+}

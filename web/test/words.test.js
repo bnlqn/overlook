@@ -106,3 +106,42 @@ test("no area of the demo's homelabs shows two sections a reader can't tell apar
     }
   }
 });
+
+// A translation (ADR 0006) may lack keys, which show in English, but what it
+// has must say what English says: the same values, the same markup, and the
+// plural forms of its own language, "other" among them. Its file is named
+// as the server serves it, by its language's code.
+test("every translation says what English says, in its own language's plural forms", () => {
+  const files = readdirSync(new URL("i18n/", web)).filter((f) => f.endsWith(".json"));
+  const placeholders = (s) => [...s.matchAll(/\{\w+(?::\w+)?\}/g)].map((m) => m[0]);
+  const markup = (s) =>
+    [...s.matchAll(/<\/?\w+/g)]
+      .map((m) => m[0])
+      .sort()
+      .join(" ");
+  const forms = (v) => (typeof v === "string" ? { other: v } : v);
+  for (const file of files) {
+    assert.match(file, /^[a-z]{2,3}\.json$/, `${file} isn't named by a language's code`);
+    const language = file.replace(".json", "");
+    const plurals = new Intl.PluralRules(language).resolvedOptions().pluralCategories;
+    for (const [key, value] of Object.entries(JSON.parse(read(`i18n/${file}`)))) {
+      assert.ok(key in english, `${file}: ${key} isn't an English key`);
+      const en = forms(english[key]);
+      const may = new Set(Object.values(en).flatMap(placeholders));
+      // What every English form says, each form must; a plural form may give
+      // the number in words.
+      const must = Object.values(en)
+        .map(placeholders)
+        .reduce((a, b) => a.filter((p) => b.includes(p)));
+      const plural = typeof value !== "string";
+      if (plural) assert.ok("other" in value, `${file}: ${key} lacks "other"`);
+      for (const [form, s] of Object.entries(forms(value))) {
+        const where = `${file}: ${key}${plural ? `.${form}` : ""}`;
+        if (plural) assert.ok(plurals.includes(form), `${where} isn't one of ${language}'s plural forms`);
+        for (const p of placeholders(s)) assert.ok(may.has(p), `${where} has ${p}, which English doesn't`);
+        for (const p of must) assert.ok(placeholders(s).includes(p) || (plural && p === "{n}"), `${where} lacks ${p}`);
+        assert.equal(markup(s), markup(en.other), `${where} changes the markup`);
+      }
+    }
+  }
+});

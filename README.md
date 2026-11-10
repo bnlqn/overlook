@@ -1544,9 +1544,15 @@ not what it shows.
 
 ## Translating
 
-The page speaks the language of your browser when someone has translated
-it, and English for any word a translation lacks. A translation is one
-file; [CONTRIBUTING.md](CONTRIBUTING.md#translating) says how.
+The page speaks the language of your browser, and English for any word a
+translation lacks. Besides English, it speaks Simplified Chinese, German,
+French, Spanish, Brazilian Portuguese, Russian, Polish, Japanese, Korean and
+Italian. Claude Code translated each in two passes, the second a review as
+someone who speaks it would read it, and looked at the page in each for
+words that don't fit. None has yet been read by someone who speaks it, so
+a correction is welcome, and so is a speaker who would keep one. A
+translation is one file; [CONTRIBUTING.md](CONTRIBUTING.md#translating)
+says how.
 
 ## What's next
 

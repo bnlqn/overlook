@@ -85,7 +85,7 @@ Every Monday, `.github/workflows/record.yml` records each scratch instance again
 
 ## Translating
 
-A translation is one file, `web/i18n/<language>.json`, such as `fr.json`, with any of the keys of `web/i18n/en/*.json`. A key it lacks shows in English, so a translation can be partial and never blocks a release (ADR 0006). A message with plurals takes the forms of [the language's plural rules](https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html), such as `{"one": "…", "other": "…"}`.
+A translation is one file, `web/i18n/<language>.json`, such as `fr.json`, with any of the keys of `web/i18n/en/*.json`. A key it lacks shows in English, so a translation can be partial and never blocks a release (ADR 0006). A message with plurals takes the forms of [the language's plural rules](https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html), such as `{"one": "…", "other": "…"}`. A value English writes as a string can take plural forms where the language needs them, such as a count in Russian. `make check` checks that each value keeps English's placeholders and markup and uses its language's plural forms. A language has one file for all its regions, so `zh.json` is Simplified Chinese and `pt.json` Brazilian Portuguese. Look at the page in the language, at desktop and phone width, for words longer than English's: the browser's language decides it, or the demo with `--lang=<code>` given to Chromium.
 
 ## Recording a decision
 

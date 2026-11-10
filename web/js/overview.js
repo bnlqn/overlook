@@ -274,6 +274,10 @@ function renderWeek({ days, rows }, now) {
   $("week").innerHTML =
     `<div class="tl-row tl-head" aria-hidden="true"><span></span><span class="tl-track">${head.join("")}</span></div>
     <div class="tl-grid">${days.map((d) => `<i style="left:${at(d.left)}"></i>`).join("")}</div>${lines.join("")}`;
+  // An area's name longer than its column holds, as Storage is in Spanish,
+  // widens the column, and the day lines move with it.
+  const widest = Math.max(0, ...[...$("week").querySelectorAll(".tl-label")].map((l) => l.scrollWidth));
+  $("week").style.setProperty("--fit", `${widest}px`);
 }
 
 // ── The apps: each one's door, whether it answers, and how fast lately ───
