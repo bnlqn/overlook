@@ -11,9 +11,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
 <!-- The bar a phone draws above the page, in the panel's colour, light or
-     dark (style.css). -->
-<meta name="theme-color" content="#fbfbfc" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#101112">
+     dark (style.css), as theme.js picks. -->
+<meta name="theme-color" content="#fbfbfc" media="(prefers-color-scheme: light)" data-theme="light">
+<meta name="theme-color" content="#101112" data-theme="dark">
+<!-- The look the viewer chose, or the system's, before anything is drawn. -->
+<script src="js/theme.js"></script>
 <title data-t="setup.title"></title>
 <link rel="icon" href="icon.svg">
 <link rel="stylesheet" href="style.css">

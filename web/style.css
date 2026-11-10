@@ -84,47 +84,47 @@
   --m-series-7: #c160c9;
   --m-series-8: #199e70;
 }
-/* The light page, for an owner whose system asks for one: dark words on
-   light surfaces, the card the lightest, as it is on the dark page, and
-   each colour a step darker, to keep its contrast. Words are 4.5:1 or more
+/* The light page, for a viewer whose system asks for one, or who chose it
+   in the footer, as theme.js sets data-theme: dark words on light
+   surfaces, the card the lightest, as it is on the dark page, and each
+   colour a step darker, to keep its contrast. :where() leaves it as
+   specific as :root, so that an owner's custom.css still wins over it. Words are 4.5:1 or more
    on every surface they sit on, the sidebar too, and a state's colour or an
    area's 3:1, as WCAG's AA asks; the series pass the same validator on the
    white card unchanged. The logos keep their dark tiles. */
-@media (prefers-color-scheme: light) {
-  :root {
-    color-scheme: light;
-    --m-bg: #f4f5f8;
-    --m-panel: #fbfbfc;
-    --m-card-fill: #fff;
-    --m-raised: #fff;
-    --m-label: #17181c;
-    --m-label-1: #3a3d44;
-    --m-label-2: #585c64;
-    --m-label-3: #696e78;
-    --m-border: rgba(0, 0, 0, 0.09);
-    --m-separator: rgba(0, 0, 0, 0.06);
-    --m-fill-gray: rgba(0, 0, 0, 0.06);
-    --m-fill-hover: rgba(0, 0, 0, 0.035);
-    --m-fill-pressed: rgba(0, 0, 0, 0.07);
-    --m-accent-2: #5856e8;
-    --m-blue: #2383e8;
-    --m-blue-text: #0a6bd0;
-    --m-green: #33935f;
-    --m-green-text: #2a7a53;
-    --m-orange: #b8860b;
-    --m-orange-text: #876708;
-    --m-red: #e5484d;
-    --m-red-text: #c62a2f;
-    --m-gray: #80858e;
-    --m-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-    --m-ink: #000;
-    /* Paler would fade into the white card. */
-    --m-passed: color-mix(in srgb, var(--m-green) 90%, transparent);
-    --m-servers: #605ff5;
-    --m-network: #0b74de;
-    --m-storage: #bc600e;
-    --m-apps: #d6246a;
-  }
+:root:where([data-theme="light"]) {
+  color-scheme: light;
+  --m-bg: #f4f5f8;
+  --m-panel: #fbfbfc;
+  --m-card-fill: #fff;
+  --m-raised: #fff;
+  --m-label: #17181c;
+  --m-label-1: #3a3d44;
+  --m-label-2: #585c64;
+  --m-label-3: #696e78;
+  --m-border: rgba(0, 0, 0, 0.09);
+  --m-separator: rgba(0, 0, 0, 0.06);
+  --m-fill-gray: rgba(0, 0, 0, 0.06);
+  --m-fill-hover: rgba(0, 0, 0, 0.035);
+  --m-fill-pressed: rgba(0, 0, 0, 0.07);
+  --m-accent-2: #5856e8;
+  --m-blue: #2383e8;
+  --m-blue-text: #0a6bd0;
+  --m-green: #33935f;
+  --m-green-text: #2a7a53;
+  --m-orange: #b8860b;
+  --m-orange-text: #876708;
+  --m-red: #e5484d;
+  --m-red-text: #c62a2f;
+  --m-gray: #80858e;
+  --m-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --m-ink: #000;
+  /* Paler would fade into the white card. */
+  --m-passed: color-mix(in srgb, var(--m-green) 90%, transparent);
+  --m-servers: #605ff5;
+  --m-network: #0b74de;
+  --m-storage: #bc600e;
+  --m-apps: #d6246a;
 }
 
 * {
@@ -543,14 +543,38 @@ main {
   margin: 0 auto;
   padding: 28px 32px 56px;
 }
-/* At the panel's foot, however short the page: which Overlook this is, and
-   where it comes from. */
+/* At the panel's foot, however short the page: the look and the language
+   the viewer chose, then which Overlook this is, and where it comes from,
+   on one line that wraps on a phone. */
 .foot {
   margin-top: auto;
   padding: 0 16px max(20px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px 16px;
   text-align: center;
   font: var(--m-type-footnote);
   color: var(--m-label-3);
+}
+.pick {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pick select {
+  font: inherit;
+  color: var(--m-label-2);
+  background: var(--m-fill-gray);
+  border: 1px solid var(--m-border);
+  border-radius: 6px;
+  padding: 2px 6px;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.pick select:hover {
+  color: var(--m-label-1);
 }
 .foot a {
   font-weight: 510;
@@ -776,16 +800,14 @@ main {
   border-radius: 4px;
 }
 /* The smallest, in the sidebar and on the setup page, has the dark page
-   itself for its tile. */
-@media not all and (prefers-color-scheme: light) {
-  .app-icon.xs {
-    background: none;
-    box-shadow: none;
-  }
-  .app-icon.xs img {
-    width: 100%;
-    height: 100%;
-  }
+   itself for its tile, before theme.js has run too. */
+:where(:root:not([data-theme="light"])) .app-icon.xs {
+  background: none;
+  box-shadow: none;
+}
+:where(:root:not([data-theme="light"])) .app-icon.xs img {
+  width: 100%;
+  height: 100%;
 }
 .app-icon.sm {
   --size: 18px;

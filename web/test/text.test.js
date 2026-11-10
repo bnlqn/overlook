@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { ago, bytes, drawnAt, matches, ms, say, setWords, span, t, when } from "../js/text.js";
+import { ago, autonym, bytes, drawnAt, matches, ms, say, setWords, span, t, viewerLanguage, when } from "../js/text.js";
 
 const en = {
   "span.minutes": "{n} min",
@@ -111,4 +111,18 @@ test("a message's moment counts from the moment the page is drawn for", () => {
   assert.equal(t("since", { at: new Date(2026, 9, 27, 9, 30) }), "since yesterday, 09:30");
   drawnAt(+new Date(2026, 9, 29, 15, 0));
   assert.match(t("since", { at: new Date(2026, 9, 27, 9, 30) }), /27 Oct/);
+});
+
+test("the footer names each language as it names itself, and keeps a browser's region", () => {
+  assert.equal(autonym("de"), "Deutsch");
+  assert.equal(autonym("fr"), "Français", "with a capital, as a list of languages writes it");
+  assert.equal(autonym("pt"), "Português (Brasil)", "Portuguese as its file writes it");
+  assert.equal(autonym("zh"), "简体中文", "Chinese as its file writes it");
+  assert.equal(viewerLanguage("", "en-GB"), "en-GB", "with no choice, the browser's");
+  assert.equal(viewerLanguage("de", "en-GB"), "de");
+  assert.equal(viewerLanguage("en", "en-GB"), "en-GB", "the browser's own language keeps its region");
+  assert.equal(viewerLanguage("fr", "fr-CA"), "fr-CA");
+  assert.equal(viewerLanguage("pt", "en-US"), "pt-BR", "its numbers and dates as its words");
+  assert.equal(viewerLanguage("zh", "fr"), "zh-Hans");
+  assert.equal(viewerLanguage("xx", "en-GB"), "en-GB", "one the page doesn't speak is no choice");
 });
