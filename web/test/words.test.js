@@ -86,3 +86,23 @@ test("every message page() says of the demo's homelabs is in the English table",
   const missing = [...new Set(said)].filter((key) => !(key in english));
   assert.deepEqual(missing, []);
 });
+
+// Two sections of an area that read the same must be told apart by their
+// sources. The page names a section by its source only where another source
+// gives one of the same key, so adapters that read the same thing share the
+// key of its title, as Hosts and Certificates are shared.
+test("no area of the demo's homelabs shows two sections a reader can't tell apart", () => {
+  for (const name of ["snapshot", "small", "large"]) {
+    const snap = JSON.parse(readFileSync(new URL(`../demo/${name}.json`, web), "utf8"));
+    for (const a of page(snap, Date.parse(snap.at)).areas) {
+      const shown = a.sections.map(
+        (s) => `${s.title.key ? english[s.title.key] : s.title.name}${s.by ? ` · ${s.by}` : ""}`,
+      );
+      assert.deepEqual(
+        shown.filter((r, i) => shown.indexOf(r) !== i),
+        [],
+        `${name}'s ${a.area}`,
+      );
+    }
+  }
+});

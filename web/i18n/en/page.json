@@ -117,6 +117,7 @@
   "chart.processor": "Processor",
   "chart.memory": "Memory",
   "section.hosts": "Hosts",
+  "section.certificates": "Certificates",
 
   "areas.title": "Areas",
   "areas.hint": "their checks, the last 30 results",

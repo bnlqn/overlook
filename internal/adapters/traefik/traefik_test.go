@@ -42,7 +42,7 @@ func TestRead(t *testing.T) {
 		}
 	}
 
-	if len(p.Sections) != 2 || p.Sections[0].Title.Key != "traefik.routing" || p.Sections[1].Title.Key != "traefik.certificates" {
+	if len(p.Sections) != 2 || p.Sections[0].Title.Key != "traefik.routing" || p.Sections[1].Title.Key != "section.certificates" {
 		t.Fatalf("two sections, the routing and the certificates: %+v", p.Sections)
 	}
 	want := []struct{ title, value, tone, detail string }{

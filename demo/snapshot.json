@@ -2441,7 +2441,7 @@
     {
       "area": "network",
       "source": "Nginx Proxy Manager",
-      "title": { "key": "npm.certificates" },
+      "title": { "key": "section.certificates" },
       "rows": [
         {
           "title": { "name": "*.example.com, example.com" },
@@ -2500,7 +2500,7 @@
     {
       "area": "network",
       "source": "Traefik",
-      "title": { "key": "traefik.certificates" },
+      "title": { "key": "section.certificates" },
       "rows": [
         {
           "title": { "name": "nas.example.com" },

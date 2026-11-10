@@ -32,7 +32,7 @@
     { "name": "Secondary DNS", "adapter": "pihole", "area": "network", "kind": "resolver", "answered": true },
     { "name": "IoT DNS", "adapter": "adguard", "area": "network", "kind": "resolver", "answered": true },
     { "name": "Nginx Proxy Manager", "adapter": "npm", "area": "network", "answered": true },
-    { "name": "Reverse proxy", "adapter": "traefik", "area": "network", "answered": true },
+    { "name": "Traefik", "adapter": "traefik", "area": "network", "answered": true },
     { "name": "Chores", "adapter": "ical", "kind": "todolist", "answered": true },
     { "name": "Rack", "adapter": "ical", "kind": "todolist", "answered": true }
   ],
@@ -6766,7 +6766,7 @@
     {
       "area": "network",
       "source": "Nginx Proxy Manager",
-      "title": { "key": "npm.certificates" },
+      "title": { "key": "section.certificates" },
       "rows": [
         {
           "title": { "name": "Old VPN" },
@@ -6794,7 +6794,7 @@
     },
     {
       "area": "network",
-      "source": "Reverse proxy",
+      "source": "Traefik",
       "title": { "key": "traefik.routing" },
       "rows": [
         { "title": { "key": "traefik.routers" }, "value": { "key": "number", "args": { "n": 64 } }, "tone": "red" },
@@ -6851,8 +6851,8 @@
     },
     {
       "area": "network",
-      "source": "Reverse proxy",
-      "title": { "key": "traefik.certificates" },
+      "source": "Traefik",
+      "title": { "key": "section.certificates" },
       "rows": [
         {
           "title": { "name": "printer.example.com" },
@@ -9220,14 +9220,14 @@
       "from": "2026-09-26",
       "note": "2026-10-26",
       "url": "https://traefik.example.com/dashboard/",
-      "source": "Reverse proxy"
+      "source": "Traefik"
     },
     {
       "name": "*.home.example.com",
       "from": "2026-10-10",
       "note": "2026-11-09",
       "url": "https://traefik.example.com/dashboard/",
-      "source": "Reverse proxy"
+      "source": "Traefik"
     },
     {
       "name": "Old VPN",
@@ -9320,7 +9320,7 @@
         "Secondary DNS",
         "IoT DNS",
         "Nginx Proxy Manager",
-        "Reverse proxy",
+        "Traefik",
         "Chores",
         "Rack"
       ]
