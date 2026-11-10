@@ -120,7 +120,7 @@ function health(c) {
 
 /**
  * What a strip says in words, for a screen reader and the keyboard, since
- * its marks say it by shape and colour: how many of a check's results
+ * its marks say it by colour: how many of a check's results
  * passed, or of an area's ticks all its checks did, and, when one failed,
  * when the last did, the newest or one before it, and in an area's, which
  * checks. With no result, nothing: its state says so.

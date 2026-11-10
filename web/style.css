@@ -1561,9 +1561,7 @@ main {
   font: var(--m-type-body);
 }
 
-/* The last results, one tick each: the newest at the right, breathing. One
-   that failed stands taller than one that passed, so that the two differ by
-   shape as well as colour. */
+/* The last results, one tick each: the newest at the right, breathing. */
 .strip {
   display: flex;
   gap: 2px;
@@ -1575,7 +1573,7 @@ main {
   flex: 1;
   max-width: 5px;
   min-width: 2px;
-  height: 10px;
+  height: 14px;
   border-radius: 2px;
   background: var(--m-fill-gray);
   transition: transform 0.15s var(--m-ease);
@@ -1584,7 +1582,6 @@ main {
   background: var(--m-passed);
 }
 .strip i.bad {
-  height: 18px;
   background: var(--m-red);
 }
 /* An area's moment when only some of its checks failed: red as tall as
@@ -2282,6 +2279,7 @@ main > :nth-child(n + 6) {
   }
   .strip i.bad,
   .strip i.part {
+    height: 18px;
     background: Highlight;
   }
   /* A dot takes its state glyph's shape: filled for up, half filled, a

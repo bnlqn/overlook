@@ -67,8 +67,8 @@ The page is light where your system is light, and dark otherwise. On a
 phone, your browser's Add to Home Screen, or Install app, puts it there as
 an app of its own.
 
-It reads without colour or a mouse too. A failed result stands taller than
-a passed one, in forced colours as well. A screen reader says each state
+It reads without colour or a mouse too. In forced colours, a failed result
+stands taller than a passed one. A screen reader says each state
 that a glyph or a dot shows, and a check's last results in words, such as
 28 of 30 passed and the last one failed at 14:02, which the keyboard shows
 on each row it reaches.
