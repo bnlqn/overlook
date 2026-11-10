@@ -24,8 +24,45 @@ export function drawnAt(now) {
   moment = now;
 }
 
+/** The languages the page speaks: English, and a file in i18n/ for each other. */
+export const LANGUAGES = ["de", "en", "es", "fr", "it", "ja", "ko", "pl", "pt", "ru", "zh"];
+
+// A language whose file speaks one way of writing it, named so that the
+// browser writes its numbers and dates that way too: Chinese written
+// simply, and Portuguese as Brazil writes it.
+const TAG = { pt: "pt-BR", zh: "zh-Hans" };
+
+/** A language's own name for itself, as the footer lists it: "Deutsch", "日本語". */
+export function autonym(code) {
+  const tag = TAG[code] ?? code;
+  const name = new Intl.DisplayNames([tag], { type: "language" }).of(tag);
+  return name[0].toLocaleUpperCase(tag) + name.slice(1);
+}
+
+/**
+ * The language the page speaks in, and the locale its numbers and dates
+ * follow: the one the viewer chose in the footer, or their browser's. A
+ * choice of the browser's own language keeps its region, as en-GB's dates.
+ */
+export function viewerLanguage(chosen, browser = "en") {
+  if (!LANGUAGES.includes(chosen) || browser.split("-")[0].toLowerCase() === chosen) return browser;
+  return TAG[chosen] ?? chosen;
+}
+
+/** Where this browser keeps the language the viewer chose in the footer. */
+export const LANGUAGE = "overlook.language";
+
+/** The language the viewer chose in the footer, kept in this browser, or none. */
+export function chosenLanguage() {
+  try {
+    return localStorage.getItem(LANGUAGE) ?? "";
+  } catch {
+    return "";
+  }
+}
+
 /** Reads the English table and the one for the viewer's language. */
-export async function loadWords(viewer = navigator.language || "en") {
+export async function loadWords(viewer = viewerLanguage(chosenLanguage(), navigator.language || "en")) {
   const get = (language) =>
     fetch(`i18n/${language}.json`).then(
       (r) => (r.ok ? r.json() : {}),

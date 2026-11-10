@@ -2,6 +2,7 @@
 // tooltips, and start(), which reads the snapshot and draws the page from
 // what page() says of it.
 
+import { choiceItems, choices, listen } from "./choices.js";
 import { REPO } from "./config.js";
 import { badge, by, stateIcon, svg, TONE, word } from "./draw.js";
 import { asIfNow, page } from "./page.js";
@@ -78,10 +79,11 @@ function shell() {
   const main = document.querySelector("main");
   main.before(panel);
   panel.append(main);
-  panel.insertAdjacentHTML("beforeend", `<footer class="foot" id="powered"></footer>`);
+  panel.insertAdjacentHTML("beforeend", `<footer class="foot"><span id="powered"></span>${choices()}</footer>`);
   document.addEventListener("click", (e) => {
     if (e.target.closest("[data-menu]")) document.body.classList.toggle("nav-open");
   });
+  listen();
   palette();
   tooltips();
 }
@@ -125,7 +127,8 @@ function paintShell(m) {
 }
 
 // ⌘K (or /): go to a page, open an app or a tool, or a check in its check
-// engine, by typing a few letters of it. G then a page's key jumps there.
+// engine, or choose a look or a language, by typing a few letters of it. G
+// then a page's key jumps there.
 function palette() {
   const box = document.createElement("dialog");
   box.className = "palette";
@@ -173,6 +176,9 @@ function palette() {
         out: true,
       };
     }),
+    // The look and the language, once something is typed, so that the list
+    // opens on the homelab.
+    ...(input.value.trim() ? choiceItems().map((i) => ({ ...i, href: "#" })) : []),
   ];
   let items = [];
   let at = 0;
@@ -200,7 +206,8 @@ function palette() {
   };
   const go = (i) => {
     box.close();
-    if (i.out) window.open(i.href, "_blank", "noopener");
+    if (i.act) i.act();
+    else if (i.out) window.open(i.href, "_blank", "noopener");
     else location.href = i.href;
   };
   input.addEventListener("input", () => {

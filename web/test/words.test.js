@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import { readdirSync, readFileSync } from "node:fs";
 import { test } from "node:test";
 import { AREAS, page } from "../js/page.js";
+import { LANGUAGES } from "../js/text.js";
 import { tables, translatedFrom } from "./translated.mjs";
 
 const web = new URL("../", import.meta.url);
@@ -175,4 +176,12 @@ test("every translation was made from today's English, as make translated record
     if (!(language in now)) problems.push(`${language} is recorded but has no translation: run make translated`);
   }
   assert.deepEqual(problems, []);
+});
+
+// The footer offers each language the page speaks, and only those.
+test("the footer's languages are English and a translation's file each", () => {
+  const files = readdirSync(new URL("i18n/", web))
+    .filter((f) => f.endsWith(".json"))
+    .map((f) => f.replace(".json", ""));
+  assert.deepEqual([...LANGUAGES].sort(), ["en", ...files].sort());
 });

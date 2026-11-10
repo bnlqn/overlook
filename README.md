@@ -63,9 +63,12 @@ What it can't read, and why, is under [Can't be read](#cant-be-read).
   marking it done on the list, never on the page, and a chore is never a
   problem.
 
-The page is light where your system is light, and dark otherwise. On a
-phone, your browser's Add to Home Screen, or Install app, puts it there as
-an app of its own.
+The page is light where your system is light, and dark otherwise, and
+speaks your browser's language, if it is one of those under
+[Translating](#translating). Its footer lets you choose either: Light or
+Dark, and any of its languages, which your browser keeps for your next
+visit. On a phone, your browser's Add to Home Screen, or Install app, puts
+it there as an app of its own.
 
 It reads without colour or a mouse too. In forced colours, a failed result
 stands taller than a passed one. A screen reader says each state
@@ -1537,9 +1540,10 @@ stylesheet, so it can change any colour, size or font:
 
 The page's colours, sizes and fonts are the `--m-` properties at the top
 of [`web/style.css`](web/style.css): the dark page's, then the light
-page's, under `@media (prefers-color-scheme: light)`. A property your
-custom.css sets changes both; set under the same `@media`, it changes the
-light page only. The page stays one page: custom.css changes how it looks,
+page's, under `:root:where([data-theme="light"])`, which the page sets
+where your system is light or Light is chosen in its footer. A property
+your custom.css sets changes both; set under the same selector, it changes
+the light page only. The page stays one page: custom.css changes how it looks,
 not what it shows.
 
 ## Translating
