@@ -565,8 +565,10 @@ main {
   align-items: center;
   gap: 8px;
 }
-/* The looks: the page's pills, each an icon. */
-.looks button {
+/* The looks: the page's pills, each an icon, in the middle of a round
+   button. .pills.looks outweighs .pills button, which comes later and pads
+   its words. */
+.pills.looks button {
   width: 28px;
   padding: 0;
   display: grid;
