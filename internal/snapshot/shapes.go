@@ -36,6 +36,11 @@ func Percent(v float64) *Text { return Msg("percent", map[string]any{"n": v}) }
 // room a library takes.
 func Bytes[N int | int64 | float64](n N) *Text { return Msg("bytes", map[string]any{"n": n}) }
 
+// CertificatesSection is the title every adapter that reads certificates
+// gives their section, so that the page names each by its source where
+// another source gives one too, as beside Nginx Proxy Manager, Traefik does.
+var CertificatesSection = Text{Key: "section.certificates"}
+
 // VersionRow is a source's version: the one it runs, or, when newer names one
 // that's out, that one in orange, with the one it runs under it. A source
 // that says more, such as a restart it waits for, changes the row after.

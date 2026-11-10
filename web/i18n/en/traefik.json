@@ -12,7 +12,6 @@
   "traefik.servers_up": { "one": "{n} server up", "other": "All {n} servers up" },
   "traefik.servers_down": { "one": "{down} of {n} server down", "other": "{down} of {n} servers down" },
 
-  "traefik.certificates": "Certificates",
   "traefik.expires": "Expires in {ms:span}",
   "traefik.expired": "Expired {ms:span} ago",
   "traefik.issued_by": "issued by {issuer}"

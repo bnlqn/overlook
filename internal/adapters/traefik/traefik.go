@@ -236,7 +236,7 @@ func parts(r read, link string, now time.Time) snapshot.Parts {
 
 	sections := []snapshot.Section{{Area: Area, Title: snapshot.Text{Key: "traefik.routing"}, Rows: rows}}
 	if len(crows) > 0 {
-		sections = append(sections, snapshot.Section{Area: Area, Title: snapshot.Text{Key: "traefik.certificates"}, Rows: crows})
+		sections = append(sections, snapshot.Section{Area: Area, Title: snapshot.CertificatesSection, Rows: crows})
 	}
 	return snapshot.Parts{Sections: sections, Chores: chores}
 }

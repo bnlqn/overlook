@@ -59,7 +59,7 @@ func TestRead(t *testing.T) {
 	}
 
 	if len(p.Sections) != 3 || p.Sections[0].Title.Key != "npm.domains" || p.Sections[1].Title.Key != "npm.streams" ||
-		p.Sections[2].Title.Key != "npm.certificates" {
+		p.Sections[2].Title.Key != "section.certificates" {
 		t.Fatalf("three sections, the domains, the streams and the certificates: %+v", p.Sections)
 	}
 	rows := slices.Concat(p.Sections[0].Rows, p.Sections[1].Rows)
