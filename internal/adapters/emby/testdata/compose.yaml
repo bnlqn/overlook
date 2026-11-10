@@ -6,7 +6,7 @@
 #   docker compose -p overlook-emby -f compose.yaml down -v
 services:
   emby:
-    image: emby/embyserver:4.10.2.0
+    image: emby/embyserver:4.10.2.0 # newest: latest (its betas look like releases)
     ports: ["127.0.0.1:8096:8096"]
     volumes:
       - config:/config

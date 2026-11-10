@@ -1,0 +1,8 @@
+# The config the weekly recording reads this scratch instance's answers
+# with, served again at ${URL} (internal/config/scratch_test.go).
+sources:
+  pbs:
+    - url: ${URL}
+      token: overlook@pbs!overlook
+      secret: 00000000-0000-0000-0000-000000000000
+      datastore: archive

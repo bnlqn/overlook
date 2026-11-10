@@ -3,8 +3,8 @@
 # pull requests from a user named like Renovate and a workflow that fails,
 # stops one runner, then record.sh reads what Overlook reads.
 #
-#   docker compose -f compose.yaml up -d forgejo && ./fill.sh && ./record.sh <token>
-#   docker compose -f compose.yaml down -v
+#   docker compose -p overlook-forgejo up -d --wait && ./record.sh "$(./fill.sh)"
+#   docker compose -p overlook-forgejo down -v
 services:
   forgejo:
     image: codeberg.org/forgejo/forgejo:17.0.1
@@ -15,6 +15,7 @@ services:
       FORGEJO__database__DB_TYPE: sqlite3
     volumes: [forgejo:/data]
   runner:
+    profiles: [runners] # fill.sh starts them, once it has their token
     image: code.forgejo.org/forgejo/runner:13.2.1
     environment: &runner
       RUNNER_TOKEN: ${RUNNER_TOKEN:-} # fill.sh's
@@ -26,6 +27,7 @@ services:
       && forgejo-runner daemon'
     volumes: [runner:/data]
   spare:
+    profiles: [runners] # fill.sh starts them, once it has their token
     image: code.forgejo.org/forgejo/runner:13.2.1
     environment:
       <<: *runner

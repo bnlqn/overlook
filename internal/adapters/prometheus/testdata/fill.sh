@@ -6,7 +6,7 @@
 set -eu
 until curl -sf -o /dev/null http://localhost:9090/-/ready && curl -sf -o /dev/null http://localhost:9093/-/ready; do sleep 2; done
 now=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-tomorrow=$(date -u -v+1d +%Y-%m-%dT%H:%M:%SZ)
+tomorrow=$(jq -rn "now + 86400 | todate")
 curl -sf -X POST -H "Content-Type: application/json" http://localhost:9093/api/v2/silences -d "{
   \"matchers\": [{\"name\": \"alertname\", \"value\": \"Backup age\", \"isRegex\": false, \"isEqual\": true}],
   \"startsAt\": \"$now\", \"endsAt\": \"$tomorrow\", \"createdBy\": \"owner\",

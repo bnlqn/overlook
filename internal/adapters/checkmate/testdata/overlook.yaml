@@ -1,0 +1,8 @@
+# The config the weekly recording reads this scratch instance's answers
+# with, served again at ${URL} (internal/config/scratch_test.go).
+sources:
+  checkmate:
+    - url: ${URL}
+      user: overlook@example.com
+      password: Overlook-password-1
+      areas: {Media: apps}

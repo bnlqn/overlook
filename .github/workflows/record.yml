@@ -1,0 +1,128 @@
+# Every week, each scratch instance (ADR 0008) is recorded again at its
+# source's newest version: started from its compose file, filled and recorded
+# with its own scripts, and what it recorded read with its adapter and checked
+# with adaptertest.Validate (TestRecorded, in internal/config). A source that
+# changes its answers is then found before an owner finds it. Each adapter is
+# its own job, so that one failure can't hide another, and each that fails
+# opens an issue, or comments on the one still open. The recording is only
+# compared, never committed.
+name: Record
+
+on:
+  schedule:
+    - cron: "23 4 * * 1" # Mondays, early
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  find:
+    name: find
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      adapters: ${{ steps.find.outputs.adapters }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - id: find
+        run: echo "adapters=$(ls internal/adapters/*/testdata/compose.yaml | cut -d/ -f3 | jq -Rnc '[inputs]')" >>"$GITHUB_OUTPUT"
+
+  record:
+    needs: find
+    name: ${{ matrix.adapter }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        adapter: ${{ fromJSON(needs.find.outputs.adapters) }}
+    env:
+      # The project fill.sh's own docker compose commands name.
+      COMPOSE_PROJECT_NAME: overlook-${{ matrix.adapter }}
+      # A version pinned outside an image's tag, written ${PIN-=<version>},
+      # set empty, for the newest.
+      PIN: ""
+    defaults:
+      run:
+        shell: bash
+        working-directory: internal/adapters/${{ matrix.adapter }}/testdata
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: "1.27"
+      # For a source set up only over a WebSocket, as Uptime Kuma is, whose
+      # fill.mjs runs on Node.
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22.12.0
+      # Each image at the newest release shaped like its pin, such as
+      # 17.0.1's newest x.y.z, so never a release candidate, or at the tag its
+      # line names as "# newest: <tag>", for a source whose betas look like
+      # releases. One marked "# pinned", a dependency rather than the
+      # source, stays as it is.
+      - name: Take the newest version
+        run: |
+          sed -nE '/# pinned/!s/^ +image: ([^ #]+)( *# newest: ([^ ]+))?.*/\1 \3/p' compose.yaml | sort -u |
+            while read -r image newest; do
+              repo=${image%:*} pin=${image##*:}
+              shape="^$(sed -E 's/\./\\./g; s/[0-9]+/[0-9]+/g' <<<"$pin")\$"
+              newest=${newest:-$(skopeo list-tags "docker://$repo" | jq -r '.Tags[]' | grep -E "$shape" | sort -V | tail -n 1)}
+              echo "$repo: $newest, pinned at $pin"
+              sed -i "s|image: $image|image: $repo:$newest|" compose.yaml
+            done
+      - name: Start it
+        run: docker compose up -d --build --wait
+      # The answers recorded before are removed first, so that what the
+      # adapter reads is only what record.sh recorded this week. record.sh
+      # prints the moment it recorded at, where its answers depend on it.
+      - name: Fill and record it
+        # Less than the job's, so that an instance that never answers still
+        # leaves its logs.
+        timeout-minutes: 30
+        run: |
+          find . -type f \( -name '*.json' -o -name '*.ics' -o -name '*.http' \) -delete
+          if [ -f fill.mjs ]; then node fill.mjs; else key=$(./fill.sh); fi
+          at=$(./record.sh ${key:+"$key"})
+          echo "OVERLOOK_RECORDED_AT=$(tail -n 1 <<<"$at")" >>"$GITHUB_ENV"
+      - name: Read it with the adapter
+        working-directory: .
+        env:
+          OVERLOOK_RECORDED: ${{ matrix.adapter }}
+        run: go test -count=1 -run '^TestRecorded$' -v ./internal/config
+      - name: Its logs
+        if: failure()
+        run: docker compose logs --no-color --tail 100
+
+  report:
+    needs: [find, record]
+    if: failure()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: read
+      issues: write
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          JOBS: repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/attempts/${{ github.run_attempt }}/jobs
+          RUN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh api "$JOBS" --paginate --jq '.jobs[] | select(.conclusion == "failure") | .name' |
+            while read -r job; do
+              title="The weekly recording of $job failed"
+              open=$(gh issue list --state open --search "in:title \"$title\"" --json number,title \
+                --jq "map(select(.title == \"$title\"))[0].number // empty")
+              if [ -n "$open" ]; then
+                gh issue comment "$open" --body "It failed again: $RUN"
+              else
+                gh issue create --title "$title" --body "$(printf '%s\n\n%s\n' "It failed: $RUN" \
+                  "Its scratch instance, started from internal/adapters/$job/testdata/compose.yaml at its source's newest version, was filled and recorded with the scripts beside it, and read with the adapter. The run's log says which step failed, and at which version. Record it again from that compose file to see what changed, then fix the adapter or its scripts, and close this once a weekly run passes. A week that fails again comments here.")"
+              fi
+            done

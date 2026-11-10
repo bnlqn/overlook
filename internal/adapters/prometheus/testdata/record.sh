@@ -19,4 +19,4 @@ curl -sf -G "$p/api/v1/query_range" --data-urlencode 'query=max by (alertname, a
   -d "start=$((now - 7 * 24 * 3600))" -d "end=$now" -d step=300 | jq . >api/v1/query_range@step=300.json
 curl -sf http://localhost:9093/api/v2/alerts | jq . >alertmanager/api/v2/alerts.json
 curl -sf http://localhost:9093/api/v2/silences | jq . >alertmanager/api/v2/silences.json
-echo "$now"
+jq -rn "$now | todate"

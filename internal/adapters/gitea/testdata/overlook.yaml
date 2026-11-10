@@ -1,0 +1,7 @@
+# The config the weekly recording reads this scratch instance's answers
+# with, served again at ${URL} (internal/config/scratch_test.go).
+sources:
+  gitea:
+    - url: ${URL}
+      repos: [owner/homelab, owner/website]
+      token: 0123abcd

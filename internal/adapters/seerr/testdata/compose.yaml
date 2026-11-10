@@ -6,7 +6,7 @@
 #   docker compose -f compose.yaml down -v
 services:
   jellyfin:
-    image: jellyfin/jellyfin:12.4.20261026-211555
+    image: jellyfin/jellyfin:12.4.20261026-211555 # pinned: the media server Seerr asks, not the source
     ports: ["127.0.0.1:8097:8096"] # for fill.sh's first run
     volumes:
       - jellyfin:/config

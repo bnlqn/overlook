@@ -22,7 +22,7 @@ services:
       - ./dynamic.yaml:/etc/traefik/dynamic.yaml:ro
       - certs:/certs
   whoami:
-    image: traefik/whoami:v1.11.0
+    image: traefik/whoami:v1.11.0 # pinned: the servers Traefik routes to, not the source
     networks:
       default:
         aliases: [photos, films, wiki, blog, printer, shop-blue]

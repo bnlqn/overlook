@@ -8,6 +8,8 @@ set -eu
 n=http://localhost:8082
 compose="docker compose -p overlook-nextcloud -f $(dirname "$0")/compose.yaml"
 occ() { $compose exec -T -u www-data nextcloud php occ "$@"; }
+# It installs itself on its first start, which takes a while.
+until curl -sf "$n/status.php" | jq -e .installed >/dev/null; do sleep 2; done
 for who in Kim Noor Sam; do
   user=$(echo "$who" | tr '[:upper:]' '[:lower:]')
   $compose exec -T -u www-data -e OC_PASS="$user-password-1" nextcloud \

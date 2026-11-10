@@ -1,8 +1,10 @@
 # A scratch Proxmox Backup Server to record its datastore's room from
 # (ADR 0008). The rest of testdata was recorded from a real one, so only the
-# room comes from here: record.sh reads the datastore's status, and nothing
-# else. PBS has no image of its own, so this one installs it from Proxmox's
-# repository, checking its keyring against the SHA-256 Proxmox publishes.
+# room comes from here: record.sh reads the datastore's status, and its
+# backups only where testdata has none, as in the weekly recording. PBS has
+# no image of its own, so this one installs it from Proxmox's repository,
+# checking its keyring against the SHA-256 Proxmox publishes, at the version
+# pinned, or its newest with PIN set empty, as the weekly recording sets it.
 # The datastore lives on a tmpfs of 1 GB, so that its room is invented, and
 # fill.sh puts an invented backup in it.
 #
@@ -21,7 +23,7 @@ services:
           && printf 'Types: deb\nURIs: http://download.proxmox.com/debian/pbs\nSuites: trixie\nComponents: pbs-no-subscription\nSigned-By: /usr/share/keyrings/proxmox-archive-keyring.gpg\n' \
             >/etc/apt/sources.list.d/proxmox.sources \
           && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-            proxmox-backup-server=4.2.9-1 proxmox-backup-client
+            proxmox-backup-server${PIN-=4.2.9-1} proxmox-backup-client
     ports: ["127.0.0.1:8007:8007"]
     # PBS keeps its shared memory on a tmpfs, and runs its proxy as backup.
     tmpfs:
