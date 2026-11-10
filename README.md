@@ -1570,7 +1570,7 @@ counts them, and keeps it sound as they come:
        [Nginx Proxy Manager](https://github.com/bnlqn/overlook/issues/77),
        [Audiobookshelf](https://github.com/bnlqn/overlook/issues/78) and
        [Traefik](https://github.com/bnlqn/overlook/issues/79).
-3. [ ] Two translations or more, each kept by someone who speaks it
+3. [x] Two translations or more, each kept by someone who speaks it
        (ADR 0006), and the page looked at in each, at desktop and phone
        width, for words longer than English's.
 4. [x] A check's results readable without colour or a mouse: its last 30
