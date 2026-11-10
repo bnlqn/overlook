@@ -1,0 +1,753 @@
+{
+  "title": "ホームラボ",
+  "loading": "読み込み中…",
+  "updated": "{at:clock}に更新",
+  "overlook.no_answer": "Overlookから応答がありません",
+  "menu": "メニュー",
+  "refresh": "再読み込み",
+  "search": "検索",
+  "search.label": "検索（⌘K）",
+  "powered": "Powered by <a>Overlook</a>",
+  "powered.version": "Powered by <a>Overlook</a> ({version})",
+  "demo": "デモ",
+  "demo.repo": "GitHubのOverlook",
+  "demo.repo.short": "GitHub",
+  "page.overview": "概要",
+  "area.servers": "サーバー",
+  "area.network": "ネットワーク",
+  "area.storage": "ストレージ",
+  "area.apps": "アプリ",
+  "area.no_checks": "チェックなし",
+  "area.empty": "まだ何もありません",
+  "area.checks_up": {
+    "other": "{n}件のチェックが正常"
+  },
+  "area.checks_up_of": {
+    "other": "チェック{n}件中{up}件が正常"
+  },
+  "area.checks_hint": "直近30回の結果",
+  "side.areas": "エリア",
+  "side.apps": "アプリ",
+  "side.tools": "ツール",
+  "palette.placeholder": "ページ、アプリ、ツール、チェックへ移動…",
+  "palette.go": "移動",
+  "palette.checks": "チェック",
+  "palette.nothing": "該当するものはありません。",
+  "palette.move": "選択",
+  "palette.open": "開く",
+  "palette.close": "閉じる",
+  "state.up": "正常",
+  "state.degraded": "機能低下",
+  "state.failing": "失敗中",
+  "state.down": "ダウン",
+  "state.unknown": "不明",
+  "span.minutes": "{n}分",
+  "span.hours": "{n}時間",
+  "span.days": {
+    "other": "{n}日"
+  },
+  "ago": "{ms:span}前",
+  "ago.now": "たった今",
+  "when.today": "今日 {at:clock}",
+  "when.yesterday": "昨日 {at:clock}",
+  "ms": "{n} ms",
+  "ms.under": "&lt;1 ms",
+  "number": "{n}",
+  "percent": "{n}%",
+  "bytes": "{n:bytes}",
+  "version": "バージョン",
+  "version.newer": "{version}が利用可能",
+  "shares.others": {
+    "other": "その他{n}件"
+  },
+  "figure.of_sources": "ソース{total}件中{n}件から",
+  "figure.gave_none": "応答はありましたが、この数値はありません",
+  "more.show": "さらに{n}件を表示",
+  "more.fewer": "折りたたむ",
+  "result.passed": "成功",
+  "result.failed": "失敗",
+  "results.all": {
+    "other": "直近{n}回の結果はすべて成功"
+  },
+  "results.newest_failed": {
+    "other": "{at:clock}の最新の結果が失敗（{n}回中{passed}回成功）"
+  },
+  "results.last_failed": "{n}回中{passed}回成功、最後の失敗は{at:clock}",
+  "results.area_all": {
+    "other": "直近{n}回、チェックはすべて成功"
+  },
+  "results.area_newest_failed": {
+    "other": "{at:clock}に{names:list}が失敗（直近{n}回中{passed}回はすべて成功）"
+  },
+  "results.area_last_failed": "直近{n}回中{passed}回はチェックがすべて成功、{names:list}の最後の失敗は{at:clock}",
+  "check.failed_n": "失敗{run}/{threshold}",
+  "check.no_results": "まだ結果なし",
+  "check.failed_run": {
+    "other": "直近{n}回失敗"
+  },
+  "source.no_answer": "{names:list}から応答がありません",
+  "source.no_answer_why": "{error}。詳しくはソースのページを確認してください。",
+  "status.reading": "チェックを読み込み中",
+  "status.up": "すべて正常",
+  "status.no_checks": "チェックなし",
+  "status.no_engine": "障害を知らせるのはチェックエンジンだけですが、設定にありません。{engines:choice}などを追加してください",
+  "status.problems": {
+    "other": "{n}件の障害"
+  },
+  "status.areas_down": "{areas:areas}がダウン",
+  "status.areas_degraded": "{areas:areas}が機能低下",
+  "status.every_down": "全エリアがダウン",
+  "status.every_degraded": "全エリアが機能低下",
+  "status.checks_down": "{names:list}がダウン",
+  "status.quiet_since": "{at:day}から障害なし",
+  "status.quiet_for": "{ms:span}前から障害なし",
+  "status.checks": {
+    "other": "チェック{n}件"
+  },
+  "status.areas": {
+    "other": "（{n}エリア）"
+  },
+  "actions.merge": {
+    "other": "{n}件の更新をマージ"
+  },
+  "actions.everything": "その他すべて",
+  "problems.title": "障害",
+  "problem.since": "{at:clock}からダウン（{ms:span}）",
+  "problem.open": "{source}で開く",
+  "today.title": "今日",
+  "chart.by_hour": "1時間ごと",
+  "chart.so_far": "この時間帯（集計中）",
+  "chart.day": "24時間",
+  "chart.all": "{ms:span}",
+  "chart.busiest": "ピーク",
+  "chart.highest": "最大",
+  "chart.processor": "CPU",
+  "chart.memory": "メモリ",
+  "section.hosts": "ホスト",
+  "section.certificates": "証明書",
+  "areas.title": "エリア",
+  "areas.hint": "各エリアのチェック、直近30回の結果",
+  "areas.name": "名前",
+  "areas.health": "状態",
+  "areas.checks": "チェック",
+  "areas.response": "応答時間",
+  "areas.results": "結果",
+  "areas.checks_of": "{area:area}のチェック",
+  "areas.failed": "失敗",
+  "areas.all_passed": {
+    "other": "{n}件のチェックが成功"
+  },
+  "week.title": "今週",
+  "week.hint": "障害は赤、イベントはひし形",
+  "week.area": "今週の{area:area}",
+  "week.problems": {
+    "other": "{n}件の障害"
+  },
+  "week.in_all": "合計{ms:span}",
+  "week.no_problems": "障害なし",
+  "week.was_down": "ダウン",
+  "week.down": "ダウン中",
+  "week.for": "{ms:span}継続中",
+  "week.from": "開始",
+  "week.events": {
+    "other": "{n}件のイベント"
+  },
+  "week.back": "復旧",
+  "events.title": "今週のイベント",
+  "events.down": "<b>{name}</b>がダウン",
+  "events.back": "<b>{name}</b>が{ms:span}後に復旧",
+  "events.update": "<b>{name}</b>がマージ待ち",
+  "events.update_meta": "更新",
+  "events.quiet": "平穏な1週間でした。何もダウンしていません。",
+  "apps.no_check": "チェックなし",
+  "apps.answered": "応答時間",
+  "apps.failed_after": "失敗までの時間",
+  "chores.title": "やること",
+  "chores.merge": "マージ待ち",
+  "chores.update": "更新",
+  "chores.due": "要対応",
+  "chores.week": "今週",
+  "chores.next": "今週やることはありません。次は{at:day}からの{name}です。",
+  "setup.title": "Overlookのセットアップ",
+  "setup.intro": "Overlookにはまだ設定がありません。ログに出力されたコードを入力し、ホームラボで動かしているツールを選んでそれぞれテストしてから、このページで作成される2つのファイルを保存してください。",
+  "setup.code": "ログに出力されたコード",
+  "setup.code_ask": "Overlookは起動時にログへコードを出力しています。ログを読める人だけがセットアップできるようにするためです。<code>docker compose logs overlook</code>で確認できます。",
+  "setup.code_ask_unraid": "Overlookは起動時にログへコードを出力しています。ログを読める人だけがセットアップできるようにするためです。UnraidのDockerページでOverlookのアイコンをクリックし、<b>Logs</b>（ログ）を選んでください。",
+  "setup.code_ask_homeassistant": "Overlookは起動時にログへコードを出力しています。ログを読める人だけがセットアップできるようにするためです。「設定」→「アプリ」にあるOverlookのページの<b>ログ</b>タブに表示されます。",
+  "setup.code_go": "続行",
+  "setup.code_wrong": "Overlookのログにあるコードと一致しません。起動のたびに新しいコードが作られるため、最新のものを入力してください。",
+  "setup.code_again": "Overlookが再起動し、新しいコードが作られました。現在ログにあるコードを入力してください。",
+  "setup.group.checkengines": "チェックエンジン",
+  "setup.group.checkengines_ask": "まず1つ選んでください。障害を知らせるのはチェックエンジンだけです。チェックエンジンはチェックを実行してアラートを送るもので、これがないとページは何がおかしいのかを伝えられません。",
+  "setup.group.chores": "やること",
+  "setup.optional": "任意",
+  "setup.try": "テスト",
+  "setup.trying": "テスト中…",
+  "setup.readme": "必要最小限のキー",
+  "setup.drop": "削除",
+  "setup.same_name": "ほかのソースにも{name}という名前があります。それぞれに別の名前を付けてください",
+  "setup.why.certificate": "証明書が、Overlookの信頼していないCAで署名されています。そのCAを設定フォルダーにコピーし、そのパスを「CAファイル」に入力してください。どのファイルかはREADMEの該当セクションに記載されています。",
+  "setup.why.certificate_none": "証明書が、Overlookの信頼していないCAで署名されています。http://のアドレスを入力するか、システムが信頼する証明書を設定してください。",
+  "setup.why.certificate_name": "証明書は別の名前で発行されています。その名前を「証明書の名前」に入力するか、その名前で接続してください。",
+  "setup.why.certificate_name_none": "証明書は別の名前で発行されています。その名前で接続してください。",
+  "setup.why.plain": "HTTPSではなくHTTPで応答しています。http://付きのアドレスを入力してください。",
+  "setup.why.refused": "そのアドレスとポートでは何も応答しません。",
+  "setup.why.localhost": "Overlookがコンテナで動いている場合、{host}はコンテナ自身を指します。{name:adapter}が動いているマシンのアドレスを入力してください。",
+  "setup.why.no_host": "Overlookはその名前のマシンを見つけられません。",
+  "setup.why.local": "Overlookは.localの名前を解決できません。{name:adapter}が動いているマシンのアドレスを入力してください。",
+  "setup.why.timeout": "10秒以内に応答がありません。{name:adapter}はOverlookから到達できるネットワーク上にありますか？",
+  "setup.why.key": "{name:adapter}がキーまたはログイン情報を拒否しました。どちらを作成するかはREADMEの該当セクションに記載されています。",
+  "setup.why.not_found": "応答はありますが、{name:adapter}ではありません。ポートと、サブパスで動かしている場合はそのパスを確認してください。",
+  "setup.answered": "応答あり",
+  "setup.answered_empty": "応答はありましたが、まだ表示するものがありません",
+  "setup.found.checks": {
+    "other": "チェック{n}件"
+  },
+  "setup.found.problems": {
+    "other": "障害{n}件"
+  },
+  "setup.found.sections": {
+    "other": "セクション{n}件"
+  },
+  "setup.found.charts": {
+    "other": "グラフ{n}件"
+  },
+  "setup.found.figures": {
+    "other": "数値{n}件"
+  },
+  "setup.found.events": {
+    "other": "イベント{n}件"
+  },
+  "setup.found.chores": {
+    "other": "やること{n}件"
+  },
+  "setup.files": "設定ファイル",
+  "setup.files_hint": "応答したソース",
+  "setup.copy": "コピー",
+  "setup.copied": "コピーしました",
+  "setup.selected": "選択しました。⌘CまたはCtrl+Cでコピーしてください",
+  "setup.download": "ダウンロード",
+  "setup.env_note": "<code>overlook.yaml</code>が参照するキーです。このファイルはgitに含めないでください。",
+  "setup.restart": "両方のファイルを<code>/etc/overlook</code>にマウントしたフォルダーに、<code>overlook.yaml</code>と<code>.env</code>という名前で保存し、<code>docker compose restart</code>などでOverlookを再起動してください。Overlookが復帰すると、このページは通常のページに切り替わります。",
+  "setup.restart_unraid": "両方のファイルをOverlookの設定フォルダー（フォームで変更していなければ<code>/mnt/user/appdata/overlook</code>）に、<code>overlook.yaml</code>と<code>.env</code>という名前で保存してください。Unraidのターミナル（上部の<b>&gt;_</b>）から、<code>nano /mnt/user/appdata/overlook/overlook.yaml</code>などで保存できます。その後、DockerページでOverlookを再起動してください。復帰すると、このページは通常のページに切り替わります。",
+  "setup.restart_homeassistant": "両方のファイルをOverlookのフォルダー（<code>app_configs</code>内で、名前が<code>_overlook</code>で終わるフォルダー）に、<code>overlook.yaml</code>と<code>.env</code>という名前で保存してください。Home AssistantのSamba shareアプリやTerminal &amp; SSHアプリから、<code>/app_configs</code>の下に保存できます。その後、「設定」→「アプリ」にあるOverlookのページで再起動してください。復帰すると、このページは通常のページに切り替わります。",
+  "setup.away": "Overlookが応答していません。復帰しない場合は、ログに理由が記録されています。",
+  "setup.yaml.head": "Overlookの設定（セットアップページで作成）。各ソースでほかに指定できる項目は、READMEの該当セクションに記載されています。",
+  "setup.yaml.links": "# ページからリンクするアプリとツールは、それぞれ名前とアドレスでここに記述します：\n# apps:\n#   - name: Photos\n#     url: https://photos.example.com\n# tools:\n#   - name: Proxmox\n#     url: https://pve.example.com:8006",
+  "setup.env.head": "Overlookのキー（overlook.yamlが参照）。このファイルはgitに含めないでください。",
+  "setup.field.code": "コード",
+  "setup.field.name": "名前",
+  "setup.field.url": "アドレス",
+  "setup.field.host": "アドレス",
+  "setup.field.user": "ユーザー名",
+  "setup.field.password": "パスワード",
+  "setup.field.key": "APIキー",
+  "setup.field.token": "トークン",
+  "setup.field.secret": "シークレット",
+  "setup.field.page": "ステータスページ",
+  "setup.field.alertmanager": "Alertmanagerのアドレス",
+  "setup.field.repos": "リポジトリ",
+  "setup.field.datastore": "データストア",
+  "setup.field.ca": "CAファイル",
+  "setup.field.server_name": "証明書の名前",
+  "setup.field.ups": "UPS",
+  "setup.adapter.gatus": "Gatus",
+  "setup.adapter.uptimekuma": "Uptime Kuma",
+  "setup.adapter.grafana": "Grafana",
+  "setup.adapter.prometheus": "PrometheusとAlertmanager",
+  "setup.adapter.checkmate": "Checkmate",
+  "setup.adapter.github": "GitHub",
+  "setup.adapter.immich": "Immich",
+  "setup.adapter.pbs": "Proxmox Backup Server",
+  "setup.adapter.syncthing": "Syncthing",
+  "setup.adapter.proxmox": "Proxmox VE",
+  "setup.adapter.beszel": "Beszel",
+  "setup.adapter.docker": "Docker",
+  "setup.adapter.portainer": "Portainer",
+  "setup.adapter.radarr": "Radarr",
+  "setup.adapter.sonarr": "Sonarr",
+  "setup.adapter.prowlarr": "Prowlarr",
+  "setup.adapter.qbittorrent": "qBittorrent",
+  "setup.adapter.jellyfin": "Jellyfin",
+  "setup.adapter.emby": "Emby",
+  "setup.adapter.tautulli": "Plex（Tautulli経由）",
+  "setup.adapter.audiobookshelf": "Audiobookshelf",
+  "setup.adapter.seerr": "Seerr",
+  "setup.adapter.homeassistant": "Home Assistant",
+  "setup.adapter.paperless": "Paperless-ngx",
+  "setup.adapter.nextcloud": "Nextcloud",
+  "setup.adapter.gitea": "Gitea",
+  "setup.adapter.forgejo": "Forgejo",
+  "setup.adapter.nut": "NUT",
+  "setup.adapter.unifi": "UniFi Network",
+  "setup.adapter.adguard": "AdGuard Home",
+  "setup.adapter.pihole": "Pi-hole",
+  "setup.adapter.npm": "Nginx Proxy Manager",
+  "setup.adapter.traefik": "Traefik",
+  "setup.adapter.ical": "iCalendarのToDoリスト",
+  "adguard.processing": "処理時間",
+  "adguard.ms": "{n} ms",
+  "audiobookshelf.title": "オーディオブック",
+  "audiobookshelf.books": {
+    "other": "{n}冊"
+  },
+  "audiobookshelf.podcasts": {
+    "other": "ポッドキャスト{n}件"
+  },
+  "audiobookshelf.length": "{length:span} · {size:bytes}",
+  "audiobookshelf.episodes": {
+    "other": "{n}話 · {length:span} · {size:bytes}"
+  },
+  "audiobookshelf.issues": "欠落・読み込み不可{n}件",
+  "audiobookshelf.to_download": {
+    "other": "ダウンロード待ち{n}話"
+  },
+  "audiobookshelf.downloading": "{title}をダウンロード中",
+  "audiobookshelf.listened": "再生時間",
+  "audiobookshelf.minutes": "分",
+  "audiobookshelf.listening_now": "{n}人が再生中",
+  "audiobookshelf.span": "{ms:span}",
+  "backuprun.section": "バックアップ実行",
+  "backuprun.last": "最終実行",
+  "backuprun.running": "実行中",
+  "backuprun.done": "完了",
+  "backuprun.backups": {
+    "other": "バックアップ{n}件"
+  },
+  "backuprun.warnings": "警告あり",
+  "backuprun.failed": "失敗",
+  "backuprun.since": "{at:when}に開始",
+  "backuprun.at": "{at:when}",
+  "backuprun.at_in": "{at:when}、所要{ms:span}",
+  "backuprun.at_why": "{at:when} · {why}",
+  "backuprun.at_in_why": "{at:when}、所要{ms:span} · {why}",
+  "backuprun.event_running": "<b>バックアップ実行</b>が進行中",
+  "backuprun.event_ran": "<b>バックアップ実行</b>が完了",
+  "backuprun.event_ran_in": "<b>バックアップ実行</b>が{ms:span}で完了",
+  "backuprun.event_made": {
+    "other": "<b>バックアップ実行</b>で{n}件のバックアップを作成"
+  },
+  "backuprun.event_made_in": {
+    "other": "<b>バックアップ実行</b>で{n}件のバックアップを{ms:span}で作成"
+  },
+  "backuprun.event_warned": "<b>バックアップ実行</b>が警告ありで完了",
+  "backuprun.event_warned_in": "<b>バックアップ実行</b>が{ms:span}で完了（警告あり）",
+  "backuprun.event_failed": "<b>バックアップ実行</b>が失敗",
+  "backuprun.event_failed_why": "<b>バックアップ実行</b>が失敗：{why}",
+  "beszel.hosts": "ホスト",
+  "beszel.of_up": "/ {n} 稼働中",
+  "beszel.up_for": "稼働{ms:span}",
+  "beszel.host_detail": {
+    "other": "{n}スレッド · 負荷{load}"
+  },
+  "beszel.cpu_meter": "CPU",
+  "beszel.ram_meter": "RAM",
+  "beszel.disk_meter": "ディスク",
+  "beszel.down": "ダウン",
+  "beszel.down_since": "{at:when}から",
+  "beszel.paused": "一時停止中",
+  "beszel.pending": "未接続",
+  "docker.containers": "コンテナ",
+  "docker.of_running": "/ {n} 稼働中",
+  "docker.unhealthy_n": "{n}個が異常",
+  "docker.running": "稼働中",
+  "docker.healthy": "正常",
+  "docker.unhealthy": "異常",
+  "docker.starting": "起動中",
+  "docker.exited": "終了（{code}）",
+  "docker.restarting": "再起動中",
+  "docker.dead": "デッド",
+  "docker.paused": "一時停止中",
+  "docker.created": "未起動",
+  "gitea.runners": "ランナー",
+  "gitea.online": "オンライン",
+  "gitea.busy": "ジョブ実行中",
+  "gitea.disabled": "無効",
+  "gitea.offline": "オフライン",
+  "gitea.run_failed": "{repo}の{workflow}が失敗：{title}",
+  "homeassistant.home": "ホーム",
+  "homeassistant.safe_mode": "セーフモード",
+  "homeassistant.recovery_mode": "リカバリーモード",
+  "homeassistant.automations": "オートメーション",
+  "homeassistant.automations_n": {
+    "other": "オートメーション{n}件"
+  },
+  "homeassistant.automations_detail": "今日{n}件実行 · 無効{off}件",
+  "homeassistant.broken": "読み込み失敗",
+  "homeassistant.broken_detail": "Home Assistantが読み込めず、実行されないオートメーション",
+  "homeassistant.unavailable": "利用不可のデバイス",
+  "homeassistant.since": "{at:when}から",
+  "immich.photos": "写真",
+  "immich.this_week": "今週+{n}",
+  "immich.videos": {
+    "other": "動画{n}本"
+  },
+  "immich.person": "写真{photos} · 動画{videos} · {usage:bytes}",
+  "immich.videos_title": "動画",
+  "immich.week": "今週",
+  "immich.plus": "+{n}",
+  "immich.space": "容量",
+  "immich.space_used": "{used:bytes} / {size:bytes}",
+  "immich.space_photos": "うち写真と動画{usage:bytes}",
+  "immich.current": "最新",
+  "immich.jobs": "ジョブ",
+  "immich.jobs_of": "ジョブ：{name}",
+  "immich.queued": "待機中{n}件",
+  "immich.idle": "アイドル",
+  "immich.nothing_waiting": "待機なし",
+  "jellyfin.free": "空き{n:bytes}",
+  "mediabrowser.episode": "{series}：{name}",
+  "mediabrowser.films": "映画",
+  "mediabrowser.films_n": {
+    "other": "映画{n}本"
+  },
+  "mediabrowser.shows": "番組",
+  "mediabrowser.shows_n": {
+    "other": "{n}番組 · {episodes}話"
+  },
+  "mediabrowser.music": "音楽",
+  "mediabrowser.music_n": {
+    "other": "アルバム{n}枚 · {songs}曲"
+  },
+  "mediabrowser.books": "書籍",
+  "mediabrowser.books_n": {
+    "other": "{n}冊"
+  },
+  "mediabrowser.failed_logins": "ログイン失敗",
+  "mediabrowser.failed_logins_n": {
+    "other": "過去1日で{n}件"
+  },
+  "mediabrowser.task_failed": "失敗",
+  "mediabrowser.task_failed_at": "{at:when}に最終実行",
+  "mediabrowser.restart": "再起動待ち",
+  "mediaserver.plays": "再生数",
+  "mediaserver.playing_now": "{n}件を再生中",
+  "mediaserver.section": "メディア",
+  "mediaserver.direct": "{device} · ダイレクト再生",
+  "mediaserver.transcoding": "{device} · トランスコード",
+  "mediaserver.paused": "{device} · 一時停止中",
+  "mediaserver.playing": "再生中",
+  "mediaserver.nothing": "なし",
+  "nextcloud.files": "ファイル",
+  "nextcloud.active": {
+    "other": "今日{n}人がアクティブ"
+  },
+  "nextcloud.people": {
+    "other": "{n}人 · 今日{active}人がアクティブ"
+  },
+  "nextcloud.shares": "共有",
+  "nextcloud.links": "リンク共有{n}件 · パスワードなし{open}件",
+  "nextcloud.free": "空き容量",
+  "nextcloud.database": "データベース",
+  "nextcloud.maintenance": "メンテナンス中",
+  "nextcloud.upgrade": "アップグレード待ち",
+  "npm.domains": "ドメイン",
+  "npm.proxy": "プロキシ",
+  "npm.redirect": "リダイレクト {code}",
+  "npm.dead": "404",
+  "npm.streams": "ストリーム",
+  "npm.port": "ポート{port}",
+  "npm.tcp": "TCP",
+  "npm.udp": "UDP",
+  "npm.tcp_udp": "TCPとUDP",
+  "npm.disabled": "無効",
+  "npm.refused": "nginxが拒否",
+  "npm.expires": "あと{ms:span}で期限切れ",
+  "npm.expired": "{ms:span}前に期限切れ",
+  "npm.letsencrypt": "Let's Encrypt",
+  "npm.custom": "{domains} · カスタム",
+  "nut.ups": "UPS",
+  "nut.power": "電源",
+  "nut.on_mains": "商用電源",
+  "nut.on_battery": "バッテリー駆動",
+  "nut.model_in": "{model} · 入力{v} V",
+  "nut.in": "入力{v} V",
+  "nut.battery": "バッテリー",
+  "nut.runtime": "現在の負荷で{ms:span}",
+  "nut.runtime_low": "現在の負荷で{ms:span}、{low}%でシャットダウン",
+  "nut.drawing": "消費電力",
+  "nut.watts": "{n} W",
+  "nut.watts_unit": "W",
+  "nut.load": "負荷",
+  "nut.load_of": "容量の{n}%",
+  "paperless.documents": "ドキュメント",
+  "paperless.inbox": "受信トレイに{n}件",
+  "paperless.space": "容量",
+  "paperless.free": "空き{n:bytes}",
+  "paperless.health": "健全性",
+  "paperless.healthy": "すべて正常に動作中",
+  "paperless.warning": "警告",
+  "paperless.error": "エラー",
+  "paperless.database": "データベース",
+  "paperless.redis": "Redis",
+  "paperless.celery": "タスクキュー",
+  "paperless.index": "検索インデックス",
+  "paperless.classifier": "分類器",
+  "paperless.sanity_check": "整合性チェック",
+  "paperless.failed": "{at:when}に失敗",
+  "pbs.backups": "バックアップ",
+  "pbs.when": "{at:when}",
+  "pbs.verified": "{group} · {size:bytes} · 検証済み",
+  "pbs.unverified": "{group} · {size:bytes} · 未検証",
+  "pbs.failed": "検証に失敗",
+  "pbs.failed_detail": "{group} · {size:bytes} · {at:when}",
+  "pbs.in_night": "夜間バックアップ済み",
+  "pbs.not_in_night": "夜間バックアップなし",
+  "pbs.size": "サイズ",
+  "pbs.check": "検証",
+  "pbs.check_ok": "検証済み",
+  "pbs.check_failed": "失敗",
+  "pbs.check_none": "未実施",
+  "pbs.of_guests": {
+    "other": "/ {n} ゲスト"
+  },
+  "pihole.blocklists": "ブロックリスト",
+  "pihole.domains": {
+    "other": "{n}ドメイン"
+  },
+  "pihole.updated": "{at:when}に更新",
+  "pihole.warning": "警告",
+  "pihole.core": "Pi-hole",
+  "pihole.ftl": "FTL",
+  "pihole.web": "Webインターフェース",
+  "pihole.image": "Pi-hole",
+  "portainer.environments": "環境",
+  "portainer.running": "{n}個中{running}個が稼働中",
+  "portainer.stacks": {
+    "other": "スタック{n}個"
+  },
+  "portainer.unhealthy_stacks": {
+    "other": "{unhealthy}個が異常 · スタック{n}個"
+  },
+  "portainer.up": "稼働中",
+  "portainer.down": "ダウン",
+  "portainer.last_seen": "{at:when}に最終確認",
+  "prowlarr.indexers": "インデクサー",
+  "prowlarr.enabled": "有効",
+  "prowlarr.disabled": "無効",
+  "prowlarr.failing": "失敗中",
+  "prowlarr.failing_since": "{at:when}から失敗中",
+  "prowlarr.week": {
+    "other": "今週のクエリ{n}件 · 取得{grabs}件 · {ms:ms}"
+  },
+  "proxmox.host_detail": {
+    "other": "{model} · {n}スレッド · 負荷{load} · Proxmox VE {version}"
+  },
+  "proxmox.offline": "オフライン",
+  "proxmox.on_node": "{node}の{name}",
+  "proxmox.guests": "ゲスト",
+  "proxmox.vm": {
+    "other": "VM {id} · {n}コア · {gb} GB"
+  },
+  "proxmox.container": {
+    "other": "コンテナ {id} · {n}コア · {gb} GB"
+  },
+  "proxmox.up_for": "稼働{ms:span}",
+  "proxmox.stopped": "停止",
+  "proxmox.of_up": "/ {n} 稼働中",
+  "proxmox.hosts_online": {
+    "other": "{n}台中{online}台がオンライン"
+  },
+  "proxmox.cpu_meter": "CPU",
+  "proxmox.ram_meter": "RAM",
+  "qbittorrent.torrents": "トレント",
+  "qbittorrent.downloading_unit": "ダウンロード中",
+  "qbittorrent.figure_detail": "シード中{n}件 · 下り{down:bytes}/s",
+  "qbittorrent.downloading": "ダウンロード中",
+  "qbittorrent.seeding": "シード中",
+  "qbittorrent.torrents_n": {
+    "other": "トレント{n}件"
+  },
+  "qbittorrent.speed": "{n:bytes}/s",
+  "qbittorrent.free": "空き容量",
+  "qbittorrent.connection": "接続",
+  "qbittorrent.connected": "接続済み",
+  "qbittorrent.firewalled": "ファイアウォール内",
+  "qbittorrent.firewalled_detail": "ピアからは接続できず、こちらからの接続のみ可能",
+  "qbittorrent.disconnected": "切断",
+  "qbittorrent.error": "エラー",
+  "qbittorrent.missing_files": "ファイル欠落",
+  "radarr.films": "映画",
+  "radarr.this_week": "今週+{n}",
+  "radarr.unit": {
+    "other": "本"
+  },
+  "radarr.films_n": {
+    "other": "映画{n}本"
+  },
+  "radarr.library_detail": "{size:bytes} · 今週+{n}",
+  "radarr.downloading_n": {
+    "other": "映画{n}本"
+  },
+  "radarr.coming": "公開予定の映画",
+  "radarr.to_stream": "配信開始",
+  "radarr.on_disc": "ディスク発売",
+  "resolver.dns_lookups": "DNSクエリ",
+  "resolver.lookups_blocked": "ブロック{blocked}件",
+  "resolver.lookups_per_hour": "1時間あたりのクエリ",
+  "resolver.lookups": "クエリ",
+  "resolver.blocked": "ブロック",
+  "resolver.section": "リゾルバー",
+  "resolver.blocking": "ブロック機能",
+  "resolver.on": "オン",
+  "resolver.paused": "一時停止中",
+  "resolver.back_in": "あと{ms:span}で再開",
+  "resolver.off": "オフ",
+  "resolver.over": "過去{ms:span}",
+  "resolver.count": {
+    "other": "クエリ{n}件"
+  },
+  "resolver.upstream": "アップストリーム",
+  "resolver.answers": "{n} · {ms} ms",
+  "resolver.top_clients": "上位クライアント",
+  "resolver.top_domains": "上位ドメイン",
+  "resolver.top_blocked": "ブロック上位のドメイン",
+  "resolver.share": "{n} · {share}%",
+  "resolver.nothing_yet": "まだありません",
+  "seerr.requests": "リクエスト",
+  "seerr.waiting": {
+    "other": "承認待ち{n}件"
+  },
+  "seerr.requests_detail": "処理中{n}件 · 利用可能{available}件",
+  "seerr.issues": "報告された問題",
+  "seerr.open": {
+    "other": "未解決{n}件"
+  },
+  "seerr.newer": "新しいバージョンあり",
+  "seerr.restart": "再起動待ち",
+  "servarr.library": "ライブラリ",
+  "servarr.in_library": "ライブラリ内",
+  "servarr.on_disk": "ディスク使用量",
+  "servarr.week": "今週",
+  "servarr.plus": "+{n}",
+  "servarr.downloading": "ダウンロード中",
+  "servarr.nothing": "なし",
+  "servarr.warning": "警告",
+  "servarr.error": "エラー",
+  "servarr.coming_none": "今後7日間の予定なし",
+  "servarr.on": "{at:day}",
+  "servarr.have": "入手済み",
+  "sonarr.shows": "番組",
+  "sonarr.this_week": {
+    "other": "今週+{n}話"
+  },
+  "sonarr.unit": {
+    "other": "番組"
+  },
+  "sonarr.episodes": "エピソード",
+  "sonarr.shows_n": {
+    "other": "{n}番組"
+  },
+  "sonarr.library_detail": {
+    "other": "{n}話 · {size:bytes} · 今週+{week}"
+  },
+  "sonarr.downloading_n": {
+    "other": "{n}話"
+  },
+  "sonarr.coming": "放送予定のエピソード",
+  "sonarr.untitled": "エピソード",
+  "store.section": "保存先",
+  "store.room": "{used:bytes} / {size:bytes}",
+  "store.healthy": "正常",
+  "store.unhealthy": "異常",
+  "syncthing.folders": "フォルダー",
+  "syncthing.up_to_date": "最新",
+  "syncthing.holds": {
+    "other": "{n}ファイル · {bytes:bytes}"
+  },
+  "syncthing.syncing": "同期中 {percent}%",
+  "syncthing.out_of_sync": "未同期 {percent}%",
+  "syncthing.to_sync": {
+    "other": "同期待ち{n}件 · {bytes:bytes}"
+  },
+  "syncthing.failed": {
+    "other": "{n}件が失敗"
+  },
+  "syncthing.failed_at": "{path}: {error}",
+  "syncthing.stopped": "停止",
+  "syncthing.paused": "一時停止中",
+  "syncthing.devices": "デバイス",
+  "syncthing.connected": "接続済み",
+  "syncthing.disconnected": "切断",
+  "syncthing.never_connected": "接続履歴なし",
+  "syncthing.in_sync": "同期済み",
+  "syncthing.behind": "{percent}%同期済み",
+  "syncthing.in_sync_seen": "{at:when}に最終接続 · 同期済み",
+  "syncthing.behind_seen": "{at:when}に最終接続 · {percent}%同期済み",
+  "syncthing.errors": "エラー",
+  "syncthing.errors_n": {
+    "other": "エラー{n}件"
+  },
+  "tautulli.bandwidth": "ストリーミング",
+  "tautulli.speed": "{n:bytes}/s",
+  "tautulli.remote": "うちリモート再生{n:bytes}/s",
+  "tautulli.films_n": {
+    "other": "映画{n}本"
+  },
+  "tautulli.shows_n": {
+    "other": "{n}番組 · {children}話"
+  },
+  "tautulli.music_n": {
+    "other": "{n}アーティスト · {children}曲"
+  },
+  "tautulli.photos_n": {
+    "other": "写真{n}枚"
+  },
+  "tautulli.items_n": {
+    "other": "{n}件"
+  },
+  "tautulli.plex": "Plex",
+  "tautulli.current": "最新",
+  "tautulli.unreachable": "Tautulliから接続できません",
+  "traefik.routing": "ルーティング",
+  "traefik.routers": "ルーター",
+  "traefik.services": "サービス",
+  "traefik.middlewares": "ミドルウェア",
+  "traefik.router_disabled": "エラー状態のルーター",
+  "traefik.router_warning": "警告のあるルーター",
+  "traefik.service_disabled": "エラー状態のサービス",
+  "traefik.service_warning": "警告のあるサービス",
+  "traefik.middleware_disabled": "エラー状態のミドルウェア",
+  "traefik.middleware_warning": "警告のあるミドルウェア",
+  "traefik.servers_up": {
+    "other": "サーバー{n}台が稼働中"
+  },
+  "traefik.servers_down": {
+    "other": "サーバー{n}台中{down}台がダウン"
+  },
+  "traefik.expires": "あと{ms:span}で期限切れ",
+  "traefik.expired": "{ms:span}前に期限切れ",
+  "traefik.issued_by": "発行元：{issuer}",
+  "unifi.clients": "クライアント",
+  "unifi.devices_online": {
+    "other": "{n}台中{online}台がオンライン"
+  },
+  "unifi.wired": "有線",
+  "unifi.wireless": "無線",
+  "unifi.vpn": "VPN",
+  "unifi.internet": "インターネット",
+  "unifi.internet_at": "{site}のインターネット",
+  "unifi.wan_detail": "過去{period:span}の稼働率{availability}% · {latency:ms}",
+  "unifi.wan_availability": "過去{period:span}の稼働率{availability}%",
+  "unifi.down": "ダウン",
+  "unifi.down_since": "{at:when}から",
+  "unifi.down_since_start": "ゲートウェイの起動時から",
+  "unifi.speed_test": "スピードテスト",
+  "unifi.speed": "↓ {down} ↑ {up} Mbit/s",
+  "unifi.speed_detail": "{at:when} · {ping:ms}",
+  "unifi.devices": "デバイス",
+  "unifi.devices_at": "{site}のデバイス",
+  "unifi.device_detail": "{model} · {firmware}",
+  "unifi.up_for": "稼働{ms:span}",
+  "unifi.cpu_meter": "CPU",
+  "unifi.ram_meter": "RAM",
+  "unifi.interrupted": "接続中断",
+  "unifi.isolated": "孤立",
+  "unifi.wrong_topology": "5Gの接続構成が不正",
+  "unifi.offline": "オフライン",
+  "unifi.updating": "更新中",
+  "unifi.getting_ready": "準備中",
+  "unifi.adopting": "採用中",
+  "unifi.pending": "採用待ち",
+  "unifi.deleting": "削除中"
+}

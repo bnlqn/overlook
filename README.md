@@ -1544,9 +1544,15 @@ not what it shows.
 
 ## Translating
 
-The page speaks the language of your browser when someone has translated
-it, and English for any word a translation lacks. A translation is one
-file; [CONTRIBUTING.md](CONTRIBUTING.md#translating) says how.
+The page speaks the language of your browser, and English for any word a
+translation lacks. Besides English, it speaks Simplified Chinese, German,
+French, Spanish, Brazilian Portuguese, Russian, Polish, Japanese, Korean and
+Italian. Claude Code translated each in two passes, the second a review as
+someone who speaks it would read it, and looked at the page in each for
+words that don't fit. None has yet been read by someone who speaks it, so
+a correction is welcome, and so is a speaker who would keep one. A
+translation is one file; [CONTRIBUTING.md](CONTRIBUTING.md#translating)
+says how.
 
 ## What's next
 
@@ -1564,7 +1570,7 @@ counts them, and keeps it sound as they come:
        [Nginx Proxy Manager](https://github.com/bnlqn/overlook/issues/77),
        [Audiobookshelf](https://github.com/bnlqn/overlook/issues/78) and
        [Traefik](https://github.com/bnlqn/overlook/issues/79).
-3. [ ] Two translations or more, each kept by someone who speaks it
+3. [x] Two translations or more, each kept by someone who speaks it
        (ADR 0006), and the page looked at in each, at desktop and phone
        width, for words longer than English's.
 4. [x] A check's results readable without colour or a mouse: its last 30

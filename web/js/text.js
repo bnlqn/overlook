@@ -34,6 +34,12 @@ export async function loadWords(viewer = navigator.language || "en") {
   const base = viewer.split("-")[0].toLowerCase();
   const [en, mine] = await Promise.all([get("en"), base === "en" ? {} : get(base)]);
   setWords(en, mine, viewer);
+  // The page says which language its words are in, so that a screen reader
+  // reads them in it and Chinese and Japanese take their own glyphs.
+  // ponytail: one file a language, so zh-TW reads zh.json's Simplified
+  // Chinese and pt-PT pt.json's Brazilian Portuguese; a file per region,
+  // tried before its language's, if a translation for one comes.
+  document.documentElement.lang = Object.keys(mine).length ? base : "en";
 }
 
 /** Escapes text for HTML, attributes included. */
@@ -129,17 +135,25 @@ export function when(d, now) {
   return day(at);
 }
 
-/** Bytes in the units disks are sold in: "785 MB", "8.4 TB". */
+/**
+ * Bytes in the units disks are sold in, as the viewer's language writes
+ * them: "785 MB", "8.4 TB", or "8,4 To" in French. Under a kilobyte it says
+ * "B" in every language, where the browser's English would say "512 byte".
+ */
 export function bytes(n) {
-  const units = ["B", "kB", "MB", "GB", "TB", "PB"];
+  const units = ["byte", "kilobyte", "megabyte", "gigabyte", "terabyte", "petabyte"];
   let i = 0;
   let v = n;
   while (v >= 1000 && i < units.length - 1) {
     v /= 1000;
     i++;
   }
-  const digits = v >= 100 || i === 0 ? 0 : 1;
-  return `${new Intl.NumberFormat(locale, { maximumFractionDigits: digits }).format(v)} ${units[i]}`;
+  if (i === 0) return `${numbers.format(Math.round(v))} B`;
+  return new Intl.NumberFormat(locale, {
+    style: "unit",
+    unit: units[i],
+    maximumFractionDigits: v >= 100 ? 0 : 1,
+  }).format(v);
 }
 
 /** A response time: "42 ms", "<1 ms", or nothing without one. */

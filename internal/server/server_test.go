@@ -46,7 +46,8 @@ func TestRoutes(t *testing.T) {
 		"/custom.css":      "body{}",
 		"/icons/gatus.svg": "<svg",
 		"/i18n/en.json":    `"title":"Homelab"`,
-		"/i18n/fr.json":    `{}`,
+		"/i18n/fr.json":    `"title": "`,
+		"/i18n/nl.json":    `{}`, // a language with no translation yet
 		// What installs the page on a phone, from Overlook itself, at an
 		// address relative to the page's own.
 		"/manifest.json":        `"start_url": "./"`,

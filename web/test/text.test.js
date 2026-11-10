@@ -86,6 +86,10 @@ test("spans, sizes and response times", () => {
   assert.equal(bytes(512), "512 B");
   assert.equal(bytes(785e6), "785 MB");
   assert.equal(bytes(8.4e12), "8.4 TB");
+  setWords(en, {}, "fr");
+  assert.match(bytes(8.4e12), /^8,4\sTo$/, "in the units French writes");
+  assert.equal(bytes(512), "512 B");
+  setWords(en, {}, "en");
   assert.equal(ms(0.4), "&lt;1 ms");
   assert.equal(ms(42.4), "42 ms");
   assert.equal(ms(null), "");
