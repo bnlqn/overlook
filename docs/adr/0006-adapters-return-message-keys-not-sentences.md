@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: accepted, amended by ADR 0020
 ---
 
 # Adapters return message keys, never sentences
