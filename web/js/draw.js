@@ -39,6 +39,12 @@ const ICON = {
   chevron: '<path d="m6 3.5 4.5 4.5L6 12.5"/>',
   caret: '<path d="m4.5 6.5 3.5 3.5 3.5-3.5"/>',
   mark: '<path d="M2.75 7.4 8 2.75l5.25 4.65V13a.75.75 0 0 1-.75.75h-9a.75.75 0 0 1-.75-.75Z"/><path d="M5.75 13.75v-3h4.5v3M5.75 8h4.5"/>',
+  // The footer's looks, and its languages.
+  monitor: '<rect x="2" y="2.75" width="12" height="8.25" rx="1.5"/><path d="M5.5 13.5h5M8 11v2.5"/>',
+  sun: '<circle cx="8" cy="8" r="2.75"/><path d="M8 1.5v1.25M8 13.25v1.25M1.5 8h1.25M13.25 8h1.25M3.4 3.4l.9.9M11.7 11.7l.9.9M3.4 12.6l.9-.9M11.7 4.3l.9-.9"/>',
+  moon: '<path d="M13.5 9.6A5.75 5.75 0 0 1 6.4 2.5a5.75 5.75 0 1 0 7.1 7.1Z"/>',
+  language:
+    '<path d="M1.75 3.75h6.5M5 2.25v1.5M6.75 3.75c-.4 2.9-2.2 5-4.75 6M3.25 6c.75 1.6 2 2.85 3.75 3.6"/><path d="m8 14 2.75-6.5L13.5 14M8.9 12h3.7"/>',
 };
 
 /** One of the page's icons by name; an unknown name draws the pulse. */

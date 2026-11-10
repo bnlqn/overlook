@@ -4,6 +4,7 @@
 // those that answered put into the two files to save. The code and the keys
 // stay in this tab's memory and nowhere else: a reload starts again.
 
+import { choices, listen } from "./choices.js";
 import { anchor, dotenv, readme, yaml } from "./config.js";
 import { badge, stateIcon, svg } from "./draw.js";
 import { AREAS } from "./page.js";
@@ -191,6 +192,9 @@ function download(button) {
 async function start() {
   await loadWords();
   translate(document);
+  // The look and the language, chosen here as on the page.
+  document.querySelector("main").insertAdjacentHTML("afterend", `<footer class="foot">${choices()}</footer>`);
+  listen();
   document.title = t("setup.title");
   $("status-icon").innerHTML = svg("mark", "ic si");
   $("code-form").insertAdjacentHTML("afterbegin", field({ field: "code" }));

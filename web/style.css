@@ -543,38 +543,80 @@ main {
   margin: 0 auto;
   padding: 28px 32px 56px;
 }
-/* At the panel's foot, however short the page: the look and the language
-   the viewer chose, then which Overlook this is, and where it comes from,
-   on one line that wraps on a phone. */
+/* At the panel's foot, however short the page, under a hairline as wide as
+   the page's column: which Overlook this is, and the look and the language
+   the viewer chose. On a phone the choices go first, and both centre. */
 .foot {
-  margin-top: auto;
-  padding: 0 16px max(20px, env(safe-area-inset-bottom));
+  width: calc(100% - 64px);
+  max-width: calc(var(--m-content-max) - 64px);
+  margin: auto auto 0;
+  padding: 14px 0 max(20px, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--m-separator);
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px 16px;
-  text-align: center;
+  gap: 12px 16px;
   font: var(--m-type-footnote);
   color: var(--m-label-3);
 }
-.pick {
+.choices {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+/* The looks: the page's pills, each an icon. */
+.looks button {
+  width: 28px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+.looks .ic {
+  width: 14px;
+  height: 14px;
+}
+/* The language: a pill like the looks', the language it shows, over the
+   browser's own list, unseen, which takes the clicks and the keyboard, and
+   which a phone opens as its own picker. Its 16px keeps a phone from zooming
+   in on it. */
+.language {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-}
-.pick select {
-  font: inherit;
+  height: 28px;
+  padding: 0 9px 0 10px;
+  border-radius: 9999px;
+  background: var(--m-fill-hover);
+  box-shadow: inset 0 0 0 0.5px var(--m-border);
+  font: 510 12px / 1 var(--m-font);
   color: var(--m-label-2);
-  background: var(--m-fill-gray);
-  border: 1px solid var(--m-border);
-  border-radius: 6px;
-  padding: 2px 6px;
-  cursor: pointer;
   transition: color 0.15s;
 }
-.pick select:hover {
-  color: var(--m-label-1);
+.language:hover {
+  color: var(--m-label);
+}
+.language:focus-within {
+  outline: 2px solid var(--m-accent-2);
+  outline-offset: 1px;
+}
+.language .ic {
+  width: 14px;
+  height: 14px;
+}
+.language .caret {
+  width: 12px;
+  height: 12px;
+  opacity: 0.7;
+}
+.language select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+  font-size: 16px;
 }
 .foot a {
   font-weight: 510;
@@ -636,6 +678,15 @@ main {
   }
   main {
     padding: 20px max(16px, env(safe-area-inset-left)) 40px max(16px, env(safe-area-inset-right));
+  }
+  .foot {
+    width: calc(100% - 32px);
+  }
+}
+@media (max-width: 600px) {
+  .foot {
+    flex-direction: column-reverse;
+    justify-content: center;
   }
 }
 
@@ -2407,6 +2458,10 @@ body.setup {
 }
 body.setup main {
   max-width: 760px;
+}
+body.setup .foot {
+  max-width: calc(760px - 64px);
+  justify-content: flex-end;
 }
 /* The files' hint goes under their title where both don't fit. */
 .setup .block-title {

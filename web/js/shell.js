@@ -2,22 +2,11 @@
 // tooltips, and start(), which reads the snapshot and draws the page from
 // what page() says of it.
 
+import { choiceItems, choices, listen } from "./choices.js";
 import { REPO } from "./config.js";
 import { badge, by, stateIcon, svg, TONE, word } from "./draw.js";
 import { asIfNow, page } from "./page.js";
-import {
-  autonym,
-  chosenLanguage,
-  drawnAt,
-  esc,
-  LANGUAGE,
-  LANGUAGES,
-  loadWords,
-  matches,
-  number,
-  t,
-  translate,
-} from "./text.js";
+import { drawnAt, esc, loadWords, matches, number, t, translate } from "./text.js";
 
 /** The pages, in the sidebar's order; key goes after G to jump there. */
 export const PAGES = [
@@ -90,72 +79,13 @@ function shell() {
   const main = document.querySelector("main");
   main.before(panel);
   panel.append(main);
-  panel.insertAdjacentHTML("beforeend", foot());
+  panel.insertAdjacentHTML("beforeend", `<footer class="foot"><span id="powered"></span>${choices()}</footer>`);
   document.addEventListener("click", (e) => {
     if (e.target.closest("[data-menu]")) document.body.classList.toggle("nav-open");
   });
-  document.addEventListener("change", (e) => {
-    if (e.target.id === "pick-theme") {
-      keep(THEME, e.target.value);
-      dispatchEvent(new StorageEvent("storage", { key: THEME }));
-    } else if (e.target.id === "pick-language") {
-      keep(LANGUAGE, e.target.value);
-      location.reload();
-    }
-  });
+  listen();
   palette();
   tooltips();
-}
-
-// Where this browser keeps the look the viewer chose, which theme.js reads
-// too, as text.js's LANGUAGE keeps the language.
-const THEME = "overlook.theme";
-
-// The footer: the look and the language the viewer chose, kept in this
-// browser for the next visit, and which Overlook this is. A look changes at
-// once, through theme.js, which is told as it is of a choice made in another
-// tab; a language reads the page again in it.
-function foot() {
-  const pick = (id, options, chosen) =>
-    `<label class="pick"><span id="pick-${id}-name">${t(id)}</span><select id="pick-${id}" aria-labelledby="pick-${id}-name">${options
-      .map(
-        ([value, words, lang]) =>
-          `<option value="${value}"${lang ? ` lang="${lang}"` : ""}${value === chosen ? " selected" : ""}>${words}</option>`,
-      )
-      .join("")}</select></label>`;
-  const languages = LANGUAGES.map((code) => [code, esc(autonym(code)), code]).sort((a, b) => a[1].localeCompare(b[1]));
-  return `<footer class="foot">
-      ${pick(
-        "theme",
-        [
-          ["", t("theme.auto")],
-          ["light", t("theme.light")],
-          ["dark", t("theme.dark")],
-        ],
-        kept(THEME),
-      )}
-      ${pick("language", [["", t("language.auto")], ...languages], chosenLanguage())}
-      <span id="powered"></span>
-    </footer>`;
-}
-
-/** What this browser keeps for the viewer under key, or nothing, as in a browser that keeps nothing. */
-function kept(key) {
-  try {
-    return localStorage.getItem(key) ?? "";
-  } catch {
-    return "";
-  }
-}
-
-/** Keeps value under key in this browser, or forgets the key for none. */
-function keep(key, value) {
-  try {
-    if (value) localStorage.setItem(key, value);
-    else localStorage.removeItem(key);
-  } catch {
-    // A browser that keeps nothing follows the system and the browser.
-  }
 }
 
 // The sidebar from what the page says: the areas shown, their dots, the
@@ -197,7 +127,8 @@ function paintShell(m) {
 }
 
 // ⌘K (or /): go to a page, open an app or a tool, or a check in its check
-// engine, by typing a few letters of it. G then a page's key jumps there.
+// engine, or choose a look or a language, by typing a few letters of it. G
+// then a page's key jumps there.
 function palette() {
   const box = document.createElement("dialog");
   box.className = "palette";
@@ -245,6 +176,9 @@ function palette() {
         out: true,
       };
     }),
+    // The look and the language, once something is typed, so that the list
+    // opens on the homelab.
+    ...(input.value.trim() ? choiceItems().map((i) => ({ ...i, href: "#" })) : []),
   ];
   let items = [];
   let at = 0;
@@ -272,7 +206,8 @@ function palette() {
   };
   const go = (i) => {
     box.close();
-    if (i.out) window.open(i.href, "_blank", "noopener");
+    if (i.act) i.act();
+    else if (i.out) window.open(i.href, "_blank", "noopener");
     else location.href = i.href;
   };
   input.addEventListener("input", () => {
