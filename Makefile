@@ -3,7 +3,7 @@
 
 GOVULNCHECK := golang.org/x/vuln/cmd/govulncheck@v1.9.0
 
-.PHONY: check test lint fmt vuln
+.PHONY: check test lint fmt vuln translated
 
 ## check: everything below, in the order CI runs it
 check: lint test vuln
@@ -27,3 +27,7 @@ fmt:
 ## vuln: known vulnerabilities in the code Overlook calls
 vuln:
 	go run $(GOVULNCHECK) ./...
+
+## translated: record the English each translation was made from (ADR 0020)
+translated:
+	node web/test/translated.mjs

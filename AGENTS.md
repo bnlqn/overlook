@@ -13,6 +13,7 @@ Overlook is one fixed page that tells a homelab's owner what is wrong, read from
 - **Invented data only.** Hosts are `*.example.com`, names and numbers are made up, and an answer recorded from a real source has its keys, hosts and people removed before it lands in `testdata/`.
 - **Overlook only reads.** Adapters reach a source only through a `fetch.Source`, under its own address (ADR 0001, ADR 0013).
 - **Every word goes through the table.** The page's words live in `web/i18n/en/page.json`; an adapter returns `snapshot.Text`, its words in `web/i18n/en/<adapter>.json` (ADR 0006).
+- **Translations follow English.** A change that adds or rewords English updates every translation in `web/i18n/` in the same pull request, in two passes, a translator's then a fresh reviewer's reading as a native speaker would, and records it with `make translated` (ADR 0020).
 - **Dependencies stay at one.** Go's standard library and the YAML parser; Node and Biome are tools, never dependencies (ADR 0003, ADR 0007). A new dependency is the maintainer's call.
 - **A deliberate shortcut is marked.** `// ponytail:` names the ceiling it has and the upgrade when it's reached.
 - **An ADR records a decision that is hard to reverse, surprising and a real trade-off**, in the format of the ones there: status, title, the decision in a paragraph, when it was decided, the options considered, the consequences.

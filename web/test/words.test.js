@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import { readdirSync, readFileSync } from "node:fs";
 import { test } from "node:test";
 import { AREAS, page } from "../js/page.js";
+import { tables, translatedFrom } from "./translated.mjs";
 
 const web = new URL("../", import.meta.url);
 const read = (path) => readFileSync(new URL(path, web), "utf8");
@@ -144,4 +145,34 @@ test("every translation says what English says, in its own language's plural for
       }
     }
   }
+});
+
+// Each translation was made from the English it says now (ADR 0020): a
+// message whose English has changed since is updated, or deleted so that it
+// shows in English, and `make translated` records it. How much of English
+// each has is said, so that a lag shows without failing.
+test("every translation was made from today's English, as make translated recorded", (t) => {
+  const { english, translations } = tables();
+  const recorded = JSON.parse(read("test/translated.json"));
+  const now = translatedFrom({ english, translations });
+  const problems = [];
+  for (const [language, keys] of Object.entries(now)) {
+    t.diagnostic(`${language}: ${Object.keys(keys).length} of ${Object.keys(english).length} messages`);
+    const was = recorded[language] ?? {};
+    for (const [key, hash] of Object.entries(keys)) {
+      if (!(key in was)) problems.push(`${language}: ${key} isn't recorded: run make translated`);
+      else if (was[key] !== hash)
+        problems.push(
+          `${language}: ${key} was translated from older English: update it in web/i18n/${language}.json, or delete it so that it shows in English, then run make translated`,
+        );
+    }
+    for (const key of Object.keys(was)) {
+      if (!(key in keys))
+        problems.push(`${language}: ${key} is recorded but no longer translated: run make translated`);
+    }
+  }
+  for (const language of Object.keys(recorded)) {
+    if (!(language in now)) problems.push(`${language} is recorded but has no translation: run make translated`);
+  }
+  assert.deepEqual(problems, []);
 });
