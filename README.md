@@ -115,7 +115,7 @@ compose.yaml
 # compose.yaml
 services:
   overlook:
-    image: ghcr.io/bnlqn/overlook:0.6
+    image: ghcr.io/bnlqn/overlook:0.7
     restart: unless-stopped
     ports:
       - "8080:8080"
@@ -185,8 +185,8 @@ PROXMOX_SECRET=00000000-0000-0000-0000-000000000000
   starts, as [SECURITY.md](SECURITY.md) says.
 - **`TZ`** says when today starts, for today's figures. Any zone works: the
   zone database is inside the binary.
-- **The image** is `ghcr.io/bnlqn/overlook`, for amd64 and arm64: `0.6` for
-  the newest 0.6 release, or a version such as `0.6.0`. It holds the
+- **The image** is `ghcr.io/bnlqn/overlook`, for amd64 and arm64: `0.7` for
+  the newest 0.7 release, or a version such as `0.7.0`. It holds the
   binary and the CA certificates it checks HTTPS sources with, and nothing
   else.
 
@@ -1560,10 +1560,12 @@ says how.
 
 ## What's next
 
-`v0.6.0` is the newest release, and [the releases](https://github.com/bnlqn/overlook/releases)
-say what each one brought. The road to v0.7 takes Overlook where more
-homelabs are, as [selfh.st's 2025 survey](https://selfh.st/survey/2025-results/)
-counts them, and keeps it sound as they come:
+`v0.7.0` is the newest release, and [the releases](https://github.com/bnlqn/overlook/releases)
+say what each one brought. It finished the road to v0.7, below, which took
+Overlook where more homelabs are, as
+[selfh.st's 2025 survey](https://selfh.st/survey/2025-results/) counts
+them, and kept it sound as they came. The road to v0.8 is still being
+decided.
 
 1. [x] A Home Assistant add-on, kept here beside Unraid's template, so
        that Overlook installs inside Home Assistant OS, which three
