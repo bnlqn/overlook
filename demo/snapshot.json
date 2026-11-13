@@ -1879,7 +1879,10 @@
         {
           "title": { "name": "Metropolis.1927.1080p.BluRay.x264.mkv" },
           "value": { "key": "percent", "args": { "n": 42 } },
-          "detail": { "key": "tdarr.transcoding_detail", "args": { "node": "transcode-1", "fps": 187, "eta": "0:12:08" } },
+          "detail": {
+            "key": "tdarr.transcoding_detail",
+            "args": { "node": "transcode-1", "fps": 187, "eta": "0:12:08" }
+          },
           "meter": { "used": 42, "total": 100, "tone": "blue" }
         },
         {
