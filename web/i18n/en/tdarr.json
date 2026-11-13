@@ -1,0 +1,9 @@
+{
+  "tdarr.title": "Transcoding",
+  "tdarr.transcoding_detail": "{node} · {fps} fps · {eta} left",
+  "tdarr.transcoding_start": "{node} · starting",
+  "tdarr.checking_detail": "Health check · {node} · {fps} fps · {eta} left",
+  "tdarr.checking_start": "Health check · {node} · starting",
+  "tdarr.waiting": "Waiting",
+  "tdarr.waiting_n": { "one": "{n} file", "other": "{n} files" }
+}

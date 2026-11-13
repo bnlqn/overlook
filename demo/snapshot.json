@@ -18,6 +18,7 @@
     { "name": "Sonarr", "adapter": "sonarr", "area": "apps", "answered": true },
     { "name": "Prowlarr", "adapter": "prowlarr", "area": "apps", "answered": true },
     { "name": "qBittorrent", "adapter": "qbittorrent", "area": "apps", "answered": true },
+    { "name": "Tdarr", "adapter": "tdarr", "area": "apps", "answered": true },
     { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "kind": "mediaserver", "answered": true },
     { "name": "Emby", "adapter": "emby", "area": "apps", "kind": "mediaserver", "answered": true },
     { "name": "Plex", "adapter": "tautulli", "area": "apps", "kind": "mediaserver", "answered": true },
@@ -1872,6 +1873,26 @@
     },
     {
       "area": "apps",
+      "source": "Tdarr",
+      "title": { "key": "tdarr.title" },
+      "rows": [
+        {
+          "title": { "name": "Metropolis.1927.1080p.BluRay.x264.mkv" },
+          "value": { "key": "percent", "args": { "n": 42 } },
+          "detail": { "key": "tdarr.transcoding_detail", "args": { "node": "transcode-1", "fps": 187, "eta": "0:12:08" } },
+          "meter": { "used": 42, "total": 100, "tone": "blue" }
+        },
+        {
+          "title": { "name": "Harbour.Lights.S01E03.mkv" },
+          "value": { "key": "percent", "args": { "n": 8 } },
+          "detail": { "key": "tdarr.checking_start", "args": { "node": "transcode-1", "fps": 0, "eta": "" } },
+          "meter": { "used": 8, "total": 100, "tone": "blue" }
+        },
+        { "title": { "key": "tdarr.waiting" }, "value": { "key": "tdarr.waiting_n", "args": { "n": 19 } } }
+      ]
+    },
+    {
+      "area": "apps",
       "source": "Jellyfin",
       "title": { "key": "mediaserver.section" },
       "rows": [
@@ -3563,6 +3584,7 @@
         "Sonarr",
         "Prowlarr",
         "qBittorrent",
+        "Tdarr",
         "Jellyfin",
         "Emby",
         "Plex",

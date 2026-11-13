@@ -144,6 +144,12 @@ sources:
       # user: overlook                 # before 5.2, its login instead
       # password: ${QBITTORRENT_PASSWORD}
 
+  # The files Tdarr is transcoding now, and how many wait; shown only while it
+  # works.
+  tdarr:
+    - url: http://tdarr:8265           # where Overlook reads Tdarr's server
+      # key: ${TDARR_KEY}              # only if you have set an API key
+
   # The films, shows and music: what each person plays now, the plays of the
   # last day, the room left on the libraries' disks, failed logins and tasks.
   jellyfin:

@@ -33,7 +33,7 @@ It reads:
   [Plex, through Tautulli](#plex-through-tautulli),
   [Audiobookshelf](#audiobookshelf), [Radarr](#radarr),
   [Sonarr](#sonarr), [Prowlarr](#prowlarr), [qBittorrent](#qbittorrent),
-  [Seerr](#seerr), [Home Assistant](#home-assistant),
+  [Tdarr](#tdarr), [Seerr](#seerr), [Home Assistant](#home-assistant),
   [Paperless-ngx](#paperless-ngx), [Nextcloud](#nextcloud), [Gitea](#gitea),
   [Forgejo](#forgejo)
 - **Chores**: [GitHub](#github), [iCalendar to-do lists](#icalendar-to-do-list)
@@ -1131,6 +1131,25 @@ The list of every torrent, which gives the counts and the room left, is
 megabytes for a thousand torrents, so Overlook reads it at most every 10
 minutes. The speeds, the connection and the torrents in error are read with
 every snapshot.
+
+### Tdarr
+
+The files Tdarr is transcoding or health-checking now, on the Apps page, each
+with how far along it is, how fast and how long it has left, and how many
+files wait. A card shows only while a node is working on something: with
+nothing to do, Tdarr has nothing to add and the page leaves it out.
+
+```yaml
+sources:
+  tdarr:
+    - url: http://tdarr:8265 # where Overlook reads Tdarr's server
+      # key: ${TDARR_KEY}    # only if you have set an API key
+```
+
+**Key:** none unless you set one, under Tools, Options, on Tdarr's server,
+and then Overlook sends it as `x-api-key` with every GET. Tdarr's totals of
+what it has done answer only to a POST, which Overlook doesn't send (ADR
+0001), so they aren't shown.
 
 ### Jellyfin
 

@@ -1,0 +1,62 @@
+{
+  "aB3dE5fGh": {
+    "_id": "aB3dE5fGh",
+    "nodeName": "transcode-1",
+    "nodePaused": false,
+    "workerLimits": { "healthcheckcpu": 1, "healthcheckgpu": 0, "transcodecpu": 0, "transcodegpu": 2 },
+    "scheduleEnabled": false,
+    "schedule": [
+      { "_id": "00-01", "healthcheckcpu": 1, "healthcheckgpu": 0, "transcodecpu": 0, "transcodegpu": 2 },
+      { "_id": "01-02", "healthcheckcpu": 1, "healthcheckgpu": 0, "transcodecpu": 0, "transcodegpu": 2 }
+    ],
+    "nodeTags": [],
+    "workers": {
+      "kLm9nOp2Q": {
+        "_id": "kLm9nOp2Q",
+        "workerType": "transcodegpu",
+        "created": true,
+        "idle": false,
+        "file": "/media/Movies/Metropolis (1927)/Metropolis.1927.1080p.BluRay.x264.mkv",
+        "percentage": 41.6,
+        "fps": 187,
+        "ETA": "0:12:08",
+        "status": "Processing",
+        "sourcefileSizeInGbytes": 8.41,
+        "startTime": 1794590000000,
+        "CLIType": "ffmpeg",
+        "outputFileSizeInGbytes": 1.12
+      },
+      "rS4tUv6wX": {
+        "_id": "rS4tUv6wX",
+        "workerType": "healthcheckcpu",
+        "created": true,
+        "idle": false,
+        "file": "/media/Shows/Harbour Lights/Season 1/Harbour.Lights.S01E03.mkv",
+        "percentage": 8.2,
+        "fps": 0,
+        "ETA": "",
+        "status": "Processing",
+        "sourcefileSizeInGbytes": 1.9,
+        "startTime": 1794590500000
+      },
+      "yZ1aB2cD3": {
+        "_id": "yZ1aB2cD3",
+        "workerType": "transcodegpu",
+        "created": true,
+        "idle": true,
+        "file": "",
+        "percentage": 0,
+        "fps": 0,
+        "ETA": "0:00:00"
+      }
+    },
+    "queueLengths": { "healthcheckcpu": 12, "healthcheckgpu": 0, "transcodecpu": 0, "transcodegpu": 7 }
+  },
+  "eF4gH5iJ6": {
+    "_id": "eF4gH5iJ6",
+    "nodeName": "transcode-2",
+    "nodePaused": true,
+    "workers": {},
+    "queueLengths": { "healthcheckcpu": 0, "healthcheckgpu": 0, "transcodecpu": 0, "transcodegpu": 0 }
+  }
+}
