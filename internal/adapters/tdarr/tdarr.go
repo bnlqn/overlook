@@ -74,7 +74,7 @@ type worker struct {
 // a node's workers and queues to a GET, as its page asks them; the totals it
 // keeps of what it has done answer only to a POST, which Overlook doesn't
 // send (ADR 0001), so there are none here.
-func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) {
+func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 	var nodes map[string]node
 	if err := c.source.JSON(ctx, "/api/v2/get-nodes", &nodes); err != nil {
 		return snapshot.Parts{}, err

@@ -2,6 +2,7 @@ package tdarr
 
 import (
 	"context"
+	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
@@ -35,7 +36,7 @@ func TestRead(t *testing.T) {
 		if r.Header.Get("x-api-key") != "tdarr_0123abcd" {
 			t.Errorf("%s: read without the key", r.URL)
 		}
-		if r.Method != "GET" {
+		if r.Method != http.MethodGet {
 			t.Errorf("%s: %s, not a GET", r.URL, r.Method)
 		}
 	}
