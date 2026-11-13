@@ -40,8 +40,8 @@ func TestRead(t *testing.T) {
 		}
 	}
 
-	if len(p.Sections) != 1 || p.Sections[0].Title.Key != "tdarr.title" || len(p.Figures) != 0 {
-		t.Fatalf("one section and no figure: %+v", p)
+	if len(p.Sections) != 1 || p.Sections[0].Title.Key != "tdarr.title" || len(p.Figures) != 1 {
+		t.Fatalf("one section and one figure: %+v", p)
 	}
 	rows := p.Sections[0].Rows
 	if len(rows) != 3 {
@@ -53,6 +53,9 @@ func TestRead(t *testing.T) {
 	if r := rows[0]; r.Title.Name != "Metropolis.1927.1080p.BluRay.x264.mkv" || r.Value.Args["n"] != 42.0 || r.Detail.Key != "tdarr.transcoding_detail" ||
 		r.Detail.Args["node"] != "transcode-1" || r.Detail.Args["fps"] != 187 || r.Detail.Args["eta"] != "0:12:08" || r.Meter.Tone != "blue" {
 		t.Errorf("the film first, by path, 42%% done at 187 fps: %+v %+v", r, r.Detail)
+	}
+	if f := p.Figures[0]; f.Value != 2 || f.Detail.Args["n"] != 19 || f.Meters[0].Used != 25 || f.Icon != "refresh" || f.Adds {
+		t.Errorf("two files in work, 25%% done on average, 19 waiting: %+v", f)
 	}
 	if r := rows[2]; r.Title.Key != "tdarr.waiting" || r.Value.Args["n"] != 19 {
 		t.Errorf("19 files waiting: %+v", r)

@@ -2975,6 +2975,16 @@
     },
     {
       "area": "apps",
+      "source": "Tdarr",
+      "icon": "refresh",
+      "label": { "key": "tdarr.title" },
+      "value": 2,
+      "unit": { "key": "tdarr.unit" },
+      "detail": { "key": "tdarr.figure_detail", "args": { "n": 19 } },
+      "meters": [{ "label": { "key": "tdarr.progress" }, "used": 25, "total": 100, "tone": "blue" }]
+    },
+    {
+      "area": "apps",
       "source": "Jellyfin",
       "icon": "play",
       "label": { "key": "mediaserver.plays" },

@@ -4,6 +4,9 @@
   "tdarr.transcoding_start": "{node} · starting",
   "tdarr.checking_detail": "Health check · {node} · {fps} fps · {eta} left",
   "tdarr.checking_start": "Health check · {node} · starting",
+  "tdarr.unit": "in work",
+  "tdarr.progress": "Done",
+  "tdarr.figure_detail": { "one": "{n} file waiting", "other": "{n} files waiting" },
   "tdarr.waiting": "Waiting",
   "tdarr.waiting_n": { "one": "{n} file", "other": "{n} files" }
 }

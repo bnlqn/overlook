@@ -106,12 +106,14 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 	})
 
 	rows := make([]snapshot.Row, 0, len(jobs)+1)
+	var done float64
 	for _, j := range jobs {
 		key := "tdarr.transcoding"
 		if strings.HasPrefix(j.Type, "healthcheck") {
 			key = "tdarr.checking"
 		}
 		percent := math.Round(min(max(j.Percentage, 0), 100))
+		done += percent
 		args := map[string]any{"node": j.node, "fps": int(math.Round(j.FPS)), "eta": j.ETA}
 		detail := key + "_detail"
 		if j.FPS <= 0 || j.ETA == "" {
@@ -129,7 +131,16 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 			Title: snapshot.Text{Key: "tdarr.waiting"}, Value: snapshot.Msg("tdarr.waiting_n", map[string]any{"n": waiting}),
 		})
 	}
+	// Today: the files in work, with how far along they are on average. Like
+	// the section, it is there only while there is work.
+	f := snapshot.Figure{
+		Area: Area, Icon: "refresh", Label: snapshot.Text{Key: "tdarr.title"}, Value: float64(len(jobs)),
+		Unit:   snapshot.Msg("tdarr.unit", nil),
+		Detail: snapshot.Msg("tdarr.figure_detail", map[string]any{"n": waiting}),
+		Meters: []snapshot.Meter{{Label: &snapshot.Text{Key: "tdarr.progress"}, Used: math.Round(done / float64(len(jobs))), Total: 100, Tone: "blue"}},
+	}
 	return snapshot.Parts{
 		Sections: []snapshot.Section{{Area: Area, Title: snapshot.Text{Key: "tdarr.title"}, Rows: rows}},
+		Figures:  []snapshot.Figure{f},
 	}, nil
 }
