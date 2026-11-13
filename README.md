@@ -1601,6 +1601,35 @@ decided.
        and a change to how a state is decided is made in one place, never
        in the page and MCP both (ADR 0017).
 
+The road to v0.8 then lets the owner open one thing on the page, such as a
+host, a guest or a check, in a close-up with what it is tied to, as its
+sources and the config say, and nothing guessed (ADR 0018):
+
+1. [ ] Proxmox VE's hosts and guests built by one module (ADR 0019), each
+       opening in a close-up at an address of its own, such as
+       `/servers#guest/Proxmox/105`, with its charts, its host or its
+       guests, its node's backup runs and the way into Proxmox VE. ⌘K finds
+       them, and `things:` in the config says which check watches one,
+       which gives it that check's state. Two sources may no longer share
+       a name, since every address starts with one.
+2. [ ] Beszel and Docker on the same module, a Docker source being the host
+       it runs on, and `same:` saying that two of them are one machine,
+       whose close-up then shows each source's reading side by side, never
+       merged.
+3. [ ] A close-up for every other thing: stores, checks, apps, tools and
+       sources, each with the way into its source. ⌘K opens any of them,
+       ⌘ or Ctrl with Enter goes straight to its source, and with nothing
+       typed it lists the problems first.
+4. [ ] Each event says which thing it is about, so that an area page lists
+       its area's whole week, and a close-up its thing's.
+5. [ ] A problem's close-up: its check's stretch and last results, the
+       thing it watches, that thing's state and charts over the stretch,
+       and every other problem and event that began within ten minutes of
+       its start, side by side. It never names a cause.
+6. [ ] MCP's seventh tool, `close_up`, at the same address, and each
+       thing's address in the other six, so that an agent can go from
+       what's wrong to the thing behind it (ADR 0015).
+
 The [adapters wanted](https://github.com/bnlqn/overlook/issues?q=is%3Aissue%20is%3Aopen%20label%3Aenhancement)
 are open as issues: if you run one of them, its issue says what an
 adapter for it takes.
