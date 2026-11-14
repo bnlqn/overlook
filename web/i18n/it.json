@@ -633,6 +633,26 @@
   "qbittorrent.disconnected": "Disconnesso",
   "qbittorrent.error": "Errore",
   "qbittorrent.missing_files": "File mancanti",
+  "tdarr.title": "Transcodifica",
+  "tdarr.unit": "in corso",
+  "tdarr.figure_detail": {
+    "one": "{n} file in attesa",
+    "other": "{n} file in attesa"
+  },
+  "tdarr.transcoding_full": "{node} · {fps} fps · {eta:span} rimanenti",
+  "tdarr.transcoding_eta": "{node} · {eta:span} rimanenti",
+  "tdarr.transcoding_bare": "{node}",
+  "tdarr.transcoding_start": "{node} · in avvio",
+  "tdarr.checking_full": "Controllo di integrità · {node} · {fps} fps · {eta:span} rimanenti",
+  "tdarr.checking_eta": "Controllo di integrità · {node} · {eta:span} rimanenti",
+  "tdarr.checking_bare": "Controllo di integrità · {node}",
+  "tdarr.checking_start": "Controllo di integrità · {node} · in avvio",
+  "tdarr.waiting": "In attesa",
+  "tdarr.waiting_n": {
+    "one": "{n} file",
+    "other": "{n} file"
+  },
+  "tdarr.paused": "In pausa",
   "radarr.films": "Film",
   "radarr.this_week": "+{n} questa settimana",
   "radarr.unit": {

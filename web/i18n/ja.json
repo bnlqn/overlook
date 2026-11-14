@@ -574,6 +574,24 @@
   "qbittorrent.disconnected": "切断",
   "qbittorrent.error": "エラー",
   "qbittorrent.missing_files": "ファイル欠落",
+  "tdarr.title": "トランスコード",
+  "tdarr.unit": "処理中",
+  "tdarr.figure_detail": {
+    "other": "待機中 {n}件"
+  },
+  "tdarr.transcoding_full": "{node} · {fps} fps · 残り{eta:span}",
+  "tdarr.transcoding_eta": "{node} · 残り{eta:span}",
+  "tdarr.transcoding_bare": "{node}",
+  "tdarr.transcoding_start": "{node} · 開始中",
+  "tdarr.checking_full": "ヘルスチェック · {node} · {fps} fps · 残り{eta:span}",
+  "tdarr.checking_eta": "ヘルスチェック · {node} · 残り{eta:span}",
+  "tdarr.checking_bare": "ヘルスチェック · {node}",
+  "tdarr.checking_start": "ヘルスチェック · {node} · 開始中",
+  "tdarr.waiting": "待機中",
+  "tdarr.waiting_n": {
+    "other": "{n}件"
+  },
+  "tdarr.paused": "一時停止中",
   "radarr.films": "映画",
   "radarr.this_week": "今週+{n}",
   "radarr.unit": {

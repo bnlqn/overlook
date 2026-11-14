@@ -1,12 +1,18 @@
 {
   "tdarr.title": "Transcoding",
-  "tdarr.transcoding_detail": "{node} · {fps} fps · {eta} left",
-  "tdarr.transcoding_start": "{node} · starting",
-  "tdarr.checking_detail": "Health check · {node} · {fps} fps · {eta} left",
-  "tdarr.checking_start": "Health check · {node} · starting",
   "tdarr.unit": "in work",
-  "tdarr.progress": "Done",
   "tdarr.figure_detail": { "one": "{n} file waiting", "other": "{n} files waiting" },
+
+  "tdarr.transcoding_full": "{node} · {fps} fps · {eta:span} left",
+  "tdarr.transcoding_eta": "{node} · {eta:span} left",
+  "tdarr.transcoding_bare": "{node}",
+  "tdarr.transcoding_start": "{node} · starting",
+  "tdarr.checking_full": "Health check · {node} · {fps} fps · {eta:span} left",
+  "tdarr.checking_eta": "Health check · {node} · {eta:span} left",
+  "tdarr.checking_bare": "Health check · {node}",
+  "tdarr.checking_start": "Health check · {node} · starting",
+
   "tdarr.waiting": "Waiting",
-  "tdarr.waiting_n": { "one": "{n} file", "other": "{n} files" }
+  "tdarr.waiting_n": { "one": "{n} file", "other": "{n} files" },
+  "tdarr.paused": "Paused"
 }

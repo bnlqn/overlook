@@ -1136,8 +1136,11 @@ every snapshot.
 
 The files Tdarr is transcoding or health-checking now, on the Apps page, each
 with how far along it is, how fast and how long it has left, and how many
-files wait. A card shows only while a node is working on something: with
-nothing to do, Tdarr has nothing to add and the page leaves it out.
+files wait. Tdarr adds a section only while a node is working on something
+or files wait, and Today shows the files in work only while there are some:
+with nothing to do, Tdarr has nothing to add and the page leaves it out. With
+files waiting and nothing in work, the section names each node that is
+paused.
 
 ```yaml
 sources:
@@ -1147,7 +1150,7 @@ sources:
 ```
 
 **Key:** none unless you set one, under Tools, Options, on Tdarr's server,
-and then Overlook sends it as `x-api-key` with every GET. Tdarr's totals of
+and then Overlook sends it as `X-Api-Key` with every GET. Tdarr's totals of
 what it has done answer only to a POST, which Overlook doesn't send (ADR
 0001), so they aren't shown.
 

@@ -1,7 +1,7 @@
 // Package tdarr reads Tdarr, a transcoding server: the files its nodes are
 // working on now, each with how far along it is, and how many files wait. It
-// gives a section only while a node works on something, since an idle Tdarr
-// has nothing to say that a check engine's answer doesn't.
+// gives a section only while a node works on something or files wait, since
+// an idle Tdarr has nothing to say that a check engine's answer doesn't.
 package tdarr
 
 import (
@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"path"
 	"slices"
+	"strconv"
 	"strings"
 	"time"
 
@@ -41,7 +42,7 @@ type Config struct {
 func (c *Config) Check() error {
 	c.source = fetch.Source{URL: c.URL}
 	if c.Key != "" {
-		c.source.Header = http.Header{"x-api-key": {c.Key}}
+		c.source.Header = http.Header{"X-Api-Key": {c.Key}}
 	}
 	if err := c.source.Check(); err != nil {
 		return err
@@ -84,45 +85,64 @@ func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 		node string
 		worker
 	}
-	var jobs []job
-	waiting := 0
+	var (
+		jobs   []job
+		paused []string
+		// queued is the longest queue of each kind of work among the
+		// nodes. A node's queue is the files its workers could take, which
+		// the server holds for all of them, so adding the nodes' queues
+		// would count a file once for each node.
+		queued = map[string]int{}
+	)
 	for _, n := range nodes {
+		if n.Paused {
+			paused = append(paused, n.Name)
+		}
 		for _, w := range n.Workers {
 			if !w.Idle && w.File != "" {
 				jobs = append(jobs, job{n.Name, w})
 			}
 		}
-		// What waits for this node's workers, whichever of them it is for.
-		for _, q := range n.QueueLengths {
-			waiting += q
+		for kind, q := range n.QueueLengths {
+			queued[kind] = max(queued[kind], q)
 		}
 	}
-	// Nothing is being worked on: no card.
-	if len(jobs) == 0 {
+	waiting := 0
+	for _, q := range queued {
+		waiting += q
+	}
+	// With nothing in work and nothing waiting there is nothing to show.
+	if len(jobs) == 0 && waiting == 0 {
 		return snapshot.Parts{}, nil
 	}
 	slices.SortFunc(jobs, func(a, b job) int {
 		return cmp.Or(cmp.Compare(a.node, b.node), cmp.Compare(a.File, b.File))
 	})
+	slices.Sort(paused)
 
-	rows := make([]snapshot.Row, 0, len(jobs)+1)
-	var done float64
+	rows := make([]snapshot.Row, 0, len(jobs)+len(paused)+1)
 	for _, j := range jobs {
-		key := "tdarr.transcoding"
+		kind := "tdarr.transcoding"
 		if strings.HasPrefix(j.Type, "healthcheck") {
-			key = "tdarr.checking"
+			kind = "tdarr.checking"
 		}
 		percent := math.Round(min(max(j.Percentage, 0), 100))
-		done += percent
-		args := map[string]any{"node": j.node, "fps": int(math.Round(j.FPS)), "eta": j.ETA}
-		detail := key + "_detail"
-		if j.FPS <= 0 || j.ETA == "" {
-			detail = key + "_start"
+		// What Tdarr reports of the file: it says how fast and how long
+		// only once the file has begun, and a quick check may never say.
+		key, args := kind+"_bare", map[string]any{"node": j.node}
+		eta, ok := span(j.ETA)
+		switch {
+		case percent == 0:
+			key = kind + "_start"
+		case ok && j.FPS > 0:
+			key, args["fps"], args["eta"] = kind+"_full", int(math.Round(j.FPS)), eta
+		case ok:
+			key, args["eta"] = kind+"_eta", eta
 		}
 		rows = append(rows, snapshot.Row{
 			Title:  snapshot.Text{Name: path.Base(strings.ReplaceAll(j.File, `\`, "/"))},
 			Value:  snapshot.Percent(percent),
-			Detail: snapshot.Msg(detail, args),
+			Detail: snapshot.Msg(key, args),
 			Meter:  &snapshot.Meter{Used: percent, Total: 100, Tone: "blue"},
 		})
 	}
@@ -131,16 +151,40 @@ func Read(ctx context.Context, c Config, _ time.Time) (snapshot.Parts, error) {
 			Title: snapshot.Text{Key: "tdarr.waiting"}, Value: snapshot.Msg("tdarr.waiting_n", map[string]any{"n": waiting}),
 		})
 	}
-	// Today: the files in work, with how far along they are on average. Like
-	// the section, it is there only while there is work.
-	f := snapshot.Figure{
-		Area: Area, Icon: "refresh", Label: snapshot.Text{Key: "tdarr.title"}, Value: float64(len(jobs)),
-		Unit:   snapshot.Msg("tdarr.unit", nil),
-		Detail: snapshot.Msg("tdarr.figure_detail", map[string]any{"n": waiting}),
-		Meters: []snapshot.Meter{{Label: &snapshot.Text{Key: "tdarr.progress"}, Used: math.Round(done / float64(len(jobs))), Total: 100, Tone: "blue"}},
+	// A node that is paused takes no work, which is the one thing that
+	// keeps files waiting for good.
+	if len(jobs) == 0 {
+		for _, name := range paused {
+			rows = append(rows, snapshot.Row{Title: snapshot.Text{Name: name}, Value: snapshot.Msg("tdarr.paused", nil), Tone: "orange"})
+		}
 	}
-	return snapshot.Parts{
-		Sections: []snapshot.Section{{Area: Area, Title: snapshot.Text{Key: "tdarr.title"}, Rows: rows}},
-		Figures:  []snapshot.Figure{f},
-	}, nil
+	parts := snapshot.Parts{Sections: []snapshot.Section{{Area: Area, Title: snapshot.Text{Key: "tdarr.title"}, Rows: rows}}}
+	// Today: the files in work. Like the section, it is there only while
+	// there is work.
+	if len(jobs) > 0 {
+		parts.Figures = []snapshot.Figure{{
+			Area: Area, Icon: "refresh", Label: snapshot.Text{Key: "tdarr.title"}, Value: float64(len(jobs)),
+			Unit:   snapshot.Msg("tdarr.unit", nil),
+			Detail: snapshot.Msg("tdarr.figure_detail", map[string]any{"n": waiting}),
+		}}
+	}
+	return parts, nil
+}
+
+// span is Tdarr's time left, written H:MM:SS, in milliseconds, or false when
+// it isn't written so, as with none left to tell.
+func span(eta string) (int64, bool) {
+	parts := strings.Split(eta, ":")
+	if len(parts) != 3 {
+		return 0, false
+	}
+	var seconds int64
+	for _, p := range parts {
+		n, err := strconv.ParseInt(p, 10, 64)
+		if err != nil || n < 0 {
+			return 0, false
+		}
+		seconds = seconds*60 + n
+	}
+	return seconds * 1000, true
 }

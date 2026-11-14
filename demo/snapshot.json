@@ -1880,15 +1880,15 @@
           "title": { "name": "Metropolis.1927.1080p.BluRay.x264.mkv" },
           "value": { "key": "percent", "args": { "n": 42 } },
           "detail": {
-            "key": "tdarr.transcoding_detail",
-            "args": { "node": "transcode-1", "fps": 187, "eta": "0:12:08" }
+            "key": "tdarr.transcoding_full",
+            "args": { "node": "transcode-1", "fps": 187, "eta": 728000 }
           },
           "meter": { "used": 42, "total": 100, "tone": "blue" }
         },
         {
           "title": { "name": "Harbour.Lights.S01E03.mkv" },
           "value": { "key": "percent", "args": { "n": 8 } },
-          "detail": { "key": "tdarr.checking_start", "args": { "node": "transcode-1", "fps": 0, "eta": "" } },
+          "detail": { "key": "tdarr.checking_bare", "args": { "node": "transcode-1" } },
           "meter": { "used": 8, "total": 100, "tone": "blue" }
         },
         { "title": { "key": "tdarr.waiting" }, "value": { "key": "tdarr.waiting_n", "args": { "n": 19 } } }
@@ -2983,8 +2983,7 @@
       "label": { "key": "tdarr.title" },
       "value": 2,
       "unit": { "key": "tdarr.unit" },
-      "detail": { "key": "tdarr.figure_detail", "args": { "n": 19 } },
-      "meters": [{ "label": { "key": "tdarr.progress" }, "used": 25, "total": 100, "tone": "blue" }]
+      "detail": { "key": "tdarr.figure_detail", "args": { "n": 19 } }
     },
     {
       "area": "apps",
