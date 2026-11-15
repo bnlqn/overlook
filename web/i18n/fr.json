@@ -297,6 +297,7 @@
   "setup.adapter.sonarr": "Sonarr",
   "setup.adapter.prowlarr": "Prowlarr",
   "setup.adapter.qbittorrent": "qBittorrent",
+  "setup.adapter.tdarr": "Tdarr",
   "setup.adapter.jellyfin": "Jellyfin",
   "setup.adapter.emby": "Emby",
   "setup.adapter.tautulli": "Plex, via Tautulli",
@@ -632,6 +633,26 @@
   "qbittorrent.disconnected": "Déconnecté",
   "qbittorrent.error": "Erreur",
   "qbittorrent.missing_files": "Fichiers manquants",
+  "tdarr.title": "Transcodage",
+  "tdarr.unit": "en cours",
+  "tdarr.figure_detail": {
+    "one": "{n} fichier en attente",
+    "other": "{n} fichiers en attente"
+  },
+  "tdarr.transcoding_full": "{node} · {fps} fps · encore {eta:span}",
+  "tdarr.transcoding_eta": "{node} · encore {eta:span}",
+  "tdarr.transcoding_bare": "{node}",
+  "tdarr.transcoding_start": "{node} · démarrage",
+  "tdarr.checking_full": "Contrôle d'intégrité · {node} · {fps} fps · encore {eta:span}",
+  "tdarr.checking_eta": "Contrôle d'intégrité · {node} · encore {eta:span}",
+  "tdarr.checking_bare": "Contrôle d'intégrité · {node}",
+  "tdarr.checking_start": "Contrôle d'intégrité · {node} · démarrage",
+  "tdarr.waiting": "En attente",
+  "tdarr.waiting_n": {
+    "one": "{n} fichier",
+    "other": "{n} fichiers"
+  },
+  "tdarr.paused": "En pause",
   "radarr.films": "Films",
   "radarr.this_week": "+{n} cette semaine",
   "radarr.unit": {

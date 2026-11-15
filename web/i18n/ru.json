@@ -348,6 +348,7 @@
   "setup.adapter.sonarr": "Sonarr",
   "setup.adapter.prowlarr": "Prowlarr",
   "setup.adapter.qbittorrent": "qBittorrent",
+  "setup.adapter.tdarr": "Tdarr",
   "setup.adapter.jellyfin": "Jellyfin",
   "setup.adapter.emby": "Emby",
   "setup.adapter.tautulli": "Plex через Tautulli",
@@ -728,6 +729,30 @@
   "qbittorrent.disconnected": "Отключено",
   "qbittorrent.error": "Ошибка",
   "qbittorrent.missing_files": "Нет файлов",
+  "tdarr.title": "Транскодинг",
+  "tdarr.unit": "в работе",
+  "tdarr.figure_detail": {
+    "one": "{n} файл ждёт",
+    "few": "{n} файла ждут",
+    "many": "{n} файлов ждут",
+    "other": "{n} файла ждут"
+  },
+  "tdarr.transcoding_full": "{node} · {fps} fps · осталось {eta:span}",
+  "tdarr.transcoding_eta": "{node} · осталось {eta:span}",
+  "tdarr.transcoding_bare": "{node}",
+  "tdarr.transcoding_start": "{node} · запуск",
+  "tdarr.checking_full": "Проверка целостности · {node} · {fps} fps · осталось {eta:span}",
+  "tdarr.checking_eta": "Проверка целостности · {node} · осталось {eta:span}",
+  "tdarr.checking_bare": "Проверка целостности · {node}",
+  "tdarr.checking_start": "Проверка целостности · {node} · запуск",
+  "tdarr.waiting": "Ожидают",
+  "tdarr.waiting_n": {
+    "one": "{n} файл",
+    "few": "{n} файла",
+    "many": "{n} файлов",
+    "other": "{n} файла"
+  },
+  "tdarr.paused": "На паузе",
   "radarr.films": "Фильмы",
   "radarr.this_week": "+{n} за неделю",
   "radarr.unit": {

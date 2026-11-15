@@ -51,6 +51,7 @@ import (
 	"github.com/bnlqn/overlook/internal/adapters/sonarr"
 	"github.com/bnlqn/overlook/internal/adapters/syncthing"
 	"github.com/bnlqn/overlook/internal/adapters/tautulli"
+	"github.com/bnlqn/overlook/internal/adapters/tdarr"
 	"github.com/bnlqn/overlook/internal/adapters/traefik"
 	"github.com/bnlqn/overlook/internal/adapters/unifi"
 	"github.com/bnlqn/overlook/internal/adapters/uptimekuma"
@@ -101,6 +102,7 @@ type Sources struct {
 	Sonarr         []sonarr.Config         `yaml:"sonarr" icon:"sonarr.svg"`
 	Prowlarr       []prowlarr.Config       `yaml:"prowlarr" icon:"prowlarr.svg"`
 	QBittorrent    []qbittorrent.Config    `yaml:"qbittorrent" icon:"qbittorrent.svg"`
+	Tdarr          []tdarr.Config          `yaml:"tdarr" icon:"tdarr.svg"`
 	Jellyfin       []jellyfin.Config       `yaml:"jellyfin" icon:"jellyfin.svg"`
 	Emby           []emby.Config           `yaml:"emby" icon:"emby.svg"`
 	Tautulli       []tautulli.Config       `yaml:"tautulli" icon:"tautulli.svg"`
@@ -296,6 +298,7 @@ func (c *Config) check() error {
 		add(c, sonarr.Adapter, c.Sources.Sonarr),
 		add(c, prowlarr.Adapter, c.Sources.Prowlarr),
 		add(c, qbittorrent.Adapter, c.Sources.QBittorrent),
+		add(c, tdarr.Adapter, c.Sources.Tdarr),
 		add(c, jellyfin.Adapter, c.Sources.Jellyfin),
 		add(c, emby.Adapter, c.Sources.Emby),
 		add(c, tautulli.Adapter, c.Sources.Tautulli),

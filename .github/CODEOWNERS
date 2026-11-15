@@ -4,3 +4,5 @@
 *                           @bnlqn
 
 /internal/adapters/emby/    @linkinxp
+/internal/adapters/tdarr/   @linkinxp
+/web/i18n/en/tdarr.json    @linkinxp

@@ -274,6 +274,7 @@
   "setup.adapter.sonarr": "Sonarr",
   "setup.adapter.prowlarr": "Prowlarr",
   "setup.adapter.qbittorrent": "qBittorrent",
+  "setup.adapter.tdarr": "Tdarr",
   "setup.adapter.jellyfin": "Jellyfin",
   "setup.adapter.emby": "Emby",
   "setup.adapter.tautulli": "Tautulli를 통한 Plex",
@@ -573,6 +574,24 @@
   "qbittorrent.disconnected": "연결 끊김",
   "qbittorrent.error": "오류",
   "qbittorrent.missing_files": "파일 누락",
+  "tdarr.title": "트랜스코딩",
+  "tdarr.unit": "처리 중",
+  "tdarr.figure_detail": {
+    "other": "대기 중 {n}개"
+  },
+  "tdarr.transcoding_full": "{node} · {fps} fps · {eta:span} 남음",
+  "tdarr.transcoding_eta": "{node} · {eta:span} 남음",
+  "tdarr.transcoding_bare": "{node}",
+  "tdarr.transcoding_start": "{node} · 시작 중",
+  "tdarr.checking_full": "상태 점검 · {node} · {fps} fps · {eta:span} 남음",
+  "tdarr.checking_eta": "상태 점검 · {node} · {eta:span} 남음",
+  "tdarr.checking_bare": "상태 점검 · {node}",
+  "tdarr.checking_start": "상태 점검 · {node} · 시작 중",
+  "tdarr.waiting": "대기 중",
+  "tdarr.waiting_n": {
+    "other": "{n}개"
+  },
+  "tdarr.paused": "일시 중지됨",
   "radarr.films": "영화",
   "radarr.this_week": "이번 주 +{n}",
   "radarr.unit": {
