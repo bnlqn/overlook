@@ -175,6 +175,33 @@ func TestLoadDotenv(t *testing.T) {
 	}
 }
 
+// A ${VAR} that isn't set says where Overlook looked, and names a .env saved
+// under another name, as a browser saves the setup page's: as env.
+func TestLoadSaysWhereAKeyIsMissing(t *testing.T) {
+	t.Parallel()
+	path := write(t, "sources: { radarr: [ { url: 'http://radarr.example.com:7878', key: '${OVERLOOK_NO_SUCH_KEY}' } ] }")
+	file := func(name, content string) {
+		t.Helper()
+		if err := os.WriteFile(filepath.Join(filepath.Dir(path), name), []byte(content), 0o600); err != nil {
+			t.Fatal(err)
+		}
+	}
+	for _, step := range []struct{ file, want string }{
+		{"", "OVERLOOK_NO_SUCH_KEY is not set, and there is no .env beside overlook.yaml"},
+		{".env.txt", "there is no .env beside overlook.yaml: rename .env.txt to .env"},
+		{"env", "there is no .env beside overlook.yaml: rename env to .env"},
+		{".env", "OVERLOOK_NO_SUCH_KEY is not set, in Overlook's environment or in .env"},
+	} {
+		if step.file != "" {
+			file(step.file, "OVERLOOK_OTHER_KEY=k\n")
+		}
+		_, err := Load(path)
+		if err == nil || !strings.HasSuffix(err.Error(), step.want) {
+			t.Errorf("with %q: want …%q, got %v", step.file, step.want, err)
+		}
+	}
+}
+
 func TestLoadRefuses(t *testing.T) {
 	t.Parallel()
 	for yaml, want := range map[string]string{

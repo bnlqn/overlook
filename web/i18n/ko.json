@@ -233,7 +233,7 @@
   "setup.copied": "복사됨",
   "setup.selected": "선택됨: ⌘C 또는 Ctrl+C로 복사하세요",
   "setup.download": "다운로드",
-  "setup.env_note": "<code>overlook.yaml</code>에서 참조하는 키입니다. 이 파일은 git에 올리지 마세요.",
+  "setup.env_note": "<code>overlook.yaml</code>에서 참조하는 키입니다. 이 파일은 git에 올리지 마세요. 브라우저는 파일을 저장할 때 이름 앞의 점을 없애므로, 다운로드한 파일 이름은 <code>env</code>가 됩니다. <code>.env</code>로 이름을 바꾸세요.",
   "setup.restart": "두 파일을 <code>/etc/overlook</code>에 마운트된 폴더에 <code>overlook.yaml</code>, <code>.env</code>라는 이름으로 저장한 뒤, <code>docker compose restart</code> 등으로 Overlook을 다시 시작하세요. Overlook이 다시 켜지면 이 페이지가 홈랩 페이지로 바뀝니다.",
   "setup.restart_unraid": "두 파일을 Overlook의 설정 폴더(양식에서 바꾸지 않았다면 <code>/mnt/user/appdata/overlook</code>)에 <code>overlook.yaml</code>, <code>.env</code>라는 이름으로 저장하세요. 상단의 <b>&gt;_</b> 아이콘으로 여는 Unraid 터미널에서 <code>nano /mnt/user/appdata/overlook/overlook.yaml</code> 등으로 저장할 수 있습니다. 그런 다음 Docker 페이지에서 Overlook을 다시 시작하세요. Overlook이 다시 켜지면 이 페이지가 홈랩 페이지로 바뀝니다.",
   "setup.restart_homeassistant": "두 파일을 Overlook의 폴더(<code>app_configs</code> 안에서 이름이 <code>_overlook</code>으로 끝나는 폴더)에 <code>overlook.yaml</code>, <code>.env</code>라는 이름으로 저장하세요. Home Assistant의 Samba share 앱이나 Terminal &amp; SSH 앱을 이용해 <code>/app_configs</code> 아래에 저장할 수 있습니다. 그런 다음 설정 &gt; 앱에 있는 Overlook 페이지에서 Overlook을 다시 시작하세요. Overlook이 다시 켜지면 이 페이지가 홈랩 페이지로 바뀝니다.",

@@ -56,7 +56,9 @@
       <div class="file-head">
         <code>.env</code>
         <button class="action" type="button" data-copy="env"><span data-t="setup.copy"></span></button>
-        <button class="action" type="button" data-save="env" data-name=".env"><span data-t="setup.download"></span></button>
+        <!-- Browsers drop a leading dot from a file they save, so the download
+             is named env, the same in each, and the note says to rename it. -->
+        <button class="action" type="button" data-save="env" data-name="env"><span data-t="setup.download"></span></button>
       </div>
       <p class="file-note" data-t="setup.env_note"></p>
       <pre id="env"></pre>

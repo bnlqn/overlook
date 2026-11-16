@@ -256,7 +256,7 @@
   "setup.copied": "Copiado",
   "setup.selected": "Selecionado: copie com ⌘C ou Ctrl+C",
   "setup.download": "Baixar",
-  "setup.env_note": "As chaves que o <code>overlook.yaml</code> cita. Mantenha este arquivo fora do git.",
+  "setup.env_note": "As chaves que o <code>overlook.yaml</code> cita. Mantenha este arquivo fora do git. Os navegadores tiram o ponto do início do nome de um arquivo ao salvá-lo, então o arquivo baixado se chama <code>env</code>: renomeie-o para <code>.env</code>.",
   "setup.restart": "Salve os dois arquivos na pasta montada em <code>/etc/overlook</code>, com os nomes <code>overlook.yaml</code> e <code>.env</code>, e reinicie o Overlook, por exemplo com <code>docker compose restart</code>. Quando o Overlook voltar, esta página vira a página do seu homelab.",
   "setup.restart_unraid": "Salve os dois arquivos na pasta de configuração do Overlook, <code>/mnt/user/appdata/overlook</code>, a menos que você a tenha mudado no formulário dele, com os nomes <code>overlook.yaml</code> e <code>.env</code>: pelo terminal do Unraid, o <b>&gt;_</b> no topo, por exemplo com <code>nano /mnt/user/appdata/overlook/overlook.yaml</code>. Depois reinicie o Overlook na página Docker. Quando ele voltar, esta página vira a página do seu homelab.",
   "setup.restart_homeassistant": "Salve os dois arquivos na pasta do Overlook, a que fica em <code>app_configs</code> e cujo nome termina em <code>_overlook</code>, com os nomes <code>overlook.yaml</code> e <code>.env</code>: por exemplo com o app Samba share do Home Assistant, ou com o app Terminal &amp; SSH, em <code>/app_configs</code>. Depois reinicie o Overlook na página dele em Configurações, Aplicativos. Quando ele voltar, esta página vira a página do seu homelab.",

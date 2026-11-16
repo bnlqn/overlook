@@ -233,7 +233,7 @@
   "setup.copied": "已复制",
   "setup.selected": "已选中：按⌘C或Ctrl+C复制",
   "setup.download": "下载",
-  "setup.env_note": "<code>overlook.yaml</code>引用的密钥。请勿将此文件提交到git。",
+  "setup.env_note": "<code>overlook.yaml</code>引用的密钥。请勿将此文件提交到git。浏览器保存文件时会去掉文件名开头的点，所以下载的文件名为<code>env</code>：请将其重命名为<code>.env</code>。",
   "setup.restart": "将两个文件保存到挂载于<code>/etc/overlook</code>的文件夹中，分别命名为<code>overlook.yaml</code>和<code>.env</code>，然后重启Overlook，例如使用<code>docker compose restart</code>。Overlook恢复运行后，此页面就会变成正式页面。",
   "setup.restart_unraid": "将两个文件保存到Overlook的配置文件夹，即<code>/mnt/user/appdata/overlook</code>（除非你在其表单中改过），分别命名为<code>overlook.yaml</code>和<code>.env</code>：可在Unraid的终端（顶部的<b>&gt;_</b>）中操作，例如使用<code>nano /mnt/user/appdata/overlook/overlook.yaml</code>。然后在Docker页面重启Overlook。它恢复运行后，此页面就会变成正式页面。",
   "setup.restart_homeassistant": "将两个文件保存到Overlook的文件夹，即<code>app_configs</code>中名称以<code>_overlook</code>结尾的那个，分别命名为<code>overlook.yaml</code>和<code>.env</code>：例如通过Home Assistant的Samba share应用或Terminal &amp; SSH应用，在<code>/app_configs</code>下操作。然后在“设置 > 应用”中打开Overlook并重启它。它恢复运行后，此页面就会变成正式页面。",

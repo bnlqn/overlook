@@ -212,7 +212,7 @@
   "setup.copied": "Copied",
   "setup.selected": "Selected: copy it with ⌘C or Ctrl+C",
   "setup.download": "Download",
-  "setup.env_note": "The keys <code>overlook.yaml</code> names. Keep this file out of git.",
+  "setup.env_note": "The keys <code>overlook.yaml</code> names. Keep this file out of git. Browsers drop the dot from a file's name as they save it, so the download is <code>env</code>: rename it <code>.env</code>.",
   "setup.restart": "Save both files in the folder mounted at <code>/etc/overlook</code>, named <code>overlook.yaml</code> and <code>.env</code>, then restart Overlook, such as with <code>docker compose restart</code>. Once Overlook is back, this page turns into the page.",
   "setup.restart_unraid": "Save both files in Overlook's config folder, <code>/mnt/user/appdata/overlook</code> unless you changed it on its form, named <code>overlook.yaml</code> and <code>.env</code>: from Unraid's terminal, the <b>&gt;_</b> at the top, such as with <code>nano /mnt/user/appdata/overlook/overlook.yaml</code>. Then restart Overlook on the Docker page. Once it's back, this page turns into the page.",
   "setup.restart_homeassistant": "Save both files in Overlook's folder, the one in <code>app_configs</code> whose name ends in <code>_overlook</code>, named <code>overlook.yaml</code> and <code>.env</code>: such as with Home Assistant's Samba share app, or its Terminal &amp; SSH app, under <code>/app_configs</code>. Then restart Overlook on its page in Settings, Apps. Once it's back, this page turns into the page.",

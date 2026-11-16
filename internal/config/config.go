@@ -189,7 +189,8 @@ func load(path string) (Config, error) {
 	if err != nil {
 		return Config{}, err
 	}
-	env, err := dotenv(filepath.Join(filepath.Dir(path), ".env"))
+	dir := filepath.Dir(path)
+	env, err := dotenv(filepath.Join(dir, ".env"))
 	if err != nil {
 		return Config{}, err
 	}
@@ -203,7 +204,12 @@ func load(path string) (Config, error) {
 		return Config{}, errors.New("empty")
 	}
 	if err := interpolate(&doc, env); err != nil {
-		return Config{}, err
+		// env is nil only when there is no .env. Say so, since a .env saved
+		// under another name is the usual reason, and name the one found.
+		if env != nil {
+			return Config{}, fmt.Errorf("%w, in Overlook's environment or in .env", err)
+		}
+		return Config{}, fmt.Errorf("%w, and there is no .env beside %s%s", err, filepath.Base(path), misnamed(dir))
 	}
 	out, err := yaml.Marshal(&doc)
 	if err != nil {
@@ -223,9 +229,9 @@ func decode(raw []byte) (Config, error) {
 	return c, c.check()
 }
 
-// dotenv reads the .env at path, if there is one: a NAME=value a line, the
-// value all that follows the first =, so that a key holding a # or a quote
-// stays whole. A line that starts with # is a comment.
+// dotenv reads the .env at path, or gives nil if there is none: a NAME=value
+// a line, the value all that follows the first =, so that a key holding a #
+// or a quote stays whole. A line that starts with # is a comment.
 func dotenv(path string) (map[string]string, error) {
 	raw, err := os.ReadFile(path) //nolint:gosec // beside the owner's config
 	if errors.Is(err, fs.ErrNotExist) {
@@ -247,6 +253,18 @@ func dotenv(path string) (map[string]string, error) {
 		env[name] = value
 	}
 	return env, nil
+}
+
+// misnamed says which file in dir looks like a .env saved under another
+// name, and to rename it: a browser drops the dot from a file it saves, and
+// an editor may add .txt.
+func misnamed(dir string) string {
+	for _, name := range []string{"env", "env.txt", ".env.txt"} {
+		if _, err := os.Stat(filepath.Join(dir, name)); err == nil { //nolint:gosec // beside the owner's config
+			return ": rename " + name + " to .env"
+		}
+	}
+	return ""
 }
 
 // interpolate replaces each ${VAR} in n's values with VAR from the

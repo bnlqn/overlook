@@ -34,6 +34,8 @@ nothing, so you save them:
 - **How:** with Home Assistant's Samba share app, in its `app_configs`
   share, or with its Terminal & SSH app, as
   `cd /app_configs/*_overlook`, then `nano overlook.yaml` and `nano .env`.
+  Browsers drop the dot from a file's name as they save it, so `.env`
+  downloads as `env`: rename it `.env`.
   The files must be readable by others, as they are by default, since
   Overlook runs as a user of its own.
 
