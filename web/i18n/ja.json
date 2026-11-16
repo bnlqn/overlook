@@ -233,7 +233,7 @@
   "setup.copied": "コピーしました",
   "setup.selected": "選択しました。⌘CまたはCtrl+Cでコピーしてください",
   "setup.download": "ダウンロード",
-  "setup.env_note": "<code>overlook.yaml</code>が参照するキーです。このファイルはgitに含めないでください。",
+  "setup.env_note": "<code>overlook.yaml</code>が参照するキーです。このファイルはgitに含めないでください。ブラウザーは保存時にファイル名の先頭のドットを取り除くため、ダウンロードしたファイルは<code>env</code>という名前になります。<code>.env</code>に名前を変更してください。",
   "setup.restart": "両方のファイルを<code>/etc/overlook</code>にマウントしたフォルダーに、<code>overlook.yaml</code>と<code>.env</code>という名前で保存し、<code>docker compose restart</code>などでOverlookを再起動してください。Overlookが復帰すると、このページは通常のページに切り替わります。",
   "setup.restart_unraid": "両方のファイルをOverlookの設定フォルダー（フォームで変更していなければ<code>/mnt/user/appdata/overlook</code>）に、<code>overlook.yaml</code>と<code>.env</code>という名前で保存してください。Unraidのターミナル（上部の<b>&gt;_</b>）から、<code>nano /mnt/user/appdata/overlook/overlook.yaml</code>などで保存できます。その後、DockerページでOverlookを再起動してください。復帰すると、このページは通常のページに切り替わります。",
   "setup.restart_homeassistant": "両方のファイルをOverlookのフォルダー（<code>app_configs</code>内で、名前が<code>_overlook</code>で終わるフォルダー）に、<code>overlook.yaml</code>と<code>.env</code>という名前で保存してください。Home AssistantのSamba shareアプリやTerminal &amp; SSHアプリから、<code>/app_configs</code>の下に保存できます。その後、「設定」→「アプリ」にあるOverlookのページで再起動してください。復帰すると、このページは通常のページに切り替わります。",

@@ -135,11 +135,13 @@ Overlook wrote in its log as it started, which
 the log can set it up. Then pick the tools your homelab runs, give each
 its address and key, and try it. From the sources that
 answered, the setup page puts together two files, `overlook.yaml` and the
-`.env` that holds their keys. Save both in `overlook/`, then
-`docker compose restart`, and the setup page, still open, turns into the
-page. A source that didn't answer its try says what to do about it, such
-as for a certificate Overlook doesn't trust. The log says which sources
-Overlook reads, and the page names any that didn't answer.
+`.env` that holds their keys. Save both in `overlook/`. Browsers drop the
+dot from a file's name as they save it, so `.env` downloads as `env`:
+rename it `.env`. Then `docker compose restart`, and the setup page, still
+open, turns into the page. A source that didn't answer its try says what
+to do about it, such as for a certificate Overlook doesn't trust. The log
+says which sources Overlook reads, and the page names any that didn't
+answer.
 
 The two files look like this, and you can write them yourself instead:
 
@@ -170,9 +172,10 @@ PROXMOX_SECRET=00000000-0000-0000-0000-000000000000
   environment, which wins. A `${VAR}` anywhere in the config is read from
   either, so the config holds no secret and can be shared or kept in git,
   while `.env` stays out of it. A `${VAR}` set in neither stops Overlook,
-  and says which. `.env` holds a `NAME=value` a line, the value all that
-  follows the first `=`, with no quotes taken off, so a key holding `#` or
-  a quote stays whole; a line that starts with `#` is a comment.
+  and says which, and whether there is a `.env` beside the config at all.
+  `.env` holds a `NAME=value` a line, the value all that follows the first
+  `=`, with no quotes taken off, so a key holding `#` or a quote stays
+  whole; a line that starts with `#` is a comment.
 - **The config is mounted read-only**, at `/etc/overlook`, with a CA file or
   your own icons beside it. The image runs as uid 65532, so the folder and
   its files must be readable by others, as they are by default. To keep

@@ -181,9 +181,11 @@ async function copy(button) {
   }, 2000);
 }
 
+// Saves a file under the name its button gives. Its type isn't text, since a
+// browser adds .txt to a text file whose name has none, such as env.
 function download(button) {
   const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([$(button.dataset.save).textContent], { type: "text/plain" }));
+  a.href = URL.createObjectURL(new Blob([$(button.dataset.save).textContent], { type: "application/octet-stream" }));
   a.download = button.dataset.name;
   a.click();
   URL.revokeObjectURL(a.href);
