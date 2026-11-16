@@ -19,12 +19,15 @@ _Avoid_: User (the people an app serves are its users), admin
 **Host**:
 One machine the homelab runs on, physical or virtual, that a source reports
 on as a whole, such as a Proxmox host, a NAS or a VM that runs containers.
-The Servers area holds the hosts.
+The Servers area holds the hosts. Two sources' hosts, or a host and a guest,
+are the same machine only where the config says so, and each keeps its own
+reading.
 _Avoid_: Server (the area), node, system, box
 
 **Guest**:
-A virtual machine or container a host runs. A guest can be a host too, when
-a source reports on it as a whole, as Beszel does for a VM.
+A virtual machine or container a host runs, as its source says. A guest can
+be a host too, when a source reports on it as a whole, as Beszel does for a
+VM.
 _Avoid_: Workload, instance
 
 **Store**:
@@ -135,6 +138,20 @@ One of the four fixed parts of a homelab: Servers, Network, Storage and Apps.
 An area with nothing in it isn't shown.
 _Avoid_: Group, section, category
 
+**Thing**:
+Anything the page can open on its own: a host, a guest, a store, a check, an
+app, a tool or a source. It keeps the identifier its source gives it, or its
+name in the config, and relates to another thing only where a source or the
+config says so, never by a guess.
+_Avoid_: Entity, item, object, resource, component
+
+**Close-up**:
+What the page shows of one thing, over the page it was opened from and at an
+address of its own: what it is and how it is, its charts, the things it
+relates to, its events and the way into its source. It sets the evidence side
+by side and never names a cause.
+_Avoid_: Inspector, drawer, detail (a row's)
+
 **Problem**:
 A check that has failed long enough for its check engine to alert on it. It
 lasts exactly as long as the check keeps failing, from its first failure to
@@ -159,12 +176,13 @@ area too, unknown with no checks, and up otherwise.
 _Avoid_: Warning, partial outage
 
 **State**:
-How a check, an app, a tool, an area or the homelab is: up, down or
-unknown, or in between, failing for a check and degraded for an area or the
-homelab. A check's is under Check, and an area's and the homelab's under
-Degraded. An app or a tool has the state of the check that says whether it
-answers: the worst, where check engines share its name, and unknown with
-none.
+How a check, an app, a tool, a host, a guest, a store, an area or the
+homelab is: up, down or unknown, or in between, failing for a check and
+degraded for an area or the homelab. A check's is under Check, and an area's
+and the homelab's under Degraded. An app, a tool, a host, a guest or a store
+has the state of the check the config says watches it: the worst, where
+check engines share its name, and unknown with none. What a source says of
+it, such as stopped, is never its state.
 _Avoid_: Status, health
 
 **Quiet**:
