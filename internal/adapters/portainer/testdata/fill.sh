@@ -24,6 +24,17 @@ for engine in media backups; do
     -F Name="$engine" -F EndpointCreationType=1 -F URL="tcp://$engine:2375" >/dev/null
 done
 
+# The engines' images, pulled by this machine's Docker, as compose.yaml's
+# are, and loaded into each engine. An engine left to pull them itself does
+# so signed out, and Docker Hub turns away signed-out pulls from an address
+# that has made too many, as a CI runner's shared one has.
+for image in nginx:1.29-alpine redis:8.2-alpine busybox:1.37; do
+  docker pull -q "$image" >/dev/null
+  for engine in media backups; do
+    docker save "$image" | $compose exec -T "$engine" docker load -q >/dev/null
+  done
+done
+
 # The media engine's containers, started on it directly.
 run() { $compose exec -T media docker run -q "$@" >/dev/null; }
 run -d --name wiki --restart unless-stopped nginx:1.29-alpine
