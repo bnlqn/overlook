@@ -1,16 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
-  <!-- The sidebar's logo as the tab's icon: .logo in style.css around the mark in js/draw.js. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 960">
+  <!-- The tab's icon: the wordmark's O (WORDMARK in js/draw.js) on the
+       panel's colour, in the colours style.css mixes for the dark page,
+       written out, as an icon is drawn without the page's. -->
   <title>Overlook</title>
   <defs>
-    <linearGradient id="g" x2="1" y2="1">
-      <stop offset="0" stop-color="#8f8eff"/>
-      <stop offset=".6" stop-color="#5e6ad2"/>
-      <stop offset="1" stop-color="#3d3fa8"/>
+    <linearGradient id="o-left" x2="0" y2="1">
+      <stop stop-color="#b6beff"/>
+      <stop offset=".5" stop-color="#7170ff"/>
+      <stop offset="1" stop-color="#595ac7"/>
     </linearGradient>
+    <linearGradient id="o-right" href="#o-left" x1="0" y1="1" x2="0" y2="0"/>
   </defs>
-  <rect width="22" height="22" rx="6" fill="url(#g)"/>
-  <g transform="translate(4 4) scale(.875)" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M2.75 7.4 8 2.75l5.25 4.65V13a.75.75 0 0 1-.75.75h-9a.75.75 0 0 1-.75-.75Z"/>
-    <path d="M5.75 13.75v-3h4.5v3M5.75 8h4.5"/>
+  <rect width="960" height="960" rx="260" fill="#101112"/>
+  <g transform="translate(175 175)">
+    <path fill="#b6beff" fill-rule="evenodd" d="M305 0a305 305 0 1 1 0 610 305 305 0 1 1 0-610zM305 126.25a178.75 178.75 0 1 1 0 357.5 178.75 178.75 0 1 1 0-357.5z"/>
+    <path fill="url(#o-left)" d="M305 0a305 305 0 0 0 0 610 265 305 0 0 1 0-610z"/>
+    <path fill="url(#o-right)" d="M305 0a305 305 0 0 1 0 610 265 305 0 0 0 0-610z"/>
   </g>
 </svg>

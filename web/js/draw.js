@@ -38,7 +38,6 @@ const ICON = {
   pr: '<circle cx="4.5" cy="3.75" r="1.75"/><circle cx="4.5" cy="12.25" r="1.75"/><circle cx="11.5" cy="12.25" r="1.75"/><path d="M4.5 5.5v5M11.5 10.5V6.25a2 2 0 0 0-2-2H7.5M9 2.75 7.5 4.25 9 5.75"/>',
   chevron: '<path d="m6 3.5 4.5 4.5L6 12.5"/>',
   caret: '<path d="m4.5 6.5 3.5 3.5 3.5-3.5"/>',
-  mark: '<path d="M2.75 7.4 8 2.75l5.25 4.65V13a.75.75 0 0 1-.75.75h-9a.75.75 0 0 1-.75-.75Z"/><path d="M5.75 13.75v-3h4.5v3M5.75 8h4.5"/>',
   // The footer's looks, and its languages.
   monitor: '<rect x="2" y="2.75" width="12" height="8.25" rx="1.5"/><path d="M5.5 13.5h5M8 11v2.5"/>',
   sun: '<circle cx="8" cy="8" r="2.75"/><path d="M8 1.5v1.25M8 13.25v1.25M1.5 8h1.25M13.25 8h1.25M3.4 3.4l.9.9M11.7 11.7l.9.9M3.4 12.6l.9-.9M11.7 4.3l.9-.9"/>',
@@ -50,6 +49,20 @@ const ICON = {
 /** One of the page's icons by name; an unknown name draws the pulse. */
 export const svg = (name, cls = "ic") =>
   `<svg class="${cls}" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[name] || ICON.pulse}</svg>`;
+
+/**
+ * Overlook's name, its O a ring shaded at the edges and its two o's eyes,
+ * whose pupils style.css shows and shell.js turns to the pointer. It is a
+ * name, the same in every language, so a screen reader is told it once and
+ * not the letters drawn.
+ */
+export const WORDMARK = `<svg class="o" viewBox="0 0 610 610" aria-hidden="true"><defs>
+  <linearGradient id="o-left" x2="0" y2="1"><stop class="o-pale"/><stop class="o-mid" offset=".5"/><stop class="o-deep" offset="1"/></linearGradient>
+  <linearGradient id="o-right" href="#o-left" x1="0" y1="1" x2="0" y2="0"/></defs>
+  <path class="o-ring" fill-rule="evenodd" d="M305 0a305 305 0 1 1 0 610 305 305 0 1 1 0-610zM305 126.25a178.75 178.75 0 1 1 0 357.5 178.75 178.75 0 1 1 0-357.5z"/>
+  <path fill="url(#o-left)" d="M305 0a305 305 0 0 0 0 610 265 305 0 0 1 0-610z"/>
+  <path fill="url(#o-right)" d="M305 0a305 305 0 0 1 0 610 265 305 0 0 0 0-610z"/>
+</svg><span aria-hidden="true">verl<span class="eyes"><span class="eye">o<i></i></span><span class="eye">o<i></i></span></span>k</span>`;
 
 // A state's glyph: a filled circle with a tick, a half-filled ring, a filled
 // circle with a bang, or a dashed ring. A failing check and a degraded area

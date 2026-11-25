@@ -12,7 +12,7 @@ func TestEnglish(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if table["title"] != "Homelab" {
+	if table["title"] != "Overlook" {
 		t.Errorf("the page's own words are in the table: %v", table["title"])
 	}
 

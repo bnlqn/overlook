@@ -259,34 +259,75 @@ span[class^="tone-"] {
   gap: 4px;
   padding: 2px 4px 10px;
 }
+/* Overlook's name (WORDMARK in js/draw.js), its O a cap high and in the
+   accent: the ring halfway to the words' colour, so that it reads as a
+   letter on the dark page and the light one, its edges shaded through the
+   accent. */
 .ws-name {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  --o-pale: color-mix(in oklab, var(--m-accent-2) 45%, var(--m-label));
+  --o-deep: color-mix(in oklab, var(--m-accent-2) 80%, var(--m-bg));
+  --gaze-x: 0em;
+  --gaze-y: 0em;
   flex: 1;
   min-width: 0;
   padding: 4px;
   border-radius: 6px;
-  font: 590 13px / 20px var(--m-font);
+  font: 590 20px / 1 var(--m-font);
+  letter-spacing: -0.045em;
+  white-space: nowrap;
 }
-.ws-name:hover {
-  background: var(--m-fill-hover);
+.ws-name .o {
+  width: 1cap;
+  height: 1cap;
+  margin-inline-end: 0.012em;
+  vertical-align: baseline;
 }
-.logo {
-  display: grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
-  color: #fff;
-  background: linear-gradient(135deg, #8f8eff, #5e6ad2 60%, #3d3fa8);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.25),
-    0 2px 8px rgba(94, 106, 210, 0.35);
+.o-ring,
+.o-pale {
+  fill: var(--o-pale);
+  stop-color: var(--o-pale);
 }
-.logo .ic {
-  width: 14px;
-  height: 14px;
+.o-mid {
+  stop-color: var(--m-accent-2);
+}
+.o-deep {
+  stop-color: var(--o-deep);
+}
+/* Each eye's pupil sits half an x-height above the baseline, inside the
+   o, hidden until the pointer is over the name or the keyboard is on it.
+   An empty inline block's bottom is on the baseline in every browser, so
+   the pupil starts from the top of one of no size. Its size is a whole
+   pixel, since a browser draws each edge on the nearest one, and the two
+   would otherwise differ. */
+.eye {
+  position: relative;
+  display: inline-block;
+}
+.eye i {
+  display: inline-block;
+  width: 0;
+  height: 0;
+}
+.eye i::after {
+  content: "";
+  position: absolute;
+  left: calc(50% + 0.018em);
+  margin-top: -0.5ex;
+  width: round(0.17em, 1px);
+  height: round(0.17em, 1px);
+  border-radius: 50%;
+  background: var(--m-accent-2);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) translate(var(--gaze-x), var(--gaze-y));
+  transition:
+    transform 180ms ease-out,
+    opacity 180ms ease-out;
+}
+.ws-name[data-looking] .eye i::after,
+.ws-name:focus-visible .eye i::after {
+  opacity: 1;
+  transition-duration: 75ms, 110ms;
 }
 .icon-btn {
   display: inline-grid;
@@ -2421,6 +2462,10 @@ main > :nth-child(n + 6) {
     animation: none !important;
     /* biome-ignore lint/complexity/noImportantStyles: and over every transition */
     transition: none !important;
+  }
+  /* The wordmark's eyes still open, but look straight ahead. */
+  .eye i::after {
+    transform: translate(-50%, -50%);
   }
 }
 
