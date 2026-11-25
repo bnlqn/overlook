@@ -189,7 +189,7 @@ PROXMOX_SECRET=00000000-0000-0000-0000-000000000000
 - **`TZ`** says when today starts, for today's figures. Any zone works: the
   zone database is inside the binary.
 - **The image** is `ghcr.io/bnlqn/overlook`, for amd64 and arm64: `0.8` for
-  the newest 0.8 release, or a version such as `0.8.0`. It holds the
+  the newest 0.8 release, or a version such as `0.8.1`. It holds the
   binary and the CA certificates it checks HTTPS sources with, and nothing
   else.
 
@@ -1585,13 +1585,14 @@ says how.
 
 ## What's next
 
-`v0.8.0` is the newest release, and [the releases](https://github.com/bnlqn/overlook/releases)
+`v0.8.1` is the newest release, and [the releases](https://github.com/bnlqn/overlook/releases)
 say what each one brought. v0.7.0 finished the road to v0.7, below, which
 took Overlook where more homelabs are, as
 [selfh.st's 2025 survey](https://selfh.st/survey/2025-results/) counts
 them, and kept it sound as they came. v0.8.0 came between roads, with
-Tdarr and a fix to the setup page's download of the keys. The road to v0.9
-is still being decided.
+Tdarr and a fix to the setup page's download of the keys, and v0.8.1
+gave the page Overlook's name, as its title and its logo. The road to
+v0.9 is still being decided.
 
 1. [x] A Home Assistant add-on, kept here beside Unraid's template, so
        that Overlook installs inside Home Assistant OS, which three
