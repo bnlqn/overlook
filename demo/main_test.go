@@ -155,7 +155,7 @@ func TestWrite(t *testing.T) {
 	}
 	var words map[string]any
 	raw, err := os.ReadFile(filepath.Join(out, "i18n/en.json"))
-	if err != nil || json.Unmarshal(raw, &words) != nil || words["title"] != "Homelab" || words["pbs.backups"] != "Backups" {
+	if err != nil || json.Unmarshal(raw, &words) != nil || words["title"] != "Overlook" || words["pbs.backups"] != "Backups" {
 		t.Errorf("the English table, the page's words and every adapter's: %v", err)
 	}
 	for _, file := range []string{

@@ -45,7 +45,7 @@ func TestRoutes(t *testing.T) {
 		"/js/text.js":      "export function t",
 		"/custom.css":      "body{}",
 		"/icons/gatus.svg": "<svg",
-		"/i18n/en.json":    `"title":"Homelab"`,
+		"/i18n/en.json":    `"title":"Overlook"`,
 		"/i18n/fr.json":    `"title": "`,
 		"/i18n/nl.json":    `{}`, // a language with no translation yet
 		// What installs the page on a phone, from Overlook itself, at an

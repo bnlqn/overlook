@@ -4,7 +4,7 @@
 
 import { choiceItems, choices, listen } from "./choices.js";
 import { REPO } from "./config.js";
-import { badge, by, stateIcon, svg, TONE, word } from "./draw.js";
+import { badge, by, stateIcon, svg, TONE, WORDMARK, word } from "./draw.js";
 import { asIfNow, page } from "./page.js";
 import { drawnAt, esc, loadWords, matches, number, t, translate } from "./text.js";
 
@@ -44,7 +44,7 @@ function shell() {
     "afterbegin",
     `<aside class="side" id="side">
       <div class="ws">
-        <a class="ws-name" href="./"><span class="logo">${svg("mark")}</span>${t("title")}</a>
+        <a class="ws-name" href="./" aria-label="Overlook">${WORDMARK}</a>
         <button class="icon-btn" type="button" data-palette aria-label="${t("search.label")}">${svg("search")}</button>
       </div>
       <nav>
@@ -86,6 +86,32 @@ function shell() {
   listen();
   palette();
   tooltips();
+  gaze();
+}
+
+// The wordmark's eyes look where the pointer is while it is over them, and
+// close back to plain o's when it leaves. A finger has nowhere to look from.
+function gaze() {
+  const name = document.querySelector(".ws-name");
+  const eyes = name.querySelector(".eyes");
+  name.addEventListener("pointermove", (e) => {
+    if (e.pointerType === "touch") return;
+    const box = eyes.getBoundingClientRect();
+    const x = e.clientX - (box.left + box.width / 2);
+    const y = e.clientY - (box.top + box.height * 0.56);
+    // A soft centre lets the eyes turn without snapping.
+    const d = Math.hypot(x, y, box.width * 0.35);
+    name.style.setProperty("--gaze-x", `${(0.05 * x) / d}em`);
+    name.style.setProperty("--gaze-y", `${(0.04 * y) / d}em`);
+    name.toggleAttribute("data-looking", true);
+  });
+  const settle = () => {
+    name.removeAttribute("data-looking");
+    name.style.removeProperty("--gaze-x");
+    name.style.removeProperty("--gaze-y");
+  };
+  name.addEventListener("pointerleave", settle);
+  name.addEventListener("pointercancel", settle);
 }
 
 // The sidebar from what the page says: the areas shown, their dots, the
