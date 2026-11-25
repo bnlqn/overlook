@@ -6,7 +6,7 @@
 # the folder Home Assistant gives the app, mounted read-only where the image
 # reads it: Overlook writes nothing (ADR 0004).
 name: Overlook
-version: "0.7.0"
+version: "0.8.1"
 slug: overlook
 description: Your whole homelab on one page, laid out for you.
 url: https://github.com/bnlqn/overlook
