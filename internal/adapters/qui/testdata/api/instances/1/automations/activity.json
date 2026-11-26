@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "instanceId": 1,
+    "hash": "",
+    "action": "deleted_condition",
+    "outcome": "dry-run",
+    "details": {
+      "count": 1
+    },
+    "createdAt": "2026-11-26T10:39:51Z"
+  },
+  {
+    "id": 2,
+    "instanceId": 1,
+    "hash": "14b2f86dcada0b9f53c06a90955cc50b589be030",
+    "torrentName": "Nosferatu.1922.1080p.mkv",
+    "action": "deleted_condition",
+    "ruleId": 1,
+    "ruleName": "Finished films",
+    "outcome": "success",
+    "reason": "condition matched",
+    "details": {
+      "deleteMode": "deleteWithFiles",
+      "filesKept": false,
+      "isTrigger": true
+    },
+    "createdAt": "2026-11-26T10:39:51Z"
+  },
+  {
+    "id": 3,
+    "instanceId": 1,
+    "hash": "e3bd455afaf884c4d8a0786c9b80ab563482175e",
+    "torrentName": "Metropolis.1927.1080p.mkv",
+    "action": "deleted_condition",
+    "ruleId": 1,
+    "ruleName": "Finished films",
+    "outcome": "success",
+    "reason": "condition matched",
+    "details": {
+      "deleteMode": "deleteWithFiles",
+      "filesKept": false,
+      "isTrigger": true
+    },
+    "createdAt": "2026-11-26T10:39:51Z"
+  }
+]

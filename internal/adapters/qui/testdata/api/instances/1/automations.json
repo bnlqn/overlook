@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "instanceId": 1,
+    "name": "Finished films",
+    "trackerPattern": "*",
+    "conditions": {
+      "schemaVersion": "1",
+      "delete": {
+        "enabled": true,
+        "mode": "deleteWithFiles",
+        "condition": {
+          "field": "CATEGORY",
+          "operator": "EQUAL",
+          "value": "done"
+        }
+      }
+    },
+    "enabled": true,
+    "dryRun": false,
+    "notify": true,
+    "sortOrder": 1,
+    "createdAt": "2026-11-26T10:39:45Z",
+    "updatedAt": "2026-11-26T10:39:45Z"
+  },
+  {
+    "id": 2,
+    "instanceId": 1,
+    "name": "Old episodes",
+    "trackerPattern": "*",
+    "conditions": {
+      "schemaVersion": "1",
+      "delete": {
+        "enabled": true,
+        "mode": "deleteWithFiles",
+        "condition": {
+          "field": "CATEGORY",
+          "operator": "EQUAL",
+          "value": "tv"
+        }
+      }
+    },
+    "enabled": true,
+    "dryRun": true,
+    "notify": true,
+    "sortOrder": 2,
+    "createdAt": "2026-11-26T10:39:45Z",
+    "updatedAt": "2026-11-26T10:39:45Z"
+  }
+]

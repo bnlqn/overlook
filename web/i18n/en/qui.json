@@ -1,0 +1,17 @@
+{
+  "qui.title": "Qui",
+  "qui.torrents_on": "Torrents on {name}",
+  "qui.unreached": "Qui can't reach it",
+
+  "qui.on": "On",
+  "qui.off": "Off",
+  "qui.dry_run": "Dry run",
+  "qui.rule_on": "Rule on {name}",
+
+  "qui.removed": { "one": "{rule} removed {n} torrent", "other": "{rule} removed {n} torrents" },
+  "qui.would_remove": {
+    "one": "A dry run would have removed {n} torrent",
+    "other": "A dry run would have removed {n} torrents"
+  },
+  "qui.remove_failed": { "one": "{rule} failed to remove {n} torrent", "other": "{rule} failed to remove {n} torrents" }
+}

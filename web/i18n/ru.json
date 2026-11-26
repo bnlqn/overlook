@@ -348,6 +348,7 @@
   "setup.adapter.sonarr": "Sonarr",
   "setup.adapter.prowlarr": "Prowlarr",
   "setup.adapter.qbittorrent": "qBittorrent",
+  "setup.adapter.qui": "Qui",
   "setup.adapter.tdarr": "Tdarr",
   "setup.adapter.jellyfin": "Jellyfin",
   "setup.adapter.emby": "Emby",
@@ -729,6 +730,31 @@
   "qbittorrent.disconnected": "Отключено",
   "qbittorrent.error": "Ошибка",
   "qbittorrent.missing_files": "Нет файлов",
+  "qui.title": "Qui",
+  "qui.torrents_on": "Торренты: {name}",
+  "qui.unreached": "Qui не может подключиться",
+  "qui.on": "Включено",
+  "qui.off": "Выключено",
+  "qui.dry_run": "Пробный запуск",
+  "qui.rule_on": "Правило для {name}",
+  "qui.removed": {
+    "one": "Правило «{rule}» удалило {n} торрент",
+    "few": "Правило «{rule}» удалило {n} торрента",
+    "many": "Правило «{rule}» удалило {n} торрентов",
+    "other": "Правило «{rule}» удалило {n} торрента"
+  },
+  "qui.would_remove": {
+    "one": "Пробный запуск удалил бы {n} торрент",
+    "few": "Пробный запуск удалил бы {n} торрента",
+    "many": "Пробный запуск удалил бы {n} торрентов",
+    "other": "Пробный запуск удалил бы {n} торрента"
+  },
+  "qui.remove_failed": {
+    "one": "Правило «{rule}» не смогло удалить {n} торрент",
+    "few": "Правило «{rule}» не смогло удалить {n} торрента",
+    "many": "Правило «{rule}» не смогло удалить {n} торрентов",
+    "other": "Правило «{rule}» не смогло удалить {n} торрента"
+  },
   "tdarr.title": "Транскодинг",
   "tdarr.unit": "в работе",
   "tdarr.figure_detail": {

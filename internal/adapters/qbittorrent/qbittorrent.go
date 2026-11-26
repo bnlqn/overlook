@@ -1,6 +1,7 @@
 // Package qbittorrent reads qBittorrent: what it downloads and seeds and how
 // fast, the torrents in error, the room left on its disk, and whether peers
-// can reach it.
+// can reach it. The Qui adapter shows each qBittorrent Qui manages with the
+// same rows and figure.
 package qbittorrent
 
 import (
@@ -75,8 +76,8 @@ func cookie(h http.Header, _ []byte) (http.Header, error) {
 	return http.Header{"Cookie": {cookies[0].Name + "=" + cookies[0].Value}}, nil
 }
 
-// torrent is one of qBittorrent's torrents.
-type torrent struct {
+// Torrent is one of qBittorrent's torrents, as qBittorrent and Qui list it.
+type Torrent struct {
 	Name     string `json:"name"`
 	State    string `json:"state"`
 	SavePath string `json:"save_path"`
@@ -87,6 +88,17 @@ type torrent struct {
 type totals struct {
 	downloading, seeding int
 	free                 int64
+}
+
+// Torrents are what one qBittorrent says of its torrents, read from it or
+// through Qui: how many download and seed, and how fast in bytes a second,
+// the room left on its disk, whether peers reach it, connected, firewalled or
+// disconnected, and the torrents in error.
+type Torrents struct {
+	Downloading, Seeding int
+	Down, Up, Free       int64
+	Connection           string
+	Errored              []Torrent
 }
 
 // The states of a torrent that downloads, waiting or not, and of one that
@@ -106,7 +118,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		Down   int64  `json:"dl_info_speed"`
 		Up     int64  `json:"up_info_speed"`
 	}
-	var errored []torrent
+	var errored []Torrent
 	if err := c.source.JSON(ctx, "/api/v2/transfer/info", &transfer); err != nil {
 		return snapshot.Parts{}, err
 	}
@@ -118,7 +130,7 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 			Server struct {
 				Free int64 `json:"free_space_on_disk"`
 			} `json:"server_state"`
-			Torrents map[string]torrent `json:"torrents"`
+			Torrents map[string]Torrent `json:"torrents"`
 		}
 		if err := c.source.JSON(ctx, "/api/v2/sync/maindata", &all); err != nil {
 			return totals{}, err
@@ -138,23 +150,35 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 		return snapshot.Parts{}, err
 	}
 
+	q := Torrents{
+		Downloading: t.downloading, Seeding: t.seeding, Down: transfer.Down, Up: transfer.Up, Free: t.free,
+		Connection: transfer.Status, Errored: errored,
+	}
+	return snapshot.Parts{
+		Sections: []snapshot.Section{{Area: Area, Title: snapshot.Text{Key: "qbittorrent.torrents"}, Rows: q.Rows()}},
+		Figures:  []snapshot.Figure{Figure(false, q)},
+	}, nil
+}
+
+// Rows are what a qBittorrent's section shows of t.
+func (t Torrents) Rows() []snapshot.Row {
 	rows := []snapshot.Row{
 		{
 			Title:  snapshot.Text{Key: "qbittorrent.downloading"},
-			Value:  snapshot.Msg("qbittorrent.torrents_n", map[string]any{"n": t.downloading}),
-			Detail: snapshot.Msg("qbittorrent.speed", map[string]any{"n": transfer.Down}),
+			Value:  snapshot.Msg("qbittorrent.torrents_n", map[string]any{"n": t.Downloading}),
+			Detail: snapshot.Msg("qbittorrent.speed", map[string]any{"n": t.Down}),
 		},
 		{
 			Title:  snapshot.Text{Key: "qbittorrent.seeding"},
-			Value:  snapshot.Msg("qbittorrent.torrents_n", map[string]any{"n": t.seeding}),
-			Detail: snapshot.Msg("qbittorrent.speed", map[string]any{"n": transfer.Up}),
+			Value:  snapshot.Msg("qbittorrent.torrents_n", map[string]any{"n": t.Seeding}),
+			Detail: snapshot.Msg("qbittorrent.speed", map[string]any{"n": t.Up}),
 		},
-		{Title: snapshot.Text{Key: "qbittorrent.free"}, Value: snapshot.Bytes(t.free)},
+		{Title: snapshot.Text{Key: "qbittorrent.free"}, Value: snapshot.Bytes(t.Free)},
 	}
 	// Whether peers reach it: firewalled, it can still download, from peers
 	// it reaches itself, but slowly.
 	connection := snapshot.Row{Title: snapshot.Text{Key: "qbittorrent.connection"}}
-	switch transfer.Status {
+	switch t.Connection {
 	case "connected":
 		connection.Value = snapshot.Msg("qbittorrent.connected", nil)
 	case "firewalled":
@@ -163,33 +187,39 @@ func Read(ctx context.Context, c Config, now time.Time) (snapshot.Parts, error) 
 	case "disconnected":
 		connection.Value, connection.Tone = snapshot.Msg("qbittorrent.disconnected", nil), "red"
 	default:
-		connection.Value, connection.Tone = &snapshot.Text{Name: transfer.Status}, "gray"
+		connection.Value, connection.Tone = &snapshot.Text{Name: t.Connection}, "gray"
 	}
 	rows = append(rows, connection)
 	// The torrents in error, by name, each with where it's saved: a torrent
 	// whose files are missing is often one whose disk isn't mounted.
-	slices.SortFunc(errored, func(a, b torrent) int { return cmp.Compare(a.Name, b.Name) })
-	for _, x := range errored {
+	for _, x := range slices.SortedFunc(slices.Values(t.Errored), func(a, b Torrent) int { return cmp.Compare(a.Name, b.Name) }) {
 		key := "qbittorrent.error"
 		if x.State == "missingFiles" {
 			key = "qbittorrent.missing_files"
 		}
 		rows = append(rows, snapshot.Row{Title: snapshot.Text{Name: x.Name}, Value: snapshot.Msg(key, nil), Tone: "red", Detail: &snapshot.Text{Name: x.SavePath}})
 	}
+	return rows
+}
 
-	// Today: the torrents downloading, which adds up with another
-	// qBittorrent's.
+// Figure is today's torrents downloading, of each qBittorrent in all, which
+// adds up with another source's. It turns orange while one has a torrent in
+// error or peers can't reach it, or, as warn says, while one can't be read.
+func Figure(warn bool, all ...Torrents) snapshot.Figure {
+	var downloading, seeding int
+	var down int64
+	for _, t := range all {
+		downloading, seeding, down = downloading+t.Downloading, seeding+t.Seeding, down+t.Down
+		warn = warn || len(t.Errored) > 0 || t.Connection != "connected"
+	}
 	f := snapshot.Figure{
-		Area: Area, Icon: "download", Label: snapshot.Text{Key: "qbittorrent.torrents"}, Value: float64(t.downloading),
+		Area: Area, Icon: "download", Label: snapshot.Text{Key: "qbittorrent.torrents"}, Value: float64(downloading),
 		Unit:   snapshot.Msg("qbittorrent.downloading_unit", nil),
-		Detail: snapshot.Msg("qbittorrent.figure_detail", map[string]any{"n": t.seeding, "down": transfer.Down}),
+		Detail: snapshot.Msg("qbittorrent.figure_detail", map[string]any{"n": seeding, "down": down}),
 		Adds:   true,
 	}
-	if len(errored) > 0 || transfer.Status != "connected" {
+	if warn {
 		f.Tone = "orange"
 	}
-	return snapshot.Parts{
-		Sections: []snapshot.Section{{Area: Area, Title: snapshot.Text{Key: "qbittorrent.torrents"}, Rows: rows}},
-		Figures:  []snapshot.Figure{f},
-	}, nil
+	return f
 }

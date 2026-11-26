@@ -274,6 +274,7 @@
   "setup.adapter.sonarr": "Sonarr",
   "setup.adapter.prowlarr": "Prowlarr",
   "setup.adapter.qbittorrent": "qBittorrent",
+  "setup.adapter.qui": "Qui",
   "setup.adapter.tdarr": "Tdarr",
   "setup.adapter.jellyfin": "Jellyfin",
   "setup.adapter.emby": "Emby",
@@ -574,6 +575,22 @@
   "qbittorrent.disconnected": "已断开",
   "qbittorrent.error": "错误",
   "qbittorrent.missing_files": "文件缺失",
+  "qui.title": "Qui",
+  "qui.torrents_on": "{name}的种子",
+  "qui.unreached": "Qui 无法连接",
+  "qui.on": "开启",
+  "qui.off": "关闭",
+  "qui.dry_run": "试运行",
+  "qui.rule_on": "{name}的规则",
+  "qui.removed": {
+    "other": "{rule} 删除了 {n} 个种子"
+  },
+  "qui.would_remove": {
+    "other": "试运行将删除 {n} 个种子"
+  },
+  "qui.remove_failed": {
+    "other": "{rule} 未能删除 {n} 个种子"
+  },
   "tdarr.title": "转码",
   "tdarr.unit": "处理中",
   "tdarr.figure_detail": {

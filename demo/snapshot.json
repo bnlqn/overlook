@@ -18,6 +18,7 @@
     { "name": "Sonarr", "adapter": "sonarr", "area": "apps", "answered": true },
     { "name": "Prowlarr", "adapter": "prowlarr", "area": "apps", "answered": true },
     { "name": "qBittorrent", "adapter": "qbittorrent", "area": "apps", "answered": true },
+    { "name": "Qui", "adapter": "qui", "area": "apps", "answered": true },
     { "name": "Tdarr", "adapter": "tdarr", "area": "apps", "answered": true },
     { "name": "Jellyfin", "adapter": "jellyfin", "area": "apps", "kind": "mediaserver", "answered": true },
     { "name": "Emby", "adapter": "emby", "area": "apps", "kind": "mediaserver", "answered": true },
@@ -1873,6 +1874,47 @@
     },
     {
       "area": "apps",
+      "source": "Qui",
+      "title": { "key": "qbittorrent.torrents" },
+      "rows": [
+        {
+          "title": { "key": "qbittorrent.downloading" },
+          "value": { "key": "qbittorrent.torrents_n", "args": { "n": 1 } },
+          "detail": { "key": "qbittorrent.speed", "args": { "n": 9437184 } }
+        },
+        {
+          "title": { "key": "qbittorrent.seeding" },
+          "value": { "key": "qbittorrent.torrents_n", "args": { "n": 388 } },
+          "detail": { "key": "qbittorrent.speed", "args": { "n": 5242880 } }
+        },
+        {
+          "title": { "key": "qbittorrent.free" },
+          "value": { "key": "bytes", "args": { "n": 3221225472000 } }
+        },
+        { "title": { "key": "qbittorrent.connection" }, "value": { "key": "qbittorrent.connected" } }
+      ]
+    },
+    {
+      "area": "apps",
+      "source": "Qui",
+      "title": { "key": "qui.title" },
+      "rows": [
+        { "title": { "key": "version" }, "value": { "name": "v1.36.1" } },
+        {
+          "title": { "name": "Ratio met" },
+          "value": { "key": "qui.on" },
+          "detail": { "key": "qui.rule_on", "args": { "name": "Seedbox" } }
+        },
+        {
+          "title": { "name": "Old seeds" },
+          "value": { "key": "qui.dry_run" },
+          "detail": { "key": "qui.rule_on", "args": { "name": "Seedbox" } },
+          "tone": "gray"
+        }
+      ]
+    },
+    {
+      "area": "apps",
       "source": "Tdarr",
       "title": { "key": "tdarr.title" },
       "rows": [
@@ -2978,6 +3020,16 @@
     },
     {
       "area": "apps",
+      "source": "Qui",
+      "icon": "download",
+      "label": { "key": "qbittorrent.torrents" },
+      "value": 1,
+      "unit": { "key": "qbittorrent.downloading_unit" },
+      "detail": { "key": "qbittorrent.figure_detail", "args": { "n": 388, "down": 9437184 } },
+      "adds": true
+    },
+    {
+      "area": "apps",
       "source": "Tdarr",
       "icon": "refresh",
       "label": { "key": "tdarr.title" },
@@ -3233,6 +3285,28 @@
       "source": "Proxmox",
       "icon": "archive",
       "text": { "key": "backuprun.event_ran_in", "args": { "at": "2026-10-22T00:30:00Z", "ms": 523000 } }
+    },
+    {
+      "at": "2026-10-28T06:15:00Z",
+      "area": "apps",
+      "source": "Qui",
+      "icon": "download",
+      "tone": "gray",
+      "text": { "key": "qui.would_remove", "args": { "n": 14 } }
+    },
+    {
+      "at": "2026-10-27T06:15:00Z",
+      "area": "apps",
+      "source": "Qui",
+      "icon": "download",
+      "text": { "key": "qui.removed", "args": { "rule": "Ratio met", "n": 3 } }
+    },
+    {
+      "at": "2026-10-25T06:15:00Z",
+      "area": "apps",
+      "source": "Qui",
+      "icon": "download",
+      "text": { "key": "qui.removed", "args": { "rule": "Ratio met", "n": 5 } }
     },
     {
       "at": "2026-10-27T19:12:00Z",
@@ -3596,6 +3670,7 @@
         "Sonarr",
         "Prowlarr",
         "qBittorrent",
+        "Qui",
         "Tdarr",
         "Jellyfin",
         "Emby",

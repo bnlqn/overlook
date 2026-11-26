@@ -274,6 +274,7 @@
   "setup.adapter.sonarr": "Sonarr",
   "setup.adapter.prowlarr": "Prowlarr",
   "setup.adapter.qbittorrent": "qBittorrent",
+  "setup.adapter.qui": "Qui",
   "setup.adapter.tdarr": "Tdarr",
   "setup.adapter.jellyfin": "Jellyfin",
   "setup.adapter.emby": "Emby",
@@ -574,6 +575,22 @@
   "qbittorrent.disconnected": "연결 끊김",
   "qbittorrent.error": "오류",
   "qbittorrent.missing_files": "파일 누락",
+  "qui.title": "Qui",
+  "qui.torrents_on": "{name} 토렌트",
+  "qui.unreached": "Qui에서 연결할 수 없음",
+  "qui.on": "켜짐",
+  "qui.off": "꺼짐",
+  "qui.dry_run": "시험 실행",
+  "qui.rule_on": "{name} 규칙",
+  "qui.removed": {
+    "other": "{rule} 규칙이 토렌트 {n}개를 삭제함"
+  },
+  "qui.would_remove": {
+    "other": "시험 실행에서 토렌트 {n}개가 삭제 대상"
+  },
+  "qui.remove_failed": {
+    "other": "{rule} 규칙이 토렌트 {n}개를 삭제하지 못함"
+  },
   "tdarr.title": "트랜스코딩",
   "tdarr.unit": "처리 중",
   "tdarr.figure_detail": {
