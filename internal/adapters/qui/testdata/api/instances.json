@@ -1,0 +1,103 @@
+[
+  {
+    "id": 1,
+    "name": "Home",
+    "host": "http://home:8080",
+    "username": "",
+    "hasApiKey": false,
+    "tlsSkipVerify": false,
+    "hasLocalFilesystemAccess": false,
+    "useHardlinks": false,
+    "hardlinkBaseDir": "",
+    "hardlinkDirPreset": "flat",
+    "useReflinks": false,
+    "fallbackToRegularMode": false,
+    "connected": true,
+    "hasDecryptionError": false,
+    "connectionStatus": "firewalled",
+    "sortOrder": 0,
+    "isActive": true,
+    "sshPort": 22,
+    "sshHostKeyPinned": false,
+    "filesystemMode": "none",
+    "capabilities": {
+      "read": false,
+      "identity": false,
+      "trustedIdentity": false,
+      "write": false,
+      "content": false
+    },
+    "reannounceSettings": {
+      "enabled": false,
+      "initialWaitSeconds": 15,
+      "reannounceIntervalSeconds": 7,
+      "maxAgeSeconds": 600,
+      "maxRetries": 50,
+      "aggressive": false,
+      "monitorAll": true,
+      "excludeCategories": false,
+      "categories": [],
+      "excludeTags": false,
+      "tags": [],
+      "excludeTrackers": false,
+      "trackers": []
+    },
+    "publicPeerAddress": "",
+    "resolvedPublicPeerAddress": ""
+  },
+  {
+    "id": 2,
+    "name": "Seedbox",
+    "host": "http://seedbox:8080",
+    "username": "",
+    "hasApiKey": false,
+    "tlsSkipVerify": false,
+    "hasLocalFilesystemAccess": false,
+    "useHardlinks": false,
+    "hardlinkBaseDir": "",
+    "hardlinkDirPreset": "flat",
+    "useReflinks": false,
+    "fallbackToRegularMode": false,
+    "connected": false,
+    "hasDecryptionError": false,
+    "recentErrors": [
+      {
+        "id": 1,
+        "instanceId": 2,
+        "errorType": "connection",
+        "errorMessage": "health check failed: could not get webapi version: error making get request: http://seedbox:8080/api/v2/app/webapiVersion: error making request: Get \"http://seedbox:8080/api/v2/app/webapiVersion\": dial tcp: lookup seedbox on 127.0.0.11:53: no such host",
+        "occurredAt": "2026-11-26T10:40:06Z"
+      }
+    ],
+    "connectionStatus": "firewalled",
+    "sortOrder": 1,
+    "isActive": true,
+    "sshPort": 22,
+    "sshHostKeyPinned": false,
+    "filesystemMode": "none",
+    "capabilities": {
+      "read": false,
+      "identity": false,
+      "trustedIdentity": false,
+      "write": false,
+      "content": false
+    },
+    "reannounceSettings": {
+      "enabled": false,
+      "initialWaitSeconds": 15,
+      "reannounceIntervalSeconds": 7,
+      "maxAgeSeconds": 600,
+      "maxRetries": 50,
+      "aggressive": false,
+      "monitorAll": true,
+      "excludeCategories": false,
+      "categories": [],
+      "excludeTags": false,
+      "tags": [],
+      "excludeTrackers": false,
+      "trackers": []
+    },
+    "publicPeerAddress": "",
+    "resolvedPublicPeerAddress": ""
+  }
+]

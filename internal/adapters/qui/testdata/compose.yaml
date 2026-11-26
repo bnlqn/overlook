@@ -1,0 +1,35 @@
+# A scratch Qui to record from (ADR 0008), with the two scratch qBittorrents
+# it manages: fill.sh makes its owner and a key that only reads, gives Qui
+# both, seeds and downloads invented torrents on home, has a rule remove
+# some, and stops seedbox, then record.sh reads what Overlook reads.
+#
+#   docker compose -f compose.yaml up -d && ./fill.sh && ./record.sh
+#   docker compose -f compose.yaml down -v
+x-qbittorrent: &qbittorrent
+  image: qbittorrentofficial/qbittorrent-nox:5.3.1-1 # pinned: the torrent client Qui manages, not the source
+  environment:
+    QBT_LEGAL_NOTICE: confirm
+    QBT_WEBUI_PORT: "8080"
+services:
+  qui:
+    image: ghcr.io/autobrr/qui:v1.36.1
+    ports: ["127.0.0.1:7476:7476"]
+    environment:
+      QUI__HOST: 0.0.0.0
+      QUI__CHECK_FOR_UPDATES: "false" # nothing leaves the machine
+    volumes:
+      - qui:/config
+  home:
+    <<: *qbittorrent
+    volumes:
+      - home:/config
+      - downloads:/downloads
+  seedbox:
+    <<: *qbittorrent
+    volumes:
+      - seedbox:/config
+volumes:
+  qui:
+  home:
+  seedbox:
+  downloads:

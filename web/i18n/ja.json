@@ -274,6 +274,7 @@
   "setup.adapter.sonarr": "Sonarr",
   "setup.adapter.prowlarr": "Prowlarr",
   "setup.adapter.qbittorrent": "qBittorrent",
+  "setup.adapter.qui": "Qui",
   "setup.adapter.tdarr": "Tdarr",
   "setup.adapter.jellyfin": "Jellyfin",
   "setup.adapter.emby": "Emby",
@@ -574,6 +575,22 @@
   "qbittorrent.disconnected": "切断",
   "qbittorrent.error": "エラー",
   "qbittorrent.missing_files": "ファイル欠落",
+  "qui.title": "Qui",
+  "qui.torrents_on": "{name}のトレント",
+  "qui.unreached": "Quiから接続できません",
+  "qui.on": "オン",
+  "qui.off": "オフ",
+  "qui.dry_run": "ドライラン",
+  "qui.rule_on": "{name}のルール",
+  "qui.removed": {
+    "other": "{rule}がトレント{n}件を削除"
+  },
+  "qui.would_remove": {
+    "other": "ドライランではトレント{n}件が削除対象"
+  },
+  "qui.remove_failed": {
+    "other": "{rule}がトレント{n}件の削除に失敗"
+  },
   "tdarr.title": "トランスコード",
   "tdarr.unit": "処理中",
   "tdarr.figure_detail": {

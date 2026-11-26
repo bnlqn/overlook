@@ -33,7 +33,7 @@ It reads:
   [Plex, through Tautulli](#plex-through-tautulli),
   [Audiobookshelf](#audiobookshelf), [Radarr](#radarr),
   [Sonarr](#sonarr), [Prowlarr](#prowlarr), [qBittorrent](#qbittorrent),
-  [Tdarr](#tdarr), [Seerr](#seerr), [Home Assistant](#home-assistant),
+  [Qui](#qui), [Tdarr](#tdarr), [Seerr](#seerr), [Home Assistant](#home-assistant),
   [Paperless-ngx](#paperless-ngx), [Nextcloud](#nextcloud), [Gitea](#gitea),
   [Forgejo](#forgejo)
 - **Chores**: [GitHub](#github), [iCalendar to-do lists](#icalendar-to-do-list)
@@ -1111,7 +1111,8 @@ Overlook sends it only with GET requests (ADR 0001).
 The torrents, on the Apps page: how many download and seed and how fast,
 the room left on qBittorrent's disk, whether peers can reach it, and each
 torrent in error, with where it's saved. Today shows the torrents
-downloading, every qBittorrent's added up.
+downloading, every qBittorrent's added up, those read through
+[Qui](#qui) too.
 
 ```yaml
 sources:
@@ -1134,6 +1135,45 @@ The list of every torrent, which gives the counts and the room left, is
 megabytes for a thousand torrents, so Overlook reads it at most every 10
 minutes. The speeds, the connection and the torrents in error are read with
 every snapshot.
+
+### Qui
+
+The torrents of each qBittorrent Qui manages, on the Apps page, as the
+[qBittorrent](#qbittorrent) adapter shows them: how many download and seed
+and how fast, the room left on its disk, whether peers can reach it, and
+each torrent in error, or, in red, that Qui can't reach it, with why, when
+Qui says. Then Qui's version, and whether a newer one is out, and each rule
+Qui runs, on, off or in dry run, with the qBittorrent it runs on. The
+week's events are what the rules removed, each rule's of a day as one, and
+in red what they failed to remove; in grey, what a dry run would have
+removed, which Qui doesn't say the rule of. Today's torrents downloading
+add up with every qBittorrent's.
+
+```yaml
+sources:
+  qui:
+    - url: http://qui:7476 # where Overlook reads Qui
+      key: ${QUI_KEY}
+```
+
+**Key:** an API key, from Settings, API keys, with only three permissions,
+each **read**: **Instances**, **Torrents** and **Automations**. A key that
+reads changes nothing, and one without write on Torrents sees no tracker's
+passkey. With Qui's login off, as `QUI__AUTH_DISABLED` turns it off for the
+addresses `QUI__AUTH_DISABLED_ALLOWED_CIDRS` names, Qui lets Overlook in
+without a key: leave `key` out.
+
+Read each qBittorrent through Qui or on its own, not both, or its torrents
+count twice. An instance you disabled in Qui is left out, as Qui doesn't
+read it. Qui keeps what it read of each qBittorrent, so Overlook reads it
+with every snapshot at no cost to qBittorrent: the counts of every torrent,
+the 50 torrents in error Qui lists first, and the 1,000 newest lines of
+each instance's rule log.
+
+Recorded from a scratch Qui 1.36.1 managing two qBittorrent 5.3.1, with
+invented torrents and rules (ADR 0008), until someone who runs one records
+it from theirs: the compose file and the scripts that fill and record it
+are in the adapter's [`testdata`](internal/adapters/qui/testdata).
 
 ### Tdarr
 

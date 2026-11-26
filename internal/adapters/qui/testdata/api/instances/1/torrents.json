@@ -1,0 +1,203 @@
+{
+  "torrents": [
+    {
+      "added_on": 1795689580,
+      "amount_left": 4194304,
+      "auto_tmm": false,
+      "availability": 0,
+      "category": "films",
+      "comment": "",
+      "completed": 0,
+      "completion_on": 1795689580,
+      "connections_count": 0,
+      "connections_limit": 100,
+      "created_by": "qBittorrent v5.3.1",
+      "creation_date": 1795689580,
+      "content_path": "/downloads/films/The.General.1926.1080p.mkv",
+      "dl_limit": 0,
+      "dlspeed": 0,
+      "download_path": "",
+      "downloaded": 0,
+      "downloaded_session": 0,
+      "eta": 8640000,
+      "f_l_piece_prio": false,
+      "force_start": false,
+      "hash": "17fe03484c6f5cd665231bafafa63b5006f9e0a7",
+      "infohash_v1": "989da212dae6f6a478e001ce43a3183bb9878896",
+      "infohash_v2": "17fe03484c6f5cd665231bafafa63b5006f9e0a7ffc6b88644373ea01f03d837",
+      "last_activity": 1795689580,
+      "max_ratio": -1,
+      "max_seeding_time": -1,
+      "max_inactive_seeding_time": -1,
+      "name": "The.General.1926.1080p.mkv",
+      "num_complete": 0,
+      "num_incomplete": 0,
+      "num_leechs": 0,
+      "num_seeds": 0,
+      "piece_size": 32768,
+      "pieces_have": 0,
+      "pieces_num": 128,
+      "priority": 0,
+      "progress": 0,
+      "ratio": 0,
+      "ratio_limit": -2,
+      "save_path": "/downloads/films",
+      "seeding_time": 0,
+      "seeding_time_limit": -2,
+      "inactive_seeding_time_limit": -2,
+      "share_limit_action": "Default",
+      "share_limits_mode": "Default",
+      "seen_complete": -1,
+      "seq_dl": false,
+      "size": 4194304,
+      "state": "missingFiles",
+      "super_seeding": false,
+      "tags": "",
+      "time_active": 0,
+      "total_size": 4194304,
+      "total_wasted": 0,
+      "tracker": "",
+      "trackers_count": 0,
+      "up_limit": 0,
+      "uploaded": 0,
+      "uploaded_session": 0,
+      "upspeed": 0,
+      "trackers": null,
+      "reannounce": 0,
+      "popularity": 0,
+      "private": true
+    }
+  ],
+  "total": 1,
+  "activeTaskCount": 0,
+  "stats": {
+    "total": 1,
+    "downloading": 0,
+    "seeding": 0,
+    "paused": 0,
+    "error": 1,
+    "checking": 0,
+    "totalDownloadSpeed": 0,
+    "totalUploadSpeed": 0,
+    "totalDownloadData": 0,
+    "totalUploadData": 0,
+    "totalSize": 4194304,
+    "totalRemainingSize": 0,
+    "totalSeedingSize": 0
+  },
+  "counts": {
+    "status": {
+      "active": 0,
+      "all": 6,
+      "checking": 0,
+      "completed": 3,
+      "downloading": 2,
+      "errored": 1,
+      "inactive": 6,
+      "moving": 0,
+      "paused": 1,
+      "resumed": 5,
+      "running": 5,
+      "seeding": 2,
+      "stalled": 2,
+      "stalled_downloading": 0,
+      "stalled_uploading": 2,
+      "stopped": 1,
+      "tracker_down": 0,
+      "tracker_error": 0,
+      "unregistered": 0,
+      "uploading": 2
+    },
+    "categories": {
+      "": 2,
+      "films": 3,
+      "tv": 1
+    },
+    "categorySizes": {
+      "": 0,
+      "films": 12582912,
+      "tv": 4194304
+    },
+    "tags": {
+      "": 6
+    },
+    "tagSizes": {
+      "": 16777216
+    },
+    "trackers": {
+      "": 6
+    },
+    "total": 6
+  },
+  "categories": {
+    "done": {
+      "name": "done",
+      "savePath": ""
+    },
+    "films": {
+      "name": "films",
+      "savePath": ""
+    },
+    "tv": {
+      "name": "tv",
+      "savePath": ""
+    }
+  },
+  "serverState": {
+    "alltime_dl": 616,
+    "alltime_ul": 924,
+    "average_time_queue": 0,
+    "connection_status": "firewalled",
+    "dht_nodes": 0,
+    "dl_info_data": 0,
+    "dl_info_speed": 0,
+    "dl_rate_limit": 0,
+    "free_space_on_disk": 893434880000,
+    "global_ratio": "1.50",
+    "queued_io_jobs": 0,
+    "queueing": true,
+    "read_cache_hits": "0",
+    "read_cache_overload": "0",
+    "refresh_interval": 1500,
+    "total_buffers_size": 0,
+    "total_peer_connections": 0,
+    "total_queued_size": 0,
+    "total_wasted_session": 0,
+    "up_info_data": 0,
+    "up_info_speed": 0,
+    "up_rate_limit": 0,
+    "use_alt_speed_limits": false,
+    "use_subcategories": false,
+    "write_cache_overload": "0"
+  },
+  "appInfo": {
+    "version": "v5.3.1",
+    "webAPIVersion": "2.16.2",
+    "buildInfo": {
+      "qt": "6.11.1",
+      "libtorrent": "2.1.3.0",
+      "boost": "1.92.0",
+      "openssl": "3.5.9",
+      "zlib": "1.4",
+      "bitness": 64,
+      "platform": "linux"
+    },
+    "processInfo": {
+      "launchTime": 1795689581
+    }
+  },
+  "useSubcategories": true,
+  "hasMore": false,
+  "cacheMetadata": {
+    "source": "cache",
+    "age": 4,
+    "isStale": true,
+    "nextRefresh": "2026-11-26T10:40:03Z"
+  },
+  "trackerHealthSupported": true,
+  "isCrossInstance": false,
+  "partialResults": false,
+  "webAPIVersions": {
+    "1": "2.16.2"
+  }
+}

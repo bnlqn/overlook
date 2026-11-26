@@ -1,0 +1,7 @@
+{
+  "version": "v1.36.1",
+  "updateAvailable": false,
+  "selfUpdate": false,
+  "selfUpdateUnavailableReason": "container",
+  "restart": false
+}

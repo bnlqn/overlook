@@ -144,6 +144,14 @@ sources:
       # user: overlook                 # before 5.2, its login instead
       # password: ${QBITTORRENT_PASSWORD}
 
+  # Each qBittorrent Qui manages, its torrents as qBittorrent's above, and the
+  # rules Qui runs on it and what they removed this week. Read the
+  # qBittorrents through Qui or on their own, not both, or their torrents
+  # count twice.
+  qui:
+    - url: http://qui:7476             # where Overlook reads Qui
+      key: ${QUI_KEY}                  # Settings, API keys: read on Instances, Torrents and Automations
+
   # The files Tdarr is transcoding now, and how many wait; shown only while it
   # works.
   tdarr:

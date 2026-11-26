@@ -297,6 +297,7 @@
   "setup.adapter.sonarr": "Sonarr",
   "setup.adapter.prowlarr": "Prowlarr",
   "setup.adapter.qbittorrent": "qBittorrent",
+  "setup.adapter.qui": "Qui",
   "setup.adapter.tdarr": "Tdarr",
   "setup.adapter.jellyfin": "Jellyfin",
   "setup.adapter.emby": "Emby",
@@ -633,6 +634,25 @@
   "qbittorrent.disconnected": "Desconectado",
   "qbittorrent.error": "Error",
   "qbittorrent.missing_files": "Faltan archivos",
+  "qui.title": "Qui",
+  "qui.torrents_on": "Torrents en {name}",
+  "qui.unreached": "Inaccesible para Qui",
+  "qui.on": "Activada",
+  "qui.off": "Desactivada",
+  "qui.dry_run": "Simulación",
+  "qui.rule_on": "Regla en {name}",
+  "qui.removed": {
+    "one": "{rule} eliminó {n} torrent",
+    "other": "{rule} eliminó {n} torrents"
+  },
+  "qui.would_remove": {
+    "one": "Una simulación habría eliminado {n} torrent",
+    "other": "Una simulación habría eliminado {n} torrents"
+  },
+  "qui.remove_failed": {
+    "one": "{rule} no pudo eliminar {n} torrent",
+    "other": "{rule} no pudo eliminar {n} torrents"
+  },
   "tdarr.title": "Transcodificación",
   "tdarr.unit": "en curso",
   "tdarr.figure_detail": {

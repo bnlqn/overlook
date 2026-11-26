@@ -343,6 +343,7 @@
   "setup.adapter.sonarr": "Sonarr",
   "setup.adapter.prowlarr": "Prowlarr",
   "setup.adapter.qbittorrent": "qBittorrent",
+  "setup.adapter.qui": "Qui",
   "setup.adapter.tdarr": "Tdarr",
   "setup.adapter.jellyfin": "Jellyfin",
   "setup.adapter.emby": "Emby",
@@ -734,6 +735,31 @@
   "qbittorrent.disconnected": "Rozłączono",
   "qbittorrent.error": "Błąd",
   "qbittorrent.missing_files": "Brak plików",
+  "qui.title": "Qui",
+  "qui.torrents_on": "Torrenty: {name}",
+  "qui.unreached": "Qui nie może się połączyć",
+  "qui.on": "Włączona",
+  "qui.off": "Wyłączona",
+  "qui.dry_run": "Symulacja",
+  "qui.rule_on": "Reguła dla {name}",
+  "qui.removed": {
+    "one": "Reguła „{rule}” usunęła {n} torrent",
+    "few": "Reguła „{rule}” usunęła {n} torrenty",
+    "many": "Reguła „{rule}” usunęła {n} torrentów",
+    "other": "Reguła „{rule}” usunęła {n} torrenta"
+  },
+  "qui.would_remove": {
+    "one": "Symulacja usunęłaby {n} torrent",
+    "few": "Symulacja usunęłaby {n} torrenty",
+    "many": "Symulacja usunęłaby {n} torrentów",
+    "other": "Symulacja usunęłaby {n} torrenta"
+  },
+  "qui.remove_failed": {
+    "one": "Reguła „{rule}” nie zdołała usunąć {n} torrenta",
+    "few": "Reguła „{rule}” nie zdołała usunąć {n} torrentów",
+    "many": "Reguła „{rule}” nie zdołała usunąć {n} torrentów",
+    "other": "Reguła „{rule}” nie zdołała usunąć {n} torrenta"
+  },
   "tdarr.title": "Transkodowanie",
   "tdarr.unit": "w toku",
   "tdarr.figure_detail": {
